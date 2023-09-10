@@ -58,7 +58,7 @@ function App() {
     >
       <ThirdwebProvider
         activeChain="ethereum"
-        clientId="06dee3dbe60fb5303a630c6b832fd428" // we can get another client id from thirdweb dashboard settings
+        clientId="06dee3dbe60fb5303a630c6b832fd428" // we can get another client id from thirdweb dashboard settings.
       >
 
         <Provider store={store}>
