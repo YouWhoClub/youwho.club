@@ -3,27 +3,30 @@ import { Box } from "@mui/material";
 import { useState } from "react";
 import Login from "../components/auth/Login";
 import SignUp from "../components/auth/Signup";
+import AuthLayout from "../components/auth/authLayout";
 
 const AuthBox = styled(Box)(({ theme }) => ({
     backgroundColor: 'white',
-    width: '500px',
-    height: 'auto',
+    width: '350px',
+    height: '480px',
     borderRadius: '30px',
     display: "flex",
     flexDirection: "column",
     // alignItems: 'center',
     padding: '30px',
-    margin: '20px auto',
+    // paddingTop:'100px',
+    margin: '100px auto 30px',
     // justifyContent: 'space-between',
     "@media (max-width: 900px)": {
-        width: '550px',
+    //     // width: '550px',
     },
     "@media (max-width: 600px)": {
         width: '100%',
         margin: '0 auto',
-        // height: '100vh',
+        height: '100%',
+        padding:0,
         borderRadius: '0',
-        paddingTop: '80px',
+        paddingTop: '170px',
         paddingBottom: '40px',
     },
 
@@ -54,7 +57,7 @@ const AuthScrollBox = styled(Box)(({ theme }) => ({
     flexDirection: "column",
     overflowY: 'scroll',
     '&::-webkit-scrollbar': {
-        display:'none',
+        display: 'none',
         width: '8px',
         background: 'white',
         border: '0.5px solid #846894',
@@ -77,7 +80,7 @@ const AuthScrollBox = styled(Box)(({ theme }) => ({
     },
     // justifyContent: 'space-between',
     "@media (max-width: 900px)": {
-        width: '550px',
+        // width: '550px',
     },
     "@media (max-width: 600px)": {
         width: '100%',
@@ -92,14 +95,15 @@ const AuthScrollBox = styled(Box)(({ theme }) => ({
 const Auth = () => {
     const [authState, setAuthState] = useState('signin')
     return (
-        <Box sx={{
+        <AuthLayout>
+            {/* <Box sx={{
             height: 'calc(100vh - 150px)',
             bgcolor: 'primary.light',
             pt: { xs: '130px', sm: '100px' },
             pb: { xs: 0, sm: '50px' },
             display: "flex", justifyContent: 'center',
             // alignItems: 'center',
-        }}>
+        }}> */}
             <AuthBox>
                 <Slider>
                     <ChangeSlide
@@ -115,12 +119,13 @@ const Auth = () => {
                     </AuthScrollBox>
                     :
                     <AuthScrollBox>
-                        <SignUp />
+                        <SignUp />  
                     </AuthScrollBox>
 
                 }
             </AuthBox>
-        </Box>
+            {/* </Box> */}
+        </AuthLayout>
     );
 }
 

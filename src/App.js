@@ -26,7 +26,7 @@ import TransferPage from './pages/transfer';
 import PublicGallery from './pages/publicGallery';
 import Dashboard from './pages/dashboard';
 import Bar from './components/Bar';
-import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
+// import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
 
 
 function App() {
@@ -56,51 +56,51 @@ function App() {
         },
       }}
     >
-      <ThirdwebProvider
+      {/* <ThirdwebProvider
         activeChain="ethereum"
         clientId="06dee3dbe60fb5303a630c6b832fd428" // we can get another client id from thirdweb dashboard settings.
-      >
+      > */}
 
-        <Provider store={store}>
-          <PersistGate
-            loading={<>...</>}
-            persistor={persistor}>
-            {/* // <Web3ReactProvider getLibrary={getLibrary}>
+      <Provider store={store}>
+        <PersistGate
+          loading={<>...</>}
+          persistor={persistor}>
+          {/* // <Web3ReactProvider getLibrary={getLibrary}>
         //   <MetamaskProvider>
         //     <NFTMarketplaceProvider> */}
 
-            <BrowserRouter>
-              <ScrollToTop>
-                <>
-                  <Navbar />
-                  <Routes>
-                    <Route exact path="/" element={<Home />} />
-                    <Route exact path="/auth" element={<Auth />} />
-                    <Route exact path="/display" element={<Display />} />
-                    <Route exact path="/dashboard" element={<Dashboard />} />
-                    <Route exact path="/profile/:name" element={<Profile />} />
-                    <Route exact path="/transfer" element={<TransferPage />} />
-                    <Route exact path="/generate-wallet" element={<CreateWallet />} />
-                    <Route exact path="/public-gallery" element={<PublicGallery />} />
-                    <Route exact path="/gallery/user/:id" element={<PublicGallery />} />
-                    <Route path='*' element={<NotFound />} />
+          <BrowserRouter>
+            <ScrollToTop>
+              <>
+                {/* <Navbar /> */}
+                <Routes>
+                  <Route exact path="/" element={<Home />} />
+                  <Route exact path="/auth" element={<Auth />} />
+                  <Route exact path="/display" element={<Display />} />
+                  <Route exact path="/dashboard" element={<Dashboard />} />
+                  <Route exact path="/profile/:name" element={<Profile />} />
+                  <Route exact path="/transfer" element={<TransferPage />} />
+                  <Route exact path="/generate-wallet" element={<CreateWallet />} />
+                  <Route exact path="/public-gallery" element={<PublicGallery />} />
+                  <Route exact path="/gallery/user/:id" element={<PublicGallery />} />
+                  <Route path='*' element={<NotFound />} />
 
-                  </Routes>
-                  <Bar />
-                  <Footer />
-                </>
-              </ScrollToTop>
-            </BrowserRouter>
+                </Routes>
+                {/* <Bar /> */}
+                {/* <Footer /> */}
+              </>
+            </ScrollToTop>
+          </BrowserRouter>
 
 
-            {/* //         </NFTMarketplaceProvider>
+          {/* //         </NFTMarketplaceProvider>
     //       </MetamaskProvider>
     //     </Web3ReactProvider> */}
-          </PersistGate>
-        </Provider>
+        </PersistGate>
+      </Provider>
 
 
-      </ThirdwebProvider>
+      {/* </ThirdwebProvider> */}
 
     </ThemeProvider >
   );
