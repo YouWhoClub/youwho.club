@@ -7,6 +7,7 @@ import PublicGalleryHome from "../components/HomePage/publicGallery";
 const Home = () => {
     return (
         <>
+            <Navbar />
             <Intro />
             <GiftSlides />
             <PublicGalleryHome />

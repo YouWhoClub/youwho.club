@@ -12,11 +12,11 @@ const AuthBox = styled(Box)(({ theme }) => ({
     borderRadius: '30px',
     display: "flex",
     flexDirection: "column",
-    // alignItems: 'center',
+    alignItems: 'center',
     padding: '30px',
     // paddingTop:'100px',
     margin: '100px auto 30px',
-    // justifyContent: 'space-between',
+    justifyContent: 'center',
     "@media (max-width: 900px)": {
     //     // width: '550px',
     },
@@ -38,7 +38,8 @@ const Slider = styled(Box)(({ theme }) => ({
     padding: '5px',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    width: '100%',
 }))
 const ChangeSlide = styled(Box)(({ theme }) => ({
     cursor: 'pointer',

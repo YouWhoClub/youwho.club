@@ -14,16 +14,16 @@ const YouWhoIcon = styled('div')(({ theme }) => ({
     backgroundImage: "url('/w-outline.svg')",
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
-    width: '80px',
-    height: '80px'
+    width: '50px',
+    height: '50px'
 }))
 const YouWhoIconPurple = styled('div')(({ theme }) => ({
     cursor: 'pointer',
     backgroundImage: "url('/p-outline.svg')",
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
-    width: '80px',
-    height: '80px'
+    width: '50px',
+    height: '50px'
 }))
 
 function HomeIcon(props) {
@@ -45,28 +45,22 @@ const Navbar = () => {
     return (
         <Box sx={{
             display: 'flex',
-            justifyContent: 'space-evenly',
+            justifyContent: 'space-between',
             alignItems: 'center',
-            height: 100,
-            bgcolor: 'primary.ultra',
-            width: '100%',
-            // px: 4,
-            py: { xs: 4, sm: 0 },
-            position: "fixed",
-            top: 0,
-            borderRadius: '0 0 30px 30px',
-            zIndex: 999,
-            // flexDirection: { xs: 'column-reverse', sm: 'row' }
-            // '&:hover': {
-            //     backgroundColor: 'primary.dark',
-            //     opacity: [0.9, 0.8, 0.7],
-            // },
+            height: '55px',
+            bgcolor: 'transparent',
+            // width: '100%',
+            // position: "fixed",
+            // top: 0,
+            // zIndex: 999,
+            px:1
         }}
         >
             {window.location.pathname == '/' ?
                 <YouWhoIconPurple />
                 : <YouWhoIcon onClick={() => navigate('/')} />}
 
+            <ButtonOutline text={'start'} onClick={() => navigate('/auth')} />
         </Box>
     );
 }
