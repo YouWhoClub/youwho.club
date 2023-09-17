@@ -11,9 +11,22 @@ import { AUTH_API } from "../../utils/data/auth_api";
 import { useNavigate } from "react-router";
 
 
+
 const Inputt = styled('input')(({ theme }) => ({
     width: '100%',
     outline: 'none',
+    color: theme.palette.primary.gray,
+    borderColor: theme.palette.primary.gray,
+    cursor: 'pointer',
+    border: 'none',
+    // borderBottom: '1px solid',
+    '&:hover': {
+        borderColor: theme.palette.primary.main,
+    }
+}))
+const Inputtt = styled('div')(({ theme }) => ({
+    width: '100%',
+    display: 'flex',
     color: theme.palette.primary.gray,
     borderColor: theme.palette.primary.gray,
     cursor: 'pointer',
@@ -28,26 +41,30 @@ const Signup = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const [state, setState] = useState('identifier')
-    const [identifier, setIdentifier] = useState("enter your email , phone , youwho id , ...")
-    const [password, setPassword] = useState("enter your password")
-    const [repeatPassword, setRepeatPassword] = useState('repeat your password')
+    const [identifier, setIdentifier] = useState("")
+    const [password, setPassword] = useState("")
+    const [repeatPassword, setRepeatPassword] = useState('')
     const [loading, setLoading] = useState(false)
     const [err, setErr] = useState(false)
     const [success, setSuccess] = useState(false)
     const apiCall = useRef(undefined)
     const fetchUser = (token) => dispatch(getuser(token));
 
-    const submit = async () => {
+
+    const submit = async (e) => {
+        e.preventDefault()
         setErr(undefined)
         setLoading(true)
         console.log(identifier)
         console.log(password)
-        console.log(repeatPassword)
+
         if (password !== repeatPassword) {
+            console.log('lo')
             setErr('your repeated password is incorrect')
             setLoading(false)
             return
         }
+
         try {
             apiCall.current = AUTH_API.request({
                 path: `/login`,
@@ -56,16 +73,19 @@ const Signup = () => {
             });
             let response = await apiCall.current.promise;
             console.log('uuuuseeeeeer', response)
+            console.log('uuuuseeeeeer token', response.token)
             if (!response.isSuccess)
                 throw response
             localStorage.setItem('lastActive', true)
+            // fetchUser(response.token)
             fetchUser(response.headers.cookie.split("::")[0])
             setSuccess(response.message)
             setErr(undefined)
             setLoading(false)
-            setTimeout(() => {
+
+            if (response.data.data.is_mail_verified)
                 navigate('/dashboard')
-            }, 3000);
+            else navigate('/verify-mail')
 
         }
         catch (err) {
@@ -74,7 +94,8 @@ const Signup = () => {
             setLoading(false)
         }
     }
-    const idStateChanger = () => {
+    const idStateChanger = (event) => {
+        event.preventDefault()
         if (state == 'identifier') {
 
             if (identifier) {
@@ -99,31 +120,42 @@ const Signup = () => {
                 width: '100%',
                 height: '100%',
                 display: 'flex', flexDirection: 'column',
-                justifyContent: 'space-between', alignItems: 'center',
+                justifyContent: 'space-between', alignItems: 'center', pt: 2
             }}>
             {state == 'identifier' ?
-                <>
-                    <Box sx={{ display: 'flex', alignItems: 'flex-end', width: '100%', mt: 10 }}>
-                        <Email sx={{ color: 'primary.light', }} />
-                        <Inputt placeholder={identifier} onChange={(e) => setIdentifier(e.target.value)} />
-                    </Box>
-                    <ButtonPurple w={'100%'} text={'next'} onClick={idStateChanger} />
+                <form
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex', flexDirection: 'column',
+                        justifyContent: 'space-between', alignItems: 'center',
+                    }} onSubmit={idStateChanger}>
+                    <Inputtt>
+                        <Email sx={{ color: 'primary.light', fontSize: '30px' }} />
+                        <Inputt value={identifier} placeholder="enter your email , phone , youwho id , ..." onChange={(e) => setIdentifier(e.target.value)} />
+                    </Inputtt>
+                    <ButtonPurple w={'100%'} text={'next'} />
                     <Box>
                         LOGIN WITH GMAIL
                     </Box>
-                </>
+                </form>
                 : state == 'password' ?
-                    <>
-                        <Box sx={{ display: 'flex', alignItems: 'flex-end', width: '100%', mt: 10 }}>
-                            <Password sx={{ color: 'primary.light', }} />
-                            <Inputt placeholder={password} onChange={(e) => setPassword(e.target.value)} />
-                        </Box>
-                        <ButtonPurple w={'100%'} text={'next'} onClick={idStateChanger} />
+                    <form style={{
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex', flexDirection: 'column',
+                        justifyContent: 'space-between', alignItems: 'center',
+                    }} onSubmit={idStateChanger}>
+                        <Inputtt>
+                            <Password sx={{ color: 'primary.light', fontSize: '30px' }} />
+                            <Inputt type="password" autocomplete="off" value={password} placeholder="enter your password" onChange={(e) => setPassword(e.target.value)} />
+                        </Inputtt>
+                        <ButtonPurple w={'100%'} text={'next'} />
                         <Box
                             sx={{
                                 diplay: 'flex',
                                 justifyContent: 'start',
-                                width: '100%'
+                                width: '100%',
                             }}
                         >
                             <div
@@ -138,25 +170,31 @@ const Signup = () => {
                                     fontSize: '18px',
                                     display: 'flex',
                                     justifyContent: 'center',
-                                    cursor: 'pointer'
+                                    cursor: 'pointer',
                                 }}
                             >
                                 <ArrowLeft sx={{ color: 'primary.light', }} />back
                             </div>
                         </Box>
-                    </>
+
+                    </form>
                     :
-                    <>
-                        <Box sx={{ display: 'flex', alignItems: 'flex-end', width: '100%', mt: 10 }}>
-                            <Password sx={{ color: 'primary.light', }} />
-                            <Inputt placeholder={repeatPassword} onChange={(e) => setRepeatPassword(e.target.value)} />
-                        </Box>
-                        <ButtonPurple w={'100%'} text={'next'} onClick={submit} />
+                    <form style={{
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex', flexDirection: 'column',
+                        justifyContent: 'space-between', alignItems: 'center',
+                    }}>
+                        <Inputtt>
+                            <Password sx={{ color: 'primary.light', fontSize: '30px' }} />
+                            <Inputt type="password" autocomplete="off" value={repeatPassword} placeholder="repeat your password" onChange={(e) => setRepeatPassword(e.target.value)} />
+                        </Inputtt>
+                        <ButtonPurple w={'100%'} text={loading ? '...' : 'submit'} onClick={submit} />
                         <Box
                             sx={{
                                 diplay: 'flex',
                                 justifyContent: 'start',
-                                width: '100%'
+                                width: '100%',
                             }}
                         >
                             <div
@@ -171,14 +209,16 @@ const Signup = () => {
                                     fontSize: '18px',
                                     display: 'flex',
                                     justifyContent: 'center',
-                                    cursor: 'pointer'
+                                    cursor: 'pointer',
                                 }}
                             >
                                 <ArrowLeft sx={{ color: 'primary.light', }} />back
                             </div>
                         </Box>
-                    </>
+
+                    </form>
             }
+
             {err ? <p style={{ color: 'red', fontSize: '12px', margin: 0 }}>{err}</p> : undefined}
             {success ? <p style={{ color: 'green', fontSize: '12px', margin: 0 }}>{success}</p> : undefined}
 

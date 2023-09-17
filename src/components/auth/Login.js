@@ -78,7 +78,7 @@ const Login = () => {
             setLoading(false)
 
             if (response.data.data.is_mail_verified)
-                navigate('/profile')
+                navigate('/dashboard')
             else navigate('/verify-mail')
 
         }
