@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Intro from "../components/HomePage/Intro";
 import GiftSlides from "../components/HomePage/giftSlides";
 import PublicGalleryHome from "../components/HomePage/publicGallery";
+import Footer from "../components/Footer";
 
 const Home = () => {
     return (
@@ -11,6 +12,7 @@ const Home = () => {
             <Intro />
             <GiftSlides />
             <PublicGalleryHome />
+            <Footer />
         </>
     );
 }

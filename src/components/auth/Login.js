@@ -19,6 +19,18 @@ const Inputt = styled('input')(({ theme }) => ({
     borderColor: theme.palette.primary.gray,
     cursor: 'pointer',
     border: 'none',
+    // borderBottom: '1px solid',
+    '&:hover': {
+        borderColor: theme.palette.primary.main,
+    }
+}))
+const Inputtt = styled('div')(({ theme }) => ({
+    width: '100%',
+    display: 'flex',
+    color: theme.palette.primary.gray,
+    borderColor: theme.palette.primary.gray,
+    cursor: 'pointer',
+    border: 'none',
     borderBottom: '1px solid',
     '&:hover': {
         borderColor: theme.palette.primary.main,
@@ -29,8 +41,8 @@ const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const [state, setState] = useState('identifier')
-    const [identifier, setIdentifier] = useState(undefined)
-    const [password, setPassword] = useState(undefined)
+    const [identifier, setIdentifier] = useState('')
+    const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
     const [err, setErr] = useState(false)
     const [success, setSuccess] = useState(false)
@@ -64,9 +76,11 @@ const Login = () => {
             setSuccess(response.message)
             setErr(undefined)
             setLoading(false)
-            setTimeout(() => {
-                navigate('/dashboard')
-            }, 3000);
+
+            if (response.data.data.is_mail_verified)
+                navigate('/profile')
+            else navigate('/verify-mail')
+
         }
         catch (err) {
             setSuccess(undefined)
@@ -74,7 +88,8 @@ const Login = () => {
             setLoading(false)
         }
     }
-    const idStateChanger = () => {
+    const idStateChanger = (event) => {
+        event.preventDefault()
         if (identifier) {
             setErr(undefined)
             setState('password')
@@ -88,34 +103,46 @@ const Login = () => {
                 width: '100%',
                 height: '100%',
                 display: 'flex', flexDirection: 'column',
-                justifyContent: 'space-between', alignItems: 'center',
-            }}>
+                justifyContent: 'space-between', alignItems: 'center', pt: 2
+            }}
+        >
             {state == 'identifier' ?
-                <>
-                    <Box sx={{ display: 'flex', alignItems: 'flex-end', width: '100%', mt: { xs: 5, sm: 10 } }}>
-                        <Email sx={{ color: 'primary.light', }} />
-                        <Inputt placeholder="enter your email , phone , youwho id , ..." onChange={(e) => setIdentifier(e.target.value)} />
-                    </Box>
-                    <ButtonPurple w={'100%'} text={'next'} onClick={idStateChanger} />
+                <form
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex', flexDirection: 'column',
+                        justifyContent: 'space-between', alignItems: 'center',
+                    }} onSubmit={idStateChanger}>
+                    <Inputtt>
+                        <Email sx={{ color: 'primary.light', fontSize: '30px' }} />
+                        <Inputt value={identifier} placeholder="enter your email , phone , youwho id , ..." onChange={(e) => setIdentifier(e.target.value)} />
+                    </Inputtt>
+                    <ButtonPurple w={'100%'} text={'next'} />
                     <Box>
                         LOGIN WITH GMAIL
                     </Box>
-                </>
+                </form>
                 :
-                <>
-                    <Box sx={{ display: 'flex', alignItems: 'flex-end', width: '100%', mt: 10 }}>
-                        <Password sx={{ color: 'primary.light', }} />
-                        <Inputt placeholder="enter your password" onChange={(e) => setPassword(e.target.value)} />
-                    </Box>
+                <form style={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex', flexDirection: 'column',
+                    justifyContent: 'space-between', alignItems: 'center',
+                }} onSubmit={idStateChanger}>
+                    <Inputtt>
+                        <Password sx={{ color: 'primary.light', fontSize: '30px' }} />
+                        <Inputt type="password" autocomplete="off" value={password} placeholder="enter your password" onChange={(e) => setPassword(e.target.value)} />
+                    </Inputtt>
                     <ButtonPurple w={'100%'} text={loading ? '...' : 'next'} onClick={submit} />
-                    <Box>
+                    <p style={{ cursor:'pointer',color: 'rgba(120, 120, 120, 1)', fontSize: '12px', margin: 0 }}>
                         FORGOT PASSWORD ?
-                    </Box>
+                    </p>
                     <Box
                         sx={{
                             diplay: 'flex',
                             justifyContent: 'start',
-                            width: '100%'
+                            width: '100%',
                         }}
                     >
                         <div
@@ -130,14 +157,14 @@ const Login = () => {
                                 fontSize: '18px',
                                 display: 'flex',
                                 justifyContent: 'center',
-                                cursor: 'pointer'
+                                cursor: 'pointer',
                             }}
                         >
                             <ArrowLeft sx={{ color: 'primary.light', }} />back
                         </div>
                     </Box>
 
-                </>
+                </form>
             }
             {err ? <p style={{ color: 'red', fontSize: '12px', margin: 0 }}>{err}</p> : undefined}
             {success ? <p style={{ color: 'green', fontSize: '12px', margin: 0 }}>{success}</p> : undefined}

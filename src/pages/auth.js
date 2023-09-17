@@ -10,21 +10,17 @@ const AuthBox = styled(Box)(({ theme }) => ({
     width: '350px',
     height: '480px',
     borderRadius: '30px',
-    display: "flex",
+    // display: "flex",
     flexDirection: "column",
-    alignItems: 'center',
     padding: '30px',
-    // paddingTop:'100px',
     margin: '100px auto 30px',
-    justifyContent: 'center',
     "@media (max-width: 900px)": {
-    //     // width: '550px',
     },
     "@media (max-width: 600px)": {
         width: '100%',
         margin: '0 auto',
         height: '100%',
-        padding:0,
+        padding: '0',
         borderRadius: '0',
         paddingTop: '170px',
         paddingBottom: '40px',
@@ -39,7 +35,7 @@ const Slider = styled(Box)(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
+    // width: '100%',
 }))
 const ChangeSlide = styled(Box)(({ theme }) => ({
     cursor: 'pointer',
@@ -52,10 +48,11 @@ const ChangeSlide = styled(Box)(({ theme }) => ({
     transition: '500ms ease'
 }))
 const AuthScrollBox = styled(Box)(({ theme }) => ({
-    width: '100%',
+    // width: '100%',
     height: '100%',
     display: "flex",
     flexDirection: "column",
+    //-------
     overflowY: 'scroll',
     '&::-webkit-scrollbar': {
         display: 'none',
@@ -79,13 +76,14 @@ const AuthScrollBox = styled(Box)(({ theme }) => ({
         borderRadius: '50% !important'
 
     },
-    // justifyContent: 'space-between',
+    //-------
+
     "@media (max-width: 900px)": {
         // width: '550px',
     },
     "@media (max-width: 600px)": {
-        width: '100%',
-        margin: '0 auto',
+        // width: '100%',
+        // margin: '0 auto',
         // height: '100vh',
         borderRadius: '0',
         // paddingTop: '80px'
@@ -106,24 +104,28 @@ const Auth = () => {
             // alignItems: 'center',
         }}> */}
             <AuthBox>
-                <Slider>
-                    <ChangeSlide
-                        sx={{ bgcolor: authState == 'signin' ? 'white' : "transparent", color: authState == 'signin' ? 'primary.darkerGray' : "primary.darkGray" }} onClick={() => setAuthState('signin')}>
-                        Sign In</ChangeSlide>
-                    <ChangeSlide
-                        sx={{ bgcolor: authState == 'signup' ? 'white' : "transparent", color: authState == 'signup' ? 'primary.darkerGray' : "primary.darkGray" }} onClick={() => setAuthState('signup')}>
-                        Sign Up</ChangeSlide>
-                </Slider>
-                {authState == 'signin' ?
-                    <AuthScrollBox>
-                        <Login />
-                    </AuthScrollBox>
-                    :
-                    <AuthScrollBox>
-                        <SignUp />  
-                    </AuthScrollBox>
-
-                }
+                <Box sx={{
+                    px: { xs: '20px', sm: 0 }, height: '100%', display: "flex",
+                    flexDirection: "column",justifyContent: 'space-between',
+                }}>
+                    <Slider>
+                        <ChangeSlide
+                            sx={{ bgcolor: authState == 'signin' ? 'white' : "transparent", color: authState == 'signin' ? 'primary.darkerGray' : "primary.darkGray" }} onClick={() => setAuthState('signin')}>
+                            Sign In</ChangeSlide>
+                        <ChangeSlide
+                            sx={{ bgcolor: authState == 'signup' ? 'white' : "transparent", color: authState == 'signup' ? 'primary.darkerGray' : "primary.darkGray" }} onClick={() => setAuthState('signup')}>
+                            Sign Up</ChangeSlide>
+                    </Slider>
+                    {authState == 'signin' ?
+                        <AuthScrollBox>
+                            <Login />
+                        </AuthScrollBox>
+                        :
+                        <AuthScrollBox>
+                            <SignUp />
+                        </AuthScrollBox>
+                    }
+                </Box>
             </AuthBox>
             {/* </Box> */}
         </AuthLayout>
