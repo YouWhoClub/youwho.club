@@ -16,33 +16,34 @@ import Bar from "../components/Bar";
 
 const AuthBox = styled(Box)(({ theme }) => ({
     backgroundColor: 'white',
-    color: theme.palette.primary.darkGray,
-    width: '500px',
-    height: 'auto',
+    width: '350px',
+    height: '480px',
     borderRadius: '30px',
-    display: "flex",
+    // display: "flex",
     flexDirection: "column",
-    alignItems: 'center',
     padding: '30px',
-    margin: '20px auto',
+    margin: '100px auto 30px',
     "@media (max-width: 900px)": {
-        width: '550px',
     },
     "@media (max-width: 600px)": {
         width: '100%',
         margin: '0 auto',
-        // height: '100vh',
+        height: '100%',
+        padding: '0',
         borderRadius: '0',
-        paddingTop: '80px'
+        paddingTop: '170px',
+        paddingBottom: '40px',
     },
 }))
 const AuthScrollBox = styled(Box)(({ theme }) => ({
-    width: '100%',
+    // width: '100%',
     height: '100%',
     display: "flex",
     flexDirection: "column",
+    //-------
     overflowY: 'scroll',
     '&::-webkit-scrollbar': {
+        display: 'none',
         width: '8px',
         background: 'white',
         border: '0.5px solid #846894',
@@ -63,13 +64,14 @@ const AuthScrollBox = styled(Box)(({ theme }) => ({
         borderRadius: '50% !important'
 
     },
-    // justifyContent: 'space-between',
+    //-------
+
     "@media (max-width: 900px)": {
-        width: '550px',
+        // width: '550px',
     },
     "@media (max-width: 600px)": {
-        width: '100%',
-        margin: '0 auto',
+        // width: '100%',
+        // margin: '0 auto',
         // height: '100vh',
         borderRadius: '0',
         // paddingTop: '80px'
@@ -79,6 +81,18 @@ const AuthScrollBox = styled(Box)(({ theme }) => ({
 const Inputt = styled('input')(({ theme }) => ({
     width: '100%',
     outline: 'none',
+    color: theme.palette.primary.gray,
+    borderColor: theme.palette.primary.gray,
+    cursor: 'pointer',
+    border: 'none',
+    // borderBottom: '1px solid',
+    '&:hover': {
+        borderColor: theme.palette.primary.main,
+    }
+}))
+const Inputtt = styled('div')(({ theme }) => ({
+    width: '100%',
+    display: 'flex',
     color: theme.palette.primary.gray,
     borderColor: theme.palette.primary.gray,
     cursor: 'pointer',
@@ -218,7 +232,7 @@ const CreateWallet = () => {
             height: '100vh',
             bgcolor: 'primary.main',
             // color: 'white',
-            display: "flex", alignItms: 'center', justifyContent: 'center',
+            display: "flex", alignItms: 'center', justifyContent: 'center',flexDirection:'column'
         }}>
             {globalUser.isLoggedIn ?
                 <>{youwhoID ?
@@ -261,37 +275,30 @@ const CreateWallet = () => {
                     </>
                     :
                     <AuthBox >
-                        <AuthScrollBox>
-                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: '100%', mt: 5 }}>
-                                <AccountCircle sx={{ color: 'primary.light', }} />
-                                <Inputt placeholder="Enter Your username" onChange={(e) => setUsernme(e.target.value.toString())} />
-                            </Box>
-                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: '100%', mt: 5 }}>
-                                <Email sx={{ color: 'primary.light', }} />
-                                <Inputt placeholder="Enter Your Email" onChange={(e) => setGmail(e.target.value.toString())} />
-                            </Box>
-                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: '100%', mt: 5 }}>
-                                <Phone sx={{ color: 'primary.light', }} />
-                                <Inputt placeholder="Enter Your phone number" onChange={(e) => setPhoneNumber(e.target.value.toString())} />
-                            </Box>
-                            {/* <Box sx={{ display: 'flex', alignItems: 'flex-end', width: '100%', mt: 5 }}>
-                                <AccountBalanceOutlined sx={{ color: 'primary.light', }} />
-                                <Inputt placeholder="Enter Your account number" onChange={(e) => setAccounNum(e.target.value.toString())} />
-                            </Box>
-                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: '100%', mt: 5 }}>
-                                <SocialDistance sx={{ color: 'primary.light', }} />
-                                <Inputt placeholder="Enter Your social id" onChange={(e) => setSocialId(e.target.value.toString())} />
-                            </Box>
-                            <Box sx={{ display: 'flex', alignItems: 'flex-end', width: '100%', mt: 5 }}>
-                                <PaymentSharp sx={{ color: 'primary.light', }} />
-                                <Inputt placeholder="Enter Your Paypal id" onChange={(e) => setPaypal(e.target.value.toString())} />
-                            </Box> */}
-                            <Box sx={{ mt: 10, justifySelf: 'flex-end' }}>
-                                <ButtonPurple w={'100%'} text={'done'} onClick={submit} />
-                            </Box>
-                        </AuthScrollBox>
-                        {err ? <p style={{ color: 'red', fontSize: '12px', margin: 0, marginTop: '10px', }}>{err}</p> : undefined}
-                        {success ? <p style={{ color: 'green', fontSize: '12px', margin: 0, marginTop: '10px', }}>{success}</p> : undefined}
+                        <Box sx={{
+                            px: { xs: '20px', sm: 0 }, height: '100%', display: "flex",
+                            flexDirection: "column", justifyContent: 'space-between',
+                        }}>
+                            <AuthScrollBox>
+                                <Inputtt>
+                                    <AccountCircle sx={{ color: 'primary.light', }} />
+                                    <Inputt placeholder="Enter Your username" onChange={(e) => setUsernme(e.target.value.toString())} />
+                                </Inputtt>
+                                <Inputtt>
+                                    <Email sx={{ color: 'primary.light', }} />
+                                    <Inputt placeholder="Enter Your Email" onChange={(e) => setGmail(e.target.value.toString())} />
+                                </Inputtt>
+                                <Inputtt>
+                                    <Phone sx={{ color: 'primary.light', }} />
+                                    <Inputt placeholder="Enter Your phone number" onChange={(e) => setPhoneNumber(e.target.value.toString())} />
+                                </Inputtt>
+                                <Box sx={{ mt: 10, justifySelf: 'flex-end' }}>
+                                    <ButtonPurple w={'100%'} text={'done'} onClick={submit} />
+                                </Box>
+                            </AuthScrollBox>
+                            {err ? <p style={{ color: 'red', fontSize: '12px', margin: 0, marginTop: '10px', }}>{err}</p> : undefined}
+                            {success ? <p style={{ color: 'green', fontSize: '12px', margin: 0, marginTop: '10px', }}>{success}</p> : undefined}
+                        </Box>
                     </AuthBox>
                 }</>
                 :
