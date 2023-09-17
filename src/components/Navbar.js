@@ -53,14 +53,25 @@ const Navbar = () => {
             // position: "fixed",
             // top: 0,
             // zIndex: 999,
-            px:1
+            px: 1
         }}
         >
             {window.location.pathname == '/' ?
                 <YouWhoIconPurple />
                 : <YouWhoIcon onClick={() => navigate('/')} />}
 
-            <ButtonOutline text={'start'} onClick={() => navigate('/auth')} />
+            {globalUser.isLoggedIn ?
+                <div style={{display:'flex',alignItems:'center'}}>
+                    <div onClick={() => navigate('/dashboard')}>
+                        <Profile cursor='pointer'/>
+                    </div>
+                    <div onClick={disconnect}>
+                        <LogoutOutlined cursor='pointer'/>
+                    </div>
+                </div>
+                :
+                <ButtonOutline text={'start'} onClick={() => navigate('/auth')} />
+            }
         </Box>
     );
 }

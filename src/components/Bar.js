@@ -1,15 +1,26 @@
 import { Box, SvgIcon } from "@mui/material";
 import ButtonOutline from "./buttons/buttonOutline";
 import ButtonPurple from "./buttons/buttonPurple";
-import { HambergerMenu, Profile } from "iconsax-react";
-import { LogoutOutlined } from "@mui/icons-material";
+import { HambergerMenu, Profile, Wallet } from "iconsax-react";
+import { CenterFocusStrong, LogoutOutlined } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { logOutUser } from "../redux/actions";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 
+const IconHolder = styled(Box)(({ theme }) => ({
+    display: 'flex', justifyContent: 'center', alignItems: 'center',
+    borderColor: theme.palette.primary.gray,
+    border: '0.5px solid',
+    borderRadius: '50%',
+    width: '40px', height: '40px',
+    '&:hover': {
+        backgroundColor: theme.palette.primary.light,
+    }
 
+
+}))
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
     backgroundImage: "url('/w-outline.svg')",
@@ -36,20 +47,36 @@ const Bar = () => {
     return (
         <Box sx={{
             display: 'flex',
-            flexDirection:'column',
+            flexDirection: { xs: 'row', sm: 'column' },
             justifyContent: 'space-evenly',
             alignItems: 'center',
-            height: '50%',
-            bgcolor: 'primary.ultra',
-            width: '75px',
+            height: { xs: '50px', sm: '50%' },
+            // bgcolor: 'primary.ultra',
+            backdropFilter: 'blur(10px)',
+            boxShadow: {
+                xs: '0px -2px 9px -2px rgba(227,209,231,0.9)', sm: '0px 0px 9px -2px rgba(227,209,231,0.9)'
+            },
+            width: {
+                xs: '100%', sm: '75px'
+            },
             // px: 4,
             position: "fixed",
-            left: 0,
-            borderRadius: '0 30px 30px 0',
+            left: { xs: 'unset', sm: 0 },
+            bottom: { xs: 0, sm: 'unset' },
+            borderRadius: { xs: '30px 30px 0 0', sm: '0 30px 30px 0' },
             zIndex: 999,
         }}
         >
-        </Box>
+            <IconHolder onClick={() => navigate('/dashboard')} sx={{ bgcolor: window.location.pathname == '/dashboard' ? 'primary.main' : 'transparent' }}>
+                <Profile cursor='pointer' />
+            </IconHolder>
+            <IconHolder onClick={() => navigate('/gallery')} sx={{ bgcolor: window.location.pathname == '/gallery' ? 'primary.main' : 'transparent' }}>
+                <CenterFocusStrong cursor='pointer' />
+            </IconHolder>
+            <IconHolder onClick={() => navigate('/wallet')} sx={{ bgcolor: window.location.pathname == '/wallet' ? 'primary.main' : 'transparent' }}>
+                <Wallet cursor='pointer' />
+            </IconHolder>
+        </Box >
     );
 }
 

@@ -28,6 +28,7 @@ import Dashboard from './pages/dashboard';
 import Bar from './components/Bar';
 import VerifyMail from './pages/verifyMail';
 import VerifyPhone from './pages/verifyPhone';
+import MainGallery from './pages/mainGallery';
 // import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
 
 
@@ -82,11 +83,12 @@ function App() {
                   <Route exact path="/dashboard" element={<Dashboard />} />
                   <Route exact path="/profile/:name" element={<Profile />} />
                   <Route exact path="/transfer" element={<TransferPage />} />
-                  <Route exact path="/generate-wallet" element={<CreateWallet />} />
+                  <Route exact path="/wallet" element={<CreateWallet />} />
                   <Route exact path="/public-gallery" element={<PublicGallery />} />
                   <Route exact path="/gallery/user/:id" element={<PublicGallery />} />
                   <Route exact path="/verify-mail" element={<VerifyMail />} />
                   <Route exact path="/verify-phone" element={<VerifyPhone />} />
+                  <Route exact path="/gallery" element={<MainGallery />} />
                   <Route path='*' element={<NotFound />} />
 
                 </Routes>

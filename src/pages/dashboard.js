@@ -47,7 +47,6 @@ const Dashboard = () => {
             return str.length > 10 ? str.substring(0, 7) + '...' : str;
         return 'undefined'
     }
-
     const copyidToClipBoard = async (textToCopy) => {
         try {
             await navigator.clipboard.writeText(textToCopy);
@@ -59,10 +58,8 @@ const Dashboard = () => {
 
     return (
         <Box sx={{
-            height: 'calc(100vh - 150px)',
+            height: '100vh',
             bgcolor: 'primary.dark',
-            pb: 5,
-            pt: '100px',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -76,24 +73,6 @@ const Dashboard = () => {
                     <div>
                         ((  PROFILE DESIGNS ...  ))
                     </div>
-                    {/* <List>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <Inbox />
-                                </ListItemIcon>
-                                <ListItemText primary="Inbox" />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <Gallery />
-                                </ListItemIcon>
-                                <ListItemText primary="Private Gallery" />
-                            </ListItemButton>
-                        </ListItem>
-                    </List> */}
                     {globalUser.youwhoID ?
                         <>
                             <Link style={{ textDecoration: 'none', color: 'lightblue' }} to={`/gallery/user/${globalUser.youwhoID}`}>Private Gallery</Link>
@@ -114,7 +93,7 @@ const Dashboard = () => {
                         }}>
                         {globalUser.youwhoID ?
                             <YID onClick={() => copyidToClipBoard(globalUser.youwhoID)}>youwho id :{globalUser.youwhoID}</YID> :
-                            <Link to={'/generate-wallet'} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <Link to={'/wallet'} style={{ textDecoration: 'none', color: 'inherit' }}>
                                 BUILD YOUR YOUWHO WALLET AND GET YOUR YOUWHO ID
                             </Link>
                         }

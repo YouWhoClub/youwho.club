@@ -12,6 +12,7 @@ import { getuser, setPrivateKey, setYouwhoId } from "../redux/actions";
 import ButtonPurple from "../components/buttons/buttonPurple";
 import { Check, PasswordCheck, TickSquare } from "iconsax-react";
 import { Link } from "react-router-dom";
+import Bar from "../components/Bar";
 
 const AuthBox = styled(Box)(({ theme }) => ({
     backgroundColor: 'white',
@@ -214,11 +215,9 @@ const CreateWallet = () => {
     }
     return (
         <Box sx={{
-            height: 'calc(100vh - 150px)',
+            height: '100vh',
             bgcolor: 'primary.main',
-            color: 'white',
-            pt: { xs: '130px', sm: '100px' },
-            pb: { xs: 0, sm: '50px' },
+            // color: 'white',
             display: "flex", alignItms: 'center', justifyContent: 'center',
         }}>
             {globalUser.isLoggedIn ?
@@ -297,6 +296,8 @@ const CreateWallet = () => {
                 }</>
                 :
                 <AuthBox><div style={{ color: "gray" }}>you are not logged in</div></AuthBox>}
+            <Bar />
+
         </Box>
 
 
