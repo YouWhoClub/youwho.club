@@ -9,6 +9,7 @@ import { Gallery } from "iconsax-react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Bar from "../components/Bar";
 const Avatarr = styled(Box)(({ theme }) => ({
     width: '100px',
     height: '100px',
@@ -121,6 +122,7 @@ const Dashboard = () => {
                 </>
                 :
                 <>you are not logged in </>}
+            <Bar />
 
         </Box>
     );

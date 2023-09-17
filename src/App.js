@@ -26,6 +26,8 @@ import TransferPage from './pages/transfer';
 import PublicGallery from './pages/publicGallery';
 import Dashboard from './pages/dashboard';
 import Bar from './components/Bar';
+import VerifyMail from './pages/verifyMail';
+import VerifyPhone from './pages/verifyPhone';
 // import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
 
 
@@ -83,6 +85,8 @@ function App() {
                   <Route exact path="/generate-wallet" element={<CreateWallet />} />
                   <Route exact path="/public-gallery" element={<PublicGallery />} />
                   <Route exact path="/gallery/user/:id" element={<PublicGallery />} />
+                  <Route exact path="/verify-mail" element={<VerifyMail />} />
+                  <Route exact path="/verify-phone" element={<VerifyPhone />} />
                   <Route path='*' element={<NotFound />} />
 
                 </Routes>

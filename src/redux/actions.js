@@ -21,15 +21,18 @@ const emptyUser = {
     username: '',
     youwhoID: '',
     cid: '',
-    // privateKey: '',
-    gmail: '',
+    mail: '',
     isLoggedIn: false,
     identifier: '',
-    phone_number: '',
+    phoneNumber: '',
     token: '',
+    isMailVerified:false,
+    isPhoneVerified:false,
     account: '',
-    socialId: ''
+    socialId: '',
+    // privateKey: action.payload.signer,
 }
+
 const anEmptyCart = []
 
 export const getuser = (token) => {

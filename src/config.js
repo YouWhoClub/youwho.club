@@ -1,8 +1,8 @@
 const ISLOCALHOST = false;
 const LOCAL_URL = "http://192.168.1.156";
 export const API_CONFIG = {
-    AUTH_API_URL: ISLOCALHOST ? `${LOCAL_URL}:3434/auth` : 'https://panel.home.youwho.club/user',
-    HEALTH_API_URL: ISLOCALHOST ? `${LOCAL_URL}:3434/auth` : 'https://panel.home.youwho.club/health',
+    AUTH_API_URL: ISLOCALHOST ? `${LOCAL_URL}:3434/auth` : 'https://panel.youwho.club/user',
+    HEALTH_API_URL: ISLOCALHOST ? `${LOCAL_URL}:3434/auth` : 'https://panel.youwho.club/health',
 
 
     

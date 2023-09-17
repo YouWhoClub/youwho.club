@@ -36,74 +36,19 @@ const Bar = () => {
     return (
         <Box sx={{
             display: 'flex',
+            flexDirection:'column',
             justifyContent: 'space-evenly',
             alignItems: 'center',
-            height: 50,
+            height: '50%',
             bgcolor: 'primary.ultra',
-            width: '100%',
+            width: '75px',
             // px: 4,
             position: "fixed",
-            bottom: 0,
-            borderRadius: '30px 30px 0 0',
+            left: 0,
+            borderRadius: '0 30px 30px 0',
             zIndex: 999,
-            // flexDirection: { xs: 'column-reverse', sm: 'row' }
-            // '&:hover': {
-            //     backgroundColor: 'primary.dark',
-            //     opacity: [0.9, 0.8, 0.7],
-            // },
         }}
         >
-            <Link style={{ textDecoration: "none", color: 'inherit' }} to={'/'}>
-                <HomeIcon sx={{
-                    color: 'primary.gray'
-                }} />
-            </Link>
-
-            <Box sx={{
-                display: 'flex', justifyContent: 'space-between',
-                alignItems: 'center',
-            }}>
-                {globalUser.isLoggedIn ?
-                    <>
-                        <div onClick={() => navigate('/dashboard')}>
-                            <Profile style={{
-                                color: '#C6BAC5',
-                                cursor: "pointer"
-                            }} />
-                        </div>
-                        &nbsp;
-                        &nbsp;
-                        <div
-                            onClick={disconnect}
-                        >
-                            <LogoutOutlined
-                                sx={{
-                                    color: 'primary.gray',
-                                    cursor: "pointer"
-                                }} />
-                        </div>
-
-                    </>
-                    :
-                    <>
-                        {window.location.pathname == '/' ?
-                            <>
-
-                                <ButtonOutline text={'Sign In'} onClick={() => navigate('/auth')} />
-                                &nbsp;
-                                &nbsp;
-                                <ButtonPurple text={'Get Started'} onClick={() => navigate('/display')} />
-                            </> :
-                            <div>
-                                <HambergerMenu style={{
-                                    color: '#C6BAC5',
-                                    cursor: "pointer"
-                                }} />
-                            </div>}
-                    </>
-                }
-            </Box>
-
         </Box>
     );
 }

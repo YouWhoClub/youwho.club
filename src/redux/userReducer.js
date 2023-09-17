@@ -20,11 +20,13 @@ function userReducer(state = initialState, action) {
                 username: action.payload.username,
                 youwhoID: action.payload.screen_cid,
                 cid: action.payload.cid,
-                gmail: action.payload.gmail,
+                mail: action.payload.mail,
                 isLoggedIn: action.payload.isLoggedIn,
                 identifier: action.payload.identifier,
-                phone_number: action.payload.phone_number,
+                phoneNumber: action.payload.phone_number,
                 token: action.payload.token,
+                isMailVerified:action.payload.is_mail_verified,
+                isPhoneVerified:action.payload.is_phone_verified,
                 account: action.payload.account_number,
                 socialId: action.payload.social_id,
                 // privateKey: action.payload.signer,
@@ -33,18 +35,20 @@ function userReducer(state = initialState, action) {
             localStorage.removeItem('account')
             localStorage.removeItem('lastActive')
             return {
-                ...state,            
+                ...state,
                 username: action.payload.username,
-                youwhoID: action.payload.youwhoID,
+                youwhoID: action.payload.screen_cid,
                 cid: action.payload.cid,
-                gmail: action.payload.gmail,
-                // privateKey: action.payload.privateKey,
+                mail: action.payload.mail,
                 isLoggedIn: action.payload.isLoggedIn,
                 identifier: action.payload.identifier,
-                phone_number: action.payload.phone_number,
-                socialId: action.payload.socialId,
+                phoneNumber: action.payload.phone_number,
                 token: action.payload.token,
-                account: action.payload.account,
+                isMailVerified:action.payload.is_mail_verified,
+                isPhoneVerified:action.payload.is_phone_verified,
+                account: action.payload.account_number,
+                socialId: action.payload.social_id,
+                // privateKey: action.payload.signer,
             };
         case SET_ACCOUNT:
             return { ...state, account: action.payload };
