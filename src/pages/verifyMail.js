@@ -165,7 +165,7 @@ const VerifyMail = () => {
                 fetchUser(globalUser.token)
 
                 setTimeout(() => {
-                    navigate('/dashboard')
+                    navigate('/gallery')
                 }, 2000);
             } else {
                 // Show message

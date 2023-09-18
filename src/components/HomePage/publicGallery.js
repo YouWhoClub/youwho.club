@@ -14,7 +14,7 @@ import NFTCard from "../nft market/nftCard";
 const PublicGalleryHome = () => {
     return (<Box sx={{
         height: '100vh',
-        bgcolor: 'primary.ultra',
+        bgcolor: 'primary.bg',
         display: 'flex', justifyContent: 'center', flexDirection: 'column'
     }}>
         <h5 style={{ textAlign: 'center', color: 'white', marginBottom: '30px' }} >Most Popular NFTs</h5>

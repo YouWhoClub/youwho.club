@@ -5,11 +5,11 @@ import GiftSlides from "../components/HomePage/giftSlides";
 import PublicGalleryHome from "../components/HomePage/publicGallery";
 import Footer from "../components/Footer";
 
-const Home = () => {
+const Home = ({ switchTheme , theme}) => {
     return (
         <>
-            <Navbar />
-            <Intro />
+            <Navbar switchTheme={switchTheme} />
+            <Intro theme={theme}/>
             <GiftSlides />
             <PublicGalleryHome />
             <Footer />

@@ -32,7 +32,7 @@ const GiftsScrollWrapper = styled(Box)(({ theme }) => ({
 const TransferPage = () => {
     return (<Box sx={{
         height: 'calc(100vh - 160px)',
-        bgcolor: 'primary.dark',
+        bgcolor: 'primary.bg',
         // pb: 5,
         pt: { xs: '180px', sm: '110px' },
         px: { xs: '10px', sm: '40px' },

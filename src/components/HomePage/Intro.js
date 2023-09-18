@@ -1,22 +1,22 @@
 import { Box } from "@mui/material";
 
-const Intro = () => {
+const Intro = ({ theme }) => {
     return (
         <Box sx={{
             height: 'calc(100vh - 55px)',
-            bgcolor: 'primary.dark',
+            bgcolor: 'primary.bg',
             // pb: '50px',
             // pt: '100px',
-            display:'flex',
-            justifyContent:'center',
-            alignItems:'center'
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
         }}>
 
             <Box sx={{
                 // height: 'calc(100vh - 100px)',
                 height: '90%',
                 width: '90%',
-                backgroundImage: "url('/w-outline.svg')", backgroundRepeat: 'no-repeat', backgroundPosition: 'center'
+                backgroundImage: theme == 'dark' ? "url('/w-outline.svg')" : "url('/p-outline.svg')", backgroundRepeat: 'no-repeat', backgroundPosition: 'center'
             }}>
 
             </Box>

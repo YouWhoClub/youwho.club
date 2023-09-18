@@ -1,4 +1,4 @@
-import { LogoutOutlined, MenuBook } from "@mui/icons-material";
+import { LogoDevRounded, LogoutOutlined, MenuBook } from "@mui/icons-material";
 import { Box } from "@mui/material";
 import SvgIcon from '@mui/material/SvgIcon';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
@@ -8,7 +8,7 @@ import ButtonPurple from "./buttons/buttonPurple";
 import { useDispatch, useSelector } from "react-redux";
 import { logOutUser } from "../redux/actions";
 import styled from "@emotion/styled";
-import { HambergerMenu, Profile } from "iconsax-react";
+import { HambergerMenu, LogoutCurve, Profile } from "iconsax-react";
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
     backgroundImage: "url('/w-outline.svg')",
@@ -34,13 +34,21 @@ function HomeIcon(props) {
     );
 }
 
-const Navbar = () => {
+const Navbar = ({ switchTheme }) => {
     const globalUser = useSelector(state => state.userReducer)
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const logOut = () => dispatch(logOutUser());
     function disconnect() {
         logOut()
+        navigate('/')
+    }
+    const setTheme = () => {
+        if (localStorage.getItem('theme') == 'light') {
+            localStorage.setItem('theme', 'dark')
+        } else {
+            localStorage.setItem('theme', 'light')
+        }
     }
     return (
         <Box sx={{
@@ -48,7 +56,7 @@ const Navbar = () => {
             justifyContent: 'space-between',
             alignItems: 'center',
             height: '55px',
-            bgcolor: 'transparent',
+            bgcolor: 'primary.bg',
             // width: '100%',
             // position: "fixed",
             // top: 0,
@@ -56,19 +64,21 @@ const Navbar = () => {
             px: 1
         }}
         >
-            {window.location.pathname == '/' ?
-                <YouWhoIconPurple />
-                : <YouWhoIcon onClick={() => navigate('/')} />}
+            {/* {window.location.pathname == '/' ? */}
+            <YouWhoIconPurple onClick={switchTheme} />
+            {/* : <YouWhoIcon onClick={() => navigate('/')} />} */}
 
             {globalUser.isLoggedIn ?
-                <div style={{display:'flex',alignItems:'center'}}>
-                    <div onClick={() => navigate('/dashboard')}>
-                        <Profile cursor='pointer'/>
-                    </div>
+                <Box sx={{ display: 'flex', alignItems: 'center', color: 'primary.text' }}>
+                    {window.location.pathname !== '/dashboard' ?
+                        <div onClick={() => navigate('/dashboard')}>
+                            <Profile cursor='pointer' />
+                        </div>
+                        : undefined}
                     <div onClick={disconnect}>
-                        <LogoutOutlined cursor='pointer'/>
+                        <LogoutCurve cursor='pointer' />
                     </div>
-                </div>
+                </Box>
                 :
                 <ButtonOutline text={'start'} onClick={() => navigate('/auth')} />
             }

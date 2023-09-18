@@ -230,7 +230,7 @@ const CreateWallet = () => {
     return (
         <Box sx={{
             height: '100vh',
-            bgcolor: 'primary.main',
+            bgcolor: 'primary.bg',
             // color: 'white',
             display: "flex", alignItms: 'center', justifyContent: 'center',flexDirection:'column'
         }}>

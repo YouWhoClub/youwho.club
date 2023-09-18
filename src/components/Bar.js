@@ -11,9 +11,9 @@ import { Link } from "react-router-dom";
 
 const IconHolder = styled(Box)(({ theme }) => ({
     display: 'flex', justifyContent: 'center', alignItems: 'center',
-    borderColor: theme.palette.primary.gray,
+    borderColor: theme.palette.secondary.text,
     border: '0.5px solid',
-    borderRadius: '50%',
+    borderRadius: '50%',cursor:'pointer',
     width: '40px', height: '40px',
     '&:hover': {
         backgroundColor: theme.palette.primary.light,
@@ -51,7 +51,7 @@ const Bar = () => {
             justifyContent: 'space-evenly',
             alignItems: 'center',
             height: { xs: '50px', sm: '50%' },
-            // bgcolor: 'primary.ultra',
+            bgcolor: 'secondary.bg',
             backdropFilter: 'blur(10px)',
             boxShadow: {
                 xs: '0px -2px 9px -2px rgba(227,209,231,0.9)', sm: '0px 0px 9px -2px rgba(227,209,231,0.9)'
@@ -62,9 +62,10 @@ const Bar = () => {
             // px: 4,
             position: "fixed",
             left: { xs: 'unset', sm: 0 },
-            bottom: { xs: 0, sm: 'unset' },
+            bottom: { xs: 0, sm: '25%' },
             borderRadius: { xs: '30px 30px 0 0', sm: '0 30px 30px 0' },
             zIndex: 999,
+            color:'primary.text'
         }}
         >
             <IconHolder onClick={() => navigate('/dashboard')} sx={{ bgcolor: window.location.pathname == '/dashboard' ? 'primary.main' : 'transparent' }}>

@@ -5,11 +5,15 @@ import {
     Box,
     //  List, ListItem, ListItemButton, ListItemIcon, ListItemText 
 } from "@mui/material";
-import { Gallery } from "iconsax-react";
+import { Gallery, Profile } from "iconsax-react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Bar from "../components/Bar";
+import Navbar from "../components/Navbar";
+import ProfileCard from "../components/dashboard/ProfileCard";
+import PanelLayout from "../components/PanelLayout";
+import Progressive from "../components/dashboard/progressTab";
 const Avatarr = styled(Box)(({ theme }) => ({
     width: '100px',
     height: '100px',
@@ -33,8 +37,13 @@ const YID = styled('div')(({ theme }) => ({
         fontSize: '12px',
     },
 }))
+const ShowPanel = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'space-between', alignItems: 'center',
 
-const Dashboard = () => {
+}))
+
+const Dashboard = ({ switchTheme }) => {
     const globalUser = useSelector(state => state.userReducer)
     const [idCopied, setIdCopied] = useState(false)
     const shortenName = (str) => {
@@ -57,54 +66,30 @@ const Dashboard = () => {
     };
 
     return (
-        <Box sx={{
-            height: '100vh',
-            bgcolor: 'primary.dark',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column',
-            color: 'white'
-        }}>
-            {globalUser.isLoggedIn ?
-                <>
-                    <Avatarr>{shortenName(globalUser.username)}</Avatarr>
-                    <div>welcome {globalUser.username}</div>
-                    <div>
-                        ((  PROFILE DESIGNS ...  ))
-                    </div>
-                    {globalUser.youwhoID ?
+        <PanelLayout switchTheme={switchTheme}>
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: { xs: '100%', sm: 'calc(100% - 90px)' },
+            }}>
+                <Box sx={{
+                    px: 1, display: 'flex',
+                    flexDirection: 'column',
+                }}>
+                    {globalUser.isLoggedIn ?
                         <>
-                            <Link style={{ textDecoration: 'none', color: 'lightblue' }} to={`/gallery/user/${globalUser.youwhoID}`}>Private Gallery</Link>
-                            <Link style={{ textDecoration: 'none', color: 'lightblue' }} to={`/deposits/user/${globalUser.youwhoID}`}>User Deposits</Link>
-                            <Link style={{ textDecoration: 'none', color: 'lightblue' }} to={`/withdraws/user/${globalUser.youwhoID}`}>User Withdraws</Link>
-                            <Link style={{ textDecoration: 'none', color: 'lightblue' }} to={`/gifts/user/${globalUser.youwhoID}`}>Unclaimed Gifts</Link>
-                        </> : undefined}
-                    <p />
-                    <Box
-                        sx={{
-                            cursor: 'pointer',
-                            color: 'primary.gray',
-                            '&:hover': {
-                                color: 'primary.main',
-                            },
-                            transition: '300ms ease'
-
-                        }}>
-                        {globalUser.youwhoID ?
-                            <YID onClick={() => copyidToClipBoard(globalUser.youwhoID)}>youwho id :{globalUser.youwhoID}</YID> :
-                            <Link to={'/wallet'} style={{ textDecoration: 'none', color: 'inherit' }}>
-                                BUILD YOUR YOUWHO WALLET AND GET YOUR YOUWHO ID
-                            </Link>
-                        }
-                    </Box>
-                </>
-                :
-                <>you are not logged in </>}
-            <Bar />
-
-        </Box>
+                            <ProfileCard username={globalUser.username} youwhoID={globalUser.youwhoID} />
+                            <ShowPanel>
+                                <Progressive />
+                            </ShowPanel>
+                        </>
+                        :
+                        <>you are not logged in </>}
+                </Box>
+            </Box>
+        </PanelLayout >
     );
+
 }
 
 export default Dashboard;

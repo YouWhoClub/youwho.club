@@ -5,7 +5,7 @@ const MainGallery = () => {
     return (
         <Box sx={{
             height: '100vh',
-            bgcolor: 'white',
+            bgcolor: 'primary.bg',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',

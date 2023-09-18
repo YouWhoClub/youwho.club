@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const GiftSlides = () => {
     return (<Box sx={{
         height: '100vh',
-        bgcolor: 'primary.main',
+        bgcolor: 'primary.bg',
         display: 'flex', justifyContent: 'center', flexDirection: 'column'
     }}>
         <h5 style={{ textAlign: 'center', color: 'white', marginBottom: '30px' }} >Available Gift Cards</h5>

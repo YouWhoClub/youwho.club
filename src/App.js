@@ -10,8 +10,8 @@ import {
 } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import Home from './pages/home';
-import { useEffect } from 'react';
-import { LinearProgress, ThemeProvider } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { LinearProgress, ThemeProvider, createTheme } from '@mui/material';
 import NotFound from './pages/404';
 import Navbar from './components/Navbar';
 import { Provider } from 'react-redux';
@@ -40,24 +40,74 @@ function App() {
     localStorage.setItem('device-id', uuidv4())
   }
 
+  const [theme, setTheme] = useState('light')
+  const switchTheme = () => {
+    if (theme == 'light') {
+      setTheme('dark')
+    } else setTheme('light')
+  }
+
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+      primary: {
+        dark: 'black',
+        ultra: '#32283E',
+        main: '#392F5A',
+        middle: '#846894',
+        light: '#BEA2C5',
+        gray: '#C6BAC5',
+        white: 'white',
+        bg: '#281240',
+        text: 'white'
+      },
+      secondary: {
+        dark: '#0F0A0A',
+        ultra: '#32283E',
+        main: '#392F5A',
+        middle: '#846894',
+        light: '#BEA2C5',
+        gray: '#C6BAC5',
+        white: 'white',
+        bg: '#3C1A60',
+        text: '#F6F5F4'
+
+      },
+    },
+  });
+  const lightTheme = createTheme({
+    palette: {
+      mode: 'light',
+      primary: {
+        dark: 'black',
+        ultra: '#32283E',
+        main: '#B0228C',
+        middle: '#846894',
+        light: '#BEA2C5',
+        gray: '#948C96',
+        white: 'white',
+        bg: '#F8F4E3',
+        text: 'black'
+      },
+      secondary: {
+        dark: '#0F0A0A',
+        ultra: '#731A60',
+        main: '#B8145E',
+        middle: '#8D80AD',
+        light: '#BCB4CF',
+        gray: '#C5BEC2',
+        white: '#F5EFED',
+        bg: 'white',
+        text: '#707070'
+      },
+    },
+  });
 
 
+  const localTheme = localStorage.getItem('theme')
   return (
     <ThemeProvider
-      theme={{
-        palette: {
-          primary: {
-            dark: '#191528',
-            ultra: '#32283E',
-            main: '#392F5A',
-            middle: '#846894',
-            light: '#BEA2C5',
-            gray: '#C6BAC5',
-            darkGray: '#90888C',
-            darkerGray: '#2B2A2B',
-          },
-        },
-      }}
+      theme={theme == 'dark' ? darkTheme : lightTheme}
     >
       {/* <ThirdwebProvider
         activeChain="ethereum"
@@ -77,18 +127,18 @@ function App() {
               <>
                 {/* <Navbar /> */}
                 <Routes>
-                  <Route exact path="/" element={<Home />} />
+                  <Route exact path="/" element={<Home theme={theme} switchTheme={switchTheme} />} />
                   <Route exact path="/auth" element={<Auth />} />
                   <Route exact path="/display" element={<Display />} />
-                  <Route exact path="/dashboard" element={<Dashboard />} />
+                  <Route exact path="/dashboard" element={<Dashboard switchTheme={switchTheme}/>} />
                   <Route exact path="/profile/:name" element={<Profile />} />
                   <Route exact path="/transfer" element={<TransferPage />} />
-                  <Route exact path="/wallet" element={<CreateWallet />} />
+                  <Route exact path="/wallet" element={<CreateWallet switchTheme={switchTheme}/>} />
                   <Route exact path="/public-gallery" element={<PublicGallery />} />
                   <Route exact path="/gallery/user/:id" element={<PublicGallery />} />
                   <Route exact path="/verify-mail" element={<VerifyMail />} />
                   <Route exact path="/verify-phone" element={<VerifyPhone />} />
-                  <Route exact path="/gallery" element={<MainGallery />} />
+                  <Route exact path="/gallery" element={<MainGallery switchTheme={switchTheme}/>} />
                   <Route path='*' element={<NotFound />} />
 
                 </Routes>

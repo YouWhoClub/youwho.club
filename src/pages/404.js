@@ -6,7 +6,7 @@ const NotFound = () => {
   return (
     <Box
       sx={{
-        height: '100vh', bgcolor: 'primary.dark', color: 'primary.light',
+        height: '100vh', bgcolor: 'primary.bg', color: 'primary.light',
         display: 'flex', justifyContent: 'center', alignItems: 'center', alignContent: 'center', flexDirection: "column"
       }}>
       The Page You Are Looking For Was Not Found
