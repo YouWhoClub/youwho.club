@@ -21,15 +21,16 @@ import Footer from './components/Footer';
 import Auth from './pages/auth';
 import Display from './pages/display';
 import Profile from './pages/profile';
-import CreateWallet from './pages/createWallet';
+import CreateWallet from './components/auth/createWallet';
 import TransferPage from './pages/transfer';
 import PublicGallery from './pages/publicGallery';
 import Dashboard from './pages/dashboard';
 import Bar from './components/Bar';
 import VerifyMail from './pages/verifyMail';
-import VerifyPhone from './pages/verifyPhone';
+import VerifyPhone from './components/auth/verifyPhone';
 import MainGallery from './pages/mainGallery';
 import styled from '@emotion/styled';
+import WalletPage from './pages/walletPage';
 // import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
 
 
@@ -144,7 +145,7 @@ function App() {
                     <Route exact path="/dashboard" element={<Dashboard switchTheme={switchTheme} />} />
                     <Route exact path="/profile/:name" element={<Profile />} />
                     <Route exact path="/transfer" element={<TransferPage />} />
-                    <Route exact path="/wallet" element={<CreateWallet switchTheme={switchTheme} />} />
+                    <Route exact path="/wallet" element={<WalletPage switchTheme={switchTheme} />} />
                     <Route exact path="/public-gallery" element={<PublicGallery />} />
                     <Route exact path="/gallery/user/:id" element={<PublicGallery />} />
                     <Route exact path="/verify-mail" element={<VerifyMail />} />

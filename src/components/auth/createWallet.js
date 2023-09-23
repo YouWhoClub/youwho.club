@@ -7,13 +7,13 @@ import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
 import { green, red } from "@mui/material/colors";
 import { useNavigate } from "react-router";
-import { AUTH_API } from "../utils/data/auth_api";
-import { getuser, setPrivateKey, setYouwhoId } from "../redux/actions";
-import ButtonPurple from "../components/buttons/buttonPurple";
+import { AUTH_API } from "../../utils/data/auth_api";
+import { getuser, setPrivateKey, setYouwhoId } from "../../redux/actions";
+import ButtonPurple from "../buttons/buttonPurple";
 import { Check, PasswordCheck, TickSquare } from "iconsax-react";
 import { Link } from "react-router-dom";
-import Bar from "../components/Bar";
-import PanelLayout from "../components/PanelLayout";
+import Bar from "../Bar";
+import PanelLayout from "../PanelLayout";
 
 const AuthBox = styled(Box)(({ theme }) => ({
     backgroundColor: 'white',
@@ -228,90 +228,88 @@ const CreateWallet = ({ switchTheme }) => {
         }
     }
     return (
-        <PanelLayout switchTheme={switchTheme}>
+        <Box sx={{
+            // height: '100vh',
+            bgcolor: 'primary.bg',
+            // color: 'white',
+            display: "flex", alignItems: 'center', justifyContent: 'center', flexDirection: 'column',
+            width: { xs: '100%', sm: 'calc(100% - 80px)' },
 
-            <Box sx={{
-                // height: '100vh',
-                bgcolor: 'primary.bg',
-                // color: 'white',
-                display: "flex", alignItems: 'center', justifyContent: 'center', flexDirection: 'column',
-                width: { xs: '100%', sm: 'calc(100% - 80px)' },
+        }}>
+            {globalUser.isLoggedIn ?
+                <>{youwhoID ?
+                    <>{privateKeey ?
+                        <AuthBox>
+                            {/* <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', color: "primary.darkGray" }}> */}
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}> your youwho id :
+                                <span
+                                    style={{ fontSize: '13px', color: '#BEA2C5', cursor: 'pointer' }}
+                                    onClick={() => copyidToClipBoard(youwhoID)}> {youwhoID}
+                                </span>
+                                <TickSquare style={{ display: idCopied ? 'block' : 'none', color: 'green' }} />
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}> your private key :
+                                <span style={{ fontSize: '13px', color: '#BEA2C5', cursor: 'pointer' }}
+                                    onClick={() => copyToClipBoard(privateKeey)}>
+                                    {privateKeey}
+                                </span>
+                                <TickSquare style={{ display: keyCopied ? 'block' : 'none', color: 'green' }} />
+                            </div>
 
-            }}>
-                {globalUser.isLoggedIn ?
-                    <>{youwhoID ?
-                        <>{privateKeey ?
-                            <AuthBox>
-                                {/* <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', color: "primary.darkGray" }}> */}
-                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}> your youwho id :
-                                    <span
-                                        style={{ fontSize: '13px', color: '#BEA2C5', cursor: 'pointer' }}
-                                        onClick={() => copyidToClipBoard(youwhoID)}> {youwhoID}
-                                    </span>
-                                    <TickSquare style={{ display: idCopied ? 'block' : 'none', color: 'green' }} />
-                                </div>
-                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}> your private key :
-                                    <span style={{ fontSize: '13px', color: '#BEA2C5', cursor: 'pointer' }}
-                                        onClick={() => copyToClipBoard(privateKeey)}>
-                                        {privateKeey}
-                                    </span>
-                                    <TickSquare style={{ display: keyCopied ? 'block' : 'none', color: 'green' }} />
-                                </div>
+                            <div>
+                                please save this information
+                            </div>
+                            <Link to={'/dashboard'} style={{ color: '#392F5A', textAlign: 'center', marginTop: '30px' }}>
+                                go back to your profile
+                            </Link>
 
-                                <div>
-                                    please save this information
-                                </div>
-                                <Link to={'/dashboard'} style={{ color: '#392F5A', textAlign: 'center', marginTop: '30px' }}>
-                                    go back to your profile
-                                </Link>
-
-                                {/* </Box> */}
-                            </AuthBox>
-                            :
-                            <AuthBox>
-                                <div> your youwho id :<span style={{ color: '#BEA2C5', cursor: 'pointer' }} onClick={() => { navigator.clipboard.writeText(youwhoID) }}> {youwhoID}</span></div>
-                                <Link to={'/dashboard'} style={{ color: '#392F5A', textAlign: 'center', marginTop: '30px' }}>
-                                    go back to your profile
-                                </Link>
-
-                            </AuthBox>
-                        }
-                        </>
-                        :
-                        <AuthBox >
-                            <Box sx={{
-                                px: { xs: '20px', sm: 0 }, height: '100%', display: "flex",
-                                flexDirection: "column", justifyContent: 'space-between',
-                            }}>
-                                <AuthScrollBox>
-                                    <Inputtt>
-                                        <AccountCircle sx={{ color: 'primary.light', }} />
-                                        <Inputt placeholder="Enter Your username" onChange={(e) => setUsernme(e.target.value.toString())} />
-                                    </Inputtt>
-                                    <Inputtt>
-                                        <Email sx={{ color: 'primary.light', }} />
-                                        <Inputt placeholder="Enter Your Email" onChange={(e) => setGmail(e.target.value.toString())} />
-                                    </Inputtt>
-                                    <Inputtt>
-                                        <Phone sx={{ color: 'primary.light', }} />
-                                        <Inputt placeholder="Enter Your phone number" onChange={(e) => setPhoneNumber(e.target.value.toString())} />
-                                    </Inputtt>
-                                    <Box sx={{ mt: 10, justifySelf: 'flex-end' }}>
-                                        <ButtonPurple w={'100%'} text={'done'} onClick={submit} />
-                                    </Box>
-                                </AuthScrollBox>
-                                {err ? <p style={{ color: 'red', fontSize: '12px', margin: 0, marginTop: '10px', }}>{err}</p> : undefined}
-                                {success ? <p style={{ color: 'green', fontSize: '12px', margin: 0, marginTop: '10px', }}>{success}</p> : undefined}
-                            </Box>
+                            {/* </Box> */}
                         </AuthBox>
-                    }</>
+                        :
+                        <AuthBox>
+                            <div> your youwho id :<span style={{ color: '#BEA2C5', cursor: 'pointer' }} onClick={() => { navigator.clipboard.writeText(youwhoID) }}> {youwhoID}</span></div>
+                            <Link to={'/#'} style={{ color: '#392F5A', textAlign: 'center', marginTop: '30px' }}>
+                                Deposit
+                            </Link>
+                            <Link to={'/#'} style={{ color: '#392F5A', textAlign: 'center', marginTop: '30px' }}>
+                                Withdraw
+                            </Link>
+                        </AuthBox>
+                    }
+                    </>
                     :
-                    <AuthBox><div style={{ color: "gray" }}>you are not logged in</div></AuthBox>}
-                <Bar />
+                    <AuthBox >
+                        <Box sx={{
+                            px: { xs: '20px', sm: 0 }, height: '100%', display: "flex",
+                            flexDirection: "column", justifyContent: 'space-between',
+                        }}>
+                            <AuthScrollBox>
+                                <Inputtt>
+                                    <AccountCircle sx={{ color: 'primary.light', }} />
+                                    <Inputt placeholder="Enter Your username" onChange={(e) => setUsernme(e.target.value.toString())} />
+                                </Inputtt>
+                                <Inputtt>
+                                    <Email sx={{ color: 'primary.light', }} />
+                                    <Inputt placeholder="Enter Your Email" onChange={(e) => setGmail(e.target.value.toString())} />
+                                </Inputtt>
+                                <Inputtt>
+                                    <Phone sx={{ color: 'primary.light', }} />
+                                    <Inputt placeholder="Enter Your phone number" onChange={(e) => setPhoneNumber(e.target.value.toString())} />
+                                </Inputtt>
+                                <Box sx={{ mt: 10, justifySelf: 'flex-end' }}>
+                                    <ButtonPurple w={'100%'} text={'done'} onClick={submit} />
+                                </Box>
+                            </AuthScrollBox>
+                            {err ? <p style={{ color: 'red', fontSize: '12px', margin: 0, marginTop: '10px', }}>{err}</p> : undefined}
+                            {success ? <p style={{ color: 'green', fontSize: '12px', margin: 0, marginTop: '10px', }}>{success}</p> : undefined}
+                        </Box>
+                    </AuthBox>
+                }</>
+                :
+                <AuthBox><div style={{ color: "gray" }}>you are not logged in</div></AuthBox>}
+            <Bar />
 
-            </Box>
-        </PanelLayout>
-
+        </Box>
     );
 }
 

@@ -252,7 +252,8 @@ const VerifyMail = () => {
                                                 isExpired ?
                                                     <div >
                                                         <div>time is over</div>
-                                                        <button type={"button"} id={"resend"} onClick={resendOtp}>try again</button>
+                                                        {/* <button type={"button"} id={"resend"} onClick={resendOtp}>try again</button> */}
+                                                        <ButtonPurple type={"button"} id={"resend"} onClick={resendOtp} w={'100%'} text={'try again'} />
                                                     </div>
                                                     :
                                                     <Timer expiryTimestamp={expiryTime} onExpire={handleExpire} />

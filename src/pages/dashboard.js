@@ -78,7 +78,7 @@ const Dashboard = ({ switchTheme }) => {
     return (
         <PanelLayout switchTheme={switchTheme}>
             <Box sx={{
-                width: { xs: '100%', sm: 'calc(100% - 80px)' },display:'flex'
+                width: { xs: '100%', sm: 'calc(100% - 80px)' }, display: 'flex'
             }}>
                 <Box sx={{
                     px: 1, display: 'flex',
@@ -87,7 +87,7 @@ const Dashboard = ({ switchTheme }) => {
                 }}>
                     {globalUser.isLoggedIn ?
                         <>
-                            <ProfileCard username={globalUser.username} youwhoID={globalUser.youwhoID} />
+                            <ProfileCard username={globalUser.username} youwhoID={shorten(globalUser.youwhoID)} />
                             <ShowPanel sx={{ flexDirection: { xs: 'column', sm: 'row' } }}>
                                 {/* <Selection width={'200px'} tabs={['zadtan', 'zadtann', 'zadtannn', 'zadtannnn']} handleSelect={handleSelect} selectValue={selectValue} /> */}
                                 <Progressive username={globalUser.username} tabs={['zadtan', 'zadtan', 'zadtan', 'zadtan']} />
