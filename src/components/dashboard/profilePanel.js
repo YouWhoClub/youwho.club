@@ -30,6 +30,7 @@ const Tab = styled(Box)(({ theme }) => ({
     display: 'flex', alignItems: 'center',
     '&:hover': {
         backgroundColor: theme.palette.primary.main,
+        color: 'white',
     }
 }))
 const ProfilePanel = () => {
