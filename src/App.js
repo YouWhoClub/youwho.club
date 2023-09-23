@@ -11,7 +11,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import Home from './pages/home';
 import { useEffect, useState } from 'react';
-import { LinearProgress, ThemeProvider, createTheme } from '@mui/material';
+import { Box, LinearProgress, ThemeProvider, createTheme } from '@mui/material';
 import NotFound from './pages/404';
 import Navbar from './components/Navbar';
 import { Provider } from 'react-redux';
@@ -29,6 +29,7 @@ import Bar from './components/Bar';
 import VerifyMail from './pages/verifyMail';
 import VerifyPhone from './pages/verifyPhone';
 import MainGallery from './pages/mainGallery';
+import styled from '@emotion/styled';
 // import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
 
 
@@ -103,7 +104,16 @@ function App() {
     },
   });
 
-
+  const Wrapper = styled(Box)(({ theme }) => ({
+    maxWidth: '1440px',
+    position:'relative',
+    margin:'0 auto',
+    "@media (max-width: 1440px)": {
+      width: '100%',
+  },
+  // justifyContent: 'center',
+    // alignItems: 'center'
+  }))
   const localTheme = localStorage.getItem('theme')
   return (
     <ThemeProvider
@@ -126,22 +136,23 @@ function App() {
             <ScrollToTop>
               <>
                 {/* <Navbar /> */}
-                <Routes>
-                  <Route exact path="/" element={<Home theme={theme} switchTheme={switchTheme} />} />
-                  <Route exact path="/auth" element={<Auth />} />
-                  <Route exact path="/display" element={<Display />} />
-                  <Route exact path="/dashboard" element={<Dashboard switchTheme={switchTheme}/>} />
-                  <Route exact path="/profile/:name" element={<Profile />} />
-                  <Route exact path="/transfer" element={<TransferPage />} />
-                  <Route exact path="/wallet" element={<CreateWallet switchTheme={switchTheme}/>} />
-                  <Route exact path="/public-gallery" element={<PublicGallery />} />
-                  <Route exact path="/gallery/user/:id" element={<PublicGallery />} />
-                  <Route exact path="/verify-mail" element={<VerifyMail />} />
-                  <Route exact path="/verify-phone" element={<VerifyPhone />} />
-                  <Route exact path="/gallery" element={<MainGallery switchTheme={switchTheme}/>} />
-                  <Route path='*' element={<NotFound />} />
-
-                </Routes>
+                <Wrapper>
+                  <Routes>
+                    <Route exact path="/" element={<Home theme={theme} switchTheme={switchTheme} />} />
+                    <Route exact path="/auth" element={<Auth />} />
+                    <Route exact path="/display" element={<Display />} />
+                    <Route exact path="/dashboard" element={<Dashboard switchTheme={switchTheme} />} />
+                    <Route exact path="/profile/:name" element={<Profile />} />
+                    <Route exact path="/transfer" element={<TransferPage />} />
+                    <Route exact path="/wallet" element={<CreateWallet switchTheme={switchTheme} />} />
+                    <Route exact path="/public-gallery" element={<PublicGallery />} />
+                    <Route exact path="/gallery/user/:id" element={<PublicGallery />} />
+                    <Route exact path="/verify-mail" element={<VerifyMail />} />
+                    <Route exact path="/verify-phone" element={<VerifyPhone />} />
+                    <Route exact path="/gallery" element={<MainGallery switchTheme={switchTheme} />} />
+                    <Route path='*' element={<NotFound />} />
+                  </Routes>
+                </Wrapper>
                 {/* <Bar /> */}
                 {/* <Footer /> */}
               </>

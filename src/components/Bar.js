@@ -60,7 +60,7 @@ const Bar = () => {
                 xs: '100%', sm: '75px'
             },
             // px: 4,
-            position: "fixed",
+            position: "absolute",
             left: { xs: 'unset', sm: 0 },
             bottom: { xs: 0, sm: '25%' },
             borderRadius: { xs: '30px 30px 0 0', sm: '0 30px 30px 0' },

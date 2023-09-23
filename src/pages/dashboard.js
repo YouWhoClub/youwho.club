@@ -14,6 +14,8 @@ import Navbar from "../components/Navbar";
 import ProfileCard from "../components/dashboard/ProfileCard";
 import PanelLayout from "../components/PanelLayout";
 import Progressive from "../components/dashboard/progressTab";
+import Selection from "../components/selection";
+import ProfilePanel from "../components/dashboard/profilePanel";
 const Avatarr = styled(Box)(({ theme }) => ({
     width: '100px',
     height: '100px',
@@ -38,14 +40,22 @@ const YID = styled('div')(({ theme }) => ({
     },
 }))
 const ShowPanel = styled(Box)(({ theme }) => ({
+    marginTop: '20px',
+    marginBottom: '20px',
     display: 'flex',
-    justifyContent: 'space-between', alignItems: 'center',
+    justifyContent: 'space-between',
+
 
 }))
 
 const Dashboard = ({ switchTheme }) => {
     const globalUser = useSelector(state => state.userReducer)
     const [idCopied, setIdCopied] = useState(false)
+    const [selectValue, setSelectValue] = useState(undefined)
+    const handleSelect = (e) => {
+        e.preventDefault()
+        setSelectValue(e.target.id)
+    }
     const shortenName = (str) => {
         if (str)
             return str.length > 1 ? str.substring(0, 1) : str;
@@ -70,7 +80,7 @@ const Dashboard = ({ switchTheme }) => {
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                width: { xs: '100%', sm: 'calc(100% - 90px)' },
+                width: { xs: '100%', sm: 'calc(100% - 80px)' },
             }}>
                 <Box sx={{
                     px: 1, display: 'flex',
@@ -79,8 +89,10 @@ const Dashboard = ({ switchTheme }) => {
                     {globalUser.isLoggedIn ?
                         <>
                             <ProfileCard username={globalUser.username} youwhoID={globalUser.youwhoID} />
-                            <ShowPanel>
-                                <Progressive />
+                            <ShowPanel sx={{ flexDirection: { xs: 'column', sm: 'row' } }}>
+                                {/* <Selection width={'200px'} tabs={['zadtan', 'zadtann', 'zadtannn', 'zadtannnn']} handleSelect={handleSelect} selectValue={selectValue} /> */}
+                                <Progressive tabs={['zadtan', 'zadtan', 'zadtan', 'zadtan']} />
+                                <ProfilePanel />
                             </ShowPanel>
                         </>
                         :
