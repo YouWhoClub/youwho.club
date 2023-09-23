@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { getuser } from "../../redux/actions";
 import { AUTH_API } from "../../utils/data/auth_api";
 import { useNavigate } from "react-router";
+import { Eye, EyeSlash } from "iconsax-react";
 
 
 
@@ -44,6 +45,9 @@ const Signup = () => {
     const [identifier, setIdentifier] = useState("")
     const [password, setPassword] = useState("")
     const [repeatPassword, setRepeatPassword] = useState('')
+    const [showPassword, setShowPassword] = useState(false)
+    const [showRepeatPassword, setShowRepeatPassword] = useState(false)
+
     const [loading, setLoading] = useState(false)
     const [err, setErr] = useState(false)
     const [success, setSuccess] = useState(false)
@@ -120,7 +124,7 @@ const Signup = () => {
                 width: '100%',
                 height: '100%',
                 display: 'flex', flexDirection: 'column',
-                justifyContent: 'space-between', alignItems: 'center', pt: 2
+                justifyContent: 'space-between', alignItems: 'center', pt: 3
             }}>
             {state == 'identifier' ?
                 <form
@@ -148,7 +152,12 @@ const Signup = () => {
                     }} onSubmit={idStateChanger}>
                         <Inputtt>
                             <Password sx={{ color: 'primary.light', fontSize: '30px' }} />
-                            <Inputt type="password" autocomplete="off" value={password} placeholder="enter your password" onChange={(e) => setPassword(e.target.value)} />
+                            {showPassword ?
+                                <Inputt autocomplete="off" value={password} placeholder="enter your password" onChange={(e) => setPassword(e.target.value)} />
+                                :
+                                <Inputt type="password" autocomplete="off" value={password} placeholder="enter your password" onChange={(e) => setPassword(e.target.value)} />
+                            }
+                            {showPassword ? <EyeSlash onClick={() => setShowPassword(false)} /> : <Eye onClick={() => setShowPassword(true)} />}
                         </Inputtt>
                         <ButtonPurple w={'100%'} text={'next'} />
                         <Box
@@ -187,7 +196,13 @@ const Signup = () => {
                     }}>
                         <Inputtt>
                             <Password sx={{ color: 'primary.light', fontSize: '30px' }} />
-                            <Inputt type="password" autocomplete="off" value={repeatPassword} placeholder="repeat your password" onChange={(e) => setRepeatPassword(e.target.value)} />
+                            {showRepeatPassword ?
+                                <Inputt autocomplete="off" value={repeatPassword} placeholder="repeat your password" onChange={(e) => setRepeatPassword(e.target.value)} />
+                                :
+                                <Inputt type="password" autocomplete="off" value={repeatPassword} placeholder="repeat your password" onChange={(e) => setRepeatPassword(e.target.value)} />
+                            }
+                            {showRepeatPassword ? <EyeSlash onClick={() => setShowRepeatPassword(false)} /> : <Eye onClick={() => setShowRepeatPassword(true)} />}
+
                         </Inputtt>
                         <ButtonPurple w={'100%'} text={loading ? '...' : 'submit'} onClick={submit} />
                         <Box

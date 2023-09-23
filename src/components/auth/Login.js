@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { getuser } from "../../redux/actions";
 import { green, red } from "@mui/material/colors";
 import { useNavigate } from "react-router";
+import { Eye, EyeSlash } from "iconsax-react";
 
 
 const Inputt = styled('input')(({ theme }) => ({
@@ -46,6 +47,8 @@ const Login = () => {
     const [loading, setLoading] = useState(false)
     const [err, setErr] = useState(false)
     const [success, setSuccess] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
+
     const apiCall = useRef(undefined)
     const fetchUser = (token) => dispatch(getuser(token));
 
@@ -103,7 +106,7 @@ const Login = () => {
                 width: '100%',
                 height: '100%',
                 display: 'flex', flexDirection: 'column',
-                justifyContent: 'space-between', alignItems: 'center', pt: 2
+                justifyContent: 'space-between', alignItems: 'center', pt: 3
             }}
         >
             {state == 'identifier' ?
@@ -132,10 +135,15 @@ const Login = () => {
                 }} onSubmit={idStateChanger}>
                     <Inputtt>
                         <Password sx={{ color: 'primary.light', fontSize: '30px' }} />
-                        <Inputt type="password" autocomplete="off" value={password} placeholder="enter your password" onChange={(e) => setPassword(e.target.value)} />
+                        {showPassword ?
+                            <Inputt autocomplete="off" value={password} placeholder="enter your password" onChange={(e) => setPassword(e.target.value)} />
+                            :
+                            <Inputt type="password" autocomplete="off" value={password} placeholder="enter your password" onChange={(e) => setPassword(e.target.value)} />
+                        }
+                        {showPassword ? <EyeSlash onClick={() => setShowPassword(false)} /> : <Eye onClick={() => setShowPassword(true)} />}
                     </Inputtt>
                     <ButtonPurple w={'100%'} text={loading ? '...' : 'next'} onClick={submit} />
-                    <p style={{ cursor:'pointer',color: 'rgba(120, 120, 120, 1)', fontSize: '12px', margin: 0 }}>
+                    <p style={{ cursor: 'pointer', color: 'rgba(120, 120, 120, 1)', fontSize: '12px', margin: 0 }}>
                         FORGOT PASSWORD ?
                     </p>
                     <Box
