@@ -57,7 +57,7 @@ function App() {
         main: '#392F5A',
         middle: '#846894',
         light: '#BEA2C5',
-        gray: '#C6BAC5',
+        gray: '#EBEBEB',
         white: 'white',
         bg: '#281240',
         text: 'white'
@@ -68,7 +68,7 @@ function App() {
         main: '#392F5A',
         middle: '#846894',
         light: '#BEA2C5',
-        gray: '#C6BAC5',
+        gray: '#EBEBEB',
         white: 'white',
         bg: '#3C1A60',
         text: '#F6F5F4'

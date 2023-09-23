@@ -5,6 +5,7 @@ import Bar from "./Bar";
 const PanelLayout = ({ switchTheme, children }) => {
     return (<Box sx={{
         height:'100vh',
+        // overflowX: 'hidden',
         overflowY: 'scroll',
         '&::-webkit-scrollbar': {
             // display: 'none',

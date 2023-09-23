@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
+import { Face } from "@mui/icons-material";
 import { Typography } from "@mui/joy";
 import { Accordion, AccordionDetails, AccordionSummary, MenuItem, Popper } from "@mui/material";
 import { Box, ClickAwayListener } from "@mui/material";
-import { ArrowDown2, ArrowUp2 } from "iconsax-react";
+import { ArrowDown2, ArrowUp2, Profile, Setting2 } from "iconsax-react";
 import { useState } from "react";
 const Bar = styled(Box)(({ theme }) => ({
     width: { xs: '100%', sm: '200px' },
@@ -28,7 +29,7 @@ height:30px;
   
 `;
 
-const Progressive = ({ selectValue, tabs, handleSelect }) => {
+const Progressive = ({ selectValue, tabs, handleSelect, username }) => {
     const [expanded, setExpanded] = useState(false)
     const [anchorEl, setAnchorEl] = useState(null);
     const [value, setValue] = useState(tabs[0])
@@ -49,87 +50,65 @@ const Progressive = ({ selectValue, tabs, handleSelect }) => {
         setAnchorEl(null);
         setExpanded(false)
     }
+    const shorten = (str) => {
+        if (str)
+            return str.length > 10 ? str.substring(0, 7) + '...' : str;
+        return 'undefined'
+    }
+
     return (
         <Box sx={{
-            width: { xs: '100%', sm: '200px' }, mb: 2, mr: { xs: 0, sm: '20px' },
+            width: { xs: '100%', sm: '200px' },
+            // mb: 2, 
+            // mr: { xs: 0, sm: '20px' },
+            borderRadius: '24px',
+            boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)',
         }}>
-            <Accordion sx={{
-                bgcolor: 'primary.bg',
-                color: 'primary.text',
-                // border: 'none',
-                '&:before': {
-                    bgcolor: 'transparent',
-                },
-                boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.07)',
-                borderRadius: '24px !important',
+            <Box sx={{
+                display: 'flex', flexDirection: 'column', alignItems: 'center', p: 1
             }}>
-                <AccordionSummary
-                    expandIcon={<ArrowDown2 />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                >
-                    <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Progressive</Typography>
-                </AccordionSummary>
-                <AccordionDetails
-                    sx={{ borderTop: '1px solid', borderColor: 'primary.gray' }}
-                >
-                    <p>zadtan</p>
-                    <p>zadtan</p>
-                    <p>zadtan</p>
-                    <p>zadtan</p>
-                    <p>zadtan</p>
-                </AccordionDetails>
-            </Accordion>
+                <Box sx={{ color: 'primary.text', display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center', my: 1 }}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <Face /> &nbsp;
+                        {shorten(username)}
+                    </div>
+                    <Setting2 size='16px' />
+                </Box>
+                <Accordion sx={{
+                    width: '100%',
+                    bgcolor: 'primary.bg',
+                    color: 'primary.text',
+                    border: '1px solid', borderColor: 'primary.gray',
+                    // border: 'none',
+                    '&:before': {
+                        bgcolor: 'transparent',
+                    },
+                    // boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.07)',
+                    boxShadow: 'none !important',
+                    borderRadius: '24px !important', fontSize: '14px'
+                }}>
+                    <AccordionSummary
+                        expandIcon={<ArrowDown2 size='16px' />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                        sx={{ minHeight: '30px !important', height: '30px' }}
+                    >
+                        <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Progressive</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails
+                        sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
+                    >
+                        <div>zadtan</div>
+                        <div>zadtan</div>
+                        <div>zadtan</div>
+                        <div>zadtan</div>
+                        <div>zadtan</div>
+                    </AccordionDetails>
+                </Accordion>
+            </Box>
+
         </Box>
     );
 }
 
 export default Progressive;
-{/* <ClickAwayListener onClickAway={handleClickAway}>
-
-    <Bar>
-    <Title
-        onClick={handleClick}
-        sx={{
-            color: 'primary.text', borderBottomRightRadius: expanded ? 0 : '24px',
-            boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)',
-            borderBottomLeftRadius: expanded ? 0 : '24px', fontWeight: expanded ? 500 : 400,
-            borderBottom: expanded ? '1px solid' : 'unset', borderColor: 'secondary.gray'
-        }}
-    >
-
-        <span style={{ color: "inherit", width: "max-content", paddingLeft: '16px' }}>{selectValue ? selectValue : tabs[0]}</span>
-        {expanded ? <ArrowUp2 size="18" style={{ paddingRight: '16px' }} /> : <ArrowDown2 size="18" style={{ paddingRight: '16px' }} />}
-        <Popper
-            disableScrollLock={true}
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-                'aria-labelledby': 'basic-button',
-            }}
-            placement='bottom-end'
-            sx={{
-                // width: '100%',
-                boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)',
-                zIndex: 1400,
-                borderBottomLeftRadius: "24px", borderBottomRightRadius: "24px",
-                //  borderBottom: "1px solid #d9d9d9", borderRight: "1px solid #d9d9d9", borderLeft: "1px solid #d9d9d9",
-                overflow: "hidden"
-            }}
-        >
-            {tabs.map((tab, index) => (
-                <MenuItem id={tab} sx={{
-                    color: 'secondary.text', bgcolor: 'primary.bg',
-                    '&:hover': {
-                        bgcolor: 'secondary.light',
-                    }
-                }}
-                    onClick={handleClose}>{tab}</MenuItem>
-            ))}
-        </Popper>
-    </Title>
-
-    </Bar>
-</ClickAwayListener> */}
