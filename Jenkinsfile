@@ -1,9 +1,15 @@
 pipeline {
-  agent any
+  agent {
+    docker {
+      image 'node:lts-alpine'
+      args '-p 3000:3000'
+    }
+
+  }
   stages {
-    stage('youwho') {
+    stage('build') {
       steps {
-        sh 'sudo npm install && sudo npm run build'
+        sh 'npm install'
       }
     }
 
