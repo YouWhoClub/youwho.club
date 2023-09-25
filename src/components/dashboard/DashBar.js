@@ -76,6 +76,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
             width: { xs: '100%', sm: '200px' },
             // mb: 2, 
             // mr: { xs: 0, sm: '20px' },
+            height:'max-content',
             borderRadius: '24px',
             boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)',
         }}>
