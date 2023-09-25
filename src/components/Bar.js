@@ -13,10 +13,10 @@ const IconHolder = styled(Box)(({ theme }) => ({
     display: 'flex', justifyContent: 'center', alignItems: 'center',
     borderColor: theme.palette.secondary.text,
     border: '0.5px solid',
-    borderRadius: '50%',cursor:'pointer',
+    borderRadius: '50%', cursor: 'pointer',
     width: '40px', height: '40px',
     '&:hover': {
-        backgroundColor: theme.palette.primary.light,
+        backgroundColor: theme.palette.primary.light, color: 'whitesmoke'
     }
 
 
@@ -65,16 +65,16 @@ const Bar = () => {
             bottom: { xs: 0, sm: '25%' },
             borderRadius: { xs: '30px 30px 0 0', sm: '0 30px 30px 0' },
             zIndex: 999,
-            color:'primary.text'
+            color: 'primary.text'
         }}
         >
-            <IconHolder onClick={() => navigate('/dashboard')} sx={{ bgcolor: window.location.pathname == '/dashboard' ? 'primary.main' : 'transparent' }}>
+            <IconHolder onClick={() => navigate('/dashboard')} sx={{ bgcolor: window.location.pathname == '/dashboard' ? 'primary.main' : 'transparent', color: window.location.pathname == '/dashboard' ? 'white' : 'primary.text' }}>
                 <Profile cursor='pointer' />
             </IconHolder>
-            <IconHolder onClick={() => navigate('/gallery')} sx={{ bgcolor: window.location.pathname == '/gallery' ? 'primary.main' : 'transparent' }}>
+            <IconHolder onClick={() => navigate('/gallery')} sx={{ bgcolor: window.location.pathname == '/gallery' ? 'primary.main' : 'transparent', color: window.location.pathname == '/gallery' ? 'white' : 'primary.text' }}>
                 <CenterFocusStrong cursor='pointer' />
             </IconHolder>
-            <IconHolder onClick={() => navigate('/wallet')} sx={{ bgcolor: window.location.pathname == '/wallet' ? 'primary.main' : 'transparent' }}>
+            <IconHolder onClick={() => navigate('/wallet')} sx={{ bgcolor: window.location.pathname == '/wallet' ? 'primary.main' : 'transparent', color: window.location.pathname == '/wallet' ? 'white' : 'primary.text' }}>
                 <Wallet cursor='pointer' />
             </IconHolder>
         </Box >

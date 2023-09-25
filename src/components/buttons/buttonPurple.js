@@ -7,7 +7,7 @@ const Button = styled('button')(({ theme }) => ({
     height: '35px',
     borderRadius: '30px',
     outline: 'none',
-    color: theme.palette.primary.gray,
+    color: 'white',
     cursor: 'pointer',
     border: 'none',
     fontWeight: 'bold',

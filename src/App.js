@@ -55,7 +55,7 @@ function App() {
       primary: {
         dark: 'black',
         ultra: '#32283E',
-        main: '#392F5A',
+        main: '#790DAB',
         middle: '#846894',
         light: '#BEA2C5',
         gray: '#EBEBEB',
@@ -83,7 +83,7 @@ function App() {
       primary: {
         dark: 'black',
         ultra: '#32283E',
-        main: '#B0228C',
+        main: '#5F0A87',
         middle: '#846894',
         light: '#BEA2C5',
         gray: '#948C96',

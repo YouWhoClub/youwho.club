@@ -1,5 +1,9 @@
 import styled from "@emotion/styled";
 import { Box } from "@mui/material";
+import { useState } from "react";
+import MintNFTs from "./mintNFTs";
+import PrivateGallery from "./privateGallery";
+import PublicGallery from "./publicGallery";
 const Panel = styled(Box)(({ theme }) => ({
     color: 'primary.text',
     // marginLeft: { xs: '0', sm: '20px' },
@@ -23,7 +27,7 @@ const Tabs = styled(Box)(({ theme }) => ({
 const Tab = styled(Box)(({ theme }) => ({
     boxShadow: 'inset 0px 0px 9px -2px rgba(227,209,231,0.9)', cursor: 'pointer',
     borderRadius: '40px', color: theme.palette.secondary.text, fontSize: '12px',
-    margin: 1,
+    margin: '0 3px',
     padding: '0 10px',
     width: 'max-content',
     height: '30px', textAlign: 'center',
@@ -34,17 +38,25 @@ const Tab = styled(Box)(({ theme }) => ({
     }
 }))
 const ProfilePanel = () => {
+    const [activeTab, setActiveTab] = useState('mint-tab')
     return (
         <Panel sx={{ p: { xs: 'unset', sm: 1 } }}>
             <Tabs
                 sx={{ py: 1 }}
             >
-                <Tab>Mint NFT</Tab>
-                <Tab>Private Gallery</Tab>
-                <Tab>Public Gallery</Tab>
-                <Tab>Relations</Tab>
-                <Tab>Reactions</Tab>
+                <Tab id="mint-tab" onClick={(e) => setActiveTab(e.target.id)}>Mint NFT</Tab>
+                <Tab id="private-gallery-tab" onClick={(e) => setActiveTab(e.target.id)}>Private Gallery</Tab>
+                <Tab id="public-gallery-tab" onClick={(e) => setActiveTab(e.target.id)}>Public Gallery</Tab>
+                <Tab id="relations-tab" onClick={(e) => setActiveTab(e.target.id)}>Relations</Tab>
+                <Tab id="reactions-tab" onClick={(e) => setActiveTab(e.target.id)}>Reactions</Tab>
             </Tabs>
+            <Box sx={{ width: '100%' }}>
+                {activeTab == 'mint-tab' ? <MintNFTs /> :
+                    activeTab == 'private-gallery-tab' ? <PrivateGallery />
+                        : activeTab == 'public-gallery-tab' ? <PublicGallery /> :
+                            <div>{activeTab}</div>
+                }
+            </Box>
         </Panel>
     );
 }

@@ -13,7 +13,7 @@ import Bar from "../components/Bar";
 import Navbar from "../components/Navbar";
 import ProfileCard from "../components/dashboard/ProfileCard";
 import PanelLayout from "../components/PanelLayout";
-import Progressive from "../components/dashboard/progressTab";
+import DashBar from "../components/dashboard/DashBar.js";
 import Selection from "../components/selection";
 import ProfilePanel from "../components/dashboard/profilePanel";
 const Avatarr = styled(Box)(({ theme }) => ({
@@ -90,7 +90,7 @@ const Dashboard = ({ switchTheme }) => {
                             <ProfileCard username={globalUser.username} youwhoID={shorten(globalUser.youwhoID)} />
                             <ShowPanel sx={{ flexDirection: { xs: 'column', sm: 'row' } }}>
                                 {/* <Selection width={'200px'} tabs={['zadtan', 'zadtann', 'zadtannn', 'zadtannnn']} handleSelect={handleSelect} selectValue={selectValue} /> */}
-                                <Progressive username={globalUser.username} tabs={['zadtan', 'zadtan', 'zadtan', 'zadtan']} />
+                                <DashBar username={globalUser.username} tabs={['zadtan', 'zadtan', 'zadtan', 'zadtan']} />
                                 <ProfilePanel />
                             </ShowPanel>
                         </>
