@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import Navigation from "../components/HomePage/navigation";
 import NFTSlides from "../components/HomePage/nftSlides";
 import Middle from "../components/HomePage/middle";
+import Compliment from "../components/HomePage/compliment";
 
 const Home = ({ switchTheme, theme }) => {
     return (
@@ -13,6 +14,7 @@ const Home = ({ switchTheme, theme }) => {
             <Intro theme={theme} />
             <Navigation />
             <Middle/>
+            <Compliment />
             <NFTSlides/>
             <Footer />
         </>

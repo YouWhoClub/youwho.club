@@ -10,6 +10,7 @@ const Navigation = () => {
     return (<Box sx={{
         // height: '100vh',
         bgcolor: 'primary.bg',
+        py:10,
         display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap:'wrap',backgroundSize:'contain',
         backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundImage: BG_URL(PUBLIC_URL(`${bgDots}`)),
     }}>
