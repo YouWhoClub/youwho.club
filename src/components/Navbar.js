@@ -25,6 +25,22 @@ const YouWhoIconPurple = styled('div')(({ theme }) => ({
     width: '50px',
     height: '50px'
 }))
+const ThemeSwitchButton = styled('div')(({ theme }) => ({
+    backgroundColor: theme.palette.primary.themeSwitch,
+    borderRadius: '50%', border: '1px solid', borderColor: theme.palette.secondary.themeSwitch,
+    cursor: 'pointer',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    width: '30px', height: '30px'
+}))
+const ThemeSwitchButtonInside = styled('div')(({ theme }) => ({
+    backgroundColor: theme.palette.secondary.themeSwitch,
+    borderRadius: '50%', border: '1px solid', borderColor: 'white',
+    cursor: 'pointer',
+    width: '15px', height: '15px'
+}))
 
 function HomeIcon(props) {
     return (
@@ -65,7 +81,10 @@ const Navbar = ({ switchTheme }) => {
         }}
         >
             {/* {window.location.pathname == '/' ? */}
-            <YouWhoIconPurple onClick={switchTheme} />
+            <Box sx={{ display: 'flex', alignItems: 'center', }}>
+                <YouWhoIconPurple onClick={() => navigate('/')} />
+                <ThemeSwitchButton onClick={switchTheme} ><ThemeSwitchButtonInside /></ThemeSwitchButton>
+            </Box>
             {/* : <YouWhoIcon onClick={() => navigate('/')} />} */}
 
             {globalUser.isLoggedIn ?

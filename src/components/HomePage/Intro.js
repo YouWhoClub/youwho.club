@@ -5,6 +5,7 @@ const Intro = ({ theme }) => {
         <Box sx={{
             height: 'calc(100vh - 55px)',
             bgcolor: 'primary.bg',
+            // background: 'primary.bgGradient',
             // pb: '50px',
             // pt: '100px',
             display: 'flex',

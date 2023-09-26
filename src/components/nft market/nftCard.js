@@ -4,7 +4,7 @@ import { BG_URL, PUBLIC_URL } from "../../utils/utils";
 import { Heart, More } from "iconsax-react";
 
 const Outter = styled(Box)(({ theme }) => ({
-    width: '315px', height: '315px', display: 'flex', justifyContent: 'center', alignItems: 'center'
+    width: '305px', height: '305px', display: 'flex', justifyContent: 'center', alignItems: 'center'
 }))
 const Card = styled(Box)(({ theme }) => ({
     // width: '300px', height: '300px',
