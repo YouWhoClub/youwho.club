@@ -1,10 +1,21 @@
 import { Box } from "@mui/material";
 import Navbar from "./Navbar";
 import Bar from "./Bar";
+import { useSelector } from "react-redux";
+import ButtonPurple from "./buttons/buttonPurple";
+import bgDots from '../assets/bgDots.svg'
+import { useNavigate } from "react-router";
+import styled from "@emotion/styled";
+import { BG_URL, PUBLIC_URL } from "../utils/utils";
+const Title = styled('h4')(({ theme }) => ({
+    color: theme.palette.primary.text,
+}))
 
 const PanelLayout = ({ switchTheme, children }) => {
+    const globalUser = useSelector(state => state.userReducer)
+    const navigate = useNavigate()
     return (<Box sx={{
-        height:'100vh',
+        height: '100vh',
         // overflowX: 'hidden',
         overflowY: 'scroll',
         '&::-webkit-scrollbar': {
@@ -39,10 +50,21 @@ const PanelLayout = ({ switchTheme, children }) => {
         // flexDirection: 'column',
     }}>
         <Navbar switchTheme={switchTheme} />
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: { xs: 'start', sm: 'end' }, flexDirection: { xs: 'column', sm: 'row' } }}>
-            <Bar />
-            {children}
-        </Box>
+        {!globalUser.isLoggedIn ?
+            <Box sx={{
+                display: 'flex', marginTop: '20%',height:'50%',
+                alignItems: 'center', justifyContent: 'center', flexDirection: 'column',
+                backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundImage: BG_URL(PUBLIC_URL(`${bgDots}`)),
+            }}>
+                <Title>You Have to Login First</Title>
+                <ButtonPurple text={'login'} onClick={() => navigate('/auth')} />
+            </Box>
+            :
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: { xs: 'start', sm: 'end' }, flexDirection: { xs: 'column', sm: 'row' } }}>
+                <Bar />
+                {children}
+            </Box>
+        }
     </Box>);
 }
 

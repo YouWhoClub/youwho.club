@@ -76,7 +76,7 @@ function App() {
         white: 'white',
         bg: '#3C1A60',
         bgOp: 'rgba(60,26,96,0.3)',
-        bgGradient:'linear-gradient(180deg, rgba(60,26,96,0.9584889131433824) 0%, rgba(40,18,64,0.9780967562806373) 50%, rgba(60,26,96,0.9556877926952031) 100%)',
+        bgGradient:'linear-gradient(180deg, rgba(40,18,64,1) 0%, rgba(93,45,134,1) 50%, rgba(40,18,64,1) 100%)',
         text: '#F6F5F4',
         themeSwitch:'#1E0D30'
 
@@ -95,7 +95,7 @@ function App() {
         gray: '#948C96',
         white: 'white',
         bg: '#F8F4E3',
-        bgOp: 'rgba(248,244,227,0.3)',
+        bgOp: 'rgba(248,244,227,0.5)',
         bgGradient:'linear-gradient(180deg, rgba(83,38,132,1) 0%, rgba(248,244,227,0.9461835759694502) 100%)',
         text: 'black',
         themeSwitch:'#FFC233'
@@ -109,8 +109,8 @@ function App() {
         gray: '#C5BEC2',
         white: '#F5EFED',
         bg: 'white',
-        bgOp: 'rgba(255,255,255,0.3)',
-        bgGradient:'linear-gradient(180deg, rgba(159,133,176,1) 0%, rgba(97,55,140,0.8957634079022234) 50%, rgba(159,133,176,1) 100%)',
+        bgOp: 'rgba(255,255,255,0.5)',
+        bgGradient:'linear-gradient(180deg, rgba(248,244,227,0.9388810700061274) 0%, rgba(83,38,132,0.7) 50%, rgba(248,244,227,0.9472844313506653) 100%)',
         text: '#707070',
         themeSwitch:'#FFC43D'
 

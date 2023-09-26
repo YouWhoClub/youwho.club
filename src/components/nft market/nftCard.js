@@ -14,8 +14,10 @@ const Card = styled(Box)(({ theme }) => ({
     padding: '20px',
     flexDirection: 'column',
     alignItems: 'center',
-    border: '1px solid',
-    borderColor: theme.palette.primary.light,
+    // border: '1px solid',
+    // borderColor: theme.palette.primary.light,
+    backgroundColor:theme.palette.secondary.bg,
+    boxShadow: '0px 0px 9px -2px rgba(200,209,231,0.61)',
     transition: '400ms ease',
     cursor: 'pointer',
     '&:hover': {
@@ -24,13 +26,14 @@ const Card = styled(Box)(({ theme }) => ({
     }
 }))
 const NFTImage = styled(Box)(({ theme }) => ({
+    backgroundColor:theme.palette.primary.bgOp,
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     width: '250px', height: '150px',
     borderRadius: '15px',
-    border: '1px solid',
-    borderColor: theme.palette.primary.light,
+    // border: '1px solid',
+    // borderColor: theme.palette.primary.light,
     '&:hover': {
         // width: '255px', height: '255px',
         width: '255px', height: '155px',
@@ -47,7 +50,7 @@ const DetailsSection = styled(Box)(({ theme }) => ({
     width: '250px', height: '100px',
     display: 'flex', flexDirection: 'column',
     justifyContent: 'space-between',
-    color: theme.palette.primary.light,
+    color: theme.palette.primary.light,marginTop:1
 }))
 
 const NFTCard = ({ image }) => {
@@ -58,7 +61,7 @@ const NFTCard = ({ image }) => {
                 <NFTImage style={{ backgroundImage: BG_URL(PUBLIC_URL(`${image}`)) }} />
                 <DetailsSection>
                     <FlexRow>
-                        <div style={{ display: 'flex', alignItems: 'center' }}><Heart />9</div>
+                        <div style={{ display: 'flex', alignItems: 'center' }}><Heart />&nbsp;9</div>
                         <div><More /></div>
                     </FlexRow>
                     <div>NFT name</div>

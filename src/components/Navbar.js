@@ -26,8 +26,9 @@ const YouWhoIconPurple = styled('div')(({ theme }) => ({
     height: '50px'
 }))
 const ThemeSwitchButton = styled('div')(({ theme }) => ({
-    backgroundColor: theme.palette.primary.themeSwitch,
-    borderRadius: '50%', border: '1px solid', borderColor: theme.palette.secondary.themeSwitch,
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: '50%', 
+    border: '1px solid', borderColor: theme.palette.secondary.themeSwitch,
     cursor: 'pointer',
     display: 'flex',
     justifyContent: 'center',
@@ -37,7 +38,8 @@ const ThemeSwitchButton = styled('div')(({ theme }) => ({
 }))
 const ThemeSwitchButtonInside = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.secondary.themeSwitch,
-    borderRadius: '50%', border: '1px solid', borderColor: 'white',
+    borderRadius: '50%',
+    //  border: '1px solid', borderColor: 'white',
     cursor: 'pointer',
     width: '15px', height: '15px'
 }))
