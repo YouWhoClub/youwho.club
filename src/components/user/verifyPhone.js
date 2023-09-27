@@ -77,6 +77,9 @@ const VerifyPhone = () => {
     }, [globalUser._number])
 
 
+    useEffect(() => {
+        fetchUser(globalUser.token)
+    }, [globalUser.token])
 
 
     const otpReqHandle = async event => {
@@ -211,6 +214,7 @@ const VerifyPhone = () => {
         setisDisabled(true)
     }
 
+
     return (
         <AuthBox>
             <Box sx={{
@@ -249,7 +253,8 @@ const VerifyPhone = () => {
                                             isExpired ?
                                                 <div >
                                                     <div>time is over</div>
-                                                    <button type={"button"} id={"resend"} onClick={resendOtp}>try again</button>
+                                                    {/* <button type={"button"} id={"resend"} onClick={resendOtp}>try again</button> */}
+                                                    <ButtonPurple id={"resend"} w={'100%'} onClick={resendOtp} text={'try again'} />
                                                 </div>
                                                 :
                                                 <Timer expiryTimestamp={expiryTime} onExpire={handleExpire} />
@@ -292,7 +297,7 @@ const VerifyPhone = () => {
                                                 disabled={isPhoneDisabled}
                                             />
                                         </Inputtt>
-                                        <ButtonPurple w={'100%'} text={'send code'} />
+                                        <ButtonPurple onClick={otpReqHandle} w={'100%'} text={'send code'} />
 
                                         <p >{err ? err : ''}</p>
                                     </form>

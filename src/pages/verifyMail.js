@@ -6,7 +6,7 @@ import OtpInput from 'react-otp-input';
 import { API_CONFIG } from "../config";
 import { useNavigate } from "react-router";
 import { getuser } from "../redux/actions";
-import AuthLayout from "../components/auth/authLayout";
+import AuthLayout from "../components/user/authLayout";
 import styled from "@emotion/styled";
 import { Box } from "@mui/material";
 import Timer from "../components/Timer";

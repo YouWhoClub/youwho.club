@@ -1,4 +1,4 @@
-import { LogoDevRounded, LogoutOutlined, MenuBook } from "@mui/icons-material";
+import { LogoDevRounded, LogoutOutlined, Mail, MailOutline, MenuBook } from "@mui/icons-material";
 import { Box } from "@mui/material";
 import SvgIcon from '@mui/material/SvgIcon';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
@@ -8,7 +8,9 @@ import ButtonPurple from "./buttons/buttonPurple";
 import { useDispatch, useSelector } from "react-redux";
 import { logOutUser } from "../redux/actions";
 import styled from "@emotion/styled";
-import { HambergerMenu, LogoutCurve, Profile } from "iconsax-react";
+import { HambergerMenu, LogoutCurve, Notification, Profile, Wallet } from "iconsax-react";
+import yCoin from '../assets/Ycoin.svg'
+import { BG_URL, PUBLIC_URL } from "../utils/utils";
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
     backgroundImage: "url('/w-outline.svg')",
@@ -27,7 +29,7 @@ const YouWhoIconPurple = styled('div')(({ theme }) => ({
 }))
 const ThemeSwitchButton = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.primary.main,
-    borderRadius: '50%', 
+    borderRadius: '50%',
     border: '1px solid', borderColor: theme.palette.secondary.themeSwitch,
     cursor: 'pointer',
     display: 'flex',
@@ -90,14 +92,25 @@ const Navbar = ({ switchTheme }) => {
             {/* : <YouWhoIcon onClick={() => navigate('/')} />} */}
 
             {globalUser.isLoggedIn ?
-                <Box sx={{ display: 'flex', alignItems: 'center', color: 'primary.text' }}>
-                    {window.location.pathname !== '/dashboard' ?
-                        <div onClick={() => navigate('/dashboard')}>
-                            <Profile cursor='pointer' />
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: { xs: 'auto', sm: '30%' }, color: 'primary.text' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', }}>
+                        <span style={{fontSize:'14px'}}>100</span><Box sx={{
+                            backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center'
+                            , width: '16px', height: '16px'
+                        }} /> <Wallet size='16px' />
+                    </div>&nbsp;&nbsp;&nbsp;
+                    <div style={{ display: 'flex', alignItems: 'center', }}>
+                        <Notification size="16px" cursor='pointer'/>
+                    </div>&nbsp;&nbsp;&nbsp;
+                    <div style={{ display: 'flex', alignItems: 'center', }}>
+                        {window.location.pathname !== '/dashboard' ?
+                            <div style={{ display: 'flex', alignItems: 'center', }} onClick={() => navigate('/dashboard')}>
+                                <Profile cursor='pointer' size='16px' />
+                            </div>
+                            : undefined}
+                        <div onClick={disconnect}>
+                            <LogoutCurve style={{ display: 'flex', alignItems: 'center', }} cursor='pointer' size='16px' />
                         </div>
-                        : undefined}
-                    <div onClick={disconnect}>
-                        <LogoutCurve cursor='pointer' />
                     </div>
                 </Box>
                 :

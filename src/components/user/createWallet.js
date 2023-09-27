@@ -103,7 +103,7 @@ const Inputtt = styled('div')(({ theme }) => ({
     }
 }))
 
-const CreateWallet = ({ switchTheme }) => {
+const CreateWallet = ({ switchTheme , setPvKey}) => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const [state, setState] = useState('identifier')
@@ -204,6 +204,7 @@ const CreateWallet = ({ switchTheme }) => {
             setPrivateKeyy(undefined)
             setYouwhoID(response.data.data.screen_cid)
             setPrivateKeey(response.data.data.signer)
+            setPvKey(response.data.data.signer)
             setSuccess(response.statusText)
             setErr(undefined)
             setLoading(false)
@@ -233,7 +234,7 @@ const CreateWallet = ({ switchTheme }) => {
             bgcolor: 'primary.bg',
             // color: 'white',
             display: "flex", alignItems: 'center', justifyContent: 'center', flexDirection: 'column',
-            width: { xs: '100%', sm: 'calc(100% - 80px)' },
+            width: { xs: '100%', sm: 'calc(100% - 80px)' }, height: { xs: 'calc(100vh - 90px)', sm: '100%' },
 
         }}>
             {globalUser.isLoggedIn ?
@@ -268,12 +269,6 @@ const CreateWallet = ({ switchTheme }) => {
                         :
                         <AuthBox>
                             <div> your youwho id :<span style={{ color: '#BEA2C5', cursor: 'pointer' }} onClick={() => { navigator.clipboard.writeText(youwhoID) }}> {youwhoID}</span></div>
-                            <Link to={'/#'} style={{ color: '#392F5A', textAlign: 'center', marginTop: '30px' }}>
-                                Deposit
-                            </Link>
-                            <Link to={'/#'} style={{ color: '#392F5A', textAlign: 'center', marginTop: '30px' }}>
-                                Withdraw
-                            </Link>
                         </AuthBox>
                     }
                     </>

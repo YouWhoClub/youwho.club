@@ -21,13 +21,13 @@ import Footer from './components/Footer';
 import Auth from './pages/auth';
 import Display from './pages/display';
 import Profile from './pages/profile';
-import CreateWallet from './components/auth/createWallet';
+import CreateWallet from './components/user/createWallet';
 import TransferPage from './pages/transfer';
 import PublicGallery from './pages/publicGallery';
 import Dashboard from './pages/dashboard';
 import Bar from './components/Bar';
 import VerifyMail from './pages/verifyMail';
-import VerifyPhone from './components/auth/verifyPhone';
+import VerifyPhone from './components/user/verifyPhone';
 import MainGallery from './pages/mainGallery';
 import styled from '@emotion/styled';
 import WalletPage from './pages/walletPage';
@@ -58,7 +58,7 @@ function App() {
         main: '#790DAB',
         middle: '#846894',
         light: '#BEA2C5',
-        gray: '#EBEBEB',
+        gray: '#C7BDC6',
         white: 'white',
         bg: '#281240',
         bgOp: 'rgba(40,18,64,0.3)',
@@ -72,7 +72,7 @@ function App() {
         main: '#392F5A',
         middle: '#846894',
         light: '#BEA2C5',
-        gray: '#EBEBEB',
+        gray: '#C7BDC6',
         white: 'white',
         bg: '#3C1A60',
         bgOp: 'rgba(60,26,96,0.3)',
@@ -92,7 +92,7 @@ function App() {
         main: '#5F0A87',
         middle: '#846894',
         light: '#BEA2C5',
-        gray: '#948C96',
+        gray: '#C7BDC6',
         white: 'white',
         bg: '#F8F4E3',
         bgOp: 'rgba(248,244,227,0.5)',
@@ -106,7 +106,7 @@ function App() {
         main: '#B8145E',
         middle: '#8D80AD',
         light: '#BCB4CF',
-        gray: '#C5BEC2',
+        gray: '#C7BDC6',
         white: '#F5EFED',
         bg: 'white',
         bgOp: 'rgba(255,255,255,0.5)',

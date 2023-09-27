@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
 import { Box } from "@mui/material";
 import { useState } from "react";
-import Login from "../components/auth/Login";
-import SignUp from "../components/auth/Signup";
-import AuthLayout from "../components/auth/authLayout";
+import Login from "../components/user/Login";
+import SignUp from "../components/user/Signup";
+import AuthLayout from "../components/user/authLayout";
 
 const AuthBox = styled(Box)(({ theme }) => ({
     backgroundColor: 'white',

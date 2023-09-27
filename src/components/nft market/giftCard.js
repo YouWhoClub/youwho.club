@@ -75,7 +75,7 @@ const Inputt = styled('input')(({ theme }) => ({
     outline: 'none',
     color: theme.palette.primary.gray,
     borderColor: theme.palette.primary.gray,
-    backgroundColor:'transparent',
+    backgroundColor: 'transparent',
     cursor: 'pointer',
     border: 'none',
     // borderBottom: '1px solid',
@@ -88,7 +88,7 @@ const Inputtt = styled('div')(({ theme }) => ({
     display: 'flex',
     color: theme.palette.primary.gray,
     borderColor: theme.palette.primary.gray,
-    backgroundColor:'transparent',
+    backgroundColor: 'transparent',
     cursor: 'pointer',
     border: 'none',
     borderBottom: '1px solid',
@@ -106,6 +106,15 @@ const GiftCard = ({ image, price }) => {
     const [receipantID, setReceipantID] = useState(undefined)
     const apiCall = useRef(undefined)
 
+    useEffect(() => {
+        if (price) { getTokenValue() }
+        return () => {
+            if (apiCall.current) {
+                apiCall.current.cancel();
+            }
+        }
+
+    }, [])
     const getTokenValue = async () => {
         setErr(undefined)
         try {
@@ -123,11 +132,6 @@ const GiftCard = ({ image, price }) => {
             setErr(err.statusText)
         }
     }
-    useEffect(() => {
-        if (price) { getTokenValue() }
-
-    }, [price])
-
     return (
         <Outter>
             <Card>
