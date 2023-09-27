@@ -110,7 +110,7 @@ const GiftCard = ({ image, price }) => {
         setErr(undefined)
         try {
             apiCall.current = PUBLIC_API.request({
-                path: `/get-token-price/${price}`,
+                path: `/get-token-value/${price}`,
                 method: "get",
             });
             let response = await apiCall.current.promise;
