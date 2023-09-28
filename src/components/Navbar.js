@@ -94,20 +94,21 @@ const Navbar = ({ switchTheme }) => {
             {globalUser.isLoggedIn ?
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: { xs: 'auto', sm: '30%' }, color: 'primary.text' }}>
                     <div style={{ display: 'flex', alignItems: 'center', }}>
-                        <span style={{fontSize:'14px'}}>100</span><Box sx={{
+                        <span style={{ fontSize: '14px' }}>{globalUser.balance}</span><Box sx={{
                             backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center'
                             , width: '16px', height: '16px'
                         }} /> <Wallet size='16px' />
                     </div>&nbsp;&nbsp;&nbsp;
                     <div style={{ display: 'flex', alignItems: 'center', }}>
-                        <Notification size="16px" cursor='pointer'/>
+                        <Notification size="16px" cursor='pointer' />
                     </div>&nbsp;&nbsp;&nbsp;
                     <div style={{ display: 'flex', alignItems: 'center', }}>
-                        {window.location.pathname !== '/dashboard' ?
-                            <div style={{ display: 'flex', alignItems: 'center', }} onClick={() => navigate('/dashboard')}>
+                        {window.location.pathname == '/dashboard' || '/gallery' || '/wallet' ?
+                            undefined
+                            : <div style={{ display: 'flex', alignItems: 'center', }} onClick={() => navigate('/dashboard')}>
                                 <Profile cursor='pointer' size='16px' />
                             </div>
-                            : undefined}
+                        }
                         <div onClick={disconnect}>
                             <LogoutCurve style={{ display: 'flex', alignItems: 'center', }} cursor='pointer' size='16px' />
                         </div>

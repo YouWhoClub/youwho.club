@@ -123,10 +123,9 @@ const GiftCard = ({ image, price }) => {
                 method: "get",
             });
             let response = await apiCall.current.promise;
-            console.log('value', response)
             if (!response.isSuccess)
                 throw response
-            setDollarValue(response)
+            setDollarValue((response.data.data.usd / 1000000).toString())
         }
         catch (err) {
             setErr(err.statusText)
@@ -144,6 +143,10 @@ const GiftCard = ({ image, price }) => {
                         <div>
                             price:
                         </div>
+                        {dollarValue ?
+                            console.log('usddddsds', dollarValue) :
+                            console.log('nist')
+                        }
                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <Typography>{price} yt</Typography>
                             <Typography sx={{ fontSize: '10px' }}>{dollarValue ? dollarValue : "..."} $</Typography>

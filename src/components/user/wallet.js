@@ -4,6 +4,8 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from "
 import { ArrowDown2, TickSquare, Wallet2 } from "iconsax-react";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import { BG_URL, PUBLIC_URL } from "../../utils/utils";
+import yCoin from '../../assets/Ycoin.svg'
 
 const ShowPanel = styled(Box)(({ theme }) => ({
     marginTop: '20px',
@@ -22,12 +24,21 @@ const Panel = styled(Box)(({ theme }) => ({
 const Wallet = ({ privateKey }) => {
     const globalUser = useSelector(state => state.userReducer)
     const [keyCopied, setKeyCopied] = useState(false)
+    const [idCopied, setIdCopied] = useState(false)
     const copyToClipBoard = async (textToCopy) => {
         try {
             await navigator.clipboard.writeText(textToCopy);
             setKeyCopied('Copied!');
         } catch (err) {
             setKeyCopied('Failed to copy!');
+        }
+    };
+    const copyIdToClipBoard = async (textToCopy) => {
+        try {
+            await navigator.clipboard.writeText(textToCopy);
+            setIdCopied('Copied!');
+        } catch (err) {
+            setIdCopied('Failed to copy!');
         }
     };
 
@@ -51,12 +62,13 @@ const Wallet = ({ privateKey }) => {
                     <Wallet2 size={'50px'} />
                     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                         <p>
-                            Welcome {globalUser.username}
+                            Welcome <span style={{ fontWeight: 500 }}>{globalUser.username}</span>
                         </p>
                         {globalUser.youwhoID ?
-                            <p>
-                                YouWho ID : {globalUser.youwhoID}
-                            </p>
+                            <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+                                <Typography>YouWho ID :</Typography> <Typography onClick={() => copyIdToClipBoard(globalUser.youwhoID)} sx={{ cursor: 'pointer', fontSize: { xs: '10px', sm: '14px' } }}>{globalUser.youwhoID}</Typography>
+                                <TickSquare style={{ size: { xs: '10px', sm: '14px' }, display: idCopied ? 'block' : 'none', color: 'green' }} />
+                            </Box>
                             : undefined}
                         {privateKey ? <>
                             <div style={{ display: 'flex', alignItems: 'center', }}> your private key :
@@ -74,6 +86,16 @@ const Wallet = ({ privateKey }) => {
                             </span>
                         </>
                             : undefined}
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <div>
+                                Wallet Balance : {globalUser.balance}
+                            </div>
+                            <Box sx={{
+                                backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center'
+                                , width: '16px', height: '16px'
+                            }} />
+                        </Box>
+
                     </Box>
                 </Box>
 

@@ -19,10 +19,10 @@ const ProfileCard = ({ username, youwhoID }) => {
         &nbsp;
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <p>
-                Welcome {username}
+                Welcome <span style={{ fontWeight: 500 }}>{username}</span>
             </p>
             {youwhoID ?
-                <p>
+                <p style={{ fontSize: '14px' }}>
                     YouWho ID : {youwhoID}
                 </p>
                 : undefined}

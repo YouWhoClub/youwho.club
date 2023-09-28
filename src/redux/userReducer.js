@@ -29,6 +29,7 @@ function userReducer(state = initialState, action) {
                 isPhoneVerified:action.payload.is_phone_verified,
                 account: action.payload.account_number,
                 socialId: action.payload.social_id,
+                balance: action.payload.balance,
                 // privateKey: action.payload.signer,
             };
         case LOGOUT_USER:
@@ -48,6 +49,7 @@ function userReducer(state = initialState, action) {
                 isPhoneVerified:action.payload.is_phone_verified,
                 account: action.payload.account_number,
                 socialId: action.payload.social_id,
+                balance: action.payload.balance,
                 // privateKey: action.payload.signer,
             };
         case SET_ACCOUNT:
