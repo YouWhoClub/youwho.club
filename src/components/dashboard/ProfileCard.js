@@ -4,7 +4,11 @@ import { TickSquare } from "iconsax-react";
 import { useState } from "react";
 
 const ProPic = styled(Box)(({ theme }) => ({
-    borderRadius: '50%', borderColor: theme.palette.primary.dark, width: '150px', height: '150px', border: '1px solid'
+    borderRadius: '50%',
+    // borderColor: theme.palette.primary.gray, 
+    //  border: '1px solid',
+    width: '150px', height: '150px',
+    background: theme.palette.primary.bgGradient
 }))
 const ProfileCard = ({ username, youwhoID }) => {
     const copyIdToClipBoard = async (textToCopy) => {
