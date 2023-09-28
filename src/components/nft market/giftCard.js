@@ -97,41 +97,41 @@ const Inputtt = styled('div')(({ theme }) => ({
     }
 }))
 
-const GiftCard = ({ image, price, sender }) => {
+const GiftCard = ({ image, price, sender, dollarValue, irrValue }) => {
     const globalUser = useSelector(state => state.userReducer)
     const navigate = useNavigate()
     const [openBuyModal, setOpenBuyModal] = useState(false)
     const [openClaimModal, setOpenClaimModal] = useState(false)
     const [err, setErr] = useState(undefined)
-    const [dollarValue, setDollarValue] = useState(undefined)
+    // const [dollarValue, setDollarValue] = useState(undefined)
     const [receipantID, setReceipantID] = useState(undefined)
-    const apiCall = useRef(undefined)
+    // const apiCall = useRef(undefined)
 
-    useEffect(() => {
-        if (price) { getTokenValue() }
-        return () => {
-            if (apiCall.current) {
-                apiCall.current.cancel();
-            }
-        }
+    // useEffect(() => {
+    //     if (price) { getTokenValue() }
+    //     return () => {
+    //         if (apiCall.current) {
+    //             apiCall.current.cancel();
+    //         }
+    //     }
 
-    }, [])
-    const getTokenValue = async () => {
-        setErr(undefined)
-        try {
-            apiCall.current = PUBLIC_API.request({
-                path: `/get-token-value/${price}`,
-                method: "get",
-            });
-            let response = await apiCall.current.promise;
-            if (!response.isSuccess)
-                throw response
-            setDollarValue((response.data.data.usd / 1000000).toString())
-        }
-        catch (err) {
-            setErr(err.statusText)
-        }
-    }
+    // }, [])
+    // const getTokenValue = async () => {
+    //     setErr(undefined)
+    //     try {
+    //         apiCall.current = PUBLIC_API.request({
+    //             path: `/get-token-value/1`,
+    //             method: "get",
+    //         });
+    //         let response = await apiCall.current.promise;
+    //         if (!response.isSuccess)
+    //             throw response
+    //         setDollarValue(((response.data.data.usd / 1000000) * price).toString())
+    //     }
+    //     catch (err) {
+    //         setErr(err.statusText)
+    //     }
+    // }
     return (
         <Outter>
             <Card>
@@ -150,7 +150,7 @@ const GiftCard = ({ image, price, sender }) => {
                         }
                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <Typography>{price} yt</Typography>
-                            <Typography sx={{ fontSize: '10px' }}>{dollarValue ? dollarValue : "..."} $</Typography>
+                            <Typography sx={{ fontSize: '10px' }}>{dollarValue !== '...' ? (dollarValue * price).toString() : "..."} $</Typography>
                         </Box>
                     </FlexRow>
                     {globalUser.isLoggedIn ?

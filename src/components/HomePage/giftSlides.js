@@ -3,9 +3,45 @@ import CustomSlider from "../customSlider";
 import GiftCard from "../nft market/giftCard";
 import { Link, useNavigate } from "react-router-dom";
 import ButtonOutline from "../buttons/buttonOutline";
+import { useEffect, useRef, useState } from "react";
+import { PUBLIC_API } from "../../utils/data/public_api";
 
 const GiftSlides = () => {
     const navigate = useNavigate()
+    const apiCall = useRef(undefined)
+    const [dollarValue, setDollarValue] = useState(undefined)
+    const [irrValue, setIrrValue] = useState(undefined)
+    const [err, setErr] = useState(undefined)
+
+    useEffect(() => {
+        // getTokenValue()
+        setInterval(() => {
+            getTokenValue()
+        }, 10000);
+        return () => {
+            if (apiCall.current) {
+                apiCall.current.cancel();
+            }
+        }
+    }, [])
+    const getTokenValue = async () => {
+        setErr(undefined)
+        try {
+            apiCall.current = PUBLIC_API.request({
+                path: `/get-token-value/1`,
+                method: "get",
+            });
+            let response = await apiCall.current.promise;
+            if (!response.isSuccess)
+                throw response
+            setDollarValue(response.data.data.usd / 1000000)
+            setIrrValue(response.data.data.irr / 1000000)
+        }
+        catch (err) {
+            setErr(err.statusText)
+        }
+    }
+
 
     return (<Box sx={{
         // height: '100vh',
@@ -14,11 +50,11 @@ const GiftSlides = () => {
     }}>
         {/* <h5 style={{ textAlign: 'center', color: 'white', marginBottom: '30px' }} >Available Gift Cards</h5> */}
         <CustomSlider>
-            <GiftCard price={5} sender={true}/>
-            <GiftCard price={10} sender={true}/>
-            <GiftCard price={25} sender={true}/>
-            <GiftCard price={50} sender={true}/>
-            <GiftCard price={100} sender={true}/>
+            <GiftCard price={5} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
+            <GiftCard price={10} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
+            <GiftCard price={25} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
+            <GiftCard price={50} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
+            <GiftCard price={100} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
         </CustomSlider>
         <Box sx={{
             display: 'flex', justifyContent: 'center', width: '100%', mt: 5
