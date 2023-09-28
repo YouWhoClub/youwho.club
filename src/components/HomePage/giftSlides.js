@@ -14,11 +14,11 @@ const GiftSlides = () => {
     }}>
         {/* <h5 style={{ textAlign: 'center', color: 'white', marginBottom: '30px' }} >Available Gift Cards</h5> */}
         <CustomSlider>
-            <GiftCard price={5} />
-            <GiftCard price={10} />
-            <GiftCard price={25} />
-            <GiftCard price={50} />
-            <GiftCard price={100} />
+            <GiftCard price={5} sender={true}/>
+            <GiftCard price={10} sender={true}/>
+            <GiftCard price={25} sender={true}/>
+            <GiftCard price={50} sender={true}/>
+            <GiftCard price={100} sender={true}/>
         </CustomSlider>
         <Box sx={{
             display: 'flex', justifyContent: 'center', width: '100%', mt: 5

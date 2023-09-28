@@ -1,10 +1,27 @@
 import styled from "@emotion/styled";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import { TickSquare } from "iconsax-react";
+import { useState } from "react";
 
 const ProPic = styled(Box)(({ theme }) => ({
     borderRadius: '50%', borderColor: theme.palette.primary.dark, width: '150px', height: '150px', border: '1px solid'
 }))
 const ProfileCard = ({ username, youwhoID }) => {
+    const copyIdToClipBoard = async (textToCopy) => {
+        try {
+            await navigator.clipboard.writeText(textToCopy);
+            setIdCopied('Copied!');
+        } catch (err) {
+            setIdCopied('Failed to copy!');
+        }
+    };
+    const [idCopied, setIdCopied] = useState(false)
+    const shorten = (str) => {
+        if (str)
+            return str.length > 10 ? str.substring(0, 7) + '...' : str;
+        return 'undefined'
+    }
+
     return (<Box
         sx={{
             // width: '100%',
@@ -22,11 +39,11 @@ const ProfileCard = ({ username, youwhoID }) => {
                 Welcome <span style={{ fontWeight: 500 }}>{username}</span>
             </p>
             {youwhoID ?
-                <p style={{ fontSize: '14px' }}>
-                    YouWho ID : {youwhoID}
-                </p>
-                : undefined}
-        </Box>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+                    <Typography>YouWho ID :</Typography> <Typography onClick={() => copyIdToClipBoard(youwhoID)} sx={{ cursor: 'pointer', fontSize: { xs: '10px', sm: '14px' } }}>{shorten(youwhoID)}</Typography>
+                    <TickSquare style={{ size: { xs: '10px', sm: '14px' }, display: idCopied ? 'block' : 'none', color: 'green' }} />
+                </Box>
+                : undefined}        </Box>
     </Box>);
 }
 
