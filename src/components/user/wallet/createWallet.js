@@ -7,13 +7,13 @@ import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
 import { green, red } from "@mui/material/colors";
 import { useNavigate } from "react-router";
-import { AUTH_API } from "../../utils/data/auth_api";
-import { getuser, setPrivateKey, setYouwhoId } from "../../redux/actions";
-import ButtonPurple from "../buttons/buttonPurple";
+import { AUTH_API } from "../../../utils/data/auth_api";
+import { getuser, setPrivateKey, setYouwhoId } from "../../../redux/actions";
+import ButtonPurple from "../../buttons/buttonPurple";
 import { Check, PasswordCheck, TickSquare } from "iconsax-react";
 import { Link } from "react-router-dom";
-import Bar from "../Bar";
-import PanelLayout from "../PanelLayout";
+import Bar from "../../Bar";
+import PanelLayout from "../../PanelLayout";
 
 const AuthBox = styled(Box)(({ theme }) => ({
     backgroundColor: 'white',

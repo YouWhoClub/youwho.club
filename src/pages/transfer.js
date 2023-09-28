@@ -41,7 +41,7 @@ const TransferPage = () => {
         color: 'primary.darkGray',
     }}>
         <GiftsScrollWrapper>
-        <GiftCard price={5} />
+            <GiftCard price={5} />
             <GiftCard price={10} />
             <GiftCard price={25} />
             <GiftCard price={50} />

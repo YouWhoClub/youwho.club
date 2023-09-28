@@ -1,10 +1,11 @@
 import styled from "@emotion/styled";
-import { Close, Face } from "@mui/icons-material";
+import { CheckRounded, Close, Face } from "@mui/icons-material";
 import { Typography } from "@mui/joy";
 import { Accordion, AccordionDetails, AccordionSummary, MenuItem, Popper, TextField } from "@mui/material";
 import { Box, ClickAwayListener } from "@mui/material";
-import { ArrowDown2, ArrowUp2, Profile, Setting2, TickCircle } from "iconsax-react";
+import { ArrowDown2, ArrowUp2, Check, Clock, Profile, Setting2, TickCircle, Timer } from "iconsax-react";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 const Bar = styled(Box)(({ theme }) => ({
     width: { xs: '100%', sm: '200px' },
     borderRadius: '24px', marginBottom: '20px',
@@ -41,12 +42,20 @@ const BannerEdit = styled(Box)(({ theme }) => ({
     height: '30px',
     backgroundColor: theme.palette.primary.middle,
 }))
+const FlexRow = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    color: theme.palette.secondary.text,
+    margin:'3px 0'
+}))
 
 const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
     const [expanded, setExpanded] = useState(false)
     const [anchorEl, setAnchorEl] = useState(null);
     const [value, setValue] = useState(tabs[0])
     const [editProfile, setEditProfile] = useState(false)
+    const globalUser = useSelector(state => state.userReducer)
 
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -76,7 +85,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
             width: { xs: '100%', sm: '200px' },
             // mb: 2, 
             // mr: { xs: 0, sm: '20px' },
-            height:'max-content',
+            height: 'max-content',
             borderRadius: '24px',
             boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)',
         }}>
@@ -92,7 +101,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
                             <Close fontSize='16px' cursor='pointer' onClick={() => setEditProfile(false)} />
                         </Box>
                         <Accordion sx={{
-                            my:1,
+                            my: 1,
                             width: '100%',
                             bgcolor: 'primary.bg',
                             color: 'primary.text',
@@ -130,7 +139,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
                             </AccordionDetails>
                         </Accordion>
                         <Accordion sx={{
-                            my:1,
+                            my: 1,
                             width: '100%',
                             bgcolor: 'primary.bg',
                             color: 'primary.text',
@@ -161,7 +170,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
                             </AccordionDetails>
                         </Accordion>
                         <Accordion sx={{
-                            my:1,
+                            my: 1,
                             width: '100%',
                             bgcolor: 'primary.bg',
                             color: 'primary.text',
@@ -191,7 +200,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
                             </AccordionDetails>
                         </Accordion>
                         <Accordion sx={{
-                            my:1,
+                            my: 1,
                             width: '100%',
                             bgcolor: 'primary.bg',
                             color: 'primary.text',
@@ -221,7 +230,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
                             </AccordionDetails>
                         </Accordion>
                         <Accordion sx={{
-                            my:1,
+                            my: 1,
                             width: '100%',
                             bgcolor: 'primary.bg',
                             color: 'primary.text',
@@ -251,7 +260,8 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
                             </AccordionDetails>
                         </Accordion>
                     </>
-                    : <>
+                    :
+                    <>
                         <Box sx={{ color: 'primary.text', display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center', my: 1 }}>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                 <Face /> &nbsp;
@@ -283,11 +293,83 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
                             <AccordionDetails
                                 sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
                             >
-                                <div>zadtan</div>
-                                <div>zadtan</div>
-                                <div>zadtan</div>
-                                <div>zadtan</div>
-                                <div>zadtan</div>
+                                <FlexRow>
+                                    <Typography sx={{ fontSize: '12px' }}>Bio</Typography>
+                                    {globalUser.bio ?
+                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        : <Timer color="pink" size='14px' />
+                                    }
+                                </FlexRow>
+                                <FlexRow>
+                                    <Typography sx={{ fontSize: '12px' }}>YouWho Wallet</Typography>
+                                    {globalUser.youwhoID ?
+                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        : <Timer color="pink" size='14px' />
+                                    }
+                                </FlexRow>
+                                <FlexRow>
+                                    <Typography sx={{ fontSize: '12px' }}>Social Links</Typography>
+                                    {globalUser.socials ?
+                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        : <Timer color="pink" size='14px' />
+                                    }
+                                </FlexRow>
+                                <FlexRow>
+                                    <Typography sx={{ fontSize: '12px' }}>Email</Typography>
+                                    {globalUser.mail ?
+                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        : <Timer color="pink" size='14px' />
+                                    }
+                                </FlexRow>
+                                <FlexRow>
+                                    <Typography sx={{ fontSize: '12px' }}>Mail Varification</Typography>
+                                    {globalUser.isMailVerified ?
+                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        : <Timer color="pink" size='14px' />
+                                    }
+                                </FlexRow>
+                                <FlexRow>
+                                    <Typography sx={{ fontSize: '12px' }}>Phone Varification</Typography>
+                                    {globalUser.isPhoneVerified ?
+                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        : <Timer color="pink" size='14px' />
+                                    }
+                                </FlexRow>
+                                <FlexRow>
+                                    <Typography sx={{ fontSize: '12px' }}>Invite Friends</Typography>
+                                    {globalUser.friends ?
+                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        : <Timer color="pink" size='14px' />
+                                    }
+                                </FlexRow>
+                                <FlexRow>
+                                    <Typography sx={{ fontSize: '12px' }}>Profile Image</Typography>
+                                    {globalUser.ProfileImage ?
+                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        : <Timer color="pink" size='14px' />
+                                    }
+                                </FlexRow>
+                                <FlexRow>
+                                    <Typography sx={{ fontSize: '12px' }}>First Mint</Typography>
+                                    {globalUser.mint ?
+                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        : <Timer color="pink" size='14px' />
+                                    }
+                                </FlexRow>
+                                <FlexRow>
+                                    <Typography sx={{ fontSize: '12px' }}>First Buy</Typography>
+                                    {globalUser.buy ?
+                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        : <Timer color="pink" size='14px' />
+                                    }
+                                </FlexRow>
+                                <FlexRow>
+                                    <Typography sx={{ fontSize: '12px' }}>First Sell</Typography>
+                                    {globalUser.sell ?
+                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        : <Timer color="pink" size='14px' />
+                                    }
+                                </FlexRow>
                             </AccordionDetails>
                         </Accordion>
                     </>}

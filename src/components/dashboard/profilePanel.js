@@ -27,7 +27,7 @@ const Tabs = styled(Box)(({ theme }) => ({
 const Tab = styled(Box)(({ theme }) => ({
     boxShadow: 'inset 0px 0px 9px -2px rgba(227,209,231,0.9)', cursor: 'pointer',
     borderRadius: '40px', color: theme.palette.secondary.text, fontSize: '12px',
-    margin: '0 3px',
+    margin: '1px 3px',
     padding: '0 10px',
     width: 'max-content',
     height: '30px', textAlign: 'center',

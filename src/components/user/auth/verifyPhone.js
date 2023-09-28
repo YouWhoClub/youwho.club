@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import { Phone, Lock, Verified } from '@mui/icons-material';
 import { useEffect, useState } from "react";
 import OtpInput from 'react-otp-input';
-import Timer from "../Timer";
-import { API_CONFIG } from "../../config";
+import Timer from "../../Timer";
+import { API_CONFIG } from "../../../config";
 import { useNavigate } from "react-router";
-import { getuser } from "../../redux/actions";
-import PanelLayout from "../PanelLayout";
+import { getuser } from "../../../redux/actions";
+import PanelLayout from "../../PanelLayout";
 import { Box } from "@mui/material";
 import styled from "@emotion/styled";
-import ButtonPurple from "../buttons/buttonPurple";
+import ButtonPurple from "../../buttons/buttonPurple";
 const AuthBox = styled(Box)(({ theme }) => ({
     backgroundColor: 'white',
     width: '350px',

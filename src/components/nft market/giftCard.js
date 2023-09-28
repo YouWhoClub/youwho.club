@@ -97,10 +97,11 @@ const Inputtt = styled('div')(({ theme }) => ({
     }
 }))
 
-const GiftCard = ({ image, price }) => {
+const GiftCard = ({ image, price, sender }) => {
     const globalUser = useSelector(state => state.userReducer)
     const navigate = useNavigate()
     const [openBuyModal, setOpenBuyModal] = useState(false)
+    const [openClaimModal, setOpenClaimModal] = useState(false)
     const [err, setErr] = useState(undefined)
     const [dollarValue, setDollarValue] = useState(undefined)
     const [receipantID, setReceipantID] = useState(undefined)
@@ -153,7 +154,13 @@ const GiftCard = ({ image, price }) => {
                         </Box>
                     </FlexRow>
                     {globalUser.isLoggedIn ?
-                        <ButtonPurple text={'buy'} w={'100%'} onClick={() => setOpenBuyModal(true)} />
+                        <>
+                            {sender ?
+                                <ButtonPurple text={'buy'} w={'100%'} onClick={() => setOpenBuyModal(true)} />
+                                :
+                                <ButtonPurple text={'claim'} w={'100%'} onClick={() => setOpenClaimModal(true)} />
+                            }
+                        </>
                         :
                         <ButtonPurple text={'login'} w={'100%'} onClick={() => navigate('/auth')} />
                     }
@@ -189,6 +196,34 @@ const GiftCard = ({ image, price }) => {
                             </Inputtt>
                         </Box>
                         <ButtonPurple text={'transfer'} w={'100%'} />
+                    </Box>
+                </Box>
+            </Modal>
+            <Modal
+                open={openClaimModal}
+                onClose={() => setOpenClaimModal(false)}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                disableScrollLock={true}
+            >
+                <Box sx={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}>
+                    <Box sx={{
+                        borderRadius: '24px',
+                        width: { xs: '100%', sm: '500px' }, height: { xs: '100%', sm: '350px' },
+                        backgroundColor: 'secondary.bg',
+                        display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between'
+                    }}>
+                        <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}><Typography>Claim</Typography><div onClick={() => setOpenClaimModal(false)}><Close sx={{ cursor: 'pointer' }} /></div></FlexRow>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', }}>
+                            <Typography sx={{ mt: 2, fontSize: '12px', mb: 2, color: 'primary.text' }}>
+                                by keeping this gift in your wallet for 2 more days you will get a token bonus
+                            </Typography>
+                        </Box>
+                        <ButtonPurple text={'claim/burn'} w={'100%'} />
                     </Box>
                 </Box>
             </Modal>

@@ -10,7 +10,7 @@ import styled from "@emotion/styled";
 
 const Gallery = styled(Box)(({ theme }) => ({
     width: '100%',
-    display: 'flex', alignItems: 'center', flexWrap: 'wrap'
+    display: 'flex', alignItems: 'center', flexWrap: 'wrap',justifyContent:'center'
 }))
 
 

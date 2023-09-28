@@ -1,11 +1,13 @@
 import styled from "@emotion/styled";
-import PanelLayout from "../PanelLayout";
+import PanelLayout from "../../PanelLayout";
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from "@mui/material";
 import { ArrowDown2, TickSquare, Wallet2 } from "iconsax-react";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { BG_URL, PUBLIC_URL } from "../../utils/utils";
-import yCoin from '../../assets/Ycoin.svg'
+import { BG_URL, PUBLIC_URL } from "../../../utils/utils";
+import yCoin from '../../../assets/Ycoin.svg'
+import WithdrawPanel from "./withdrawPanel";
+import DepositPanel from "./depositPanel";
 
 const ShowPanel = styled(Box)(({ theme }) => ({
     marginTop: '20px',
@@ -25,6 +27,7 @@ const Wallet = ({ privateKey }) => {
     const globalUser = useSelector(state => state.userReducer)
     const [keyCopied, setKeyCopied] = useState(false)
     const [idCopied, setIdCopied] = useState(false)
+    const [state, setState] = useState('withdraw')
     const copyToClipBoard = async (textToCopy) => {
         try {
             await navigator.clipboard.writeText(textToCopy);
@@ -141,15 +144,19 @@ const Wallet = ({ privateKey }) => {
                                 <AccordionDetails
                                     sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
                                 >
-                                    <Typography>Deposit</Typography>
-                                    <Typography>Withdraw</Typography>
+                                    <Typography onClick={() => { setState('deposit') }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'secondary.bgOp' } }}>Deposit</Typography>
+                                    <Typography onClick={() => { setState('withdraw') }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'secondary.bgOp' } }}>Withdraw</Typography>
                                 </AccordionDetails>
                             </Accordion>
                         </Box>
                     </Box>
 
                     <Panel sx={{ p: { xs: 'unset', sm: 1 } }}>
-                        unclaimed gifts ...
+                        {state == 'withdraw' ?
+                            <WithdrawPanel />
+                            :
+                            <DepositPanel />
+                        }
                     </Panel>
                 </ShowPanel>
             </Box>

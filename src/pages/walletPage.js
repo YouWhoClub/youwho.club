@@ -3,9 +3,9 @@ import PanelLayout from "../components/PanelLayout";
 import { Box } from "@mui/material";
 import ButtonOutline from "../components/buttons/buttonOutline";
 import { useNavigate } from "react-router";
-import CreateWallet from "../components/user/createWallet";
-import VerifyPhone from "../components/user/verifyPhone";
-import Wallet from "../components/user/wallet";
+import CreateWallet from "../components/user/wallet/createWallet";
+import VerifyPhone from "../components/user/auth/verifyPhone";
+import Wallet from "../components/user/wallet/wallet";
 import { useState } from "react";
 
 const WalletPage = ({ switchTheme }) => {

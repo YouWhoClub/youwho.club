@@ -3,11 +3,11 @@ import { Box, FormHelperText, FormLabel } from "@mui/material";
 import { useRef, useState } from "react";
 import TextField from '@mui/material/TextField';
 import { FormControl, Input } from "@mui/base";
-import ButtonPurple from "../buttons/buttonPurple";
+import ButtonPurple from "../../buttons/buttonPurple";
 import styled from "@emotion/styled";
 import { useDispatch } from "react-redux";
-import { getuser } from "../../redux/actions";
-import { AUTH_API } from "../../utils/data/auth_api";
+import { getuser } from "../../../redux/actions";
+import { AUTH_API } from "../../../utils/data/auth_api";
 import { useNavigate } from "react-router";
 import { Eye, EyeSlash } from "iconsax-react";
 
