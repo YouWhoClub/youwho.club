@@ -103,7 +103,7 @@ const Navbar = ({ switchTheme }) => {
                         <Notification size="16px" cursor='pointer' />
                     </div>&nbsp;&nbsp;&nbsp;
                     <div style={{ display: 'flex', alignItems: 'center', }}>
-                        {window.location.pathname == '/dashboard' || '/gallery' || '/wallet' ?
+                        {window.location.pathname == '/dashboard' || window.location.pathname == '/gallery' || window.location.pathname == '/wallet' ?
                             undefined
                             : <div style={{ display: 'flex', alignItems: 'center', }} onClick={() => navigate('/dashboard')}>
                                 <Profile cursor='pointer' size='16px' />
