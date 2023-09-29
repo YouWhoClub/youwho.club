@@ -11,6 +11,9 @@ import styled from "@emotion/styled";
 import { HambergerMenu, LogoutCurve, Notification, Profile, Wallet } from "iconsax-react";
 import yCoin from '../assets/Ycoin.svg'
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
+import { HEALTH_API } from "../utils/data/health_api";
+import { useState, useRef } from "react";
+
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
     backgroundImage: "url('/w-outline.svg')",
@@ -53,16 +56,44 @@ function HomeIcon(props) {
         </SvgIcon>
     );
 }
-
 const Navbar = ({ switchTheme }) => {
     const globalUser = useSelector(state => state.userReducer)
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const logOut = () => dispatch(logOutUser());
-    function disconnect() {
-        logOut()
-        navigate('/')
+    const apiCall = useRef(undefined)
+    const [err, setErr] = useState(false)
+
+
+    async function disconnect() {
+
+        try {
+            apiCall.current = HEALTH_API.request({
+                path: `/logout`,
+                method: "post",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            });
+            let response = await apiCall.current.promise;
+
+            if (!response.isSuccess)
+                throw response
+            else {
+                logOut()
+                setTimeout(() => {
+                    navigate('/')
+                }, 1000);
+            }
+
+        }
+        catch (err) {
+            setErr(err.statusText)
+        }
+
     }
+
     const setTheme = () => {
         if (localStorage.getItem('theme') == 'light') {
             localStorage.setItem('theme', 'dark')
