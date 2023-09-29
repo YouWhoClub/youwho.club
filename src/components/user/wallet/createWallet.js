@@ -14,6 +14,8 @@ import { Check, PasswordCheck, TickSquare } from "iconsax-react";
 import { Link } from "react-router-dom";
 import Bar from "../../Bar";
 import PanelLayout from "../../PanelLayout";
+import { v4 as uuidv4 } from 'uuid';
+
 
 const AuthBox = styled(Box)(({ theme }) => ({
     backgroundColor: 'white',
@@ -107,14 +109,7 @@ const CreateWallet = ({ switchTheme , setPvKey}) => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const [state, setState] = useState('identifier')
-    const [identifier, setIdentifier] = useState(undefined)
-    const [password, setPassword] = useState(undefined)
-    const [gmail, setGmail] = useState(undefined)
     const [username, setUsernme] = useState(undefined)
-    const [phoneNumber, setPhoneNumber] = useState(undefined)
-    const [paypal, setPaypal] = useState(undefined)
-    const [socialId, setSocialId] = useState(undefined)
-    const [accounNum, setAccounNum] = useState(undefined)
     const [loading, setLoading] = useState(false)
     const [err, setErr] = useState(false)
     const [success, setSuccess] = useState(false)
@@ -142,36 +137,14 @@ const CreateWallet = ({ switchTheme , setPvKey}) => {
             setIdCopied('Failed to copy!');
         }
     };
+
+    const getDeviceId = () => {
+        return `${window.navigator.userAgent} ${uuidv4()}`
+    }
+
     const submit = async () => {
         setErr(undefined)
         setLoading(true)
-        console.log(identifier)
-        console.log(password)
-        if (!gmail) {
-            setErr('please enter your email')
-            setLoading(false)
-            return
-        }
-        // if (!accounNum) {
-        //     setErr('please enter your account number')
-        //     setLoading(false)
-        //     return
-        // }
-        if (!phoneNumber) {
-            setErr('please enter your phone number')
-            setLoading(false)
-            return
-        }
-        // if (!socialId) {
-        //     setErr('please enter your social id')
-        //     setLoading(false)
-        //     return
-        // }
-        // if (!paypal) {
-        //     setErr('please enter your paypal id')
-        //     setLoading(false)
-        //     return
-        // }
         if (!username) {
             setErr('please enter a username')
             setLoading(false)
@@ -183,13 +156,8 @@ const CreateWallet = ({ switchTheme , setPvKey}) => {
                 path: `/cid/build`,
                 method: "post",
                 body: {
-                    mail: gmail,
                     username: username,
-                    phone_number: phoneNumber,
-                    paypal_id: '',
-                    account_number: '',
-                    device_id: localStorage.getItem('device-id'),
-                    social_id: ''
+                    device_id: getDeviceId(),
                 },
                 headers: {
                     'Content-Type': 'application/json',
@@ -220,14 +188,7 @@ const CreateWallet = ({ switchTheme , setPvKey}) => {
             setLoading(false)
         }
     }
-    const idStateChanger = () => {
-        if (identifier) {
-            setErr(undefined)
-            setState('password')
-        } else {
-            setErr('please enter your identifier')
-        }
-    }
+
     return (
         <Box sx={{
             // height: '100vh',
@@ -282,14 +243,6 @@ const CreateWallet = ({ switchTheme , setPvKey}) => {
                                 <Inputtt>
                                     <AccountCircle sx={{ color: 'primary.light', }} />
                                     <Inputt placeholder="Enter Your username" onChange={(e) => setUsernme(e.target.value.toString())} />
-                                </Inputtt>
-                                <Inputtt>
-                                    <Email sx={{ color: 'primary.light', }} />
-                                    <Inputt placeholder="Enter Your Email" onChange={(e) => setGmail(e.target.value.toString())} />
-                                </Inputtt>
-                                <Inputtt>
-                                    <Phone sx={{ color: 'primary.light', }} />
-                                    <Inputt placeholder="Enter Your phone number" onChange={(e) => setPhoneNumber(e.target.value.toString())} />
                                 </Inputtt>
                                 <Box sx={{ mt: 10, justifySelf: 'flex-end' }}>
                                     <ButtonPurple w={'100%'} text={'done'} onClick={submit} />
