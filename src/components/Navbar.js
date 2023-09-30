@@ -6,13 +6,14 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import ButtonOutline from "./buttons/buttonOutline";
 import ButtonPurple from "./buttons/buttonPurple";
 import { useDispatch, useSelector } from "react-redux";
-import { logOutUser } from "../redux/actions";
+import { logOutUser, getUnclaimedDeposit } from "../redux/actions";
 import styled from "@emotion/styled";
 import { HambergerMenu, LogoutCurve, Notification, Profile, Wallet } from "iconsax-react";
 import yCoin from '../assets/Ycoin.svg'
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
 import { HEALTH_API } from "../utils/data/health_api";
-import { useState, useRef } from "react";
+import { API_CONFIG } from "../config";
+import { useState, useRef, useEffect } from "react";
 
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
@@ -61,12 +62,19 @@ const Navbar = ({ switchTheme }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const logOut = () => dispatch(logOutUser());
+    const getUnclaimed = () => dispatch(getUnclaimedDeposit(globalUser.token, globalUser.cid));
     const apiCall = useRef(undefined)
     const [err, setErr] = useState(false)
 
+    useEffect(() => {
+        getUnclaimed()
+        setInterval(() => {
+            getUnclaimed()
+        }, 10000);
+        }, [])
+
 
     async function disconnect() {
-
         try {
             apiCall.current = HEALTH_API.request({
                 path: `/logout`,

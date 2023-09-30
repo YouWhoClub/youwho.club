@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 import userReducer from './userReducer';
 // import { cartReducer } from './cartReducer';
 import cartReducer from './cartReducer';
+import unclaimedDepositReducer from './unclaimedDepositReducer';
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { getDefaultMiddleware } from '@reduxjs/toolkit';
@@ -23,7 +24,7 @@ const persistConfig = {
     storage,
 }
 const reducers = combineReducers({
-    userReducer: userReducer, cartReducer: cartReducer
+    userReducer: userReducer, cartReducer: cartReducer, unclaimedDepositReducer: unclaimedDepositReducer
 });
 const customizedMiddleware = getDefaultMiddleware({
     serializableCheck: false

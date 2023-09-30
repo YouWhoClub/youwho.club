@@ -16,6 +16,7 @@ export const DECREMENT_QUANTITY = 'DECREMENT_QUANTITY';
 export const SET_CART = 'SET_CART'
 export const SET_ID = 'SET_ID'
 export const EMPTY_CART = 'EMPTY_CART';
+export const GET_UNCLAIMED_DEPOSITE = 'GET_UNCLAIMED_DEPOSITE';
 
 const emptyUser = {
     username: '',
@@ -36,6 +37,33 @@ const emptyUser = {
 
 const anEmptyCart = []
 
+export const getUnclaimedDeposit = (token, cid) => {
+    try {
+        return async dispatch => {
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/deposit/get/unclaimed/recipient/${cid}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                }
+            })
+            let response = await request.json()
+
+            let unclaimedDeposit = []
+            if (response.status >= 200 && response.status < 300) {
+                unclaimedDeposit = response.data
+                console.log(response)
+                dispatch({
+                    type: GET_UNCLAIMED_DEPOSITE,
+                    payload: unclaimedDeposit
+                });
+            } 
+        };
+    } catch (error) {
+        // Add custom logic to handle errors
+        console.log(error);
+    }
+};
 export const getuser = (token) => {
     const isLoggedIn = localStorage.getItem('lastActive')
     const hasAccount = localStorage.getItem('account')
