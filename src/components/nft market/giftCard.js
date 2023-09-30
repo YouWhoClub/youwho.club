@@ -12,6 +12,8 @@ import { Apple } from "iconsax-react";
 import { API_CONFIG } from "../../config";
 import Web3 from 'web3';
 import { Buffer } from 'buffer';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 const shake = keyframes`
   0% {
@@ -137,12 +139,26 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue }) => {
     //     }
     // }
 
+    const toastId = useRef(null);
+
+    const loading = () => {
+        toastId.current = toast.loading("Please wait...")
+        console.log(toastId)
+    }
+
+    const updateToast = (success, message) => {
+        success ? toast.update(toastId.current, {  render: message, type: "success", isLoading: false, autoClose: 3000 })
+        : toast.update(toastId.current, {  render: message, type: "error", isLoading: false, autoClose: 3000 })
+    }
+
     const provider = "https://polygon-mainnet.infura.io/v3/20f2a17bd46947669762f289a2a0c71c";
     const web3Provider = new Web3.providers.HttpProvider(provider);
     const web3 = new Web3(web3Provider);
 
     const deposite = async (e) => {
         e.preventDefault()
+
+        loading();
 
         const privateKey = Buffer.from(globalUser.privateKey, 'hex');
 
@@ -157,7 +173,7 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue }) => {
 
         const signObject = web3.eth.accounts.sign(dataHash, privateKey);
 
-        const {signature} = signObject;
+        const { signature } = signObject;
 
         const requestData = {
             ...data,
@@ -185,14 +201,14 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue }) => {
         console.log(response);
 
         if (response.status === 200 || response.status === 201) {
-            console.log(response.message);
             setErr(false)
             setOpenBuyModal(false)
-
+            updateToast(true,response.message)
         } else {
             setErr(response.message)
+            updateToast(false,response.message)
         }
-    } 
+    }
 
 
     return (

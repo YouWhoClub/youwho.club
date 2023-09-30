@@ -3,6 +3,9 @@ import GiftCard from "../components/nft market/giftCard";
 import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
 import { PUBLIC_API } from "../utils/data/public_api";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
+
 const GiftsScrollWrapper = styled(Box)(({ theme }) => ({
     width: '100%',
     height: '100%',
@@ -82,6 +85,7 @@ const TransferPage = () => {
             <GiftCard price={50} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
             <GiftCard price={100} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
             <GiftCard price={150} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
+            <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick pauseOnFocusLoss pauseOnHover />
         </GiftsScrollWrapper>
 
     </Box>
