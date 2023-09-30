@@ -2,12 +2,16 @@ import { Box, Typography } from "@mui/material";
 import GiftCard from "../../nft market/giftCard";
 import { useEffect, useRef, useState } from "react";
 import { PUBLIC_API } from "../../../utils/data/public_api";
+import { useSelector } from "react-redux";
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const WithdrawPanel = () => {
     const apiCall = useRef(undefined)
     const [dollarValue, setDollarValue] = useState(undefined)
     const [irrValue, setIrrValue] = useState(undefined)
     const [err, setErr] = useState(undefined)
+    const unclaimedDeposits = useSelector(state => state.unclaimedDepositReducer)
 
     useEffect(() => {
         // getTokenValue()
@@ -37,14 +41,17 @@ const WithdrawPanel = () => {
             setErr(err.statusText)
         }
     }
-    return (<Box sx={{ display: 'flex', flexDirection: 'column' , alignItems:'center'}}>
+    return (<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Typography sx={{ color: 'primary.text' }}>Unclaimed Gifts</Typography>
-        <Box sx={{ display: 'flex', flexWrap: 'wrap',justifyContent:'center' }}>
-            <GiftCard price={25} sender={false} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
-            <GiftCard price={50} sender={false} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
-            <GiftCard price={40} sender={false} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
-            <GiftCard price={10} sender={false} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+            {unclaimedDeposits.map(item => {
+                const {amount, id} = item;
+                return(
+                    <GiftCard price={amount} depositId={id} sender={false} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
+                )
+            })}
         </Box>
+        <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick pauseOnFocusLoss pauseOnHover />
     </Box>);
 }
 

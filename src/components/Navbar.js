@@ -6,7 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import ButtonOutline from "./buttons/buttonOutline";
 import ButtonPurple from "./buttons/buttonPurple";
 import { useDispatch, useSelector } from "react-redux";
-import { logOutUser, getUnclaimedDeposit } from "../redux/actions";
+import { logOutUser, getUnclaimedDeposit, deleteUnclaimedDeposit } from "../redux/actions";
 import styled from "@emotion/styled";
 import { HambergerMenu, LogoutCurve, Notification, Profile, Wallet } from "iconsax-react";
 import yCoin from '../assets/Ycoin.svg'
@@ -59,19 +59,25 @@ function HomeIcon(props) {
 }
 const Navbar = ({ switchTheme }) => {
     const globalUser = useSelector(state => state.userReducer)
+    const unclaimedDeposits = useSelector(state => state.unclaimedDepositReducer)
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const logOut = () => dispatch(logOutUser());
     const getUnclaimed = () => dispatch(getUnclaimedDeposit(globalUser.token, globalUser.cid));
+    const deleteUnclaimed = () => dispatch(deleteUnclaimedDeposit());
     const apiCall = useRef(undefined)
     const [err, setErr] = useState(false)
 
     useEffect(() => {
-        getUnclaimed()
-        setInterval(() => {
+        if (globalUser.cid) {
             getUnclaimed()
-        }, 10000);
-        }, [])
+            setInterval(() => {
+                getUnclaimed()
+            }, 10000);
+        }
+        console.log(unclaimedDeposits,'here');
+
+    }, [])
 
 
     async function disconnect() {
@@ -90,6 +96,7 @@ const Navbar = ({ switchTheme }) => {
                 throw response
             else {
                 logOut()
+                deleteUnclaimed()
                 setTimeout(() => {
                     navigate('/')
                 }, 1000);
@@ -131,15 +138,21 @@ const Navbar = ({ switchTheme }) => {
             {/* : <YouWhoIcon onClick={() => navigate('/')} />} */}
 
             {globalUser.isLoggedIn ?
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: { xs: 'auto', sm: '30%' }, color: 'primary.text' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: { xs: 'auto', lg: '30%' }, color: 'primary.text' }}>
                     <div style={{ display: 'flex', alignItems: 'center', }}>
                         <span style={{ fontSize: '14px' }}>{globalUser.balance}</span><Box sx={{
                             backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center'
                             , width: '16px', height: '16px'
                         }} /> <Wallet size='16px' />
                     </div>&nbsp;&nbsp;&nbsp;
-                    <div style={{ display: 'flex', alignItems: 'center', }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
                         <Notification size="16px" cursor='pointer' />
+                        {
+                            unclaimedDeposits.length ?
+                                <span style={{ backgroundColor: "#F84F31", color: "white", fontSize: '10px', borderRadius: '5px', padding: '5px' }}>you have unclaimed gifts!</span>
+                                :
+                                <></>
+                        }
                     </div>&nbsp;&nbsp;&nbsp;
                     <div style={{ display: 'flex', alignItems: 'center', }}>
                         {window.location.pathname == '/dashboard' || window.location.pathname == '/gallery' || window.location.pathname == '/wallet' ?

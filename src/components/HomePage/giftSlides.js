@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ButtonOutline from "../buttons/buttonOutline";
 import { useEffect, useRef, useState } from "react";
 import { PUBLIC_API } from "../../utils/data/public_api";
+import { ToastContainer, toast } from 'react-toastify';
 
 const GiftSlides = () => {
     const navigate = useNavigate()
@@ -61,6 +62,7 @@ const GiftSlides = () => {
         }}>
             <ButtonOutline text={'view all'} w={'100%'} onClick={() => navigate('/transfer')} />
         </Box>
+        <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick pauseOnFocusLoss pauseOnHover />
     </Box>
     );
 }
