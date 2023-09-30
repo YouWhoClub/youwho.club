@@ -169,7 +169,7 @@ const CreateWallet = ({ switchTheme , setPvKey}) => {
             if (!response.isSuccess)
                 throw response
             fetchUser(globalUser.token)
-            setPrivateKeyy(undefined)
+            setPrivateKeyy(response.data.data.signer)
             setYouwhoID(response.data.data.screen_cid)
             setPrivateKeey(response.data.data.signer)
             setPvKey(response.data.data.signer)

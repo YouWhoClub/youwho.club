@@ -9,6 +9,10 @@ import { useNavigate } from "react-router";
 import { PUBLIC_API } from "../../utils/data/public_api";
 import { Close, Square } from "@mui/icons-material";
 import { Apple } from "iconsax-react";
+import { API_CONFIG } from "../../config";
+import Web3 from 'web3';
+import { Buffer } from 'buffer';
+
 const shake = keyframes`
   0% {
     transform: rotate(-2deg);
@@ -132,6 +136,65 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue }) => {
     //         setErr(err.statusText)
     //     }
     // }
+
+    const provider = "https://polygon-mainnet.infura.io/v3/20f2a17bd46947669762f289a2a0c71c";
+    const web3Provider = new Web3.providers.HttpProvider(provider);
+    const web3 = new Web3(web3Provider);
+
+    const deposite = async (e) => {
+        e.preventDefault()
+
+        const privateKey = Buffer.from(globalUser.privateKey, 'hex');
+
+        const data = {
+            recipient: receipantID,
+            from_cid: globalUser.cid,
+            amount: price,
+        }
+
+        const dataString = JSON.stringify(data);
+        const dataHash = web3.utils.keccak256(dataString);
+
+        const signObject = web3.eth.accounts.sign(dataHash, privateKey);
+
+        const {signature} = signObject;
+
+        const requestData = {
+            ...data,
+            tx_signature: signature.replace('0x', ''),
+            hash_data: dataHash.replace('0x', ''),
+        };
+
+        console.log(signObject);
+        console.log(requestData);
+
+        const publicKey = web3.eth.accounts.recover(dataHash, signature);
+        console.log(publicKey)
+
+        // sending the request
+
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/deposit/to/0x5a298eE7B1EDA4de9fBf18905974b059221CaC2e`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+
+        if (response.status === 200 || response.status === 201) {
+            console.log(response.message);
+            setErr(false)
+            setOpenBuyModal(false)
+
+        } else {
+            setErr(response.message)
+        }
+    } 
+
+
     return (
         <Outter>
             <Card>
@@ -144,10 +207,6 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue }) => {
                         <div>
                             price:
                         </div>
-                        {dollarValue ?
-                            console.log('usddddsds', dollarValue) :
-                            console.log('nist')
-                        }
                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <Typography>{price} yt</Typography>
                             <Typography sx={{ fontSize: '10px' }}>{dollarValue !== '...' ? (dollarValue * price).toString() : "..."} $</Typography>
@@ -195,7 +254,7 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue }) => {
                                 <Inputt value={receipantID} placeholder="enter id" onChange={(e) => setReceipantID(e.target.value)} />
                             </Inputtt>
                         </Box>
-                        <ButtonPurple text={'transfer'} w={'100%'} />
+                        <ButtonPurple text={'transfer'} w={'100%'} onClick={deposite}/>
                     </Box>
                 </Box>
             </Modal>
