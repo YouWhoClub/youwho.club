@@ -14,6 +14,7 @@ import Web3 from 'web3';
 import { Buffer } from 'buffer';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+import yCoin from '../../assets/Ycoin.svg'
 
 const shake = keyframes`
   0% {
@@ -147,8 +148,8 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
     }
 
     const updateToast = (success, message) => {
-        success ? toast.update(toastId.current, {  render: message, type: "success", isLoading: false, autoClose: 3000 })
-        : toast.update(toastId.current, {  render: message, type: "error", isLoading: false, autoClose: 3000 })
+        success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
+            : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
     }
 
     const provider = "https://polygon-mainnet.infura.io/v3/20f2a17bd46947669762f289a2a0c71c";
@@ -203,10 +204,10 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
         if (response.status === 200 || response.status === 201) {
             setErr(false)
             setOpenBuyModal(false)
-            updateToast(true,response.message)
+            updateToast(true, response.message)
         } else {
             setErr(response.message)
-            updateToast(false,response.message)
+            updateToast(false, response.message)
         }
     }
     const withdraw = async (e) => {
@@ -253,10 +254,10 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
         if (response.status === 200 || response.status === 201) {
             setErr(false)
             setOpenClaimModal(false)
-            updateToast(true,response.message)
+            updateToast(true, response.message)
         } else {
             setErr(response.message)
-            updateToast(false,response.message)
+            updateToast(false, response.message)
         }
     }
 
@@ -274,7 +275,13 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
                             price:
                         </div>
                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            <Typography>{price} yt</Typography>
+                            <FlexRow>
+                                <Typography>{price}</Typography>
+                                <Box sx={{
+                                    backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center'
+                                    , width: '20px', height: '20px'
+                                }} />
+                            </FlexRow>
                             <Typography sx={{ fontSize: '10px' }}>{dollarValue !== '...' ? (dollarValue * price).toString() : "..."} $</Typography>
                         </Box>
                     </FlexRow>
@@ -320,7 +327,7 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
                                 <Inputt value={receipantID} placeholder="enter id" onChange={(e) => setReceipantID(e.target.value)} />
                             </Inputtt>
                         </Box>
-                        <ButtonPurple text={'transfer'} w={'100%'} onClick={deposite}/>
+                        <ButtonPurple text={'transfer'} w={'100%'} onClick={deposite} />
                     </Box>
                 </Box>
             </Modal>
@@ -348,7 +355,7 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
                                 by keeping this gift in your wallet for 2 more days you will get a token bonus
                             </Typography>
                         </Box>
-                        <ButtonPurple text={'claim/burn'} w={'100%'} onClick={withdraw}/>
+                        <ButtonPurple text={'claim/burn'} w={'100%'} onClick={withdraw} />
                     </Box>
                 </Box>
             </Modal>

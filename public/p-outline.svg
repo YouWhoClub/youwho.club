@@ -30,8 +30,8 @@
 		}
 		}
 			
-	.st0{fill:none;stroke:#864A6E;stroke-width:8.8915;stroke-miterlimit:10;}
-	.st1{fill:#864A6E;}
+	.st0{fill:none;stroke:#5F0A87;stroke-width:8.8915;stroke-miterlimit:10;}
+	.st1{fill:#5F0A87;}
 	.hand-knock, .up-knock, .middle-knock, .bottom-knock,.hand-knock-f{ 
 		animation: rotation 1s linear;
 		transform-origin: center;

@@ -32,22 +32,16 @@ const YouWhoIconPurple = styled('div')(({ theme }) => ({
     height: '50px'
 }))
 const ThemeSwitchButton = styled('div')(({ theme }) => ({
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.themeSwitch,
     borderRadius: '50%',
     border: '1px solid', borderColor: theme.palette.secondary.themeSwitch,
     cursor: 'pointer',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    boxShadow:'0px 0px 9px -2px rgba(227,209,231,0.9)',
 
-    width: '30px', height: '30px'
-}))
-const ThemeSwitchButtonInside = styled('div')(({ theme }) => ({
-    backgroundColor: theme.palette.secondary.themeSwitch,
-    borderRadius: '50%',
-    //  border: '1px solid', borderColor: 'white',
-    cursor: 'pointer',
-    width: '15px', height: '15px'
+    width: '20px', height: '20px'
 }))
 
 function HomeIcon(props) {
@@ -75,7 +69,7 @@ const Navbar = ({ switchTheme }) => {
                 getUnclaimed()
             }, 10000);
         }
-        console.log(unclaimedDeposits,'here');
+        console.log(unclaimedDeposits, 'here');
 
     }, [])
 
@@ -111,57 +105,60 @@ const Navbar = ({ switchTheme }) => {
 
     return (
         <Box sx={{
+            height: '55px',
+            bgcolor: 'primary.bgOp',
+            width: '100%',
+            position: "sticky",
+            top: 0,
+            zIndex: 999,
+        }}
+        ><Box sx={{
+            // width: '100%',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            height: '55px',
-            bgcolor: 'primary.bg',
-            // width: '100%',
-            // position: "fixed",
-            // top: 0,
-            // zIndex: 999,
             px: 1
-        }}
-        >
-            {/* {window.location.pathname == '/' ? */}
-            <Box sx={{ display: 'flex', alignItems: 'center', }}>
-                <YouWhoIconPurple onClick={() => navigate('/')} />
-                <ThemeSwitchButton onClick={switchTheme} ><ThemeSwitchButtonInside /></ThemeSwitchButton>
-            </Box>
-            {/* : <YouWhoIcon onClick={() => navigate('/')} />} */}
-
-            {globalUser.isLoggedIn ?
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: { xs: 'auto', lg: '30%' }, color: 'primary.text' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', }}>
-                        <span style={{ fontSize: '14px' }}>{globalUser.balance}</span><Box sx={{
-                            backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center'
-                            , width: '16px', height: '16px'
-                        }} /> <Wallet size='16px' />
-                    </div>&nbsp;&nbsp;&nbsp;
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
-                        <Notification size="16px" cursor='pointer' />
-                        {
-                            unclaimedDeposits.length ?
-                                <span style={{ backgroundColor: "#F84F31", color: "white", fontSize: '10px', borderRadius: '5px', padding: '5px' }}>you have unclaimed gifts!</span>
-                                :
-                                <></>
-                        }
-                    </div>&nbsp;&nbsp;&nbsp;
-                    <div style={{ display: 'flex', alignItems: 'center', }}>
-                        {window.location.pathname == '/dashboard' || window.location.pathname == '/gallery' || window.location.pathname == '/wallet' ?
-                            undefined
-                            : <div style={{ display: 'flex', alignItems: 'center', }} onClick={() => navigate('/dashboard')}>
-                                <Profile cursor='pointer' size='16px' />
-                            </div>
-                        }
-                        <div onClick={disconnect}>
-                            <LogoutCurve style={{ display: 'flex', alignItems: 'center', }} cursor='pointer' size='16px' />
-                        </div>
-                    </div>
+        }}>
+                {/* {window.location.pathname == '/' ? */}
+                <Box sx={{ display: 'flex', alignItems: 'center', }}>
+                    <YouWhoIconPurple onClick={() => navigate('/')} />
+                    <ThemeSwitchButton onClick={switchTheme} ></ThemeSwitchButton>
                 </Box>
-                :
-                <ButtonOutline text={'start'} onClick={() => navigate('/auth')} />
-            }
+                {/* : <YouWhoIcon onClick={() => navigate('/')} />} */}
+
+                {globalUser.isLoggedIn ?
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: { xs: 'auto', lg: '30%' }, color: 'primary.text' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', }}>
+                            <span style={{ fontSize: '14px' }}>{globalUser.balance}</span><Box sx={{
+                                backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center'
+                                , width: '20px', height: '20px'
+                            }} /> <Wallet size='16px' />
+                        </div>&nbsp;&nbsp;&nbsp;
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
+                            <Notification size="16px" cursor='pointer' />
+                            {
+                                unclaimedDeposits.length ?
+                                    <span style={{ backgroundColor: "#F84F31", color: "white", fontSize: '10px', borderRadius: '5px', padding: '5px' }}>you have unclaimed gifts!</span>
+                                    :
+                                    <></>
+                            }
+                        </div>&nbsp;&nbsp;&nbsp;
+                        <div style={{ display: 'flex', alignItems: 'center', }}>
+                            {window.location.pathname == '/dashboard' || window.location.pathname == '/gallery' || window.location.pathname == '/wallet' ?
+                                undefined
+                                : <div style={{ display: 'flex', alignItems: 'center', }} onClick={() => navigate('/dashboard')}>
+                                    <Profile cursor='pointer' size='16px' />
+                                </div>
+                            }
+                            <div onClick={disconnect}>
+                                <LogoutCurve style={{ display: 'flex', alignItems: 'center', }} cursor='pointer' size='16px' />
+                            </div>
+                        </div>
+                    </Box>
+                    :
+                    <ButtonOutline text={'start'} onClick={() => navigate('/auth')} />
+                }
+            </Box>
         </Box>
     );
 }

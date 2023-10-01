@@ -6,18 +6,24 @@ import Navigation from "../components/HomePage/navigation";
 import NFTSlides from "../components/HomePage/nftSlides";
 import Middle from "../components/HomePage/middle";
 import Compliment from "../components/HomePage/compliment";
+import styled from "@emotion/styled";
+const Homme = styled(Box)(({ theme }) => ({
+    background: theme.palette.primary.bg,
+    // display:'flex',flexDirection:'column',
+    // width:'100%'
+}))
 
 const Home = ({ switchTheme, theme }) => {
     return (
-        <>
+        <Homme>
             <Navbar switchTheme={switchTheme} />
             <Intro theme={theme} />
             <Navigation />
-            <Middle/>
+            <Middle />
             <Compliment />
-            <NFTSlides/>
+            <NFTSlides />
             <Footer />
-        </>
+        </Homme>
     );
 }
 
