@@ -108,7 +108,9 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
     const globalUser = useSelector(state => state.userReducer)
     const navigate = useNavigate()
     const [openBuyModal, setOpenBuyModal] = useState(false)
+    const [modalData, setModalData] = useState('form');
     const [openClaimModal, setOpenClaimModal] = useState(false)
+    const [txHash, setTxHash] = useState(null)
     const [err, setErr] = useState(undefined)
     // const [dollarValue, setDollarValue] = useState(undefined)
     const [receipantID, setReceipantID] = useState(undefined)
@@ -161,7 +163,8 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
 
         loading();
 
-        const privateKey = Buffer.from(globalUser.privateKey, 'hex');
+        const privateKey = Buffer.from('a3bea793390397a14ebd73afc272373d7107026b2c26186f491b70fe373d32cd', 'hex');
+        // const privateKey = Buffer.from(globalUser.privateKey, 'hex');
 
         const data = {
             recipient: receipantID,
@@ -203,7 +206,8 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
 
         if (response.status === 200 || response.status === 201) {
             setErr(false)
-            setOpenBuyModal(false)
+            setModalData('depositeInfo')
+            setTxHash(response.data.mint_tx_hash)
             updateToast(true, response.message)
         } else {
             setErr(response.message)
@@ -301,7 +305,9 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
             </Card>
             <Modal
                 open={openBuyModal}
-                onClose={() => setOpenBuyModal(false)}
+                onClose={() => {
+                    setOpenBuyModal(false)
+                }}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
                 disableScrollLock={true}
@@ -317,17 +323,31 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
                         backgroundColor: 'secondary.bg',
                         display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between'
                     }}>
-                        <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}><Typography>Transfer</Typography><div onClick={() => setOpenBuyModal(false)}><Close sx={{ cursor: 'pointer' }} /></div></FlexRow>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', }}>
-                            <Typography sx={{ mt: 2, fontSize: '12px', mb: 2, color: 'primary.text' }}>
-                                Enter Receipant YouWho ID
-                            </Typography>
-                            <Inputtt>
-                                <Square sx={{ color: 'primary.light', fontSize: '30px' }} />
-                                <Inputt value={receipantID} placeholder="enter id" onChange={(e) => setReceipantID(e.target.value)} />
-                            </Inputtt>
-                        </Box>
-                        <ButtonPurple text={'transfer'} w={'100%'} onClick={deposite} />
+                        <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}><Typography>Transfer</Typography><div onClick={() => {
+                            setOpenBuyModal(false)
+                            setModalData('form')
+                        }}><Close sx={{ cursor: 'pointer' }} /></div></FlexRow>
+                        {
+                            (modalData == 'form') ?
+                                <>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', }}>
+                                        <Typography sx={{ mt: 2, fontSize: '12px', mb: 2, color: 'primary.text' }}>
+                                            Enter Receipant YouWho ID
+                                        </Typography>
+                                        <Inputtt>
+                                            <Square sx={{ color: 'primary.light', fontSize: '30px' }} />
+                                            <Inputt value={receipantID} placeholder="enter id" onChange={(e) => setReceipantID(e.target.value)} />
+                                        </Inputtt>
+                                    </Box>
+                                    <ButtonPurple text={'transfer'} w={'100%'} onClick={deposite} />
+                                </>
+                                :
+                                <Box sx={{ display: 'flex', flexDirection: 'column',height:'60%' }}>
+                                    <Typography sx={{ mt: 2, fontSize: '14px', mb: 2, color: 'primary.text' }}>
+                                        mint tx hash : {txHash}
+                                    </Typography>
+                                </Box>
+                        }
                     </Box>
                 </Box>
             </Modal>
