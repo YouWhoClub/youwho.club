@@ -32,7 +32,7 @@ const emptyUser = {
     isPhoneVerified: false,
     account: '',
     socialId: '',
-    balamce: '',
+    balance: '',
     // privateKey: action.payload.signer,
 }
 
