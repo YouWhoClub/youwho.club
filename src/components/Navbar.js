@@ -31,6 +31,14 @@ const YouWhoIconPurple = styled('div')(({ theme }) => ({
     width: '50px',
     height: '50px'
 }))
+const YouWhoHugCoinPurple = styled('div')(({ theme }) => ({
+    cursor: 'pointer',
+    backgroundImage: "url('/youwho-hugcoin.svg')",
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    width: '50px',
+    height: '50px'
+}))
 const ThemeSwitchButton = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.primary.themeSwitch,
     borderRadius: '50%',
@@ -121,7 +129,7 @@ const Navbar = ({ switchTheme }) => {
         }}>
                 {/* {window.location.pathname == '/' ? */}
                 <Box sx={{ display: 'flex', alignItems: 'center', }}>
-                    <YouWhoIconPurple onClick={() => navigate('/')} />
+                    <YouWhoHugCoinPurple onClick={() => navigate('/')} />
                     <ThemeSwitchButton onClick={switchTheme} ></ThemeSwitchButton>
                 </Box>
                 {/* : <YouWhoIcon onClick={() => navigate('/')} />} */}
