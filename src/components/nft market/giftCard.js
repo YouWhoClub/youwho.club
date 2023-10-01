@@ -4,7 +4,8 @@ import { BG_URL, PUBLIC_URL } from "../../utils/utils";
 import ButtonPurple from "../buttons/buttonPurple";
 import { useEffect, useRef, useState } from "react";
 import giftImage from '../../assets/gift.png'
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateBalance } from "../../redux/actions";
 import { useNavigate } from "react-router";
 import { PUBLIC_API } from "../../utils/data/public_api";
 import { Close, Square } from "@mui/icons-material";
@@ -106,6 +107,8 @@ const Inputtt = styled('div')(({ theme }) => ({
 
 const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) => {
     const globalUser = useSelector(state => state.userReducer)
+    const dispatch = useDispatch();
+    const getBalance = (token) => dispatch(updateBalance(token));
     const navigate = useNavigate()
     const [openBuyModal, setOpenBuyModal] = useState(false)
     const [modalData, setModalData] = useState('form');
@@ -209,6 +212,7 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
             setModalData('depositeInfo')
             setTxHash(response.data.mint_tx_hash)
             updateToast(true, response.message)
+            getBalance(globalUser.token)
         } else {
             setErr(response.message)
             updateToast(false, response.message)
@@ -259,6 +263,7 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
             setErr(false)
             setOpenClaimModal(false)
             updateToast(true, response.message)
+            getBalance(globalUser.token)
         } else {
             setErr(response.message)
             updateToast(false, response.message)

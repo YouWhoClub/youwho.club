@@ -18,6 +18,7 @@ export const SET_ID = 'SET_ID'
 export const EMPTY_CART = 'EMPTY_CART';
 export const GET_UNCLAIMED_DEPOSITE = 'GET_UNCLAIMED_DEPOSITE';
 export const DELETE_UNCLAIMED_DEPOSITE = 'DELETE_UNCLAIMED_DEPOSITE';
+export const UPDATE_BALANCE = 'UPDATE_BALANCE';
 
 const emptyUser = {
     username: '',
@@ -124,6 +125,29 @@ export const deleteUnclaimedDeposit = () => {
                 type: SET_ID,
                 payload: id
             });
+        }
+    };
+
+    export const updateBalance = (token) => {
+        try {
+            return async dispatch => {
+                const response = await axios.get(`${API_CONFIG.HEALTH_API_URL}/check-token`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    }
+                })
+                if (response.status >= 200 && response.status < 300) {
+                    const balance = response.data.data
+                    dispatch({
+                        type: UPDATE_BALANCE,
+                        payload: balance.balance
+                    });
+                } 
+            };
+        } catch (error) {
+            // Add custom logic to handle errors
+            console.log(error);
         }
     };
     export const logOutUser = () => {

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import { GET_USER, SET_NFT_CONTRACT, SET_PROPOSAL_CONTRACT, SET_MARKET_CONTRACT, SET_EVENT_CONTRACT, WALLET_CONNECTION, LOGOUT_USER, SET_ACCOUNT, ADD_TO_CART, REMOVE_FROM_CART, INCREMENT_QUANTITY, DECREMENT_QUANTITY, SET_ID } from './actions';
+import { GET_USER, UPDATE_BALANCE, SET_NFT_CONTRACT, SET_PROPOSAL_CONTRACT, SET_MARKET_CONTRACT, SET_EVENT_CONTRACT, WALLET_CONNECTION, LOGOUT_USER, SET_ACCOUNT, ADD_TO_CART, REMOVE_FROM_CART, INCREMENT_QUANTITY, DECREMENT_QUANTITY, SET_ID } from './actions';
 const initialState = {
     username: '',
     userId: '',
@@ -56,6 +56,8 @@ function userReducer(state = initialState, action) {
             return { ...state, account: action.payload };
         case SET_ID:
             return { ...state, privateKey: action.payload };
+        case UPDATE_BALANCE:
+            return { ...state, balance: action.payload };
         default:
             return state;
     }
