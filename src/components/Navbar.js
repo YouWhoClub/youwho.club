@@ -94,13 +94,6 @@ const Navbar = ({ switchTheme }) => {
 
     }
 
-    const setTheme = () => {
-        if (localStorage.getItem('theme') == 'light') {
-            localStorage.setItem('theme', 'dark')
-        } else {
-            localStorage.setItem('theme', 'light')
-        }
-    }
     return (
         <Box sx={{
             display: 'flex',

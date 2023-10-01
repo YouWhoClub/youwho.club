@@ -41,9 +41,17 @@ function App() {
   } else {
     localStorage.setItem('device-id', uuidv4())
   }
+  const setLocalTheme = () => {
+    if (localStorage.getItem('theme') == 'light') {
+      localStorage.setItem('theme', 'dark')
+    } else {
+      localStorage.setItem('theme', 'light')
+    }
+  }
 
   const [theme, setTheme] = useState('light')
   const switchTheme = () => {
+    setLocalTheme()
     if (theme == 'light') {
       setTheme('dark')
     } else setTheme('light')
@@ -62,9 +70,9 @@ function App() {
         white: 'white',
         bg: '#281240',
         bgOp: 'rgba(40,18,64,0.3)',
-        bgGradient:'linear-gradient(180deg, rgba(10,3,17,1) 0%, rgba(40,18,64,0.8957634079022234) 100%)',
+        bgGradient: 'linear-gradient(180deg, rgba(10,3,17,1) 0%, rgba(40,18,64,0.8957634079022234) 100%)',
         text: 'white',
-        themeSwitch:'#140920'
+        themeSwitch: '#140920'
       },
       secondary: {
         dark: '#0F0A0A',
@@ -76,9 +84,9 @@ function App() {
         white: 'white',
         bg: '#3C1A60',
         bgOp: 'rgba(60,26,96,0.3)',
-        bgGradient:'linear-gradient(180deg, rgba(40,18,64,1) 0%, rgba(93,45,134,1) 50%, rgba(40,18,64,1) 100%)',
+        bgGradient: 'linear-gradient(180deg, rgba(40,18,64,1) 0%, rgba(93,45,134,1) 50%, rgba(40,18,64,1) 100%)',
         text: '#F6F5F4',
-        themeSwitch:'#1E0D30'
+        themeSwitch: '#1E0D30'
 
       },
     },
@@ -96,9 +104,9 @@ function App() {
         white: 'white',
         bg: '#F8F4E3',
         bgOp: 'rgba(248,244,227,0.5)',
-        bgGradient:'linear-gradient(180deg, rgba(83,38,132,1) 0%, rgba(248,244,227,0.9461835759694502) 100%)',
+        bgGradient: 'linear-gradient(180deg, rgba(83,38,132,1) 0%, rgba(248,244,227,0.9461835759694502) 100%)',
         text: 'black',
-        themeSwitch:'#FFC233'
+        themeSwitch: '#FFC233'
       },
       secondary: {
         dark: '#0F0A0A',
@@ -110,9 +118,9 @@ function App() {
         white: '#F5EFED',
         bg: 'white',
         bgOp: 'rgba(255,255,255,0.5)',
-        bgGradient:'linear-gradient(180deg, rgba(248,244,227,0.9388810700061274) 0%, rgba(83,38,132,0.7) 50%, rgba(248,244,227,0.9472844313506653) 100%)',
+        bgGradient: 'linear-gradient(180deg, rgba(248,244,227,0.9388810700061274) 0%, rgba(83,38,132,0.7) 50%, rgba(248,244,227,0.9472844313506653) 100%)',
         text: '#707070',
-        themeSwitch:'#FFC43D'
+        themeSwitch: '#FFC43D'
 
       },
     },
@@ -120,12 +128,12 @@ function App() {
 
   const Wrapper = styled(Box)(({ theme }) => ({
     maxWidth: '1440px',
-    position:'relative',
-    margin:'0 auto',
+    position: 'relative',
+    margin: '0 auto',
     "@media (max-width: 1440px)": {
       width: '100%',
-  },
-  // justifyContent: 'center',
+    },
+    // justifyContent: 'center',
     // alignItems: 'center'
   }))
   const localTheme = localStorage.getItem('theme')
