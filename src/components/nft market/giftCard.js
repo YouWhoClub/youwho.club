@@ -103,7 +103,7 @@ const Inputtt = styled('div')(({ theme }) => ({
     }
 }))
 
-const GiftCard = ({ image, price, sender, dollarValue, irrValue }) => {
+const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) => {
     const globalUser = useSelector(state => state.userReducer)
     const navigate = useNavigate()
     const [openBuyModal, setOpenBuyModal] = useState(false)
@@ -209,6 +209,56 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue }) => {
             updateToast(false,response.message)
         }
     }
+    const withdraw = async (e) => {
+        e.preventDefault()
+
+        loading();
+
+        const privateKey = Buffer.from(globalUser.privateKey, 'hex');
+
+        const data = {
+            recipient_cid: globalUser.cid,
+            deposit_id: depositId,
+        }
+
+        const dataString = JSON.stringify(data);
+        const dataHash = web3.utils.keccak256(dataString);
+
+        const signObject = web3.eth.accounts.sign(dataHash, privateKey);
+
+        const { signature } = signObject;
+
+        const requestData = {
+            ...data,
+            tx_signature: signature.replace('0x', ''),
+            hash_data: dataHash.replace('0x', ''),
+        };
+
+        console.log(signObject);
+        console.log(requestData);
+
+        // sending the request
+
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/withdraw/from/0x5a298eE7B1EDA4de9fBf18905974b059221CaC2e`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+
+        if (response.status === 200 || response.status === 201) {
+            setErr(false)
+            setOpenClaimModal(false)
+            updateToast(true,response.message)
+        } else {
+            setErr(response.message)
+            updateToast(false,response.message)
+        }
+    }
 
 
     return (
@@ -298,7 +348,7 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue }) => {
                                 by keeping this gift in your wallet for 2 more days you will get a token bonus
                             </Typography>
                         </Box>
-                        <ButtonPurple text={'claim/burn'} w={'100%'} />
+                        <ButtonPurple text={'claim/burn'} w={'100%'} onClick={withdraw}/>
                     </Box>
                 </Box>
             </Modal>
