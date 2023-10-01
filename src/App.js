@@ -70,8 +70,9 @@ function App() {
         white: 'white',
         bg: '#281240',
         bgOp: 'rgba(40,18,64,0.3)',
-        bgGradient: 'linear-gradient(180deg, rgba(10,3,17,1) 0%, rgba(40,18,64,0.8957634079022234) 100%)',
-        bgGradientDown: 'linear-gradient(180deg, rgba(40,18,64,0.8957634079022234) 0%, rgba(10,3,17,1) 100%)',
+        // bgGradient: 'linear-gradient(180deg, rgba(10,3,17,1) 0%, rgba(40,18,64,0.8957634079022234) 100%)',
+        bgGradient: 'linear-gradient(180deg, rgba(10,3,17,1) 0%, rgba(40,18,64,1) 100%)',
+        bgGradientDown: 'linear-gradient(180deg, rgba(40,18,64,1) 0%, rgba(10,3,17,1) 100%)',
         text: 'white',
         themeSwitch: '#140920'
       },
@@ -105,8 +106,8 @@ function App() {
         white: 'white',
         bg: '#F8F4E3',
         bgOp: 'rgba(248,244,227,0.5)',
-        bgGradient: 'linear-gradient(180deg, rgba(83,38,132,1) 0%, rgba(248,244,227,0.9461835759694502) 100%)',
-        bgGradientDown: 'linear-gradient(180deg, rgba(248,244,227,0.9461835759694502) 0%, rgba(83,38,132,1) 100%)',
+        bgGradient: 'linear-gradient(180deg, rgba(83,38,132,1) 0%, rgba(248,244,227,1) 100%)',
+        bgGradientDown: 'linear-gradient(180deg, rgba(248,244,227,1) 0%, rgba(83,38,132,1) 100%)',
         text: 'black',
         themeSwitch: '#FFC233'
       },
@@ -120,7 +121,7 @@ function App() {
         white: '#F5EFED',
         bg: 'white',
         bgOp: 'rgba(255,255,255,0.5)',
-        bgGradient: 'linear-gradient(180deg, rgba(248,244,227,0.9388810700061274) 0%, rgba(83,38,132,0.7) 50%, rgba(248,244,227,0.9472844313506653) 100%)',
+        bgGradient: 'linear-gradient(180deg, rgba(248,244,227,1) 0%, rgba(83,38,132,0.7) 50%, rgba(248,244,227,1) 100%)',
         text: '#707070',
         themeSwitch: '#FFC43D'
 

@@ -8,7 +8,7 @@ import Middle from "../components/HomePage/middle";
 import Compliment from "../components/HomePage/compliment";
 import styled from "@emotion/styled";
 const Homme = styled(Box)(({ theme }) => ({
-    background: theme.palette.primary.bg,
+    background: theme.palette.primary.bgGradient,
     // display:'flex',flexDirection:'column',
     // width:'100%'
 }))
