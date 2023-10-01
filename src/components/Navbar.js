@@ -47,7 +47,7 @@ const ThemeSwitchButton = styled('div')(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    boxShadow:'0px 0px 9px -2px rgba(227,209,231,0.9)',
+    boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)',
 
     width: '20px', height: '20px'
 }))
@@ -69,17 +69,29 @@ const Navbar = ({ switchTheme }) => {
     const deleteUnclaimed = () => dispatch(deleteUnclaimedDeposit());
     const apiCall = useRef(undefined)
     const [err, setErr] = useState(false)
+    const [intervalRef, setIntervalRef] = useState(null);
 
     useEffect(() => {
         if (globalUser.cid) {
-            getUnclaimed()
-            setInterval(() => {
-                getUnclaimed()
+            getUnclaimed();
+            const intervalId = setInterval(() => {
+                getUnclaimed();
             }, 10000);
+            setIntervalRef(intervalId);
+        } else {
+            if (intervalRef) {
+                clearInterval(intervalRef);
+                setIntervalRef(null);
+            }
         }
-        console.log(unclaimedDeposits, 'here');
 
-    }, [])
+        return () => {
+            if (intervalRef) {
+                clearInterval(intervalRef);
+                setIntervalRef(null);
+            }
+        };
+    }, [globalUser.cid]);
 
 
     async function disconnect() {
