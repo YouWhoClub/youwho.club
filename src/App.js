@@ -71,6 +71,7 @@ function App() {
         bg: '#281240',
         bgOp: 'rgba(40,18,64,0.3)',
         bgGradient: 'linear-gradient(180deg, rgba(10,3,17,1) 0%, rgba(40,18,64,0.8957634079022234) 100%)',
+        bgGradientDown: 'linear-gradient(180deg, rgba(40,18,64,0.8957634079022234) 0%, rgba(10,3,17,1) 100%)',
         text: 'white',
         themeSwitch: '#140920'
       },
@@ -105,6 +106,7 @@ function App() {
         bg: '#F8F4E3',
         bgOp: 'rgba(248,244,227,0.5)',
         bgGradient: 'linear-gradient(180deg, rgba(83,38,132,1) 0%, rgba(248,244,227,0.9461835759694502) 100%)',
+        bgGradientDown: 'linear-gradient(180deg, rgba(248,244,227,0.9461835759694502) 0%, rgba(83,38,132,1) 100%)',
         text: 'black',
         themeSwitch: '#FFC233'
       },
