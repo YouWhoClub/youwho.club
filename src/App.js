@@ -168,7 +168,7 @@ function App() {
                     <Route exact path="/display" element={<Display />} />
                     <Route exact path="/dashboard" element={<Dashboard switchTheme={switchTheme} />} />
                     <Route exact path="/profile/:name" element={<Profile />} />
-                    <Route exact path="/transfer" element={<TransferPage />} />
+                    <Route exact path="/transfer" element={<TransferPage theme={theme} switchTheme={switchTheme}/>} />
                     <Route exact path="/wallet" element={<WalletPage switchTheme={switchTheme} />} />
                     <Route exact path="/public-gallery" element={<PublicGallery />} />
                     <Route exact path="/gallery/user/:id" element={<PublicGallery />} />

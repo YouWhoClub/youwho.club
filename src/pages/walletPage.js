@@ -30,12 +30,14 @@ const WalletPage = ({ switchTheme }) => {
                 <>
                     {globalUser.isPhoneVerified ?
                         <>{globalUser.youwhoID ?
-                            <Wallet privateKey={privateKey}/> :
-                            <CreateWallet setPvKey={setPrivateKey}/>
+                            <Wallet privateKey={privateKey} /> :
+                            <CreateWallet setPvKey={setPrivateKey} />
                         }</>
                         :
                         <Box sx={{
-                            width: { xs: '100%', sm: 'calc(100% - 80px)' }, height: { xs: 'calc(100vh - 90px)', sm: '100%' }, display: 'flex', justifyContent: 'center'
+                            width: { xs: '100%', sm: 'calc(100% - 80px)' },
+                            height: { xs: 'calc(100vh - 90px)', sm: '100%' },
+                            display: 'flex', justifyContent: 'center'
                         }}>
                             <VerifyPhone />
                         </Box>

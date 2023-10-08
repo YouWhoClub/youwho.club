@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { PUBLIC_API } from "../utils/data/public_api";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const GiftsScrollWrapper = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -34,7 +36,7 @@ const GiftsScrollWrapper = styled(Box)(({ theme }) => ({
     },
 }))
 
-const TransferPage = () => {
+const TransferPage = ({ theme, switchTheme }) => {
     const apiCall = useRef(undefined)
     const [dollarValue, setDollarValue] = useState(undefined)
     const [irrValue, setIrrValue] = useState(undefined)
@@ -68,27 +70,31 @@ const TransferPage = () => {
             setErr(err.statusText)
         }
     }
-    return (<Box sx={{
-        height: 'calc(100vh - 160px)',
-        bgcolor: 'primary.bg',
-        // pb: 5,
-        pt: { xs: '180px', sm: '110px' },
-        px: { xs: '10px', sm: '40px' },
-        pb: '40px',
-        display: "flex", justifyContent: 'center',
-        color: 'primary.darkGray',
-    }}>
-        <GiftsScrollWrapper>
-            <GiftCard price={5} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
-            <GiftCard price={10} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
-            <GiftCard price={25} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
-            <GiftCard price={50} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
-            <GiftCard price={100} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
-            <GiftCard price={150} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
-            <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick pauseOnFocusLoss pauseOnHover />
-        </GiftsScrollWrapper>
-
-    </Box>
+    return (<>
+        <Box sx={{
+            height: '100vh',
+            bgcolor: 'primary.bg',
+            // pb: 5,
+            // pt: { xs: '180px', sm: '110px' },
+            // px: { xs: '10px', sm: '40px' },
+            // pb: '40px',
+            display: "flex", justifyContent: 'center', flexDirection: 'column',
+            color: 'primary.darkGray',
+        }}>
+            <Navbar theme={theme} switchTheme={switchTheme} />
+            <GiftsScrollWrapper sx={{
+            }}>
+                <GiftCard price={5} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
+                <GiftCard price={10} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
+                <GiftCard price={25} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
+                <GiftCard price={50} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
+                <GiftCard price={100} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
+                <GiftCard price={150} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
+                <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick pauseOnFocusLoss pauseOnHover />
+            </GiftsScrollWrapper>
+        </Box>
+        <Footer />
+    </>
     );
 }
 
