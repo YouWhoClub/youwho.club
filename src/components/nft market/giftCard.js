@@ -287,7 +287,7 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
                             <FlexRow>
                                 <Typography>{price}</Typography>
                                 <Box sx={{
-                                    backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center'
+                                    backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
                                     , width: '20px', height: '20px'
                                 }} />
                             </FlexRow>

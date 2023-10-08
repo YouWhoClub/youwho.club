@@ -32,7 +32,7 @@ const ProfileCard = ({ username, youwhoID }) => {
             height: '250px',
             bgcolor: 'secondary.middle',
             borderRadius: '24px',
-            display: 'flex', alignItems: 'center', px: 3,
+            display: 'flex', alignItems: 'center', px: 3, py: { xs: 2, sm: 0 }, flexDirection: { xs: 'column', sm: 'row' }
         }}>
         <ProPic />
         &nbsp;

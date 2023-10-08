@@ -14,6 +14,7 @@ import { BG_URL, PUBLIC_URL } from "../utils/utils";
 import { HEALTH_API } from "../utils/data/health_api";
 import { API_CONFIG } from "../config";
 import { useState, useRef, useEffect } from "react";
+import { PUBLIC_API } from "../utils/data/public_api";
 
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
@@ -108,17 +109,20 @@ const Navbar = ({ switchTheme }) => {
 
             if (!response.isSuccess)
                 throw response
-            else {
+            // else {
                 logOut()
                 deleteUnclaimed()
                 setTimeout(() => {
                     navigate('/')
                 }, 1000);
-            }
+            // }
 
         }
         catch (err) {
+            logOut()
+
             setErr(err.statusText)
+            console.log(err.statusText)
         }
 
     }
@@ -150,7 +154,7 @@ const Navbar = ({ switchTheme }) => {
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: { xs: 'auto', lg: '30%' }, color: 'primary.text' }}>
                         <div style={{ display: 'flex', alignItems: 'center', }}>
                             <span style={{ fontSize: '14px' }}>{globalUser.balance}</span><Box sx={{
-                                backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center'
+                                backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
                                 , width: '20px', height: '20px'
                             }} /> <Wallet size='16px' />
                         </div>&nbsp;&nbsp;&nbsp;
