@@ -34,7 +34,7 @@ const emptyUser = {
     account: '',
     socialId: '',
     balance: '',
-    // privateKey: action.payload.signer,
+    privateKey: '',
 }
 
 const anEmptyCart = []

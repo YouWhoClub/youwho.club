@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { green, red } from "@mui/material/colors";
 import { useNavigate } from "react-router";
 import { AUTH_API } from "../../../utils/data/auth_api";
-import { getuser, setPrivateKey, setYouwhoId } from "../../../redux/actions";
+import { getuser, setPrivateKey } from "../../../redux/actions";
 import ButtonPurple from "../../buttons/buttonPurple";
 import { Check, PasswordCheck, TickSquare } from "iconsax-react";
 import { Link } from "react-router-dom";

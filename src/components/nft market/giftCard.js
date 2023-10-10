@@ -166,8 +166,7 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
 
         loading();
 
-        const privateKey = Buffer.from('a3bea793390397a14ebd73afc272373d7107026b2c26186f491b70fe373d32cd', 'hex');
-        // const privateKey = Buffer.from(globalUser.privateKey, 'hex');
+        const privateKey = Buffer.from(globalUser.privateKey, 'hex');
 
         const data = {
             recipient: receipantID,

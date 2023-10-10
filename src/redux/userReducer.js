@@ -30,7 +30,6 @@ function userReducer(state = initialState, action) {
                 account: action.payload.account_number,
                 socialId: action.payload.social_id,
                 balance: action.payload.balance,
-                // privateKey: action.payload.signer,
             };
         case LOGOUT_USER:
             localStorage.removeItem('account')
@@ -50,7 +49,7 @@ function userReducer(state = initialState, action) {
                 account: action.payload.account_number,
                 socialId: action.payload.social_id,
                 balance: action.payload.balance,
-                // privateKey: action.payload.signer,
+                privateKey: action.payload.privateKey,
             };
         case SET_ACCOUNT:
             return { ...state, account: action.payload };
