@@ -229,7 +229,7 @@ const Navbar = ({ switchTheme }) => {
                         </div>
                     </Box>
                     :
-                    <ButtonOutline text={'start'} onClick={() => navigate('/auth')} />
+                    <ButtonOutline text={'Sign in'} onClick={() => navigate('/auth')} />
                 }
             </Box>
 

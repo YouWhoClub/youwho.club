@@ -25,7 +25,7 @@ const Home = ({ switchTheme, theme }) => {
             <IntroNew />
             <YWServices />
             <SecondSection sx={{
-                height: '100vh', mt: 10, justifyContent: 'end'
+                height: '100vh', mt: 10, justifyContent: 'end',
             }}>
                 <Footer />
                 <Typography sx={{ textAlign: 'center', color: 'primary.text' }}>Copyright © 2023 Youhwo.club. All Rights Reserved.</Typography>
