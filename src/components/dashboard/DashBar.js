@@ -169,12 +169,12 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
 
     }
 
-    const updateBio  = async event => { 
+    const updateBio = async event => {
         loading()
         if (bio) {
             let request = await fetch(`${API_CONFIG.AUTH_API_URL}/profile/update/bio`, {
                 method: 'POST',
-                body: JSON.stringify({bio:bio}),
+                body: JSON.stringify({ bio: bio }),
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${globalUser.token}`,
@@ -182,7 +182,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
             })
             let response = await request.json()
             console.log(response);
-    
+
             if (response.status === 200 || response.status === 201) {
                 fetchUser(globalUser.token)
                 updateToast(true, response.message)
@@ -287,10 +287,11 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
                                         onClick={() => bannerFileInput.current.click()}
                                     />
                                 </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', cursor: 'pointer' }}>
+                                <Box
+                                    onClick={fileUploadHandler}
+                                    sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', cursor: 'pointer' }}>
                                     <Typography
                                         sx={{ fontSize: '10px' }}
-                                        onClick={fileUploadHandler}
                                     >Save </Typography><TickCircle cursor='pointer' size='12px' />
                                 </Box>
                             </AccordionDetails>
@@ -321,10 +322,11 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
                                 sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
                             >
                                 <TextField value={bio} onChange={e => setBio(e.target.value)} placeholder={globalUser.bio ? globalUser.bio : 'please write a few lines about your self'} multiline inputProps={{ style: { fontSize: 12 } }} />
-                                <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', cursor: 'pointer' }}>
+                                <Box
+                                    onClick={updateBio}
+                                    sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', cursor: 'pointer' }}>
                                     <Typography
                                         sx={{ fontSize: '10px' }}
-                                        onClick={updateBio}
                                     >
                                         Save</Typography>
                                     <TickCircle cursor='pointer' size='12px' />
