@@ -9,7 +9,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
-import Home from './pages/home';
+import LandingPrev from './pages/landingPrev';
 import { useEffect, useState } from 'react';
 import { Box, LinearProgress, ThemeProvider, createTheme } from '@mui/material';
 import NotFound from './pages/404';
@@ -17,7 +17,7 @@ import Navbar from './components/Navbar';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './redux/store';
-import Footer from './components/Footer';
+import Footer from './components/FooterPrev';
 import Auth from './pages/auth';
 import Display from './pages/display';
 import Profile from './pages/profile';
@@ -31,6 +31,7 @@ import VerifyPhone from './components/user/auth/verifyPhone';
 import MainGallery from './pages/mainGallery';
 import styled from '@emotion/styled';
 import WalletPage from './pages/walletPage';
+import Home from './pages/home';
 // import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
 
 
@@ -61,7 +62,7 @@ function App() {
     palette: {
       mode: 'dark',
       primary: {
-        dark: 'black',
+        dark: '#1A0052',
         ultra: '#32283E',
         main: '#790DAB',
         middle: '#846894',
@@ -74,10 +75,11 @@ function App() {
         bgGradient: 'linear-gradient(180deg, rgba(10,3,17,1) 0%, rgba(40,18,64,1) 100%)',
         bgGradientDown: 'linear-gradient(180deg, rgba(40,18,64,1) 0%, rgba(10,3,17,1) 100%)',
         text: 'white',
-        themeSwitch: '#140920'
+        themeSwitch: '#140920',
+        landBG: 'linear-gradient(180deg, rgba(40,18,64,0.9) 0%, rgba(10,3,17,0.6) 100%)'
       },
       secondary: {
-        dark: '#0F0A0A',
+        dark: '#1B0055',
         ultra: '#32283E',
         main: '#392F5A',
         middle: '#846894',
@@ -97,7 +99,7 @@ function App() {
     palette: {
       mode: 'light',
       primary: {
-        dark: 'black',
+        dark: '#1B0055',
         ultra: '#32283E',
         main: '#5F0A87',
         middle: '#846894',
@@ -109,7 +111,8 @@ function App() {
         bgGradient: 'linear-gradient(180deg, rgba(83,38,132,1) 0%, rgba(248,244,227,1) 100%)',
         bgGradientDown: 'linear-gradient(180deg, rgba(248,244,227,1) 0%, rgba(83,38,132,1) 100%)',
         text: 'black',
-        themeSwitch: '#FFC233'
+        themeSwitch: '#FFC233',
+        landBG: 'linear-gradient(180deg, rgba(222, 222, 222, 0.25) 0%, rgba(217, 217, 217, 0.10) 100%)'
       },
       secondary: {
         dark: '#0F0A0A',
@@ -163,12 +166,13 @@ function App() {
                 {/* <Navbar /> */}
                 <Wrapper>
                   <Routes>
-                    <Route exact path="/" element={<Home theme={theme} switchTheme={switchTheme} />} />
+                    <Route exact path="/" element={<LandingPrev theme={theme} switchTheme={switchTheme} />} />
+                    <Route exact path="/landing" element={<Home theme={theme} switchTheme={switchTheme} />} />
                     <Route exact path="/auth" element={<Auth />} />
                     <Route exact path="/display" element={<Display />} />
                     <Route exact path="/dashboard" element={<Dashboard switchTheme={switchTheme} />} />
                     <Route exact path="/profile/:name" element={<Profile />} />
-                    <Route exact path="/transfer" element={<TransferPage theme={theme} switchTheme={switchTheme}/>} />
+                    <Route exact path="/transfer" element={<TransferPage theme={theme} switchTheme={switchTheme} />} />
                     <Route exact path="/wallet" element={<WalletPage switchTheme={switchTheme} />} />
                     <Route exact path="/public-gallery" element={<PublicGallery />} />
                     <Route exact path="/gallery/user/:id" element={<PublicGallery />} />

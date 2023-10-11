@@ -6,7 +6,7 @@ import { PUBLIC_API } from "../utils/data/public_api";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Footer from "../components/FooterPrev";
 
 const GiftsScrollWrapper = styled(Box)(({ theme }) => ({
     width: '100%',
