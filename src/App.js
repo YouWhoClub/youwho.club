@@ -76,7 +76,8 @@ function App() {
         bgGradientDown: 'linear-gradient(180deg, rgba(40,18,64,1) 0%, rgba(10,3,17,1) 100%)',
         text: 'white',
         themeSwitch: '#140920',
-        landBG: 'linear-gradient(180deg, rgba(40,18,64,0.9) 0%, rgba(10,3,17,0.6) 100%)'
+        landBG: 'linear-gradient(180deg, rgba(40,18,64,0.9) 0%, rgba(10,3,17,0.6) 100%)',
+        footer:'#C182ED'
       },
       secondary: {
         dark: '#1B0055',
@@ -112,7 +113,8 @@ function App() {
         bgGradientDown: 'linear-gradient(180deg, rgba(248,244,227,1) 0%, rgba(83,38,132,1) 100%)',
         text: 'black',
         themeSwitch: '#FFC233',
-        landBG: 'linear-gradient(180deg, rgba(222, 222, 222, 0.25) 0%, rgba(217, 217, 217, 0.10) 100%)'
+        landBG: 'linear-gradient(180deg, rgba(222, 222, 222, 0.25) 0%, rgba(217, 217, 217, 0.001) 100%)',
+        footer:'#3D0062'
       },
       secondary: {
         dark: '#0F0A0A',

@@ -28,7 +28,6 @@ const Home = ({ switchTheme, theme }) => {
                 height: '100vh', mt: 10, justifyContent: 'end',
             }}>
                 <Footer />
-                <Typography sx={{ textAlign: 'center', color: 'primary.text' }}>Copyright © 2023 Youhwo.club. All Rights Reserved.</Typography>
             </SecondSection>
         </Homme>
     );
