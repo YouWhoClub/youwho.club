@@ -22,6 +22,9 @@ export const UPDATE_BALANCE = 'UPDATE_BALANCE';
 
 const emptyUser = {
     username: '',
+    bio: '',
+    avatar: '',
+    banner: '',
     youwhoID: '',
     cid: '',
     mail: '',

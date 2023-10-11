@@ -4,8 +4,14 @@ import { Typography } from "@mui/joy";
 import { Accordion, AccordionDetails, AccordionSummary, MenuItem, Popper, TextField } from "@mui/material";
 import { Box, ClickAwayListener } from "@mui/material";
 import { ArrowDown2, ArrowUp2, Check, Clock, Profile, Setting2, TickCircle, Timer } from "iconsax-react";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useState, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { API_CONFIG } from "../../config";
+import { toast } from 'react-toastify';
+import { getuser } from "../../redux/actions";
+
+
+
 const Bar = styled(Box)(({ theme }) => ({
     width: { xs: '100%', sm: '200px' },
     borderRadius: '24px', marginBottom: '20px',
@@ -33,7 +39,6 @@ const AvatarEdit = styled(Box)(({ theme }) => ({
     borderRadius: '50%',
     width: '30px',
     height: '30px',
-    backgroundColor: theme.palette.primary.middle,
 }))
 
 const BannerEdit = styled(Box)(({ theme }) => ({
@@ -47,7 +52,7 @@ const FlexRow = styled(Box)(({ theme }) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     color: theme.palette.secondary.text,
-    margin:'3px 0'
+    margin: '3px 0'
 }))
 
 const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
@@ -56,6 +61,23 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
     const [value, setValue] = useState(tabs[0])
     const [editProfile, setEditProfile] = useState(false)
     const globalUser = useSelector(state => state.userReducer)
+    const [selectedAvatar, setSelectedAvatar] = useState(null)
+    const [selectedBanner, setSelectedBanner] = useState(null)
+    const avatarFileInput = useRef()
+    const bannerFileInput = useRef()
+    const toastId = useRef(null);
+    const dispatch = useDispatch();
+    const fetchUser = (token) => dispatch(getuser(token));
+
+    const loading = () => {
+        toastId.current = toast.loading("Please wait...")
+        console.log(toastId)
+    }
+
+    const updateToast = (success, message) => {
+        success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
+            : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
+    }
 
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -78,6 +100,72 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
         if (str)
             return str.length > 10 ? str.substring(0, 7) + '...' : str;
         return 'undefined'
+    }
+
+    const avatarChangeHandler = event => {
+        setSelectedAvatar(event.target.files[0])
+    }
+    const bannerChangeHandler = event => {
+        setSelectedBanner(event.target.files[0])
+    }
+
+    const fileUploadHandler = async event => {
+        loading();
+        const promises = [];
+
+        if (selectedAvatar) {
+            const avatarfd = new FormData();
+            avatarfd.append('img', selectedAvatar)
+
+            const avatarPromise = fetch(`${API_CONFIG.AUTH_API_URL}/profile/update/avatar`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${globalUser.token}`,
+                },
+                body: avatarfd,
+            }).then(response => response.json());
+
+            promises.push(avatarPromise);
+        }
+
+        if (selectedBanner) {
+            const bannerfd = new FormData();
+            bannerfd.append('img', selectedBanner)
+
+            const bannerPromise = fetch(`${API_CONFIG.AUTH_API_URL}/profile/update/banner`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${globalUser.token}`,
+                },
+                body: bannerfd,
+            }).then(response => response.json());
+
+            promises.push(bannerPromise);
+        }
+
+        if (promises.length > 0) {
+            Promise.all(promises)
+                .then(results => {
+                    const areSuccessful = results.every(result => result.status === 200);
+                    if (areSuccessful) {
+                        updateToast(true, results[0].message);
+                        fetchUser(globalUser.token)
+                        // Perform other tasks here
+                    } else {
+                        // Handle error case when at least one API call fails
+                        updateToast(false, 'An error occurred');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Handle error case
+                    updateToast(false, 'An error occurred');
+                });
+        } else {
+            // Handle case when no API calls are made
+            updateToast(false, 'An error occurred');
+        }
+
     }
 
     return (
@@ -126,15 +214,60 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
                                 sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
                             >
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                                    <input
+                                        type="file"
+                                        style={{ display: 'none' }}
+                                        id={"img"}
+                                        accept="image/*"
+                                        onChange={avatarChangeHandler}
+                                        ref={avatarFileInput}
+                                    />
                                     <Typography sx={{ color: 'secondary.text', fontSize: '10px' }}>Set Profile Picture</Typography>
-                                    <AvatarEdit />
+                                    <AvatarEdit
+                                        sx={{
+                                            cursor: 'pointer',
+                                            background: () => {
+                                                return (
+                                                    selectedAvatar
+                                                        ? `url('${URL.createObjectURL(selectedAvatar)}') no-repeat center`
+                                                        : globalUser.avatar ? `url('${API_CONFIG.API_URL}/${globalUser.avatar}') no-repeat center` : '#846894'
+                                                )
+                                            },
+                                            backgroundSize: 'cover'
+                                        }}
+                                        onClick={() => avatarFileInput.current.click()}
+                                    />
                                 </Box>
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                                    <input
+                                        type="file"
+                                        style={{ display: 'none' }}
+                                        id={"img"}
+                                        accept="image/*"
+                                        onChange={bannerChangeHandler}
+                                        ref={bannerFileInput}
+                                    />
                                     <Typography sx={{ color: 'secondary.text', fontSize: '10px' }}>Set Banner Picture</Typography>
-                                    <BannerEdit />
+                                    <BannerEdit
+                                        sx={{
+                                            cursor: 'pointer',
+                                            background: () => {
+                                                return (
+                                                    selectedBanner
+                                                        ? `url('${URL.createObjectURL(selectedBanner)}') no-repeat center`
+                                                        : globalUser.banner ? `url('${API_CONFIG.API_URL}/${globalUser.banner}') no-repeat center` : '#846894'
+                                                )
+                                            },
+                                            backgroundSize: 'cover'
+                                        }}
+                                        onClick={() => bannerFileInput.current.click()}
+                                    />
                                 </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', }}>
-                                    <Typography sx={{ fontSize: '10px' }}>Save </Typography><TickCircle cursor='pointer' size='12px' />
+                                <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', cursor: 'pointer' }}>
+                                    <Typography
+                                        sx={{ fontSize: '10px' }}
+                                        onClick={fileUploadHandler}
+                                    >Save </Typography><TickCircle cursor='pointer' size='12px' />
                                 </Box>
                             </AccordionDetails>
                         </Accordion>
@@ -344,7 +477,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
                                 </FlexRow>
                                 <FlexRow>
                                     <Typography sx={{ fontSize: '12px' }}>Profile Image</Typography>
-                                    {globalUser.ProfileImage ?
+                                    {globalUser.avatar ?
                                         <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
                                         : <Timer color="pink" size='14px' />
                                     }

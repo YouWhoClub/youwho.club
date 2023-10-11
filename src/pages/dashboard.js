@@ -16,6 +16,8 @@ import PanelLayout from "../components/PanelLayout";
 import DashBar from "../components/dashboard/DashBar.js";
 import Selection from "../components/selection";
 import ProfilePanel from "../components/dashboard/profilePanel";
+import { ToastContainer } from 'react-toastify';
+
 const Avatarr = styled(Box)(({ theme }) => ({
     width: '100px',
     height: '100px',
@@ -97,6 +99,7 @@ const Dashboard = ({ switchTheme }) => {
                         :
                         <>you are not logged in </>}
                 </Box>
+                <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick pauseOnFocusLoss pauseOnHover />
             </Box>
         </PanelLayout >
     );
