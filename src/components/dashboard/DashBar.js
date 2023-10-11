@@ -61,6 +61,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
     const [value, setValue] = useState(tabs[0])
     const [editProfile, setEditProfile] = useState(false)
     const globalUser = useSelector(state => state.userReducer)
+    const [bio, setBio] = useState('')
     const [selectedAvatar, setSelectedAvatar] = useState(null)
     const [selectedBanner, setSelectedBanner] = useState(null)
     const avatarFileInput = useRef()
@@ -168,6 +169,29 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
 
     }
 
+    const updateBio = async event => {
+        loading()
+        if (bio) {
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/profile/update/bio`, {
+                method: 'POST',
+                body: JSON.stringify({ bio: bio }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            })
+            let response = await request.json()
+            console.log(response);
+
+            if (response.status === 200 || response.status === 201) {
+                fetchUser(globalUser.token)
+                updateToast(true, response.message)
+            } else {
+                updateToast(false, response.message)
+            }
+        }
+    }
+
     return (
         <Box sx={{
             width: { xs: '100%', sm: '200px' },
@@ -263,10 +287,11 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
                                         onClick={() => bannerFileInput.current.click()}
                                     />
                                 </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', cursor: 'pointer' }}>
+                                <Box
+                                    onClick={fileUploadHandler}
+                                    sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', cursor: 'pointer' }}>
                                     <Typography
                                         sx={{ fontSize: '10px' }}
-                                        onClick={fileUploadHandler}
                                     >Save </Typography><TickCircle cursor='pointer' size='12px' />
                                 </Box>
                             </AccordionDetails>
@@ -296,9 +321,15 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
                             <AccordionDetails
                                 sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
                             >
-                                <TextField sx={{ fontSize: '12px' }} />
-                                <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', }}>
-                                    <Typography sx={{ fontSize: '10px' }}>Save </Typography><TickCircle cursor='pointer' size='12px' />
+                                <TextField value={bio} onChange={e => setBio(e.target.value)} placeholder={globalUser.bio ? globalUser.bio : 'please write a few lines about your self'} multiline inputProps={{ style: { fontSize: 12 } }} />
+                                <Box
+                                    onClick={updateBio}
+                                    sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', cursor: 'pointer' }}>
+                                    <Typography
+                                        sx={{ fontSize: '10px' }}
+                                    >
+                                        Save</Typography>
+                                    <TickCircle cursor='pointer' size='12px' />
                                 </Box>
                             </AccordionDetails>
                         </Accordion>

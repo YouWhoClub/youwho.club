@@ -132,10 +132,10 @@ const Navbar = ({ switchTheme }) => {
     }, [globalUser.cid]);
 
     useEffect(() => {
-        if  (globalUser.isLoggedIn && !globalUser.privateKey) {
+        if  (globalUser.isLoggedIn && globalUser.cid && !globalUser.privateKey) {
            setOpenModal(true)
         } 
-    }, [globalUser.privateKey, globalUser.isLoggedIn, globalUser.cid]);
+    }, [globalUser.isLoggedIn, globalUser.cid, globalUser.privateKey]);
 
 
     async function disconnect() {
