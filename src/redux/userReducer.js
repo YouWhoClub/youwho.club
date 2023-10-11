@@ -30,6 +30,9 @@ function userReducer(state = initialState, action) {
                 account: action.payload.account_number,
                 socialId: action.payload.social_id,
                 balance: action.payload.balance,
+                bio: action.payload.bio,
+                avatar: action.payload.avatar,
+                banner: action.payload.banner,
             };
         case LOGOUT_USER:
             localStorage.removeItem('account')
