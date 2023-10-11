@@ -94,7 +94,7 @@ function HomeIcon(props) {
         </SvgIcon>
     );
 }
-const Navbar = ({ switchTheme }) => {
+const NavbarTwo = ({ switchTheme }) => {
     const globalUser = useSelector(state => state.userReducer)
     const unclaimedDeposits = useSelector(state => state.unclaimedDepositReducer)
     const navigate = useNavigate();
@@ -132,10 +132,10 @@ const Navbar = ({ switchTheme }) => {
     }, [globalUser.cid]);
 
     useEffect(() => {
-        if  (globalUser.isLoggedIn && !globalUser.privateKey) {
-           setOpenModal(true)
-        } 
-    }, [globalUser.privateKey, globalUser.isLoggedIn, globalUser.cid]);
+        if (globalUser.isLoggedIn && !globalUser.privateKey) {
+            setOpenModal(true)
+        }
+    }, [globalUser.privateKey, globalUser.isLoggedIn]);
 
 
     async function disconnect() {
@@ -170,7 +170,7 @@ const Navbar = ({ switchTheme }) => {
 
     }
 
-    const savePrivateKey = (e) =>{
+    const savePrivateKey = (e) => {
         e.preventDefault()
         dispatch(setPrivateKey(signer))
         setOpenModal(false)
@@ -179,18 +179,20 @@ const Navbar = ({ switchTheme }) => {
     return (
         <Box sx={{
             height: '55px',
-            bgcolor: 'primary.bgOp',
+            bgcolor: 'secondary.bg',
             width: '100%',
             position: "sticky",
             top: 0,
             zIndex: 999,
+            borderRadius: '0 0 12px 12px',
+            boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)'
         }}
         ><Box sx={{
             // width: '100%',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            px: 1
+            px: '30px'
         }}>
                 {/* {window.location.pathname == '/' ? */}
                 <Box sx={{ display: 'flex', alignItems: 'center', }}>
@@ -229,7 +231,10 @@ const Navbar = ({ switchTheme }) => {
                         </div>
                     </Box>
                     :
-                    <ButtonOutline text={'Sign in'} onClick={() => navigate('/auth')} />
+                    <FlexRow sx={{ gap: 1 }}>
+                        <ButtonOutline text={'Sign in'} onClick={() => navigate('/auth')} />
+                        <ButtonPurple text={'Get Started'} onClick={() => navigate('/auth')} />
+                    </FlexRow>
                 }
             </Box>
 
@@ -273,4 +278,4 @@ const Navbar = ({ switchTheme }) => {
     );
 }
 
-export default Navbar;
+export default NavbarTwo;

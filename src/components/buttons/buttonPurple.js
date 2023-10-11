@@ -5,7 +5,7 @@ const Button = styled('button')(({ theme }) => ({
     backgroundColor: theme.palette.primary.main,
     // width: '100px',
     height: '35px',
-    borderRadius: '30px',
+    borderRadius: '12px',
     outline: 'none',
     color: 'white',
     cursor: 'pointer',
