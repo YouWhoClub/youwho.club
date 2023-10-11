@@ -135,7 +135,7 @@ const Navbar = ({ switchTheme }) => {
         if  (globalUser.isLoggedIn && !globalUser.privateKey) {
            setOpenModal(true)
         } 
-    }, [globalUser.privateKey, globalUser.isLoggedIn]);
+    }, [globalUser.privateKey, globalUser.isLoggedIn, globalUser.cid]);
 
 
     async function disconnect() {
