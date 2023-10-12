@@ -5,7 +5,7 @@ import { ArrowDown2, TickSquare, Wallet2 } from "iconsax-react";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { BG_URL, PUBLIC_URL } from "../../../utils/utils";
-import yCoin from '../../../assets/Ycoin.svg'
+import yCoin from '../../../assets/yCoin.svg'
 import WithdrawPanel from "./withdrawPanel";
 import DepositPanel from "./depositPanel";
 

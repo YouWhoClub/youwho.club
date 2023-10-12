@@ -1,10 +1,13 @@
 import { Box, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import Navbar from "../components/Navbar";
-import YWServices from "../components/HomePage/yServices";
-import IntroNew from "../components/HomePage/Intro";
+import YWServices from "../components/homePage/yServices";
+import IntroNew from "../components/homePage/intro";
 import NavbarTwo from "../components/NavbarRadius";
 import Footer from "../components/Footer";
+import FABSection from "../components/homePage/features&benefits";
+import DecorSection from "../components/homePage/decorSection";
+import WhatsSection from "../components/homePage/whatsNFT";
 
 
 const Homme = styled(Box)(({ theme }) => ({
@@ -25,8 +28,16 @@ const Home = ({ switchTheme, theme }) => {
             <IntroNew />
             <YWServices />
             <SecondSection sx={{
-                height: '100vh', mt: 10, justifyContent: 'end',
+                mt: 10, pt: 10
             }}>
+                <Box sx={{
+                    px: { xs: '30px', sm: '60px' },
+                    display: 'flex', flexDirection: 'column',
+                }}>
+                    <FABSection />
+                    <DecorSection />
+                    <WhatsSection />
+                </Box>
                 <Footer />
             </SecondSection>
         </Homme>

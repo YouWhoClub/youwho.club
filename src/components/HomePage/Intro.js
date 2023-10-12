@@ -19,7 +19,7 @@ const IntroNew = ({ theme }) => {
                 // alignItems:'center',
                 display: 'flex', flexDirection: 'column',
             }}>
-                <Typography variant="h4" sx={{ color: 'primary.text', margin: 0, fontSize: '4em', fontWeight: 500 }}>YOUWHO</Typography>
+                <Typography variant="h4" sx={{ color: 'primary.text', margin: 0, fontSize: '35px', fontWeight: 500 }}>YOUWHO</Typography>
                 <Typography variant="h6" sx={{ color: 'secondary.text', margin: 0, mb: 10, fontWeight: 600 }}>A Life Magic For You</Typography>
                 <Typography variant="p" sx={{ color: 'primary.gray', margin: 0, mb: 2,  }}>Youwho is a NFT market place with
                     new unique features.</Typography>
