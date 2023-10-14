@@ -166,55 +166,59 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
 
         loading();
 
-        const privateKey = Buffer.from(globalUser.privateKey, 'hex');
+        if (globalUser.pravateKey) {
+            const privateKey = Buffer.from(globalUser.privateKey, 'hex');
 
-        const data = {
-            recipient: receipantID,
-            from_cid: globalUser.cid,
-            amount: price,
-        }
-
-        const dataString = JSON.stringify(data);
-        const dataHash = web3.utils.keccak256(dataString);
-
-        const signObject = web3.eth.accounts.sign(dataHash, privateKey);
-
-        const { signature } = signObject;
-
-        const requestData = {
-            ...data,
-            tx_signature: signature.replace('0x', ''),
-            hash_data: dataHash.replace('0x', ''),
-        };
-
-        console.log(signObject);
-        console.log(requestData);
-
-        const publicKey = web3.eth.accounts.recover(dataHash, signature);
-        console.log(publicKey)
-
-        // sending the request
-
-        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/deposit/to/0x5a298eE7B1EDA4de9fBf18905974b059221CaC2e`, {
-            method: 'POST',
-            body: JSON.stringify(requestData),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${globalUser.token}`,
+            const data = {
+                recipient: receipantID,
+                from_cid: globalUser.cid,
+                amount: price,
             }
-        })
-        let response = await request.json()
-        console.log(response);
 
-        if (response.status === 200 || response.status === 201) {
-            setErr(false)
-            setModalData('depositeInfo')
-            setTxHash(response.data.mint_tx_hash)
-            updateToast(true, response.message)
-            getBalance(globalUser.token)
+            const dataString = JSON.stringify(data);
+            const dataHash = web3.utils.keccak256(dataString);
+
+            const signObject = web3.eth.accounts.sign(dataHash, privateKey);
+
+            const { signature } = signObject;
+
+            const requestData = {
+                ...data,
+                tx_signature: signature.replace('0x', ''),
+                hash_data: dataHash.replace('0x', ''),
+            };
+
+            console.log(signObject);
+            console.log(requestData);
+
+            const publicKey = web3.eth.accounts.recover(dataHash, signature);
+            console.log(publicKey)
+
+            // sending the request
+
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/deposit/to/0x5a298eE7B1EDA4de9fBf18905974b059221CaC2e`, {
+                method: 'POST',
+                body: JSON.stringify(requestData),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            })
+            let response = await request.json()
+            console.log(response);
+
+            if (response.status === 200 || response.status === 201) {
+                setErr(false)
+                setModalData('depositeInfo')
+                setTxHash(response.data.mint_tx_hash)
+                updateToast(true, response.message)
+                getBalance(globalUser.token)
+            } else {
+                setErr(response.message)
+                updateToast(false, response.message)
+            }
         } else {
-            setErr(response.message)
-            updateToast(false, response.message)
+            updateToast(false, 'please save your private key first')
         }
     }
     const withdraw = async (e) => {
@@ -222,50 +226,55 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
 
         loading();
 
-        const privateKey = Buffer.from(globalUser.privateKey, 'hex');
+        if (globalUser.pravateKey) {
+            
+            const privateKey = Buffer.from(globalUser.privateKey, 'hex');
 
-        const data = {
-            recipient_cid: globalUser.cid,
-            deposit_id: depositId,
-        }
-
-        const dataString = JSON.stringify(data);
-        const dataHash = web3.utils.keccak256(dataString);
-
-        const signObject = web3.eth.accounts.sign(dataHash, privateKey);
-
-        const { signature } = signObject;
-
-        const requestData = {
-            ...data,
-            tx_signature: signature.replace('0x', ''),
-            hash_data: dataHash.replace('0x', ''),
-        };
-
-        console.log(signObject);
-        console.log(requestData);
-
-        // sending the request
-
-        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/withdraw/from/0x5a298eE7B1EDA4de9fBf18905974b059221CaC2e`, {
-            method: 'POST',
-            body: JSON.stringify(requestData),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${globalUser.token}`,
+            const data = {
+                recipient_cid: globalUser.cid,
+                deposit_id: depositId,
             }
-        })
-        let response = await request.json()
-        console.log(response);
 
-        if (response.status === 200 || response.status === 201) {
-            setErr(false)
-            setOpenClaimModal(false)
-            updateToast(true, response.message)
-            getBalance(globalUser.token)
+            const dataString = JSON.stringify(data);
+            const dataHash = web3.utils.keccak256(dataString);
+
+            const signObject = web3.eth.accounts.sign(dataHash, privateKey);
+
+            const { signature } = signObject;
+
+            const requestData = {
+                ...data,
+                tx_signature: signature.replace('0x', ''),
+                hash_data: dataHash.replace('0x', ''),
+            };
+
+            console.log(signObject);
+            console.log(requestData);
+
+            // sending the request
+
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/withdraw/from/0x5a298eE7B1EDA4de9fBf18905974b059221CaC2e`, {
+                method: 'POST',
+                body: JSON.stringify(requestData),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            })
+            let response = await request.json()
+            console.log(response);
+
+            if (response.status === 200 || response.status === 201) {
+                setErr(false)
+                setOpenClaimModal(false)
+                updateToast(true, response.message)
+                getBalance(globalUser.token)
+            } else {
+                setErr(response.message)
+                updateToast(false, response.message)
+            }
         } else {
-            setErr(response.message)
-            updateToast(false, response.message)
+            updateToast(false, 'please save your private key first')
         }
     }
 
@@ -346,7 +355,7 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
                                     <ButtonPurple text={'transfer'} w={'100%'} onClick={deposite} />
                                 </>
                                 :
-                                <Box sx={{ display: 'flex', flexDirection: 'column',height:'60%' }}>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', height: '60%' }}>
                                     <Typography sx={{ mt: 2, fontSize: '14px', mb: 2, color: 'primary.text' }}>
                                         mint tx hash : {txHash}
                                     </Typography>
