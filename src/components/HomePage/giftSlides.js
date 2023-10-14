@@ -14,17 +14,16 @@ const GiftSlides = () => {
     const [irrValue, setIrrValue] = useState(undefined)
     const [err, setErr] = useState(undefined)
 
-    useEffect(() => {
-        // getTokenValue()
-        setInterval(() => {
-            getTokenValue()
-        }, 10000);
-        return () => {
-            if (apiCall.current) {
-                apiCall.current.cancel();
-            }
-        }
-    }, [])
+    // useEffect(() => {
+    //     setInterval(() => {
+    //         getTokenValue()
+    //     }, 10000);
+    //     return () => {
+    //         if (apiCall.current) {
+    //             apiCall.current.cancel();
+    //         }
+    //     }
+    // }, [])
     const getTokenValue = async () => {
         setErr(undefined)
         try {
