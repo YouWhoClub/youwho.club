@@ -51,8 +51,8 @@ const ProfileCard = ({ username, youwhoID }) => {
         &nbsp;
         &nbsp;
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <p>
-                Welcome <span style={{ fontWeight: 500 }}>{username}</span>
+            <p style={{ textShadow: '4px 5px 6px rgba(231,193,255,1)',fontWeight:600 ,color:'white'}}>
+                Welcome <span style={{ fontWeight: 700 }}>{globalUser.cid ? globalUser.username : globalUser.identifier}</span>
             </p>
             {youwhoID ?
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>

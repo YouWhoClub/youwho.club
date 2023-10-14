@@ -13,17 +13,16 @@ const WithdrawPanel = () => {
     const [err, setErr] = useState(undefined)
     const unclaimedDeposits = useSelector(state => state.unclaimedDepositReducer)
 
-    useEffect(() => {
-        // getTokenValue()
-        setInterval(() => {
-            getTokenValue()
-        }, 10000);
-        return () => {
-            if (apiCall.current) {
-                apiCall.current.cancel();
-            }
-        }
-    }, [])
+    // useEffect(() => {
+    //     setInterval(() => {
+    //         getTokenValue()
+    //     }, 10000);
+    //     return () => {
+    //         if (apiCall.current) {
+    //             apiCall.current.cancel();
+    //         }
+    //     }
+    // }, [])
     const getTokenValue = async () => {
         setErr(undefined)
         try {

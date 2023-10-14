@@ -10,7 +10,8 @@ import { useDispatch } from "react-redux";
 import { getuser } from "../../../redux/actions";
 import { green, red } from "@mui/material/colors";
 import { useNavigate } from "react-router";
-import { Eye, EyeSlash } from "iconsax-react";
+import { Eye, EyeSlash, Lock } from "iconsax-react";
+import VerifyMail from "./verifyMail";
 
 
 const Inputt = styled('input')(({ theme }) => ({
@@ -82,8 +83,7 @@ const Login = () => {
 
             if (response.data.data.is_mail_verified)
                 navigate('/dashboard')
-            else navigate('/verify-mail')
-
+            else setState('mailVerification')
         }
         catch (err) {
             setSuccess(undefined)
@@ -105,7 +105,7 @@ const Login = () => {
             sx={{
                 width: '100%',
                 height: '100%',
-                display: 'flex', flexDirection: 'column',
+                display: 'flex', flexDirection: 'column', textTransform: 'capitalize',
                 justifyContent: 'space-between', alignItems: 'center', pt: 3
             }}
         >
@@ -119,60 +119,62 @@ const Login = () => {
                     }} onSubmit={idStateChanger}>
                     <Inputtt>
                         <Email sx={{ color: 'primary.light', fontSize: '30px' }} />
-                        <Inputt value={identifier} placeholder="enter your email , phone , youwho id , ..." onChange={(e) => setIdentifier(e.target.value)} />
+                        <Inputt value={identifier} type="email" placeholder="Enter Your Email" onChange={(e) => setIdentifier(e.target.value)} />
                     </Inputtt>
-                    <ButtonPurple w={'100%'} text={'next'} />
+                    <ButtonPurple w={'100%'} text={'Next'} />
                     <Box>
                         LOGIN WITH GMAIL
                     </Box>
                 </form>
-                :
-                <form style={{
-                    width: '100%',
-                    height: '100%',
-                    display: 'flex', flexDirection: 'column',
-                    justifyContent: 'space-between', alignItems: 'center',
-                }} onSubmit={idStateChanger}>
-                    <Inputtt>
-                        <Password sx={{ color: 'primary.light', fontSize: '30px' }} />
-                        {showPassword ?
-                            <Inputt autocomplete="off" value={password} placeholder="enter your password" onChange={(e) => setPassword(e.target.value)} />
-                            :
-                            <Inputt type="password" autocomplete="off" value={password} placeholder="enter your password" onChange={(e) => setPassword(e.target.value)} />
-                        }
-                        {showPassword ? <EyeSlash onClick={() => setShowPassword(false)} /> : <Eye onClick={() => setShowPassword(true)} />}
-                    </Inputtt>
-                    <ButtonPurple w={'100%'} text={loading ? '...' : 'next'} onClick={submit} />
-                    <p style={{ cursor: 'pointer', color: 'rgba(120, 120, 120, 1)', fontSize: '12px', margin: 0 }}>
-                        FORGOT PASSWORD ?
-                    </p>
-                    <Box
-                        sx={{
-                            diplay: 'flex',
-                            justifyContent: 'start',
-                            width: '100%',
-                        }}
-                    >
-                        <div
-                            onClick={() => {
-                                setState('identifier')
-                            }}
-                            style={{
-                                borderBottom: '3px solid',
-                                borderColor: '#846894',
-                                color: '#846894',
-                                width: '200px',
-                                fontSize: '18px',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                cursor: 'pointer',
+                : state == 'password' ?
+                    <form style={{
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex', flexDirection: 'column',
+                        justifyContent: 'space-between', alignItems: 'center',
+                    }} onSubmit={idStateChanger}>
+                        <Inputtt>
+                            <Lock sx={{ color: 'primary.light', fontSize: '30px' }} />
+                            {showPassword ?
+                                <Inputt autocomplete="off" value={password} placeholder="Enter Your Password" onChange={(e) => setPassword(e.target.value)} />
+                                :
+                                <Inputt type="password" autocomplete="off" value={password} placeholder="Enter Your Password" onChange={(e) => setPassword(e.target.value)} />
+                            }
+                            {showPassword ? <EyeSlash onClick={() => setShowPassword(false)} /> : <Eye onClick={() => setShowPassword(true)} />}
+                        </Inputtt>
+                        <ButtonPurple w={'100%'} text={loading ? '...' : 'next'} onClick={submit} />
+                        <p style={{ cursor: 'pointer', color: 'rgba(120, 120, 120, 1)', fontSize: '12px', margin: 0 }}>
+                            FORGOT PASSWORD ?
+                        </p>
+                        <Box
+                            sx={{
+                                diplay: 'flex',
+                                justifyContent: 'start',
+                                width: '100%',
                             }}
                         >
-                            <ArrowLeft sx={{ color: 'primary.light', }} />back
-                        </div>
-                    </Box>
+                            <div
+                                onClick={() => {
+                                    setState('identifier')
+                                }}
+                                style={{
+                                    borderBottom: '3px solid',
+                                    borderColor: '#846894',
+                                    color: '#846894',
+                                    width: '200px',
+                                    fontSize: '18px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    cursor: 'pointer',
+                                }}
+                            >
+                                <ArrowLeft sx={{ color: 'primary.light', }} />back
+                            </div>
+                        </Box>
 
-                </form>
+                    </form>
+                    :
+                    <VerifyMail email={identifier} />
             }
             {err ? <p style={{ color: 'red', fontSize: '12px', margin: 0 }}>{err}</p> : undefined}
             {success ? <p style={{ color: 'green', fontSize: '12px', margin: 0 }}>{success}</p> : undefined}

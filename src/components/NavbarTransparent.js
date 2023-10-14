@@ -108,6 +108,11 @@ const NavbarTransparent = ({ switchTheme }) => {
     const [signer, setSigner] = useState(undefined)
     const [openModal, setOpenModal] = useState(false)
 
+    useEffect(() => {
+        if (globalUser.isLoggedIn && !globalUser.isMailVerified) {
+            disconnect()
+        }
+    }, [globalUser.isLoggedIn, globalUser.isMailVerified])
 
     useEffect(() => {
         if (globalUser.cid) {
