@@ -1,7 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import NavbarTransparent from "../components/NavbarTransparent";
-import YWServices from "../components/homePage/yServices.js";
 import IntroNew from "../components/homePage/intro";
 import NavbarTwo from "../components/NavbarRadius";
 import Footer from "../components/Footer";
@@ -10,6 +9,7 @@ import DecorSection from "../components/homePage/decorSection";
 import WhatsSection from "../components/homePage/whatsNFT";
 import ThemeSwitcher from "../components/homePage/themeSwitchComp";
 import NFTSlides from "../components/homePage/nftSlides";
+import YWServices from '../components/homePage/yServices'
 
 
 const Homme = styled(Box)(({ theme }) => ({
