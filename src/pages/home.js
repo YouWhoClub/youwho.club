@@ -34,7 +34,7 @@ const Home = ({ switchTheme, theme }) => {
                 mt: 10, pt: 10
             }}>
                 <Box sx={{
-                    px: { xs: '30px', sm: '60px' },
+                    px: { xs: '0', sm: '30px' , md:'60px' },
                     display: 'flex', flexDirection: 'column',
                 }}>
                     <FABSection />

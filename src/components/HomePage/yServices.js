@@ -8,7 +8,7 @@ import NavigateCardTwo from './navigateCardTwo';
 
 const YWServices = () => {
     return (
-        <Box sx={{ px: { xs: '30px', sm: '60px' } }}>
+        <Box sx={{ px: { xs: '0', sm: '30px', md: '60px' } }}>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column', justifyContent: 'center', alignItems: 'center',

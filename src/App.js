@@ -139,6 +139,87 @@ function App() {
       },
     },
   });
+  const darkThemeBackUp = createTheme({
+    typography: {
+      "fontFamily": `"Josefin Sans", "Inter", sans-serif`,
+    },
+    palette: {
+      mode: 'dark',
+      primary: {
+        dark: '#1A0052',
+        ultra: '#32283E',
+        main: '#790DAB',
+        middle: '#846894',
+        light: '#BEA2C5',
+        gray: '#C7BDC6',
+        white: 'white',
+        bg: '#281240',
+        bgOp: 'rgba(40,18,64,0.3)',
+        // bgGradient: 'linear-gradient(180deg, rgba(10,3,17,1) 0%, rgba(40,18,64,0.8957634079022234) 100%)',
+        bgGradient: 'linear-gradient(180deg, rgba(10,3,17,1) 0%, rgba(40,18,64,1) 100%)',
+        bgGradientDown: 'linear-gradient(180deg, rgba(40,18,64,1) 0%, rgba(10,3,17,1) 100%)',
+        text: 'white',
+        themeSwitch: '#140920',
+        landBG: 'linear-gradient(180deg, rgba(40,18,64,0.9) 0%, rgba(10,3,17,0.6) 100%)',
+        footer: '#C182ED'
+      },
+      secondary: {
+        dark: '#1B0055',
+        ultra: '#32283E',
+        main: '#392F5A',
+        middle: '#846894',
+        light: '#BEA2C5',
+        gray: '#C7BDC6',
+        white: 'white',
+        bg: '#3C1A60',
+        bgOp: 'rgba(60,26,96,0.3)',
+        bgGradient: 'linear-gradient(180deg, rgba(40,18,64,1) 0%, rgba(93,45,134,1) 50%, rgba(40,18,64,1) 100%)',
+        text: '#F6F5F4',
+        themeSwitch: '#1E0D30'
+
+      },
+    },
+  });
+  const lightThemeBackUp = createTheme({
+    typography: {
+      "fontFamily": `"Josefin Sans", "Inter", sans-serif`,
+    },
+    palette: {
+      mode: 'light',
+      primary: {
+        dark: '#1B0055',
+        ultra: '#32283E',
+        main: '#5F0A87',
+        middle: '#846894',
+        light: '#BEA2C5',
+        gray: '#C7BDC6',
+        white: 'white',
+        bg: '#F8F4E3',
+        bgOp: 'rgba(248,244,227,0.5)',
+        bgGradient: 'linear-gradient(180deg, rgba(83,38,132,1) 0%, rgba(248,244,227,1) 100%)',
+        bgGradientDown: 'linear-gradient(180deg, rgba(248,244,227,1) 0%, rgba(83,38,132,1) 100%)',
+        text: 'black',
+        themeSwitch: '#FFC233',
+        landBG: 'linear-gradient(180deg, rgba(222, 222, 222, 0.25) 0%, rgba(217, 217, 217, 0.001) 100%)',
+        footer: '#3D0062'
+      },
+      secondary: {
+        dark: '#0F0A0A',
+        ultra: '#731A60',
+        main: '#B8145E',
+        middle: '#8D80AD',
+        light: '#BCB4CF',
+        gray: '#C7BDC6',
+        white: '#F5EFED',
+        bg: 'white',
+        bgOp: 'rgba(255,255,255,0.5)',
+        bgGradient: 'linear-gradient(180deg, rgba(248,244,227,1) 0%, rgba(83,38,132,0.7) 50%, rgba(248,244,227,1) 100%)',
+        text: '#707070',
+        themeSwitch: '#FFC43D'
+
+      },
+    },
+  });
 
   const Wrapper = styled(Box)(({ theme }) => ({
     maxWidth: '1440px',
