@@ -47,7 +47,7 @@ const GiftSlides = () => {
     return (<Box sx={{
         // height: '100vh',
         // bgcolor: 'primary.bg',
-        display: 'flex', justifyContent: 'center', flexDirection: 'column'
+        display: 'flex', justifyContent: 'center', flexDirection: 'column',mt:5
     }}>
         {/* <h5 style={{ textAlign: 'center', color: 'white', marginBottom: '30px' }} >Available Gift Cards</h5> */}
         <CustomSlider>
@@ -60,7 +60,7 @@ const GiftSlides = () => {
         <Box sx={{
             display: 'flex', justifyContent: 'center', width: '100%', mt: 5
         }}>
-            <ButtonOutline text={'view all'} w={'100%'} onClick={() => navigate('/transfer')} />
+            <ButtonOutline text={'view all'} onClick={() => navigate('/transfer')} />
         </Box>
         <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick pauseOnFocusLoss pauseOnHover />
     </Box>

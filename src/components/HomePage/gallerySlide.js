@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import CustomSlider from "../customSlider";
 import GiftCard from "../nft market/giftCard";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,36 +18,53 @@ import torqNFT from '../../assets/torqua-nft.svg'
 
 import NFTCard from "../nft market/nftCard";
 import ButtonOutline from "../buttons/buttonOutline";
+import NFTCardLanding from "../nft market/nftCardLanding";
+import ViewMoreOrLogin from "../nft market/viewMoreCard";
+import { useSelector } from "react-redux";
+import ButtonPurple from "../buttons/buttonPurple";
 
 const GalleySlide = () => {
     const navigate = useNavigate()
+    const globalUser = useSelector(state => state.userReducer)
 
     return (<Box sx={{
         // height: '100vh',
         // bgcolor: 'primary.bg',
-        display: 'flex', justifyContent: 'center', flexDirection: 'column'
+        display: 'flex', justifyContent: 'center', flexDirection: 'column', mt: 5
     }}>
         {/* <h5 style={{ textAlign: 'center', color: 'white', marginBottom: '30px' }} >Most Popular NFTs</h5> */}
-        <CustomSlider slidesCount={4}>
-            <NFTCard image={blueNft} />
-            <NFTCard image={pinkNFT} />
-            <NFTCard image={creamNFT} />
-            <NFTCard image={purpleNFT} />
-            <NFTCard image={sorkhabiNFT} />
-            <NFTCard image={torqNFT} />
-            <NFTCard image={heart} />
-            <NFTCard image={gheart} />
-            <NFTCard image={ppheart} />
-            <NFTCard image={prheart} />
-            <NFTCard image={bheart} />
-            <NFTCard image={gryheart} />
-            <NFTCard image={orngheart} />
+        <CustomSlider slidesCount={5}>
+            <NFTCardLanding image={blueNft} />
+            <NFTCardLanding image={pinkNFT} />
+            <NFTCardLanding image={creamNFT} />
+            <NFTCardLanding image={purpleNFT} />
+            <NFTCardLanding image={sorkhabiNFT} />
+            <NFTCardLanding image={torqNFT} />
+            <NFTCardLanding image={heart} />
+            <NFTCardLanding image={gheart} />
+            <NFTCardLanding image={ppheart} />
+            <ViewMoreOrLogin link={'/gallery'} />
         </CustomSlider>
-        <Box sx={{
-            display: 'flex', justifyContent: 'center', width:'100%',mt:5
-        }}>
-            <ButtonOutline text={'view all'} w={'100%'} onClick={() => navigate('/gallery')} />
-        </Box>
+        {globalUser.isLoggedIn ?
+            <Box sx={{
+                display: 'flex', color: 'primary.text',
+                flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                width: '100%', my: 5
+            }}>
+                <ButtonPurple text={'View All'} onClick={() => navigate('/gallery')} px={'10px'} />
+            </Box>
+            :
+            <Box sx={{
+                display: 'flex', color: 'primary.text',
+                flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                width: '100%', my: 5
+            }}>
+                <Typography variant="p" sx={{ textAlign: 'center', mb: '30px' }}>
+                    To See More NFTs, Gift Cards, Mint, Sell and Buy NFTs, ...Enter Your Panel But You Must Login/Signup First.
+                </Typography>
+                <ButtonPurple text={'Get Started'} onClick={() => navigate('/auth')} px={'10px'} />
+            </Box>
+        }
     </Box>
     );
 }

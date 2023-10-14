@@ -13,8 +13,9 @@ const DecorSection = () => {
             display: 'flex', justifyContent: 'end',
         }}>
             <Box sx={{
-                height: '100%', width: { xs: '100%', sm: '50%' },
-                px: 6, py: 7, display: 'flex', flexDirection: 'column', justifyContent: 'center',
+                // height: '100%',
+                width: { xs: '100%', sm: '50%' },
+                px: 6, py: 7, display: 'flex', flexDirection: 'column', justifyContent: 'end',
             }}>
                 <Typography variant="h4" sx={{ color: 'primary.text', margin: 0, mb: 1, fontWeight: 500, fontSize: { xs: '22px', md: '24px' } }}>Earn, Even More Than Spend ?!</Typography>
                 <Typography variant="h6" sx={{ color: 'primary.text', margin: 0, mb: 3, fontWeight: 500, fontSize: { xs: '18px', md: '20px' } }}>this is a subtitle</Typography>
@@ -27,7 +28,7 @@ const DecorSection = () => {
             </Box>
             <Box
                 sx={{
-                    width: { xs: '100px', sm: '150px', md: '250px' }, height: { xs: '100px',sm: '150px', md: '250px' },
+                    width: { xs: '100px', sm: '200px', md: '350px', lg: '450px' }, height: { xs: '100px', sm: '200px', md: '350px', lg: '450px' },
                     backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: 'cover',

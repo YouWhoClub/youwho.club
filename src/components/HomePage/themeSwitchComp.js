@@ -9,8 +9,8 @@ const ThemeSwitcher = ({ theme, switchTheme }) => {
             height: '50px',
             backgroundImage: BG_URL(PUBLIC_URL(`${image}`)),
             backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center',
-            position: 'sticky',
-            right: '10px', top: '55px', display: { xs: 'none', sm: 'block' },
+            position: 'absolute',
+            right: '0', top: '55px', display: { xs: 'none', sm: 'block' },
             cursor: "pointer"
         }} onClick={switchTheme} />
     );

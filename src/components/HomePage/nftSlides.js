@@ -9,11 +9,11 @@ const NFTSlides = () => {
     return (<Box sx={{
         display: 'flex',
         justifyContent: 'space-around',
-        flexDirection: 'column',my:4,
+        flexDirection: 'column', my: 4,
         // px:'20px'
     }}>
         <TabsSimple>
-            <TabSimple text={'Most Popular NFTs'} onClick={() => setState('nfts')} selected={state == 'nfts'} />
+            <TabSimple text={'Top NFTs'} onClick={() => setState('nfts')} selected={state == 'nfts'} />
             <TabSimple text={'Gift Cards'} onClick={() => setState('gifts')} selected={state == 'gifts'} />
         </TabsSimple>
         {state == 'gifts' ?

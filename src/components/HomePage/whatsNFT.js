@@ -8,7 +8,7 @@ const WhatsSection = () => {
         <Box sx={{
             px: { xs: 0, sm: 10 }, py: 10,my:4,
             display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
-            backgroundSize: { xs: 'cover', sm: 'contain' },
+            backgroundSize: { xs: 'contain', sm: 'contain' },
             backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundImage: BG_URL(PUBLIC_URL(`${bgDots}`)),
             textAlign: 'center'
         }}>
