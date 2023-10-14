@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import Navbar from "./Navbar";
+import NavbarTransparent from "./NavbarTransparent";
 import Bar from "./Bar";
 import { useSelector } from "react-redux";
 import ButtonPurple from "./buttons/buttonPurple";
@@ -49,7 +49,7 @@ const PanelLayout = ({ switchTheme, children }) => {
         // alignItems: 'center',
         // flexDirection: 'column',
     }}>
-        <Navbar switchTheme={switchTheme} />
+        <NavbarTransparent switchTheme={switchTheme} />
         {!globalUser.isLoggedIn ?
             <Box sx={{
                 display: 'flex', marginTop: '20%',height:'50%',

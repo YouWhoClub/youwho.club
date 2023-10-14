@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { PUBLIC_API } from "../utils/data/public_api";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
-import Navbar from "../components/Navbar";
+import NavbarTransparent from "../components/NavbarTransparent";
 import Footer from "../components/Footer";
 
 const GiftsScrollWrapper = styled(Box)(({ theme }) => ({
@@ -83,7 +83,7 @@ const TransferPage = ({ theme, switchTheme }) => {
                 display: "flex", justifyContent: 'center', flexDirection: 'column',
                 color: 'primary.darkGray',
             }}>
-                <Navbar theme={theme} switchTheme={switchTheme} />
+                <NavbarTransparent theme={theme} switchTheme={switchTheme} />
                 <GiftsScrollWrapper sx={{
                 }}>
                     <GiftCard price={5} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />

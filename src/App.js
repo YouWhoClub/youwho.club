@@ -13,7 +13,7 @@ import LandingPrev from './pages/landingPrev';
 import { useEffect, useState } from 'react';
 import { Box, LinearProgress, ThemeProvider, createTheme } from '@mui/material';
 import NotFound from './pages/404';
-import Navbar from './components/Navbar';
+import NavbarTransparent from './components/NavbarTransparent';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './redux/store';

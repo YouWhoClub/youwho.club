@@ -94,7 +94,7 @@ function HomeIcon(props) {
         </SvgIcon>
     );
 }
-const Navbar = ({ switchTheme }) => {
+const NavbarTransparent = ({ switchTheme }) => {
     const globalUser = useSelector(state => state.userReducer)
     const unclaimedDeposits = useSelector(state => state.unclaimedDepositReducer)
     const navigate = useNavigate();
@@ -276,4 +276,4 @@ const Navbar = ({ switchTheme }) => {
     );
 }
 
-export default Navbar;
+export default NavbarTransparent;

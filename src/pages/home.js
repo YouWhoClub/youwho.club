@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import styled from "@emotion/styled";
-import Navbar from "../components/Navbar";
+import NavbarTransparent from "../components/NavbarTransparent";
 import YWServices from "../components/homePage/yServices";
 import IntroNew from "../components/homePage/intro";
 import NavbarTwo from "../components/NavbarRadius";

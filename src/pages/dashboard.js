@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Bar from "../components/Bar";
-import Navbar from "../components/Navbar";
+import NavbarTransparent from "../components/NavbarTransparent";
 import ProfileCard from "../components/dashboard/ProfileCard";
 import PanelLayout from "../components/PanelLayout";
 import DashBar from "../components/dashboard/DashBar.js";
