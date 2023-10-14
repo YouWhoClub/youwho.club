@@ -10,12 +10,13 @@ import { logOutUser, getUnclaimedDeposit, deleteUnclaimedDeposit, setPrivateKey 
 import styled from "@emotion/styled";
 import { HambergerMenu, LogoutCurve, Notification, Profile, Wallet } from "iconsax-react";
 import { Close, Square } from "@mui/icons-material";
-import yCoin from '../assets/Ycoin.svg'
+import yCoin from '../assets/yCoin.svg'
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
 import { HEALTH_API } from "../utils/data/health_api";
 import { API_CONFIG } from "../config";
 import { useState, useRef, useEffect } from "react";
 import { PUBLIC_API } from "../utils/data/public_api";
+import ThemeSwitcher from "./homePage/themeSwitchComp";
 
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
@@ -94,7 +95,7 @@ function HomeIcon(props) {
         </SvgIcon>
     );
 }
-const NavbarTwo = ({ switchTheme }) => {
+const NavbarTwo = ({ switchTheme, theme }) => {
     const globalUser = useSelector(state => state.userReducer)
     const unclaimedDeposits = useSelector(state => state.unclaimedDepositReducer)
     const navigate = useNavigate();
@@ -194,20 +195,26 @@ const NavbarTwo = ({ switchTheme }) => {
             alignItems: 'center',
             px: '30px'
         }}>
+                <ThemeSwitcher switchTheme={switchTheme} />
                 {/* {window.location.pathname == '/' ? */}
                 <Box sx={{ display: 'flex', alignItems: 'center', }}>
                     <YouWhoHugCoinPurple onClick={() => navigate('/')} />
-                    <ThemeSwitchButton onClick={switchTheme} ></ThemeSwitchButton>
+                    &nbsp;&nbsp;&nbsp;
+                    <Box sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', }}>
+                        <Link to={'/about-us'} style={{ textDecoration: 'none', color: theme == 'light' ? 'black' : 'white' }}>About Us</Link>
+                        &nbsp;&nbsp;&nbsp;
+                        <Link to={'/blog'} style={{ textDecoration: 'none', color: theme == 'light' ? 'black' : 'white' }}>Weblog</Link>
+                    </Box>
                 </Box>
                 {/* : <YouWhoIcon onClick={() => navigate('/')} />} */}
 
                 {globalUser.isLoggedIn ?
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: { xs: 'auto', lg: '30%' }, color: 'primary.text' }}>
                         <div style={{ display: 'flex', alignItems: 'center', }}>
-                            <span style={{ fontSize: '14px' }}>{globalUser.balance}</span><Box sx={{
+                            <span style={{ fontSize: '14px' }}>{globalUser.balance}</span>&nbsp;<Box sx={{
                                 backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
                                 , width: '20px', height: '20px'
-                            }} /> <Wallet size='16px' />
+                            }} />&nbsp; <Wallet size='16px' />
                         </div>&nbsp;&nbsp;&nbsp;
                         <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
                             <Notification size="16px" cursor='pointer' />
@@ -231,10 +238,15 @@ const NavbarTwo = ({ switchTheme }) => {
                         </div>
                     </Box>
                     :
-                    <FlexRow sx={{ gap: 1 }}>
-                        <ButtonOutline text={'Sign in'} onClick={() => navigate('/auth')} />
-                        <ButtonPurple text={'Get Started'} onClick={() => navigate('/auth')} />
-                    </FlexRow>
+                    <>
+                        <FlexRow sx={{ display: { xs: 'none', sm: 'flex' }, gap: 1 }}>
+                            <ButtonOutline text={'Sign in'} onClick={() => navigate('/auth')} />
+                            <ButtonPurple text={'Get Started'} onClick={() => navigate('/auth')} />
+                        </FlexRow>
+                        <FlexRow sx={{ display: { xs: 'flex', sm: 'none' } }}>
+                            <ButtonPurple text={'Get Started'} onClick={() => navigate('/auth')} />
+                        </FlexRow>
+                    </>
                 }
             </Box>
 
@@ -274,7 +286,7 @@ const NavbarTwo = ({ switchTheme }) => {
                     </Box>
                 </Box>
             </Modal>
-        </Box>
+        </Box >
     );
 }
 

@@ -10,7 +10,7 @@ import { logOutUser, getUnclaimedDeposit, deleteUnclaimedDeposit, setPrivateKey 
 import styled from "@emotion/styled";
 import { HambergerMenu, LogoutCurve, Notification, Profile, Wallet } from "iconsax-react";
 import { Close, Square } from "@mui/icons-material";
-import yCoin from '../assets/Ycoin.svg'
+import yCoin from '../assets/yCoin.svg'
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
 import { HEALTH_API } from "../utils/data/health_api";
 import { API_CONFIG } from "../config";
@@ -94,7 +94,7 @@ function HomeIcon(props) {
         </SvgIcon>
     );
 }
-const Navbar = ({ switchTheme }) => {
+const NavbarTransparent = ({ switchTheme }) => {
     const globalUser = useSelector(state => state.userReducer)
     const unclaimedDeposits = useSelector(state => state.unclaimedDepositReducer)
     const navigate = useNavigate();
@@ -132,9 +132,9 @@ const Navbar = ({ switchTheme }) => {
     }, [globalUser.cid]);
 
     useEffect(() => {
-        if  (globalUser.isLoggedIn && globalUser.cid && !globalUser.privateKey) {
-           setOpenModal(true)
-        } 
+        if (globalUser.isLoggedIn && globalUser.cid && !globalUser.privateKey) {
+            setOpenModal(true)
+        }
     }, [globalUser.isLoggedIn, globalUser.cid, globalUser.privateKey]);
 
 
@@ -170,7 +170,7 @@ const Navbar = ({ switchTheme }) => {
 
     }
 
-    const savePrivateKey = (e) =>{
+    const savePrivateKey = (e) => {
         e.preventDefault()
         dispatch(setPrivateKey(signer))
         setOpenModal(false)
@@ -202,10 +202,13 @@ const Navbar = ({ switchTheme }) => {
                 {globalUser.isLoggedIn ?
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: { xs: 'auto', lg: '30%' }, color: 'primary.text' }}>
                         <div style={{ display: 'flex', alignItems: 'center', }}>
-                            <span style={{ fontSize: '14px' }}>{globalUser.balance}</span><Box sx={{
+                            <span style={{ fontSize: '14px' }}>{globalUser.balance}</span>
+                            &nbsp;
+                            <Box sx={{
                                 backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
                                 , width: '20px', height: '20px'
-                            }} /> <Wallet size='16px' />
+                            }} />&nbsp;
+                            <Wallet size='16px' />
                         </div>&nbsp;&nbsp;&nbsp;
                         <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
                             <Notification size="16px" cursor='pointer' />
@@ -273,4 +276,4 @@ const Navbar = ({ switchTheme }) => {
     );
 }
 
-export default Navbar;
+export default NavbarTransparent;

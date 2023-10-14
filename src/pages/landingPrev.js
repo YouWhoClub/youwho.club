@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import Navbar from "../components/Navbar";
+import NavbarTransparent from "../components/NavbarTransparent";
 import Intro from "../components/HomePagePrev/Intro";
 import Footer from "../components/FooterPrev";
 import Navigation from "../components/HomePagePrev/navigation";
@@ -16,7 +16,7 @@ const Homme = styled(Box)(({ theme }) => ({
 const LandingPrev = ({ switchTheme, theme }) => {
     return (
         <Homme>
-            <Navbar switchTheme={switchTheme} />
+            <NavbarTransparent switchTheme={switchTheme} />
             <Intro theme={theme} />
             <Navigation />
             <Middle />

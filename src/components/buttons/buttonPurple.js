@@ -17,9 +17,9 @@ const Button = styled('button')(({ theme }) => ({
         cursor: 'pointer'
     }
 }))
-const ButtonPurple = ({ onClick, text, w }) => {
+const ButtonPurple = ({ onClick, text, w, px }) => {
     return (
-        <Button onClick={onClick} style={{ width: w ? w : '100px' }}>
+        <Button onClick={onClick} style={{ width: w ? w : '100px', paddingLeft: px ? px : 'unset', paddingRight: px ? px : 'unset' }}>
             {text}
         </Button>
     );

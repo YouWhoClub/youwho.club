@@ -8,12 +8,12 @@ import NavigateCardTwo from './navigateCardTwo';
 
 const YWServices = () => {
     return (
-        <Box sx={{ px: { xs: '30px', sm: '60px' } }}>
+        <Box sx={{ px: { xs: '0', sm: '30px', md: '60px' } }}>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
                 padding: '90px 0px',
-                borderRadius: '25px',
+                borderRadius: { xs: '100px 0', sm: '25px' },
                 background: 'linear-gradient(259deg, rgba(61, 0, 98, 0.70) 0%, rgba(0, 0, 0, 0.00) 100%), #C182ED',
             }}>
                 <Typography variant="h6" sx={{ margin: 0, mb: 4, fontWeight: 500, color: 'white' }}>YouWho Services</Typography>

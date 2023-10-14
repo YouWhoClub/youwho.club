@@ -15,7 +15,7 @@ import Web3 from 'web3';
 import { Buffer } from 'buffer';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
-import yCoin from '../../assets/Ycoin.svg'
+import yCoin from '../../assets/yCoin.svg'
 
 const shake = keyframes`
   0% {
@@ -294,10 +294,10 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <FlexRow>
                                 <Typography>{price}</Typography>
-                                <Box sx={{
+                                &nbsp;<Box sx={{
                                     backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
                                     , width: '20px', height: '20px'
-                                }} />
+                                }} />&nbsp;
                             </FlexRow>
                             <Typography sx={{ fontSize: '10px' }}>{dollarValue !== '...' ? (dollarValue * price).toString() : "..."} $</Typography>
                         </Box>
