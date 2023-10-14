@@ -7,7 +7,7 @@ import { useState } from "react";
 import { BG_URL, PUBLIC_URL } from "../../../utils/utils";
 import WithdrawPanel from "./withdrawPanel";
 import DepositPanel from "./depositPanel";
-import yCoin from '../../../assets/yCoin.svg'
+import yCoin from '../../../assets/Ycoin.svg'
 
 const ShowPanel = styled(Box)(({ theme }) => ({
     marginTop: '20px',

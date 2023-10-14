@@ -1,15 +1,13 @@
 import { Box, Typography } from "@mui/material";
 import styled from "@emotion/styled";
-import NavbarTransparent from "../components/NavbarTransparent";
-import IntroNew from "../components/homePage/intro";
 import NavbarTwo from "../components/NavbarRadius";
-import Footer from "../components/Footer";
-import FABSection from "../components/homePage/features&benefits";
-import DecorSection from "../components/homePage/decorSection";
-import WhatsSection from "../components/homePage/whatsNFT";
-import ThemeSwitcher from "../components/homePage/themeSwitchComp";
-import NFTSlides from "../components/homePage/nftSlides";
-import YWServices from '../components/homePage/yServices'
+import IntroNew from "../components/HomePage/Intro"
+import YWServices from "../components/HomePage/yServices"
+import FABSection from "../components/HomePage/features&benefits"
+import DecorSection from "../components/HomePage/decorSection"
+import WhatsSection from "../components/HomePage/whatsNFT"
+import NFTSlides from "../components/HomePage/nftSlides"
+import Footer from "../components/Footer"
 
 
 const Homme = styled(Box)(({ theme }) => ({
@@ -34,7 +32,7 @@ const Home = ({ switchTheme, theme }) => {
                 mt: 10, pt: 10
             }}>
                 <Box sx={{
-                    px: { xs: '0', sm: '30px' , md:'60px' },
+                    px: { xs: '0', sm: '30px', md: '60px' },
                     display: 'flex', flexDirection: 'column',
                 }}>
                     <FABSection />

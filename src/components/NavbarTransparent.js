@@ -15,8 +15,7 @@ import { HEALTH_API } from "../utils/data/health_api";
 import { API_CONFIG } from "../config";
 import { useState, useRef, useEffect } from "react";
 import { PUBLIC_API } from "../utils/data/public_api";
-import yCoin from '../assets/yCoin.svg'
-
+import yCoin from "../assets/Ycoin.svg"
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
     backgroundImage: "url('/w-outline.svg')",

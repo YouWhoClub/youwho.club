@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
-import yCoin from '../../assets/yCoin.svg'
 import ButtonPurple from "../buttons/buttonPurple";
+import yCoin from "../../assets/Ycoin.svg"
 
 const DecorSection = () => {
     return (

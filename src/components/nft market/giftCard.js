@@ -15,8 +15,7 @@ import Web3 from 'web3';
 import { Buffer } from 'buffer';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
-import yCoin from '../../assets/yCoin.svg'
-
+import yCoin from "../../assets/Ycoin.svg"
 const shake = keyframes`
   0% {
     transform: rotate(-2deg);

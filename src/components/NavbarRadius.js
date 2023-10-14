@@ -15,8 +15,8 @@ import { HEALTH_API } from "../utils/data/health_api";
 import { API_CONFIG } from "../config";
 import { useState, useRef, useEffect } from "react";
 import { PUBLIC_API } from "../utils/data/public_api";
-import ThemeSwitcher from "./homePage/themeSwitchComp";
-import yCoin from '../assets/yCoin.svg'
+import yCoin from "../assets/Ycoin.svg"
+import ThemeSwitcher from "../components/HomePage/themeSwitchComp"
 
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
