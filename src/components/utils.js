@@ -27,6 +27,21 @@ const TabComp = styled(Box)(({ theme }) => ({
         color: 'white',
     }
 }))
+const TabsSimplee = styled(Box)(({ theme }) => ({
+    width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'
+}))
+const TabSimplee = styled(Box)(({ theme }) => ({
+    color: theme.palette.primary.text, borderColor: theme.palette.primary.text,
+    margin: '1px 3px',
+    padding: '0 10px',
+    width: 'max-content',
+    cursor:'pointer',
+    height: '30px', textAlign: 'center',
+    display: 'flex', alignItems: 'center',
+    '&:hover': {
+        color: theme.palette.secondary.text
+    }
+}))
 export const Tabs = ({ children }) => {
     return (<TabsComp
         sx={{ py: 1 }}
@@ -38,4 +53,16 @@ export const Tab = ({ text, onClick, id, selected }) => {
         id={id} onClick={onClick}>
         {text}
     </TabComp>)
+}
+export const TabsSimple = ({ children }) => {
+    return (<TabsSimplee
+        sx={{ py: 1 }}
+    >{children}</TabsSimplee>)
+}
+export const TabSimple = ({ text, onClick, id, selected }) => {
+    return (<TabSimplee
+        sx={{ borderBottom: selected ? '1px solid' : 'unset', }}
+        id={id} onClick={onClick}>
+        {text}
+    </TabSimplee>)
 }

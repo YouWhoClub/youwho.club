@@ -59,6 +59,9 @@ function App() {
   }
 
   const darkTheme = createTheme({
+    typography: {
+      "fontFamily": `"Josefin Sans", "Inter", sans-serif`,
+    },
     palette: {
       mode: 'dark',
       primary: {
@@ -77,7 +80,7 @@ function App() {
         text: 'white',
         themeSwitch: '#140920',
         landBG: 'linear-gradient(180deg, rgba(40,18,64,0.9) 0%, rgba(10,3,17,0.6) 100%)',
-        footer:'#C182ED'
+        footer: '#C182ED'
       },
       secondary: {
         dark: '#1B0055',
@@ -97,6 +100,9 @@ function App() {
     },
   });
   const lightTheme = createTheme({
+    typography: {
+      "fontFamily": `"Josefin Sans", "Inter", sans-serif`,
+    },
     palette: {
       mode: 'light',
       primary: {
@@ -114,7 +120,7 @@ function App() {
         text: 'black',
         themeSwitch: '#FFC233',
         landBG: 'linear-gradient(180deg, rgba(222, 222, 222, 0.25) 0%, rgba(217, 217, 217, 0.001) 100%)',
-        footer:'#3D0062'
+        footer: '#3D0062'
       },
       secondary: {
         dark: '#0F0A0A',
@@ -168,8 +174,8 @@ function App() {
                 {/* <Navbar /> */}
                 <Wrapper>
                   <Routes>
-                    <Route exact path="/" element={<LandingPrev theme={theme} switchTheme={switchTheme} />} />
-                    <Route exact path="/landing" element={<Home theme={theme} switchTheme={switchTheme} />} />
+                    <Route exact path="/" element={<Home theme={theme} switchTheme={switchTheme} />} />
+                    <Route exact path="/landing" element={<LandingPrev theme={theme} switchTheme={switchTheme} />} />
                     <Route exact path="/auth" element={<Auth />} />
                     <Route exact path="/display" element={<Display />} />
                     <Route exact path="/dashboard" element={<Dashboard switchTheme={switchTheme} />} />
@@ -181,7 +187,7 @@ function App() {
                     <Route exact path="/verify-mail" element={<VerifyMail />} />
                     <Route exact path="/verify-phone" element={<VerifyPhone />} />
                     <Route exact path="/gallery" element={<MainGallery switchTheme={switchTheme} />} />
-                    <Route path='*' element={<NotFound />} />
+                    <Route path='*' element={<NotFound theme={theme}/>} />
                   </Routes>
                 </Wrapper>
                 {/* <Bar /> */}

@@ -94,7 +94,7 @@ function HomeIcon(props) {
         </SvgIcon>
     );
 }
-const NavbarTwo = ({ switchTheme }) => {
+const NavbarTwo = ({ switchTheme, theme }) => {
     const globalUser = useSelector(state => state.userReducer)
     const unclaimedDeposits = useSelector(state => state.unclaimedDepositReducer)
     const navigate = useNavigate();
@@ -197,7 +197,10 @@ const NavbarTwo = ({ switchTheme }) => {
                 {/* {window.location.pathname == '/' ? */}
                 <Box sx={{ display: 'flex', alignItems: 'center', }}>
                     <YouWhoHugCoinPurple onClick={() => navigate('/')} />
-                    <ThemeSwitchButton onClick={switchTheme} ></ThemeSwitchButton>
+                    &nbsp;&nbsp;&nbsp;
+                    <Link to={'/about-us'} style={{ textDecoration: 'none', color: theme == 'light' ? 'black' : 'white' }}>About Us</Link>
+                    &nbsp;&nbsp;&nbsp;
+                    <Link to={'/blog'} style={{ textDecoration: 'none', color: theme == 'light' ? 'black' : 'white' }}>Weblog</Link>
                 </Box>
                 {/* : <YouWhoIcon onClick={() => navigate('/')} />} */}
 

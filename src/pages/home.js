@@ -8,6 +8,8 @@ import Footer from "../components/Footer";
 import FABSection from "../components/homePage/features&benefits";
 import DecorSection from "../components/homePage/decorSection";
 import WhatsSection from "../components/homePage/whatsNFT";
+import ThemeSwitcher from "../components/homePage/themeSwitchComp";
+import NFTSlides from "../components/homePage/nftSlides";
 
 
 const Homme = styled(Box)(({ theme }) => ({
@@ -24,7 +26,8 @@ const SecondSection = styled(Box)(({ theme }) => ({
 const Home = ({ switchTheme, theme }) => {
     return (
         <Homme>
-            <NavbarTwo switchTheme={switchTheme} />
+            <NavbarTwo switchTheme={switchTheme} theme={theme} />
+            <ThemeSwitcher switchTheme={switchTheme} />
             <IntroNew />
             <YWServices />
             <SecondSection sx={{
@@ -37,6 +40,7 @@ const Home = ({ switchTheme, theme }) => {
                     <FABSection />
                     <DecorSection />
                     <WhatsSection />
+                    <NFTSlides />
                 </Box>
                 <Footer />
             </SecondSection>
