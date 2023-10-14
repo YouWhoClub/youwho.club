@@ -27,7 +27,7 @@ const Home = ({ switchTheme, theme }) => {
     return (
         <Homme>
             <NavbarTwo switchTheme={switchTheme} theme={theme} />
-            <ThemeSwitcher switchTheme={switchTheme} />
+            {/* <ThemeSwitcher switchTheme={switchTheme} /> */}
             <IntroNew />
             <YWServices />
             <SecondSection sx={{

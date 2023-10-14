@@ -71,7 +71,7 @@ function SamplePrevArrow(props) {
 }
 export default function CustomSlider({ children, slidesCount, slidesCountTablet, items, theme }) {
     const settings = {
-        // infinite: true,
+        infinite: false,
         // dots: false,
         slidesToShow: slidesCount ? slidesCount : 3,
         slidesToScroll: slidesCount ? slidesCount : 3,
@@ -82,6 +82,13 @@ export default function CustomSlider({ children, slidesCount, slidesCountTablet,
         // autoplaySpeed: 2000,
         speed: 500,
         responsive: [
+            {
+                breakpoint: 1300,
+                settings: {
+                    slidesToShow: slidesCountTablet ? slidesCountTablet : 3,
+                    slidesToScroll: slidesCountTablet ? slidesCountTablet : 3,
+                }
+            },
             {
                 breakpoint: 1024,
                 settings: {

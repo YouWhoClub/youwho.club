@@ -16,6 +16,7 @@ import { HEALTH_API } from "../utils/data/health_api";
 import { API_CONFIG } from "../config";
 import { useState, useRef, useEffect } from "react";
 import { PUBLIC_API } from "../utils/data/public_api";
+import ThemeSwitcher from "./homePage/themeSwitchComp";
 
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
@@ -194,13 +195,16 @@ const NavbarTwo = ({ switchTheme, theme }) => {
             alignItems: 'center',
             px: '30px'
         }}>
+                <ThemeSwitcher switchTheme={switchTheme} />
                 {/* {window.location.pathname == '/' ? */}
                 <Box sx={{ display: 'flex', alignItems: 'center', }}>
                     <YouWhoHugCoinPurple onClick={() => navigate('/')} />
                     &nbsp;&nbsp;&nbsp;
-                    <Link to={'/about-us'} style={{ textDecoration: 'none', color: theme == 'light' ? 'black' : 'white' }}>About Us</Link>
-                    &nbsp;&nbsp;&nbsp;
-                    <Link to={'/blog'} style={{ textDecoration: 'none', color: theme == 'light' ? 'black' : 'white' }}>Weblog</Link>
+                    <Box sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', }}>
+                        <Link to={'/about-us'} style={{ textDecoration: 'none', color: theme == 'light' ? 'black' : 'white' }}>About Us</Link>
+                        &nbsp;&nbsp;&nbsp;
+                        <Link to={'/blog'} style={{ textDecoration: 'none', color: theme == 'light' ? 'black' : 'white' }}>Weblog</Link>
+                    </Box>
                 </Box>
                 {/* : <YouWhoIcon onClick={() => navigate('/')} />} */}
 
@@ -282,7 +286,7 @@ const NavbarTwo = ({ switchTheme, theme }) => {
                     </Box>
                 </Box>
             </Modal>
-        </Box>
+        </Box >
     );
 }
 
