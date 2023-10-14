@@ -10,12 +10,12 @@ import { logOutUser, getUnclaimedDeposit, deleteUnclaimedDeposit, setPrivateKey 
 import styled from "@emotion/styled";
 import { HambergerMenu, LogoutCurve, Notification, Profile, Wallet } from "iconsax-react";
 import { Close, Square } from "@mui/icons-material";
-import yCoin from '../assets/yCoin.svg'
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
 import { HEALTH_API } from "../utils/data/health_api";
 import { API_CONFIG } from "../config";
 import { useState, useRef, useEffect } from "react";
 import { PUBLIC_API } from "../utils/data/public_api";
+import yCoin from '../assets/yCoin.svg'
 
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
