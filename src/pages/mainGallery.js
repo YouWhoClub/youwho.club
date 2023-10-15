@@ -15,9 +15,9 @@ const Gallery = styled(Box)(({ theme }) => ({
     display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center'
 }))
 
-const MainGallery = ({ switchTheme }) => {
+const MainGallery = ({ switchTheme ,theme }) => {
     return (
-        <PanelLayout switchTheme={switchTheme}>
+        <PanelLayout switchTheme={switchTheme} theme={theme}>
 
             <Box sx={{
                 bgcolor: 'primary.bg',

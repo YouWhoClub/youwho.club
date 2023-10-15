@@ -10,12 +10,12 @@ import { useState } from "react";
 import styled from "@emotion/styled";
 import { Close } from "@mui/icons-material";
 
-const WalletPage = ({ switchTheme }) => {
+const WalletPage = ({ switchTheme , theme }) => {
     const globalUser = useSelector(state => state.userReducer)
     const navigate = useNavigate()
     const [privateKey, setPrivateKey] = useState(undefined)
     return (
-        <PanelLayout switchTheme={switchTheme}>
+        <PanelLayout switchTheme={switchTheme} theme={theme}>
             {!globalUser.isLoggedIn ?
                 <Box sx={{
                     // height: '100vh',

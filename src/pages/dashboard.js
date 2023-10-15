@@ -50,7 +50,7 @@ const ShowPanel = styled(Box)(({ theme }) => ({
 
 }))
 
-const Dashboard = ({ switchTheme }) => {
+const Dashboard = ({ switchTheme , theme}) => {
     const globalUser = useSelector(state => state.userReducer)
     const [idCopied, setIdCopied] = useState(false)
     const [selectValue, setSelectValue] = useState(undefined)
@@ -78,7 +78,7 @@ const Dashboard = ({ switchTheme }) => {
     };
 
     return (
-        <PanelLayout switchTheme={switchTheme}>
+        <PanelLayout switchTheme={switchTheme} theme={theme}>
             <Box sx={{
                 width: { xs: '100%', sm: 'calc(100% - 80px)' }, display: 'flex'
             }}>

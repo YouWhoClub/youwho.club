@@ -42,18 +42,6 @@ const YouWhoHugCoinPurple = styled('div')(({ theme }) => ({
     width: '50px',
     height: '50px'
 }))
-const ThemeSwitchButton = styled('div')(({ theme }) => ({
-    backgroundColor: theme.palette.primary.themeSwitch,
-    borderRadius: '50%',
-    border: '1px solid', borderColor: theme.palette.secondary.themeSwitch,
-    cursor: 'pointer',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)',
-
-    width: '20px', height: '20px'
-}))
 const FlexRow = styled(Box)(({ theme }) => ({
     // width: '250px',
     display: 'flex',
@@ -61,33 +49,6 @@ const FlexRow = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     color: theme.palette.primary.light,
 }))
-const Inputt = styled('input')(({ theme }) => ({
-    width: '100%',
-    outline: 'none',
-    color: theme.palette.primary.gray,
-    borderColor: theme.palette.primary.gray,
-    backgroundColor: 'transparent',
-    cursor: 'pointer',
-    border: 'none',
-    // borderBottom: '1px solid',
-    '&:hover': {
-        borderColor: theme.palette.primary.main,
-    }
-}))
-const Inputtt = styled('div')(({ theme }) => ({
-    width: '100%',
-    display: 'flex',
-    color: theme.palette.primary.gray,
-    borderColor: theme.palette.primary.gray,
-    backgroundColor: 'transparent',
-    cursor: 'pointer',
-    border: 'none',
-    borderBottom: '1px solid',
-    '&:hover': {
-        borderColor: theme.palette.primary.main,
-    }
-}))
-
 function HomeIcon(props) {
     return (
         <SvgIcon {...props}>
@@ -95,7 +56,7 @@ function HomeIcon(props) {
         </SvgIcon>
     );
 }
-const NavbarTwo = ({ switchTheme, theme }) => {
+const NavbarDashBoard = ({ switchTheme, theme }) => {
     const globalUser = useSelector(state => state.userReducer)
     const unclaimedDeposits = useSelector(state => state.unclaimedDepositReducer)
     const navigate = useNavigate();
@@ -171,13 +132,13 @@ const NavbarTwo = ({ switchTheme, theme }) => {
     return (
         <Box sx={{
             height: '55px',
-            bgcolor: 'secondary.bg',
+            bgcolor: 'primary.bg',
             width: '100%',
             position: "sticky",
             top: 0,
             zIndex: 999,
             borderRadius: '0 0 12px 12px',
-            boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)'
+            // boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)'
         }}
         ><Box sx={{
             // width: '100%',
@@ -186,16 +147,11 @@ const NavbarTwo = ({ switchTheme, theme }) => {
             alignItems: 'center',
             px: '30px'
         }}>
-                <ThemeSwitcher switchTheme={switchTheme} right={'0'}/>
+                <ThemeSwitcher left={'30px'} switchTheme={switchTheme} />
                 {/* {window.location.pathname == '/' ? */}
                 <Box sx={{ display: 'flex', alignItems: 'center', }}>
                     <YouWhoHugCoinPurple onClick={() => navigate('/')} />
                     &nbsp;&nbsp;&nbsp;
-                    <Box sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', }}>
-                        <Link to={'/about-us'} style={{ textDecoration: 'none', color: theme == 'light' ? 'black' : 'white' }}>About Us</Link>
-                        &nbsp;&nbsp;&nbsp;
-                        <Link to={'/blog'} style={{ textDecoration: 'none', color: theme == 'light' ? 'black' : 'white' }}>Weblog</Link>
-                    </Box>
                 </Box>
                 {/* : <YouWhoIcon onClick={() => navigate('/')} />} */}
 
@@ -244,4 +200,4 @@ const NavbarTwo = ({ switchTheme, theme }) => {
     );
 }
 
-export default NavbarTwo;
+export default NavbarDashBoard;

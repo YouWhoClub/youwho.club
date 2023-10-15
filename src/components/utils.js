@@ -1,11 +1,11 @@
 import styled from "@emotion/styled"
 import { AccountCircle } from "@mui/icons-material"
-import { Box, TextField } from "@mui/material"
+import { Box, TextField, inputLabelClasses } from "@mui/material"
 
 const Inputt = styled(Box)(({ theme }) => ({
     border: '1px solid #DEDEDE',
     borderRadius: '12px',
-    height: '50px',
+    height: '50px', color: theme.palette.primary.text
 }))
 const TabsComp = styled(Box)(({ theme }) => ({
     borderBottom: '1px solid', borderColor: theme.palette.primary.gray,
@@ -79,7 +79,15 @@ export const MyInput = ({ icon, text, id, label, width, onChange }) => {
             <TextField
                 InputProps={{
                     disableUnderline: true,
-                    
+                    sx: { color: 'primary.gray' }
+                }}
+                InputLabelProps={{
+                    sx: {
+                        color: 'primary.text', [`&.${inputLabelClasses.shrink}`]: {
+                            // set the color of the label when shrinked (usually when the TextField is focused)
+                            color: "primary.text"
+                        }
+                    }
                 }}
                 id={id} sx={{ alignItems: 'center', }} label={label} variant="standard" onChange={onChange} />
         </Box>

@@ -5,13 +5,13 @@ import { BG_URL, PUBLIC_URL } from "../utils/utils";
 import bgDots from '../assets/bgDots.svg'
 import NavbarTwo from "../components/NavbarRadius";
 
-const NotFound = ({ theme }) => {
+const NotFound = ({ theme, switchTheme }) => {
   return (
     <Box sx={{
       height: '100vh', bgcolor: 'primary.bg',
       display: 'flex', alignItems: 'center', flexDirection: "column"
     }}>
-      <NavbarTwo theme={theme} />
+      <NavbarTwo theme={theme} switchTheme={switchTheme} />
       <Box
         sx={{
           height: 'calc(100vh - 55px)', width: '100%',

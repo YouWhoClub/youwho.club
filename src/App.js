@@ -70,8 +70,8 @@ function App() {
         main: '#8B3BBC',
         middle: '#9F72C0',
         light: '#C182ED',
-        gray: '#E0E0E0',
-        darkGray:'#525252',
+        gray: '#D6D6D6',
+        darkGray: '#525252',
         white: 'white',
         bg: '#1F0031',
         bgOp: 'rgba(31,0,49,0.3)',
@@ -91,7 +91,7 @@ function App() {
         middle: '#9F72C0',
         light: '#D2A6F2',
         gray: '#EBEBEB',
-        darkGray:'#525252',
+        darkGray: '#525252',
         white: 'white',
         bg: '#3D0062',
         bgOp: 'rgba(61,0,98,0.3)',
@@ -111,39 +111,42 @@ function App() {
     palette: {
       mode: 'light',
       primary: {
-        dark: '#1B0055',
-        ultra: '#32283E',
+        dark: '#1F0031',
+        ultra: '#6F3096',
         main: '#8B3BBC',
-        middle: '#846894',
-        light: '#BEA2C5',
-        gray: '#C7BDC6',
-        darkGray:'#525252',
+        middle: '#9F72C0',
+        light: '#C182ED',
+        gray: '#C2C2C2',
+        darkGray: '#A3A3A3',
         white: 'white',
-        bg: '#F8F4E3',
-        bgOp: 'rgba(248,244,227,0.5)',
-        bgGradient: 'linear-gradient(180deg, rgba(83,38,132,1) 0%, rgba(248,244,227,1) 100%)',
-        bgGradientDown: 'linear-gradient(180deg, rgba(248,244,227,1) 0%, rgba(83,38,132,1) 100%)',
+        bg: '#F5F5F5',
+        bgOp: 'rgba(245,245,245,0.3)',
+        bgGradient: 'linear-gradient(180deg, rgba(159,114,192,1) 0%, rgba(245,245,245,1) 100%)',
+        bgGradientDown: 'linear-gradient(180deg, rgba(245,245,245,1) 0%, rgba(159,114,192,1) 100%)',
         text: 'black',
         themeSwitch: '#FFC233',
         landBG: 'linear-gradient(180deg, rgba(222, 222, 222, 0.25) 0%, rgba(217, 217, 217, 0.001) 100%)',
-        footer: '#3D0062',
-        grad: 'linear-gradient(251deg, rgba(111,48,150,1) 33%, rgba(210,166,242,1) 100%)'
+        footer: '#6F3096',
+        grad: 'linear-gradient(251deg, rgba(111,48,150,1) 33%, rgba(210,166,242,1) 100%)',
+
       },
       secondary: {
-        dark: '#0F0A0A',
-        ultra: '#731A60',
-        main: '#8B3BBC',
-        middle: '#8D80AD',
-        light: '#BCB4CF',
-        gray: '#C7BDC6',
-        darkGray:'#525252',
-        white: '#F5EFED',
-        bg: 'white',
-        bgOp: 'rgba(255,255,255,0.5)',
-        bgGradient: 'linear-gradient(180deg, rgba(248,244,227,1) 0%, rgba(83,38,132,0.7) 50%, rgba(248,244,227,1) 100%)',
-        text: '#707070',
-        themeSwitch: '#FFC43D'
-
+        dark: '#3D0062',
+        ultra: '#6F3096',
+        main: '#6F3096',
+        middle: '#9F72C0',
+        light: '#D2A6F2',
+        gray: '#CC2C2',
+        darkGray: '#A3A3A3',
+        white: 'white',
+        bg: '#ffffff',
+        bgOp: 'rgba(255,255,255,0.3)',
+        bgGradient: 'linear-gradient(180deg, rgba(245,245,245,1) 0%, rgba(159,114,192,1) 50%, rgba(245,245,245,1) 100%)',
+        bgGradientDown: 'linear-gradient(180deg, rgba(159,114,192,1) 0%, rgba(245,245,245,1) 100%)',
+        text: '#292929',
+        themeSwitch: '#FFC233',
+        landBG: 'linear-gradient(180deg, rgba(222, 222, 222, 0.25) 0%, rgba(217, 217, 217, 0.001) 100%)',
+        footer: '#3D0062'
       },
     },
   });
@@ -265,18 +268,18 @@ function App() {
                   <Routes>
                     <Route exact path="/" element={<Home theme={theme} switchTheme={switchTheme} />} />
                     <Route exact path="/landing" element={<LandingPrev theme={theme} switchTheme={switchTheme} />} />
-                    <Route exact path="/auth" element={<Auth />} />
-                    <Route exact path="/display" element={<Display />} />
-                    <Route exact path="/dashboard" element={<Dashboard switchTheme={switchTheme} />} />
-                    <Route exact path="/profile/:name" element={<Profile />} />
+                    <Route exact path="/auth" element={<Auth theme={theme} switchTheme={switchTheme} />} />
+                    <Route exact path="/display" element={<Display theme={theme} switchTheme={switchTheme} />} />
+                    <Route exact path="/dashboard" element={<Dashboard switchTheme={switchTheme} theme={theme}/>} />
+                    <Route exact path="/profile/:name" element={<Profile theme={theme} switchTheme={switchTheme} />} />
                     <Route exact path="/transfer" element={<TransferPage theme={theme} switchTheme={switchTheme} />} />
                     <Route exact path="/wallet" element={<WalletPage switchTheme={switchTheme} />} />
                     <Route exact path="/public-gallery" element={<PublicGallery />} />
                     <Route exact path="/gallery/user/:id" element={<PublicGallery />} />
-                    <Route exact path="/verify-mail" element={<VerifyMail />} />
-                    <Route exact path="/verify-phone" element={<VerifyPhone />} />
-                    <Route exact path="/gallery" element={<MainGallery switchTheme={switchTheme} />} />
-                    <Route path='*' element={<NotFound theme={theme} />} />
+                    <Route exact path="/verify-mail" element={<VerifyMail theme={theme}/>} />
+                    <Route exact path="/verify-phone" element={<VerifyPhone theme={theme}/>} />
+                    <Route exact path="/gallery" element={<MainGallery switchTheme={switchTheme} theme={theme}/>} />
+                    <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme}/>} />
                   </Routes>
                 </Wrapper>
                 {/* <Bar /> */}

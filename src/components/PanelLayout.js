@@ -7,11 +7,12 @@ import bgDots from '../assets/bgDots.svg'
 import { useNavigate } from "react-router";
 import styled from "@emotion/styled";
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
+import NavbarDashBoard from "./NavbarDashboard";
 const Title = styled('h4')(({ theme }) => ({
     color: theme.palette.primary.text,
 }))
 
-const PanelLayout = ({ switchTheme, children }) => {
+const PanelLayout = ({ switchTheme,theme, children }) => {
     const globalUser = useSelector(state => state.userReducer)
     const navigate = useNavigate()
     return (<Box sx={{
@@ -49,7 +50,7 @@ const PanelLayout = ({ switchTheme, children }) => {
         // alignItems: 'center',
         // flexDirection: 'column',
     }}>
-        <NavbarTransparent switchTheme={switchTheme} />
+        <NavbarDashBoard switchTheme={switchTheme} theme={theme}/>
         {!globalUser.isLoggedIn ?
             <Box sx={{
                 display: 'flex', marginTop: '20%',height:'50%',
