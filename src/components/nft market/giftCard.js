@@ -5,7 +5,7 @@ import ButtonPurple from "../buttons/buttonPurple";
 import { useEffect, useRef, useState } from "react";
 import giftImage from '../../assets/gift.png'
 import { useSelector, useDispatch } from "react-redux";
-import { updateBalance } from "../../redux/actions";
+import { updateBalance, setPrivateKey } from "../../redux/actions";
 import { useNavigate } from "react-router";
 import { PUBLIC_API } from "../../utils/data/public_api";
 import { Close, Square } from "@mui/icons-material";
@@ -16,6 +16,7 @@ import { Buffer } from 'buffer';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import yCoin from "../../assets/Ycoin.svg"
+
 const shake = keyframes`
   0% {
     transform: rotate(-2deg);
@@ -112,6 +113,7 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
     const [openBuyModal, setOpenBuyModal] = useState(false)
     const [modalData, setModalData] = useState('form');
     const [openClaimModal, setOpenClaimModal] = useState(false)
+    const [signer, setSigner] = useState(undefined)
     const [txHash, setTxHash] = useState(null)
     const [err, setErr] = useState(undefined)
     // const [dollarValue, setDollarValue] = useState(undefined)
@@ -226,7 +228,7 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
         loading();
 
         if (globalUser.pravateKey) {
-            
+
             const privateKey = Buffer.from(globalUser.privateKey, 'hex');
 
             const data = {
@@ -277,6 +279,10 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
         }
     }
 
+    const savePrivateKey = (e) => {
+        e.preventDefault()
+        dispatch(setPrivateKey(signer))
+    }
 
     return (
         <Outter>
@@ -301,7 +307,7 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
                             <Typography sx={{ fontSize: '10px' }}>{dollarValue !== '...' ? (dollarValue * price).toString() : "..."} $</Typography>
                         </Box>
                     </FlexRow>
-                    {globalUser.isLoggedIn ?
+                    {(globalUser.isLoggedIn && globalUser.cid) ?
                         <>
                             {sender ?
                                 <ButtonPurple text={'buy'} w={'100%'} onClick={() => setOpenBuyModal(true)} />
@@ -310,7 +316,10 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
                             }
                         </>
                         :
-                        <ButtonPurple text={'login'} w={'100%'} onClick={() => navigate('/auth')} />
+                        (globalUser.isLoggedIn) ?
+                            <ButtonPurple text={'create wallet'} w={'100%'} onClick={() => navigate('/wallet')} />
+                            : <ButtonPurple text={'login'} w={'100%'} onClick={() => navigate('/auth')} />
+
                     }
                 </DetailsSection>
 
@@ -340,25 +349,42 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
                             setModalData('form')
                         }}><Close sx={{ cursor: 'pointer' }} /></div></FlexRow>
                         {
-                            (modalData == 'form') ?
+                            (globalUser.privateKey) ?
                                 <>
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', }}>
-                                        <Typography sx={{ mt: 2, fontSize: '12px', mb: 2, color: 'primary.text' }}>
-                                            Enter Receipant YouWho ID
-                                        </Typography>
+                                    {
+                                        (modalData == 'form') ?
+                                            <>
+                                                <Box sx={{ display: 'flex', flexDirection: 'column', }}>
+                                                    <Typography sx={{ mt: 2, fontSize: '12px', mb: 2, color: 'primary.text' }}>
+                                                        Enter Receipant YouWho ID
+                                                    </Typography>
+                                                    <Inputtt>
+                                                        <Square sx={{ color: 'primary.light', fontSize: '30px' }} />
+                                                        <Inputt value={receipantID} placeholder="enter id" onChange={(e) => setReceipantID(e.target.value)} />
+                                                    </Inputtt>
+                                                </Box>
+                                                <ButtonPurple text={'transfer'} w={'100%'} onClick={deposite} />
+                                            </>
+                                            :
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', height: '60%' }}>
+                                                <Typography sx={{ mt: 2, fontSize: '14px', mb: 2, color: 'primary.text' }}>
+                                                    mint tx hash : {txHash}
+                                                </Typography>
+                                            </Box>
+                                    }
+                                </>
+                                : <>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                                         <Inputtt>
                                             <Square sx={{ color: 'primary.light', fontSize: '30px' }} />
-                                            <Inputt value={receipantID} placeholder="enter id" onChange={(e) => setReceipantID(e.target.value)} />
+                                            <Inputt value={signer} placeholder="enter private key" onChange={(e) => setSigner(e.target.value)} />
                                         </Inputtt>
+                                        <Typography sx={{ width: '100%', mt: 2, fontSize: '13px', mb: 2, color: 'primary.text', textAlign: 'center' }}>
+                                            We have cleared your private key as you logged out. Please provide your private key to continue. Your private key will be securely stored for future transactions.
+                                        </Typography>
                                     </Box>
-                                    <ButtonPurple text={'transfer'} w={'100%'} onClick={deposite} />
+                                    <ButtonPurple text={'save'} w={'100%'} onClick={savePrivateKey} />
                                 </>
-                                :
-                                <Box sx={{ display: 'flex', flexDirection: 'column', height: '60%' }}>
-                                    <Typography sx={{ mt: 2, fontSize: '14px', mb: 2, color: 'primary.text' }}>
-                                        mint tx hash : {txHash}
-                                    </Typography>
-                                </Box>
                         }
                     </Box>
                 </Box>
@@ -381,16 +407,34 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
                         backgroundColor: 'secondary.bg',
                         display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between'
                     }}>
-                        <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}><Typography>Claim</Typography><div onClick={() => setOpenClaimModal(false)}><Close sx={{ cursor: 'pointer' }} /></div></FlexRow>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', }}>
-                            <Typography sx={{ mt: 2, fontSize: '12px', mb: 2, color: 'primary.text' }}>
-                                by keeping this gift in your wallet for 2 more days you will get a token bonus
-                            </Typography>
-                        </Box>
-                        <ButtonPurple text={'claim/burn'} w={'100%'} onClick={withdraw} />
+                        {
+                            (globalUser.privateKey) ?
+                                <>
+                                    <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}><Typography>Claim</Typography><div onClick={() => setOpenClaimModal(false)}><Close sx={{ cursor: 'pointer' }} /></div></FlexRow>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', }}>
+                                        <Typography sx={{ mt: 2, fontSize: '12px', mb: 2, color: 'primary.text' }}>
+                                            by keeping this gift in your wallet for 2 more days you will get a token bonus
+                                        </Typography>
+                                    </Box>
+                                    <ButtonPurple text={'claim/burn'} w={'100%'} onClick={withdraw} />
+                                </> :
+                                <>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                        <Inputtt>
+                                            <Square sx={{ color: 'primary.light', fontSize: '30px' }} />
+                                            <Inputt value={signer} placeholder="enter private key" onChange={(e) => setSigner(e.target.value)} />
+                                        </Inputtt>
+                                        <Typography sx={{ width: '100%', mt: 2, fontSize: '13px', mb: 2, color: 'primary.text', textAlign: 'center' }}>
+                                            We have cleared your private key as you logged out. Please provide your private key to continue. Your private key will be securely stored for future transactions.
+                                        </Typography>
+                                    </Box>
+                                    <ButtonPurple text={'save'} w={'100%'} onClick={savePrivateKey} />
+                                </>
+                        }
                     </Box>
                 </Box>
             </Modal>
+
         </Outter>
     );
 }

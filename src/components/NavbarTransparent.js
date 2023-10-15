@@ -1,12 +1,12 @@
 import { LogoDevRounded, LogoutOutlined, Mail, MailOutline, MenuBook } from "@mui/icons-material";
-import { Box, Modal, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import SvgIcon from '@mui/material/SvgIcon';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import ButtonOutline from "./buttons/buttonOutline";
 import ButtonPurple from "./buttons/buttonPurple";
 import { useDispatch, useSelector } from "react-redux";
-import { logOutUser, getUnclaimedDeposit, deleteUnclaimedDeposit, setPrivateKey } from "../redux/actions";
+import { logOutUser, getUnclaimedDeposit, deleteUnclaimedDeposit } from "../redux/actions";
 import styled from "@emotion/styled";
 import { HambergerMenu, LogoutCurve, Notification, Profile, Wallet } from "iconsax-react";
 import { Close, Square } from "@mui/icons-material";
@@ -104,8 +104,6 @@ const NavbarTransparent = ({ switchTheme }) => {
     const apiCall = useRef(undefined)
     const [err, setErr] = useState(false)
     const [intervalRef, setIntervalRef] = useState(null);
-    const [signer, setSigner] = useState(undefined)
-    const [openModal, setOpenModal] = useState(false)
 
     useEffect(() => {
         if (globalUser.isLoggedIn && !globalUser.isMailVerified) {
@@ -134,12 +132,6 @@ const NavbarTransparent = ({ switchTheme }) => {
             }
         };
     }, [globalUser.cid]);
-
-    useEffect(() => {
-        if (globalUser.isLoggedIn && globalUser.cid && !globalUser.privateKey) {
-            setOpenModal(true)
-        }
-    }, [globalUser.isLoggedIn, globalUser.cid, globalUser.privateKey]);
 
 
     async function disconnect() {
@@ -174,11 +166,6 @@ const NavbarTransparent = ({ switchTheme }) => {
 
     }
 
-    const savePrivateKey = (e) => {
-        e.preventDefault()
-        dispatch(setPrivateKey(signer))
-        setOpenModal(false)
-    }
 
     return (
         <Box sx={{
@@ -240,42 +227,6 @@ const NavbarTransparent = ({ switchTheme }) => {
                 }
             </Box>
 
-            <Modal
-                open={openModal}
-                onClose={() => {
-                    setOpenModal(false)
-                }}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                disableScrollLock={true}
-            >
-                <Box sx={{
-                    width: '100%',
-                    height: '100%',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center'
-                }}>
-                    <Box sx={{
-                        borderRadius: '24px',
-                        width: { xs: '100%', sm: '500px' }, height: { xs: '100%', sm: '350px' },
-                        backgroundColor: 'secondary.bg',
-                        display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between'
-                    }}>
-                        <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}><Typography>PrivateKey</Typography><div onClick={() => {
-                            setOpenModal(false)
-                        }}><Close sx={{ cursor: 'pointer' }} /></div></FlexRow>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                            <Inputtt>
-                                <Square sx={{ color: 'primary.light', fontSize: '30px' }} />
-                                <Inputt value={signer} placeholder="enter private key" onChange={(e) => setSigner(e.target.value)} />
-                            </Inputtt>
-                            <Typography sx={{ width: '100%', mt: 2, fontSize: '13px', mb: 2, color: 'primary.text', textAlign: 'center' }}>
-                                We have cleared your private key as you logged out. Please provide your private key to continue. Your private key will be securely stored for future transactions.
-                            </Typography>
-                        </Box>
-                        <ButtonPurple text={'save'} w={'100%'} onClick={savePrivateKey} />
-                    </Box>
-                </Box>
-            </Modal>
         </Box>
     );
 }
