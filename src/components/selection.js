@@ -60,6 +60,7 @@ const Selection = ({ width, tabs, handleSelect, selectValue, id, icon }) => {
                 className="p-3"
                 onClick={handleClick}
                 sx={{
+                    py:'5px',
                     width: { width }, color: 'primary.text',
                     borderBottomRightRadius: expanded ? 0 : '12px',
                     borderBottomLeftRadius: expanded ? 0 : '12px',

@@ -7,8 +7,8 @@ import AuthLayout from "../components/user/auth/authLayout";
 
 const AuthBox = styled(Box)(({ theme }) => ({
     backgroundColor: 'white',
-    width: '350px',
-    height: '480px',
+    width: '400px',
+    height: '500px',
     borderRadius: '30px',
     // display: "flex",
     flexDirection: "column",

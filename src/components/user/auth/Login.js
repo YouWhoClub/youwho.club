@@ -12,6 +12,7 @@ import { green, red } from "@mui/material/colors";
 import { useNavigate } from "react-router";
 import { Eye, EyeSlash, Lock } from "iconsax-react";
 import VerifyMail from "./verifyMail";
+import { MyInput } from "../../utils";
 
 
 const Inputt = styled('input')(({ theme }) => ({
@@ -117,10 +118,16 @@ const Login = () => {
                         display: 'flex', flexDirection: 'column',
                         justifyContent: 'space-between', alignItems: 'center',
                     }} onSubmit={idStateChanger}>
-                    <Inputtt>
+
+                    <MyInput
+                        icon={<Email sx={{ color: 'primary.light', }} />}
+                        borderColor={err ? '#F675A8' : undefined}
+                        onChange={(e) => setIdentifier(e.target.value)}
+                        label={'Email'} width={'99%'} id={'Email'} type="email" />
+                    {/* <Inputtt>
                         <Email sx={{ color: 'primary.light', fontSize: '30px' }} />
                         <Inputt value={identifier} type="email" placeholder="Enter Your Email" onChange={(e) => setIdentifier(e.target.value)} />
-                    </Inputtt>
+                    </Inputtt> */}
                     <ButtonPurple w={'100%'} text={'Next'} />
                     <Box>
                         LOGIN WITH GMAIL
@@ -133,7 +140,17 @@ const Login = () => {
                         display: 'flex', flexDirection: 'column',
                         justifyContent: 'space-between', alignItems: 'center',
                     }} onSubmit={idStateChanger}>
-                        <Inputtt>
+                        <MyInput
+                            icon={<Lock sx={{ color: 'primary.light', }} />}
+                            borderColor={err ? '#F675A8' : undefined}
+                            onChange={(e) => setPassword(e.target.value)}
+                            label={'Password'}
+                            width={'99%'}
+                            id={'Password'}
+                            type={showPassword ? 'input' : 'password'}
+                            extraIcon={<>{showPassword ? <EyeSlash onClick={() => setShowPassword(false)} /> : <Eye onClick={() => setShowPassword(true)} />}</>} />
+
+                        {/* <Inputtt>
                             <Lock sx={{ color: 'primary.light', fontSize: '30px' }} />
                             {showPassword ?
                                 <Inputt autocomplete="off" value={password} placeholder="Enter Your Password" onChange={(e) => setPassword(e.target.value)} />
@@ -141,7 +158,7 @@ const Login = () => {
                                 <Inputt type="password" autocomplete="off" value={password} placeholder="Enter Your Password" onChange={(e) => setPassword(e.target.value)} />
                             }
                             {showPassword ? <EyeSlash onClick={() => setShowPassword(false)} /> : <Eye onClick={() => setShowPassword(true)} />}
-                        </Inputtt>
+                        </Inputtt> */}
                         <ButtonPurple w={'100%'} text={loading ? '...' : 'next'} onClick={submit} />
                         <p style={{ cursor: 'pointer', color: 'rgba(120, 120, 120, 1)', fontSize: '12px', margin: 0 }}>
                             FORGOT PASSWORD ?
@@ -176,7 +193,7 @@ const Login = () => {
                     :
                     <VerifyMail email={identifier} />
             }
-            {err ? <p style={{ color: 'red', fontSize: '12px', margin: 0 }}>{err}</p> : undefined}
+            {err ? <p style={{ color: '#F675A8', fontSize: '12px', margin: 0 }}>{err}</p> : undefined}
             {success ? <p style={{ color: 'green', fontSize: '12px', margin: 0 }}>{success}</p> : undefined}
         </Box>
 

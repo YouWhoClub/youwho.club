@@ -3,9 +3,9 @@ import { AccountCircle } from "@mui/icons-material"
 import { Box, TextField, inputLabelClasses } from "@mui/material"
 
 const Inputt = styled(Box)(({ theme }) => ({
-    border: '1px solid #DEDEDE',
     borderRadius: '12px',
-    height: '50px', color: theme.palette.primary.text
+    height: '50px',
+    color: theme.palette.primary.text, display: 'flex', justifyContent: 'space-between', alignItems: 'center'
 }))
 const TabsComp = styled(Box)(({ theme }) => ({
     borderBottom: '1px solid', borderColor: theme.palette.primary.gray,
@@ -72,14 +72,22 @@ export const TabSimple = ({ text, onClick, id, selected }) => {
         {text}
     </TabSimplee>)
 }
-export const MyInput = ({ icon, text, id, label, width, onChange }) => {
-    return (<Inputt sx={{ width: width ? width : '200px', }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', px: '16px' }}>
-            {icon ? icon : undefined}
+export const MyInput = ({ icon, text, id, label, width, onChange, borderColor, type, extraIcon }) => {
+    return (<Inputt sx={{ width: width ? width : '200px', border: '1px solid', py: '5px', borderColor: borderColor ? borderColor : '#DEDEDE' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', }}>
+            <Box sx={{ ml: '16px' }}>
+                {icon ? icon : undefined}
+            </Box>
             <TextField
+                type={type}
                 InputProps={{
                     disableUnderline: true,
-                    sx: { color: 'primary.gray' }
+                    sx: {
+                        color: 'primary.gray', width: 'max-content',
+                        "&:-webkit-autofill": {
+                            webkitboxshadow: "0 0 0 1000px white inset"
+                        }
+                    }
                 }}
                 InputLabelProps={{
                     sx: {
@@ -89,7 +97,10 @@ export const MyInput = ({ icon, text, id, label, width, onChange }) => {
                         }
                     }
                 }}
-                id={id} sx={{ alignItems: 'center', }} label={label} variant="standard" onChange={onChange} />
+                id={id} sx={{ alignItems: 'center', display: 'flex', }} label={label} variant="standard" onChange={onChange} />
+        </Box>
+        <Box sx={{ mr: '16px' }}>
+            {extraIcon ? extraIcon : undefined}
         </Box>
     </Inputt>
     )
