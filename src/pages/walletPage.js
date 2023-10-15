@@ -1,12 +1,14 @@
 import { useSelector } from "react-redux";
 import PanelLayout from "../components/PanelLayout";
-import { Box } from "@mui/material";
+import { Box, Modal } from "@mui/material";
 import ButtonOutline from "../components/buttons/buttonOutline";
 import { useNavigate } from "react-router";
 import CreateWallet from "../components/user/wallet/createWallet";
 import VerifyPhone from "../components/user/auth/verifyPhone";
 import Wallet from "../components/user/wallet/wallet";
 import { useState } from "react";
+import styled from "@emotion/styled";
+import { Close } from "@mui/icons-material";
 
 const WalletPage = ({ switchTheme }) => {
     const globalUser = useSelector(state => state.userReducer)

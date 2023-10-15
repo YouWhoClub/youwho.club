@@ -46,7 +46,7 @@ const GalleySlide = () => {
         <Box sx={{
             display: 'flex', justifyContent: 'center', width:'100%',mt:5
         }}>
-            <ButtonOutline text={'view all'} w={'100%'} onClick={() => navigate('/gallery')} />
+            <ButtonOutline text={'view all'} onClick={() => navigate('/gallery')} />
         </Box>
     </Box>
     );

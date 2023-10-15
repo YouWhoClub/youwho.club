@@ -65,37 +65,42 @@ function App() {
     palette: {
       mode: 'dark',
       primary: {
-        dark: '#1A0052',
-        ultra: '#32283E',
-        main: '#790DAB',
-        middle: '#846894',
-        light: '#BEA2C5',
-        gray: '#C7BDC6',
+        dark: '#1F0031',
+        ultra: '#6F3096',
+        main: '#8B3BBC',
+        middle: '#9F72C0',
+        light: '#C182ED',
+        gray: '#E0E0E0',
+        darkGray:'#525252',
         white: 'white',
-        bg: '#281240',
-        bgOp: 'rgba(40,18,64,0.3)',
-        // bgGradient: 'linear-gradient(180deg, rgba(10,3,17,1) 0%, rgba(40,18,64,0.8957634079022234) 100%)',
-        bgGradient: 'linear-gradient(180deg, rgba(10,3,17,1) 0%, rgba(40,18,64,1) 100%)',
-        bgGradientDown: 'linear-gradient(180deg, rgba(40,18,64,1) 0%, rgba(10,3,17,1) 100%)',
+        bg: '#1F0031',
+        bgOp: 'rgba(31,0,49,0.3)',
+        bgGradient: 'linear-gradient(180deg, rgba(61,0,98,1) 33%, rgba(31,0,49,1) 100%)',
+        bgGradientDown: 'linear-gradient(180deg, rgba(31,0,49,1) 33%, rgba(61,0,98,1) 100%)',
         text: 'white',
         themeSwitch: '#140920',
-        landBG: 'linear-gradient(180deg, rgba(40,18,64,0.9) 0%, rgba(10,3,17,0.6) 100%)',
-        footer: '#C182ED'
+        landBG: 'linear-gradient(158deg, rgba(31,0,49,1) 0%, rgba(61,0,98,1) 100%)',
+        footer: '#6F3096',
+        grad: 'linear-gradient(251deg, rgba(111,48,150,1) 33%, rgba(210,166,242,1) 100%)',
+
       },
       secondary: {
-        dark: '#1B0055',
-        ultra: '#32283E',
-        main: '#392F5A',
-        middle: '#846894',
-        light: '#BEA2C5',
-        gray: '#C7BDC6',
+        dark: '#3D0062',
+        ultra: '#6F3096',
+        main: '#6F3096',
+        middle: '#9F72C0',
+        light: '#D2A6F2',
+        gray: '#EBEBEB',
+        darkGray:'#525252',
         white: 'white',
-        bg: '#3C1A60',
-        bgOp: 'rgba(60,26,96,0.3)',
-        bgGradient: 'linear-gradient(180deg, rgba(40,18,64,1) 0%, rgba(93,45,134,1) 50%, rgba(40,18,64,1) 100%)',
-        text: '#F6F5F4',
-        themeSwitch: '#1E0D30'
-
+        bg: '#3D0062',
+        bgOp: 'rgba(61,0,98,0.3)',
+        bgGradient: 'linear-gradient(180deg, rgba(31,0,49,1) 0%, rgba(61,0,98,1) 50%, rgba(31,0,49,1)  100%)',
+        bgGradientDown: 'linear-gradient(180deg, rgba(61,0,98,1) 33%, rgba(31,0,49,1) 100%)',
+        text: '#f5f5f5',
+        themeSwitch: '#140920',
+        landBG: 'linear-gradient(180deg, rgba(61,0,98,1) 9%, rgba(36,12,49,1) 100%)',
+        footer: '#3D0062'
       },
     },
   });
@@ -108,10 +113,11 @@ function App() {
       primary: {
         dark: '#1B0055',
         ultra: '#32283E',
-        main: '#5F0A87',
+        main: '#8B3BBC',
         middle: '#846894',
         light: '#BEA2C5',
         gray: '#C7BDC6',
+        darkGray:'#525252',
         white: 'white',
         bg: '#F8F4E3',
         bgOp: 'rgba(248,244,227,0.5)',
@@ -120,15 +126,17 @@ function App() {
         text: 'black',
         themeSwitch: '#FFC233',
         landBG: 'linear-gradient(180deg, rgba(222, 222, 222, 0.25) 0%, rgba(217, 217, 217, 0.001) 100%)',
-        footer: '#3D0062'
+        footer: '#3D0062',
+        grad: 'linear-gradient(251deg, rgba(111,48,150,1) 33%, rgba(210,166,242,1) 100%)'
       },
       secondary: {
         dark: '#0F0A0A',
         ultra: '#731A60',
-        main: '#B8145E',
+        main: '#8B3BBC',
         middle: '#8D80AD',
         light: '#BCB4CF',
         gray: '#C7BDC6',
+        darkGray:'#525252',
         white: '#F5EFED',
         bg: 'white',
         bgOp: 'rgba(255,255,255,0.5)',
@@ -268,7 +276,7 @@ function App() {
                     <Route exact path="/verify-mail" element={<VerifyMail />} />
                     <Route exact path="/verify-phone" element={<VerifyPhone />} />
                     <Route exact path="/gallery" element={<MainGallery switchTheme={switchTheme} />} />
-                    <Route path='*' element={<NotFound theme={theme}/>} />
+                    <Route path='*' element={<NotFound theme={theme} />} />
                   </Routes>
                 </Wrapper>
                 {/* <Bar /> */}

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Foot = styled(Box)(({ theme }) => ({
     width: '100%',
     borderRadius: '24px',
-    background: theme.palette.primary.main,
+    background: theme.palette.primary.footer,
     color: theme.palette.primary.text,
     display: 'flex', justifyContent: 'center', alignItems: 'center',
 }))

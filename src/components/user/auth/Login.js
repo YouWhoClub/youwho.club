@@ -17,8 +17,8 @@ import VerifyMail from "./verifyMail";
 const Inputt = styled('input')(({ theme }) => ({
     width: '100%',
     outline: 'none',
-    color: theme.palette.primary.gray,
-    borderColor: theme.palette.primary.gray,
+    color: theme.palette.primary.darkGray,
+    borderColor: theme.palette.primary.darkGray,
     cursor: 'pointer',
     border: 'none',
     // borderBottom: '1px solid',
@@ -29,8 +29,8 @@ const Inputt = styled('input')(({ theme }) => ({
 const Inputtt = styled('div')(({ theme }) => ({
     width: '100%',
     display: 'flex',
-    color: theme.palette.primary.gray,
-    borderColor: theme.palette.primary.gray,
+    color: theme.palette.primary.darkGray,
+    borderColor: theme.palette.primary.darkGray,
     cursor: 'pointer',
     border: 'none',
     borderBottom: '1px solid',

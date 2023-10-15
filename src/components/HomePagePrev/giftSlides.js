@@ -60,7 +60,7 @@ const GiftSlides = () => {
         <Box sx={{
             display: 'flex', justifyContent: 'center', width: '100%', mt: 5
         }}>
-            <ButtonOutline text={'view all'} w={'100%'} onClick={() => navigate('/transfer')} />
+            <ButtonOutline text={'view all'} onClick={() => navigate('/transfer')} />
         </Box>
         <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick pauseOnFocusLoss pauseOnHover />
     </Box>

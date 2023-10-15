@@ -1,13 +1,18 @@
-import { Box, SvgIcon } from "@mui/material";
+import { Box, Modal, SvgIcon } from "@mui/material";
 import ButtonOutline from "./buttons/buttonOutline";
 import ButtonPurple from "./buttons/buttonPurple";
-import { HambergerMenu, Profile, Wallet } from "iconsax-react";
-import { CenterFocusStrong, LogoutOutlined } from "@mui/icons-material";
+import { HambergerMenu, Location, Mobile, Profile, Wallet } from "iconsax-react";
+import { CenterFocusStrong, Close, LogoutOutlined } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { logOutUser } from "../redux/actions";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import Selection from "./selection";
+import { MyInput } from "./utils";
+import ButtonOutlineInset from "./buttons/buttonOutlineInset.js";
+import VerifyPhoneModal from "./user/auth/verifyPhoneModal";
 
 const IconHolder = styled(Box)(({ theme }) => ({
     display: 'flex', justifyContent: 'center', alignItems: 'center',
@@ -18,8 +23,6 @@ const IconHolder = styled(Box)(({ theme }) => ({
     '&:hover': {
         backgroundColor: theme.palette.primary.light, color: 'whitesmoke'
     }
-
-
 }))
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
@@ -36,11 +39,40 @@ function HomeIcon(props) {
         </SvgIcon>
     );
 }
+const FlexRow = styled(Box)(({ theme }) => ({
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    color: theme.palette.primary.text,
+}))
+const Title = styled('h4')(({ theme }) => ({
+    color: theme.palette.primary.text, textAlign: 'center'
+}))
+const P = styled('p')(({ theme }) => ({
+    color: theme.palette.secondary.text, textAlign: 'center', fontSize: '14px'
+}))
+
+
 const Bar = () => {
     const globalUser = useSelector(state => state.userReducer)
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const logOut = () => dispatch(logOutUser());
+    const [openModal, setOpenModal] = useState(false)
+    const [selectValue, setSelectValue] = useState('Location')
+    const handleSelect = (e) => {
+        e.preventDefault()
+        setSelectValue(e.target.id)
+    }
+
+    const handleWalletClick = () => {
+        if (globalUser.isPhoneVerified) {
+            navigate('/wallet')
+        } else {
+            setOpenModal(true)
+        }
+    }
     function disconnect() {
         logOut()
     }
@@ -74,9 +106,15 @@ const Bar = () => {
             <IconHolder onClick={() => navigate('/gallery')} sx={{ bgcolor: window.location.pathname == '/gallery' ? 'primary.main' : 'transparent', color: window.location.pathname == '/gallery' ? 'white' : 'primary.text' }}>
                 <CenterFocusStrong cursor='pointer' />
             </IconHolder>
-            <IconHolder onClick={() => navigate('/wallet')} sx={{ bgcolor: window.location.pathname == '/wallet' ? 'primary.main' : 'transparent', color: window.location.pathname == '/wallet' ? 'white' : 'primary.text' }}>
+            <IconHolder onClick={handleWalletClick} sx={{ bgcolor: window.location.pathname == '/wallet' ? 'primary.main' : 'transparent', color: window.location.pathname == '/wallet' ? 'white' : 'primary.text' }}>
                 <Wallet cursor='pointer' />
             </IconHolder>
+
+
+            {/* // verify phone modal ====> */}
+
+            <VerifyPhoneModal openModal={openModal} setOpenModal={setOpenModal} />
+
         </Box >
     );
 }

@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Box } from "@mui/material";
 
 
 const Button = styled('button')(({ theme }) => ({
@@ -12,14 +13,14 @@ const Button = styled('button')(({ theme }) => ({
     border: 'none',
     fontWeight: 'bold',
     '&:hover': {
-        color: theme.palette.primary.light,
+        color: theme.palette.primary.gray,
         borderRadius: '15px',
         cursor: 'pointer'
     }
 }))
-const ButtonPurple = ({ onClick, text, w, px }) => {
+const ButtonPurple = ({ onClick, text, w, px, disabled }) => {
     return (
-        <Button onClick={onClick} style={{ width: w ? w : '100px', paddingLeft: px ? px : 'unset', paddingRight: px ? px : 'unset' }}>
+        <Button onClick={onClick} style={{ backgroundColor: disabled ? '#525252' : '#8B3BBC', width: w ? w : '100px', paddingLeft: px ? px : 'unset', paddingRight: px ? px : 'unset' }}>
             {text}
         </Button>
     );

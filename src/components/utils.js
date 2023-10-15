@@ -1,6 +1,12 @@
 import styled from "@emotion/styled"
-import { Box } from "@mui/material"
+import { AccountCircle } from "@mui/icons-material"
+import { Box, TextField } from "@mui/material"
 
+const Inputt = styled(Box)(({ theme }) => ({
+    border: '1px solid #DEDEDE',
+    borderRadius: '12px',
+    height: '50px',
+}))
 const TabsComp = styled(Box)(({ theme }) => ({
     borderBottom: '1px solid', borderColor: theme.palette.primary.gray,
     width: '100%', display: 'flex', flexWrap: 'wrap',
@@ -35,7 +41,7 @@ const TabSimplee = styled(Box)(({ theme }) => ({
     margin: '1px 3px',
     padding: '0 10px',
     width: 'max-content',
-    cursor:'pointer',
+    cursor: 'pointer',
     height: '30px', textAlign: 'center',
     display: 'flex', alignItems: 'center',
     '&:hover': {
@@ -65,4 +71,19 @@ export const TabSimple = ({ text, onClick, id, selected }) => {
         id={id} onClick={onClick}>
         {text}
     </TabSimplee>)
+}
+export const MyInput = ({ icon, text, id, label, width, onChange }) => {
+    return (<Inputt sx={{ width: width ? width : '200px', }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', px: '16px' }}>
+            {icon ? icon : undefined}
+            <TextField
+                InputProps={{
+                    disableUnderline: true,
+                    
+                }}
+                id={id} sx={{ alignItems: 'center', }} label={label} variant="standard" onChange={onChange} />
+        </Box>
+    </Inputt>
+    )
+
 }
