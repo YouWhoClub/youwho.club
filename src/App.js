@@ -69,7 +69,7 @@ function App() {
         ultra: '#6F3096',
         main: '#8B3BBC',
         middle: '#9F72C0',
-        light: '#C182ED',
+        light: '#BEA2C5',
         gray: '#D6D6D6',
         darkGray: '#525252',
         white: 'white',
@@ -89,7 +89,8 @@ function App() {
         ultra: '#6F3096',
         main: '#6F3096',
         middle: '#9F72C0',
-        light: '#D2A6F2',
+        light: '#C182ED',
+        ultraLight: '#D2A6F2',
         gray: '#EBEBEB',
         darkGray: '#525252',
         white: 'white',
@@ -115,7 +116,7 @@ function App() {
         ultra: '#6F3096',
         main: '#8B3BBC',
         middle: '#9F72C0',
-        light: '#C182ED',
+        light: '#BEA2C5',
         gray: '#C2C2C2',
         darkGray: '#A3A3A3',
         white: 'white',
@@ -135,7 +136,8 @@ function App() {
         ultra: '#6F3096',
         main: '#6F3096',
         middle: '#9F72C0',
-        light: '#D2A6F2',
+        light: '#C182ED',
+        ultraLight: '#D2A6F2',
         gray: '#CC2C2',
         darkGray: '#A3A3A3',
         white: 'white',
@@ -270,16 +272,16 @@ function App() {
                     <Route exact path="/landing" element={<LandingPrev theme={theme} switchTheme={switchTheme} />} />
                     <Route exact path="/auth" element={<Auth theme={theme} switchTheme={switchTheme} />} />
                     <Route exact path="/display" element={<Display theme={theme} switchTheme={switchTheme} />} />
-                    <Route exact path="/dashboard" element={<Dashboard switchTheme={switchTheme} theme={theme}/>} />
+                    <Route exact path="/dashboard" element={<Dashboard switchTheme={switchTheme} theme={theme} />} />
                     <Route exact path="/profile/:name" element={<Profile theme={theme} switchTheme={switchTheme} />} />
                     <Route exact path="/transfer" element={<TransferPage theme={theme} switchTheme={switchTheme} />} />
                     <Route exact path="/wallet" element={<WalletPage switchTheme={switchTheme} />} />
                     <Route exact path="/public-gallery" element={<PublicGallery />} />
                     <Route exact path="/gallery/user/:id" element={<PublicGallery />} />
-                    <Route exact path="/verify-mail" element={<VerifyMail theme={theme}/>} />
-                    <Route exact path="/verify-phone" element={<VerifyPhone theme={theme}/>} />
-                    <Route exact path="/gallery" element={<MainGallery switchTheme={switchTheme} theme={theme}/>} />
-                    <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme}/>} />
+                    <Route exact path="/verify-mail" element={<VerifyMail theme={theme} />} />
+                    <Route exact path="/verify-phone" element={<VerifyPhone theme={theme} />} />
+                    <Route exact path="/gallery" element={<MainGallery switchTheme={switchTheme} theme={theme} />} />
+                    <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} />
                   </Routes>
                 </Wrapper>
                 {/* <Bar /> */}
