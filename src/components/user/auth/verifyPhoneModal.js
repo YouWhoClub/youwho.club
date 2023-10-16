@@ -254,7 +254,7 @@ const VerifyPhoneModal = ({ openModal, setOpenModal }) => {
                                             padding: '0', margin: '2px', boxShadow: '0px 0px 5px 0px #DEDEDE'
                                         }}
                                     />
-                                    <Typography sx={{ color: '#F675A8', fontSize: '12px' }}>{err ? err : ''}</Typography>
+                                    <Typography sx={{ color: 'primary.pink', fontSize: '12px' }}>{err ? err : ''}</Typography>
                                     <FlexRow sx={{ gap: 2 }}>
                                         <ButtonOutlineInset text={`Back`} onClick={() => setShowOtp(false)} w={'100px'} />
                                         <ButtonPurple text={'Check Authentication'} disabled={isDisabled} w={'100%'} onClick={otpCheckHandle} />
@@ -292,9 +292,9 @@ const VerifyPhoneModal = ({ openModal, setOpenModal }) => {
                                         display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', gap: 2
                                     }}>
                                         <Selection icon={<Location />} width={'100%'} tabs={['iran', 'canada', 'alman']} id={'location-selection'} handleSelect={handleSelect} selectValue={selectValue} />
-                                        <MyInput icon={<Mobile />} borderColor={err ? '#F675A8' : undefined} onChange={(e) => setPhone(e.target.value)} label={'Mobile Number'} width={'100%'} id={'mobile-number'} />
+                                        <MyInput icon={<Mobile />} borderColor={err ? 'primary.pink' : undefined} onChange={(e) => setPhone(e.target.value)} label={'Mobile Number'} width={'100%'} id={'mobile-number'} />
                                     </Box>
-                                    <Typography sx={{ color: '#F675A8', fontSize: '12px' }}>{err ? err : ''}</Typography>
+                                    <Typography sx={{ color: 'primary.pink', fontSize: '12px' }}>{err ? err : ''}</Typography>
                                     <FlexRow sx={{ gap: 2 }}>
                                         <ButtonOutlineInset text={'Not Yet'} onClick={() => setOpenModal(false)} w={'100px'} />
                                         <ButtonPurple disabled={isDisabled} text={'Send Verification Code'} w={'100%'} onClick={otpReqHandle} />

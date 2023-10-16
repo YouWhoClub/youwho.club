@@ -265,12 +265,12 @@ const CreateWallet = ({ switchTheme, setPvKey }) => {
                             }}>
                                 <MyInput
                                     icon={<AccountCircle sx={{ color: 'primary.light', }} />}
-                                    borderColor={err ? '#F675A8' : success ? 'green' : undefined}
+                                    borderColor={err ? 'primary.error' : success ? 'primary.success' : undefined}
                                     onChange={(e) => setUsernme(e.target.value.toString())}
                                     label={'Username'} width={'100%'} id={'Username'} />
 
-                                <Typography sx={{ color: '#F675A8', fontSize: '12px' }}>{err ? err : ''}</Typography>
-                                <Typography sx={{ color: 'green', fontSize: '12px' }}>{success ? success : ''}</Typography>
+                                <Typography sx={{ color: 'primary.error', fontSize: '12px' }}>{err ? err : ''}</Typography>
+                                <Typography sx={{ color: 'primary.success', fontSize: '12px' }}>{success ? success : ''}</Typography>
                             </Box>
                             {/* {err ? <p style={{ color: 'red', fontSize: '12px', margin: 0, marginTop: '10px', }}>{err}</p> : undefined}
                             {success ? <p style={{ color: 'green', fontSize: '12px', margin: 0, marginTop: '10px', }}>{success}</p> : undefined} */}

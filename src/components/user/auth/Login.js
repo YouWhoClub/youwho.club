@@ -8,7 +8,6 @@ import styled from "@emotion/styled";
 import { AUTH_API } from "../../../utils/data/auth_api";
 import { useDispatch } from "react-redux";
 import { getuser } from "../../../redux/actions";
-import { green, red } from "@mui/material/colors";
 import { useNavigate } from "react-router";
 import { Eye, EyeSlash, Lock } from "iconsax-react";
 import VerifyMail from "./verifyMail";
@@ -121,7 +120,7 @@ const Login = () => {
 
                     <ShadowInput
                         icon={<Email sx={{ color: 'primary.light', }} />}
-                        borderColor={err ? '#F675A8' : undefined}
+                        borderColor={err ? 'primary.error' : undefined}
                         onChange={(e) => setIdentifier(e.target.value)}
                         label={'Email'} width={'99%'} id={'Email'} type="email" />
                     {/* <Inputtt>
@@ -142,7 +141,7 @@ const Login = () => {
                     }} onSubmit={idStateChanger}>
                         <ShadowInput
                             icon={<Lock sx={{ color: 'primary.light', }} />}
-                            borderColor={err ? '#F675A8' : undefined}
+                            borderColor={err ? 'primary.error' : undefined}
                             onChange={(e) => setPassword(e.target.value)}
                             label={'Password'}
                             width={'99%'}
@@ -193,8 +192,8 @@ const Login = () => {
                     :
                     <VerifyMail email={identifier} />
             }
-            {err ? <p style={{ color: '#F675A8', fontSize: '12px', margin: 0 }}>{err}</p> : undefined}
-            {success ? <p style={{ color: 'green', fontSize: '12px', margin: 0 }}>{success}</p> : undefined}
+            {err ? <Typography sx={{ color: 'primary.error', fontSize: '12px', margin: 0 }}>{err}</Typography> : undefined}
+            {success ? <Typography sx={{ color: 'primary.success', fontSize: '12px', margin: 0 }}>{success}</Typography> : undefined}
         </Box>
 
 
