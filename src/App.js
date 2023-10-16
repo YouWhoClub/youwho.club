@@ -32,6 +32,8 @@ import MainGallery from './pages/mainGallery';
 import styled from '@emotion/styled';
 import WalletPage from './pages/walletPage';
 import Home from './pages/home';
+import CheckoutSuccess from './pages/checkoutSuccess'
+import CheckoutCancel from './pages/checkoutCancel'
 // import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
 
 
@@ -281,6 +283,8 @@ function App() {
                     <Route exact path="/verify-mail" element={<VerifyMail theme={theme} />} />
                     <Route exact path="/verify-phone" element={<VerifyPhone theme={theme} />} />
                     <Route exact path="/gallery" element={<MainGallery switchTheme={switchTheme} theme={theme} />} />
+                    <Route exact path="/checkout/success" element={<CheckoutSuccess switchTheme={switchTheme} theme={theme} />} />
+                    <Route exact path="/checkout/cancel" element={<CheckoutCancel switchTheme={switchTheme} theme={theme} />} />
                     <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} />
                   </Routes>
                 </Wrapper>

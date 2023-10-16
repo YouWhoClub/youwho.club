@@ -150,7 +150,6 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
 
     const loading = () => {
         toastId.current = toast.loading("Please wait...")
-        console.log(toastId)
     }
 
     const updateToast = (success, message) => {
@@ -284,6 +283,58 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
         dispatch(setPrivateKey(signer))
     }
 
+    const chargeWallet = async (e) => {
+        e.preventDefault()
+
+        loading();
+
+        const privateKey = Buffer.from(globalUser.privateKey, 'hex');
+
+        const data = {
+            user_id: globalUser.userId,
+            buyer_cid: globalUser.cid,
+            tokens: price,
+        }
+
+        const dataString = JSON.stringify(data);
+        const dataHash = web3.utils.keccak256(dataString);
+
+        const signObject = web3.eth.accounts.sign(dataHash, privateKey);
+
+        const { signature } = signObject;
+
+        const requestData = {
+            ...data,
+            tx_signature: signature.replace('0x', ''),
+            hash_data: dataHash.replace('0x', ''),
+        };
+
+        console.log(JSON.stringify(requestData));
+
+        const publicKey = web3.eth.accounts.recover(dataHash, signature);
+        console.log(publicKey)
+
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/cid/wallet/stripe/charge`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+
+        if (response.status === 200 || response.status === 201) {
+            setErr(false)
+            updateToast(true, response.message)
+            window.location.replace(response.data.checkout_session_url)
+        } else {
+            setErr(response.message)
+            updateToast(false, response.message)
+        }
+    }
+
     return (
         <Outter>
             <Card>
@@ -352,24 +403,35 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
                             (globalUser.privateKey) ?
                                 <>
                                     {
-                                        (modalData == 'form') ?
+                                        (globalUser.balance >= price) ?
                                             <>
-                                                <Box sx={{ display: 'flex', flexDirection: 'column', }}>
-                                                    <Typography sx={{ mt: 2, fontSize: '12px', mb: 2, color: 'primary.text' }}>
-                                                        Enter Receipant YouWho ID
-                                                    </Typography>
-                                                    <Inputtt>
-                                                        <Square sx={{ color: 'primary.light', fontSize: '30px' }} />
-                                                        <Inputt value={receipantID} placeholder="enter id" onChange={(e) => setReceipantID(e.target.value)} />
-                                                    </Inputtt>
-                                                </Box>
-                                                <ButtonPurple text={'transfer'} w={'100%'} onClick={deposite} />
-                                            </>
-                                            :
-                                            <Box sx={{ display: 'flex', flexDirection: 'column', height: '60%' }}>
-                                                <Typography sx={{ mt: 2, fontSize: '14px', mb: 2, color: 'primary.text' }}>
-                                                    mint tx hash : {txHash}
+                                                {
+                                                    (modalData == 'form') ?
+                                                        <>
+                                                            <Box sx={{ display: 'flex', flexDirection: 'column', }}>
+                                                                <Typography sx={{ mt: 2, fontSize: '12px', mb: 2, color: 'primary.text' }}>
+                                                                    Enter Receipant YouWho ID
+                                                                </Typography>
+                                                                <Inputtt>
+                                                                    <Square sx={{ color: 'primary.light', fontSize: '30px' }} />
+                                                                    <Inputt value={receipantID} placeholder="enter id" onChange={(e) => setReceipantID(e.target.value)} />
+                                                                </Inputtt>
+                                                            </Box>
+                                                            <ButtonPurple text={'transfer'} w={'100%'} onClick={deposite} />
+                                                        </>
+                                                        :
+                                                        <Box sx={{ display: 'flex', flexDirection: 'column', height: '60%' }}>
+                                                            <Typography sx={{ mt: 2, fontSize: '14px', mb: 2, color: 'primary.text' }}>
+                                                                mint tx hash : {txHash}
+                                                            </Typography>
+                                                        </Box>
+                                                }
+                                            </> :
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', height: '60%', gap: '16px' }}>
+                                                <Typography sx={{ mt: 2, fontSize: '14px', mb: 2, color: 'primary.text', textAlign: 'center' }}>
+                                                    you dont have enough youWho token
                                                 </Typography>
+                                                <ButtonPurple text={'charge your wallet'} w={'100%'} onClick={chargeWallet} />
                                             </Box>
                                     }
                                 </>
