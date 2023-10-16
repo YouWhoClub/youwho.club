@@ -232,7 +232,8 @@ const VerifyPhoneModal = ({ openModal, setOpenModal }) => {
                                         </div>
                                     </FlexRow>
                                     <Box sx={{
-                                        display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center'
+                                        display: 'flex', flexDirection: 'column',
+                                        justifyContent: 'space-between', alignItems: 'center'
                                     }}>
                                         <Title>Verify Mobile Number</Title>
                                         <P>

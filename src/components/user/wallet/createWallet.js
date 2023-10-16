@@ -15,10 +15,11 @@ import { Link } from "react-router-dom";
 import Bar from "../../Bar";
 import PanelLayout from "../../PanelLayout";
 import { v4 as uuidv4 } from 'uuid';
+import { MyInput } from "../../utils";
 
 
 const AuthBox = styled(Box)(({ theme }) => ({
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     width: '350px',
     height: '480px',
     borderRadius: '30px',
@@ -105,7 +106,15 @@ const Inputtt = styled('div')(({ theme }) => ({
     }
 }))
 
-const CreateWallet = ({ switchTheme , setPvKey}) => {
+const Title = styled('h4')(({ theme }) => ({
+    color: theme.palette.primary.text, textAlign: 'center'
+}))
+const P = styled('p')(({ theme }) => ({
+    color: theme.palette.secondary.text, textAlign: 'center', fontSize: '12px'
+}))
+
+
+const CreateWallet = ({ switchTheme, setPvKey }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const [state, setState] = useState('identifier')
@@ -191,11 +200,12 @@ const CreateWallet = ({ switchTheme , setPvKey}) => {
 
     return (
         <Box sx={{
-            // height: '100vh',
+            // height: 'calc(100vh - 55px)',
             bgcolor: 'primary.bg',
             // color: 'white',
             display: "flex", alignItems: 'center', justifyContent: 'center', flexDirection: 'column',
-            width: { xs: '100%', sm: 'calc(100% - 80px)' }, height: { xs: 'calc(100vh - 90px)', sm: '100%' },
+            width: { xs: '100%', sm: 'calc(100% - 80px)' },
+            height: { xs: 'calc(100vh - 90px)', sm: 'calc(100vh - 55px)' },
 
         }}>
             {globalUser.isLoggedIn ?
@@ -234,22 +244,49 @@ const CreateWallet = ({ switchTheme , setPvKey}) => {
                     }
                     </>
                     :
-                    <AuthBox >
+
+
+                    <AuthBox sx={{
+                        bgcolor: { xs: 'primary.bg', sm: 'secondary.bgOp' },
+                    }}>
                         <Box sx={{
                             px: { xs: '20px', sm: 0 }, height: '100%', display: "flex",
                             flexDirection: "column", justifyContent: 'space-between',
                         }}>
-                            <AuthScrollBox>
+                            <Box sx={{
+                                display: 'flex', flexDirection: 'column',
+                                justifyContent: 'space-between', alignItems: 'center'
+                            }}>
+                                <Title>Set A Username</Title>
+                                <P>To Create Your Unique YouWho Wallet , Pick Your Unique Username</P>
+                            </Box>
+                            <Box sx={{
+                                display: 'flex', flexDirection: 'column',
+                            }}>
+                                <MyInput
+                                    icon={<AccountCircle sx={{ color: 'primary.light', }} />}
+                                    borderColor={err ? '#F675A8' : success ? 'green' : undefined}
+                                    onChange={(e) => setUsernme(e.target.value.toString())}
+                                    label={'Username'} width={'100%'} id={'Username'} />
+
+                                <Typography sx={{ color: '#F675A8', fontSize: '12px' }}>{err ? err : ''}</Typography>
+                                <Typography sx={{ color: 'green', fontSize: '12px' }}>{success ? success : ''}</Typography>
+                            </Box>
+                            {/* {err ? <p style={{ color: 'red', fontSize: '12px', margin: 0, marginTop: '10px', }}>{err}</p> : undefined}
+                            {success ? <p style={{ color: 'green', fontSize: '12px', margin: 0, marginTop: '10px', }}>{success}</p> : undefined} */}
+
+                            <ButtonPurple w={'100%'} text={'Submit'} onClick={submit} disabled={loading} />
+
+                            {/* <AuthScrollBox>
                                 <Inputtt>
                                     <AccountCircle sx={{ color: 'primary.light', }} />
-                                    <Inputt placeholder="Enter Your username" onChange={(e) => setUsernme(e.target.value.toString())} />
+                                    <Inputt placeholder="Enter Your username"
+                                        onChange={(e) => setUsernme(e.target.value.toString())} />
                                 </Inputtt>
                                 <Box sx={{ mt: 10, justifySelf: 'flex-end' }}>
                                     <ButtonPurple w={'100%'} text={'done'} onClick={submit} />
                                 </Box>
-                            </AuthScrollBox>
-                            {err ? <p style={{ color: 'red', fontSize: '12px', margin: 0, marginTop: '10px', }}>{err}</p> : undefined}
-                            {success ? <p style={{ color: 'green', fontSize: '12px', margin: 0, marginTop: '10px', }}>{success}</p> : undefined}
+                            </AuthScrollBox> */}
                         </Box>
                     </AuthBox>
                 }</>
