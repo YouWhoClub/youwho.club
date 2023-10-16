@@ -6,21 +6,31 @@ import { useNavigate } from "react-router";
 import CreateWallet from "../components/user/wallet/createWallet";
 import VerifyPhone from "../components/user/auth/verifyPhone";
 import Wallet from "../components/user/wallet/wallet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Close } from "@mui/icons-material";
+import VerifyPhoneModal from "../components/user/auth/verifyPhoneModal";
 
-const WalletPage = ({ switchTheme , theme }) => {
+const WalletPage = ({ switchTheme, theme }) => {
     const globalUser = useSelector(state => state.userReducer)
     const navigate = useNavigate()
     const [privateKey, setPrivateKey] = useState(undefined)
+    const [openModal, setOpenModal] = useState(false)
+
+    useEffect(() => {
+        if (globalUser.isLoggedIn) {
+            if (!globalUser.isPhoneVerified) {
+                setOpenModal(true)
+            }
+        }
+    }, [globalUser.isLoggedIn, globalUser.youwhoID, globalUser.isPhoneVerified])
     return (
         <PanelLayout switchTheme={switchTheme} theme={theme}>
             {!globalUser.isLoggedIn ?
                 <Box sx={{
-                    // height: '100vh',
+                    height:'calc(100vh - 55px)',
                     bgcolor: 'primary.bg',
-                    display: 'flex',
+                    display: 'flex',color:'primary.text',
                     flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -36,13 +46,29 @@ const WalletPage = ({ switchTheme , theme }) => {
                             <CreateWallet setPvKey={setPrivateKey} />
                         }</>
                         :
-                        <Box sx={{
-                            width: { xs: '100%', sm: 'calc(100% - 80px)' },
-                            height: { xs: 'calc(100vh - 90px)', sm: '100%' },
-                            display: 'flex', justifyContent: 'center'
-                        }}>
-                            <VerifyPhone />
-                        </Box>
+                        <>
+                            <Box sx={{
+                                height:'calc(100vh - 55px)',
+                                bgcolor: 'primary.bg',
+                                display: 'flex',color:'primary.text',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                width: { xs: '100%', sm: 'calc(100% - 80px)' },
+                            }}>
+                                <p>to create a wallet , you have to verify your phone first</p>
+                                <ButtonOutline text={'start'} onClick={() => setOpenModal(true)} />
+                            </Box>
+
+                            <VerifyPhoneModal openModal={openModal} setOpenModal={setOpenModal} />
+                        </>
+                        // <Box sx={{
+                        //     width: { xs: '100%', sm: 'calc(100% - 80px)' },
+                        //     height: { xs: 'calc(100vh - 90px)', sm: '100%' },
+                        //     display: 'flex', justifyContent: 'center'
+                        // }}>
+                        //     <VerifyPhone />
+                        // </Box>
                     }
                 </>
             }
