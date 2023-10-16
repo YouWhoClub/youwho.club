@@ -246,7 +246,12 @@ const VerifyPhoneModal = ({ openModal, setOpenModal }) => {
                                         renderInput={(props) => <input {...props} disabled={isDisabled} />}
                                         containerStyle={{ direction: "ltr" }}
                                         inputType="number"
-                                        inputStyle={{ outline: 'none', borderRadius: '12px', minWidth: '1rem', width: '35px', height: '35px', padding: '0', margin: '2px', borderColor: '#DEDEDE' }}
+                                        inputStyle={{
+                                            outline: 'none', border: '1px solid', borderColor: 'transparent',
+                                            // backgroundColor: 'transparent',
+                                            borderRadius: '12px', minWidth: '1rem', width: '35px', height: '35px',
+                                            padding: '0', margin: '2px', boxShadow: '0px 0px 5px 0px #DEDEDE'
+                                        }}
                                     />
                                     <Typography sx={{ color: '#F675A8', fontSize: '12px' }}>{err ? err : ''}</Typography>
                                     <FlexRow sx={{ gap: 2 }}>
@@ -291,7 +296,7 @@ const VerifyPhoneModal = ({ openModal, setOpenModal }) => {
                                     <Typography sx={{ color: '#F675A8', fontSize: '12px' }}>{err ? err : ''}</Typography>
                                     <FlexRow sx={{ gap: 2 }}>
                                         <ButtonOutlineInset text={'Not Yet'} onClick={() => setOpenModal(false)} w={'100px'} />
-                                        <ButtonPurple text={'Send Verification Code'} w={'100%'} onClick={otpReqHandle} />
+                                        <ButtonPurple disabled={isDisabled} text={'Send Verification Code'} w={'100%'} onClick={otpReqHandle} />
                                     </FlexRow>
                                 </>
                             }

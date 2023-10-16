@@ -237,7 +237,11 @@ const VerifyMail = ({ email, code }) => {
                                         renderInput={(props) => <input {...props} disabled={isDisabled} />}
                                         containerStyle={{ direction: "ltr" }}
                                         inputType="number"
-                                        inputStyle={{ minWidth: '1rem', width: '25px', height: '25px', padding: '0', margin: '2px' }}
+                                        inputStyle={{
+                                            outline: 'none', border: '1px solid white',
+                                            borderRadius: '12px', minWidth: '1rem', width: '35px', height: '35px',
+                                            padding: '0', margin: '2px', boxShadow: '0px 0px 2px 1px #DEDEDE'
+                                        }}
                                     />
                                     <ButtonPurple type={"submit"} id={"submit-otp"} disabled={isDisabled} w={'100%'} text={'confirm'} />
                                     <p >{err ? err : ''}</p>
@@ -253,7 +257,7 @@ const VerifyMail = ({ email, code }) => {
                                     }
                                 </form>
                                 :
-                                <Box sx={{ display: 'flex', flexDirection: 'column',justifyContent:'center' }}>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                     <Typography sx={{ color: 'primary.dark' }}>
                                         Sending Email
                                     </Typography>

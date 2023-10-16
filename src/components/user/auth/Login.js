@@ -12,7 +12,7 @@ import { green, red } from "@mui/material/colors";
 import { useNavigate } from "react-router";
 import { Eye, EyeSlash, Lock } from "iconsax-react";
 import VerifyMail from "./verifyMail";
-import { MyInput } from "../../utils";
+import { MyInput, ShadowInput } from "../../utils";
 
 
 const Inputt = styled('input')(({ theme }) => ({
@@ -107,7 +107,7 @@ const Login = () => {
                 width: '100%',
                 height: '100%',
                 display: 'flex', flexDirection: 'column', textTransform: 'capitalize',
-                justifyContent: 'space-between', alignItems: 'center', pt: 3
+                justifyContent: 'space-between', alignItems: 'center', pt: 10
             }}
         >
             {state == 'identifier' ?
@@ -119,7 +119,7 @@ const Login = () => {
                         justifyContent: 'space-between', alignItems: 'center',
                     }} onSubmit={idStateChanger}>
 
-                    <MyInput
+                    <ShadowInput
                         icon={<Email sx={{ color: 'primary.light', }} />}
                         borderColor={err ? '#F675A8' : undefined}
                         onChange={(e) => setIdentifier(e.target.value)}
@@ -129,9 +129,9 @@ const Login = () => {
                         <Inputt value={identifier} type="email" placeholder="Enter Your Email" onChange={(e) => setIdentifier(e.target.value)} />
                     </Inputtt> */}
                     <ButtonPurple w={'100%'} text={'Next'} />
-                    <Box>
+                    {/* <Box>
                         LOGIN WITH GMAIL
-                    </Box>
+                    </Box> */}
                 </form>
                 : state == 'password' ?
                     <form style={{
@@ -140,7 +140,7 @@ const Login = () => {
                         display: 'flex', flexDirection: 'column',
                         justifyContent: 'space-between', alignItems: 'center',
                     }} onSubmit={idStateChanger}>
-                        <MyInput
+                        <ShadowInput
                             icon={<Lock sx={{ color: 'primary.light', }} />}
                             borderColor={err ? '#F675A8' : undefined}
                             onChange={(e) => setPassword(e.target.value)}

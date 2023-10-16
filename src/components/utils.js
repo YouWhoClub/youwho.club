@@ -7,6 +7,12 @@ const Inputt = styled(Box)(({ theme }) => ({
     height: '50px',
     color: theme.palette.primary.text, display: 'flex', justifyContent: 'space-between', alignItems: 'center'
 }))
+const AuthInput = styled(Box)(({ theme }) => ({
+    borderRadius: '12px',
+    // height: '50px',
+    color: "black", boxShadow: '0px 0px 5px 1px rgba(0, 0, 0, 0.15)',
+    display: 'flex', justifyContent: 'space-between', alignItems: 'end'
+}))
 const TabsComp = styled(Box)(({ theme }) => ({
     borderBottom: '1px solid', borderColor: theme.palette.primary.gray,
     width: '100%', display: 'flex', flexWrap: 'wrap',
@@ -83,7 +89,7 @@ export const MyInput = ({ icon, text, id, label, width, onChange, borderColor, t
                 InputProps={{
                     disableUnderline: true,
                     sx: {
-                        color: 'primary.gray', width: 'max-content',
+                        color: 'primary.gray', width: '100%', alignSelf: 'center',
                         "&:-webkit-autofill": {
                             webkitboxshadow: "0 0 0 1000px white inset"
                         }
@@ -97,12 +103,64 @@ export const MyInput = ({ icon, text, id, label, width, onChange, borderColor, t
                         }
                     }
                 }}
-                id={id} sx={{ alignItems: 'center', display: 'flex', }} label={label} variant="standard" onChange={onChange} />
+                id={id}
+                sx={{ alignSelf: 'center', alignItems: 'center', display: 'flex', width: '100%' }} label={label} variant="standard" onChange={onChange} />
         </Box>
         <Box sx={{ mr: '16px' }}>
             {extraIcon ? extraIcon : undefined}
         </Box>
     </Inputt>
+    )
+
+}
+export const ShadowInput = ({ icon, text, id, label, width, onChange, borderColor, type, extraIcon }) => {
+    return (<AuthInput sx={{
+        width: width ? width : '200px',
+        border: borderColor ? '1px solid' : 'none',
+        pb: '10px', pt: '5px',
+        borderColor: borderColor ? borderColor : '#DEDEDE'
+    }}>
+        <Box sx={{ display: 'flex', alignItems: 'flex-end', width: '100%', }}>
+            <Box sx={{
+                ml: '16px',
+                mr: 1,
+                pb: '5px'
+            }}>
+                {icon ? icon : undefined}
+            </Box>
+            <TextField
+                type={type}
+                InputProps={{
+                    disableUnderline: true,
+                    sx: {
+                        color: 'primary.gray', width: '100%', fontSize: '16px',
+                        //  margin: '0 !important',
+                        "&:-webkit-autofill": {
+                            webkitboxshadow: "0 0 0 1000px white inset"
+                        }
+                    }
+                }}
+                InputLabelProps={{
+                    sx: {
+                        color: 'black', [`&.${inputLabelClasses.shrink}`]: {
+                            // set the color of the label when shrinked (usually when the TextField is focused)
+                            color: "black"
+                        }
+                    }
+                }}
+                id={id}
+                sx={{ alignItems: 'center', display: 'flex', width: '100%' }}
+                label={label} variant="standard"
+                onChange={onChange} />
+        </Box>
+        <Box
+            sx={{
+                mr: '16px',
+                pb: '5px'
+            }}>
+            {extraIcon ? extraIcon : undefined}
+        </Box>
+    </AuthInput>
     )
 
 }
