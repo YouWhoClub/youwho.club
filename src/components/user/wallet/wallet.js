@@ -7,6 +7,8 @@ import { useState } from "react";
 import { BG_URL, PUBLIC_URL } from "../../../utils/utils";
 import WithdrawPanel from "./withdrawPanel";
 import DepositPanel from "./depositPanel";
+import PaidCheckouts from "./paidCheckouts";
+import UnpaidCheckouts from "./unpaidCheckouts";
 import yCoin from '../../../assets/Ycoin.svg'
 
 const ShowPanel = styled(Box)(({ theme }) => ({
@@ -144,19 +146,20 @@ const Wallet = ({ privateKey }) => {
                                 <AccordionDetails
                                     sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
                                 >
-                                    <Typography onClick={() => { setState('deposit') }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'secondary.bgOp' } }}>Deposit</Typography>
-                                    <Typography onClick={() => { setState('withdraw') }} sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'secondary.bgOp' } }}>Withdraw</Typography>
+                                    <Typography onClick={() => { setState('deposit') }} sx={{ cursor: 'pointer',whiteSpace:'nowrap', '&:hover': { bgcolor: 'secondary.bgOp' } }}>Deposit</Typography>
+                                    <Typography onClick={() => { setState('withdraw') }} sx={{ cursor: 'pointer',whiteSpace:'nowrap', '&:hover': { bgcolor: 'secondary.bgOp' } }}>Withdraw</Typography>
+                                    <Typography onClick={() => { setState('paid-checkouts') }} sx={{ cursor: 'pointer',whiteSpace:'nowrap', '&:hover': { bgcolor: 'secondary.bgOp' } }}>Paid Checkouts</Typography>
+                                    <Typography onClick={() => { setState('unpaid-checkouts') }} sx={{ cursor: 'pointer',whiteSpace:'nowrap', '&:hover': { bgcolor: 'secondary.bgOp' } }}>Unpaid Checkouts</Typography>
                                 </AccordionDetails>
                             </Accordion>
                         </Box>
                     </Box>
 
                     <Panel sx={{ p: { xs: 'unset', sm: 1 } }}>
-                        {state == 'withdraw' ?
-                            <WithdrawPanel />
-                            :
-                            <DepositPanel />
-                        }
+                        {state == 'withdraw' && <WithdrawPanel />}
+                        {state == 'deposit' && <DepositPanel />}
+                        {state == 'paid-checkouts' && <PaidCheckouts />}
+                        {state == 'unpaid-checkouts' && <UnpaidCheckouts />}
                     </Panel>
                 </ShowPanel>
             </Box>
