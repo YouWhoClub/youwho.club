@@ -23,7 +23,7 @@ import ViewMoreOrLogin from "../nft market/viewMoreCard";
 import { useSelector } from "react-redux";
 import ButtonPurple from "../buttons/buttonPurple";
 
-const GalleySlide = () => {
+const NewestSlide = () => {
     const navigate = useNavigate()
     const globalUser = useSelector(state => state.userReducer)
 
@@ -34,29 +34,28 @@ const GalleySlide = () => {
     }}>
         {/* <h5 style={{ textAlign: 'center', color: 'white', marginBottom: '30px' }} >Most Popular NFTs</h5> */}
         <CustomSlider slidesCount={5}>
-            <NFTCardLanding image={blueNft} />
-            <NFTCardLanding image={pinkNFT} />
-            <NFTCardLanding image={creamNFT} />
-            <NFTCardLanding image={purpleNFT} />
-            <NFTCardLanding image={sorkhabiNFT} />
-            <NFTCardLanding image={torqNFT} />
-            <NFTCardLanding image={heart} />
             <NFTCardLanding image={gheart} />
             <NFTCardLanding image={ppheart} />
+            <NFTCardLanding image={heart} />
+            <NFTCardLanding image={torqNFT} />
+            <NFTCardLanding image={pinkNFT} />
+            <NFTCardLanding image={purpleNFT} />
+            <NFTCardLanding image={blueNft} />
+            <NFTCardLanding image={sorkhabiNFT} />
+            <NFTCardLanding image={creamNFT} />
             <ViewMoreOrLogin link={globalUser.isLoggedIn ? '/gallery' : '/main-gallery'} />
-            {/* <ViewMoreOrLogin link={'/gallery'} /> */}
         </CustomSlider>
 
-        
-        {/* {globalUser.isLoggedIn ? */}
+
+        {/* {globalUser.isLoggedIn ?
             <Box sx={{
                 display: 'flex', color: 'primary.text',
                 flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                 width: '100%', my: 5
             }}>
-                <ButtonPurple text={'View All'} onClick={() => navigate('/main-gallery')} px={'10px'} />
+                <ButtonPurple text={'View All'} onClick={() => navigate('/gallery')} px={'10px'} />
             </Box>
-            {/* :
+            :
             <Box sx={{
                 display: 'flex', color: 'primary.text',
                 flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
@@ -68,8 +67,10 @@ const GalleySlide = () => {
                 <ButtonPurple text={'Get Started'} onClick={() => navigate('/auth')} px={'10px'} />
             </Box>
         } */}
+
+
     </Box>
     );
 }
 
-export default GalleySlide;
+export default NewestSlide;

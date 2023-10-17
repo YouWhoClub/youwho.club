@@ -36,7 +36,7 @@ const MainGallery = ({ switchTheme, theme }) => {
                 alignItems: 'center',
                 width: { xs: '100%', sm: 'calc(100% - 80px)' }, color: 'primary.text'
             }}>
-                <h4>YOUWHO GIFT CARDS</h4>
+                {/* <h4>YOUWHO GIFT CARDS</h4>
                 <Gallery>
                     <GiftCard price={5} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
                     <GiftCard price={10} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
@@ -45,7 +45,7 @@ const MainGallery = ({ switchTheme, theme }) => {
                 </Gallery>
                 <Box sx={{ mt: 2, mb: 5 }}>
                     <ButtonOutline text={'view all'} onClick={() => navigate('/transfer')} />
-                </Box>
+                </Box> */}
 
                 <h4>EXPLORE YOUWHO MAIN GALLERY</h4>
                 <Gallery>

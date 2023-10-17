@@ -3,9 +3,10 @@ import { Tab, TabSimple, Tabs, TabsSimple } from "../utils";
 import { useState } from "react";
 import GiftSlides from "./giftSlides";
 import GallerySlide from "./gallerySlide";
+import NewestSlide from "./newestSlide";
 
 const NFTSlides = () => {
-    const [state, setState] = useState('gifts')
+    const [state, setState] = useState('nfts')
     return (<Box sx={{
         display: 'flex',
         justifyContent: 'space-around',
@@ -14,10 +15,10 @@ const NFTSlides = () => {
     }}>
         <TabsSimple>
             <TabSimple text={'Top NFTs'} onClick={() => setState('nfts')} selected={state == 'nfts'} />
-            <TabSimple text={'Gift Cards'} onClick={() => setState('gifts')} selected={state == 'gifts'} />
+            <TabSimple text={'Newest NFTs'} onClick={() => setState('news')} selected={state == 'news'} />
         </TabsSimple>
-        {state == 'gifts' ?
-            <GiftSlides /> : <GallerySlide />}
+        {state == 'news' ?
+            <NewestSlide /> : <GallerySlide />}
     </Box>);
 }
 

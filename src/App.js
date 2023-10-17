@@ -23,7 +23,7 @@ import Display from './pages/display';
 import Profile from './pages/profile';
 import CreateWallet from './components/user/wallet/createWallet';
 import TransferPage from './pages/transfer';
-import PublicGallery from './pages/publicGallery';
+import PublicGallery from './pages/main-gallery';
 import Dashboard from './pages/dashboard';
 import Bar from './components/Bar';
 import VerifyMail from './pages/verifyMail';
@@ -35,6 +35,7 @@ import Home from './pages/home';
 import CheckoutSuccess from './pages/checkoutSuccess'
 import CheckoutCancel from './pages/checkoutCancel'
 import PrivacyPolicy from './pages/privacyPolicy';
+import ViewMainGalleryPage from './pages/main-gallery';
 // import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
 
 
@@ -75,7 +76,6 @@ function App() {
         light: '#BEA2C5',
         gray: '#D6D6D6',
         darkGray: '#525252',
-        white: 'white',
         bg: '#1F0031',
         bgOp: 'rgba(31,0,49,0.49)',
         bgGradient: 'linear-gradient(180deg, rgba(61,0,98,1) 33%, rgba(31,0,49,1) 100%)',
@@ -85,8 +85,8 @@ function App() {
         landBG: 'linear-gradient(158deg, rgba(31,0,49,1) 0%, rgba(61,0,98,1) 100%)',
         footer: '#6F3096',
         grad: 'linear-gradient(251deg, rgba(111,48,150,1) 33%, rgba(210,166,242,1) 100%)',
-        success:'#0Cb2B1',
-        error:'#F675A8'
+        success: '#0Cb2B1',
+        error: '#F675A8'
       },
       secondary: {
         dark: '#3D0062',
@@ -97,7 +97,6 @@ function App() {
         ultraLight: '#D2A6F2',
         gray: '#EBEBEB',
         darkGray: '#525252',
-        white: 'white',
         bg: '#3D0062',
         bgOp: 'rgba(61,0,98,0.49)',
         bgGradient: 'linear-gradient(180deg, rgba(31,0,49,1) 0%, rgba(61,0,98,1) 50%, rgba(31,0,49,1)  100%)',
@@ -106,8 +105,8 @@ function App() {
         themeSwitch: '#140920',
         landBG: 'linear-gradient(180deg, rgba(61,0,98,1) 9%, rgba(36,12,49,1) 100%)',
         footer: '#3D0062',
-        success:'#B3E4E6',
-        error:'#FA8FBA'
+        success: '#B3E4E6',
+        error: '#FA8FBA'
       },
     },
   });
@@ -125,7 +124,6 @@ function App() {
         light: '#BEA2C5',
         gray: '#C2C2C2',
         darkGray: '#A3A3A3',
-        white: 'white',
         bg: '#F5F5F5',
         bgOp: 'rgba(245,245,245,0.49)',
         bgGradient: 'linear-gradient(180deg, rgba(159,114,192,1) 0%, rgba(245,245,245,1) 100%)',
@@ -146,7 +144,6 @@ function App() {
         ultraLight: '#D2A6F2',
         gray: '#CC2C2',
         darkGray: '#A3A3A3',
-        white: 'white',
         bg: '#ffffff',
         bgOp: 'rgba(255,255,255,0.49)',
         bgGradient: 'linear-gradient(180deg, rgba(245,245,245,1) 0%, rgba(159,114,192,1) 50%, rgba(245,245,245,1) 100%)',
@@ -199,16 +196,18 @@ function App() {
                     <Route exact path="/display" element={<Display theme={theme} switchTheme={switchTheme} />} />
                     <Route exact path="/dashboard" element={<Dashboard switchTheme={switchTheme} theme={theme} />} />
                     <Route exact path="/profile/:name" element={<Profile theme={theme} switchTheme={switchTheme} />} />
+
                     <Route exact path="/transfer" element={<TransferPage theme={theme} switchTheme={switchTheme} />} />
-                    <Route exact path="/wallet" element={<WalletPage switchTheme={switchTheme} />} />
-                    <Route exact path="/public-gallery" element={<PublicGallery />} />
-                    <Route exact path="/gallery/user/:id" element={<PublicGallery />} />
+
+                    <Route exact path="/wallet" element={<WalletPage theme={theme} switchTheme={switchTheme} />} />
+                    <Route exact path="/main-gallery" element={<ViewMainGalleryPage theme={theme} switchTheme={switchTheme} />} />
+                    <Route exact path="/gallery/user/:id" element={<PublicGallery theme={theme} switchTheme={switchTheme} />} />
                     <Route exact path="/verify-mail" element={<VerifyMail theme={theme} />} />
                     <Route exact path="/verify-phone" element={<VerifyPhone theme={theme} />} />
                     <Route exact path="/gallery" element={<MainGallery switchTheme={switchTheme} theme={theme} />} />
                     <Route exact path="/checkout/success" element={<CheckoutSuccess switchTheme={switchTheme} theme={theme} />} />
                     <Route exact path="/checkout/cancel" element={<CheckoutCancel switchTheme={switchTheme} theme={theme} />} />
-                    
+
                     <Route exact path="/privacy-policy" element={<PrivacyPolicy theme={theme} />} />
                     <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} />
                   </Routes>

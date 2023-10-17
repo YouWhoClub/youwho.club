@@ -38,16 +38,16 @@ const ViewMoreOrLogin = ({ link }) => {
     return (
         <Outter>
             <Card>
-                {globalUser.isLoggedIn ?
-                    <ButtonOutline text={'view all'} onClick={() => navigate(link)} />
-                    :
+                {/* {globalUser.isLoggedIn ? */}
+                <ButtonOutline text={'view all'} onClick={() => navigate(link)} />
+                {/* :
                     <FlexColumn>
                         <p style={{ fontSize: '12px', textAlign: 'center' }}>
                             To See More or Buy, You Must Login
                         </p>
                         <ButtonOutline text={'Sign in'} onClick={() => navigate('/auth')} />
                     </FlexColumn>
-                }
+                } */}
 
             </Card>
         </Outter>
