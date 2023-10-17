@@ -131,7 +131,7 @@ const VerifyPhone = () => {
 
         // Errors
         let errors = 0
-        if (otp.length !== 8) {
+        if (otp.length !== 6) {
             setErr("please enter code");
             errors++
         }
@@ -240,7 +240,7 @@ const VerifyPhone = () => {
                                         <OtpInput
                                             value={otp}
                                             onChange={setOtp}
-                                            numInputs={8}
+                                            numInputs={6}
                                             renderInput={(props) => <input {...props} disabled={isDisabled} />}
                                             containerStyle={{ direction: "ltr" }}
                                             inputType="number"
