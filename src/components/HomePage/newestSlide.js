@@ -47,6 +47,16 @@ const NewestSlide = () => {
         </CustomSlider>
 
 
+        <Box sx={{
+            display: 'flex', color: 'primary.text',
+            flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+            width: '100%', my: 5
+        }}>
+            <ButtonPurple text={'View All'} onClick={() => navigate(globalUser.isLoggedIn ? '/gallery' : '/main-gallery')} px={'10px'} />
+        </Box>
+
+
+
         {/* {globalUser.isLoggedIn ?
             <Box sx={{
                 display: 'flex', color: 'primary.text',
