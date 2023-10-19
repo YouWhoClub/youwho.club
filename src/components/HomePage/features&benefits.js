@@ -1,8 +1,10 @@
 import { Box, Typography } from "@mui/material";
 import benfitsPic from '../../assets/complimentPhotos.svg'
+import benefitsLight from '../../assets/FEATURESWH.svg'
+import benefitsDark from '../../assets/FEATURESDRK.svg'
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
 
-const FABSection = () => {
+const FABSection = ({theme}) => {
     return (
         <Box
             sx={{
@@ -20,7 +22,7 @@ const FABSection = () => {
             <Box
                 sx={{
                     width: { xs: '250px', md: '350px' }, height: { xs: '250px', md: '350px' },
-                    backgroundImage: BG_URL(PUBLIC_URL(`${benfitsPic}`)), backgroundPosition: 'center',
+                    backgroundImage: theme == 'light' ? BG_URL(PUBLIC_URL(`${benefitsDark}`)) : BG_URL(PUBLIC_URL(`${benefitsLight}`)), backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: 'contain',
 

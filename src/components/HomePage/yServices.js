@@ -1,6 +1,12 @@
 import transferImg from '../../assets/exchangeLogo.svg'
 import marketImg from '../../assets/marketLogo.svg'
 import walletImg from '../../assets/walletLogo.svg'
+import transferImgLight from '../../assets/transferLight.svg'
+import marketImgLight from '../../assets/galleryLight.svg'
+import walletImgLight from '../../assets/walletLight.svg'
+import transferImgDark from '../../assets/transferDark.svg'
+import marketImgDark from '../../assets/galleryDark.svg'
+import walletImgDark from '../../assets/walletDark.svg'
 import { Box, Typography } from "@mui/material";
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
 import NavigateCard from '../HomePagePrev/navigateCard';
@@ -13,7 +19,7 @@ const PurpleBox = styled(Box)(({ theme }) => ({
     padding: '90px 0px',
     background: theme.palette.primary.grad,
 }))
-const YWServices = () => {
+const YWServices = ({ theme }) => {
     return (
         <Box sx={{ px: { xs: '0', sm: '30px', md: '60px' } }}>
             <PurpleBox sx={{
@@ -27,9 +33,9 @@ const YWServices = () => {
                     alignItems: 'center',
                     gap: '10px',
                 }}>
-                    <NavigateCardTwo link={'/transfer'} image={transferImg} title={'Transfer'} content={'transfer money by minting nft from any part of the world to any other'} />
-                    <NavigateCardTwo link={'/gallery'} image={marketImg} title={'NFT Gallery'} content={'trade and advertise on your nfts from any marketplace'} />
-                    <NavigateCardTwo link={'/wallet'} image={walletImg} title={'Wallet'} content={'make your youwho wallet to use our unique features'} />
+                    <NavigateCardTwo link={'/transfer'} image={theme == 'light' ? transferImgDark : transferImgLight} title={'Transfer'} content={'transfer your money with youwho tokens for different interactions'} />
+                    <NavigateCardTwo link={'/gallery'} image={theme == 'light' ? marketImgDark : marketImgLight} title={'NFT Gallery'} content={'trade and advertise on your nfts from any marketplace'} />
+                    <NavigateCardTwo link={'/wallet'} image={theme == 'light' ? walletImgDark : walletImgLight} title={'Wallet'} content={'make your youwho wallet to use our unique features'} />
                 </Box>
             </PurpleBox>
         </Box>);

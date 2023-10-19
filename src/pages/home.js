@@ -27,7 +27,7 @@ const Home = ({ switchTheme, theme }) => {
             <NavbarTwo switchTheme={switchTheme} theme={theme} />
             {/* <ThemeSwitcher switchTheme={switchTheme} /> */}
             <IntroNew theme={theme}/>
-            <YWServices />
+            <YWServices theme={theme}/>
             <SecondSection sx={{
                 mt: 10, pt: 10
             }}>
@@ -35,7 +35,7 @@ const Home = ({ switchTheme, theme }) => {
                     px: { xs: '0', sm: '30px', md: '60px' },
                     display: 'flex', flexDirection: 'column',
                 }}>
-                    <FABSection />
+                    <FABSection theme={theme}/>
                     <DecorSection />
                     <WhatsSection />
                     <NFTSlides />

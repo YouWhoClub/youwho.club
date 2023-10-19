@@ -54,9 +54,9 @@ const TabSimplee = styled(Box)(({ theme }) => ({
         color: theme.palette.secondary.text
     }
 }))
-export const Tabs = ({ children }) => {
+export const Tabs = ({ children , mb}) => {
     return (<TabsComp
-        sx={{ py: 1 }}
+        sx={{ py: 1 , mb:mb}}
     >{children}</TabsComp>)
 }
 export const Tab = ({ text, onClick, id, selected }) => {

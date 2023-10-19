@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Box } from "@mui/material";
 import { useState } from "react";
-import MintNFTs from "./mintNFTs";
+import CreateNFT from "./createNFT";
 import PrivateGallery from "./privateGallery";
 import PublicGallery from "./publicGallery";
 import { Tab, Tabs } from "../utils";
@@ -14,20 +14,20 @@ const Panel = styled(Box)(({ theme }) => ({
 }))
 
 const ProfilePanel = () => {
-    const [activeTab, setActiveTab] = useState('mint-tab')
+    const [activeTab, setActiveTab] = useState('create-tab')
     return (
         <Panel sx={{ p: { xs: 'unset', sm: 1 } }}>
             <Tabs
-                sx={{ py: 1 }}
+                mb={3}
             >
-                <Tab id={"mint-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'mint NFT'} selected={activeTab == 'mint-tab'} />
+                <Tab id={"create-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Create NFT'} selected={activeTab == 'create-tab'} />
                 <Tab id={"private-gallery-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Private Gallery'} selected={activeTab == 'private-gallery-tab'} />
                 <Tab id={"public-gallery-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Public Gallery'} selected={activeTab == 'public-gallery-tab'} />
                 <Tab id={"relations-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Relations'} selected={activeTab == 'relations-tab'} />
                 <Tab id={"reactions-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Reactions'} selected={activeTab == 'reactions-tab'} />
             </Tabs>
             <Box sx={{ width: '100%' }}>
-                {activeTab == 'mint-tab' ? <MintNFTs /> :
+                {activeTab == 'create-tab' ? <CreateNFT /> :
                     activeTab == 'private-gallery-tab' ? <PrivateGallery />
                         : activeTab == 'public-gallery-tab' ? <PublicGallery /> :
                             <div>{activeTab}</div>

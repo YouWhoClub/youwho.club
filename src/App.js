@@ -133,6 +133,9 @@ function App() {
         landBG: 'linear-gradient(180deg, rgba(222, 222, 222, 0.25) 0%, rgba(217, 217, 217, 0.001) 100%)',
         footer: '#6F3096',
         grad: 'linear-gradient(251deg, rgba(111,48,150,1) 33%, rgba(210,166,242,1) 100%)',
+        success: '#0Cb2B1',
+        error: '#F675A8'
+
 
       },
       secondary: {
@@ -151,7 +154,10 @@ function App() {
         text: '#292929',
         themeSwitch: '#FFC233',
         landBG: 'linear-gradient(180deg, rgba(222, 222, 222, 0.25) 0%, rgba(217, 217, 217, 0.001) 100%)',
-        footer: '#3D0062'
+        footer: '#3D0062',
+        success: '#B3E4E6',
+        error: '#FA8FBA'
+
       },
     },
   });

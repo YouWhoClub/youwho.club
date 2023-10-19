@@ -1,5 +1,5 @@
 import { LogoDevRounded, LogoutOutlined, Mail, MailOutline, MenuBook } from "@mui/icons-material";
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import SvgIcon from '@mui/material/SvgIcon';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import ButtonPurple from "./buttons/buttonPurple";
 import { useDispatch, useSelector } from "react-redux";
 import { logOutUser, getUnclaimedDeposit, deleteUnclaimedDeposit } from "../redux/actions";
 import styled from "@emotion/styled";
-import { HambergerMenu, LogoutCurve, Notification, Profile, Wallet } from "iconsax-react";
+import { HambergerMenu, LogoutCurve, Menu, MenuBoard, Notification, Profile, Wallet } from "iconsax-react";
 import { Close, Square } from "@mui/icons-material";
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
 import { HEALTH_API } from "../utils/data/health_api";
@@ -16,7 +16,10 @@ import { API_CONFIG } from "../config";
 import { useState, useRef, useEffect } from "react";
 import { PUBLIC_API } from "../utils/data/public_api";
 import yCoin from "../assets/Ycoin.svg"
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons/faEllipsisV';
 import ThemeSwitcher from "../components/HomePage/themeSwitchComp"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import MobileMenu from "./MobileMenu";
 
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
@@ -106,6 +109,7 @@ const NavbarTwo = ({ switchTheme, theme }) => {
     const apiCall = useRef(undefined)
     const [err, setErr] = useState(false)
     const [intervalRef, setIntervalRef] = useState(null);
+    const [openMenu, setOpenMenu] = useState(false)
 
     useEffect(() => {
         if (globalUser.isLoggedIn && !globalUser.isMailVerified) {
@@ -186,10 +190,11 @@ const NavbarTwo = ({ switchTheme, theme }) => {
             alignItems: 'center',
             px: '30px'
         }}>
-                <ThemeSwitcher switchTheme={switchTheme} right={'0'}/>
-                {/* {window.location.pathname == '/' ? */}
+                <ThemeSwitcher switchTheme={switchTheme} right={'0'} />
                 <Box sx={{ display: 'flex', alignItems: 'center', }}>
-                    <YouWhoHugCoinPurple onClick={() => navigate('/')} />
+                    {theme == 'light' ?
+                        <YouWhoIconPurple onClick={() => navigate('/')} />
+                        : <YouWhoIcon onClick={() => navigate('/')} />}
                     &nbsp;&nbsp;&nbsp;
                     <Box sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', }}>
                         <Link to={'/about-us'} style={{ textDecoration: 'none', color: theme == 'light' ? 'black' : 'white' }}>About Us</Link>
@@ -197,37 +202,57 @@ const NavbarTwo = ({ switchTheme, theme }) => {
                         <Link to={'/blog'} style={{ textDecoration: 'none', color: theme == 'light' ? 'black' : 'white' }}>Weblog</Link>
                     </Box>
                 </Box>
-                {/* : <YouWhoIcon onClick={() => navigate('/')} />} */}
 
                 {globalUser.isLoggedIn ?
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: { xs: 'auto', lg: '30%' }, color: 'primary.text' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', }}>
-                            <span style={{ fontSize: '14px' }}>{globalUser.balance}</span>&nbsp;<Box sx={{
-                                backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
-                                , width: '20px', height: '20px'
-                            }} />&nbsp; <Wallet size='16px' />
-                        </div>&nbsp;&nbsp;&nbsp;
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
-                            <Notification size="16px" cursor='pointer' />
-                            {
-                                unclaimedDeposits.length ?
-                                    <span style={{ backgroundColor: "#F84F31", color: "white", fontSize: '10px', borderRadius: '5px', padding: '5px' }}>you have unclaimed gifts!</span>
-                                    :
-                                    <></>
-                            }
-                        </div>&nbsp;&nbsp;&nbsp;
-                        <div style={{ display: 'flex', alignItems: 'center', }}>
-                            {window.location.pathname == '/dashboard' || window.location.pathname == '/gallery' || window.location.pathname == '/wallet' ?
-                                undefined
-                                : <div style={{ display: 'flex', alignItems: 'center', }} onClick={() => navigate('/dashboard')}>
-                                    <Profile cursor='pointer' size='16px' />
+                    <>
+                        <Box sx={{
+                            display: { xs: 'flex', sm: 'none' }, alignItems: 'center', justifyContent: 'space-between',
+                            color: 'primary.text'
+                        }}>
+                            <div style={{ display: 'flex', alignItems: 'center', }}>
+                                <span style={{ fontSize: '14px' }}>{globalUser.balance}</span>&nbsp;<Box sx={{
+                                    backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+                                    , width: '20px', height: '20px'
+                                }} />&nbsp; <Wallet size='16px' />
+                            </div>&nbsp;&nbsp;&nbsp;
+                            <IconButton aria-label="menuIcon" sx={{ padding: 0 }} onClick={() => setOpenMenu(true)}>
+                                <FontAwesomeIcon icon={faEllipsisV} />
+                            </IconButton>
+                        </Box>
+
+                        <Box sx={{
+                            display: { xs: 'none', sm: 'flex' }, alignItems: 'center', justifyContent: 'space-between',
+                            width: { xs: 'auto', lg: '30%' },
+                            color: 'primary.text'
+                        }}>
+                            <div style={{ display: 'flex', alignItems: 'center', }}>
+                                <span style={{ fontSize: '14px' }}>{globalUser.balance}</span>&nbsp;<Box sx={{
+                                    backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+                                    , width: '20px', height: '20px'
+                                }} />&nbsp; <Wallet size='16px' />
+                            </div>&nbsp;&nbsp;&nbsp;
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
+                                <Notification size="16px" cursor='pointer' />
+                                {
+                                    unclaimedDeposits.length ?
+                                        <span style={{ backgroundColor: "#F84F31", color: "white", fontSize: '10px', borderRadius: '5px', padding: '5px' }}>you have unclaimed gifts!</span>
+                                        :
+                                        <></>
+                                }
+                            </div>&nbsp;&nbsp;&nbsp;
+                            <div style={{ display: 'flex', alignItems: 'center', }}>
+                                {window.location.pathname == '/dashboard' || window.location.pathname == '/gallery' || window.location.pathname == '/wallet' ?
+                                    undefined
+                                    : <div style={{ display: 'flex', alignItems: 'center', }} onClick={() => navigate('/dashboard')}>
+                                        <Profile cursor='pointer' size='16px' />
+                                    </div>
+                                }
+                                <div onClick={disconnect}>
+                                    <LogoutCurve style={{ display: 'flex', alignItems: 'center', }} cursor='pointer' size='16px' />
                                 </div>
-                            }
-                            <div onClick={disconnect}>
-                                <LogoutCurve style={{ display: 'flex', alignItems: 'center', }} cursor='pointer' size='16px' />
                             </div>
-                        </div>
-                    </Box>
+                        </Box>
+                    </>
                     :
                     <>
                         <FlexRow sx={{ display: { xs: 'none', sm: 'flex' }, gap: 1 }}>
@@ -236,10 +261,17 @@ const NavbarTwo = ({ switchTheme, theme }) => {
                         </FlexRow>
                         <FlexRow sx={{ display: { xs: 'flex', sm: 'none' } }}>
                             <ButtonPurple text={'Get Started'} onClick={() => navigate('/auth')} />
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            <IconButton aria-label="menuIcon" sx={{ padding: 0 }} onClick={() => setOpenMenu(true)}>
+                                <FontAwesomeIcon icon={faEllipsisV} />
+                            </IconButton>
                         </FlexRow>
                     </>
                 }
             </Box>
+            <MobileMenu theme={theme} switchTheme={switchTheme} openMenu={openMenu} setOpenMenu={setOpenMenu} />
         </Box >
     );
 }

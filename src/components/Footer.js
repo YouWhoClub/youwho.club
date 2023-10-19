@@ -16,6 +16,14 @@ const YouWhoHugCoinPurple = styled(Box)(({ theme }) => ({
     width: '50px',
     height: '50px',
 }))
+const YouWhoIcon = styled('div')(({ theme }) => ({
+    cursor: 'pointer',
+    backgroundImage: "url('/w-outline.svg')",
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'start',backgroundSize:'contain',
+    width: '50px',
+    height: '50px'
+}))
 
 const Footer = () => {
     return (
@@ -36,7 +44,7 @@ const Footer = () => {
                             display: 'flex', flexDirection: 'column',
                             // width: { xs: '100%', sm: '50%' },
                         }}>
-                        <YouWhoHugCoinPurple sx={{ mb: 5 }} />
+                        <YouWhoIcon sx={{ mb: 5 }} />
                         <Box
                             sx={{
                                 display: 'flex',
