@@ -150,7 +150,10 @@ const NavbarDashBoard = ({ switchTheme, theme }) => {
                 <ThemeSwitcher left={'30px'} switchTheme={switchTheme} />
                 {/* {window.location.pathname == '/' ? */}
                 <Box sx={{ display: 'flex', alignItems: 'center', }}>
-                    <YouWhoHugCoinPurple onClick={() => navigate('/')} />
+                    {theme == 'light' ?
+                        <YouWhoIconPurple onClick={() => navigate('/')} />
+                        : <YouWhoIcon onClick={() => navigate('/')} />}
+                    {/* <YouWhoHugCoinPurple onClick={() => navigate('/')} /> */}
                     &nbsp;&nbsp;&nbsp;
                 </Box>
                 {/* : <YouWhoIcon onClick={() => navigate('/')} />} */}

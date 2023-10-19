@@ -33,7 +33,7 @@ const YWServices = ({ theme }) => {
                     alignItems: 'center',
                     gap: '10px',
                 }}>
-                    <NavigateCardTwo link={'/transfer'} image={theme == 'light' ? transferImgDark : transferImgLight} title={'Transfer'} content={'transfer your money with youwho tokens for different interactions'} />
+                    <NavigateCardTwo link={'/transfer'} image={theme == 'light' ? transferImgDark : transferImgLight} title={'Gift NFT'} content={'gift your nft artworks to your beloved ones'} />
                     <NavigateCardTwo link={'/gallery'} image={theme == 'light' ? marketImgDark : marketImgLight} title={'NFT Gallery'} content={'trade and advertise on your nfts from any marketplace'} />
                     <NavigateCardTwo link={'/wallet'} image={theme == 'light' ? walletImgDark : walletImgLight} title={'Wallet'} content={'make your youwho wallet to use our unique features'} />
                 </Box>

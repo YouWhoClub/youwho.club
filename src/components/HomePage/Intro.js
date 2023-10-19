@@ -29,7 +29,9 @@ const IntroNew = ({ theme }) => {
                 width: { xs: '100%', sm: '40%' }, 
                 // height: '300px',
                 height: '100%',
-                backgroundImage: theme == 'dark' ? "url('/w-outline.svg')" : "url('/youwho-hugcoin.svg')", backgroundSize: 'contain',
+                // backgroundImage: theme == 'dark' ? "url('/w-outline.svg')" : "url('/introGroup.svg')",
+                backgroundImage: "url('/youwho-hugcoin.svg')",
+                backgroundSize: 'contain',
                 backgroundRepeat: 'no-repeat', backgroundPosition: 'center'
             }}>
             </Box>

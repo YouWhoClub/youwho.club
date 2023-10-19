@@ -6,19 +6,69 @@
 <style type="text/css">
 	.st0{fill:none;stroke:#FFFFFF;stroke-width:18.8275;stroke-miterlimit:10;}
 	.st1{fill:#FFFFFF;}
+	@keyframes swim {
+		0% {
+			transform: translateY(0);
+		  }
+		22% {
+			transform: translateY(8px);
+		}
+		44%{
+			transform: translateY(-10px);
+		}
+		66% {
+			transform: translateY(12px);
+		}
+		88% {
+			transform: translateY(-12px);
+		}
+		100% {
+			transform: translateY(0);
+		}
+	}
+	@keyframes changeHeight {
+		0% {
+			transform: scale(-0.5, 1);
+			}
+		33% {
+			transform: scale(-0.5, 2);
+		}
+		66% {
+			transform: scale(-0.5, -0.5);		  
+		}
+		100% {
+			transform: scale(-0.5, 1);
+		}
+	}
+	@keyframes rotation {
+		0% {
+		transform: rotate(0deg);
+		}
+		10%{
+		transform: rotate(30deg) translateY(35px);
+		}
+		20% {
+		<!-- transform: rotate(30deg) translateY(35px); -->
+		transform: rotate(0deg);
+		}
+		100% {
+		<!-- transform: rotate(30deg) translateY(35px); -->
+			transform: rotate(0deg);
+		  }  
+	}	
 		.hand-knock, .up-knock, .middle-knock, .bottom-knock,.hand-knock-f{ 
-			animation: rotation 0.5s linear;
+			animation: rotation 5s linear;
 			transform-origin: center;
-			animation-iteration-count: 1;
-			animation-delay: 2s;
+			animation-iteration-count: infinite;
+		<!-- animation-delay: 5s; -->
 		}	  
 		.octapus{ 
 			animation-name: swim;
 			animation-duration: 5s;
 			animation-iteration-count: infinite;
 		}
-		.hand-a{ 
-			<!-- animation-name: changeHeight; -->
+		.hand-a{
+		<!-- animation-name: changeHeight; -->
 			animation-duration: 5s;
 			animation-iteration-count: infinite;
 		}
@@ -69,7 +119,7 @@
 	</g>
 </g>
 <g>
-	<!-- <g>
+	<g>
 		<path class="st1" d="M263.65,443.53c0,9.4,0,18.79,0,28.19c0,4.89,0,9.77,0,14.66c0,5.74,2.19,12.79,8.91,13.4
 			c2.56,0.23,5.86,0.45,8.37-0.21c5.13-1.35,7.38-6.83,7.54-11.66c0.12-3.82-5.81-3.82-5.94,0c-0.1,3.05-1.28,5.94-4.58,5.98
 			c-1.82,0.02-4.75,0.59-6.29-0.61c-2.67-2.08-2.08-6.54-2.08-9.58c0-10.31,0-20.61,0-30.92c0-3.08,0-6.15,0-9.23
@@ -138,6 +188,6 @@
 			c-0.15-0.2-0.31-0.4-0.46-0.6c0.46,0.62,0.84,1.28,1.14,1.99c-0.1-0.24-0.2-0.47-0.3-0.71c0.37,0.9,0.62,1.83,0.76,2.79
 			c-0.04-0.26-0.07-0.53-0.11-0.79c0.07,0.56,0.11,1.12,0.12,1.69c0.01,1.55,1.36,3.04,2.97,2.97
 			C149.19,489.88,150.57,488.65,150.56,486.99z"/>
-	</g> -->
+	</g>
 </g>
 </svg>

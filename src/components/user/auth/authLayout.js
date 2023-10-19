@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 
 const YouWhoIcon = styled('div')(({ theme }) => ({
   cursor: 'pointer',
-  backgroundImage: "url('/w-outline.svg')",
+  backgroundImage: "url('/w-outline-animated.svg')",
   backgroundRepeat: 'no-repeat',
   backgroundPosition: 'center',
   width: '80px',
@@ -44,7 +44,6 @@ const NavAuth = styled(Box)(({ theme }) => ({
   "@media (max-width: 600px)": {
     height: '140px',
     animation: `${heightChangeMob} 1s linear`,
-
   },
 
 }))
