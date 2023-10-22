@@ -61,7 +61,7 @@ export const Tabs = ({ children, mb }) => {
 }
 export const Tab = ({ text, onClick, id, selected }) => {
     return (<TabComp
-        sx={{ backgroundColor: selected ? 'primary.main' : 'unset', color: selected ? 'white' : 'secondary.text' }}
+        sx={{ backgroundColor: selected ? 'primary.main' : 'secondary.bg', color: selected ? 'white' : 'secondary.text' }}
         id={id} onClick={onClick}>
         {text}
     </TabComp>)
