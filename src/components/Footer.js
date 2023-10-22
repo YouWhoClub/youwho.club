@@ -18,7 +18,7 @@ const YouWhoHugCoinPurple = styled(Box)(({ theme }) => ({
 }))
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
-    backgroundImage: "url('/w-outline.svg')",
+    backgroundImage: "url('/youwho-white.svg')",
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'start',backgroundSize:'contain',
     width: '50px',

@@ -117,20 +117,18 @@ const Login = () => {
                         display: 'flex', flexDirection: 'column',
                         justifyContent: 'space-between', alignItems: 'center',
                     }} onSubmit={idStateChanger}>
-
-                    <ShadowInput
-                        icon={<Email sx={{ color: 'primary.light', }} />}
-                        borderColor={err ? 'primary.error' : undefined}
-                        onChange={(e) => setIdentifier(e.target.value)}
-                        label={'Email'} width={'99%'} id={'Email'} type="email" />
-                    {/* <Inputtt>
-                        <Email sx={{ color: 'primary.light', fontSize: '30px' }} />
-                        <Inputt value={identifier} type="email" placeholder="Enter Your Email" onChange={(e) => setIdentifier(e.target.value)} />
-                    </Inputtt> */}
+                    <Box sx={{
+                        display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center'
+                    }}>
+                        <ShadowInput
+                            icon={<Email sx={{ color: 'primary.light', }} />}
+                            borderColor={err ? 'primary.error' : success ? 'primary.success' : undefined}
+                            onChange={(e) => setIdentifier(e.target.value)}
+                            label={'Email'} width={'99%'} id={'Email'} type="email" />
+                        {err ? <Typography sx={{ alignSelf: 'start !important', color: 'primary.error', fontSize: '12px', margin: 0 }}>{err}</Typography> : undefined}
+                        {success ? <Typography sx={{ alignSelf: 'start !important', color: 'primary.success', fontSize: '12px', margin: 0 }}>{success}</Typography> : undefined}
+                    </Box>
                     <ButtonPurple w={'100%'} text={'Next'} />
-                    {/* <Box>
-                        LOGIN WITH GMAIL
-                    </Box> */}
                 </form>
                 : state == 'password' ?
                     <form style={{
@@ -139,26 +137,22 @@ const Login = () => {
                         display: 'flex', flexDirection: 'column',
                         justifyContent: 'space-between', alignItems: 'center',
                     }} onSubmit={idStateChanger}>
-                        <ShadowInput
-                            icon={<Lock sx={{ color: 'primary.light', }} />}
-                            borderColor={err ? 'primary.error' : undefined}
-                            onChange={(e) => setPassword(e.target.value)}
-                            label={'Password'}
-                            width={'99%'}
-                            id={'Password'}
-                            type={showPassword ? 'input' : 'password'}
-                            extraIcon={<>{showPassword ? <EyeSlash onClick={() => setShowPassword(false)} /> : <Eye onClick={() => setShowPassword(true)} />}</>} />
-
-                        {/* <Inputtt>
-                            <Lock sx={{ color: 'primary.light', fontSize: '30px' }} />
-                            {showPassword ?
-                                <Inputt autocomplete="off" value={password} placeholder="Enter Your Password" onChange={(e) => setPassword(e.target.value)} />
-                                :
-                                <Inputt type="password" autocomplete="off" value={password} placeholder="Enter Your Password" onChange={(e) => setPassword(e.target.value)} />
-                            }
-                            {showPassword ? <EyeSlash onClick={() => setShowPassword(false)} /> : <Eye onClick={() => setShowPassword(true)} />}
-                        </Inputtt> */}
-                        <ButtonPurple w={'100%'} text={loading ? '...' : 'next'} onClick={submit} />
+                        <Box sx={{
+                            display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center'
+                        }}>
+                            <ShadowInput
+                                icon={<Lock sx={{ color: 'primary.light', }} />}
+                                borderColor={err ? 'primary.error' : success ? 'primary.success' : undefined}
+                                onChange={(e) => setPassword(e.target.value)}
+                                label={'Password'}
+                                width={'99%'}
+                                id={'Password'}
+                                type={showPassword ? 'input' : 'password'}
+                                extraIcon={<>{showPassword ? <EyeSlash onClick={() => setShowPassword(false)} /> : <Eye onClick={() => setShowPassword(true)} />}</>} />
+                            {err ? <Typography sx={{ alignSelf: 'start !important', color: 'primary.error', fontSize: '12px', margin: 0 }}>{err}</Typography> : undefined}
+                            {success ? <Typography sx={{ alignSelf: 'start !important', color: 'primary.success', fontSize: '12px', margin: 0 }}>{success}</Typography> : undefined}
+                        </Box>
+                        <ButtonPurple disabled={loading} w={'100%'} text={loading ? '...' : 'next'} onClick={submit} />
                         <p style={{ cursor: 'pointer', color: 'rgba(120, 120, 120, 1)', fontSize: '12px', margin: 0 }}>
                             FORGOT PASSWORD ?
                         </p>
@@ -192,8 +186,6 @@ const Login = () => {
                     :
                     <VerifyMail email={identifier} />
             }
-            {err ? <Typography sx={{ color: 'primary.error', fontSize: '12px', margin: 0 }}>{err}</Typography> : undefined}
-            {success ? <Typography sx={{ color: 'primary.success', fontSize: '12px', margin: 0 }}>{success}</Typography> : undefined}
         </Box>
 
 

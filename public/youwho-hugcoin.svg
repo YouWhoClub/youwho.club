@@ -1,8 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 25.2.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 595.28 841.89" style="enable-background:new 0 0 595.28 841.89;" xml:space="preserve">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	viewBox="0 0 595.28 841.89" style="enable-background:new 0 0 595.28 841.89;"
+	xml:space="preserve">
 <style type="text/css">
+	@keyframes rotation {
+		0% {
+        transform: rotateZ(0deg);   
+        transform: rotateY(0deg);   
+		transform-origin:center center;
+
+        }
+        100% {
+        transform: rotateZ(360deg);
+        transform: rotateY(360deg);
+		transform-origin:center center;
+        }
+		<!-- 100% {
+        transform: rotate(0deg);
+		transform-origin:center center;
+        } -->
+    }
+
 	.st0{fill:#8B3BBC;}
 	.st1{fill:#EFD122;}
 	.st2{clip-path:url(#SVGID_2_);fill:#E0BD2B;}
@@ -15,6 +35,14 @@
 	.st9{fill:none;stroke:#8B3BBC;stroke-width:0.725;stroke-miterlimit:10;}
 	.st10{fill:#8B3BBC;stroke:#8B3BBC;stroke-width:0.6543;stroke-miterlimit:10;}
 	.st11{fill:#FFFFFF;}
+
+	.coin{ 
+		<!-- animation: rotation; -->
+		animation-delay: 1s;
+		animation-duration: 7s;
+		animation-iteration-count: infinite;
+	}
+
 </style>
 <g id="Layer_2">
 </g>
@@ -51,13 +79,14 @@
 			C17.29,606.77,17.11,611.4,20.06,614.4L20.06,614.4z"/>
 	</g>
 </g>
+<g class="coin">
 <ellipse transform="matrix(0.7071 -0.7071 0.7071 0.7071 -322.7859 402.0243)" class="st1" cx="323.89" cy="590.65" rx="155.14" ry="155.14"/>
 <g>
 	<defs>
 		<circle id="SVGID_1_" cx="323.89" cy="590.65" r="111.8"/>
 	</defs>
 	<use xlink:href="#SVGID_1_"  style="overflow:visible;fill:#E0BD2B;"/>
-	<clipPath id="SVGID_2_">
+	<clipPath id="SVGID_2_" >
 		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
 	</clipPath>
 	<path class="st2" d="M318.35,480.85c22.37,0.35,39.07,9.5,48.58,14.71c45.15,24.74,63.5,72.73,65.51,96.26
@@ -168,6 +197,7 @@
 			c-12.76-17.52-30.05-31.22-50.04-39.62c-7.77-3.27-15.87-5.71-24.15-7.27c-1.74-0.33-3.53,0.48-4.03,2.29
 			C354.25,462.25,355.23,464.35,356.97,464.68L356.97,464.68z"/>
 	</g>
+</g>
 </g>
 <path class="st0" d="M443.34,619.72c0.3,4.38,0.79,8.75,1.5,13.07l-42.02-58.6l-0.66-0.92c-0.51-6.19-0.99-11.29-1.33-14.72
 	c-6.36-4.88-10.69-12.37-11.27-21.01c-1.13-16.57,11.93-30.84,28.8-30.91c14.01-0.07,26.28,10.2,28.62,24.02

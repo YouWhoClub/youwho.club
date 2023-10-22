@@ -50,14 +50,17 @@ const ProfileCard = ({ username, youwhoID }) => {
         &nbsp;
         &nbsp;
         &nbsp;
-        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <p style={{ textShadow: '4px 5px 6px rgba(231,193,255,1)',fontWeight:600 ,color:'white'}}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' ,color:'white'}}>
+            <p style={{
+                //  textShadow: '4px 5px 6px rgba(231,193,255,1)',
+                fontWeight: 600, color: 'white'
+            }}>
                 Welcome <span style={{ fontWeight: 700 }}>{globalUser.cid ? globalUser.username : globalUser.identifier}</span>
             </p>
             {youwhoID ?
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                    <Typography>YouWho ID :</Typography> <Typography onClick={() => copyIdToClipBoard(youwhoID)} sx={{ cursor: 'pointer', fontSize: { xs: '10px', sm: '14px' } }}>{shorten(youwhoID)}</Typography>
-                    <TickSquare style={{ size: { xs: '10px', sm: '14px' }, display: idCopied ? 'block' : 'none', color: 'green' }} />
+                    <Typography sx={{fontWeight:700}}>YouWho ID :</Typography> <Typography onClick={() => copyIdToClipBoard(youwhoID)} sx={{ cursor: 'pointer', fontSize: { xs: '10px', sm: '14px' } }}>{shorten(youwhoID)}</Typography>
+                    <TickSquare style={{ size: { xs: '10px', sm: '14px' }, display: idCopied ? 'block' : 'none', color: '#0Cb2B1' }} />
                 </Box>
                 : undefined}
         </Box>

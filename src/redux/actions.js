@@ -45,7 +45,7 @@ const anEmptyCart = []
 export const getUnclaimedDeposit = (token, cid) => {
     try {
         return async dispatch => {
-            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/deposit/get/unclaimed/recipient/${cid}`, {
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/deposit/get/unclaimed/recipient/${cid}/?from=0&to=10`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -53,15 +53,24 @@ export const getUnclaimedDeposit = (token, cid) => {
                 }
             })
             let response = await request.json()
+            console.log('hohohohoho', request)
+            console.log('hihihihihi', response)
 
             let unclaimedDeposit = []
-            if (response.status >= 200 && response.status < 300) {
-                unclaimedDeposit = response.data
-                console.log(response)
+            if (request.status >= 200 && request.status < 300) {
+                unclaimedDeposit = request.data
+                console.log(request)
                 dispatch({
                     type: GET_UNCLAIMED_DEPOSITE,
                     payload: unclaimedDeposit
                 });
+            }
+            else {
+                dispatch({
+                    type: GET_UNCLAIMED_DEPOSITE,
+                    payload: unclaimedDeposit
+                });
+
             }
         };
     } catch (error) {
@@ -77,125 +86,142 @@ export const deleteUnclaimedDeposit = () => {
         });
     };
 }
-    export const getuser = (token) => {
-        const isLoggedIn = localStorage.getItem('lastActive')
-        const hasAccount = localStorage.getItem('account')
-        try {
-            return async dispatch => {
-                // if (isLoggedIn) {
-                //     console.log('hellow?')
-                console.log(token)
-                const response = await axios.get(`${API_CONFIG.HEALTH_API_URL}/check-token`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    }
-                })
-                console.log('responseeeeeee', response)
-                let userDetails = {}
+export const getuser = (token) => {
+    const isLoggedIn = localStorage.getItem('lastActive')
+    const hasAccount = localStorage.getItem('account')
+    try {
+        return async dispatch => {
+            // if (isLoggedIn) {
+            //     console.log('hellow?')
+            console.log(token)
+            const response = await axios.get(`${API_CONFIG.HEALTH_API_URL}/check-token`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                }
+            })
+            console.log('responseeeeeee', response)
+            let userDetails = {}
+            if (response.status >= 200 && response.status < 300) {
+                userDetails = response.data.data
+                userDetails.isLoggedIn = true
+                userDetails.token = token
+                dispatch({
+                    type: GET_USER,
+                    payload: userDetails
+                });
+            } else {
+                dispatch({
+                    type: GET_USER,
+                    payload: emptyUser
+                });
+            }
+            // }
+            // else {
+            //     localStorage.removeItem('lastActive')
+            //     dispatch({
+            //         type: GET_USER,
+            //         payload: emptyUser
+            //     });
+            // }
+        };
+    } catch (error) {
+        // Add custom logic to handle errors
+        console.log(error);
+    }
+};
+export const setPrivateKey = (signer) => {
+    let id = signer
+    return async dispatch => {
+        dispatch({
+            type: SET_ID,
+            payload: id
+        });
+    }
+};
+
+export const updateBalance = (token) => {
+    try {
+        return async dispatch => {
+            const response = await axios.get(`${API_CONFIG.HEALTH_API_URL}/check-token`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                }
+            })
+            if (response.status >= 200 && response.status < 300) {
+                const balance = response.data.data
+                dispatch({
+                    type: UPDATE_BALANCE,
+                    payload: balance.balance
+                });
+            }
+        };
+    } catch (error) {
+        // Add custom logic to handle errors
+        console.log(error);
+    }
+};
+export const logOutUser = () => {
+    localStorage.removeItem('lastActive')
+    localStorage.removeItem('account')
+    return async dispatch => {
+        dispatch({
+            type: LOGOUT_USER,
+            payload: emptyUser
+        });
+    }
+}
+export const setAccount = (acc) => {
+    return dispatch => {
+        dispatch({
+            type: SET_ACCOUNT,
+            payload: acc
+        });
+    };
+
+}
+
+
+
+
+
+export const addItem = (item) => {
+    try {
+        var tempNfts = []
+        var tempObj = {}
+        var tempObjRed = {}
+        var stringifiedRoyalties = JSON.stringify(item.perpetual_royalties)
+        tempObj.nft_id = item._id.$oid
+        tempObj.media = item.is_freezed ? item.media : item.nft_image_path
+        tempObj.title = item.title
+        tempObj.description = item.description
+        tempObj.copies = item.copies ? item.copies : 0
+        tempObj.price = item.price
+        tempObj.token_id = item.nft_index
+        tempObj.royalties = item.perpetual_royalties
+        tempObj.quantity = 1
+        tempNfts.push(tempObj)
+
+        return async dispatch => {
+            if (localStorage.getItem('basket_id')) {
+                const response = await axios.post(`${API_CONFIG.MARKET_API_URL}/basket/add/`, { nft_info: tempNfts, basket_id: localStorage.getItem('basket_id') })
                 if (response.status >= 200 && response.status < 300) {
-                    userDetails = response.data.data
-                    userDetails.isLoggedIn = true
-                    userDetails.token = token
                     dispatch({
-                        type: GET_USER,
-                        payload: userDetails
-                    });
-                } else {
-                    dispatch({
-                        type: GET_USER,
-                        payload: emptyUser
+                        type: ADD_TO_CART,
+                        payload: tempObj
                     });
                 }
-                // }
-                // else {
-                //     localStorage.removeItem('lastActive')
-                //     dispatch({
-                //         type: GET_USER,
-                //         payload: emptyUser
-                //     });
-                // }
-            };
-        } catch (error) {
-            // Add custom logic to handle errors
-            console.log(error);
-        }
-    };
-    export const setPrivateKey = (signer) => {
-        let id = signer
-        return async dispatch => {
-            dispatch({
-                type: SET_ID,
-                payload: id
-            });
-        }
-    };
-
-    export const updateBalance = (token) => {
-        try {
-            return async dispatch => {
-                const response = await axios.get(`${API_CONFIG.HEALTH_API_URL}/check-token`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
+            } else {
+                const reg = await axios.post(`${API_CONFIG.MARKET_API_URL}/basket/register/`, {
+                    buyer_info: {
+                        wallet_address: "",
+                        username: "",
+                        buyer_id: localStorage.getItem('device-id')
                     }
                 })
-                if (response.status >= 200 && response.status < 300) {
-                    const balance = response.data.data
-                    dispatch({
-                        type: UPDATE_BALANCE,
-                        payload: balance.balance
-                    });
-                } 
-            };
-        } catch (error) {
-            // Add custom logic to handle errors
-            console.log(error);
-        }
-    };
-    export const logOutUser = () => {
-        localStorage.removeItem('lastActive')
-        localStorage.removeItem('account')
-        return async dispatch => {
-            dispatch({
-                type: LOGOUT_USER,
-                payload: emptyUser
-            });
-        }
-    }
-    export const setAccount = (acc) => {
-        return dispatch => {
-            dispatch({
-                type: SET_ACCOUNT,
-                payload: acc
-            });
-        };
-
-    }
-
-
-
-
-
-    export const addItem = (item) => {
-        try {
-            var tempNfts = []
-            var tempObj = {}
-            var tempObjRed = {}
-            var stringifiedRoyalties = JSON.stringify(item.perpetual_royalties)
-            tempObj.nft_id = item._id.$oid
-            tempObj.media = item.is_freezed ? item.media : item.nft_image_path
-            tempObj.title = item.title
-            tempObj.description = item.description
-            tempObj.copies = item.copies ? item.copies : 0
-            tempObj.price = item.price
-            tempObj.token_id = item.nft_index
-            tempObj.royalties = item.perpetual_royalties
-            tempObj.quantity = 1
-            tempNfts.push(tempObj)
-
-            return async dispatch => {
-                if (localStorage.getItem('basket_id')) {
+                if (reg.status >= 200 && reg.status) {
+                    localStorage.setItem('basket_id', reg.data.data._id.$oid)
                     const response = await axios.post(`${API_CONFIG.MARKET_API_URL}/basket/add/`, { nft_info: tempNfts, basket_id: localStorage.getItem('basket_id') })
                     if (response.status >= 200 && response.status < 300) {
                         dispatch({
@@ -203,141 +229,124 @@ export const deleteUnclaimedDeposit = () => {
                             payload: tempObj
                         });
                     }
-                } else {
-                    const reg = await axios.post(`${API_CONFIG.MARKET_API_URL}/basket/register/`, {
-                        buyer_info: {
-                            wallet_address: "",
-                            username: "",
-                            buyer_id: localStorage.getItem('device-id')
-                        }
-                    })
-                    if (reg.status >= 200 && reg.status) {
-                        localStorage.setItem('basket_id', reg.data.data._id.$oid)
-                        const response = await axios.post(`${API_CONFIG.MARKET_API_URL}/basket/add/`, { nft_info: tempNfts, basket_id: localStorage.getItem('basket_id') })
-                        if (response.status >= 200 && response.status < 300) {
-                            dispatch({
-                                type: ADD_TO_CART,
-                                payload: tempObj
-                            });
-                        }
-                    }
-
                 }
-            };
-        } catch (error) {
-            // Add custom logic to handle errors
-            console.log(error);
-        }
 
-    }
-    export const incrementQuantity = (item) => {
-        var tempObj = {}
-        tempObj.nft_id = item.nft_id
-        tempObj.media = item.is_freezed ? item.media : item.nft_image_path
-        tempObj.title = item.title
-        tempObj.description = item.description
-        tempObj.copies = item.copies ? item.copies : 0
-        tempObj.price = item.price
-        tempObj.quantity = item.quantity
-
-        try {
-            return async dispatch => {
-                const response = await axios.post(`${API_CONFIG.MARKET_API_URL}/basket/add-q/`, { nft_id: tempObj.nft_id, basket_id: localStorage.getItem('basket_id') })
-                console.log('responseeeeeee quan to cart', response)
-                if (response.status >= 200 && response.status < 300) {
-                    dispatch({
-                        type: INCREMENT_QUANTITY,
-                        payload: tempObj
-                    });
-                } else {
-                }
-            };
-        } catch (error) {
-            // Add custom logic to handle errors
-            console.log(error);
-        }
-
-    }
-    export const decrementQuantity = (item) => {
-        var tempObj = {}
-        tempObj.nft_id = item.nft_id
-        tempObj.media = item.is_freezed ? item.media : item.nft_image_path
-        tempObj.title = item.title
-        tempObj.description = item.description
-        tempObj.copies = item.copies ? item.copies : 0
-        tempObj.quantity = item.quantity
-        tempObj.price = item.price
-        try {
-            return async dispatch => {
-                const response = await axios.post(`${API_CONFIG.MARKET_API_URL}/basket/remove-q/`, { nft_id: tempObj.nft_id, basket_id: localStorage.getItem('basket_id') })
-                console.log('responseeeeeee quan to cart', response)
-                if (response.status >= 200 && response.status < 300) {
-                    dispatch({
-                        type: DECREMENT_QUANTITY,
-                        payload: tempObj
-                    });
-                } else {
-                }
-            };
-        } catch (error) {
-            // Add custom logic to handle errors
-            console.log(error);
-        }
-
-    }
-    export const removeItem = (item) => {
-        var tempObj = {}
-        tempObj.nft_id = item.nft_id
-        tempObj.media = item.is_freezed ? item.media : item.nft_image_path
-        tempObj.title = item.title
-        tempObj.description = item.description
-        tempObj.copies = item.copies ? item.copies : 0
-        tempObj.quantity = item.quantity
-        tempObj.price = item.price
-        try {
-            return async dispatch => {
-                const response = await axios.post(`${API_CONFIG.MARKET_API_URL}/basket/remove/`, { nft_info: tempObj, basket_id: localStorage.getItem('basket_id') })
-                console.log('responseeeeeee remove to cart', response)
-                if (response.status >= 200 && response.status < 300) {
-                    dispatch({
-                        type: REMOVE_FROM_CART,
-                        payload: tempObj
-                    });
-                } else {
-                }
-            };
-        } catch (error) {
-            // Add custom logic to handle errors
-            console.log(error);
-        }
-
-
-    }
-    export const emptyCart = () => {
-        try {
-            return async dispatch => {
-                const response = await axios.post(`${API_CONFIG.MARKET_API_URL}/basket/remove-all/`, { basket_id: localStorage.getItem('basket_id') })
-                console.log('responseeeeeee remove cart', response)
-                if (response.status >= 200 && response.status < 300) {
-                    localStorage.removeItem('basket_id')
-                    dispatch({
-                        type: EMPTY_CART,
-                        payload: anEmptyCart
-                    });
-                } else {
-                }
-            };
-        } catch (error) {
-            // Add custom logic to handle errors
-            console.log(error);
-        }
-
-    }
-    export const setCart = (cart) => {
-        return dispatch => {
-            dispatch({
-                type: SET_CART,
-                payload: cart
-            });
+            }
         };
+    } catch (error) {
+        // Add custom logic to handle errors
+        console.log(error);
     }
+
+}
+export const incrementQuantity = (item) => {
+    var tempObj = {}
+    tempObj.nft_id = item.nft_id
+    tempObj.media = item.is_freezed ? item.media : item.nft_image_path
+    tempObj.title = item.title
+    tempObj.description = item.description
+    tempObj.copies = item.copies ? item.copies : 0
+    tempObj.price = item.price
+    tempObj.quantity = item.quantity
+
+    try {
+        return async dispatch => {
+            const response = await axios.post(`${API_CONFIG.MARKET_API_URL}/basket/add-q/`, { nft_id: tempObj.nft_id, basket_id: localStorage.getItem('basket_id') })
+            console.log('responseeeeeee quan to cart', response)
+            if (response.status >= 200 && response.status < 300) {
+                dispatch({
+                    type: INCREMENT_QUANTITY,
+                    payload: tempObj
+                });
+            } else {
+            }
+        };
+    } catch (error) {
+        // Add custom logic to handle errors
+        console.log(error);
+    }
+
+}
+export const decrementQuantity = (item) => {
+    var tempObj = {}
+    tempObj.nft_id = item.nft_id
+    tempObj.media = item.is_freezed ? item.media : item.nft_image_path
+    tempObj.title = item.title
+    tempObj.description = item.description
+    tempObj.copies = item.copies ? item.copies : 0
+    tempObj.quantity = item.quantity
+    tempObj.price = item.price
+    try {
+        return async dispatch => {
+            const response = await axios.post(`${API_CONFIG.MARKET_API_URL}/basket/remove-q/`, { nft_id: tempObj.nft_id, basket_id: localStorage.getItem('basket_id') })
+            console.log('responseeeeeee quan to cart', response)
+            if (response.status >= 200 && response.status < 300) {
+                dispatch({
+                    type: DECREMENT_QUANTITY,
+                    payload: tempObj
+                });
+            } else {
+            }
+        };
+    } catch (error) {
+        // Add custom logic to handle errors
+        console.log(error);
+    }
+
+}
+export const removeItem = (item) => {
+    var tempObj = {}
+    tempObj.nft_id = item.nft_id
+    tempObj.media = item.is_freezed ? item.media : item.nft_image_path
+    tempObj.title = item.title
+    tempObj.description = item.description
+    tempObj.copies = item.copies ? item.copies : 0
+    tempObj.quantity = item.quantity
+    tempObj.price = item.price
+    try {
+        return async dispatch => {
+            const response = await axios.post(`${API_CONFIG.MARKET_API_URL}/basket/remove/`, { nft_info: tempObj, basket_id: localStorage.getItem('basket_id') })
+            console.log('responseeeeeee remove to cart', response)
+            if (response.status >= 200 && response.status < 300) {
+                dispatch({
+                    type: REMOVE_FROM_CART,
+                    payload: tempObj
+                });
+            } else {
+            }
+        };
+    } catch (error) {
+        // Add custom logic to handle errors
+        console.log(error);
+    }
+
+
+}
+export const emptyCart = () => {
+    try {
+        return async dispatch => {
+            const response = await axios.post(`${API_CONFIG.MARKET_API_URL}/basket/remove-all/`, { basket_id: localStorage.getItem('basket_id') })
+            console.log('responseeeeeee remove cart', response)
+            if (response.status >= 200 && response.status < 300) {
+                localStorage.removeItem('basket_id')
+                dispatch({
+                    type: EMPTY_CART,
+                    payload: anEmptyCart
+                });
+            } else {
+            }
+        };
+    } catch (error) {
+        // Add custom logic to handle errors
+        console.log(error);
+    }
+
+}
+export const setCart = (cart) => {
+    return dispatch => {
+        dispatch({
+            type: SET_CART,
+            payload: cart
+        });
+    };
+}

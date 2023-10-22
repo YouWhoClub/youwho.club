@@ -10,7 +10,7 @@ const Inputt = styled(Box)(({ theme }) => ({
 const AuthInput = styled(Box)(({ theme }) => ({
     borderRadius: '12px',
     // height: '50px',
-    color: "black", boxShadow: '0px 0px 5px 1px rgba(0, 0, 0, 0.15)',
+    color: "black",
     display: 'flex', justifyContent: 'space-between', alignItems: 'end'
 }))
 const TabsComp = styled(Box)(({ theme }) => ({
@@ -54,9 +54,9 @@ const TabSimplee = styled(Box)(({ theme }) => ({
         color: theme.palette.secondary.text
     }
 }))
-export const Tabs = ({ children , mb}) => {
+export const Tabs = ({ children, mb }) => {
     return (<TabsComp
-        sx={{ py: 1 , mb:mb}}
+        sx={{ py: 1, mb: mb }}
     >{children}</TabsComp>)
 }
 export const Tab = ({ text, onClick, id, selected }) => {
@@ -118,7 +118,8 @@ export const ShadowInput = ({ icon, text, id, label, width, onChange, borderColo
         width: width ? width : '200px',
         border: borderColor ? '1px solid' : 'none',
         pb: '10px', pt: '5px',
-        borderColor: borderColor ? borderColor : '#DEDEDE'
+        borderColor: borderColor ? borderColor : '#DEDEDE',
+        boxShadow: borderColor ? 'none' : '0px 0px 5px 1px rgba(0, 0, 0, 0.15)',
     }}>
         <Box sx={{ display: 'flex', alignItems: 'flex-end', width: '100%', }}>
             <Box sx={{

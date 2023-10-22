@@ -35,7 +35,7 @@ const PaidCheckouts = () => {
     const navigate = useNavigate()
 
     const getPaidCheckouts = async () => {
-        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/checkout/get/paid/user/${globalUser.cid}`, {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/checkout/get/paid/user/${globalUser.cid}/?from=0&to=10`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${globalUser.token}`,
@@ -44,7 +44,7 @@ const PaidCheckouts = () => {
         })
 
         let response = await request.json()
-        console.log(response);
+        console.log(',,,,,,,,,,,,,,,,,,',response);
         if (response.status === 200) {
             setPaidCheckouts(response.data)
         } else {

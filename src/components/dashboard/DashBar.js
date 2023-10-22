@@ -460,77 +460,77 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
                                 <FlexRow>
                                     <Typography sx={{ fontSize: '12px' }}>Bio</Typography>
                                     {globalUser.bio ?
-                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
                                         : <Timer color="pink" size='14px' />
                                     }
                                 </FlexRow>
                                 <FlexRow>
                                     <Typography sx={{ fontSize: '12px' }}>YouWho Wallet</Typography>
                                     {globalUser.youwhoID ?
-                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
                                         : <Timer color="pink" size='14px' />
                                     }
                                 </FlexRow>
                                 <FlexRow>
                                     <Typography sx={{ fontSize: '12px' }}>Social Links</Typography>
                                     {globalUser.socials ?
-                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
                                         : <Timer color="pink" size='14px' />
                                     }
                                 </FlexRow>
                                 <FlexRow>
                                     <Typography sx={{ fontSize: '12px' }}>Email</Typography>
                                     {globalUser.mail ?
-                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
                                         : <Timer color="pink" size='14px' />
                                     }
                                 </FlexRow>
                                 <FlexRow>
                                     <Typography sx={{ fontSize: '12px' }}>Mail Varification</Typography>
                                     {globalUser.isMailVerified ?
-                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
                                         : <Timer color="pink" size='14px' />
                                     }
                                 </FlexRow>
                                 <FlexRow>
                                     <Typography sx={{ fontSize: '12px' }}>Phone Varification</Typography>
                                     {globalUser.isPhoneVerified ?
-                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
                                         : <Timer color="pink" size='14px' />
                                     }
                                 </FlexRow>
                                 <FlexRow>
                                     <Typography sx={{ fontSize: '12px' }}>Invite Friends</Typography>
                                     {globalUser.friends ?
-                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
                                         : <Timer color="pink" size='14px' />
                                     }
                                 </FlexRow>
                                 <FlexRow>
                                     <Typography sx={{ fontSize: '12px' }}>Profile Image</Typography>
                                     {globalUser.avatar ?
-                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
                                         : <Timer color="pink" size='14px' />
                                     }
                                 </FlexRow>
                                 <FlexRow>
                                     <Typography sx={{ fontSize: '12px' }}>First Mint</Typography>
                                     {globalUser.mint ?
-                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
                                         : <Timer color="pink" size='14px' />
                                     }
                                 </FlexRow>
                                 <FlexRow>
                                     <Typography sx={{ fontSize: '12px' }}>First Buy</Typography>
                                     {globalUser.buy ?
-                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
                                         : <Timer color="pink" size='14px' />
                                     }
                                 </FlexRow>
                                 <FlexRow>
                                     <Typography sx={{ fontSize: '12px' }}>First Sell</Typography>
                                     {globalUser.sell ?
-                                        <CheckRounded sx={{ color: 'green', fontSize: '14px' }} />
+                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
                                         : <Timer color="pink" size='14px' />
                                     }
                                 </FlexRow>

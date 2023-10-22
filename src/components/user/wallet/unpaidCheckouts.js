@@ -36,7 +36,7 @@ const UnpaidCheckouts = () => {
     const navigate = useNavigate()
 
     const getUnpaidCheckouts = async () => {
-        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/checkout/get/unpaid/user/${globalUser.cid}`, {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/checkout/get/unpaid/user/${globalUser.cid}/?from=0&to=10`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${globalUser.token}`,
