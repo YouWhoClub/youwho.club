@@ -53,13 +53,10 @@ export const getUnclaimedDeposit = (token, cid) => {
                 }
             })
             let response = await request.json()
-            console.log('hohohohoho', request)
-            console.log('hihihihihi', response)
 
             let unclaimedDeposit = []
-            if (request.status >= 200 && request.status < 300) {
-                unclaimedDeposit = request.data
-                console.log(request)
+            if (response.status >= 200 && response.status < 300) {
+                unclaimedDeposit = response.data
                 dispatch({
                     type: GET_UNCLAIMED_DEPOSITE,
                     payload: unclaimedDeposit
@@ -70,7 +67,7 @@ export const getUnclaimedDeposit = (token, cid) => {
                     type: GET_UNCLAIMED_DEPOSITE,
                     payload: unclaimedDeposit
                 });
-
+                console.log(request)
             }
         };
     } catch (error) {
