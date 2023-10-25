@@ -15,7 +15,8 @@ const AuthInput = styled(Box)(({ theme }) => ({
 }))
 const TabsComp = styled(Box)(({ theme }) => ({
     borderBottom: '1px solid', borderColor: theme.palette.primary.gray,
-    width: '100%', display: 'flex', flexWrap: 'wrap',
+    // width: '100%',
+    display: 'flex', flexWrap: 'wrap',
     overflowX: 'scroll',
     '&::-webkit-scrollbar': {
         display: 'none',
@@ -54,15 +55,17 @@ const TabSimplee = styled(Box)(({ theme }) => ({
         color: theme.palette.secondary.text
     }
 }))
-export const Tabs = ({ children, mb }) => {
+export const Tabs = ({ children, mb, w, jc }) => {
     return (<TabsComp
-        sx={{ py: 1, mb: mb }}
+
+        sx={{ py: 1, mb: mb, width: w ? w : '100%', justifyContent: jc ? jc : 'unset' }}
     >{children}</TabsComp>)
 }
-export const Tab = ({ text, onClick, id, selected }) => {
+export const Tab = ({ text, onClick, id, selected, icon }) => {
     return (<TabComp
         sx={{ backgroundColor: selected ? 'primary.main' : 'secondary.bg', color: selected ? 'white' : 'secondary.text' }}
         id={id} onClick={onClick}>
+        {icon ? icon : undefined}
         {text}
     </TabComp>)
 }
