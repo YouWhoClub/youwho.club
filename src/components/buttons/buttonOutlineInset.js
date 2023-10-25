@@ -11,7 +11,7 @@ const Button = styled('button')(({ theme }) => ({
     cursor: 'pointer',
     border: 'none',
     fontWeight: 'bold',
-    boxShadow: 'inset 0px 0px 9px -2px rgba(227,209,231,0.9)',
+    boxShadow: theme.palette.primary.boxShadowInset,
     '&:hover': {
         color: theme.palette.primary.text,
         borderRadius: '15px',

@@ -19,15 +19,16 @@ const Card = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     backgroundColor: theme.palette.secondary.bg,
     boxShadow: '0px 0px 9px -2px rgba(200,209,231,0.61)',
+    boxShadow: theme.palette.primary.boxShadow,
     transition: '400ms ease',
-    gap:'10px',
+    gap: '10px',
 }))
 
 const Bold = styled(Typography)(() => ({
-    fontWeight:'700',
-    display:'inline-block',
-    padding:'3px 5px',
-    borderRadius:'10px'
+    fontWeight: '700',
+    display: 'inline-block',
+    padding: '3px 5px',
+    borderRadius: '10px'
 }))
 
 const UnpaidCheckouts = () => {
@@ -73,7 +74,7 @@ const UnpaidCheckouts = () => {
                                 <Typography sx={{ color: 'primary.text' }}>payment status: <Bold>{checkout.payment_status}</Bold></Typography>
                                 <Typography sx={{ color: 'primary.text' }}>tokens: <Bold>{checkout.tokens}</Bold></Typography>
                                 <Typography sx={{ color: 'primary.text' }}>usd token price: <Bold>{checkout.usd_token_price}</Bold></Typography>
-                                <Typography sx={{ color: 'primary.text' }}>status: <Bold sx={{backgroundColor:'#FFA500', color:'#ffffff'}}>{checkout.c_status}</Bold></Typography>
+                                <Typography sx={{ color: 'primary.text' }}>status: <Bold sx={{ backgroundColor: '#FFA500', color: '#ffffff' }}>{checkout.c_status}</Bold></Typography>
                                 <Typography sx={{ color: 'primary.text' }}>at: <Bold>{checkout.iat.substring(0, 16)}</Bold></Typography>
                                 <ButtonPurple text={'Pay Now'} w={'300px'} onClick={() => window.location.replace(checkout.checkout_session_url)} />
                             </Card>

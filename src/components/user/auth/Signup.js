@@ -1,5 +1,5 @@
 import { ArrowLeft, Email, Password } from "@mui/icons-material";
-import { Box, FormHelperText, FormLabel } from "@mui/material";
+import { Box, FormHelperText, FormLabel, Typography } from "@mui/material";
 import { useRef, useState } from "react";
 import TextField from '@mui/material/TextField';
 import { FormControl, Input } from "@mui/base";
@@ -9,7 +9,9 @@ import { useDispatch } from "react-redux";
 import { getuser } from "../../../redux/actions";
 import { AUTH_API } from "../../../utils/data/auth_api";
 import { useNavigate } from "react-router";
-import { Eye, EyeSlash } from "iconsax-react";
+import { Eye, EyeSlash, Lock } from "iconsax-react";
+import { ShadowInput } from "../../utils";
+import VerifyMail from "./verifyMail";
 
 
 
@@ -63,7 +65,6 @@ const Signup = () => {
         console.log(password)
 
         if (password !== repeatPassword) {
-            console.log('lo')
             setErr('your repeated password is incorrect')
             setLoading(false)
             return
@@ -89,7 +90,7 @@ const Signup = () => {
 
             if (response.data.data.is_mail_verified)
                 navigate('/dashboard')
-            else navigate('/verify-mail')
+            else setState('mailVerification')
 
         }
         catch (err) {
@@ -124,7 +125,7 @@ const Signup = () => {
                 width: '100%',
                 height: '100%',
                 display: 'flex', flexDirection: 'column',
-                justifyContent: 'space-between', alignItems: 'center', pt: 3
+                justifyContent: 'space-between', alignItems: 'center', pt: 10
             }}>
             {state == 'identifier' ?
                 <form
@@ -134,32 +135,47 @@ const Signup = () => {
                         display: 'flex', flexDirection: 'column',
                         justifyContent: 'space-between', alignItems: 'center',
                     }} onSubmit={idStateChanger}>
-                    <Inputtt>
-                        <Email sx={{ color: 'primary.light', fontSize: '30px' }} />
-                        <Inputt value={identifier} placeholder="enter your email , phone , youwho id , ..." onChange={(e) => setIdentifier(e.target.value)} />
-                    </Inputtt>
-                    <ButtonPurple w={'100%'} text={'next'} />
-                    <Box>
-                        LOGIN WITH GMAIL
+                    <Box sx={{
+                        display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center'
+                    }}>
+                        <ShadowInput
+                            value={identifier}
+                            icon={<Email sx={{ color: 'primary.light', }} />}
+                            borderColor={err ? 'primary.error' : success ? 'primary.success' : undefined}
+                            onChange={(e) => setIdentifier(e.target.value)}
+                            label={'Email'} width={'99%'} id={'Email'} type="email" />
+                        {err ? <Typography sx={{ alignSelf: 'start !important', color: 'primary.error', fontSize: '12px', margin: 0 }}>{err}</Typography> : undefined}
+                        {success ? <Typography sx={{ alignSelf: 'start !important', color: 'primary.success', fontSize: '12px', margin: 0 }}>{success}</Typography> : undefined}
                     </Box>
+                    <ButtonPurple w={'100%'} text={'Next'} />
                 </form>
                 : state == 'password' ?
-                    <form style={{
-                        width: '100%',
-                        height: '100%',
-                        display: 'flex', flexDirection: 'column',
-                        justifyContent: 'space-between', alignItems: 'center',
-                    }} onSubmit={idStateChanger}>
-                        <Inputtt>
-                            <Password sx={{ color: 'primary.light', fontSize: '30px' }} />
-                            {showPassword ?
-                                <Inputt autocomplete="off" value={password} placeholder="enter your password" onChange={(e) => setPassword(e.target.value)} />
-                                :
-                                <Inputt type="password" autocomplete="off" value={password} placeholder="enter your password" onChange={(e) => setPassword(e.target.value)} />
-                            }
-                            {showPassword ? <EyeSlash onClick={() => setShowPassword(false)} /> : <Eye onClick={() => setShowPassword(true)} />}
-                        </Inputtt>
-                        <ButtonPurple w={'100%'} text={'next'} />
+                    <form
+                        autoComplete="off"
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex', flexDirection: 'column',
+                            justifyContent: 'space-between', alignItems: 'center',
+                        }} onSubmit={idStateChanger}>
+                        <Box sx={{
+                            display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center'
+                        }}>
+                            <ShadowInput
+                                icon={<Lock sx={{ color: 'primary.light', }} />}
+                                borderColor={err ? 'primary.error' : success ? 'primary.success' : undefined}
+                                onChange={(e) => setPassword(e.target.value)}
+                                label={'Password'}
+                                width={'99%'}
+                                id={'Password'}
+                                value={password}
+                                type={showPassword ? 'input' : 'password'}
+                                extraIcon={<>{showPassword ? <EyeSlash
+                                    onClick={() => setShowPassword(false)} /> : <Eye onClick={() => setShowPassword(true)} />}</>} />
+                            {err ? <Typography sx={{ alignSelf: 'start !important', color: 'primary.error', fontSize: '12px', margin: 0 }}>{err}</Typography> : undefined}
+                            {success ? <Typography sx={{ alignSelf: 'start !important', color: 'primary.success', fontSize: '12px', margin: 0 }}>{success}</Typography> : undefined}
+                        </Box>
+                        <ButtonPurple disabled={loading} w={'100%'} text={loading ? '...' : 'next'} onClick={idStateChanger} />
                         <Box
                             sx={{
                                 diplay: 'flex',
@@ -187,55 +203,62 @@ const Signup = () => {
                         </Box>
 
                     </form>
-                    :
-                    <form style={{
-                        width: '100%',
-                        height: '100%',
-                        display: 'flex', flexDirection: 'column',
-                        justifyContent: 'space-between', alignItems: 'center',
-                    }}>
-                        <Inputtt>
-                            <Password sx={{ color: 'primary.light', fontSize: '30px' }} />
-                            {showRepeatPassword ?
-                                <Inputt autocomplete="off" value={repeatPassword} placeholder="repeat your password" onChange={(e) => setRepeatPassword(e.target.value)} />
-                                :
-                                <Inputt type="password" autocomplete="off" value={repeatPassword} placeholder="repeat your password" onChange={(e) => setRepeatPassword(e.target.value)} />
-                            }
-                            {showRepeatPassword ? <EyeSlash onClick={() => setShowRepeatPassword(false)} /> : <Eye onClick={() => setShowRepeatPassword(true)} />}
-
-                        </Inputtt>
-                        <ButtonPurple w={'100%'} text={loading ? '...' : 'submit'} onClick={submit} />
-                        <Box
-                            sx={{
-                                diplay: 'flex',
-                                justifyContent: 'start',
+                    : state == 'repeatPassword' ?
+                        <form
+                            autoComplete="off"
+                            style={{
                                 width: '100%',
-                            }}
-                        >
-                            <div
-                                onClick={() => {
-                                    setState('password')
-                                }}
-                                style={{
-                                    borderBottom: '3px solid',
-                                    borderColor: '#846894',
-                                    color: '#846894',
-                                    width: '200px',
-                                    fontSize: '18px',
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    cursor: 'pointer',
+                                height: '100%',
+                                display: 'flex', flexDirection: 'column',
+                                justifyContent: 'space-between', alignItems: 'center',
+                            }} onSubmit={idStateChanger}>
+                            <Box sx={{
+                                display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center'
+                            }}>
+                                <ShadowInput
+                                    icon={<Lock sx={{ color: 'primary.light', }} />}
+                                    borderColor={err ? 'primary.error' : success ? 'primary.success' : undefined}
+                                    onChange={(e) => setRepeatPassword(e.target.value)}
+                                    label={'Repeat Password'}
+                                    width={'99%'}
+                                    id={'repeat-password'}
+                                    value={repeatPassword}
+                                    type={showRepeatPassword ? 'input' : 'password'}
+                                    extraIcon={<>{showRepeatPassword ? <EyeSlash onClick={() => setShowRepeatPassword(false)} /> : <Eye onClick={() => setShowRepeatPassword(true)} />}</>} />
+                                {err ? <Typography sx={{ alignSelf: 'start !important', color: 'primary.error', fontSize: '12px', margin: 0 }}>{err}</Typography> : undefined}
+                                {success ? <Typography sx={{ alignSelf: 'start !important', color: 'primary.success', fontSize: '12px', margin: 0 }}>{success}</Typography> : undefined}
+                            </Box>
+                            <ButtonPurple disabled={loading} w={'100%'} text={loading ? '...' : 'next'} onClick={submit} />
+                            <Box
+                                sx={{
+                                    diplay: 'flex',
+                                    justifyContent: 'start',
+                                    width: '100%',
                                 }}
                             >
-                                <ArrowLeft sx={{ color: 'primary.light', }} />back
-                            </div>
-                        </Box>
+                                <div
+                                    onClick={() => {
+                                        setState('password')
+                                    }}
+                                    style={{
+                                        borderBottom: '3px solid',
+                                        borderColor: '#846894',
+                                        color: '#846894',
+                                        width: '200px',
+                                        fontSize: '18px',
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        cursor: 'pointer',
+                                    }}
+                                >
+                                    <ArrowLeft sx={{ color: 'primary.light', }} />back
+                                </div>
+                            </Box>
 
-                    </form>
+                        </form>
+                        :
+                        <VerifyMail email={identifier} />
             }
-
-            {err ? <p style={{ color: 'red', fontSize: '12px', margin: 0 }}>{err}</p> : undefined}
-            {success ? <p style={{ color: 'green', fontSize: '12px', margin: 0 }}>{success}</p> : undefined}
 
         </Box>
 

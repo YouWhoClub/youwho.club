@@ -121,6 +121,7 @@ const Login = () => {
                         display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center'
                     }}>
                         <ShadowInput
+                            value={identifier}
                             icon={<Email sx={{ color: 'primary.light', }} />}
                             borderColor={err ? 'primary.error' : success ? 'primary.success' : undefined}
                             onChange={(e) => setIdentifier(e.target.value)}
@@ -131,12 +132,14 @@ const Login = () => {
                     <ButtonPurple w={'100%'} text={'Next'} />
                 </form>
                 : state == 'password' ?
-                    <form style={{
-                        width: '100%',
-                        height: '100%',
-                        display: 'flex', flexDirection: 'column',
-                        justifyContent: 'space-between', alignItems: 'center',
-                    }} onSubmit={idStateChanger}>
+                    <form
+                        autoComplete="off"
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex', flexDirection: 'column',
+                            justifyContent: 'space-between', alignItems: 'center',
+                        }} onSubmit={idStateChanger}>
                         <Box sx={{
                             display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center'
                         }}>
@@ -147,6 +150,7 @@ const Login = () => {
                                 label={'Password'}
                                 width={'99%'}
                                 id={'Password'}
+                                value={password}
                                 type={showPassword ? 'input' : 'password'}
                                 extraIcon={<>{showPassword ? <EyeSlash onClick={() => setShowPassword(false)} /> : <Eye onClick={() => setShowPassword(true)} />}</>} />
                             {err ? <Typography sx={{ alignSelf: 'start !important', color: 'primary.error', fontSize: '12px', margin: 0 }}>{err}</Typography> : undefined}

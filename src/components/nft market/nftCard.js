@@ -16,17 +16,19 @@ const Card = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     // border: '1px solid',
     // borderColor: theme.palette.primary.light,
-    backgroundColor:theme.palette.secondary.bg,
-    boxShadow: '0px 0px 9px -2px rgba(200,209,231,0.61)',
+    backgroundColor: theme.palette.secondary.bg,
+    // boxShadow: '0px 0px 9px -2px rgba(200,209,231,0.61)',
+    boxShadow: theme.palette.primary.boxShadow,
     transition: '400ms ease',
     cursor: 'pointer',
     '&:hover': {
         // width: '305px', height: '305px',
-        boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.51)',
+        // boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.51)',
+        boxShadow: theme.palette.primary.boxShadowInset,
     }
 }))
 const NFTImage = styled(Box)(({ theme }) => ({
-    backgroundColor:theme.palette.primary.bgOp,
+    backgroundColor: theme.palette.primary.bgOp,
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
@@ -34,10 +36,10 @@ const NFTImage = styled(Box)(({ theme }) => ({
     borderRadius: '15px',
     // border: '1px solid',
     // borderColor: theme.palette.primary.light,
-    '&:hover': {
-        // width: '255px', height: '255px',
-        width: '255px', height: '155px',
-    }
+    // '&:hover': {
+    //     // width: '255px', height: '255px',
+    //     width: '255px', height: '155px',
+    // }
 }))
 const FlexRow = styled(Box)(({ theme }) => ({
     width: '250px',
@@ -50,7 +52,7 @@ const DetailsSection = styled(Box)(({ theme }) => ({
     width: '250px', height: '100px',
     display: 'flex', flexDirection: 'column',
     justifyContent: 'space-between',
-    color: theme.palette.primary.light,marginTop:1
+    color: theme.palette.primary.light, marginTop: 1
 }))
 
 const NFTCard = ({ image }) => {

@@ -86,7 +86,10 @@ function App() {
         footer: '#6F3096',
         grad: 'linear-gradient(251deg, rgba(111,48,150,1) 33%, rgba(210,166,242,1) 100%)',
         success: '#0Cb2B1',
-        error: '#F675A8'
+        error: '#F675A8',
+        boxShadow: '0px 0px 10px -2px rgba(227,209,231,0.7)',
+        boxShadowInset: 'inset 0px 0px 9px -2px rgba(227,209,231,0.9)',
+        cardGradient: 'linear-gradient(41deg, rgba(61,0,98,1) 0%, rgba(18,0,28,1) 100%)',
       },
       secondary: {
         dark: '#3D0062',
@@ -106,7 +109,9 @@ function App() {
         landBG: 'linear-gradient(180deg, rgba(61,0,98,1) 9%, rgba(36,12,49,1) 100%)',
         footer: '#3D0062',
         success: '#B3E4E6',
-        error: '#FA8FBA'
+        error: '#FA8FBA',
+        boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)',
+
       },
     },
   });
@@ -134,9 +139,10 @@ function App() {
         footer: '#6F3096',
         grad: 'linear-gradient(251deg, rgba(111,48,150,1) 33%, rgba(210,166,242,1) 100%)',
         success: '#0Cb2B1',
-        error: '#F675A8'
-
-
+        error: '#F675A8',
+        boxShadow: '0px 0px 10px -2px rgba(0,0,0,0.3)',
+        boxShadowInset: 'inset 0px 0px 9px -2px rgba(0,0,0,0.4)',
+        cardGradient: 'linear-gradient(231deg, rgba(200,200,200,1) 0%, rgba(111,48,150,1) 100%)'
       },
       secondary: {
         dark: '#3D0062',
@@ -156,7 +162,8 @@ function App() {
         landBG: 'linear-gradient(180deg, rgba(222, 222, 222, 0.25) 0%, rgba(217, 217, 217, 0.001) 100%)',
         footer: '#3D0062',
         success: '#B3E4E6',
-        error: '#FA8FBA'
+        error: '#FA8FBA',
+        boxShadow: '0px 0px 9px -2px rgba(0,0,0,0.4)',
 
       },
     },

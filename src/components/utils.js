@@ -28,8 +28,10 @@ const TabsComp = styled(Box)(({ theme }) => ({
 
 }))
 const TabComp = styled(Box)(({ theme }) => ({
-    boxShadow: 'inset 0px 0px 9px -2px rgba(227,209,231,0.9)', cursor: 'pointer',
-    borderRadius: '40px', fontSize: '12px',
+    // boxShadow: 'inset 0px 0px 11px -2px rgba(227,209,231,0.9)',
+    boxShadow: theme.palette.primary.boxShadowInset,
+    cursor: 'pointer',
+    borderRadius: '40px', fontSize: '12px', border: '0.2px solid', borderColor: theme.palette.primary.gray,
     margin: '1px 3px',
     padding: '0 10px',
     width: 'max-content',
@@ -66,6 +68,7 @@ export const Tab = ({ text, onClick, id, selected, icon }) => {
         sx={{ backgroundColor: selected ? 'primary.main' : 'secondary.bg', color: selected ? 'white' : 'secondary.text' }}
         id={id} onClick={onClick}>
         {icon ? icon : undefined}
+        &nbsp;
         {text}
     </TabComp>)
 }
@@ -81,13 +84,14 @@ export const TabSimple = ({ text, onClick, id, selected }) => {
         {text}
     </TabSimplee>)
 }
-export const MyInput = ({ icon, text, id, label, width, onChange, borderColor, type, extraIcon }) => {
+export const MyInput = ({ icon, text, id, label, width, onChange, borderColor, type, extraIcon, value }) => {
     return (<Inputt sx={{ width: width ? width : '200px', border: '1px solid', py: '5px', borderColor: borderColor ? borderColor : '#DEDEDE' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', }}>
             <Box sx={{ ml: '16px' }}>
                 {icon ? icon : undefined}
             </Box>
             <TextField
+                autoComplete="off"
                 type={type}
                 InputProps={{
                     disableUnderline: true,
@@ -116,7 +120,7 @@ export const MyInput = ({ icon, text, id, label, width, onChange, borderColor, t
     )
 
 }
-export const ShadowInput = ({ icon, text, id, label, width, onChange, borderColor, type, extraIcon }) => {
+export const ShadowInput = ({ icon, text, id, label, width, onChange, borderColor, type, extraIcon, value }) => {
     return (<AuthInput sx={{
         width: width ? width : '200px',
         border: borderColor ? '1px solid' : 'none',
@@ -133,9 +137,14 @@ export const ShadowInput = ({ icon, text, id, label, width, onChange, borderColo
                 {icon ? icon : undefined}
             </Box>
             <TextField
+                autoFocus={true}
                 type={type}
+                autoComplete="off"
+                value={value}
                 InputProps={{
+                    autoFocus: true,
                     disableUnderline: true,
+                    autoComplete: "new-password",
                     sx: {
                         color: 'primary.gray', width: '100%', fontSize: '16px',
                         //  margin: '0 !important',

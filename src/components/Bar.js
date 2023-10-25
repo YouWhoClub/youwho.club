@@ -52,7 +52,17 @@ const Title = styled('h4')(({ theme }) => ({
 const P = styled('p')(({ theme }) => ({
     color: theme.palette.secondary.text, textAlign: 'center', fontSize: '14px'
 }))
-
+const BarStyle = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    backgroundColor: theme.palette.secondary.bg,
+    backdropFilter: 'blur(10px)',
+    boxShadow: theme.palette.primary.boxShadow,
+    position: "absolute",
+    zIndex: 999,
+    color: theme.palette.primary.text
+}))
 
 const Bar = () => {
     const globalUser = useSelector(state => state.userReducer)
@@ -77,27 +87,15 @@ const Bar = () => {
         logOut()
     }
     return (
-        <Box sx={{
-            display: 'flex',
+        <BarStyle sx={{
             flexDirection: { xs: 'row', sm: 'column' },
-            justifyContent: 'space-evenly',
-            alignItems: 'center',
             height: { xs: '50px', sm: '50%' },
-            bgcolor: 'secondary.bg',
-            backdropFilter: 'blur(10px)',
-            boxShadow: {
-                xs: '0px -2px 9px -2px rgba(227,209,231,0.9)', sm: '0px 0px 9px -2px rgba(227,209,231,0.9)'
-            },
             width: {
                 xs: '100%', sm: '75px'
             },
-            // px: 4,
-            position: "absolute",
             left: { xs: 'unset', sm: 0 },
             bottom: { xs: 0, sm: '25%' },
             borderRadius: { xs: '30px 30px 0 0', sm: '0 30px 30px 0' },
-            zIndex: 999,
-            color: 'primary.text'
         }}
         >
             <IconHolder onClick={() => navigate('/dashboard')} sx={{ bgcolor: window.location.pathname == '/dashboard' ? 'primary.main' : 'transparent', color: window.location.pathname == '/dashboard' ? 'white' : 'primary.text' }}>
@@ -115,7 +113,7 @@ const Bar = () => {
 
             <VerifyPhoneModal openModal={openModal} setOpenModal={setOpenModal} />
 
-        </Box >
+        </BarStyle>
     );
 }
 

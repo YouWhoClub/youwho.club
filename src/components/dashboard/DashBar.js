@@ -13,10 +13,9 @@ import { getuser } from "../../redux/actions";
 
 
 const Bar = styled(Box)(({ theme }) => ({
-    width: { xs: '100%', sm: '200px' },
+    height: 'max-content', backgroundColor: theme.palette.secondary.bg,
     borderRadius: '24px', marginBottom: '20px',
-    // display: 'flex', flexDirection: 'column', alignItems: 'center',
-    boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)', overflow: 'hidden', height: 'auto'
+    boxShadow: theme.palette.primary.boxShadow, overflow: 'hidden',
 }))
 const Title = styled(Box)`
 display: flex;
@@ -193,13 +192,8 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
     }
 
     return (
-        <Box sx={{
+        <Bar sx={{
             width: { xs: '100%', sm: '200px' },
-            // mb: 2, 
-            // mr: { xs: 0, sm: '20px' },
-            height: 'max-content',bgcolor:'secondary.bg',
-            borderRadius: '24px',
-            boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)',
         }}>
             <Box sx={{
                 display: 'flex', flexDirection: 'column', alignItems: 'center', p: 1
@@ -539,7 +533,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
                     </>}
             </Box>
 
-        </Box>
+        </Bar>
     );
 }
 

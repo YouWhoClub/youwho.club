@@ -16,30 +16,33 @@ const shake = keyframes`
 `
 
 const Card = styled(Box)(({ theme }) => ({
-    width: '250px', height: '280px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backdropFilter: 'blur(20px)',
-    borderRadius: '24px', backgroundColor: theme.palette.secondary.bg, margin: '10px',
-    '&:hover': {
-        // width: '253px', height: '283px',
-        animation: `${shake} 1s linear`,
-    }
+  width: '250px', height: '280px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backdropFilter: 'blur(20px)',
+  borderRadius: '24px', backgroundColor: theme.palette.secondary.bg, margin: '10px',
+  boxShadow: theme.palette.primary.boxShadow,
+  '&:hover': {
+    // boxShadow: theme.palette.primary.boxShadowInset,
+
+    // width: '253px', height: '283px',
+    animation: `${shake} 1s linear`,
+  }
 }))
 const Image = styled(Box)(({ theme }) => ({
-    width: '80px', height: '80px',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
+  width: '80px', height: '80px',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'center',
 
 }))
 
 const NavigateCardTwo = ({ image, title, content, link }) => {
-    return (
-        <Link style={{ textDecoration: 'none', color: 'inherit' }} to={link}>
-            <Card>
-                <Image sx={{ backgroundImage: BG_URL(PUBLIC_URL(`${image}`)) }} />
-                <Typography sx={{ color: 'primary.text', mb: 2, mt: 1, fontWeight: 500 }}>{title}</Typography>
-                <Typography sx={{ color: 'secondary.text', fontSize: '10px', textAlign: 'center', px: 2 }}>{content}</Typography>
-            </Card>
-        </Link>
-    );
+  return (
+    <Link style={{ textDecoration: 'none', color: 'inherit' }} to={link}>
+      <Card>
+        <Image sx={{ backgroundImage: BG_URL(PUBLIC_URL(`${image}`)) }} />
+        <Typography sx={{ color: 'primary.text', mb: 2, mt: 1, fontWeight: 500 }}>{title}</Typography>
+        <Typography sx={{ color: 'secondary.text', fontSize: '10px', textAlign: 'center', px: 2 }}>{content}</Typography>
+      </Card>
+    </Link>
+  );
 }
 
 export default NavigateCardTwo;

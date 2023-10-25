@@ -4,12 +4,12 @@ import { BG_URL, PUBLIC_URL } from "../../utils/utils";
 import { Heart, More, Share } from "iconsax-react";
 
 const Outter = styled(Box)(({ theme }) => ({
-    width: '200px', height: '175px',padding:'5px'
+    width: '200px', height: '175px', padding: '5px'
     // display: 'flex', justifyContent: 'center', alignItems: 'center'
 }))
 const Card = styled(Box)(({ theme }) => ({
     // width: '200px', height: '175px',
-    width:'100%',
+    width: '100%',
     padding: '7px 7px 14px 7px',
     borderRadius: '16px',
     display: 'flex',
@@ -18,11 +18,13 @@ const Card = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     backgroundColor: theme.palette.secondary.bg,
     boxShadow: '0px 0px 9px -2px rgba(200,209,231,0.61)',
+    boxShadow: theme.palette.primary.boxShadow,
     transition: '400ms ease',
     cursor: 'pointer',
     '&:hover': {
         // width: '305px', height: '305px',
         boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.51)',
+        boxShadow: theme.palette.primary.boxShadowInset,
     }
 }))
 const NFTImage = styled(Box)(({ theme }) => ({

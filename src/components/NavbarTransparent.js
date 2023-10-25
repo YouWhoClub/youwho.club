@@ -48,7 +48,7 @@ const ThemeSwitchButton = styled('div')(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)',
+    boxShadow: theme.palette.primary.boxShadow,
 
     width: '20px', height: '20px'
 }))

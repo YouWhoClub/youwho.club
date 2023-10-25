@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import PanelLayout from "../../PanelLayout";
-import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from "@mui/material";
-import { ArrowDown, ArrowDown2, ArrowUp, Barcode, Copy, Gift, Setting2, Share, TickSquare, Wallet2 } from "iconsax-react";
+import { Accordion, AccordionDetails, AccordionSummary, Box, IconButton, Typography } from "@mui/material";
+import { ArrowCircleUp, ArrowDown, ArrowDown2, ArrowSwapHorizontal, ArrowSwapVertical, ArrowUp, Barcode, Copy, Gift, Setting2, Share, TickSquare, Wallet2 } from "iconsax-react";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { BG_URL, PUBLIC_URL } from "../../../utils/utils";
@@ -12,6 +12,8 @@ import UnpaidCheckouts from "./unpaidCheckouts";
 import yCoin from '../../../assets/Ycoin.svg'
 import { Tab, Tabs } from "../../utils";
 import { CardGiftcard, GifTwoTone, Recycling } from "@mui/icons-material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisV, faEnvelopeOpen, faHandRock } from "@fortawesome/free-solid-svg-icons";
 
 const ShowPanel = styled(Box)(({ theme }) => ({
     marginTop: '20px', width: '100%',
@@ -37,9 +39,9 @@ const FlexColumn = styled(Box)(({ theme }) => ({
 
 const YWCard = styled(Box)(({ theme }) => ({
     color: 'white',
-    boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)',
+    boxShadow: theme.palette.primary.boxShadow,
     // height: '250px',
-    backgroundColor: theme.palette.secondary.middle,
+    background: theme.palette.primary.cardGradient,
     borderRadius: '24px',
 
 }))
@@ -87,7 +89,7 @@ const Wallet = ({ privateKey }) => {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            width: { xs: '100%', sm: 'calc(100% - 80px)' }, color: 'primary.text', pt: 1
+            width: { xs: '100%', sm: 'calc(100% - 80px)' }, color: 'primary.text', pt: 3
         }}>
             <YWCard
                 sx={{
@@ -169,17 +171,17 @@ const Wallet = ({ privateKey }) => {
                         text={`Gift NFT`}
                         selected={state == 'gift'} />
                     <Tab id={"claim"}
-                        icon={<CardGiftcard fontSize='14px' />}
+                        icon={<FontAwesomeIcon icon={faEnvelopeOpen} size="14px" />}
                         onClick={(e) => setState(e.target.id)}
                         text={`Claim Gift NFT`}
                         selected={state == 'claim'} />
                     <Tab id={"turnover"}
-                        icon={<Recycling fontSize='14px' />}
+                        icon={<ArrowSwapVertical size='14px' />}
                         onClick={(e) => setState(e.target.id)}
                         text={`Turnover`}
                         selected={state == 'turnover'} />
                 </Tabs>
-                <Panel sx={{}}>
+                <Panel sx={{mt:3}}>
                     {state == 'withdraw' && <WithdrawPanel />}
                     {state == 'deposit' && <DepositPanel />}
                     {state == 'claim' && <WithdrawPanel />}

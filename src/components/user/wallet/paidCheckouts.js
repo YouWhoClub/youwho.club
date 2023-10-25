@@ -19,6 +19,7 @@ const Card = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     backgroundColor: theme.palette.secondary.bg,
     boxShadow: '0px 0px 9px -2px rgba(200,209,231,0.61)',
+    boxShadow: theme.palette.primary.boxShadow,
     transition: '400ms ease',
     gap:'10px',
 }))

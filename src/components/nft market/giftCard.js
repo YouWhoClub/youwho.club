@@ -48,7 +48,7 @@ const Card = styled(Box)(({ theme }) => ({
     // cursor: 'pointer',
     '&:hover': {
         animation: `${shake} 1s linear`,
-        boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.51)',
+        boxShadow: theme.palette.primary.boxShadow,
     }
 }))
 const NFTImage = styled(Box)(({ theme }) => ({

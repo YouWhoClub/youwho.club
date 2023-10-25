@@ -28,7 +28,8 @@ const AuthBox = styled(Box)(({ theme }) => ({
 
 }))
 const Slider = styled(Box)(({ theme }) => ({
-    backgroundColor: theme.palette.primary.gray,
+    // backgroundColor: theme.palette.primary.gray,
+    backgroundColor: 'rgba(0,0,0,0.2)',
     height: '45px',
     borderRadius: '40px',
     padding: '5px',
@@ -111,17 +112,20 @@ const Auth = () => {
                     px: { xs: '20px', sm: 0 }, height: '100%', display: "flex",
                     flexDirection: "column", justifyContent: 'space-between',
                 }}>
-                    {/* <Slider>
+                    <Slider>
                         <ChangeSlide
-                            sx={{ bgcolor: authState == 'signin' ? 'white' : "transparent", color: authState == 'signin' ? 'primary.darkerGray' : "primary.darkGray" }} onClick={() => setAuthState('signin')}>
+                            sx={{
+                                bgcolor: authState == 'signin' ? 'white' : "transparent",
+                                color: authState == 'signin' ? 'black' : "primary.darkGray"
+                            }} onClick={() => setAuthState('signin')}>
                             Sign In</ChangeSlide>
                         <ChangeSlide
-                            sx={{ bgcolor: authState == 'signup' ? 'white' : "transparent", color: authState == 'signup' ? 'primary.darkerGray' : "primary.darkGray" }} onClick={() => setAuthState('signup')}>
+                            sx={{
+                                bgcolor: authState == 'signup' ? 'white' : "transparent",
+                                color: authState == 'signup' ? 'black' : "primary.darkGray"
+                            }} onClick={() => setAuthState('signup')}>
                             Sign Up</ChangeSlide>
-                    </Slider> */}
-                    <Title>
-                        Sign in / Sign up
-                    </Title>
+                    </Slider>
                     {authState == 'signin' ?
                         <AuthScrollBox>
                             <Login />

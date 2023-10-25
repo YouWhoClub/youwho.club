@@ -26,7 +26,7 @@ const ProfilePanel = () => {
                 <Tab id={"relations-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Relations'} selected={activeTab == 'relations-tab'} />
                 <Tab id={"reactions-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Reactions'} selected={activeTab == 'reactions-tab'} />
             </Tabs>
-            <Box sx={{ width: '100%' }}>
+            <Box sx={{ width: '100%',color:'primary.text' }}>
                 {activeTab == 'create-tab' ? <CreateNFT /> :
                     activeTab == 'private-gallery-tab' ? <PrivateGallery />
                         : activeTab == 'public-gallery-tab' ? <PublicGallery /> :

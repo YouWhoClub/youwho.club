@@ -26,6 +26,7 @@ const YouWhoIcon = styled('div')(({ theme }) => ({
     backgroundImage: "url('/youwho-white.svg')",
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
+    // backgroundSize:'contain',
     width: '50px',
     height: '50px'
 }))
@@ -53,7 +54,7 @@ const ThemeSwitchButton = styled('div')(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)',
+    boxShadow: theme.palette.primary.boxShadow,
 
     width: '20px', height: '20px'
 }))
@@ -89,6 +90,16 @@ const Inputtt = styled('div')(({ theme }) => ({
     '&:hover': {
         borderColor: theme.palette.primary.main,
     }
+}))
+const NavStyle = styled('div')(({ theme }) => ({
+    height: '55px',
+    width: '100%',
+    position: "sticky",
+    top: 0,
+    zIndex: 999,
+    borderRadius: '0 0 12px 12px',
+    boxShadow: theme.palette.primary.boxShadow,
+    backgroundColor: theme.palette.secondary.bg,
 }))
 
 function HomeIcon(props) {
@@ -173,23 +184,14 @@ const NavbarTwo = ({ switchTheme, theme }) => {
     }
 
     return (
-        <Box sx={{
-            height: '55px',
-            bgcolor: 'secondary.bg',
-            width: '100%',
-            position: "sticky",
-            top: 0,
-            zIndex: 999,
-            borderRadius: '0 0 12px 12px',
-            boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)'
-        }}
-        ><Box sx={{
-            // width: '100%',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            px: '30px'
-        }}>
+        <NavStyle>
+            <Box sx={{
+                // width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                px: '30px'
+            }}>
                 <ThemeSwitcher switchTheme={switchTheme} right={'0'} />
                 <Box sx={{ display: 'flex', alignItems: 'center', }}>
                     {theme == 'light' ?
@@ -272,7 +274,7 @@ const NavbarTwo = ({ switchTheme, theme }) => {
                 }
             </Box>
             <MobileMenu theme={theme} switchTheme={switchTheme} openMenu={openMenu} setOpenMenu={setOpenMenu} />
-        </Box >
+        </NavStyle >
     );
 }
 
