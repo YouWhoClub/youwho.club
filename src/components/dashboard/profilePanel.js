@@ -5,6 +5,7 @@ import CreateNFT from "./createNFT";
 import PrivateGallery from "./privateGallery";
 import PublicGallery from "./publicGallery";
 import { Tab, Tabs } from "../utils";
+import RelationsTab from "./relationsTab";
 const Panel = styled(Box)(({ theme }) => ({
     color: 'primary.text',
     // marginLeft: { xs: '0', sm: '20px' },
@@ -26,12 +27,12 @@ const ProfilePanel = () => {
                 <Tab id={"relations-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Relations'} selected={activeTab == 'relations-tab'} />
                 <Tab id={"reactions-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Reactions'} selected={activeTab == 'reactions-tab'} />
             </Tabs>
-            <Box sx={{ width: '100%',color:'primary.text' }}>
-                {activeTab == 'create-tab' ? <CreateNFT /> :
-                    activeTab == 'private-gallery-tab' ? <PrivateGallery />
-                        : activeTab == 'public-gallery-tab' ? <PublicGallery /> :
-                            <div>{activeTab}</div>
-                }
+            <Box sx={{ width: '100%', color: 'primary.text' }}>
+                {activeTab == 'create-tab' && <CreateNFT />}
+                {activeTab == 'private-gallery-tab' && <PrivateGallery />}
+                {activeTab == 'public-gallery-tab' && <PublicGallery />}
+                {activeTab == 'relations-tab' && <RelationsTab />}
+                {activeTab == 'reactions-tab' && <RelationsTab />}
             </Box>
         </Panel>
     );

@@ -1,7 +1,51 @@
 import styled from "@emotion/styled"
 import { AccountCircle } from "@mui/icons-material"
-import { Box, TextField, inputLabelClasses } from "@mui/material"
+import { Box, ClickAwayListener, MenuItem, Popper, TextField, inputLabelClasses } from "@mui/material"
+import { BG_URL, PUBLIC_URL } from "../utils/utils"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons"
+import { useNavigate } from "react-router"
+import { useState } from "react"
+import ButtonPurple from "./buttons/buttonPurple"
 
+const FilterSelectionBox = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    cursor: 'pointer',
+    justifyContent: 'space-around',
+    border: '1px solid #DEDEDE',
+    borderRadius: '18px',
+    overflow: 'hidden',
+    height: '20px',
+    color: theme.palette.primary.text
+}))
+const RelationCardComp = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: '16px',
+    justifyContent: 'space-between',
+    boxShadow: theme.palette.primary.boxShadow,
+    borderRadius: '16px',
+    // height: '70px',
+    // width: '100%',
+    color: theme.palette.primary.text,
+    backgroundColor: theme.palette.secondary.bg,
+}))
+const FlexRow = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    color: theme.palette.primary.text,
+}))
+const SelectInputs = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: theme.palette.primary.text
+}))
 const Inputt = styled(Box)(({ theme }) => ({
     borderRadius: '12px',
     height: '50px',
@@ -176,4 +220,160 @@ export const ShadowInput = ({ icon, text, id, label, width, onChange, borderColo
     </AuthInput>
     )
 
+}
+export const AscSelect = ({ asc, width, setAsc, id }) => {
+    return (<FilterSelectionBox
+        sx={{
+            py: 1,
+            m: 1,
+            width: { width }, color: 'primary.text',
+            bgcolor: 'secondary.bg',
+        }}
+    >
+        <SelectInputs sx={{ ml: '16px' }}>
+            <Box onClick={(e) => setAsc(true)}
+                sx={{ cursor: 'pointer', p: '6px', borderRadius: '8px', borderColor: 'primary.text', border: '1px solid' }}>
+                <Box sx={{ borderRadius: '50%', bgcolor: asc ? 'primary.text' : 'transprent', width: '10px', height: '10px' }} />
+            </Box>
+            &nbsp;ASC
+        </SelectInputs>
+        <SelectInputs sx={{ mr: '16px' }}>
+            <Box onClick={(e) => setAsc(false)}
+                sx={{ cursor: 'pointer', p: '6px', borderRadius: '8px', borderColor: 'primary.text', border: '1px solid' }}>
+                <Box sx={{ borderRadius: '50%', bgcolor: !asc ? 'primary.text' : 'transprent', width: '10px', height: '10px' }} />
+            </Box>
+            &nbsp;DESC
+        </SelectInputs>
+    </FilterSelectionBox>)
+}
+export const RelationCard = ({ image, friend, username, allies }) => {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        if (!open)
+            setAnchorEl(event.currentTarget);
+        else
+            setAnchorEl(null)
+    };
+    const handleClose = (e) => {
+        setAnchorEl(null);
+    };
+    const handleClickAway = () => {
+        setAnchorEl(null);
+    }
+
+    const navigate = useNavigate()
+    return (
+        <ClickAwayListener onClickAway={handleClickAway}>
+            <Box sx={{ width: '100%', my: 1, height: '70px' }}>
+                <RelationCardComp>
+                    <FlexRow>
+                        <Box sx={{
+                            backgroundImage: BG_URL(PUBLIC_URL(`${image}`)),
+                            backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+                            , width: '40px', height: '40px', borderRadius: '50%'
+                        }}
+                        />
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        {username}
+                    </FlexRow>
+                    <FlexRow>
+                        <ButtonPurple text={'View Profile'} onClick={() => navigate(`/profile/${username}`)} />
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} />
+                    </FlexRow>
+                    <Popper
+                        PaperProps={{
+                            style: {
+                            }
+                        }}
+                        disableScrollLock={true}
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                        }}
+                        placement='left-start'
+                        sx={{
+                            marginTop: '20px !important',
+                            width: '190px',
+                            bgcolor: 'secondary.bg', p: '20px',
+                            zIndex: 1400, borderRadius: '20px 0px 20px 20px',
+                            overflow: "hidden",
+                            // boxShadow: theme == 'light' ? '0px 0px 10px 0px rgba(0, 0, 0, 0.45)' : '0px 0px 12px 1px rgba(227,209,231, 0.25)',
+                            boxShadow: localStorage.getItem('theme') == 'dark' ? '0px 0px 12px 1px rgba(227,209,231, 0.25)' : '0px 0px 10px 0px rgba(0, 0, 0, 0.25)',
+                        }}
+                    >
+                        <MenuItem id={'share'} sx={{
+                            display: 'flex', alignItems: 'center', pb: '12px',
+                            color: 'primary.text',
+                            borderBottom: '1px solid',
+                            borderColor: 'primary.gray',
+                            '&:hover': {
+                                bgcolor: 'secondary.bgOp',
+                            }
+                        }}
+                        >
+                            Share
+                        </MenuItem>
+                        {friend ?
+                            <MenuItem id={'isfiends'} sx={{
+                                display: 'flex', alignItems: 'center', py: '12px',
+                                color: 'primary.text',
+                                borderBottom: '1px solid',
+                                borderColor: 'primary.gray',
+                                '&:hover': {
+                                    bgcolor: 'secondary.bgOp',
+                                }
+                            }}
+                            >
+                                Remove Friend
+                            </MenuItem>
+                            : <MenuItem id={'notisfiends'} sx={{
+                                display: 'flex', alignItems: 'center', py: '12px',
+                                color: 'primary.text',
+                                borderBottom: '1px solid',
+                                borderColor: 'primary.gray',
+                                '&:hover': {
+                                    bgcolor: 'secondary.bgOp',
+                                }
+                            }}
+                            >
+                                "Be My Friend" Request
+                            </MenuItem>
+                        }
+                        {allies ?
+                            <MenuItem id={'isallies'} sx={{
+                                display: 'flex', alignItems: 'center', pt: '12px',
+                                color: 'primary.text',
+                                '&:hover': {
+                                    bgcolor: 'secondary.bgOp',
+                                }
+                            }}
+                            >
+                                Remove From Allies
+                            </MenuItem>
+                            : <MenuItem id={'isallies'} sx={{
+                                display: 'flex', alignItems: 'center', pt: '12px',
+                                color: 'primary.text',
+                                '&:hover': {
+                                    bgcolor: 'secondary.bgOp',
+                                }
+                            }}
+                            >
+                                "Be My Allie" Invitation
+                            </MenuItem>
+                        }
+                    </Popper>
+
+                </RelationCardComp>
+            </Box>
+        </ClickAwayListener>
+    )
 }

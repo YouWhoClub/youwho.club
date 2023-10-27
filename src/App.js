@@ -54,12 +54,16 @@ function App() {
     }
   }
 
-  const [theme, setTheme] = useState('light')
+  const [theme, setTheme] = useState(localStorage.getItem('theme'))
   const switchTheme = () => {
-    setLocalTheme()
+    // setLocalTheme()
     if (theme == 'light') {
       setTheme('dark')
-    } else setTheme('light')
+      localStorage.setItem('theme', 'dark')
+    } else {
+      setTheme('light')
+      localStorage.setItem('theme', 'light')
+    }
   }
 
   const darkTheme = createTheme({
@@ -151,7 +155,7 @@ function App() {
         middle: '#9F72C0',
         light: '#C182ED',
         ultraLight: '#D2A6F2',
-        gray: '#CC2C2',
+        gray: '#C2C2C2',
         darkGray: '#A3A3A3',
         bg: '#ffffff',
         bgOp: 'rgba(255,255,255,0.49)',
