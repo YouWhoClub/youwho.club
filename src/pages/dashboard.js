@@ -87,7 +87,7 @@ const Dashboard = ({ switchTheme, theme }) => {
             pic.style.width = '50px'
             insidePanel.style.overflowY = 'scroll'
         }
-        if (window.document.getElementById("scrollable-profile-panel-inside").scroll < '1px') {
+        else {
             card.style.height = '250px'
             pic.style.height = '100px'
             pic.style.width = '100px'
