@@ -6,7 +6,7 @@ import {
     //  List, ListItem, ListItemButton, ListItemIcon, ListItemText 
 } from "@mui/material";
 import { Gallery, Profile } from "iconsax-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Bar from "../components/Bar";
@@ -50,7 +50,7 @@ const ShowPanel = styled(Box)(({ theme }) => ({
 
 }))
 
-const Dashboard = ({ switchTheme , theme}) => {
+const Dashboard = ({ switchTheme, theme }) => {
     const globalUser = useSelector(state => state.userReducer)
     const [idCopied, setIdCopied] = useState(false)
     const [selectValue, setSelectValue] = useState(undefined)
@@ -77,20 +77,45 @@ const Dashboard = ({ switchTheme , theme}) => {
         }
     };
 
+    const listenScrollEvent = e => {
+        let card = window.document.getElementById('profile-card')
+        let pic = window.document.getElementById('profile-pic')
+        let insidePanel = window.document.getElementById('scrollable-profile-panel-inside')
+        if (window.document.getElementById("scrollable-profile-panel").scroll > '300px' || window.document.getElementById("scrollable-profile-panel-inside").scroll > '1px') {
+            card.style.height = '100px'
+            pic.style.height = '50px'
+            pic.style.width = '50px'
+            insidePanel.style.overflowY = 'scroll'
+        }
+        if (window.document.getElementById("scrollable-profile-panel-inside").scroll < '1px') {
+            card.style.height = '250px'
+            pic.style.height = '100px'
+            pic.style.width = '100px'
+            insidePanel.style.overflowY = 'hidden'
+        }
+    }
+
+    useEffect(() => {
+        window.document.getElementById("scrollable-profile-panel").addEventListener('scroll', listenScrollEvent)
+    }, [])
+
+
+
     return (
-        <PanelLayout switchTheme={switchTheme} theme={theme}>
+        <PanelLayout switchTheme={switchTheme} theme={theme} id={"scrollable-profile-panel"}>
             <Box sx={{
-                width: { xs: '100%', sm: 'calc(100% - 80px)' }, display: 'flex'
+                width: { xs: '90%', sm: 'calc(100% - 80px)' }, display: 'flex'
             }}>
                 <Box sx={{
-                    px: 1, display: 'flex',
+                    px: { xs: 'none', sm: 1 },
+                    display: 'flex',
                     flexDirection: 'column',
-                    width: '100%'
+                    width: '100%', mt: 1
                 }}>
                     {globalUser.isLoggedIn ?
                         <>
                             <ProfileCard username={globalUser.username} youwhoID={globalUser.youwhoID} />
-                            <ShowPanel sx={{ flexDirection: { xs: 'column', sm: 'row' } }}>
+                            <ShowPanel sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
                                 {/* <Selection width={'200px'} tabs={['zadtan', 'zadtann', 'zadtannn', 'zadtannnn']} handleSelect={handleSelect} selectValue={selectValue} /> */}
                                 <DashBar username={globalUser.username} tabs={['zadtan', 'zadtan', 'zadtan', 'zadtan']} />
                                 <ProfilePanel />

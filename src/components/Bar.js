@@ -89,12 +89,12 @@ const Bar = () => {
     return (
         <BarStyle sx={{
             flexDirection: { xs: 'row', sm: 'column' },
-            height: { xs: '50px', sm: '50%' },
+            height: { xs: '50px', sm: '70vh', md: '50vh' },
             width: {
                 xs: '100%', sm: '75px'
             },
             left: { xs: 'unset', sm: 0 },
-            bottom: { xs: 0, sm: '25%' },
+            bottom: { xs: 0, sm: '10%', md: '20%' },
             borderRadius: { xs: '30px 30px 0 0', sm: '0 30px 30px 0' },
         }}
         >

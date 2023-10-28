@@ -193,7 +193,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
 
     return (
         <Bar sx={{
-            width: { xs: '100%', sm: '200px' },
+            width: { xs: '100%', md: '325px' },
         }}>
             <Box sx={{
                 display: 'flex', flexDirection: 'column', alignItems: 'center', p: 1
@@ -421,7 +421,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
                     :
                     <>
                         <Box sx={{ color: 'primary.text', display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center', my: 1 }}>
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', }}>
                                 <Face /> &nbsp;
                                 {shorten(username)}
                             </div>
