@@ -54,7 +54,6 @@ const SelectInputs = styled(Box)(({ theme }) => ({
 }))
 const Inputt = styled(Box)(({ theme }) => ({
     borderRadius: '12px',
-    height: '50px',
     color: theme.palette.primary.text, display: 'flex', justifyContent: 'space-between', alignItems: 'center'
 }))
 const AuthInput = styled(Box)(({ theme }) => ({
@@ -64,9 +63,13 @@ const AuthInput = styled(Box)(({ theme }) => ({
     display: 'flex', justifyContent: 'space-between', alignItems: 'end'
 }))
 const TabsComp = styled(Box)(({ theme }) => ({
-    borderBottom: '1px solid', borderColor: theme.palette.primary.gray,
+    borderBottom: '1px solid',
+    borderColor: theme.palette.primary.gray,
     // width: '100%',
-    display: 'flex', flexWrap: 'wrap',
+    display: 'flex',
+    padding: '12px 0px 24px 0px',
+    gap: '10px',
+    flexWrap: 'wrap',
     overflowX: 'scroll',
     '&::-webkit-scrollbar': {
         display: 'none',
@@ -78,18 +81,23 @@ const TabsComp = styled(Box)(({ theme }) => ({
 
 }))
 const TabComp = styled(Box)(({ theme }) => ({
-    // boxShadow: 'inset 0px 0px 11px -2px rgba(227,209,231,0.9)',
-    boxShadow: theme.palette.primary.boxShadowInset,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     cursor: 'pointer',
-    borderRadius: '40px',
-    fontSize: '14px',
-    border: '0.2px solid', borderColor: theme.palette.primary.gray,
-    margin: '1px 3px',
-    padding: '10px 22px',
-    width: 'max-content',
-    // height: '30px', 
-    textAlign: 'center',
-    display: 'flex', alignItems: 'center',
+    padding: '8px 18px',
+    whiteSpace: 'nowrap',
+    borderRadius: '30px',
+    lineHeight: 'normal',
+    border: `1px solid ${theme.palette.primary.gray}`,
+
+    '& .MuiTypography-root': {
+        fontFamily: 'Inter',
+        fontSize: '14px',
+        lineHeight: 'normal',
+        fontWeight: '400',
+        padding: 0
+    },
     '&:hover': {
         backgroundColor: theme.palette.secondary.main,
         color: 'white',
@@ -134,20 +142,32 @@ const TabSimplee = styled(Box)(({ theme }) => ({
         color: theme.palette.secondary.text
     }
 }))
-export const Tabs = ({ children, mb, w, jc }) => {
-    return (<TabsComp
 
-        sx={{ py: 1, mb: mb, width: w ? w : '100%', justifyContent: jc ? jc : 'unset' }}
-    >{children}</TabsComp>)
+export const Tabs = ({ children, mb, w, jc }) => {
+    return (
+        <TabsComp
+            sx={{ py: 1, mb: mb, width: w ? w : '100%', justifyContent: jc ? jc : 'unset' }}
+        >
+            {children}
+        </TabsComp>
+    )
 }
 export const Tab = ({ text, onClick, id, selected, icon }) => {
-    return (<TabComp
-        sx={{ backgroundColor: selected ? 'primary.main' : 'secondary.bg', color: selected ? 'white' : 'secondary.text' }}
-        id={id} onClick={onClick}>
-        {icon ? icon : undefined}
-        &nbsp;
-        {text}
-    </TabComp>)
+    return (
+        <TabComp
+            sx={
+                selected ? { backgroundColor: 'primary.main', color: 'white', boxShadow: ' 0px 0px 5px 1px rgba(0, 0, 0, 0.25)', }
+                    : { backgroundColor: 'secondary.bg', color: 'primary.darkGray', boxShadow: '0px 0px 4px 1px rgba(0, 0, 0, 0.25) inset',}
+            }
+            id={id}
+            onClick={onClick}
+        >
+            {icon ? icon : undefined}
+            <Typography sx={{ pointerEvents: 'none' }}>
+                {text}
+            </Typography>
+        </TabComp>
+    )
 }
 export const SubTabs = ({ children, mb, w, jc }) => {
     return (<SubTabsComp
@@ -176,39 +196,46 @@ export const TabSimple = ({ text, onClick, id, selected }) => {
         {text}
     </TabSimplee>)
 }
-export const MyInput = ({ icon, text, id, label, width, onChange, borderColor, type, extraIcon, value }) => {
-    return (<Inputt sx={{ width: width ? width : '200px', border: '1px solid', py: '5px', borderColor: borderColor ? borderColor : '#DEDEDE' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', }}>
-            <Box sx={{ ml: '16px' }}>
-                {icon ? icon : undefined}
+export const MyInput = ({ icon, textColor, labelColor, py, id, label, width, onChange, borderColor, type, extraIcon, value, placeholder }) => {
+    return (
+        <Inputt sx={{ width: width ? width : '200px', border: '1px solid', py: py ? py : '5px', borderColor: borderColor ? borderColor : '#DEDEDE' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', }}>
+                <Box sx={{ ml: '16px' }}>
+                    {icon ? icon : undefined}
+                </Box>
+                <TextField
+                    sx={{ alignSelf: 'center', alignItems: 'center', display: 'flex', width: '100%' }}
+                    value={value}
+                    placeholder={placeholder}
+                    id={id}
+                    label={label}
+                    variant="standard"
+                    onChange={onChange}
+                    autoComplete="off"
+                    type={type}
+                    InputProps={{
+                        disableUnderline: true,
+                        sx: {
+                            color: textColor ? textColor : 'primary.gray', width: '100%', alignSelf: 'center',
+                            "&:-webkit-autofill": {
+                                webkitboxshadow: "0 0 0 1000px white inset"
+                            }
+                        }
+                    }}
+                    InputLabelProps={{
+                        sx: {
+                            color: labelColor ? labelColor : 'primary.text', [`&.${inputLabelClasses.shrink}`]: {
+                                // set the color of the label when shrinked (usually when the TextField is focused)
+                                color: labelColor ? labelColor : "primary.text"
+                            }
+                        }
+                    }}
+                />
             </Box>
-            <TextField
-                autoComplete="off"
-                type={type}
-                InputProps={{
-                    disableUnderline: true,
-                    sx: {
-                        color: 'primary.gray', width: '100%', alignSelf: 'center',
-                        "&:-webkit-autofill": {
-                            webkitboxshadow: "0 0 0 1000px white inset"
-                        }
-                    }
-                }}
-                InputLabelProps={{
-                    sx: {
-                        color: 'primary.text', [`&.${inputLabelClasses.shrink}`]: {
-                            // set the color of the label when shrinked (usually when the TextField is focused)
-                            color: "primary.text"
-                        }
-                    }
-                }}
-                id={id}
-                sx={{ alignSelf: 'center', alignItems: 'center', display: 'flex', width: '100%' }} label={label} variant="standard" onChange={onChange} />
-        </Box>
-        <Box sx={{ mr: '16px' }}>
-            {extraIcon ? extraIcon : undefined}
-        </Box>
-    </Inputt>
+            <Box sx={{ mr: '16px' }}>
+                {extraIcon ? extraIcon : undefined}
+            </Box>
+        </Inputt>
     )
 
 }

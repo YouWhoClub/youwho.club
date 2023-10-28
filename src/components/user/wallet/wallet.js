@@ -17,13 +17,17 @@ import gift from '../../../assets/gift-open-outline.svg'
 import giftOpen from '../../../assets/gift-outline.svg'
 import giftWhite from '../../../assets/gift-open-outline-white.svg'
 import giftOpenWhite from '../../../assets/gift-outline-white.svg'
+import { ToastContainer } from 'react-toastify';
+import { Tab, Tabs } from "../../utils";
 // import yWhite from './w-outline.svg'
 
 const ShowPanel = styled(Box)(({ theme }) => ({
     marginTop: '50px', width: '100%',
     marginBottom: '20px',
     display: 'flex',
+    flexDirection:'column',
     justifyContent: 'space-between',
+    alignItems:'center'
 }))
 const Panel = styled(Box)(({ theme }) => ({
     color: 'primary.text',
@@ -32,28 +36,36 @@ const Panel = styled(Box)(({ theme }) => ({
     display: 'flex', flexDirection: 'column', alignItems: 'center',
     // boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)',
 }))
-const Tab = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    color: '#787878',
-    backgroundColor: '#fff',
-    cursor: 'pointer',
-    padding: '10px 22px 10px 18px',
-    whiteSpace: 'nowrap',
-    borderRadius: '30px',
-    lineHeight: 'normal',
-    boxShadow: ' 0px 0px 4px 1px rgba(0, 0, 0, 0.25) inset',
-    border: '1px solid #DEDEDE',
-    '&.active': {
-        boxShadow: ' 0px 0px 5px 1px rgba(0, 0, 0, 0.25)',
-        backgroundColor: '#6A2ABE',
-        color: '#fff',
+// const Tab = styled(Box)(({ theme }) => ({
+//     display: 'flex',
+//     alignItems: 'center',
+//     color: '#787878',
+//     backgroundColor: '#fff',
+//     cursor: 'pointer',
+//     padding: '10px 22px 10px 18px',
+//     whiteSpace: 'nowrap',
+//     borderRadius: '30px',
+//     lineHeight: 'normal',
+//     boxShadow: ' 0px 0px 4px 1px rgba(0, 0, 0, 0.25) inset',
+//     border: '1px solid #DEDEDE',
 
-        '& .MuiTypography-root': {
-            color: '#fff'
-        }
-    }
-}))
+//     '& .MuiTypography-root': {
+//         fontFamily: 'Inter',
+//         fontSize: '14px',
+//         color: '#787878',
+//         lineHeight: 'normal',
+//         fontWeight: '400'
+//     },
+//     '&.active': {
+//         boxShadow: ' 0px 0px 5px 1px rgba(0, 0, 0, 0.25)',
+//         backgroundColor: '#6A2ABE',
+//         color: '#fff',
+
+//         '& .MuiTypography-root': {
+//             color: '#fff'
+//         }
+//     }
+// }))
 
 
 const Wallet = ({ privateKey }) => {
@@ -61,6 +73,7 @@ const Wallet = ({ privateKey }) => {
     const [keyCopied, setKeyCopied] = useState(false)
     const [idCopied, setIdCopied] = useState(false)
     const [state, setState] = useState('charge-wallet')
+
     const copyToClipBoard = async (textToCopy) => {
         try {
             await navigator.clipboard.writeText(textToCopy);
@@ -88,14 +101,6 @@ const Wallet = ({ privateKey }) => {
             width: { xs: '100%', sm: 'calc(100% - 80px)' }, color: 'primary.text'
         }}>
 
-            {/* <Box sx={{
-            width: { xs: '100%', sm: 'calc(100% - 80px)' }, display: 'flex'
-        }}>
-            <Box sx={{
-                px: 1, display: 'flex',
-                flexDirection: 'column',
-                width: '100%'
-            }}> */}
             <Box
                 sx={{
                     width: '490px',
@@ -147,7 +152,7 @@ const Wallet = ({ privateKey }) => {
                                 </span>
                             </>
                                 :
-                                undefined}  */}
+                                undefined} */}
                     </Box>
 
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', px: 2, gap: '6px' }}>
@@ -159,8 +164,8 @@ const Wallet = ({ privateKey }) => {
                 </Box>
             </Box>
 
-            <ShowPanel sx={{ flexDirection: { xs: 'column' } }}>
-                <Box sx={{
+            <ShowPanel>
+                {/* <Box sx={{
                     width: '100%',
                     display: 'flex',
                     justifyContent: 'center',
@@ -171,39 +176,75 @@ const Wallet = ({ privateKey }) => {
                     }}>
                         <Tab onClick={() => { setState('charge-wallet') }} className={state == 'charge-wallet' && 'active'}>
                             <ArrowDownward size="16px" sx={{ mr: '4px' }} />
-                            <Typography sx={{ fontSize: '14px', color: '#787878', lineHeight: 'normal' }}>
+                            <Typography>
                                 Charge Wallet
                             </Typography>
                         </Tab>
                         <Tab onClick={() => { setState('withdraw') }} className={state == 'withdraw' && 'active'}>
                             <ArrowUpward size="16px" sx={{ mr: '4px' }} />
-                            <Typography sx={{ fontSize: '14px', color: '#787878', lineHeight: 'normal' }}>
+                            <Typography>
                                 Withdraw
                             </Typography>
                         </Tab>
                         <Tab onClick={() => { setState('transfer') }} className={state == 'transfer' && 'active'}>
-                            <Box sx={{ width: '20px', height: '20px', mr: '7px', backgroundImage: () => state == 'transfer' ? BG_URL(PUBLIC_URL(`${giftWhite}`)) : BG_URL(PUBLIC_URL(`${gift}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />
-                            <Typography sx={{ fontSize: '14px', color: '#787878', lineHeight: 'normal' }}>
+                            <Box sx={{ width: '20px', height: '20px', mr: '7px', backgroundImage: () => state == 'transfer' ? BG_URL(PUBLIC_URL(`${giftOpenWhite}`)) : BG_URL(PUBLIC_URL(`${giftOpen}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />
+                            <Typography>
                                 Transfer NFT Gift
                             </Typography>
                         </Tab>
                         <Tab onClick={() => { setState('claim') }} className={state == 'claim' && 'active'}>
-                            <Box sx={{ width: '20px', height: '20px', mr: '7px', backgroundImage: () => state == 'claim' ? BG_URL(PUBLIC_URL(`${giftOpenWhite}`)) : BG_URL(PUBLIC_URL(`${giftOpen}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />
-                            <Typography sx={{ fontSize: '14px', color: '#787878', lineHeight: 'normal' }}>
+                            <Box sx={{ width: '20px', height: '20px', mr: '7px', backgroundImage: () => state == 'claim' ? BG_URL(PUBLIC_URL(`${giftWhite}`)) : BG_URL(PUBLIC_URL(`${gift}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />
+                            <Typography>
                                 Claim NFT Gift
                             </Typography>
                         </Tab>
                         <Tab onClick={() => { setState('turnover') }} className={state == 'turnover' && 'active'}>
                             <Sync size="16px" sx={{ mr: '4px' }} />
-                            <Typography sx={{ fontSize: '14px', color: '#787878', lineHeight: 'normal' }}>
+                            <Typography>
                                 Turnover
                             </Typography>
                         </Tab>
-
                     </Box>
-                </Box>
+                </Box> */}
 
-                <Panel sx={{ width: '100%' , pt:'26px'}}>
+                <Tabs jc={'center'} w={'70%'}>
+                    <Tab
+                        icon={<ArrowDownward size="16px" sx={{ mr: '4px', pointerEvents: 'none' }} />}
+                        text={`Charge Wallet`}
+                        id={"charge-wallet"}
+                        onClick={(e) => setState(e.target.id)}
+                        selected={state == 'charge-wallet'}
+                    />
+                    <Tab
+                        icon={<ArrowUpward size="16px" sx={{ mr: '4px', pointerEvents: 'none' }} />}
+                        text={`Withdraw`} id={"withdraw"}
+                        onClick={(e) => setState(e.target.id)}
+                        selected={state == 'withdraw'}
+                    />
+                    <Tab
+                        icon={<Box sx={{ width: '20px', height: '20px', mr: '7px', pointerEvents: 'none', backgroundImage: () => state == 'transfer' ? BG_URL(PUBLIC_URL(`${giftOpenWhite}`)) : BG_URL(PUBLIC_URL(`${giftOpen}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />}
+                        text={`Transfer NFT Gift`}
+                        id={"transfer"}
+                        onClick={(e) => setState(e.target.id)}
+                        selected={state == 'transfer'}
+                    />
+                    <Tab
+                        icon={<Box sx={{ width: '20px', height: '20px', mr: '7px', pointerEvents: 'none', backgroundImage: () => state == 'claim' ? BG_URL(PUBLIC_URL(`${giftWhite}`)) : BG_URL(PUBLIC_URL(`${gift}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />}
+                        text={`Claim NFT Gift`}
+                        id={"claim"}
+                        onClick={(e) => setState(e.target.id)}
+                        selected={state == 'claim'}
+                    />
+                    <Tab
+                        icon={<Sync size="16px" sx={{ mr: '4px', pointerEvents: 'none' }} />}
+                        text={`Turnover`}
+                        id={"turnover"}
+                        onClick={(e) => setState(e.target.id)}
+                        selected={state == 'turnover'}
+                    />
+                </Tabs>
+
+                <Panel sx={{ width: '100%', pt: '26px' }}>
                     {state == 'charge-wallet' && <ChargeWallet />}
                     {state == 'withdraw' && <WithdrawPanel />}
                     {state == 'transfer' && <TransferGift />}
@@ -211,6 +252,7 @@ const Wallet = ({ privateKey }) => {
                     {state == 'turnover' && <UnpaidCheckouts />}
                 </Panel>
             </ShowPanel>
+            <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick pauseOnFocusLoss pauseOnHover />
         </Box>
         // </Box >
 

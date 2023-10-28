@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 
 
 const Button = styled('button')(({ theme }) => ({
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.secondary.main,
     // width: '100px',
     height: '35px',
     borderRadius: '12px',
@@ -21,7 +21,7 @@ const Button = styled('button')(({ theme }) => ({
 }))
 const ButtonPurple = ({ onClick, text, w, px, disabled }) => {
     return (
-        <Button onClick={onClick} style={{ backgroundColor: disabled ? '#d6d6d6' : '#8B3BBC', width: w ? w : '100px', paddingLeft: px ? px : 'unset', paddingRight: px ? px : 'unset' }}>
+        <Button onClick={onClick} style={{ backgroundColor: disabled ? '#d6d6d6' : 'secondary.main', width: w ? w : '100px', paddingLeft: px ? px : 'unset', paddingRight: px ? px : 'unset' }}>
             {text}
         </Button>
     );
