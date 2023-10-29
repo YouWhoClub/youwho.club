@@ -11,12 +11,12 @@ import { BG_URL, PUBLIC_URL } from "../../utils/utils";
 
 const ProPic = styled(Box)(({ theme }) => ({
     display: 'flex', alignItems: 'center',
-    borderRadius: '50%', justifyContent: 'center', backgroundRepeat: 'no-repeat',transition:'500ms ease'
+    borderRadius: '50%', justifyContent: 'center', backgroundRepeat: 'no-repeat', transition: '500ms ease'
 }))
 const ProBanner = styled(Box)(({ theme }) => ({
     borderRadius: '24px',
     display: 'flex', alignItems: 'center',
-    boxShadow: theme.palette.primary.boxShadow,transition:'500ms ease'
+    boxShadow: theme.palette.primary.boxShadow, transition: '500ms ease'
 }))
 const ProfileCard = ({ username, youwhoID }) => {
     const globalUser = useSelector(state => state.userReducer)
@@ -57,16 +57,22 @@ const ProfileCard = ({ username, youwhoID }) => {
         &nbsp;
         &nbsp;
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', color: 'white' }}>
-            <p style={{
-                //  textShadow: '4px 5px 6px rgba(231,193,255,1)',
-                fontWeight: 600, color: 'white'
+            <Typography sx={{
+                fontWeight: 700, color: 'white', fontSize: { xs: '18px', sm: '20px' }
             }}>
-                Welcome <span style={{ fontWeight: 700, fontSize: '20px' }}>{globalUser.cid ? globalUser.username : globalUser.identifier}</span>
-            </p>
+                {globalUser.cid ? globalUser.username : globalUser.identifier}
+            </Typography>
             {youwhoID ?
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                    <Typography sx={{ fontWeight: 700 }}>YouWho ID :</Typography> <Typography onClick={() => copyIdToClipBoard(youwhoID)}
-                        sx={{ cursor: 'pointer', fontSize: { xs: '12px', sm: '14px' } }}>{youwhoID}</Typography>
+                    <Typography sx={{ fontWeight: 500 , fontSize: { xs: '14px', sm: '16px' } }}>YouWho ID :</Typography>
+                    <Typography onClick={() => copyIdToClipBoard(youwhoID)}
+                        sx={{ cursor: 'pointer', fontSize: { xs: '12px', sm: '14px' }, display: { xs: 'none', sm: 'block' } }}>
+                        {youwhoID}
+                    </Typography>
+                    <Typography onClick={() => copyIdToClipBoard(youwhoID)}
+                        sx={{ cursor: 'pointer', fontSize: { xs: '12px', sm: '14px' }, display: { xs: 'block', sm: 'none' } }}>
+                        {shorten(youwhoID)}
+                    </Typography>
                     <TickSquare style={{ size: { xs: '10px', sm: '16px' }, display: idCopied ? 'block' : 'none', color: '#0Cb2B1' }} />
                 </Box>
                 : undefined}

@@ -103,8 +103,8 @@ const TabComp = styled(Box)(({ theme }) => ({
         color: 'white',
     },
     "@media (max-width: 1100px)": {
-    fontSize: '12px',
-    padding: '5px 10px',
+        fontSize: '12px',
+        padding: '5px 10px',
     },
     "@media (max-width: 600px)": {
     },
@@ -115,16 +115,17 @@ const SubTabsComp = styled(Box)(({ theme }) => ({
 const SubTabComp = styled(Box)(({ theme }) => ({
     cursor: 'pointer',
     borderRadius: '30px', fontSize: '12px', border: '1px solid', borderColor: theme.palette.primary.light,
-    margin: '1px 3px',
+    margin: '2px 4px',
     padding: '5px 20px',
     width: 'max-content',
-    height: '20px', textAlign: 'center',
+    // height: '20px',
+    textAlign: 'center',
     display: 'flex', alignItems: 'center', backgroundColor: theme.palette.secondary.bg,
     '&:hover': {
         borderColor: theme.palette.secondary.light,
     },
     "@media (max-width: 1100px)": {
-        padding: '0px 10px',
+        padding: '5px 10px',
     },
 }))
 const TabsSimplee = styled(Box)(({ theme }) => ({
@@ -143,6 +144,7 @@ const TabSimplee = styled(Box)(({ theme }) => ({
     }
 }))
 
+//-------------------- ^ styles -------- comps > -------------------- //
 export const Tabs = ({ children, mb, w, jc }) => {
     return (
         <TabsComp
@@ -156,8 +158,8 @@ export const Tab = ({ text, onClick, id, selected, icon }) => {
     return (
         <TabComp
             sx={
-                selected ? { backgroundColor: 'primary.main', color: 'white', boxShadow: ' 0px 0px 5px 1px rgba(0, 0, 0, 0.25)', }
-                    : { backgroundColor: 'secondary.bg', color: 'primary.darkGray', boxShadow: '0px 0px 4px 1px rgba(0, 0, 0, 0.25) inset',}
+                selected ? { backgroundColor: 'primary.main', color: 'white', boxShadow: localStorage.getItem('theme') == 'light' ? '0px 0px 6px 1px rgba(0, 0, 0, 0.25)' : '0px 0px 4px 1px rgba(227,209,231,0.9)', }
+                    : { backgroundColor: 'secondary.bg', color: 'secondary.text', boxShadow: localStorage.getItem('theme') == 'light' ? '0px 0px 4px 1px rgba(0, 0, 0, 0.25) inset' : 'inset 0px 0px 4px 1px rgba(227,209,231,0.9)' }
             }
             id={id}
             onClick={onClick}
@@ -177,7 +179,10 @@ export const SubTabs = ({ children, mb, w, jc }) => {
 }
 export const SubTab = ({ text, onClick, id, selected, icon }) => {
     return (<SubTabComp
-        sx={{ boxShadow: selected ? '0px 0px 4px 0px #8B3BBC' : 'unset', color: selected ? 'primary.main' : 'secondary.text', }}
+        sx={{
+            boxShadow: selected ? '0px 0px 4px 0px #8B3BBC' : 'unset',
+            color: selected ? 'primary.main' : 'secondary.text',
+        }}
         id={id} onClick={onClick}>
         {icon ? icon : undefined}
         &nbsp;
@@ -471,7 +476,7 @@ export const ReactionCard = ({ active, passive, action, nftName, nftImage, usern
     const navigate = useNavigate()
     return (
         <ClickAwayListener onClickAway={handleClickAway}>
-            <Box sx={{ width: '100%', my: 1, height: '110px' }}>
+            <Box sx={{ width: '100%', my: 1, height: { xs: '100px', sm: '110px' } }}>
                 <RelationCardComp>
                     <FlexRow>
                         <Box sx={{

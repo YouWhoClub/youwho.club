@@ -16,6 +16,7 @@ const Bar = styled(Box)(({ theme }) => ({
     height: 'max-content', backgroundColor: theme.palette.secondary.bg,
     borderRadius: '24px', marginBottom: '20px',
     boxShadow: theme.palette.primary.boxShadow, overflow: 'hidden',
+    transition:'500ms ease'
 }))
 const Title = styled(Box)`
 display: flex;
@@ -192,9 +193,11 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
     }
 
     return (
-        <Bar sx={{
-            width: { xs: '100%', md: '325px' },
-        }}>
+        <Bar
+            id="dash-bar"
+            sx={{
+                width: { xs: '100%', md: '325px' },
+            }}>
             <Box sx={{
                 display: 'flex', flexDirection: 'column', alignItems: 'center', p: 1
             }}>

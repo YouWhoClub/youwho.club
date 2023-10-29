@@ -17,7 +17,7 @@ import DashBar from "../components/dashboard/DashBar.js";
 import Selection from "../components/selection";
 import ProfilePanel from "../components/dashboard/profilePanel";
 import { ToastContainer } from 'react-toastify';
-
+import '../index.css'
 const Avatarr = styled(Box)(({ theme }) => ({
     width: '100px',
     height: '100px',
@@ -80,23 +80,28 @@ const Dashboard = ({ switchTheme, theme }) => {
     const listenScrollEvent = e => {
         let card = window.document.getElementById('profile-card')
         let pic = window.document.getElementById('profile-pic')
+        let dashbar = window.document.getElementById('dash-bar')
         let insidePanel = window.document.getElementById('scrollable-profile-panel-inside')
-        if (window.document.getElementById("scrollable-profile-panel").scroll > '300px' || window.document.getElementById("scrollable-profile-panel-inside").scroll > '1px') {
-            card.style.height = '100px'
-            pic.style.height = '50px'
-            pic.style.width = '50px'
-            insidePanel.style.overflowY = 'scroll'
+        let outsidePanel = window.document.getElementById('scrollable-profile-panel')
+        if (window.document.getElementById("scrollable-profile-panel").scrollTop > '10px') {
+            card.classList.add("profileBannerAfterScroll")
+            pic.classList.add("profilePicAfterScroll")
+            dashbar.classList.add("dashbarAfterScroll")
+            insidePanel.classList.add("insidePanelAfterScroll")
         }
-        else {
-            card.style.height = '250px'
-            pic.style.height = '100px'
-            pic.style.width = '100px'
-            insidePanel.style.overflowY = 'hidden'
-        }
+
+        // if (window.document.getElementById("scrollable-profile-panel-inside").scrollTop < '100px') {
+        //     console.log('else')
+        //     card.classList.remove("profileBannerAfterScroll")
+        //     pic.classList.remove("profilePicAfterScroll")
+        //     dashbar.classList.remove("dashbarAfterScroll")
+        //     insidePanel.classList.remove("insidePanelAfterScroll")
+        // }
     }
 
     useEffect(() => {
         window.document.getElementById("scrollable-profile-panel").addEventListener('scroll', listenScrollEvent)
+        window.document.getElementById("scrollable-profile-panel-inside").addEventListener('scroll', listenScrollEvent)
     }, [])
 
 

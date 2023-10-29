@@ -24,3 +24,17 @@ h6 {
 .MuiTypography-root{
   font-family: "Josefin Sans", sans-serif;
 }
+
+.profileBannerAfterScroll{
+  height: 100px !important;
+}
+.profilePicAfterScroll{
+  height: 50px !important;
+  width: 50px !important;
+}
+.dashbarAfterScroll{
+  display: none !important;
+}
+.insidePanelAfterScroll{
+  overflow-y: scroll !important;
+}
