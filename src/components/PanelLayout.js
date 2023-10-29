@@ -57,13 +57,17 @@ const PanelLayout = ({ switchTheme, theme, children, id }) => {
             <Box sx={{
                 display: 'flex', marginTop: '20%', height: '50%',
                 alignItems: 'center', justifyContent: 'center', flexDirection: 'column',
-                backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundImage: BG_URL(PUBLIC_URL(`${bgDots}`)),
+                backgroundSize: 'contain', backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center', backgroundImage: BG_URL(PUBLIC_URL(`${bgDots}`)),
             }}>
                 <Title>You Have to Login First</Title>
                 <ButtonPurple text={'login'} onClick={() => navigate('/auth')} />
             </Box>
             :
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: { xs: 'start', sm: 'end' }, flexDirection: { xs: 'column', sm: 'row' } }}>
+            <Box sx={{
+                display: 'flex', alignItems: 'center',
+                justifyContent: { xs: 'start', sm: 'end' }, flexDirection: { xs: 'column', sm: 'row' }
+            }}>
                 <Bar />
                 {children}
             </Box>

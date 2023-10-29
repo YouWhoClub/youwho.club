@@ -21,20 +21,23 @@ h6 {
   font-family: "Josefin Sans", sans-serif;
 }
 
-.MuiTypography-root{
+.MuiTypography-root {
   font-family: "Josefin Sans", sans-serif;
 }
 
-.profileBannerAfterScroll{
+.profileBannerAfterScroll {
   height: 100px !important;
 }
-.profilePicAfterScroll{
+.profilePicAfterScroll {
   height: 50px !important;
   width: 50px !important;
 }
-.dashbarAfterScroll{
+.dashbarAfterScroll {
   display: none !important;
 }
-.insidePanelAfterScroll{
+.insidePanelAfterScroll {
   overflow-y: scroll !important;
+}
+.dashAfterScroll {
+  height: calc(100vh - 60px) !important;
 }

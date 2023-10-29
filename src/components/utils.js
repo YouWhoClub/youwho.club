@@ -476,22 +476,40 @@ export const ReactionCard = ({ active, passive, action, nftName, nftImage, usern
     const navigate = useNavigate()
     return (
         <ClickAwayListener onClickAway={handleClickAway}>
-            <Box sx={{ width: '100%', my: 1, height: { xs: '100px', sm: '110px' } }}>
+            <Box sx={{ width: '100%', my: 1, height: '110px' }}>
                 <RelationCardComp>
                     <FlexRow>
                         <Box sx={{
                             backgroundImage: BG_URL(PUBLIC_URL(`${nftImage}`)),
                             backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
-                            , width: '80px', height: '80px', borderRadius: '18px'
+                            , width: { xs: '60px', sm: '80px' }, height: { xs: '60px', sm: '80px' }, borderRadius: '18px'
                         }}
                         />
                         &nbsp;
                         &nbsp;
                         &nbsp;
                         <FlexColumn>
-                            <Typography sx={{ fontWeight: 700 }}>{action}</Typography>
-                            <Typography sx={{ fontWeight: 400 }}>{active}&nbsp;{action}&nbsp;on&nbsp;{passive}'s NFT Named {nftName}</Typography>
-                            <Typography sx={{ fontWeight: 400, color: 'primary.gray' }}>{date}</Typography>
+                            <Typography
+                                sx={{
+                                    textTransform: 'capitalize',
+                                    fontWeight: 700,
+                                    fontSize: { xs: '10px', sm: '14px', md: '16px' }
+                                }}>
+                                {action}</Typography>
+                            <Typography
+                                sx={{
+                                    textTransform: 'capitalize',
+                                    fontWeight: 400,
+                                    fontSize: { xs: '10px', sm: '14px', md: '16px' }
+                                }}>
+                                {active}&nbsp;{action}&nbsp;on&nbsp;{passive}'s NFT Named {nftName}</Typography>
+                            <Typography
+                                sx={{
+                                    textTransform: 'capitalize',
+                                    fontWeight: 400,
+                                    color: 'primary.gray', fontSize: { xs: '10px', sm: '14px', md: '16px' }
+                                }}>
+                                {date}</Typography>
                         </FlexColumn>
                     </FlexRow>
                     <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} />

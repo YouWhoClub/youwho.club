@@ -96,7 +96,14 @@ const Title = styled('h4')(({ theme }) => ({
 }))
 
 const Auth = () => {
-    const [authState, setAuthState] = useState('signin')
+    console.log(window.location.hash.replace('#', ''))
+    const [authState, setAuthState] = useState(window.location.hash.replace('#', ''))
+
+    const handleSlide = (e) => {
+        setAuthState(e.target.id)
+        window.location.hash = `#${e.target.id}`
+
+    }
     return (
         <AuthLayout>
             {/* <Box sx={{
@@ -114,16 +121,18 @@ const Auth = () => {
                 }}>
                     <Slider>
                         <ChangeSlide
+                            id="signin"
                             sx={{
                                 bgcolor: authState == 'signin' ? 'white' : "transparent",
                                 color: authState == 'signin' ? 'black' : "primary.darkGray"
-                            }} onClick={() => setAuthState('signin')}>
+                            }} onClick={handleSlide}>
                             Sign In</ChangeSlide>
                         <ChangeSlide
+                            id="signup"
                             sx={{
                                 bgcolor: authState == 'signup' ? 'white' : "transparent",
                                 color: authState == 'signup' ? 'black' : "primary.darkGray"
-                            }} onClick={() => setAuthState('signup')}>
+                            }} onClick={handleSlide}>
                             Sign Up</ChangeSlide>
                     </Slider>
                     {authState == 'signin' ?

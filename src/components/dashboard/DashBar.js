@@ -209,7 +209,8 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
                             </div>
                             <Close fontSize='16px' cursor='pointer' onClick={() => setEditProfile(false)} />
                         </Box>
-                        <Accordion sx={{
+                        <Accordion 
+                        sx={{
                             my: 1,
                             width: '100%',
                             bgcolor: 'secondary.bg',

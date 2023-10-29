@@ -82,21 +82,28 @@ const Dashboard = ({ switchTheme, theme }) => {
         let pic = window.document.getElementById('profile-pic')
         let dashbar = window.document.getElementById('dash-bar')
         let insidePanel = window.document.getElementById('scrollable-profile-panel-inside')
-        let outsidePanel = window.document.getElementById('scrollable-profile-panel')
-        if (window.document.getElementById("scrollable-profile-panel").scrollTop > '10px') {
+        let outsidePanel = window.document.getElementById('dash')
+        if (window.document.getElementById("scrollable-profile-panel").scrollTop > 0) {
             card.classList.add("profileBannerAfterScroll")
             pic.classList.add("profilePicAfterScroll")
             dashbar.classList.add("dashbarAfterScroll")
             insidePanel.classList.add("insidePanelAfterScroll")
+            outsidePanel.classList.add("dashAfterScroll")
+            if (window.document.getElementById("scrollable-profile-panel-inside").scrollTop < '10px') {
+                card.classList.remove("profileBannerAfterScroll")
+                pic.classList.remove("profilePicAfterScroll")
+                dashbar.classList.remove("dashbarAfterScroll")
+                insidePanel.classList.remove("insidePanelAfterScroll")
+                outsidePanel.classList.remove("dashAfterScroll")
+            }
         }
-
-        // if (window.document.getElementById("scrollable-profile-panel-inside").scrollTop < '100px') {
-        //     console.log('else')
-        //     card.classList.remove("profileBannerAfterScroll")
-        //     pic.classList.remove("profilePicAfterScroll")
-        //     dashbar.classList.remove("dashbarAfterScroll")
-        //     insidePanel.classList.remove("insidePanelAfterScroll")
-        // }
+        else {
+            card.classList.remove("profileBannerAfterScroll")
+            pic.classList.remove("profilePicAfterScroll")
+            dashbar.classList.remove("dashbarAfterScroll")
+            insidePanel.classList.remove("insidePanelAfterScroll")
+            outsidePanel.classList.remove("dashAfterScroll")
+        }
     }
 
     useEffect(() => {
@@ -111,12 +118,14 @@ const Dashboard = ({ switchTheme, theme }) => {
             <Box sx={{
                 width: { xs: '90%', sm: 'calc(100% - 80px)' }, display: 'flex'
             }}>
-                <Box sx={{
-                    px: { xs: 'none', sm: 1 },
-                    display: 'flex',
-                    flexDirection: 'column',
-                    width: '100%', mt: 1
-                }}>
+                <Box
+                    id="dash"
+                    sx={{
+                        px: { xs: 'none', md: 1 },
+                        display: 'flex',
+                        flexDirection: 'column',
+                        width: '100%', mt: 1, height: 'auto'
+                    }}>
                     {globalUser.isLoggedIn ?
                         <>
                             <ProfileCard username={globalUser.username} youwhoID={globalUser.youwhoID} />
