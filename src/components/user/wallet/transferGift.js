@@ -1,10 +1,14 @@
-import { Box, Typography, Select, MenuItem, InputLabel, FormControl, Modal } from "@mui/material";
-import { Close } from '@mui/icons-material'
+import { Box, Typography, Select, MenuItem, InputLabel, FormControl, Modal, TextField, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
+import { Close, FormatTextdirectionLToRTwoTone } from '@mui/icons-material'
 import styled from "@emotion/styled";
 import { useRef, useState } from "react";
 import MediaTypeIcon from '../../../assets/icons/media-type.svg'
 import frameIcon from '../../../assets/icons/frame.svg'
 import fileIcon from '../../../assets/icons/upload-file.svg'
+import CoinsIcon from '../../../assets/icons/coins.svg'
+import NameIcon from '../../../assets/icons/name.svg'
+import TextIcon from '../../../assets/icons/text.svg'
+import IDIcon from '../../../assets/icons/id.svg'
 import { BG_URL, PUBLIC_URL } from "../../../utils/utils";
 import Crop from '../../crop/Crop'
 import { MyInput } from '../../utils'
@@ -34,6 +38,7 @@ const Icon = styled(Box)(({ theme, url, w, h }) => ({
     pointerEvents: 'none'
 }))
 const Button = styled('button')(({ theme }) => ({
+    width: '350px',
     backgroundColor: '#7C42C7',
     padding: '12px 36px',
     borderRadius: '12px',
@@ -42,7 +47,11 @@ const Button = styled('button')(({ theme }) => ({
     cursor: 'pointer',
     border: 'none',
     fontFamily: `"Josefin Sans", "Inter", sans-serif`,
-    fontSize: '16px'
+    fontSize: '16px',
+
+    '&:disabled': {
+        backgroundColor: theme.palette.primary.gray
+    }
 }))
 const FlexRow = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -55,6 +64,11 @@ const TransferGift = () => {
     const [mediaType, setMediaType] = useState('image, .png')
     const [aspectRatio, setAspectRatio] = useState(16 / 9)
     const [openCrop, setOpenCrop] = useState(false)
+    const [tokenAmount, setTokenAmount] = useState(0)
+    const [NFTName, setNFTName] = useState(null)
+    const [NFTDescription, setNFTDescription] = useState(null)
+    const [recipientUsername, setRecipientUsername] = useState(null)
+    const [checked, setChecked] = useState(false)
     const imageInput = useRef()
     const [file, setFile] = useState(null);
     const [photoURL, setPhotoURL] = useState(null);
@@ -76,11 +90,13 @@ const TransferGift = () => {
             </Box>
 
             <Card>
-                <Typography sx={{ color: 'primary.text', textAlign: 'center', fontSize: '20px', lineHeight: 'normal', fontWeight: '400' }}>Upload Your NFT</Typography>
-                <Typography sx={{ fontFamily: 'Inter', color: '#787878', textAlign: 'center', fontSize: '12px', lineHeight: 'normal', fontWeight: '400' }}>You Can Upload NFT in Various Types & Sizes</Typography>
+                <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', pt: '10px' }}>
+                    <Typography sx={{ color: 'primary.text', textAlign: 'center', fontSize: '20px', lineHeight: 'normal', fontWeight: '400' }}>Upload Your NFT</Typography>
+                    <Typography sx={{ fontFamily: 'Inter', color: '#787878', textAlign: 'center', fontSize: '12px', lineHeight: 'normal', fontWeight: '400' }}>You Can Upload NFT in Various Types & Sizes</Typography>
+                </Box>
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px' }}>
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', p: '10px' }}>
-                        <FormControl sx={{ width: '314px' }}>
+                        <FormControl sx={{ width: '326px' }}>
                             <Icon url={MediaTypeIcon} w={27} h={27} sx={{ position: 'absolute', top: '12px', left: '10px', }} />
                             <InputLabel sx={{ color: '#000' }} id="media-type-label">Your NFT Type</InputLabel>
                             <Select
@@ -108,7 +124,7 @@ const TransferGift = () => {
                         <Box
                             sx={{
                                 height: '56px',
-                                width: '314px',
+                                width: '326px',
                                 boxSizing: 'border-box',
                                 border: 1,
                                 borderColor: 'primary.gray',
@@ -121,12 +137,12 @@ const TransferGift = () => {
                                 justifyContent: 'space-between',
                             }}>
                             <Icon url={fileIcon} w={27} h={27} sx={{ position: 'absolute', top: '12px', left: '10px', }} />
-                            <Typography sx={{ fontSize: '15px' }}>Upload NFT File</Typography>
+                            <Typography sx={{ fontSize: '15px' }}>Upload NFT File <Typography sx={{ color: 'primary.main', display: 'inline-block' }}>*</Typography></Typography>
                             <ButtonOutline
                                 onClick={() => imageInput.current.click()}
                                 text={'Browse'} />
                         </Box>
-                        <FormControl sx={{ width: '314px' }}>
+                        <FormControl sx={{ width: '326px' }}>
                             <Icon url={frameIcon} w={27} h={27} sx={{ position: 'absolute', top: '12px', left: '10px', }} />
                             <InputLabel sx={{ color: '#000' }} id="media-type-label">Aspect Ratio</InputLabel>
                             <Select
@@ -145,7 +161,7 @@ const TransferGift = () => {
                     </Box>
                     <Box
                         sx={{
-                            width: `${aspectRatio === 16 / 9 ? 314 : 176}px`,
+                            width: `${aspectRatio === 16 / 9 ? 326 : 176}px`,
                             aspectRatio: `${aspectRatio}`,
                             borderRadius: '12px',
                             backgroundColor: 'primary.gray',
@@ -193,6 +209,145 @@ const TransferGift = () => {
                     </Box>
                 </Modal>
             </Card >
+            <Card>
+                <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', pt: '10px' }}>
+                    <Typography sx={{ color: 'primary.text', textAlign: 'center', fontSize: '20px', lineHeight: 'normal', fontWeight: '400' }}>NFT Informations</Typography>
+                    <Typography sx={{ fontFamily: 'Inter', color: '#787878', textAlign: 'center', fontSize: '12px', lineHeight: 'normal', fontWeight: '400' }}>Tell Us About Your Friend’s NFT Gift</Typography>
+                </Box>
+                <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px' }}>
+                        <FormControl sx={{ width: '326px' }}>
+                            <Icon url={CoinsIcon} w={27} h={27} sx={{ position: 'absolute', top: '14px', left: '10px', }} />
+                            <TextField
+                                required
+                                id="nft-gift-value"
+                                label='NFT Gift Value'
+                                sx={{
+                                    '& .MuiInputBase-input': {
+                                        pl: '45px'
+                                    },
+                                    '& .MuiFormLabel-root': {
+                                        color: 'black'
+                                    },
+                                    '&& .MuiFormLabel-asterisk': {
+                                        color: 'primary.main',
+                                        fontSize: '16px',
+                                    }
+                                }}
+                                value={tokenAmount}
+                                onChange={(e) => setTokenAmount(e.target.value)}
+                            />
+                        </FormControl>
+                        <FormControl sx={{ width: '326px' }}>
+                            <Icon url={NameIcon} w={27} h={27} sx={{ position: 'absolute', top: '14px', left: '10px', }} />
+                            <TextField
+                                required
+                                id="nft-name"
+                                label='NFT Name'
+                                sx={{
+                                    '& .MuiInputBase-input': {
+                                        pl: '45px'
+                                    },
+                                    '& .MuiFormLabel-root': {
+                                        color: 'black',
+                                        pl: '30px'
+                                    },
+                                    '&& .MuiInputLabel-shrink': {
+                                        pl: '0px'
+                                    },
+                                    '&& .MuiFormLabel-asterisk': {
+                                        color: 'primary.main',
+                                        fontSize: '16px',
+                                    }
+                                }}
+                                value={NFTName}
+                                onChange={(e) => setNFTName(e.target.value)}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+                        <FormControl sx={{ width: '100%' }}>
+                            <Icon url={TextIcon} w={27} h={27} sx={{ position: 'absolute', top: '14px', left: '10px', }} />
+                            <TextField
+                                required
+                                fullWidth
+                                id="nft-description"
+                                label='NFT Description'
+                                multiline
+                                maxRows={4}
+                                sx={{
+                                    '& .MuiInputBase-input': {
+                                        pl: '45px'
+                                    },
+                                    '& .MuiFormLabel-root': {
+                                        color: 'black',
+                                        pl: '30px'
+                                    },
+                                    '&& .MuiInputLabel-shrink': {
+                                        pl: '0px'
+                                    },
+                                    '&& .MuiFormLabel-asterisk': {
+                                        color: 'primary.main',
+                                        fontSize: '16px',
+                                    }
+                                }}
+                                value={NFTDescription}
+                                onChange={(e) => setNFTDescription(e.target.value)}
+                            />
+                        </FormControl>
+                    </Box>
+                </Box>
+            </Card >
+            <Card>
+                <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', pt: '10px' }}>
+                    <Typography sx={{ color: 'primary.text', textAlign: 'center', fontSize: '20px', lineHeight: 'normal', fontWeight: '400' }}>Your Friend’s Address</Typography>
+                    <Typography sx={{ fontFamily: 'Inter', color: '#787878', textAlign: 'center', fontSize: '12px', fontWeight: '400' }}>Enter The YouWho Id (Username/Email) of <br />Your Friend To Transfer The NFT Gift To. </Typography>
+                </Box>
+                <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+                    <FormControl sx={{ width: '326px' }}>
+                        <Icon url={IDIcon} w={27} h={27} sx={{ position: 'absolute', top: '14px', left: '10px', }} />
+                        <TextField
+                            id="nft-username"
+                            label='Username / Email'
+                            sx={{
+                                '& .MuiInputBase-input': {
+                                    pl: '45px'
+                                },
+                                '& .MuiFormLabel-root': {
+                                    color: 'black',
+                                    pl: '30px'
+                                },
+                                '&& .MuiInputLabel-shrink': {
+                                    pl: '0px'
+                                }
+                            }}
+                            value={recipientUsername}
+                            onChange={(e) => setRecipientUsername(e.target.value)}
+                        />
+                    </FormControl>
+                </Box>
+                <FormGroup>
+                    <FormControlLabel
+                        required
+                        control={<Checkbox checked={checked} onChange={(e) => setChecked(e.target.checked)} />}
+                        label="I’m Sure About The YouWho Id, I Have Entered."
+                        sx={{
+                            color: 'primary.darkGray',
+                            '& .MuiTypography-root': {
+                                fontSize: '12px',
+                            },
+                            '&& .MuiFormControlLabel-asterisk': {
+                                color: 'primary.main',
+                                fontSize: '16px',
+                            }
+                        }}
+                    />
+                </FormGroup>
+            </Card >
+            <Button
+                disabled={(!file || !mediaType || !aspectRatio || !tokenAmount || !NFTName || !NFTDescription || !recipientUsername || !checked)}
+            >Transfer
+            </Button>
         </Box >
     );
 }
