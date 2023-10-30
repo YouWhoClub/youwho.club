@@ -105,6 +105,8 @@ const TabComp = styled(Box)(({ theme }) => ({
     "@media (max-width: 1100px)": {
         fontSize: '12px',
         padding: '5px 10px',
+        fontSize: '12px',
+        padding: '5px 10px',
     },
     "@media (max-width: 600px)": {
     },
@@ -165,10 +167,10 @@ export const Tab = ({ text, onClick, id, selected, icon }) => {
             onClick={onClick}
         >
             {icon ? icon : undefined}
-            <Typography sx={{ pointerEvents: 'none' }}>
+            < Typography sx={{ pointerEvents: 'none' }}>
                 {text}
-            </Typography>
-        </TabComp>
+            </Typography >
+        </TabComp >
     )
 }
 export const SubTabs = ({ children, mb, w, jc }) => {

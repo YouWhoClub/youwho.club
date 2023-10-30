@@ -2,9 +2,9 @@ import { Box, Typography, Select, MenuItem, InputLabel, FormControl, TextField }
 import { Pin, West } from "@mui/icons-material";
 import styled from "@emotion/styled";
 import { useReducer, useRef, useState } from "react";
-import PinIcon from '../../../assets/pin.svg'
-import MoneyIcon from '../../../assets/money.svg'
-import CoinsIcon from '../../../assets/coins.svg'
+import PinIcon from '../../../assets/icons/pin.svg'
+import MoneyIcon from '../../../assets/icons/money.svg'
+import CoinsIcon from '../../../assets/icons/coins.svg'
 import { BG_URL, PUBLIC_URL } from "../../../utils/utils";
 import Web3 from 'web3';
 import { ToastContainer, toast } from 'react-toastify';
@@ -22,11 +22,11 @@ const Container = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: theme.palette.secondary.bg,
     padding: '12px 18px 18px 18px',
     gap: '40px',
     borderRadius: '18px',
-    boxShadow: '0px 0px 12px 1px rgba(0, 0, 0, 0.25)'
+    boxShadow: theme.palette.primary.boxShadow
 }))
 const Icon = styled(Box)(({ theme, url, w, h }) => ({
     width: `${w}px`,

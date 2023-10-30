@@ -91,8 +91,8 @@ function App() {
         grad: 'linear-gradient(251deg, rgba(111,48,150,1) 33%, rgba(210,166,242,1) 100%)',
         success: '#0Cb2B1',
         error: '#F675A8',
-        boxShadow: '0px 0px 10px -2px rgba(227,209,231,0.7)',
-        boxShadowInset: 'inset 0px 0px 4px 1px rgba(227,209,231,0.9)',
+        boxShadow: '0px 0px 5px 1px rgba(227,209,231,0.7)',
+        boxShadowInset: 'inset 0px 0px 5px 1px rgba(227,209,231,0.7)',
         cardGradient: 'linear-gradient(41deg, rgba(61,0,98,1) 0%, rgba(18,0,28,1) 100%)',
       },
       secondary: {
@@ -114,7 +114,7 @@ function App() {
         footer: '#3D0062',
         success: '#B3E4E6',
         error: '#FA8FBA',
-        boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)',
+        boxShadow: '0px 0px 5px 1px rgba(227,209,231,0.7)',
 
       },
     },
@@ -144,7 +144,7 @@ function App() {
         grad: 'linear-gradient(251deg, rgba(111,48,150,1) 33%, rgba(210,166,242,1) 100%)',
         success: '#0Cb2B1',
         error: '#F675A8',
-        boxShadow: '0px 0px 10px -2px rgba(0,0,0,0.3)',
+        boxShadow: '0px 0px 5px 1px rgba(0, 0, 0, 0.25)',
         boxShadowInset: 'inset 0px 0px 4px 1px rgba(0, 0, 0, 0.25)',
         cardGradient: 'linear-gradient(231deg, rgba(200,200,200,1) 0%, rgba(111,48,150,1) 100%)'
       },
@@ -167,7 +167,7 @@ function App() {
         footer: '#3D0062',
         success: '#B3E4E6',
         error: '#FA8FBA',
-        boxShadow: '0px 0px 9px -2px rgba(0,0,0,0.4)',
+        boxShadow: '0px 0px 5px 1px rgba(0, 0, 0, 0.25)',
 
       },
     },

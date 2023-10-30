@@ -11,12 +11,12 @@ import TransferGift from "./transferGift";
 import PaidCheckouts from "./paidCheckouts";
 import UnpaidCheckouts from "./unpaidCheckouts";
 import yCoin from '../../../assets/Ycoin.svg'
-import Chip from '../../../assets/Chip.svg'
+import Chip from '../../../assets/icons/Chip.svg'
 import cardBackground from '../../../assets/cardBackground.png'
-import gift from '../../../assets/gift-open-outline.svg'
-import giftOpen from '../../../assets/gift-outline.svg'
-import giftWhite from '../../../assets/gift-open-outline-white.svg'
-import giftOpenWhite from '../../../assets/gift-outline-white.svg'
+import gift from '../../../assets/icons/gift-open-outline.svg'
+import giftOpen from '../../../assets/icons/gift-outline.svg'
+import giftWhite from '../../../assets/icons/gift-open-outline-white.svg'
+import giftOpenWhite from '../../../assets/icons/gift-outline-white.svg'
 import { ToastContainer } from 'react-toastify';
 import { Tab, Tabs } from "../../utils";
 // import yWhite from './w-outline.svg'
@@ -25,9 +25,9 @@ const ShowPanel = styled(Box)(({ theme }) => ({
     marginTop: '50px', width: '100%',
     marginBottom: '20px',
     display: 'flex',
-    flexDirection:'column',
+    flexDirection: 'column',
     justifyContent: 'space-between',
-    alignItems:'center'
+    alignItems: 'center'
 }))
 const Panel = styled(Box)(({ theme }) => ({
     color: 'primary.text',
@@ -102,18 +102,18 @@ const Wallet = ({ privateKey }) => {
         }}>
 
             <Box
-                sx={{
+                sx={(theme) => ({
                     width: '490px',
                     height: '250px',
                     backgroundImage: BG_URL(PUBLIC_URL(`${cardBackground}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',
-                    boxShadow: '0px 0px 20px 0px #00000080',
+                    boxShadow: theme.palette.primary.boxShadow,
                     borderRadius: '24px',
                     display: 'flex',
                     alignItems: 'center',
                     p: '24px 24px 24px 24px', mt: 3,
                     flexDirection: 'column', justifyContent: 'space-between',
                     color: '#FFF'
-                }}
+                })}
             >
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', height: '45px', overflow: 'hidden' }}>
