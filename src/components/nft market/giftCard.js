@@ -166,7 +166,7 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
 
         loading();
 
-        if (globalUser.pravateKey) {
+        if (globalUser.privateKey) {
             const privateKey = Buffer.from(globalUser.privateKey, 'hex');
 
             const data = {
@@ -226,7 +226,7 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
 
         loading();
 
-        if (globalUser.pravateKey) {
+        if (globalUser.privateKey) {
 
             const privateKey = Buffer.from(globalUser.privateKey, 'hex');
 

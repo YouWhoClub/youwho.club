@@ -22,7 +22,7 @@ import { toast } from 'react-toastify';
 
 
 const Card = styled(Box)(({ theme }) => ({
-    width: '670px',
+    width: '676px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
