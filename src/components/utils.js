@@ -150,7 +150,7 @@ const TabSimplee = styled(Box)(({ theme }) => ({
 export const Tabs = ({ children, mb, w, jc }) => {
     return (
         <TabsComp
-            sx={{ py: 1, mb: mb, width: w ? w : '100%', justifyContent: jc ? jc : 'unset' }}
+            sx={{ py: 1, mb: mb, width: w ? w : '100%', justifyContent: jc ? jc : 'unset' ,}}
         >
             {children}
         </TabsComp>

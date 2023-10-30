@@ -271,7 +271,8 @@ const TransferGift = () => {
                                         <Typography sx={{ fontSize: '15px' }}>Upload NFT File <Typography sx={{ color: 'primary.main', display: 'inline-block' }}>*</Typography></Typography>
                                         <ButtonOutline
                                             onClick={() => imageInput.current.click()}
-                                            text={'Browse'} />
+                                            text={'Browse'}
+                                            br={'30px'} />
                                     </Box>
                                     <FormControl sx={{ width: '326px' }}>
                                         <Icon url={frameIcon} w={27} h={27} sx={{ position: 'absolute', top: '12px', left: '10px', }} />

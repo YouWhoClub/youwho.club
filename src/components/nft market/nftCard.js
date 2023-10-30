@@ -57,7 +57,7 @@ const DetailsSection = styled(Box)(({ theme }) => ({
     color: theme.palette.primary.text,
 }))
 
-const NFTCard = ({ image }) => {
+const NFTCard = ({ image, name, creator, likes,price }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -80,16 +80,16 @@ const NFTCard = ({ image }) => {
                     <NFTImage style={{ backgroundImage: BG_URL(PUBLIC_URL(`${image}`)) }} />
                     <DetailsSection sx={{ mt: '10px' }}>
                         <FlexRow>
-                            <div style={{ display: 'flex', alignItems: 'center' }}><Heart />&nbsp;9</div>
+                            <div style={{ display: 'flex', alignItems: 'center' }}><Heart />&nbsp;{likes}</div>
                             <div><More onClick={handleClick} cursor='pointer' /></div>
                         </FlexRow>
-                        <Box sx={{ mt: 2 }}>NFT name</Box>
+                        <Box sx={{ mt: 2 }}>{name}</Box>
                         <FlexRow sx={{ mt: 1 }}>
                             <div>
-                                by:folani
+                                by:{creator}
                             </div>
                             <div>
-                                price:5$
+                                price:{price}$
                             </div>
                         </FlexRow>
 
@@ -120,7 +120,7 @@ const NFTCard = ({ image }) => {
                             }}
                         >
                             <MenuItem id={'details'} sx={{
-                                display:'flex',alignItems:'center',pb:'12px',
+                                display: 'flex', alignItems: 'center', pb: '12px',
                                 color: 'primary.text',
                                 borderBottom: '1px solid',
                                 borderColor: 'primary.gray',
@@ -132,7 +132,7 @@ const NFTCard = ({ image }) => {
                                 Details
                             </MenuItem>
                             <MenuItem id={'details'} sx={{
-                                display:'flex',alignItems:'center',py:'12px',
+                                display: 'flex', alignItems: 'center', py: '12px',
                                 color: 'primary.text',
                                 borderBottom: '1px solid',
                                 borderColor: 'primary.gray',
@@ -144,7 +144,7 @@ const NFTCard = ({ image }) => {
                                 Details
                             </MenuItem>
                             <MenuItem id={'details'} sx={{
-                                display:'flex',alignItems:'center',py:'12px',
+                                display: 'flex', alignItems: 'center', py: '12px',
                                 color: 'primary.text',
                                 borderBottom: '1px solid',
                                 borderColor: 'primary.gray',
@@ -156,7 +156,7 @@ const NFTCard = ({ image }) => {
                                 Details
                             </MenuItem>
                             <MenuItem id={'details'} sx={{
-                                display:'flex',alignItems:'center',pt:'12px',
+                                display: 'flex', alignItems: 'center', pt: '12px',
                                 color: 'primary.text',
                                 '&:hover': {
                                     bgcolor: 'secondary.bgOp',

@@ -20,7 +20,7 @@ const ScrollablePanel = styled(Box)(({ theme }) => ({
     color: theme.palette.primary.text,
     width: '100%',
     overflowX: 'hidden',
-    overflowY: 'hidden',
+    overflowY: 'scroll',
     '&::-webkit-scrollbar': {
         // display: 'none',
         width: '5px',

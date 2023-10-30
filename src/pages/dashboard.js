@@ -83,33 +83,29 @@ const Dashboard = ({ switchTheme, theme }) => {
         let dashbar = window.document.getElementById('dash-bar')
         let insidePanel = window.document.getElementById('scrollable-profile-panel-inside')
         let outsidePanel = window.document.getElementById('dash')
-        if (window.document.getElementById("scrollable-profile-panel").scrollTop > 0) {
+        if (window.document.getElementById("scrollable-profile-panel-inside").scrollTop > 0 || window.document.getElementById("scrollable-profile-panel").scrollTop > 0) {
             card.classList.add("profileBannerAfterScroll")
             pic.classList.add("profilePicAfterScroll")
             dashbar.classList.add("dashbarAfterScroll")
-            insidePanel.classList.add("insidePanelAfterScroll")
+            // insidePanel.classList.add("insidePanelAfterScroll")
             outsidePanel.classList.add("dashAfterScroll")
-            if (window.document.getElementById("scrollable-profile-panel-inside").scrollTop < '10px') {
-                card.classList.remove("profileBannerAfterScroll")
-                pic.classList.remove("profilePicAfterScroll")
-                dashbar.classList.remove("dashbarAfterScroll")
-                insidePanel.classList.remove("insidePanelAfterScroll")
-                outsidePanel.classList.remove("dashAfterScroll")
-            }
         }
-        else {
+        else if (window.document.getElementById("scrollable-profile-panel").scrollTop >=  0 && window.document.getElementById("scrollable-profile-panel-inside").scrollTop == 0) {
             card.classList.remove("profileBannerAfterScroll")
             pic.classList.remove("profilePicAfterScroll")
             dashbar.classList.remove("dashbarAfterScroll")
-            insidePanel.classList.remove("insidePanelAfterScroll")
+            // insidePanel.classList.remove("insidePanelAfterScroll")
             outsidePanel.classList.remove("dashAfterScroll")
         }
     }
 
     useEffect(() => {
-        window.document.getElementById("scrollable-profile-panel").addEventListener('scroll', listenScrollEvent)
-        window.document.getElementById("scrollable-profile-panel-inside").addEventListener('scroll', listenScrollEvent)
-    }, [])
+        if (window.document.getElementById("scrollable-profile-panel") && window.document.getElementById("scrollable-profile-panel-inside")) {
+
+            window.document.getElementById("scrollable-profile-panel").addEventListener('scroll', listenScrollEvent)
+            window.document.getElementById("scrollable-profile-panel-inside").addEventListener('scroll', listenScrollEvent)
+        }
+    }, [window.document.getElementById("scrollable-profile-panel"), window.document.getElementById("scrollable-profile-panel-inside")])
 
 
 

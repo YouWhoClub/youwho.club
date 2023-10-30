@@ -17,7 +17,25 @@ import { useNavigate } from "react-router";
 
 const Gallery = styled(Box)(({ theme }) => ({
     width: '100%',
-    display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center'
+    display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center',
+    // height: '100%',
+    // overflowX: 'hidden',
+    // overflowY: 'scroll',
+    '&::-webkit-scrollbar': {
+        display: 'none',
+        width: '8px',
+        background: 'white',
+        border: '0.5px solid #846894',
+        borderRadius: '20px !important'
+    },
+
+}))
+const Outer = styled(Box)(({ theme }) => ({
+    // height: 'calc(100vh - 55px)',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
 }))
 
 const MainGallery = ({ switchTheme, theme }) => {
@@ -28,12 +46,8 @@ const MainGallery = ({ switchTheme, theme }) => {
     return (
         <PanelLayout switchTheme={switchTheme} theme={theme}>
 
-            <Box sx={{
+            <Outer sx={{
                 bgcolor: 'primary.bg',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
                 width: { xs: '100%', sm: 'calc(100% - 80px)' }, color: 'primary.text'
             }}>
                 {/* <h4>YOUWHO GIFT CARDS</h4>
@@ -49,26 +63,27 @@ const MainGallery = ({ switchTheme, theme }) => {
 
                 <h4>EXPLORE YOUWHO MAIN GALLERY</h4>
                 <Gallery>
-                    <NFTCard image={blueNft} />
-                    <NFTCard image={pinkNFT} />
-                    <NFTCard image={purpleNFT} />
-                    <NFTCard image={creamNFT} />
-                    <NFTCard image={sorkhabiNFT} />
-                    <NFTCard image={torqNFT} />
-                    <NFTCard image={blueNft} />
-                    <NFTCard image={pinkNFT} />
-                    <NFTCard image={purpleNFT} />
-                    <NFTCard image={creamNFT} />
-                    <NFTCard image={sorkhabiNFT} />
-                    <NFTCard image={torqNFT} />
-                    <NFTCard image={blueNft} />
-                    <NFTCard image={pinkNFT} />
-                    <NFTCard image={purpleNFT} />
-                    <NFTCard image={creamNFT} />
-                    <NFTCard image={sorkhabiNFT} />
-                    <NFTCard image={torqNFT} />
+                <NFTCard image={blueNft} name={'Blue NFT'} creator={'Amir'} price={9} likes={104} />
+                    <NFTCard image={pinkNFT} name={'Pink NFT'} creator={'Naarin'} price={50} likes={199} />
+                    <NFTCard image={purpleNFT} name={'Purple NFT'} creator={'Wildonion'} price={109} likes={13} />
+                    <NFTCard image={creamNFT} name={'Cream NFT'} creator={'Ramin'} price={5} likes={7} />
+                    <NFTCard image={sorkhabiNFT} name={'Sorkhabi NFT'} creator={'Negin'} price={3} likes={9} />
+                    <NFTCard image={torqNFT} name={'Turquoise NFT'} creator={'Javad'} price={9} likes={0} />
+                    <NFTCard image={blueNft} name={'Blue NFT'} creator={'Shayan'} price={11} likes={11} />
+                    <NFTCard image={pinkNFT} name={'Pink NFT'} creator={'Fateme'} price={45} likes={3} />
+                    <NFTCard image={blueNft} name={'Blue NFT'} creator={'Amir'} price={25} likes={54} />
+                    <NFTCard image={pinkNFT} name={'Pink NFT'} creator={'Naarin'} price={5} likes={7778} />
+                    <NFTCard image={purpleNFT} name={'Colorful NFT'} creator={'Wildonion'} price={5} likes={938} />
+                    <NFTCard image={creamNFT} name={'Cream NFT'} creator={'Ramin'} price={5} likes={9} />
+                    <NFTCard image={sorkhabiNFT} name={'Sorkhabi'} creator={'Negin'} price={5} likes={38} />
+                    <NFTCard image={torqNFT} name={'aaabiiiii'} creator={'Javad'} price={24} likes={10} />
+                    <NFTCard image={blueNft} name={'abiii porangggg'} creator={'Shayan'} price={115} likes={107} />
+                    <NFTCard image={pinkNFT} name={'Colorful NFT'} creator={'Fateme'} price={100} likes={113} />
+                    <NFTCard image={purpleNFT} name={'Colorful NFT'} creator={'Amir'} price={90} likes={203} />
+                    <NFTCard image={creamNFT} name={'light'} creator={'Amir'} price={59} likes={43} />
+                    <NFTCard image={sorkhabiNFT} name={'Colorful NFT 2'} creator={'Amir'} price={12} likes={5} />
                 </Gallery>
-            </Box>
+            </Outer>
         </PanelLayout>
 
     );
