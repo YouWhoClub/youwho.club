@@ -1,4 +1,4 @@
-import { Box, FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { SubTab, SubTabs } from "../utils";
@@ -13,6 +13,10 @@ import MediaTypeIcon from '../../assets/icons/media-type.svg'
 import ButtonOutline from "../buttons/buttonOutline";
 import frameIcon from '../../assets/icons/frame.svg'
 import fileIcon from '../../assets/icons/upload-file.svg'
+import NameIcon from '../../assets/icons/name.svg'
+import TextIcon from '../../assets/icons/text.svg'
+import CoinsIcon from '../../assets/icons/coins.svg'
+import CollIcon from '../../assets/icons/collectionIcon.svg'
 
 const Container = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -44,7 +48,7 @@ const NFTImage = styled(Box)(({ theme }) => ({
     // "@media (min-width: 1440px)": {
     //     height: '250px',
     //   },
-  
+
 }))
 const Icon = styled(Box)(({ theme, url, w, h }) => ({
     width: `${w}px`,
@@ -68,15 +72,11 @@ const CreateNFT = () => {
     const [tokenAmount, setTokenAmount] = useState(0)
     const [NFTName, setNFTName] = useState(null)
     const [NFTDescription, setNFTDescription] = useState(null)
-    const [recipientID, setRecipientID] = useState(null)
-    const [checked, setChecked] = useState(false)
+    const [NFTCollection, setNFTCollection] = useState(null)
     const imageInput = useRef()
     const [file, setFile] = useState(null);
     const [photoURL, setPhotoURL] = useState(null);
     const toastId = useRef(null);
-    const [signer, setSigner] = useState(undefined)
-    const [IpfsURL, setIpfsURL] = useState(undefined)
-    const [txHash, setTxHash] = useState(null)
 
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', px: 4 }}>
@@ -172,26 +172,133 @@ const CreateNFT = () => {
                         </FlexRow>
                     </Container>
                     <Container sx={{ mt: 4 }}>
-                        <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
-                            NFT Informations
-                        </Typography>
-                        <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '12px' } }}>
-                            Tell Us About Your NFT Details
-                        </Typography>
-                        <FlexRow>
-                            <Selection
-                                icon={<MovieCreation sx={{ color: 'primary.light' }} />}
-                                width={'100%'} tabs={['nft price']} id={'nft-price'}
-                                selectValue={'to be...'} />
-                            <Selection icon={<FileUpload sx={{ color: 'primary.light' }} />}
-                                width={'100%'} tabs={['nft name']} id={'nft-name'} selectValue={'to be...'} />
+                        <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' } }}>
+                            <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
+                                NFT Informations
+                            </Typography>
+                            <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '12px' } }}>
+                                Tell Us About Your NFT Details
+                            </Typography>
+                        </FlexColumn>
+                        <FlexRow sx={{ gap: '12px' }}>
+                            <FormControl sx={{ width: '100%' }}>
+                                <Icon url={CoinsIcon} w={27} h={27} sx={{ position: 'absolute', top: '14px', left: '10px', }} />
+                                <TextField
+                                    required
+                                    id="nft-price-value"
+                                    label='NFT Price'
+                                    inputProps={{
+                                        sx: {
+                                            color: 'secondary.text',
+                                        }
+                                    }}
+                                    sx={{
+                                        '& .MuiInputBase-input': {
+                                            pl: '45px',
+                                        },
+                                        '& .MuiFormLabel-root': {
+                                            color: 'primary.text'
+                                        },
+                                        '& .MuiInputBase-root': {
+                                            borderRadius: '12px',
+                                        },
+                                        '&& .MuiFormLabel-asterisk': {
+                                            color: 'primary.main',
+                                            fontSize: '16px',
+                                        }
+                                    }}
+                                    value={tokenAmount}
+                                    onChange={(e) => setTokenAmount(e.target.value)}
+                                />
+                            </FormControl>
+                            <FormControl sx={{ width: '100%' }}>
+                                <Icon url={NameIcon} w={27} h={27} sx={{ position: 'absolute', top: '14px', left: '10px', }} />
+                                <TextField
+                                    required
+                                    id="nft-name"
+                                    label='NFT Name'
+                                    inputProps={{
+                                        sx: { color: 'secondary.text' }
+                                    }}
+                                    sx={{
+                                        '& .MuiInputBase-root': {
+                                            borderRadius: '12px',
+                                        },
+                                        '& .MuiInputBase-input': {
+                                            pl: '45px'
+                                        },
+                                        '& .MuiFormLabel-root': {
+                                            color: 'primary.text',
+                                            pl: '30px'
+                                        },
+                                        '&& .MuiInputLabel-shrink': {
+                                            pl: '0px'
+                                        },
+                                        '&& .MuiFormLabel-asterisk': {
+                                            color: 'primary.main',
+                                            fontSize: '16px',
+                                        }
+                                    }}
+                                    value={NFTName}
+                                    onChange={(e) => setNFTName(e.target.value)}
+                                />
+                            </FormControl>
                         </FlexRow>
-                        <Selection
-                            icon={<MovieCreation sx={{ color: 'primary.light' }} />} width={'100%'} tabs={['nft collection']} id={'nft-coll'}
-                            selectValue={'to be...'} />
-                        <Selection
-                            icon={<MovieCreation sx={{ color: 'primary.light' }} />} width={'100%'} tabs={['nft desciption']} id={'nft-des'}
-                            selectValue={'to be...'} />
+                        <FormControl sx={{ width: '100%' }}>
+                            <Icon url={CollIcon} w={27} h={27} sx={{ position: 'absolute', top: '12px', left: '10px', }} />
+                            <InputLabel sx={{ color: 'primary.text' }} id="media-type-label">NFT Collection*</InputLabel>
+                            <Select
+                                displayEmpty
+                                sx={{
+                                    pl: '30px', fontSize: '15px', borderRadius: '12px', borderColor: 'primary.gray',
+                                }}
+                                labelId="media-type-label"
+                                id="demo-simple-select"
+                                value={NFTCollection}
+                                label="NFT Collection*"
+                                onChange={(e) => setNFTCollection(e.target.value)}
+                            >
+                                <MenuItem value={'1'}>1</MenuItem>
+                                <MenuItem value={'2'}>2</MenuItem>
+                                <MenuItem value={'3'}>3</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControl sx={{ width: '100%' }}>
+                            <Icon url={TextIcon} w={27} h={27} sx={{ position: 'absolute', top: '14px', left: '10px', }} />
+                            <TextField
+                                required
+                                fullWidth
+                                id="nft-description"
+                                label='NFT Description'
+                                multiline
+                                maxRows={4}
+                                inputProps={{
+                                    sx: { color: 'secondary.text' }
+                                }}
+                                sx={{
+                                    '& .MuiInputBase-root': {
+                                        borderRadius: '12px',
+                                    },
+                                    '& .MuiInputBase-input': {
+                                        pl: '45px'
+                                    },
+                                    '& .MuiFormLabel-root': {
+                                        color: 'primary.text',
+                                        pl: '30px'
+                                    },
+                                    '&& .MuiInputLabel-shrink': {
+                                        pl: '0px'
+                                    },
+                                    '&& .MuiFormLabel-asterisk': {
+                                        color: 'primary.main',
+                                        fontSize: '16px',
+                                    }
+                                }}
+                                value={NFTDescription}
+                                onChange={(e) => setNFTDescription(e.target.value)}
+                            />
+                        </FormControl>
+
                     </Container>
                     <Box sx={{
                         width: '100%', mt: 3, display: 'flex', justifyContent: 'center'
@@ -212,6 +319,7 @@ const CreateNFT = () => {
                         <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
                             New Collection Introduction
                         </Typography>
+                        <Box sx={{ height: '300px' }}>to be...</Box>
                     </Container>
                 </>
             }

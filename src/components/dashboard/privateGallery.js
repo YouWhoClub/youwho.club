@@ -10,6 +10,7 @@ import styled from "@emotion/styled";
 import FilterSelection from "../filterSelection";
 import { useState } from "react";
 import { AscSelect, RelationCard } from "../utils";
+import { useSelector } from "react-redux";
 
 const Gallery = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -18,6 +19,7 @@ const Gallery = styled(Box)(({ theme }) => ({
 
 
 const PrivateGallery = () => {
+    const globalUser = useSelector(state => state.userReducer)
     const [filterValue, setFilterValue] = useState('')
     const [sortValue, setSortValue] = useState('')
     const [categoryValue, setCategoryValue] = useState('')
@@ -44,17 +46,17 @@ const PrivateGallery = () => {
                     text={'Sort By'} id={'sort-private-gallery'} handleSelect={handleSortSelect} selectValue={sortValue} />
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: { xs: 'column', md: 'row' } }}>
-                <FilterSelection handleSelect={handleCatSelect} width={'280px'} tabs={['art', 'pink', 'bla','animal']}
+                <FilterSelection handleSelect={handleCatSelect} width={'280px'} tabs={['art', 'pink', 'bla', 'animal']}
                     text={'Category'} id={'category-private-gallery'} selectValue={categoryValue} />
-                <AscSelect asc={asc} width={'280px'} setAsc={setAsc}/>
+                <AscSelect asc={asc} width={'280px'} setAsc={setAsc} />
             </Box>
             <Gallery>
-                <NFTCard image={blueNft} />
-                <NFTCard image={pinkNFT} />
-                <NFTCard image={purpleNFT} />
-                <NFTCard image={creamNFT} />
-                <NFTCard image={sorkhabiNFT} />
-                <NFTCard image={torqNFT} />
+                <NFTCard image={blueNft} creator={globalUser.username} price={5} likes={0} name={'Blue NFT'}/>
+                <NFTCard image={pinkNFT} creator={globalUser.username} price={50} likes={1} name={'Pink NFT'}/>
+                <NFTCard image={purpleNFT} creator={globalUser.username} price={5} likes={0} name={'Purple NFT'}/>
+                <NFTCard image={creamNFT} creator={globalUser.username} price={15} likes={4} name={'Sorkhabi NFT'}/>
+                <NFTCard image={sorkhabiNFT} creator={globalUser.username} price={5} likes={0} name={'Cream NFT'}/>
+                <NFTCard image={torqNFT} creator={globalUser.username} price={20} likes={0} name={'Turquoise NFT'}/>
             </Gallery>
         </Box >
     );

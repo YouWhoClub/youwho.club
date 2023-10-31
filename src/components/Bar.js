@@ -1,8 +1,8 @@
 import { Box, Modal, SvgIcon } from "@mui/material";
 import ButtonOutline from "./buttons/buttonOutline";
 import ButtonPurple from "./buttons/buttonPurple";
-import { HambergerMenu, Location, Mobile, Profile, Wallet } from "iconsax-react";
-import { CenterFocusStrong, Close, LogoutOutlined } from "@mui/icons-material";
+import { HambergerMenu, Location, Mobile, Profile, Wallet, Wallet2, WalletMoney } from "iconsax-react";
+import { CenterFocusStrong, Close, LogoutOutlined, WalletOutlined } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { logOutUser } from "../redux/actions";
@@ -17,12 +17,17 @@ import VerifyPhoneModal from "./user/auth/verifyPhoneModal";
 const IconHolder = styled(Box)(({ theme }) => ({
     display: 'flex', justifyContent: 'center', alignItems: 'center',
     borderColor: theme.palette.secondary.text,
-    border: '0.5px solid',
+    // border: '0.2px solid',
     borderRadius: '50%', cursor: 'pointer',
-    width: '40px', height: '40px',
+    width: '50px', height: '50px', boxShadow: theme.palette.primary.boxShadowInset,
     '&:hover': {
-        backgroundColor: theme.palette.primary.light, color: 'whitesmoke'
+        backgroundColor: theme.palette.primary.light, color: 'whitesmoke',
+        boxShadow: theme.palette.primary.boxShadow,
+    },
+    "@media (max-width: 600px)": {
+        width: '35px', height: '35px',
     }
+
 }))
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
@@ -98,14 +103,31 @@ const Bar = () => {
             borderRadius: { xs: '30px 30px 0 0', sm: '0 30px 30px 0' },
         }}
         >
-            <IconHolder onClick={() => navigate('/dashboard')} sx={{ bgcolor: window.location.pathname == '/dashboard' ? 'primary.main' : 'transparent', color: window.location.pathname == '/dashboard' ? 'white' : 'primary.text' }}>
-                <Profile cursor='pointer' />
+            <IconHolder onClick={() => navigate('/dashboard')}
+                sx={{
+                    bgcolor: window.location.pathname == '/dashboard' ? 'primary.main' : 'transparent',
+                    color: window.location.pathname == '/dashboard' ? 'white' : 'primary.text',
+                    boxShadow: window.location.pathname == '/dashboard' && (localStorage.getItem('theme') == 'light' ? '0px 0px 6px 1px rgba(0, 0, 0, 0.25) !important' : '0px 0px 4px 1px rgba(227,209,231,0.9) !important'),
+                }}>
+                <Profile cursor='pointer' size='20px' />
             </IconHolder>
-            <IconHolder onClick={() => navigate('/gallery')} sx={{ bgcolor: window.location.pathname == '/gallery' ? 'primary.main' : 'transparent', color: window.location.pathname == '/gallery' ? 'white' : 'primary.text' }}>
-                <CenterFocusStrong cursor='pointer' />
+            <IconHolder onClick={() => navigate('/gallery')}
+                sx={{
+                    bgcolor: window.location.pathname == '/gallery' ? 'primary.main' : 'transparent',
+                    color: window.location.pathname == '/gallery' ? 'white' : 'primary.text',
+                    boxShadow: window.location.pathname == '/gallery' && (localStorage.getItem('theme') == 'light' ? '0px 0px 6px 1px rgba(0, 0, 0, 0.25) !important' : '0px 0px 4px 1px rgba(227,209,231,0.9) !important'),
+
+                }}>
+                <CenterFocusStrong cursor='pointer' fontSize='20px' />
             </IconHolder>
-            <IconHolder onClick={handleWalletClick} sx={{ bgcolor: window.location.pathname == '/wallet' ? 'primary.main' : 'transparent', color: window.location.pathname == '/wallet' ? 'white' : 'primary.text' }}>
-                <Wallet cursor='pointer' />
+            <IconHolder onClick={handleWalletClick}
+                sx={{
+                    bgcolor: window.location.pathname == '/wallet' ? 'primary.main' : 'transparent',
+                    color: window.location.pathname == '/wallet' ? 'white' : 'primary.text',
+                    boxShadow: window.location.pathname == '/wallet' && (localStorage.getItem('theme') == 'light' ? '0px 0px 6px 1px rgba(0, 0, 0, 0.25) !important' : '0px 0px 4px 1px rgba(227,209,231,0.9) !important'),
+
+                }}>
+                <Wallet2 cursor='pointer' size='20px' />
             </IconHolder>
 
 
@@ -113,7 +135,7 @@ const Bar = () => {
 
             <VerifyPhoneModal openModal={openModal} setOpenModal={setOpenModal} />
 
-        </BarStyle>
+        </BarStyle >
     );
 }
 

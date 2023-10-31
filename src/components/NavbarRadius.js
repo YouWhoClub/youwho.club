@@ -8,7 +8,7 @@ import ButtonPurple from "./buttons/buttonPurple";
 import { useDispatch, useSelector } from "react-redux";
 import { logOutUser, getUnclaimedDeposit, deleteUnclaimedDeposit } from "../redux/actions";
 import styled from "@emotion/styled";
-import { HambergerMenu, LogoutCurve, Menu, MenuBoard, Notification, Profile, Wallet } from "iconsax-react";
+import { HambergerMenu, LogoutCurve, Menu, MenuBoard, Notification, Profile, Wallet, Wallet2 } from "iconsax-react";
 import { Close, Square } from "@mui/icons-material";
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
 import { HEALTH_API } from "../utils/data/health_api";
@@ -27,16 +27,16 @@ const YouWhoIcon = styled('div')(({ theme }) => ({
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     // backgroundSize:'contain',
-    width: '50px',
-    height: '50px'
+    width: '45px',
+    height: '45px'
 }))
 const YouWhoIconPurple = styled('div')(({ theme }) => ({
     cursor: 'pointer',
     backgroundImage: "url('/youwho-purple.svg')",
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
-    width: '50px',
-    height: '50px'
+    width: '45px',
+    height: '45px'
 }))
 const YouWhoHugCoinPurple = styled('div')(({ theme }) => ({
     cursor: 'pointer',
@@ -99,7 +99,7 @@ const NavStyle = styled('div')(({ theme }) => ({
     zIndex: 999,
     borderRadius: '0 0 12px 12px',
     boxShadow: theme.palette.primary.boxShadow,
-    backgroundColor: theme.palette.secondary.bg,
+    backgroundColor: theme.palette.secondary.bg,display:'flex',alignItems:'center'
 }))
 
 function HomeIcon(props) {
@@ -186,7 +186,7 @@ const NavbarTwo = ({ switchTheme, theme }) => {
     return (
         <NavStyle>
             <Box sx={{
-                // width: '100%',
+                width: '100%',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
@@ -231,7 +231,7 @@ const NavbarTwo = ({ switchTheme, theme }) => {
                                 <span style={{ fontSize: '14px' }}>{globalUser.balance}</span>&nbsp;<Box sx={{
                                     backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
                                     , width: '20px', height: '20px'
-                                }} />&nbsp; <Wallet size='16px' />
+                                }} />&nbsp; <Wallet2 size='16px' />
                             </div>&nbsp;&nbsp;&nbsp;
                             <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
                                 <Notification size="16px" cursor='pointer' />

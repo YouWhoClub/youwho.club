@@ -10,6 +10,7 @@ import NFTCard from "../nft market/nftCard";
 import FilterSelection from '../filterSelection'
 import { useState } from 'react'
 import { AscSelect } from '../utils'
+import { useSelector } from 'react-redux'
 
 const Gallery = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -18,6 +19,8 @@ const Gallery = styled(Box)(({ theme }) => ({
 
 
 const PublicGallery = () => {
+    const globalUser = useSelector(state => state.userReducer)
+
     const [filterValue, setFilterValue] = useState('')
     const [sortValue, setSortValue] = useState('')
     const [categoryValue, setCategoryValue] = useState('')
@@ -51,12 +54,12 @@ const PublicGallery = () => {
             </Box>
 
             <Gallery>
-                <NFTCard image={blueNft} />
-                <NFTCard image={pinkNFT} />
-                <NFTCard image={purpleNFT} />
-                <NFTCard image={creamNFT} />
-                <NFTCard image={sorkhabiNFT} />
-                <NFTCard image={torqNFT} />
+                <NFTCard image={sorkhabiNFT} creator={globalUser.username} price={5} likes={10} name={'Sorkhabi NFT'} />
+                <NFTCard image={purpleNFT} creator={globalUser.username} price={5} likes={99} name={'Purple NFT'} />
+                <NFTCard image={creamNFT} creator={'Afshin_joon'} price={15} likes={4} name={'Cream NFT'} />
+                <NFTCard image={blueNft} creator={'wildonion'} price={5} likes={98} name={'Blue NFT'} />
+                <NFTCard image={torqNFT} creator={'Piaze_vahshi'} price={20} likes={15} name={'Turquoise NFT'} />
+                <NFTCard image={pinkNFT} creator={'Khosro'} price={50} likes={1} name={'Pink NFT'} />
             </Gallery>
         </Box>);
 }

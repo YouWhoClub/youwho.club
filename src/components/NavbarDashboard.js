@@ -8,7 +8,7 @@ import ButtonPurple from "./buttons/buttonPurple";
 import { useDispatch, useSelector } from "react-redux";
 import { logOutUser, getUnclaimedDeposit, deleteUnclaimedDeposit } from "../redux/actions";
 import styled from "@emotion/styled";
-import { HambergerMenu, LogoutCurve, Notification, Profile, Wallet } from "iconsax-react";
+import { HambergerMenu, LogoutCurve, Notification, Profile, Wallet, Wallet2,  } from "iconsax-react";
 import { Close, Square } from "@mui/icons-material";
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
 import { HEALTH_API } from "../utils/data/health_api";
@@ -24,8 +24,8 @@ const YouWhoIcon = styled('div')(({ theme }) => ({
     backgroundImage: "url('/youwho-white.svg')",
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
-    width: '50px',
-    height: '50px'
+    width: '45px',
+    height: '45px'
 }))
 const YouWhoIconPurple = styled('div')(({ theme }) => ({
     cursor: 'pointer',
@@ -33,8 +33,8 @@ const YouWhoIconPurple = styled('div')(({ theme }) => ({
     backgroundImage: "url('/youwho-purple.svg')",
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
-    width: '50px',
-    height: '50px'
+    width: '45px',
+    height: '45px'
 }))
 const YouWhoHugCoinPurple = styled('div')(({ theme }) => ({
     cursor: 'pointer',
@@ -139,11 +139,11 @@ const NavbarDashBoard = ({ switchTheme, theme }) => {
             position: "sticky",
             top: 0,
             zIndex: 999,
-            borderRadius: '0 0 12px 12px',
+            borderRadius: '0 0 12px 12px',display:'flex',alignItems:'center'
             // boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)'
         }}
         ><Box sx={{
-            // width: '100%',
+            width: '100%',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -166,7 +166,7 @@ const NavbarDashBoard = ({ switchTheme, theme }) => {
                             <span style={{ fontSize: '14px' }}>{globalUser.balance}</span>&nbsp;<Box sx={{
                                 backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
                                 , width: '20px', height: '20px'
-                            }} />&nbsp; <Wallet size='16px' />
+                            }} />&nbsp; <Wallet2 size='16px' />
                         </div>&nbsp;&nbsp;&nbsp;
                         <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
                             <Notification size="16px" cursor='pointer' />
