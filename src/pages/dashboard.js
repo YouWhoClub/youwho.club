@@ -90,7 +90,7 @@ const Dashboard = ({ switchTheme, theme }) => {
             // insidePanel.classList.add("insidePanelAfterScroll")
             outsidePanel.classList.add("dashAfterScroll")
         }
-        else if (window.document.getElementById("scrollable-profile-panel").scrollTop >=  0 && window.document.getElementById("scrollable-profile-panel-inside").scrollTop == 0) {
+        else if (window.document.getElementById("scrollable-profile-panel").scrollTop >= 0 && window.document.getElementById("scrollable-profile-panel-inside").scrollTop == 0) {
             card.classList.remove("profileBannerAfterScroll")
             pic.classList.remove("profilePicAfterScroll")
             dashbar.classList.remove("dashbarAfterScroll")
@@ -117,7 +117,7 @@ const Dashboard = ({ switchTheme, theme }) => {
                 <Box
                     id="dash"
                     sx={{
-                        px: { xs: 'none', md: 1 },
+                        px: { xs: 'none', md: 1 }, pr: { xs: 'none', md: '30px' },
                         display: 'flex',
                         flexDirection: 'column',
                         width: '100%', mt: 1, height: 'auto'
