@@ -85,7 +85,7 @@ const TabComp = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
     cursor: 'pointer',
-    padding: '8px 18px',
+    padding: '8px 20px',
     whiteSpace: 'nowrap',
     borderRadius: '30px',
     lineHeight: 'normal',
@@ -96,19 +96,18 @@ const TabComp = styled(Box)(({ theme }) => ({
         fontSize: '14px',
         lineHeight: 'normal',
         fontWeight: '400',
-        padding: 0
+        padding: 0,
+        "@media (max-width: 600px)": {
+            fontSize: '12px',
+        },
+
     },
     '&:hover': {
         backgroundColor: theme.palette.secondary.main,
         color: 'white',
     },
-    "@media (max-width: 900px)": {
-        fontSize: '12px',
-        padding: '5px 10px',
-        fontSize: '12px',
-        padding: '5px 10px',
-    },
     "@media (max-width: 600px)": {
+        padding: '5px 12px',
     },
 }))
 const SubTabsComp = styled(Box)(({ theme }) => ({
@@ -126,7 +125,7 @@ const SubTabComp = styled(Box)(({ theme }) => ({
     '&:hover': {
         borderColor: theme.palette.secondary.light,
     },
-    "@media (max-width: 1100px)": {
+    "@media (max-width: 600px)": {
         padding: '5px 10px',
     },
 }))

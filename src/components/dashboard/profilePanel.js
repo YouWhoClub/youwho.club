@@ -10,7 +10,7 @@ import ReactionsTab from "./reactionsTab";
 const Panel = styled(Box)(({ theme }) => ({
     color: theme.palette.primary.text,
     // marginLeft: { xs: '0', sm: '20px' },
-    transition:'500ms ease',
+    transition: '500ms ease',
     width: '100%', borderRadius: '24px',
     display: 'flex', flexDirection: 'column', alignItems: 'center',
     // boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)',
@@ -48,10 +48,10 @@ const ScrollablePanel = styled(Box)(({ theme }) => ({
 const ProfilePanel = () => {
     const [activeTab, setActiveTab] = useState('create-tab')
     return (
-        <Panel sx={{ p: { xs: 'unset', md: 1 } }}>
+        <Panel sx={{ py: { xs: 'unset', md: 1 }, px: { xs: 'unset', md: 2 } }}>
             <Tabs
                 mb={3}
-                jc={{ xs: 'center', md: 'start' }}
+                jc={{ xs: 'center', md: 'center' }}
             >
                 <Tab id={"create-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Create Artwork'} selected={activeTab == 'create-tab'} />
                 <Tab id={"private-gallery-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Private Gallery'} selected={activeTab == 'private-gallery-tab'} />
