@@ -112,15 +112,20 @@ const Dashboard = ({ switchTheme, theme }) => {
     return (
         <PanelLayout switchTheme={switchTheme} theme={theme} id={"scrollable-profile-panel"}>
             <Box sx={{
-                width: { xs: '90%', sm: 'calc(100% - 80px)' }, display: 'flex'
+                width: { xs: 'calc(100% - 30px)', sm: 'calc(100% - 80px)' },
+                pr: { xs: 'none', sm: '15px', md: '30px' },
+                pl: { xs: 'none', sm: '90px' },
+                display: 'flex',
             }}>
                 <Box
                     id="dash"
                     sx={{
-                        px: { xs: 'none', md: 1 }, pr: { xs: 'none', md: '30px' },
+                        // px: { xs: 'none', md: 1 },
+                        // mr: { xs: 'none', md: '30px' },
                         display: 'flex',
                         flexDirection: 'column',
-                        width: '100%', mt: 1, height: 'auto'
+                        width: '100%',
+                        mt: 1, height: 'auto'
                     }}>
                     {globalUser.isLoggedIn ?
                         <>

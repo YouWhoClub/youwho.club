@@ -8,7 +8,7 @@ import ButtonPurple from "./buttons/buttonPurple";
 import { useDispatch, useSelector } from "react-redux";
 import { logOutUser, getUnclaimedDeposit, deleteUnclaimedDeposit } from "../redux/actions";
 import styled from "@emotion/styled";
-import { HambergerMenu, LogoutCurve, Notification, Profile, Wallet, Wallet2,  } from "iconsax-react";
+import { HambergerMenu, LogoutCurve, Notification, Profile, Wallet, Wallet2, } from "iconsax-react";
 import { Close, Square } from "@mui/icons-material";
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
 import { HEALTH_API } from "../utils/data/health_api";
@@ -139,7 +139,7 @@ const NavbarDashBoard = ({ switchTheme, theme }) => {
             position: "sticky",
             top: 0,
             zIndex: 999,
-            borderRadius: '0 0 12px 12px',display:'flex',alignItems:'center'
+            borderRadius: '0 0 12px 12px', display: 'flex', alignItems: 'center'
             // boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)'
         }}
         ><Box sx={{
@@ -147,9 +147,9 @@ const NavbarDashBoard = ({ switchTheme, theme }) => {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            px: '30px'
+            px: { xs: '15px', md: '30px' }
         }}>
-                <ThemeSwitcher left={'30px'} switchTheme={switchTheme} />
+                <ThemeSwitcher left={{ xs: '15px', md: '30px' }} switchTheme={switchTheme} />
                 {/* {window.location.pathname == '/' ? */}
                 <Box sx={{ display: 'flex', alignItems: 'center', }}>
                     {theme == 'light' ?

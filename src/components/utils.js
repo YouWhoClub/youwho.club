@@ -102,7 +102,7 @@ const TabComp = styled(Box)(({ theme }) => ({
         backgroundColor: theme.palette.secondary.main,
         color: 'white',
     },
-    "@media (max-width: 1100px)": {
+    "@media (max-width: 900px)": {
         fontSize: '12px',
         padding: '5px 10px',
         fontSize: '12px',
@@ -150,7 +150,7 @@ const TabSimplee = styled(Box)(({ theme }) => ({
 export const Tabs = ({ children, mb, w, jc }) => {
     return (
         <TabsComp
-            sx={{ py: 1, mb: mb, width: w ? w : '100%', justifyContent: jc ? jc : 'unset' ,}}
+            sx={{ py: 1, mb: mb, width: w ? w : '100%', justifyContent: jc ? jc : 'unset', }}
         >
             {children}
         </TabsComp>
@@ -203,37 +203,58 @@ export const TabSimple = ({ text, onClick, id, selected }) => {
         {text}
     </TabSimplee>)
 }
-export const MyInput = ({ icon, textColor, labelColor, py, id, label, width, onChange, borderColor, type, extraIcon, value, placeholder }) => {
+export const MyInput = ({ icon, textColor,
+    labelColor, py, id, label, width, onChange,
+    borderColor, type, extraIcon, value, placeholder }) => {
     return (
-        <Inputt sx={{ width: width ? width : '200px', border: '1px solid', py: py ? py : '5px', borderColor: borderColor ? borderColor : '#DEDEDE' }}>
+        <Inputt sx={{
+            width: width ? width : '200px', border: '1px solid',
+            py: py ? py : '5px',
+            // pb: '10px', pt: '5px',
+            // pt:'5px',
+            borderColor: borderColor ? borderColor : '#DEDEDE'
+        }}>
             <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', }}>
-                <Box sx={{ ml: '16px' }}>
+                <Box sx={{
+                    ml: '16px',
+                    mr: 1, display: 'flex', alignItems: 'center',
+                    // pb: '5px'
+                }}>
                     {icon ? icon : undefined}
                 </Box>
                 <TextField
-                    sx={{ alignSelf: 'center', alignItems: 'center', display: 'flex', width: '100%' }}
+                    className="myInput"
+                    sx={{
+                        alignSelf: 'center', alignItems: 'center', display: 'flex', width: '100%',
+                        // '&.MuiInputBase-input': {
+                        //     margin: '0px 0px 15px 0px !important',
+                        // },
+                    }}
                     value={value}
                     placeholder={placeholder}
-                    id={id}
+                    // id={id}
+                    id="myInput"
                     label={label}
                     variant="standard"
                     onChange={onChange}
                     autoComplete="off"
                     type={type}
                     InputProps={{
+                        className: 'myInput',
                         disableUnderline: true,
                         sx: {
-                            color: textColor ? textColor : 'primary.gray', width: '100%', alignSelf: 'center',
+                            color: textColor ? textColor : 'primary.gray', width: '100%', alignSelf: 'center', fontSize: '16px',
                             "&:-webkit-autofill": {
                                 webkitboxshadow: "0 0 0 1000px white inset"
-                            }
+                            },
                         }
                     }}
                     InputLabelProps={{
                         sx: {
-                            color: labelColor ? labelColor : 'primary.text', [`&.${inputLabelClasses.shrink}`]: {
+                            color: labelColor ? labelColor : 'primary.text',
+                            [`&.${inputLabelClasses.shrink}`]: {
                                 // set the color of the label when shrinked (usually when the TextField is focused)
-                                color: labelColor ? labelColor : "primary.text"
+                                color: labelColor ? labelColor : "primary.text",
                             }
                         }
                     }}

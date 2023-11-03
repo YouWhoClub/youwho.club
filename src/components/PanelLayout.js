@@ -66,7 +66,8 @@ const PanelLayout = ({ switchTheme, theme, children, id }) => {
             :
             <Box sx={{
                 display: 'flex', alignItems: 'center',
-                justifyContent: { xs: 'start', sm: 'end' }, flexDirection: { xs: 'column', sm: 'row' }
+                // justifyContent: { xs: 'start', sm: 'end' },
+                flexDirection: { xs: 'column', sm: 'row' }
             }}>
                 <Bar />
                 {children}

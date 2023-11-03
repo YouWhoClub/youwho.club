@@ -48,7 +48,11 @@ const MainGallery = ({ switchTheme, theme }) => {
 
             <Outer sx={{
                 bgcolor: 'primary.bg',
-                width: { xs: '100%', sm: 'calc(100% - 80px)' }, color: 'primary.text'
+                // width: { xs: '100%', sm: 'calc(100% - 80px)' },
+                color: 'primary.text',
+                width: { xs: 'calc(100% - 30px)', sm: 'calc(100% - 80px)' },
+                pr: { xs: 'none', sm: '15px', md: '30px' },
+                pl: { xs: 'none', sm: '90px' },
             }}>
                 {/* <h4>YOUWHO GIFT CARDS</h4>
                 <Gallery>
@@ -63,7 +67,7 @@ const MainGallery = ({ switchTheme, theme }) => {
 
                 <h4>EXPLORE YOUWHO MAIN GALLERY</h4>
                 <Gallery>
-                <NFTCard image={blueNft} name={'Blue NFT'} creator={'Amir'} price={9} likes={104} />
+                    <NFTCard image={blueNft} name={'Blue NFT'} creator={'Amir'} price={9} likes={104} />
                     <NFTCard image={pinkNFT} name={'Pink NFT'} creator={'Naarin'} price={50} likes={199} />
                     <NFTCard image={purpleNFT} name={'Purple NFT'} creator={'Wildonion'} price={109} likes={13} />
                     <NFTCard image={creamNFT} name={'Cream NFT'} creator={'Ramin'} price={5} likes={7} />

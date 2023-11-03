@@ -98,7 +98,11 @@ const Wallet = ({ privateKey }) => {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            width: { xs: '100%', sm: 'calc(100% - 80px)' }, color: 'primary.text'
+            // width: { xs: '100%', sm: 'calc(100% - 80px)' },
+            width: { xs: 'calc(100% - 30px)', sm: 'calc(100% - 80px)' },
+            pr: { xs: 'none', sm: '15px', md: '30px' },
+            pl: { xs: 'none', sm: '90px' },
+            color: 'primary.text'
         }}>
 
             <Box
