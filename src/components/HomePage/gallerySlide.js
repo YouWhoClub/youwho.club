@@ -30,10 +30,10 @@ const GalleySlide = () => {
     return (<Box sx={{
         // height: '100vh',
         // bgcolor: 'primary.bg',
-        display: 'flex', justifyContent: 'center', flexDirection: 'column', mt: 5
+        display: 'flex', justifyContent: 'center', flexDirection: 'column',
     }}>
         {/* <h5 style={{ textAlign: 'center', color: 'white', marginBottom: '30px' }} >Most Popular NFTs</h5> */}
-        <CustomSlider slidesCount={5}>
+        <CustomSlider slidesCount={6}>
             <NFTCardLanding image={blueNft} />
             <NFTCardLanding image={pinkNFT} />
             <NFTCardLanding image={creamNFT} />
@@ -48,14 +48,18 @@ const GalleySlide = () => {
         </CustomSlider>
 
 
+
+
+
+
         {/* {globalUser.isLoggedIn ? */}
-        <Box sx={{
+        {/* <Box sx={{
             display: 'flex', color: 'primary.text',
             flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
             width: '100%', my: 5
         }}>
             <ButtonPurple text={'View All'} onClick={() => navigate(globalUser.isLoggedIn ? '/gallery' : '/main-gallery')} px={'10px'} />
-        </Box>
+        </Box> */}
         {/* :
             <Box sx={{
                 display: 'flex', color: 'primary.text',

@@ -13,7 +13,7 @@ const Outter = styled(Box)(({ theme }) => ({
 const Card = styled(Box)(({ theme }) => ({
     // width: '200px', height: '175px',
     width: '100%', height: '100%',
-    padding: '7px 7px 14px 7px',
+    // padding: '7px 7px 14px 7px',
     borderRadius: '16px',
     display: 'flex',
     justifyContent: 'center',

@@ -28,26 +28,25 @@ const Home = ({ switchTheme, theme }) => {
             {/* <ThemeSwitcher switchTheme={switchTheme} /> */}
             <IntroNew theme={theme} />
             <YWServices theme={theme} />
-            <SecondSection sx={{
-                // width: '100vw',
+            {/* <SecondSection sx={{
                 mt: 10,
                 // pt: 10
             }}>
                 <Box sx={{
                     px: {
                         xs: '0',
-                        //  sm: '30px',
+                        //sm: '30px',
                         md: '60px'
                     },
                     display: 'flex', flexDirection: 'column',
-                }}>
-                    <FABSection theme={theme} />
-                    <DecorSection />
-                    <WhatsSection />
-                    <NFTSlides />
-                </Box>
-                <Footer />
-            </SecondSection>
+                }}> */}
+            <FABSection theme={theme} />
+            <DecorSection />
+            <WhatsSection />
+            <NFTSlides />
+            {/* </Box> */}
+            <Footer />
+            {/* </SecondSection> */}
         </Homme>
     );
 }

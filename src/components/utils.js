@@ -190,9 +190,9 @@ export const SubTab = ({ text, onClick, id, selected, icon }) => {
         {text}
     </SubTabComp>)
 }
-export const TabsSimple = ({ children }) => {
+export const TabsSimple = ({ children, mb }) => {
     return (<TabsSimplee
-        sx={{ py: 1 }}
+        sx={{ mb: mb ? mb : 'unset' }}
     >{children}</TabsSimplee>)
 }
 export const TabSimple = ({ text, onClick, id, selected }) => {

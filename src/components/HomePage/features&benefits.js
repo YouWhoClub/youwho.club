@@ -3,14 +3,20 @@ import benfitsPic from '../../assets/complimentPhotos.svg'
 import benefitsLight from '../../assets/FEATURESWH.svg'
 import benefitsDark from '../../assets/FEATURESDRK.svg'
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
+import styled from "@emotion/styled";
+
+const Section = styled(Box)(({ theme }) => ({
+    background: theme.palette.primary.landBG,
+    display: 'flex', alignItems: 'center',
+}))
 
 const FABSection = ({ theme }) => {
     return (
-        <Box
+        <Section
             sx={{
-                display: 'flex',
+                mt:10,
                 p: { xs: '50px 10px 200px 10px', md: '100px 89px' },
-                justifyContent: { xs: 'center', md: 'space-between' }, alignItems: 'center',
+                justifyContent: { xs: 'center', md: 'space-between' },
                 flexDirection: { xs: 'column-reverse', md: 'row' }
             }}>
             <Box sx={{
@@ -45,7 +51,7 @@ const FABSection = ({ theme }) => {
                 color: 'primary.text', margin: 0, display: { xs: 'block', md: 'none' },
                 fontWeight: 500, fontSize: { xs: '30px', sm: '30px', md: '32px' }, textAlign: { xs: 'center', md: 'start' }
             }}>Features and Benefits</Typography>
-        </Box>
+        </Section>
     );
 }
 

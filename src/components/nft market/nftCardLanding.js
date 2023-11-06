@@ -4,12 +4,11 @@ import { BG_URL, PUBLIC_URL } from "../../utils/utils";
 import { Heart, More, Share } from "iconsax-react";
 
 const Outter = styled(Box)(({ theme }) => ({
-    width: '200px', height: '175px', padding: '5px'
-    // display: 'flex', justifyContent: 'center', alignItems: 'center'
+    // width: '200px', height: '175px', padding: '5px',
 }))
 const Card = styled(Box)(({ theme }) => ({
     // width: '200px', height: '175px',
-    width: '100%',
+    // width: '100%',
     padding: '7px 7px 14px 7px',
     borderRadius: '16px',
     display: 'flex',
@@ -32,7 +31,7 @@ const NFTImage = styled(Box)(({ theme }) => ({
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    width: '100%', height: '105px',
+    width: '185px', height: '105px',
     borderRadius: '18px',
     '&:hover': {
     }
@@ -49,12 +48,12 @@ const DetailsSection = styled(Box)(({ theme }) => ({
     height: '100%',
     display: 'flex', flexDirection: 'column',
     justifyContent: 'space-between',
-    color: theme.palette.primary.light, marginTop: 1
+    color: theme.palette.primary.light, marginTop: '12px'
 }))
 
 const NFTCardLanding = ({ image }) => {
     return (
-        <Outter>
+        <Outter sx={{ py: '10px' }}>
             <Card onClick={() => alert('TRANSFER MODAL')}>
                 <NFTImage style={{ backgroundImage: BG_URL(PUBLIC_URL(`${image}`)) }} />
                 <DetailsSection>
@@ -68,7 +67,7 @@ const NFTCardLanding = ({ image }) => {
 
                 </DetailsSection>
             </Card>
-        </Outter>
+        </Outter >
     );
 }
 

@@ -28,12 +28,9 @@ const NewestSlide = () => {
     const globalUser = useSelector(state => state.userReducer)
 
     return (<Box sx={{
-        // height: '100vh',
-        // bgcolor: 'primary.bg',
-        display: 'flex', justifyContent: 'center', flexDirection: 'column', mt: 5
+        display: 'flex', justifyContent: 'center', flexDirection: 'column',
     }}>
-        {/* <h5 style={{ textAlign: 'center', color: 'white', marginBottom: '30px' }} >Most Popular NFTs</h5> */}
-        <CustomSlider slidesCount={5}>
+        <CustomSlider slidesCount={6}>
             <NFTCardLanding image={gheart} />
             <NFTCardLanding image={ppheart} />
             <NFTCardLanding image={heart} />
@@ -45,16 +42,6 @@ const NewestSlide = () => {
             <NFTCardLanding image={creamNFT} />
             <ViewMoreOrLogin link={globalUser.isLoggedIn ? '/gallery' : '/main-gallery'} />
         </CustomSlider>
-
-
-        <Box sx={{
-            display: 'flex', color: 'primary.text',
-            flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-            width: '100%', my: 5
-        }}>
-            <ButtonPurple text={'View All'} onClick={() => navigate(globalUser.isLoggedIn ? '/gallery' : '/main-gallery')} px={'10px'} />
-        </Box>
-
 
 
         {/* {globalUser.isLoggedIn ?

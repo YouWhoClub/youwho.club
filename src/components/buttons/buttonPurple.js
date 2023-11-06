@@ -12,6 +12,7 @@ const Button = styled('button')(({ theme }) => ({
     color: 'white',
     cursor: 'pointer',
     border: 'none',
+    textTransform:'capitalize',
     fontWeight: 500,
     boxShadow:theme.palette.secondary.boxShadow,
     // '&:hover': {
