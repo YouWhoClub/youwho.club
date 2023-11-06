@@ -7,12 +7,14 @@ import NewestSlide from "./newestSlide";
 
 const NFTSlides = () => {
     const [state, setState] = useState('nfts')
-    return (<Box sx={{
-        display: 'flex',
-        justifyContent: 'space-around',
-        flexDirection: 'column', my: 4,
-        // px:'20px'
-    }}>
+    return (<Box
+        sx={{
+            display: 'flex',
+            justifyContent: 'space-around',
+            flexDirection: 'column', my: 4,
+            // px:'20px'
+        }}
+        id="nft-examples">
         <TabsSimple>
             <TabSimple text={'Top NFTs'} onClick={() => setState('nfts')} selected={state == 'nfts'} />
             <TabSimple text={'Newest NFTs'} onClick={() => setState('news')} selected={state == 'news'} />

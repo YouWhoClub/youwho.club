@@ -18,24 +18,37 @@ const PurpleBox = styled(Box)(({ theme }) => ({
     flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
     padding: '90px 0px',
     background: theme.palette.primary.grad,
+    gap: '70px'
 }))
 const YWServices = ({ theme }) => {
     return (
-        <Box sx={{ px: { xs: '0', sm: '30px', md: '60px' } }}>
+        <Box sx={{
+            px: {
+                xs: '0',
+                //  sm: '30px',
+                md: '60px'
+            }
+        }}>
             <PurpleBox sx={{
-                borderRadius: { xs: '100px 0', sm: '25px' },
+                borderRadius: { xs: '100px 0', md: '25px' },
             }}>
-                <Typography variant="h6" sx={{ margin: 0, mb: 4, fontWeight: 500, color: 'white' }}>YouWho Services</Typography>
+                <Typography variant="h6"
+                    sx={{
+                        margin: 0,
+                        fontSize: { xs: '30px', sm: '36px' }, fontWeight: 500, color: 'white'
+                    }}>YouWho Services</Typography>
                 <Box sx={{
-                    display: 'flex', flexWrap: 'wrap',
-                    //  flexDirection: { xs: 'column', sm: 'row' },
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    flexDirection: { xs: 'column', md: 'row' },
                     justifyContent: 'center',
                     alignItems: 'center',
-                    gap: '10px',
+                    gap: '50px',
                 }}>
-                    <NavigateCardTwo link={'/transfer'} image={theme == 'light' ? transferImgDark : transferImgLight} title={'Gift NFT'} content={'gift your nft artworks to your beloved ones'} />
+                    <NavigateCardTwo
+                        link={'/transfer'} image={theme == 'light' ? transferImgDark : transferImgLight} title={'Gift NFT'} content={'gift your nft artworks to your beloved ones'} />
                     <NavigateCardTwo link={'/gallery'} image={theme == 'light' ? marketImgDark : marketImgLight} title={'NFT Gallery'} content={'trade and advertise on your nfts from any marketplace'} />
-                    <NavigateCardTwo link={'/wallet'} image={theme == 'light' ? walletImgDark : walletImgLight} title={'Wallet'} content={'make your youwho wallet to use our unique features'} />
+                    <NavigateCardTwo link={'/wallet'} image={theme == 'light' ? walletImgDark : walletImgLight} title={'Wallet'} content={'make your YouWho wallet to use our unique features'} />
                 </Box>
             </PurpleBox>
         </Box>);

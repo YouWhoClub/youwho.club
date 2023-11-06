@@ -65,7 +65,7 @@ const ViewMainGalleryPage = ({ theme, switchTheme }) => {
                 color: 'primary.text',
             }}>
                 <NavbarTwo theme={theme} switchTheme={switchTheme} />
-                <h4 style={{ margin: '30px 0' }}>EXPLORE YOUWHO MAIN GALLERY</h4>
+                <h4 style={{ margin: '30px 0' }}>EXPLORE YouWho MAIN GALLERY</h4>
                 <GiftsScrollWrapper sx={{
                     mb: 5,
                 }}>

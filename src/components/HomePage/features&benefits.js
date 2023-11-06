@@ -4,30 +4,47 @@ import benefitsLight from '../../assets/FEATURESWH.svg'
 import benefitsDark from '../../assets/FEATURESDRK.svg'
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
 
-const FABSection = ({theme}) => {
+const FABSection = ({ theme }) => {
     return (
         <Box
             sx={{
-                display: 'flex', px: { xs: '20px', sm: '60px' }, justifyContent: 'space-between', alignItems: 'center', flexDirection: { xs: 'column-reverse', sm: 'row' }
+                display: 'flex',
+                p: { xs: '50px 10px 200px 10px', md: '100px 89px' },
+                justifyContent: { xs: 'center', md: 'space-between' }, alignItems: 'center',
+                flexDirection: { xs: 'column-reverse', md: 'row' }
             }}>
             <Box sx={{
                 display: 'flex', flexDirection: 'column'
             }}>
-                <Typography variant="h6" sx={{ color: 'primary.text', margin: 0, fontWeight: 500, fontSize: { xs: '20px', sm: '20px', md: '22px' } }}>Features and Benefits</Typography>
-                <Typography variant="p" sx={{ color: 'primary.text', margin: 0, mb: 3, fontSize: { xs: '14px', sm: '16px', md: '18px' }, fontWeight: 400 }}>A Life Magic For You</Typography>
-                <Typography variant="p" sx={{ color: 'primary.text', margin: 0, mb: 2, fontSize: { xs: '10px', sm: '14px', md: '16px' } }}>Youwho is a NFT market place with
+                <Typography variant="h6" sx={{
+                    color: 'primary.text', mb: '18px', display: { xs: 'none', md: 'block' },
+                    fontWeight: 500, fontSize: { xs: '30px', sm: '30px', md: '32px' }, textAlign: { xs: 'center', md: 'start' }
+                }}>Features and Benefits</Typography>
+                <Typography variant="p" sx={{
+                    color: 'primary.text', margin: 0, mb: { xs: '22px', md: '42px' },
+                    fontSize: { xs: '18px', sm: '18px', md: '22px' }, fontWeight: 400, textAlign: { xs: 'center', md: 'start' }
+                }}>A Life Magic For You</Typography>
+                <Typography variant="p"
+                    sx={{
+                        color: 'primary.text', margin: 0,
+                        fontSize: { xs: '14px', sm: '14px', md: '16px' }, fontFamily: 'Inter', textAlign: 'justify'
+                    }}>YouWho is a NFT market place with
                     new unique features.
                 </Typography>
             </Box>
+
             <Box
                 sx={{
-                    width: { xs: '250px', md: '350px' }, height: { xs: '250px', md: '350px' },
+                    width: { xs: '250px', sm: '550px' }, height: { xs: '250px', sm: '450px' },
                     backgroundImage: theme == 'light' ? BG_URL(PUBLIC_URL(`${benefitsDark}`)) : BG_URL(PUBLIC_URL(`${benefitsLight}`)), backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'contain',
-
+                    backgroundSize: 'contain', my: { xs: 4, md: 0 }
                 }}>
             </Box>
+            <Typography variant="h6" sx={{
+                color: 'primary.text', margin: 0, display: { xs: 'block', md: 'none' },
+                fontWeight: 500, fontSize: { xs: '30px', sm: '30px', md: '32px' }, textAlign: { xs: 'center', md: 'start' }
+            }}>Features and Benefits</Typography>
         </Box>
     );
 }

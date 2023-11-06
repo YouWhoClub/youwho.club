@@ -18,7 +18,7 @@ const ProBanner = styled(Box)(({ theme }) => ({
     display: 'flex', alignItems: 'center',
     boxShadow: theme.palette.primary.boxShadow, transition: '500ms ease'
 }))
-const ProfileCard = ({ username, youwhoID }) => {
+const ProfileCard = ({ username, YouWhoID }) => {
     const globalUser = useSelector(state => state.userReducer)
 
     const copyIdToClipBoard = async (textToCopy) => {
@@ -62,16 +62,16 @@ const ProfileCard = ({ username, youwhoID }) => {
             }}>
                 {globalUser.cid ? globalUser.username : globalUser.identifier}
             </Typography>
-            {youwhoID ?
+            {YouWhoID ?
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
                     <Typography sx={{ fontWeight: 500 , fontSize: { xs: '14px', sm: '16px' } }}>YouWho ID :</Typography>
-                    <Typography onClick={() => copyIdToClipBoard(youwhoID)}
+                    <Typography onClick={() => copyIdToClipBoard(YouWhoID)}
                         sx={{ cursor: 'pointer', fontSize: { xs: '12px', sm: '14px' }, display: { xs: 'none', sm: 'block' } }}>
-                        {youwhoID}
+                        {YouWhoID}
                     </Typography>
-                    <Typography onClick={() => copyIdToClipBoard(youwhoID)}
+                    <Typography onClick={() => copyIdToClipBoard(YouWhoID)}
                         sx={{ cursor: 'pointer', fontSize: { xs: '12px', sm: '14px' }, display: { xs: 'block', sm: 'none' } }}>
-                        {shorten(youwhoID)}
+                        {shorten(YouWhoID)}
                     </Typography>
                     <TickSquare style={{ size: { xs: '10px', sm: '16px' }, display: idCopied ? 'block' : 'none', color: '#0Cb2B1' }} />
                 </Box>

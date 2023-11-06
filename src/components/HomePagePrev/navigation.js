@@ -16,7 +16,7 @@ const Navigation = () => {
     }}>
         <NavigateCard link={'/transfer'} image={transferImg} title={'Transfer'} content={'transfer money by minting nft from any part of the world to any other'} />
         <NavigateCard link={'/gallery'} image={marketImg} title={'NFT Gallery'} content={'trade and advertise on your nfts from any marketplace'} />
-        <NavigateCard link={'/wallet'} image={walletImg} title={'Wallet'} content={'make your youwho wallet to use our unique features'} />
+        <NavigateCard link={'/wallet'} image={walletImg} title={'Wallet'} content={'make your YouWho wallet to use our unique features'} />
     </Box>);
 }
 

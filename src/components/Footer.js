@@ -10,7 +10,7 @@ const Foot = styled(Box)(({ theme }) => ({
 }))
 const YouWhoHugCoinPurple = styled(Box)(({ theme }) => ({
     cursor: 'pointer',
-    backgroundImage: "url('/youwho-hugcoin.svg')",
+    backgroundImage: "url('/YouWho-hugcoin.svg')",
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'start',
     width: '50px',
@@ -18,7 +18,7 @@ const YouWhoHugCoinPurple = styled(Box)(({ theme }) => ({
 }))
 const YouWhoIcon = styled(Box)(({ theme }) => ({
     cursor: 'pointer',
-    backgroundImage: "url('/youwho-white.svg')",
+    backgroundImage: "url('/YouWho-white.svg')",
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'start',backgroundSize:'contain',
     width: '50px',

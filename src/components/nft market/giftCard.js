@@ -429,7 +429,7 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
                                             </> :
                                             <Box sx={{ display: 'flex', flexDirection: 'column', height: '60%', gap: '16px' }}>
                                                 <Typography sx={{ mt: 2, fontSize: '14px', mb: 2, color: 'primary.text', textAlign: 'center' }}>
-                                                    you dont have enough youWho token
+                                                    you dont have enough YouWho token
                                                 </Typography>
                                                 <ButtonPurple text={'charge your wallet'} w={'100%'} onClick={chargeWallet} />
                                             </Box>

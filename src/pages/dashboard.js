@@ -129,7 +129,7 @@ const Dashboard = ({ switchTheme, theme }) => {
                     }}>
                     {globalUser.isLoggedIn ?
                         <>
-                            <ProfileCard username={globalUser.username} youwhoID={globalUser.youwhoID} />
+                            <ProfileCard username={globalUser.username} YouWhoID={globalUser.YouWhoID} />
                             <ShowPanel sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
                                 {/* <Selection width={'200px'} tabs={['zadtan', 'zadtann', 'zadtannn', 'zadtannnn']} handleSelect={handleSelect} selectValue={selectValue} /> */}
                                 <DashBar username={globalUser.username} tabs={['zadtan', 'zadtan', 'zadtan', 'zadtan']} />

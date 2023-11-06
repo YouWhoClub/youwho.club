@@ -25,7 +25,7 @@ const emptyUser = {
     bio: '',
     avatar: '',
     banner: '',
-    youwhoID: '',
+    YouWhoID: '',
     cid: '',
     mail: '',
     isLoggedIn: false,

@@ -23,7 +23,7 @@ const WalletPage = ({ switchTheme, theme }) => {
                 setOpenModal(true)
             }
         }
-    }, [globalUser.isLoggedIn, globalUser.youwhoID, globalUser.isPhoneVerified])
+    }, [globalUser.isLoggedIn, globalUser.YouWhoID, globalUser.isPhoneVerified])
     return (
         <PanelLayout switchTheme={switchTheme} theme={theme}>
             {!globalUser.isLoggedIn ?
@@ -41,7 +41,7 @@ const WalletPage = ({ switchTheme, theme }) => {
                 </Box> :
                 <>
                     {globalUser.isPhoneVerified ?
-                        <>{globalUser.youwhoID ?
+                        <>{globalUser.YouWhoID ?
                             <Wallet privateKey={privateKey} /> :
                             <CreateWallet setPvKey={setPrivateKey} />
                         }</>

@@ -31,7 +31,7 @@ const Avatarr = styled(Box)(({ theme }) => ({
 
 const Profile = () => {
     const globalUser = useSelector(state => state.userReducer)
-    const [user, setUser] = useState({ youwhoID: '0x938203j8s849020hdh38jd', username: 'username' })
+    const [user, setUser] = useState({ YouWhoID: '0x938203j8s849020hdh38jd', username: 'username' })
     const shortenName = (str) => {
         if (str)
             return str.length > 1 ? str.substring(0, 1) : str;
@@ -77,10 +77,10 @@ const Profile = () => {
                             </ListItemButton>
                         </ListItem>
                     </List> */}
-            {user.youwhoID ?
+            {user.YouWhoID ?
                 <>
-                    <Link style={{ textDecoration: 'none', color: 'lightblue' }} to={`/gallery/user/${globalUser.youwhoID}`}>Private Gallery</Link>
-                    <Link style={{ textDecoration: 'none', color: 'lightblue' }} to={`/gallery/user/${globalUser.youwhoID}`}>Public Gallery</Link>
+                    <Link style={{ textDecoration: 'none', color: 'lightblue' }} to={`/gallery/user/${globalUser.YouWhoID}`}>Private Gallery</Link>
+                    <Link style={{ textDecoration: 'none', color: 'lightblue' }} to={`/gallery/user/${globalUser.YouWhoID}`}>Public Gallery</Link>
                 </> : undefined}
             <p />
             <Box
@@ -93,9 +93,9 @@ const Profile = () => {
                     transition: '300ms ease'
 
                 }}>
-                {user.youwhoID ?
-                    <>youwho id :{user.youwhoID}</> :
-                    <>user does not have youwho id</>
+                {user.YouWhoID ?
+                    <>YouWho id :{user.YouWhoID}</> :
+                    <>user does not have YouWho id</>
                 }
             </Box>
             {/* </>

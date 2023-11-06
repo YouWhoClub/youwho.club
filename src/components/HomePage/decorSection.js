@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
 import ButtonPurple from "../buttons/buttonPurple";
 import yCoin from "../../assets/Ycoin.svg"
+import twoTokens from "../../assets/twoTokens.svg"
 
 const DecorSection = () => {
     return (
@@ -9,13 +10,15 @@ const DecorSection = () => {
             borderRadius: { xs: '0 100px 0 100px', md: '0px 200px 0px 200px' },
             width: '100%', height: { xs: 'auto', md: '450px' },
             bgcolor: 'primary.middle',
-            mt: 5, position: 'relative',
+            // mt: 5,
+            position: 'relative',
             display: 'flex', justifyContent: 'end',
         }}>
             <Box sx={{
                 // height: '100%',
                 width: { xs: '100%', sm: '50%' },
-                px: 6, py: 7, display: 'flex', flexDirection: 'column', justifyContent: 'end',
+                px: 6, py: 7,
+                display: 'flex', flexDirection: 'column', justifyContent: 'end',
             }}>
                 <Typography variant="h4" sx={{ color: 'primary.text', margin: 0, mb: 1, fontWeight: 500, fontSize: { xs: '22px', md: '24px' } }}>Earn, Even More Than Spend ?!</Typography>
                 <Typography variant="h6" sx={{ color: 'primary.text', margin: 0, mb: 3, fontWeight: 500, fontSize: { xs: '18px', md: '20px' } }}>this is a subtitle</Typography>
@@ -28,13 +31,15 @@ const DecorSection = () => {
             </Box>
             <Box
                 sx={{
-                    width: { xs: '100px', sm: '200px', md: '350px', lg: '450px' }, height: { xs: '100px', sm: '200px', md: '350px', lg: '450px' },
-                    backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundPosition: 'center',
+                    width: { xs: '170px', sm: '270px', md: '350px', lg: '450px' },
+                    height: { xs: '150px', sm: '240px', md: '350px', lg: '450px' },
+                    backgroundImage: { xs: BG_URL(PUBLIC_URL(`${twoTokens}`)), md: BG_URL(PUBLIC_URL(`${yCoin}`)) },
+                    backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: 'cover',
-                    position: 'absolute', borderRadius: '50%',
+                    position: 'absolute', borderRadius: { xs: 0, md: '50%' },
                     left: '40px',
-                    top: { xs: '-50px', md: '-150px' }
+                    top: { xs: '-100px', md: '-150px' }
                 }}>
             </Box>
 

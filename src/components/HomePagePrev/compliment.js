@@ -3,7 +3,7 @@ import transferImg from '../../assets/exchangeLogo.svg'
 import marketImg from '../../assets/marketLogo.svg'
 import walletImg from '../../assets/walletLogo.svg'
 import bgDots from '../../assets/bgDots.svg'
-import youwhoIcon from '../../assets/p-outline.svg'
+import YouWhoIcon from '../../assets/p-outline.svg'
 import { Box } from "@mui/material";
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
 
@@ -15,9 +15,9 @@ const Compliment = () => {
         display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', backgroundSize: 'contain',
         backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundImage: BG_URL(PUBLIC_URL(`${bgDots}`)),
     }}>
-        <NavigateCard image={youwhoIcon} title={'Fast'} content={'transfer money by minting nft from any part of the world to any other'} />
-        <NavigateCard image={youwhoIcon} title={'Safe'} content={'trade and advertise on your nfts from any marketplace'} />
-        <NavigateCard image={youwhoIcon} title={'Easy'} content={'make your youwho wallet to use our unique features'} />
+        <NavigateCard image={YouWhoIcon} title={'Fast'} content={'transfer money by minting nft from any part of the world to any other'} />
+        <NavigateCard image={YouWhoIcon} title={'Safe'} content={'trade and advertise on your nfts from any marketplace'} />
+        <NavigateCard image={YouWhoIcon} title={'Easy'} content={'make your YouWho wallet to use our unique features'} />
     </Box>);
 }
 

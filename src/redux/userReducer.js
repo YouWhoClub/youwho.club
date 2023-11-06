@@ -17,7 +17,7 @@ function userReducer(state = initialState, action) {
             return {
                 ...state,
                 username: action.payload.username,
-                youwhoID: action.payload.screen_cid,
+                YouWhoID: action.payload.screen_cid,
                 userId: action.payload.id,
                 cid: action.payload.cid,
                 mail: action.payload.mail,
@@ -40,7 +40,7 @@ function userReducer(state = initialState, action) {
             return {
                 ...state,
                 username: action.payload.username,
-                youwhoID: action.payload.screen_cid,
+                YouWhoID: action.payload.screen_cid,
                 userId: action.payload.id,
                 cid: action.payload.cid,
                 mail: action.payload.mail,

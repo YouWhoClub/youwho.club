@@ -92,6 +92,7 @@ function App() {
         success: '#0Cb2B1',
         error: '#F675A8',
         boxShadow: '0px 0px 5px 1px rgba(227,209,231,0.7)',
+        boxShadowLarge: '0px 0px 20px 0px rgba(227,209,231,0.7)',
         boxShadowInset: 'inset 0px 0px 5px 1px rgba(227,209,231,0.7)',
         cardGradient: 'linear-gradient(41deg, rgba(61,0,98,1) 0%, rgba(18,0,28,1) 100%)',
       },
@@ -144,7 +145,9 @@ function App() {
         grad: 'linear-gradient(251deg, rgba(111,48,150,1) 33%, rgba(210,166,242,1) 100%)',
         success: '#0Cb2B1',
         error: '#F675A8',
+        // boxShadow: '0px 0px 5px 1px rgba(0, 0, 0, 0.25)',
         boxShadow: '0px 0px 5px 1px rgba(0, 0, 0, 0.25)',
+        boxShadowLarge: '0px 0px 20px 0px rgba(0, 0, 0, 0.25)',
         boxShadowInset: 'inset 0px 0px 4px 1px rgba(0, 0, 0, 0.25)',
         cardGradient: 'linear-gradient(231deg, rgba(200,200,200,1) 0%, rgba(111,48,150,1) 100%)'
       },
@@ -204,33 +207,32 @@ function App() {
           <BrowserRouter>
             <ScrollToTop>
               <>
-                {/* <Navbar /> */}
-                <Wrapper>
-                  <Routes>
-                    <Route exact path="/" element={<Home theme={theme} switchTheme={switchTheme} />} />
-                    <Route exact path="/landing" element={<LandingPrev theme={theme} switchTheme={switchTheme} />} />
-                    <Route exact path="/auth" element={<Auth theme={theme} switchTheme={switchTheme} />} />
-                    <Route exact path="/display" element={<Display theme={theme} switchTheme={switchTheme} />} />
-                    <Route exact path="/dashboard" element={<Dashboard switchTheme={switchTheme} theme={theme} />} />
-                    <Route exact path="/profile/:name" element={<Profile theme={theme} switchTheme={switchTheme} />} />
+                <Box sx={{ bgcolor: 'secondary.bg' }}>
+                  <Wrapper>
+                    <Routes>
+                      <Route exact path="/" element={<Home theme={theme} switchTheme={switchTheme} />} />
+                      <Route exact path="/landing" element={<LandingPrev theme={theme} switchTheme={switchTheme} />} />
+                      <Route exact path="/auth" element={<Auth theme={theme} switchTheme={switchTheme} />} />
+                      <Route exact path="/display" element={<Display theme={theme} switchTheme={switchTheme} />} />
+                      <Route exact path="/dashboard" element={<Dashboard switchTheme={switchTheme} theme={theme} />} />
+                      <Route exact path="/profile/:name" element={<Profile theme={theme} switchTheme={switchTheme} />} />
 
-                    <Route exact path="/transfer" element={<TransferPage theme={theme} switchTheme={switchTheme} />} />
+                      <Route exact path="/transfer" element={<TransferPage theme={theme} switchTheme={switchTheme} />} />
 
-                    <Route exact path="/wallet" element={<WalletPage theme={theme} switchTheme={switchTheme} />} />
-                    <Route exact path="/main-gallery" element={<ViewMainGalleryPage theme={theme} switchTheme={switchTheme} />} />
-                    <Route exact path="/gallery/user/:id" element={<PublicGallery theme={theme} switchTheme={switchTheme} />} />
-                    <Route exact path="/verify-mail" element={<VerifyMail theme={theme} />} />
-                    <Route exact path="/verify-phone" element={<VerifyPhone theme={theme} />} />
-                    <Route exact path="/gallery" element={<MainGallery switchTheme={switchTheme} theme={theme} />} />
-                    <Route exact path="/checkout/success" element={<CheckoutSuccess switchTheme={switchTheme} theme={theme} />} />
-                    <Route exact path="/checkout/cancel" element={<CheckoutCancel switchTheme={switchTheme} theme={theme} />} />
+                      <Route exact path="/wallet" element={<WalletPage theme={theme} switchTheme={switchTheme} />} />
+                      <Route exact path="/main-gallery" element={<ViewMainGalleryPage theme={theme} switchTheme={switchTheme} />} />
+                      <Route exact path="/gallery/user/:id" element={<PublicGallery theme={theme} switchTheme={switchTheme} />} />
+                      <Route exact path="/verify-mail" element={<VerifyMail theme={theme} />} />
+                      <Route exact path="/verify-phone" element={<VerifyPhone theme={theme} />} />
+                      <Route exact path="/gallery" element={<MainGallery switchTheme={switchTheme} theme={theme} />} />
+                      <Route exact path="/checkout/success" element={<CheckoutSuccess switchTheme={switchTheme} theme={theme} />} />
+                      <Route exact path="/checkout/cancel" element={<CheckoutCancel switchTheme={switchTheme} theme={theme} />} />
 
-                    <Route exact path="/privacy-policy" element={<PrivacyPolicy theme={theme} />} />
-                    <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} />
-                  </Routes>
-                </Wrapper>
-                {/* <Bar /> */}
-                {/* <Footer /> */}
+                      <Route exact path="/privacy-policy" element={<PrivacyPolicy theme={theme} />} />
+                      <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} />
+                    </Routes>
+                  </Wrapper>
+                </Box>
               </>
             </ScrollToTop>
           </BrowserRouter>

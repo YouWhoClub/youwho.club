@@ -160,7 +160,7 @@ const Wallet = ({ privateKey }) => {
                     </Box>
 
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', px: 2, gap: '6px' }}>
-                        <Typography onClick={() => copyIdToClipBoard(globalUser.youwhoID)} sx={{ width: '100%', fontSize: '21px', fontStyle: 'normal', fontWeight: '400', lineHeight: 'normal', textAlign: 'center', mb: '6px' }}>{globalUser.youwhoID}</Typography>
+                        <Typography onClick={() => copyIdToClipBoard(globalUser.YouWhoID)} sx={{ width: '100%', fontSize: '21px', fontStyle: 'normal', fontWeight: '400', lineHeight: 'normal', textAlign: 'center', mb: '6px' }}>{globalUser.YouWhoID}</Typography>
                         <Typography sx={{ fontSize: '16px' }}>{globalUser.username}</Typography>
                         <Typography sx={{ fontSize: '16px' }}>{globalUser.mail}</Typography>
                     </Box>

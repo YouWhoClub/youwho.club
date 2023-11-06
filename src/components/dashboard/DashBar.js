@@ -464,7 +464,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
                                 </FlexRow>
                                 <FlexRow>
                                     <Typography sx={{ fontSize: '12px' }}>YouWho Wallet</Typography>
-                                    {globalUser.youwhoID ?
+                                    {globalUser.YouWhoID ?
                                         <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
                                         : <Timer color="pink" size='14px' />
                                     }

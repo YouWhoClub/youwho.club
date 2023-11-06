@@ -26,16 +26,22 @@ const Home = ({ switchTheme, theme }) => {
         <Homme>
             <NavbarTwo switchTheme={switchTheme} theme={theme} />
             {/* <ThemeSwitcher switchTheme={switchTheme} /> */}
-            <IntroNew theme={theme}/>
-            <YWServices theme={theme}/>
+            <IntroNew theme={theme} />
+            <YWServices theme={theme} />
             <SecondSection sx={{
-                mt: 10, pt: 10
+                // width: '100vw',
+                mt: 10,
+                // pt: 10
             }}>
                 <Box sx={{
-                    px: { xs: '0', sm: '30px', md: '60px' },
+                    px: {
+                        xs: '0',
+                        //  sm: '30px',
+                        md: '60px'
+                    },
                     display: 'flex', flexDirection: 'column',
                 }}>
-                    <FABSection theme={theme}/>
+                    <FABSection theme={theme} />
                     <DecorSection />
                     <WhatsSection />
                     <NFTSlides />

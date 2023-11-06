@@ -126,7 +126,7 @@ const CreateWallet = ({ switchTheme, setPvKey }) => {
     const setPrivateKeyy = (id) => dispatch(setPrivateKey(id));
     const fetchUser = (token) => dispatch(getuser(token));
     const globalUser = useSelector(state => state.userReducer)
-    const [youwhoID, setYouwhoID] = useState(globalUser.youwhoID)
+    const [YouWhoID, setYouWhoID] = useState(globalUser.YouWhoID)
     const [privateKeey, setPrivateKeey] = useState(globalUser.privateKey)
     const [keyCopied, setKeyCopied] = useState(false)
     const [idCopied, setIdCopied] = useState(false)
@@ -179,7 +179,7 @@ const CreateWallet = ({ switchTheme, setPvKey }) => {
                 throw response
             fetchUser(globalUser.token)
             setPrivateKeyy(response.data.data.signer)
-            setYouwhoID(response.data.data.screen_cid)
+            setYouWhoID(response.data.data.screen_cid)
             setPrivateKeey(response.data.data.signer)
             setPvKey(response.data.data.signer)
             setSuccess(response.statusText)
@@ -209,14 +209,14 @@ const CreateWallet = ({ switchTheme, setPvKey }) => {
 
         }}>
             {globalUser.isLoggedIn ?
-                <>{youwhoID ?
+                <>{YouWhoID ?
                     <>{privateKeey ?
                         <AuthBox>
                             {/* <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', color: "primary.darkGray" }}> */}
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}> your youwho id :
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}> your YouWho id :
                                 <span
                                     style={{ fontSize: '13px', color: '#BEA2C5', cursor: 'pointer' }}
-                                    onClick={() => copyidToClipBoard(youwhoID)}> {youwhoID}
+                                    onClick={() => copyidToClipBoard(YouWhoID)}> {YouWhoID}
                                 </span>
                                 <TickSquare style={{ display: idCopied ? 'block' : 'none', color: 'green' }} />
                             </div>
@@ -239,7 +239,7 @@ const CreateWallet = ({ switchTheme, setPvKey }) => {
                         </AuthBox>
                         :
                         <AuthBox>
-                            <div> your youwho id :<span style={{ color: '#BEA2C5', cursor: 'pointer' }} onClick={() => { navigator.clipboard.writeText(youwhoID) }}> {youwhoID}</span></div>
+                            <div> your YouWho id :<span style={{ color: '#BEA2C5', cursor: 'pointer' }} onClick={() => { navigator.clipboard.writeText(YouWhoID) }}> {YouWhoID}</span></div>
                         </AuthBox>
                     }
                     </>

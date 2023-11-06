@@ -54,7 +54,7 @@ const MainGallery = ({ switchTheme, theme }) => {
                 pr: { xs: 'none', sm: '15px', md: '30px' },
                 pl: { xs: 'none', sm: '90px' },
             }}>
-                {/* <h4>YOUWHO GIFT CARDS</h4>
+                {/* <h4>YouWho GIFT CARDS</h4>
                 <Gallery>
                     <GiftCard price={5} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
                     <GiftCard price={10} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
@@ -65,7 +65,7 @@ const MainGallery = ({ switchTheme, theme }) => {
                     <ButtonOutline text={'view all'} onClick={() => navigate('/transfer')} />
                 </Box> */}
 
-                <h4>EXPLORE YOUWHO MAIN GALLERY</h4>
+                <h4>EXPLORE YouWho MAIN GALLERY</h4>
                 <Gallery>
                     <NFTCard image={blueNft} name={'Blue NFT'} creator={'Amir'} price={9} likes={104} />
                     <NFTCard image={pinkNFT} name={'Pink NFT'} creator={'Naarin'} price={50} likes={199} />
