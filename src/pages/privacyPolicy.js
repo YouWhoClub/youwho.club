@@ -12,32 +12,45 @@ const Title = styled('h4')(({ theme }) => ({
 const P = styled('p')(({ theme }) => ({
     color: theme.palette.secondary.text, textAlign: 'center', fontSize: '14px',
 }))
+const Wrapper = styled(Box)(({ theme }) => ({
+    maxWidth: '1440px',
+    position: 'relative',
+    margin: '0 auto',
+    "@media (max-width: 1440px)": {
+        width: '100%',
+    },
+}))
+
 
 
 const PrivacyPolicy = ({ switchTheme, theme }) => {
     return (
-        <Box sx={{
-            height: '100vh', bgcolor: 'primary.bg',
-            display: 'flex', alignItems: 'center', flexDirection: "column"
-        }}>
-            <NavbarTwo theme={theme} switchTheme={switchTheme} />
-            <Box
-                sx={{
-                    height: 'calc(100vh - 55px)', width: '100%',
-                    color: 'primary.text',
-                    backgroundSize: 'contain', backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'center', backgroundImage: BG_URL(PUBLIC_URL(`${bgDots}`)),
-                    display: 'flex', justifyContent: 'center',
-                    alignItems: 'center', flexDirection: "column"
+        // <Box sx={{ bgcolor: 'secondary.bg' }}>
+        //     <Wrapper>
+                <Box sx={{
+                    height: '100vh', bgcolor: 'primary.bg',
+                    display: 'flex', alignItems: 'center', flexDirection: "column"
                 }}>
-                <Title>Privacy Policy</Title>
-                <P>
-                    Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available
+                    <NavbarTwo theme={theme} switchTheme={switchTheme} />
+                    <Box
+                        sx={{
+                            height: 'calc(100vh - 55px)', width: '100%',
+                            color: 'primary.text',
+                            backgroundSize: 'contain', backgroundRepeat: 'no-repeat',
+                            backgroundPosition: 'center', backgroundImage: BG_URL(PUBLIC_URL(`${bgDots}`)),
+                            display: 'flex', justifyContent: 'center',
+                            alignItems: 'center', flexDirection: "column"
+                        }}>
+                        <Title>Privacy Policy</Title>
+                        <P>
+                            Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available
 
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                </P>
-            </Box>
-        </Box>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                        </P>
+                    </Box>
+                </Box>
+        //     </Wrapper>
+        // </Box>
     );
 }
 

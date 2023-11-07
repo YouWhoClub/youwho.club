@@ -14,7 +14,7 @@ const changeBG = keyframes`
   }
 `
 
-const Wrapper = styled(Box)(({ theme }) => ({
+const WrapperIn = styled(Box)(({ theme }) => ({
     // height: 'calc(100vh - 55px)',
     height: 'auto',
     display: 'flex',
@@ -33,6 +33,15 @@ const YouWhoPic = styled(Box)(({ theme }) => ({
         // animation: `${changeBG} 3s linear infinite`,
     }
 }))
+const Wrapper = styled(Box)(({ theme }) => ({
+    width: '100%',
+    maxWidth: '1440px',
+    margin: '0 auto',
+    "@media (max-width: 1440px)": {
+        width: '100%',
+    },
+}))
+
 const IntroNew = ({ theme }) => {
     const scrollToId = () => {
         // let target = window.document.getElementById('nft-examples')
@@ -45,48 +54,48 @@ const IntroNew = ({ theme }) => {
     }
     return (
         <Wrapper sx={{
-            // px: { xs: '30px', sm: '60px' },
-            padding: { xs: '60px 20px 80px 20px', sm: '100px 60px 90px 60px' },
-            flexDirection: { xs: 'column', sm: 'row' },
-            gap: { xs: '44px', sm: '110px' },
-            // my: 3
         }}>
-            <Box sx={{
-                width: { xs: '100%', sm: '350px' },
-                // height: '100%',
-                justifyContent: 'center',
-                alignItems: { xs: 'center', sm: 'start' },
-                display: 'flex', flexDirection: 'column',
+            <WrapperIn sx={{
+                padding: { xs: '60px 20px 80px 20px', sm: '100px 60px 90px 60px' },
+                flexDirection: { xs: 'column', sm: 'row' },
+                gap: { xs: '44px', sm: '110px' },
             }}>
-                <Typography variant="h4" sx={{
-                    color: 'primary.text', margin: 0,
-                    fontSize: { xs: '40px', sm: '74px' }, fontWeight: 400,
-                    mb: { xs: '25px', sm: '11px' },
-                }}>YouWho</Typography>
-                <Typography variant="h6"
-                    sx={{
-                        color: 'secondary.text',
-                        // margin: 0,
-                        mb: { xs: '92px' },
-                        fontSize: { xs: '20px', sm: '30px' }, fontWeight: 400
-                    }}>A Life Magic For You</Typography>
-                <Typography variant="p"
-                    sx={{
-                        color: 'primary.gray',
-                        margin: 0, mb: { xs: '60px', sm: 5 },
-                        textAlign: { xs: 'center', sm: 'start' },
-                        fontFamily: "Inter"
-                    }}>YouWho is a NFT market place with
-                    new unique features.</Typography>
-                <ButtonPurple onClick={scrollToId} text={`YouWho NFTs Examples`} w={'max-content'} icon={<ArrowDown size='12px' />} px={'20px'} />
-            </Box>
-            <YouWhoPic sx={{
-                width: { xs: '100%', sm: '560px' },
-                height: { xs: '290px', sm: '560px' },
-            }}>
-            </YouWhoPic>
-        </Wrapper >
-
+                <Box sx={{
+                    width: { xs: '100%', sm: '350px' },
+                    // height: '100%',
+                    justifyContent: 'center',
+                    alignItems: { xs: 'center', sm: 'start' },
+                    display: 'flex', flexDirection: 'column',
+                }}>
+                    <Typography variant="h4" sx={{
+                        color: 'primary.text', margin: 0,
+                        fontSize: { xs: '40px', sm: '74px' }, fontWeight: 400,
+                        mb: { xs: '25px', sm: '11px' },
+                    }}>YouWho</Typography>
+                    <Typography variant="h6"
+                        sx={{
+                            color: 'secondary.text',
+                            // margin: 0,
+                            mb: { xs: '92px' },
+                            fontSize: { xs: '20px', sm: '30px' }, fontWeight: 400
+                        }}>A Life Magic For You</Typography>
+                    <Typography variant="p"
+                        sx={{
+                            color: 'primary.gray',
+                            margin: 0, mb: { xs: '60px', sm: 5 },
+                            textAlign: { xs: 'center', sm: 'start' },
+                            fontFamily: "Inter"
+                        }}>YouWho is a NFT market place with
+                        new unique features.</Typography>
+                    <ButtonPurple onClick={scrollToId} text={`YouWho NFTs Examples`} w={'max-content'} icon={<ArrowDown size='12px' />} px={'20px'} />
+                </Box>
+                <YouWhoPic sx={{
+                    width: { xs: '100%', sm: '560px' },
+                    height: { xs: '290px', sm: '560px' },
+                }}>
+                </YouWhoPic>
+            </WrapperIn >
+        </Wrapper>
     );
 }
 

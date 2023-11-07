@@ -47,6 +47,15 @@ const GiftsScrollWrapper = styled(Box)(({ theme }) => ({
 
     },
 }))
+const Wrapper = styled(Box)(({ theme }) => ({
+    maxWidth: '1440px',
+    position: 'relative',
+    margin: '0 auto',
+    "@media (max-width: 1440px)": {
+        width: '100%',
+    },
+}))
+
 
 const ViewMainGalleryPage = ({ theme, switchTheme }) => {
     return (
@@ -126,7 +135,6 @@ const ViewMainGalleryPage = ({ theme, switchTheme }) => {
             </Box>
             <Footer />
         </Box>
-
     );
 }
 

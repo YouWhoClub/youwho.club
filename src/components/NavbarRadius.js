@@ -99,7 +99,15 @@ const NavStyle = styled('div')(({ theme }) => ({
     zIndex: 999,
     borderRadius: '0 0 12px 12px',
     boxShadow: theme.palette.primary.boxShadow,
-    backgroundColor: theme.palette.secondary.bg,display:'flex',alignItems:'center'
+    backgroundColor: theme.palette.secondary.bg,display:'flex',alignItems:'center',
+
+
+    maxWidth: '1440px',
+    margin: '0 auto',
+    "@media (max-width: 1440px)": {
+        width: '100%',
+    },
+
 }))
 
 function HomeIcon(props) {

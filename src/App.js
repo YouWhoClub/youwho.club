@@ -183,8 +183,6 @@ function App() {
     "@media (max-width: 1440px)": {
       width: '100%',
     },
-    // justifyContent: 'center',
-    // alignItems: 'center'
   }))
   const localTheme = localStorage.getItem('theme')
   return (
@@ -207,24 +205,32 @@ function App() {
           <BrowserRouter>
             <ScrollToTop>
               <>
+                {/* <Box sx={{ bgcolor: 'secondary.bg' }}>
+                  <Wrapper> */}
+                <Routes>
+                  <Route exact path="/" element={<Home theme={theme} switchTheme={switchTheme} />} />
+                  <Route exact path="/landing" element={<LandingPrev theme={theme} switchTheme={switchTheme} />} />
+                  <Route exact path="/auth" element={<Auth theme={theme} switchTheme={switchTheme} />} />
+                </Routes>
+
                 <Box sx={{ bgcolor: 'secondary.bg' }}>
                   <Wrapper>
                     <Routes>
-                      <Route exact path="/" element={<Home theme={theme} switchTheme={switchTheme} />} />
-                      <Route exact path="/landing" element={<LandingPrev theme={theme} switchTheme={switchTheme} />} />
-                      <Route exact path="/auth" element={<Auth theme={theme} switchTheme={switchTheme} />} />
-                      <Route exact path="/display" element={<Display theme={theme} switchTheme={switchTheme} />} />
-                      <Route exact path="/dashboard" element={<Dashboard switchTheme={switchTheme} theme={theme} />} />
-                      <Route exact path="/profile/:name" element={<Profile theme={theme} switchTheme={switchTheme} />} />
+                      <Route exact path="/" element={<></>} />
 
+                      <Route exact path="/main-gallery" element={<ViewMainGalleryPage theme={theme} switchTheme={switchTheme} />} />
                       <Route exact path="/transfer" element={<TransferPage theme={theme} switchTheme={switchTheme} />} />
 
+                      <Route exact path="/gallery" element={<MainGallery switchTheme={switchTheme} theme={theme} />} />
+
+                      <Route exact path="/dashboard" element={<Dashboard switchTheme={switchTheme} theme={theme} />} />
                       <Route exact path="/wallet" element={<WalletPage theme={theme} switchTheme={switchTheme} />} />
-                      <Route exact path="/main-gallery" element={<ViewMainGalleryPage theme={theme} switchTheme={switchTheme} />} />
-                      <Route exact path="/gallery/user/:id" element={<PublicGallery theme={theme} switchTheme={switchTheme} />} />
+
+                      <Route exact path="/profile/:name" element={<Profile theme={theme} switchTheme={switchTheme} />} />
+
+
                       <Route exact path="/verify-mail" element={<VerifyMail theme={theme} />} />
                       <Route exact path="/verify-phone" element={<VerifyPhone theme={theme} />} />
-                      <Route exact path="/gallery" element={<MainGallery switchTheme={switchTheme} theme={theme} />} />
                       <Route exact path="/checkout/success" element={<CheckoutSuccess switchTheme={switchTheme} theme={theme} />} />
                       <Route exact path="/checkout/cancel" element={<CheckoutCancel switchTheme={switchTheme} theme={theme} />} />
 
@@ -233,6 +239,8 @@ function App() {
                     </Routes>
                   </Wrapper>
                 </Box>
+                {/* </Wrapper>
+                </Box> */}
               </>
             </ScrollToTop>
           </BrowserRouter>

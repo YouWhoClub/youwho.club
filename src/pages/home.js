@@ -22,31 +22,28 @@ const SecondSection = styled(Box)(({ theme }) => ({
 }))
 
 const Home = ({ switchTheme, theme }) => {
+
+    const Wrapper = styled(Box)(({ theme }) => ({
+        width: '100%',
+        maxWidth: '1440px',
+        margin: '0 auto',
+        "@media (max-width: 1440px)": {
+            width: '100%',
+        },
+    }))
+
     return (
         <Homme>
             <NavbarTwo switchTheme={switchTheme} theme={theme} />
-            {/* <ThemeSwitcher switchTheme={switchTheme} /> */}
             <IntroNew theme={theme} />
             <YWServices theme={theme} />
-            {/* <SecondSection sx={{
-                mt: 10,
-                // pt: 10
-            }}>
-                <Box sx={{
-                    px: {
-                        xs: '0',
-                        //sm: '30px',
-                        md: '60px'
-                    },
-                    display: 'flex', flexDirection: 'column',
-                }}> */}
             <FABSection theme={theme} />
             <DecorSection />
             <WhatsSection />
             <NFTSlides />
-            {/* </Box> */}
-            <Footer />
-            {/* </SecondSection> */}
+            <Wrapper>
+                <Footer />
+            </Wrapper>
         </Homme>
     );
 }

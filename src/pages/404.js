@@ -4,9 +4,20 @@ import { Link } from "react-router-dom";
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
 import bgDots from '../assets/bgDots.svg'
 import NavbarTwo from "../components/NavbarRadius";
+import styled from "@emotion/styled";
+
+const Wrapper = styled(Box)(({ theme }) => ({
+  maxWidth: '1440px',
+  position: 'relative',
+  margin: '0 auto',
+  "@media (max-width: 1440px)": {
+    width: '100%',
+  },
+}))
 
 const NotFound = ({ theme, switchTheme }) => {
   return (
+
     <Box sx={{
       height: '100vh', bgcolor: 'primary.bg',
       display: 'flex', alignItems: 'center', flexDirection: "column"
