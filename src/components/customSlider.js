@@ -73,8 +73,8 @@ export default function CustomSlider({ children, slidesCount, slidesCountTablet,
     const settings = {
         infinite: false,
         // dots: false,
-        slidesToShow: slidesCount ? slidesCount : 3,
-        slidesToScroll: slidesCount ? slidesCount : 3,
+        slidesToShow: slidesCount ? slidesCount : 5,
+        slidesToScroll: slidesCount ? slidesCount : 5,
         nextArrow: <SampleNextArrow theme={theme} />,
         prevArrow: <SamplePrevArrow theme={theme} />,
         // lazyLoad: true,
@@ -83,28 +83,35 @@ export default function CustomSlider({ children, slidesCount, slidesCountTablet,
         speed: 500,
         responsive: [
             {
+                breakpoint: 1400,
+                settings: {
+                    slidesToShow: slidesCountTablet ? slidesCountTablet : 5,
+                    slidesToScroll: slidesCountTablet ? slidesCountTablet : 5,
+                }
+            },
+            {
                 breakpoint: 1300,
+                settings: {
+                    slidesToShow: slidesCountTablet ? slidesCountTablet : 4,
+                    slidesToScroll: slidesCountTablet ? slidesCountTablet : 4,
+                }
+            },
+            {
+                breakpoint: 1024,
                 settings: {
                     slidesToShow: slidesCountTablet ? slidesCountTablet : 3,
                     slidesToScroll: slidesCountTablet ? slidesCountTablet : 3,
                 }
             },
             {
-                breakpoint: 1024,
+                breakpoint: 660,
                 settings: {
                     slidesToShow: slidesCountTablet ? slidesCountTablet : 2,
                     slidesToScroll: slidesCountTablet ? slidesCountTablet : 2,
                 }
             },
             {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: slidesCountTablet ? slidesCountTablet : 2,
-                    slidesToScroll: slidesCountTablet ? slidesCountTablet : 2,
-                }
-            },
-            {
-                breakpoint: 700,
+                breakpoint: 460,
                 settings: {
                     slidesToShow: 1,
                     slidesToScroll: 1,

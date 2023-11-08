@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
 import { Heart, More, Share } from "iconsax-react";
+import { ShareLocationSharp, ShareSharp } from "@mui/icons-material";
 
 const Outter = styled(Box)(({ theme }) => ({
     // width: '200px', height: '175px', padding: '5px',
@@ -41,28 +42,28 @@ const FlexRow = styled(Box)(({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    color: theme.palette.primary.light,
+    color: theme.palette.primary.text,
 }))
 const DetailsSection = styled(Box)(({ theme }) => ({
     width: '100%',
     height: '100%',
     display: 'flex', flexDirection: 'column',
     justifyContent: 'space-between',
-    color: theme.palette.primary.light, marginTop: '12px'
+    color: theme.palette.primary.text, marginTop: '12px'
 }))
 
 const NFTCardLanding = ({ image }) => {
     return (
         <Outter sx={{ py: '10px' }}>
-            <Card onClick={() => alert('TRANSFER MODAL')}>
+            <Card onClick={() => alert('WILL REDIRECT TO NFT PAGE')}>
                 <NFTImage style={{ backgroundImage: BG_URL(PUBLIC_URL(`${image}`)) }} />
                 <DetailsSection>
                     <FlexRow>
-                        <p style={{ margin: 0 }}>NFT name</p>
-                        <Share />
+                        <Typography sx={{ margin: 0,fontWeight:400,fontSize:'12px' }}>NFT name</Typography>
+                        <ShareSharp sx={{ color: "secondary.text", }}fontSize="18px" />
                     </FlexRow>
                     <FlexRow>
-                        <p style={{ margin: 0 }}>10$</p>
+                        <Typography sx={{ margin: 0, color: 'primary.text',fontWeight:300,fontSize:'10px' }}>10$</Typography>
                     </FlexRow>
 
                 </DetailsSection>
