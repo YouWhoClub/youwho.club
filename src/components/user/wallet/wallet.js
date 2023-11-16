@@ -403,12 +403,12 @@ const Wallet = ({ privateKey }) => {
                         onClick={(e) => setState(e.target.id)}
                         selected={state == 'charge-wallet'}
                     />
-                    <Tab
+                    {/* <Tab
                         icon={<ArrowUpward size="16px" sx={{ mr: '4px', pointerEvents: 'none' }} />}
                         text={`Withdraw`} id={"withdraw"}
                         onClick={(e) => setState(e.target.id)}
                         selected={state == 'withdraw'}
-                    />
+                    /> */}
                     <Tab
                         icon={<Box sx={{ width: '20px', height: '20px', mr: '7px', pointerEvents: 'none', backgroundImage: () => state == 'transfer' ? BG_URL(PUBLIC_URL(`${giftOpenWhite}`)) : BG_URL(PUBLIC_URL(`${giftOpen}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />}
                         text={`Transfer NFT Gift`}
@@ -434,7 +434,7 @@ const Wallet = ({ privateKey }) => {
 
                 <Panel sx={{ width: '100%', pt: '26px' }}>
                     {state == 'charge-wallet' && <ChargeWallet />}
-                    {state == 'withdraw' && <WithdrawPanel />}
+                    {/* {state == 'withdraw' && <WithdrawPanel />} */}
                     {state == 'transfer' && <TransferGift />}
                     {state == 'claim' && <WithdrawPanel />}
                     {state == 'turnover' && <Turnover />}
