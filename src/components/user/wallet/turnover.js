@@ -40,10 +40,10 @@ const Icon = styled(Box)(({ theme, url, w, h }) => ({
 const Turnover = () => {
     const globalUser = useSelector(state => state.userReducer)
     const [filterValue, setFilterValue] = useState('Unpaid Checkouts')
-    const [unpaidCheckouts, setUnpaidCheckouts] = useState(null)
-    const [paidCheckouts, setPaidCheckouts] = useState(null)
-    const [userDeposits, setUserDeposits] = useState(null)
-    const [userWithdrawals, setUserWithdrawals] = useState(null)
+    const [unpaidCheckouts, setUnpaidCheckouts] = useState([])
+    const [paidCheckouts, setPaidCheckouts] = useState([])
+    const [userDeposits, setUserDeposits] = useState([])
+    const [userWithdrawals, setUserWithdrawals] = useState([])
 
 
     const navigate = useNavigate()
@@ -156,7 +156,7 @@ const Turnover = () => {
                 {
                     filterValue == 'Unpaid Checkouts' &&
                     <>{
-                        unpaidCheckouts ?
+                        unpaidCheckouts.length ?
                             unpaidCheckouts.map(checkout => {
                                 return (
                                     <Card>
@@ -186,7 +186,7 @@ const Turnover = () => {
                 {
                     filterValue == 'Paid Checkouts' &&
                     <>{
-                        paidCheckouts ?
+                        paidCheckouts.length ?
                             paidCheckouts.map(checkout => {
                                 return (
                                     <Card>
@@ -216,7 +216,7 @@ const Turnover = () => {
                 {
                     filterValue == 'Deposits' &&
                     <>{
-                        userDeposits ?
+                        userDeposits.length ?
                             userDeposits.map(deposite => {
                                 return (
                                     <Card>
@@ -249,7 +249,7 @@ const Turnover = () => {
                 {
                     filterValue == 'Withdrawals' &&
                     <>{
-                        userWithdrawals ?
+                        userWithdrawals.length ?
                             userWithdrawals.map(withdrawal => {
                                 return (
                                     <Card>
