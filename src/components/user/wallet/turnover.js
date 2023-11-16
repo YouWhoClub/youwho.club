@@ -156,7 +156,7 @@ const Turnover = () => {
                 {
                     filterValue == 'Unpaid Checkouts' &&
                     <>{
-                        unpaidCheckouts.length ?
+                        unpaidCheckouts ?
                             unpaidCheckouts.map(checkout => {
                                 return (
                                     <Card>
@@ -186,7 +186,7 @@ const Turnover = () => {
                 {
                     filterValue == 'Paid Checkouts' &&
                     <>{
-                        paidCheckouts.length ?
+                        paidCheckouts ?
                             paidCheckouts.map(checkout => {
                                 return (
                                     <Card>
@@ -216,7 +216,7 @@ const Turnover = () => {
                 {
                     filterValue == 'Deposits' &&
                     <>{
-                        userDeposits.length ?
+                        userDeposits ?
                             userDeposits.map(deposite => {
                                 return (
                                     <Card>
@@ -249,7 +249,7 @@ const Turnover = () => {
                 {
                     filterValue == 'Withdrawals' &&
                     <>{
-                        userWithdrawals.length ?
+                        userWithdrawals ?
                             userWithdrawals.map(withdrawal => {
                                 return (
                                     <Card>
