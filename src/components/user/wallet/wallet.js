@@ -1,25 +1,28 @@
 import styled from "@emotion/styled";
 import PanelLayout from "../../PanelLayout";
-import { Box, Typography } from "@mui/material";
-import { ContentCopy, ShareOutlined, SettingsOutlined, Sync, ArrowUpward, ArrowDownward } from "@mui/icons-material";
-import { useSelector } from "react-redux";
-import { useState } from "react";
+import { Box, Typography, Modal, FormControl, FormControlLabel, Radio, RadioGroup } from "@mui/material";
+import { ContentCopy, ShareOutlined, SettingsOutlined, Sync, ArrowUpward, ArrowDownward, Close } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useRef, useState } from "react";
 import { BG_URL, PUBLIC_URL } from "../../../utils/utils";
 import WithdrawPanel from "./withdrawPanel";
 import ChargeWallet from "./chargeWallet";
 import TransferGift from "./transferGift";
-import PaidCheckouts from "./paidCheckouts";
-import UnpaidCheckouts from "./unpaidCheckouts";
+import Turnover from "./turnover";
 import yCoin from '../../../assets/Ycoin.svg'
 import Chip from '../../../assets/icons/Chip.svg'
-import cardBackground from '../../../assets/cardBackground.png'
+import cardBackgroundImage from '../../../assets/cardBackground.png'
 import gift from '../../../assets/icons/gift-open-outline.svg'
 import giftOpen from '../../../assets/icons/gift-outline.svg'
 import giftWhite from '../../../assets/icons/gift-open-outline-white.svg'
 import giftOpenWhite from '../../../assets/icons/gift-outline-white.svg'
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { Tab, Tabs } from "../../utils";
-// import yWhite from './w-outline.svg'
+import Crop from '../../crop/Crop'
+import { API_CONFIG } from "../../../config";
+import { getuser } from "../../../redux/actions";
+
+
 
 const ShowPanel = styled(Box)(({ theme }) => ({
     marginTop: '50px', width: '100%',
@@ -36,43 +39,118 @@ const Panel = styled(Box)(({ theme }) => ({
     display: 'flex', flexDirection: 'column', alignItems: 'center',
     // boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)',
 }))
-// const Tab = styled(Box)(({ theme }) => ({
-//     display: 'flex',
-//     alignItems: 'center',
-//     color: '#787878',
-//     backgroundColor: '#fff',
-//     cursor: 'pointer',
-//     padding: '10px 22px 10px 18px',
-//     whiteSpace: 'nowrap',
-//     borderRadius: '30px',
-//     lineHeight: 'normal',
-//     boxShadow: ' 0px 0px 4px 1px rgba(0, 0, 0, 0.25) inset',
-//     border: '1px solid #DEDEDE',
+const FlexRow = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    color: theme.palette.primary.light,
+}))
 
-//     '& .MuiTypography-root': {
-//         fontFamily: 'Inter',
-//         fontSize: '14px',
-//         color: '#787878',
-//         lineHeight: 'normal',
-//         fontWeight: '400'
-//     },
-//     '&.active': {
-//         boxShadow: ' 0px 0px 5px 1px rgba(0, 0, 0, 0.25)',
-//         backgroundColor: '#6A2ABE',
-//         color: '#fff',
-
-//         '& .MuiTypography-root': {
-//             color: '#fff'
-//         }
-//     }
-// }))
+const Button = styled('button')(({ theme, color }) => ({
+    backgroundColor: 'transparent',
+    padding: '8px 24px',
+    outline: 'none',
+    color: color,
+    cursor: 'pointer',
+    border: 'none',
+    fontFamily: "Inter",
+    fontSize: '12px',
+}))
 
 
 const Wallet = ({ privateKey }) => {
     const globalUser = useSelector(state => state.userReducer)
+    const dispatch = useDispatch();
+    const fetchUser = (token) => dispatch(getuser(token));
     const [keyCopied, setKeyCopied] = useState(false)
     const [idCopied, setIdCopied] = useState(false)
     const [state, setState] = useState('charge-wallet')
+    const [openSetting, setOpenSetting] = useState(false)
+    const [openCrop, setOpenCrop] = useState(false)
+    const [cardTextColor, setCardTextColor] = useState('white')
+    const [cardBackground, setCardBackground] = useState('default')
+    const [finalCard, setFinalCard] = useState({ color: 'white', background: 'default' })
+    const imageInput = useRef()
+    const toastId = useRef(null);
+    const [file, setFile] = useState(null);
+    const [photoURL, setPhotoURL] = useState(null);
+
+    useEffect(() => {
+        if (globalUser.walletBackground) {
+            setCardBackground('custom')
+            setFinalCard(prev => ({ ...prev, background: 'custom' }))
+        }
+    }, [globalUser.walletBackground])
+
+
+    const loading = () => {
+        toastId.current = toast.loading("Please wait...")
+        console.log(toastId)
+    }
+
+    const updateToast = (success, message) => {
+        success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
+            : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
+    }
+
+    async function uploadBackgroundImage() {
+        loading();
+
+        const myFile = new File([file], 'image.jpeg', {
+            type: file.type,
+        });
+
+        const formData = new FormData();
+        formData.append("img", myFile);
+
+        console.log(formData)
+
+        const request = await fetch(`${API_CONFIG.AUTH_API_URL}/profile/update/wallet-back`, {
+            method: "POST",
+            headers: {
+                'Authorization': `Bearer ${globalUser.token}`,
+            },
+            body: formData,
+        });
+
+        const response = await request.json();
+
+        if (!response.is_error) {
+            updateToast(true, response.message);
+            fetchUser(globalUser.token);
+            setOpenSetting(false);
+            setFile(null)
+        } else {
+            console.error("Error uploading image:", response.message);
+            updateToast(false, `An error occurred: ${response.message}`);
+        }
+    }
+
+
+
+    const handleSave = async () => {
+        setFinalCard(prev => ({ ...prev, color: cardTextColor, background: cardBackground }))
+        if (file && cardBackground == 'custom') {
+            uploadBackgroundImage()
+        } else {
+            setOpenSetting(false)
+        }
+    }
+
+    const handleCancel = async () => {
+        setCardTextColor(finalCard.color)
+        setCardBackground(finalCard.background)
+        setOpenSetting(false)
+    }
+
+    const handleChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setFile(file);
+            setPhotoURL(URL.createObjectURL(file));
+            setOpenCrop(true);
+        }
+    };
 
     const copyToClipBoard = async (textToCopy) => {
         try {
@@ -109,14 +187,15 @@ const Wallet = ({ privateKey }) => {
                 sx={(theme) => ({
                     width: '490px',
                     height: '250px',
-                    backgroundImage: BG_URL(PUBLIC_URL(`${cardBackground}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',
+                    backgroundImage: () => (globalUser.walletBackground && finalCard.background == 'custom') ? BG_URL(PUBLIC_URL(`${API_CONFIG.API_URL}/${globalUser.walletBackground}`)) : BG_URL(PUBLIC_URL(`${cardBackgroundImage}`)),
+                    backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',
                     boxShadow: theme.palette.primary.boxShadow,
                     borderRadius: '24px',
                     display: 'flex',
                     alignItems: 'center',
                     p: '24px 24px 24px 24px', mt: 3,
                     flexDirection: 'column', justifyContent: 'space-between',
-                    color: '#FFF'
+                    color: finalCard.color
                 })}
             >
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -125,9 +204,15 @@ const Wallet = ({ privateKey }) => {
                         <Box sx={{ width: '72px', height: '16px', backgroundImage: BG_URL(PUBLIC_URL(`./w-typography.svg`)), backgroundRepeat: 'no-repeat' }} />
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
-                        <ContentCopy size={25} sx={{ cursor: 'pointer' }} />
-                        <ShareOutlined size={25} sx={{ cursor: 'pointer' }} />
-                        <SettingsOutlined size={25} sx={{ cursor: 'pointer' }} />
+                        <div>
+                            <ContentCopy size={25} sx={{ cursor: 'pointer' }} />
+                        </div>
+                        <div>
+                            <ShareOutlined size={25} sx={{ cursor: 'pointer' }} />
+                        </div>
+                        <div onClick={() => setOpenSetting(true)}>
+                            <SettingsOutlined size={25} sx={{ cursor: 'pointer' }} />
+                        </div>
                     </Box>
                 </Box>
                 <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '24px' }}>
@@ -166,7 +251,106 @@ const Wallet = ({ privateKey }) => {
                     </Box>
 
                 </Box>
-            </Box>
+
+                <Modal
+                    open={openSetting}
+                    onClose={() => setOpenSetting(false)}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                    sx={{ '& .MuiBackdrop-root': { backgroundColor: 'rgba(255, 255, 255, 0.50)', backdropFilter: "blur(16.5px)", } }}
+                >
+                    <Box sx={{
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                        {
+                            openCrop ?
+                                <Box sx={{
+                                    borderRadius: '24px',
+                                    width: { xs: '100%', sm: '600px' }, height: { xs: '100%', sm: '600px' },
+                                    backgroundColor: 'secondary.bg',
+                                    display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between',
+                                    boxShadow: '0px 0px 20px 0px black',
+                                }}>
+                                    <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}>
+                                        <Typography>Crop</Typography>
+                                        <div onClick={() => {
+                                            setOpenCrop(false)
+                                        }}>
+                                            <Close sx={{ cursor: 'pointer' }} />
+                                        </div>
+                                    </FlexRow>
+                                    <Crop imageURL={photoURL} aspectRatio={2 / 1} setOpenCrop={setOpenCrop} setFile={setFile} setPhotoURL={setPhotoURL} />
+                                </Box> :
+                                <Box sx={{
+                                    borderRadius: '24px',
+                                    width: { xs: '100%', sm: '533px' }, height: { xs: '100%', sm: '260px' },
+                                    backgroundColor: 'secondary.bg',
+                                    display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between',
+                                    boxShadow: '0px 0px 20px 0px rgba(0, 0, 0, 0.50)',
+                                }}>
+                                    <Box>
+                                        <Typography sx={{ fontSize: '16px' }}>
+                                            YouWho Card Text Color
+                                        </Typography>
+                                        <FormControl >
+                                            <RadioGroup
+                                                row
+                                                aria-labelledby="row-radio-buttons-color-group-label"
+                                                name="color-radio-buttons-group"
+                                                value={cardTextColor}
+                                                onChange={(e) => setCardTextColor(e.target.value)}
+                                            >
+                                                <FormControlLabel sx={{ '& .MuiFormControlLabel-label': { fontFamily: 'inter', fontSize: '12px' } }} value="white" control={<Radio />} label="White" />
+                                                <FormControlLabel sx={{ '& .MuiFormControlLabel-label': { fontFamily: 'inter', fontSize: '12px' } }} value="black" control={<Radio />} label="Black" />
+                                            </RadioGroup>
+                                        </FormControl>
+                                    </Box>
+                                    <Box>
+                                        <Typography sx={{ fontSize: '16px' }}>
+                                            Youwho Card Text Background Image
+                                        </Typography>
+                                        <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '50px' }}>
+                                            <FormControl >
+                                                <RadioGroup
+                                                    aria-labelledby="row-radio-buttons-image-group-label"
+                                                    name="image-radio-buttons-group"
+                                                    value={cardBackground}
+                                                    onChange={(e) => setCardBackground(e.target.value)}
+                                                >
+                                                    <FormControlLabel sx={{ '& .MuiFormControlLabel-label': { fontFamily: 'inter', fontSize: '12px' } }} value="custom" control={<Radio />} label="Browse Custom Image" />
+                                                    <FormControlLabel sx={{ '& .MuiFormControlLabel-label': { fontFamily: 'inter', fontSize: '12px' } }} value="default" control={<Radio />} label="Default" />
+                                                </RadioGroup>
+                                            </FormControl>
+                                            <Box
+                                                onClick={() => imageInput.current.click()}
+                                                sx={{
+                                                    width: '100px', height: '60px', borderRadius: '10px', cursor: () => cardBackground == 'default' ? 'default' : 'pointer', pointerEvents: () => cardBackground == 'default' ? 'none' : 'auto',
+                                                    backgroundImage: () => cardBackground == 'default' ? BG_URL(PUBLIC_URL(`${cardBackgroundImage}`)) : photoURL ? BG_URL(PUBLIC_URL(`${photoURL}`)) : BG_URL(PUBLIC_URL(`${API_CONFIG.API_URL}/${globalUser.walletBackground}`)),
+                                                    backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',
+                                                }}
+                                            ></Box>
+                                            <input
+                                                accept="image/*"
+                                                id="profilePhoto"
+                                                type="file"
+                                                style={{ display: 'none' }}
+                                                onChange={handleChange}
+                                                ref={imageInput}
+                                            />
+                                        </Box>
+                                    </Box>
+                                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                                        <Button color="#F675A8" onClick={handleCancel}>cancel</Button>
+                                        <Button color="#3DCA64" onClick={handleSave}>save</Button>
+                                    </Box>
+
+                                </Box>
+                        }
+                    </Box>
+                </Modal >
+            </Box >
 
             <ShowPanel>
                 {/* <Box sx={{
@@ -253,11 +437,11 @@ const Wallet = ({ privateKey }) => {
                     {state == 'withdraw' && <WithdrawPanel />}
                     {state == 'transfer' && <TransferGift />}
                     {state == 'claim' && <WithdrawPanel />}
-                    {state == 'turnover' && <UnpaidCheckouts />}
+                    {state == 'turnover' && <Turnover />}
                 </Panel>
             </ShowPanel>
             <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick pauseOnFocusLoss pauseOnHover />
-        </Box>
+        </Box >
         // </Box >
 
     );

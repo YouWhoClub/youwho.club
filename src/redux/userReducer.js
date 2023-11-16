@@ -33,6 +33,7 @@ function userReducer(state = initialState, action) {
                 bio: action.payload.bio,
                 avatar: action.payload.avatar,
                 banner: action.payload.banner,
+                walletBackground:action.payload.wallet_background,
             };
         case LOGOUT_USER:
             localStorage.removeItem('account')
