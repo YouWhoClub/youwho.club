@@ -208,7 +208,7 @@ const Turnover = () => {
                                 <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '3px' }}>
                                     <Typography sx={{ color: 'primary.text', fontFamily: 'inter', fontSize: '16px', fontWeight: '500', lineHeight: '26px' }}>
                                         <Typography sx={{ color: '#3DCA64', fontFamily: 'inter', fontSize: '16px', fontWeight: '500', lineHeight: '26px', display: 'inline-block' }}>Succcessfull&nbsp;</Typography>
-                                        Claim NFT Gift
+                                        Deposite NFT Gift
                                     </Typography>
                                     <Typography sx={{ display:'flex',color: 'primary.text', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: 'Inter', fontSize: '14px', fontWeight: '400', lineHeight: '24px' }}>
                                         You have successfully sent {deposite.amount} YouWho tokens to
