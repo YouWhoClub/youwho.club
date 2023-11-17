@@ -105,11 +105,11 @@ const NavbarTransparent = ({ switchTheme }) => {
     const [err, setErr] = useState(false)
     const [intervalRef, setIntervalRef] = useState(null);
 
-    useEffect(() => {
-        if (globalUser.isLoggedIn && !globalUser.isMailVerified) {
-            disconnect()
-        }
-    }, [globalUser.isLoggedIn, globalUser.isMailVerified])
+    // useEffect(() => {
+    //     if (globalUser.isLoggedIn && !globalUser.isMailVerified) {
+    //         disconnect()
+    //     }
+    // }, [globalUser.isLoggedIn, globalUser.isMailVerified])
 
     useEffect(() => {
         if (globalUser.cid) {
