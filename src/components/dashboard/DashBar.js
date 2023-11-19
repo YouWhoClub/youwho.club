@@ -58,7 +58,6 @@ const FlexRow = styled(Box)(({ theme }) => ({
 const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
     const [expanded, setExpanded] = useState(false)
     const [anchorEl, setAnchorEl] = useState(null);
-    const [value, setValue] = useState(tabs[0])
     const [editProfile, setEditProfile] = useState(false)
     const globalUser = useSelector(state => state.userReducer)
     const [bio, setBio] = useState('')

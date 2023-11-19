@@ -53,7 +53,7 @@ const NFTSlides = () => {
                         flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                         width: '100%', my: '30px'
                     }}>
-                        <ButtonPurple text={'View All'} onClick={() => navigate(globalUser.isLoggedIn ? '/gallery' : '/main-gallery')} px={'10px'} />
+                        <ButtonPurple  text={'View All'} onClick={() => navigate(globalUser.isLoggedIn ? '/gallery' : '/main-gallery')} px={'10px'} />
                     </Box>
                 </Box>
             </Box>

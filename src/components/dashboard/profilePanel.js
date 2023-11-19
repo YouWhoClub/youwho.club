@@ -9,11 +9,9 @@ import RelationsTab from "./relationsTab";
 import ReactionsTab from "./reactionsTab";
 const Panel = styled(Box)(({ theme }) => ({
     color: theme.palette.primary.text,
-    // marginLeft: { xs: '0', sm: '20px' },
     transition: '500ms ease',
     width: '100%', borderRadius: '24px',
     display: 'flex', flexDirection: 'column', alignItems: 'center',
-    // boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)',
 
 }))
 const ScrollablePanel = styled(Box)(({ theme }) => ({
@@ -44,13 +42,32 @@ const ScrollablePanel = styled(Box)(({ theme }) => ({
 
     },
 }))
+const FlexRow = styled(Box)(({ theme }) => ({
+    display: 'flex', width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+}))
+const FlexColumn = styled(Box)(({ theme }) => ({
+    display: 'flex', flexDirection: 'column',
+    justifyContent: 'space-between', width: '100%',
+    alignItems: 'center',
+}))
 
 const ProfilePanel = () => {
     const [activeTab, setActiveTab] = useState('create-tab')
+    useEffect(() => {
+        let dashbar = window.document.getElementById('dash-bar')
+
+        if (activeTab == "private-gallery-tab" || activeTab == "public-gallery-tab") {
+            dashbar.classList.add("dashbarAfterScroll")
+        } else {
+            dashbar.classList.remove("dashbarAfterScroll")
+        }
+    }, [activeTab])
     return (
         <Panel sx={{ py: { xs: 'unset', md: 1 }, px: { xs: 'unset', md: 2 } }}>
             <Tabs
-                mb={3}
+                mb={'32px'}
                 jc={{ xs: 'center', md: 'center' }}
             >
                 <Tab id={"create-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Create Artwork'} selected={activeTab == 'create-tab'} />
@@ -66,7 +83,7 @@ const ProfilePanel = () => {
                         md: 'calc(100vh - 300px)'
                     },
                     // height:'calc(100vh - 300px)',
-                    mb: { xs: '50px', sm: 'unset' },
+                    pb: { xs: '50px', sm: '10px' },
                     px: 1
                 }}>
                 {activeTab == 'create-tab' && <CreateNFT />}

@@ -52,6 +52,7 @@ export const getUnclaimedDeposit = (token, cid) => {
                     'Authorization': `Bearer ${token}`,
                 }
             })
+            console.log(request)
             let response = await request.json()
 
             let unclaimedDeposit = []

@@ -6,45 +6,45 @@ import SignUp from "../components/user/auth/Signup";
 import AuthLayout from "../components/user/auth/authLayout";
 
 const AuthBox = styled(Box)(({ theme }) => ({
-    backgroundColor: 'white',
-    width: '400px',
-    height: '500px',
-    borderRadius: '30px',
+    backgroundColor: theme.palette.secondary.bg,
+    boxSizing: 'border-box',
+    width: '355px',
+    // height: '369px',
+    borderRadius: '25px',
     // display: "flex",
     flexDirection: "column",
-    padding: '30px',
-    margin: '100px auto 30px',
+    padding: '25px 22px',
+    // margin: 'auto',
     "@media (max-width: 900px)": {
     },
     "@media (max-width: 600px)": {
         width: '100%',
         margin: '0 auto',
         height: '100%',
-        padding: '0',
-        borderRadius: '0',
-        paddingTop: '170px',
-        paddingBottom: '40px',
+        // padding: '0',
+        borderRadius: '25px 25px 0px 0px',
+        // paddingTop: '170px',
+        // paddingBottom: '25px',
     },
 
 }))
 const Slider = styled(Box)(({ theme }) => ({
-    // backgroundColor: theme.palette.primary.gray,
-    backgroundColor: 'rgba(0,0,0,0.2)',
-    height: '45px',
-    borderRadius: '40px',
-    padding: '5px',
+    backgroundColor: theme.palette.primary.gray,
+    // backgroundColor: 'rgba(0,0,0,0.2)',
+    height: '40px',
+    borderRadius: '35px', padding: '4px',
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
     // width: '100%',
 }))
 const ChangeSlide = styled(Box)(({ theme }) => ({
     cursor: 'pointer',
     justifyContent: 'center',
-    height: '40px',
-    borderRadius: '40px',
+    borderRadius: '35px',
     display: "flex",
-    width: '50%',
+    width: '40%',
+    padding: '8px 16px',
     alignItems: "center",
     transition: '500ms ease'
 }))
@@ -97,7 +97,7 @@ const Title = styled('h4')(({ theme }) => ({
 
 const Auth = () => {
     console.log(window.location.hash.replace('#', ''))
-    const [authState, setAuthState] = useState(window.location.hash.replace('#', ''))
+    const [authState, setAuthState] = useState(window.location.hash ? window.location.hash.replace('#', '') : 'signin')
 
     const handleSlide = (e) => {
         setAuthState(e.target.id)
@@ -116,10 +116,10 @@ const Auth = () => {
         }}> */}
             <AuthBox>
                 <Box sx={{
-                    px: { xs: '20px', sm: 0 }, height: '100%', display: "flex",
+                    height: '100%', display: "flex",
                     flexDirection: "column", justifyContent: 'space-between',
                 }}>
-                    <Slider>
+                    <Slider sx={{ mb: '32px' }}>
                         <ChangeSlide
                             id="signin"
                             sx={{
@@ -136,9 +136,9 @@ const Auth = () => {
                             Sign Up</ChangeSlide>
                     </Slider>
                     {authState == 'signin' ?
-                        <AuthScrollBox>
-                            <Login />
-                        </AuthScrollBox>
+                        // <AuthScrollBox>
+                        <Login />
+                        // </AuthScrollBox>
                         :
                         <AuthScrollBox>
                             <SignUp />

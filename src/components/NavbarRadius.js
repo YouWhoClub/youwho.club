@@ -200,7 +200,7 @@ const NavbarTwo = ({ switchTheme, theme }) => {
                 alignItems: 'center',
                 px: '30px'
             }}>
-                <ThemeSwitcher switchTheme={switchTheme} right={'0'} />
+                <ThemeSwitcher switchTheme={switchTheme} right={'5px'} top={'calc(100vh - 110px)'}/>
                 <Box sx={{ display: 'flex', alignItems: 'center', }}>
                     {theme == 'light' ?
                         <YouWhoIconPurple onClick={() => navigate('/')} />

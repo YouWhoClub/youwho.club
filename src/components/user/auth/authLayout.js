@@ -2,13 +2,13 @@ import styled from "@emotion/styled";
 import { Box, keyframes } from "@mui/material";
 import { useNavigate } from "react-router";
 
-const YouWhoIcon = styled('div')(({ theme }) => ({
+const YouWhoIcon = styled(Box)(({ theme }) => ({
   cursor: 'pointer',
   backgroundImage: "url('/w-outline-animated.svg')",
   backgroundRepeat: 'no-repeat',
   backgroundPosition: 'center',
-  width: '80px',
-  height: '80px'
+  width: '60px',
+  height: '60px',
 }))
 
 const heightChange = keyframes`
@@ -59,9 +59,21 @@ const AuthLayout = ({ children }) => {
       alignItems: 'center',
       flexDirection: 'column'
     }}>
-      <NavAuth><YouWhoIcon onClick={() => navigate('/')} /></NavAuth>
-      {children}
-    </Box>
+      {/* <NavAuth sx={{ pt: { xs: 'none', sm: 5 } }}> */}
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        mt: 2,
+        mb: 4,
+      }}>
+        <YouWhoIcon onClick={() => navigate('/')} sx={{}} />
+      </Box>
+      {/* </NavAuth> */}
+      <>
+        {children}
+      </>
+    </Box >
   </>);
 }
 

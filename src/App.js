@@ -217,6 +217,9 @@ function App() {
                   <Wrapper>
                     <Routes>
                       <Route exact path="/" element={<></>} />
+                      <Route exact path="/landing" element={<></>} />
+                      <Route exact path="/auth" element={<></>} />
+
 
                       <Route exact path="/main-gallery" element={<ViewMainGalleryPage theme={theme} switchTheme={switchTheme} />} />
                       <Route exact path="/transfer" element={<TransferPage theme={theme} switchTheme={switchTheme} />} />

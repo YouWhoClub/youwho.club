@@ -1,4 +1,4 @@
-import { ArrowLeft, Email, Password } from "@mui/icons-material";
+import { ArrowLeft, ArrowLeftSharp, Email, LockClock, LockOutlined, LockRounded, Password } from "@mui/icons-material";
 import { Box, FormHelperText, FormLabel, Typography } from "@mui/material";
 import { useRef, useState } from "react";
 import TextField from '@mui/material/TextField';
@@ -9,34 +9,19 @@ import { AUTH_API } from "../../../utils/data/auth_api";
 import { useDispatch } from "react-redux";
 import { getuser } from "../../../redux/actions";
 import { useNavigate } from "react-router";
-import { Eye, EyeSlash, Lock } from "iconsax-react";
+import { ArrowLeft3, Eye, EyeSlash, Lock } from "iconsax-react";
 import VerifyMail from "./verifyMail";
 import { MyInput, ShadowInput } from "../../utils";
-
-
-const Inputt = styled('input')(({ theme }) => ({
-    width: '100%',
-    outline: 'none',
-    color: theme.palette.primary.darkGray,
-    borderColor: theme.palette.primary.darkGray,
-    cursor: 'pointer',
-    border: 'none',
-    // borderBottom: '1px solid',
-    '&:hover': {
-        borderColor: theme.palette.primary.main,
-    }
-}))
-const Inputtt = styled('div')(({ theme }) => ({
+const LoginWithOthersBox = styled(Box)(({ theme }) => ({
     width: '100%',
     display: 'flex',
-    color: theme.palette.primary.darkGray,
-    borderColor: theme.palette.primary.darkGray,
-    cursor: 'pointer',
-    border: 'none',
-    borderBottom: '1px solid',
-    '&:hover': {
-        borderColor: theme.palette.primary.main,
-    }
+    justifyContent: 'center',
+    alignItems: 'center'
+}))
+const Line = styled(Box)(({ theme }) => ({
+    width: '100%',
+    height: '1px',
+    backgroundColor: 'rgba(17, 17, 19, 0.20)',
 }))
 
 const Login = () => {
@@ -106,45 +91,41 @@ const Login = () => {
                 width: '100%',
                 height: '100%',
                 display: 'flex', flexDirection: 'column', textTransform: 'capitalize',
-                justifyContent: 'space-between', alignItems: 'center', pt: 10
+                justifyContent: 'space-between', alignItems: 'center', color: 'primary.text'
             }}
         >
-            {state == 'identifier' ?
-                <form
-                    style={{
-                        width: '100%',
-                        height: '100%',
-                        display: 'flex', flexDirection: 'column',
-                        justifyContent: 'space-between', alignItems: 'center',
-                    }} onSubmit={idStateChanger}>
-                    <Box sx={{
-                        display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center'
-                    }}>
-                        <ShadowInput
-                            value={identifier}
-                            icon={<Email sx={{ color: 'primary.light', }} />}
-                            borderColor={err ? 'primary.error' : success ? 'primary.success' : undefined}
-                            onChange={(e) => setIdentifier(e.target.value)}
-                            label={'Email'} width={'99%'} id={'Email'} type="email" />
-                        {err ? <Typography sx={{ alignSelf: 'start !important', color: 'primary.error', fontSize: '12px', margin: 0 }}>{err}</Typography> : undefined}
-                        {success ? <Typography sx={{ alignSelf: 'start !important', color: 'primary.success', fontSize: '12px', margin: 0 }}>{success}</Typography> : undefined}
+            {state == 'identifier' || state == 'password' ?
+                <>
+                    <LoginWithOthersBox sx={{ mb: '32px' }}>
+                        Login With Others
+                    </LoginWithOthersBox>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', mb: '32px', textTransform: 'lowercase' }}>
+                        <Line /> or <Line />
                     </Box>
-                    <ButtonPurple w={'100%'} text={'Next'} />
-                </form>
-                : state == 'password' ?
                     <form
-                        autoComplete="off"
                         style={{
                             width: '100%',
                             height: '100%',
                             display: 'flex', flexDirection: 'column',
-                            justifyContent: 'space-between', alignItems: 'center',
-                        }} onSubmit={idStateChanger}>
+                            alignItems: 'center',
+                        }}
+                    // onSubmit={idStateChanger}
+                    >
                         <Box sx={{
                             display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center'
                         }}>
                             <ShadowInput
-                                icon={<Lock sx={{ color: 'primary.light', }} />}
+                                mb={'12px'}
+                                value={identifier}
+                                icon={<Email sx={{ color: 'primary.light', }} />}
+                                borderColor={err ? 'primary.error' : success ? 'primary.success' : undefined}
+                                onChange={(e) => setIdentifier(e.target.value)}
+                                label={'Email'} width={'99%'} id={'Email'} type="email" />
+                            {err ? <Typography sx={{ alignSelf: 'start !important', color: 'primary.error', fontSize: '12px', margin: 0 }}>{err}</Typography> : undefined}
+                            {success ? <Typography sx={{ alignSelf: 'start !important', color: 'primary.success', fontSize: '12px', margin: 0 }}>{success}</Typography> : undefined}
+                            <ShadowInput
+                                mb={'32px'}
+                                icon={<LockRounded color="primary.light" sx={{ color: 'primary.light', }} />}
                                 borderColor={err ? 'primary.error' : success ? 'primary.success' : undefined}
                                 onChange={(e) => setPassword(e.target.value)}
                                 label={'Password'}
@@ -152,14 +133,26 @@ const Login = () => {
                                 id={'Password'}
                                 value={password}
                                 type={showPassword ? 'input' : 'password'}
-                                extraIcon={<>{showPassword ? <EyeSlash onClick={() => setShowPassword(false)} /> : <Eye onClick={() => setShowPassword(true)} />}</>} />
+                                extraIcon={
+                                    <>
+                                        {showPassword ?
+                                            <EyeSlash color="#787878" onClick={() => setShowPassword(false)} size='20px' />
+                                            :
+                                            <Eye size='20px' color="#787878" onClick={() => setShowPassword(true)} />
+                                        }
+                                    </>
+                                }
+                            />
                             {err ? <Typography sx={{ alignSelf: 'start !important', color: 'primary.error', fontSize: '12px', margin: 0 }}>{err}</Typography> : undefined}
                             {success ? <Typography sx={{ alignSelf: 'start !important', color: 'primary.success', fontSize: '12px', margin: 0 }}>{success}</Typography> : undefined}
                         </Box>
-                        <ButtonPurple disabled={loading} w={'100%'} text={loading ? '...' : 'next'} onClick={submit} />
-                        <p style={{ cursor: 'pointer', color: 'rgba(120, 120, 120, 1)', fontSize: '12px', margin: 0 }}>
+                        <p style={{
+                            cursor: 'pointer', color: 'rgba(120, 120, 120, 1)',
+                            fontSize: '12px', margin: 0,
+                        }}>
                             FORGOT PASSWORD ?
                         </p>
+
                         <Box
                             sx={{
                                 diplay: 'flex',
@@ -167,28 +160,27 @@ const Login = () => {
                                 width: '100%',
                             }}
                         >
-                            <div
+                            {/* <Box
                                 onClick={() => {
                                     setState('identifier')
                                 }}
-                                style={{
-                                    borderBottom: '3px solid',
-                                    borderColor: '#846894',
-                                    color: '#846894',
-                                    width: '200px',
-                                    fontSize: '18px',
+                                sx={{
+                                    color: 'primary.darkGray',
+                                    fontSize: '12px',
                                     display: 'flex',
-                                    justifyContent: 'center',
-                                    cursor: 'pointer',
+                                    // justifyContent: 'center',
+                                    alignItems: 'center',
+                                    cursor: 'pointer', mt: '32px'
                                 }}
                             >
-                                <ArrowLeft sx={{ color: 'primary.light', }} />back
-                            </div>
+                                <ArrowLeftSharp sx={{ color: 'primary.darkGray', }} />back
+                            </Box> */}
                         </Box>
-
                     </form>
-                    :
-                    <VerifyMail email={identifier} />
+                    <ButtonPurple disabled={loading} w={'100%'} text={loading ? '...' : 'Sign In'} onClick={submit} />
+                </>
+                :
+                <VerifyMail email={identifier} />
             }
         </Box>
 

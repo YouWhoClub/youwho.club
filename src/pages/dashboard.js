@@ -86,14 +86,14 @@ const Dashboard = ({ switchTheme, theme }) => {
         if (window.document.getElementById("scrollable-profile-panel-inside").scrollTop > 0 || window.document.getElementById("scrollable-profile-panel").scrollTop > 0) {
             card.classList.add("profileBannerAfterScroll")
             pic.classList.add("profilePicAfterScroll")
-            dashbar.classList.add("dashbarAfterScroll")
+            // dashbar.classList.add("dashbarAfterScroll")
             // insidePanel.classList.add("insidePanelAfterScroll")
             outsidePanel.classList.add("dashAfterScroll")
         }
         else if (window.document.getElementById("scrollable-profile-panel").scrollTop >= 0 && window.document.getElementById("scrollable-profile-panel-inside").scrollTop == 0) {
             card.classList.remove("profileBannerAfterScroll")
             pic.classList.remove("profilePicAfterScroll")
-            dashbar.classList.remove("dashbarAfterScroll")
+            // dashbar.classList.remove("dashbarAfterScroll")
             // insidePanel.classList.remove("insidePanelAfterScroll")
             outsidePanel.classList.remove("dashAfterScroll")
         }
@@ -132,7 +132,7 @@ const Dashboard = ({ switchTheme, theme }) => {
                             <ProfileCard username={globalUser.username} YouWhoID={globalUser.YouWhoID} />
                             <ShowPanel sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
                                 {/* <Selection width={'200px'} tabs={['zadtan', 'zadtann', 'zadtannn', 'zadtannnn']} handleSelect={handleSelect} selectValue={selectValue} /> */}
-                                <DashBar username={globalUser.username} tabs={['zadtan', 'zadtan', 'zadtan', 'zadtan']} />
+                                <DashBar username={globalUser.username} />
                                 <ProfilePanel />
                             </ShowPanel>
                         </>

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
 import { AccountCircle } from "@mui/icons-material"
-import { Box, ClickAwayListener, MenuItem, Popper, TextField, Typography, inputLabelClasses } from "@mui/material"
+import { Box, ClickAwayListener, MenuItem, Popper, TextField, Typography, inputBaseClasses, inputLabelClasses } from "@mui/material"
 import { BG_URL, PUBLIC_URL } from "../utils/utils"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons"
@@ -53,14 +53,18 @@ const SelectInputs = styled(Box)(({ theme }) => ({
     color: theme.palette.primary.text
 }))
 const Inputt = styled(Box)(({ theme }) => ({
-    borderRadius: '12px',
+    boxSizing: 'border-box',
+    height: '52px',
+    borderRadius: '12px', padding: '12px 15px',
     color: theme.palette.primary.text, display: 'flex', justifyContent: 'space-between', alignItems: 'center'
 }))
 const AuthInput = styled(Box)(({ theme }) => ({
     borderRadius: '12px',
-    // height: '50px',
-    color: "black",
-    display: 'flex', justifyContent: 'space-between', alignItems: 'end'
+    boxSizing: 'border-box',
+    height: '50px',
+    padding: '0px 24px 0px 15px',
+    color: theme.palette.primary.text,
+    display: 'flex', justifyContent: 'space-between', alignItems: 'center'
 }))
 const TabsComp = styled(Box)(({ theme }) => ({
     borderBottom: '1px solid',
@@ -204,81 +208,79 @@ export const TabSimple = ({ text, onClick, id, selected }) => {
 }
 export const MyInput = ({ icon, textColor,
     labelColor, py, id, label, width, onChange,
-    borderColor, type, extraIcon, value, placeholder }) => {
+    borderColor, type, extraIcon, value, placeholder, mb }) => {
     return (
         <Inputt sx={{
             width: width ? width : '200px', border: '1px solid',
-            py: py ? py : '5px',
-            // pb: '10px', pt: '5px',
-            // pt:'5px',
+            mb: mb ? mb : undefined,
             borderColor: borderColor ? borderColor : '#DEDEDE'
         }}>
             <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', }}>
                 <Box sx={{
-                    ml: '16px',
-                    mr: 1, display: 'flex', alignItems: 'center',
-                    // pb: '5px'
+                    mr: '10px', height: '27px', width: '27px', display: 'flex', alignItems: 'center', justifyContent: 'center'
                 }}>
                     {icon ? icon : undefined}
                 </Box>
                 <TextField
-                    className="myInput"
-                    sx={{
-                        alignSelf: 'center', alignItems: 'center', display: 'flex', width: '100%',
-                        // '&.MuiInputBase-input': {
-                        //     margin: '0px 0px 15px 0px !important',
-                        // },
-                    }}
-                    value={value}
-                    placeholder={placeholder}
-                    // id={id}
-                    id="myInput"
-                    label={label}
-                    variant="standard"
-                    onChange={onChange}
-                    autoComplete="off"
+                    autoFocus={true}
                     type={type}
+                    autoComplete="off"
+                    value={value}
                     InputProps={{
-                        className: 'myInput',
+                        autoFocus: true,
                         disableUnderline: true,
+                        autoComplete: "new-password",
                         sx: {
-                            color: textColor ? textColor : 'primary.gray', width: '100%', alignSelf: 'center', fontSize: '16px',
+                            display: 'flex', alignItems: 'center',
+                            // my: '5px !important',
+                            color: 'primary.gray', width: '100%', fontSize: '12px',
+                            //  margin: '0 !important',
                             "&:-webkit-autofill": {
-                                webkitboxshadow: "0 0 0 1000px white inset"
+                                webkitboxshadow: "none !important", backgroundColor: 'transparent !important'
                             },
+                            [`&.${inputBaseClasses.input}`]: {
+                                padding: '0 !important', color: 'primary.gray'
+                            }
+                            // .MuiInputBase-input-MuiInput-input
                         }
                     }}
                     InputLabelProps={{
                         sx: {
-                            color: labelColor ? labelColor : 'primary.text',
-                            [`&.${inputLabelClasses.shrink}`]: {
+                            top: '-7px !important',
+                            fontSize: '12px',
+                            color: 'primary.text', [`&.${inputLabelClasses.shrink}`]: {
+                                top: '5px !important',
                                 // set the color of the label when shrinked (usually when the TextField is focused)
-                                color: labelColor ? labelColor : "primary.text",
+                                color: "primary.text",
+                                fontSize: '12px',
                             }
                         }
                     }}
-                />
+                    id={id}
+                    sx={{ alignItems: 'center', display: 'flex', width: '100%' }}
+                    label={label} variant="standard"
+                    onChange={onChange} />
             </Box>
-            <Box sx={{ mr: '16px' }}>
+            <Box
+                sx={{
+                    cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}>
                 {extraIcon ? extraIcon : undefined}
             </Box>
         </Inputt>
     )
 
 }
-export const ShadowInput = ({ icon, text, id, label, width, onChange, borderColor, type, extraIcon, value }) => {
+export const ShadowInput = ({ icon, text, id, label, width, onChange, borderColor, type, extraIcon, value, mb }) => {
     return (<AuthInput sx={{
-        width: width ? width : '200px',
-        border: borderColor ? '1px solid' : 'none',
-        pb: '10px', pt: '5px',
+        width: width ? width : '272px',
+        border: borderColor ? '1px solid' : 'none', mb: mb ? mb : undefined,
         borderColor: borderColor ? borderColor : '#DEDEDE',
-        boxShadow: borderColor ? 'none' : '0px 0px 5px 1px rgba(0, 0, 0, 0.15)',
+        boxShadow: borderColor ? 'none' : localStorage.getItem('theme') == 'light' ? '0px 0px 5px 1px rgba(0, 0, 0, 0.15)' : '0px 0px 5px 1px rgba(227,209,231,0.7)',
     }}>
-        <Box sx={{ display: 'flex', alignItems: 'flex-end', width: '100%', }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', }}>
             <Box sx={{
-                ml: '16px',
-                mr: 1,
-                pb: '5px'
+                mr: '10px', height: '27px', width: '27px', display: 'flex', alignItems: 'center', justifyContent: 'center'
             }}>
                 {icon ? icon : undefined}
             </Box>
@@ -292,18 +294,28 @@ export const ShadowInput = ({ icon, text, id, label, width, onChange, borderColo
                     disableUnderline: true,
                     autoComplete: "new-password",
                     sx: {
-                        color: 'primary.gray', width: '100%', fontSize: '16px',
+                        display: 'flex', alignItems: 'center',
+                        // my: '5px !important',
+                        color: 'primary.gray', width: '100%', fontSize: '12px',
                         //  margin: '0 !important',
                         "&:-webkit-autofill": {
-                            webkitboxshadow: "0 0 0 1000px white inset"
+                            webkitboxshadow: "none !important", backgroundColor: 'transparent !important'
+                        },
+                        [`&.${inputBaseClasses.input}`]: {
+                            padding: '0 !important', color: 'primary.gray'
                         }
+                        // .MuiInputBase-input-MuiInput-input
                     }
                 }}
                 InputLabelProps={{
                     sx: {
-                        color: 'black', [`&.${inputLabelClasses.shrink}`]: {
+                        top: '-7px !important',
+                        fontSize: '12px',
+                        color: 'primary.text', [`&.${inputLabelClasses.shrink}`]: {
+                            top: '5px !important',
                             // set the color of the label when shrinked (usually when the TextField is focused)
-                            color: "black"
+                            color: "primary.text",
+                            fontSize: '12px',
                         }
                     }
                 }}
@@ -314,8 +326,7 @@ export const ShadowInput = ({ icon, text, id, label, width, onChange, borderColo
         </Box>
         <Box
             sx={{
-                mr: '16px',
-                pb: '5px'
+                cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center'
             }}>
             {extraIcon ? extraIcon : undefined}
         </Box>

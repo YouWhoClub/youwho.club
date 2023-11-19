@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import NFTCard from "../nft market/nftCard";
 import blueNft from '../../assets/blue-nft.svg'
 import pinkNFT from '../../assets/pink-nft.svg'
@@ -11,10 +11,24 @@ import FilterSelection from "../filterSelection";
 import { useState } from "react";
 import { AscSelect, RelationCard } from "../utils";
 import { useSelector } from "react-redux";
+import CollectionCard from "../nft market/collectionCard";
 
 const Gallery = styled(Box)(({ theme }) => ({
-    width: '100%',
-    display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center'
+    width: '100%', boxSizing: "border-box", gap: '16px',
+    display: 'flex', alignItems: 'center',
+    flexWrap: 'wrap', justifyContent: 'center'
+}))
+const FlexRow = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    //  width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+}))
+const FlexColumn = styled(Box)(({ theme }) => ({
+    display: 'flex', flexDirection: 'column',
+    justifyContent: 'space-between',
+    //  width: '100%',
+    alignItems: 'center',
 }))
 
 
@@ -37,9 +51,21 @@ const PrivateGallery = () => {
         setSortValue(e.target.id)
     }
 
+    const [expandedColl, setExpandedColl] = useState(undefined)
+
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: { xs: 'column', md: 'row' } }}>
+            <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' }, mb: '32px' }}>
+                <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
+                    NFT Collections
+                </Typography>
+                <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '12px' } }}>
+                    You Can See All Collections With Their NFTs which You Have Created.
+                    You & Your Friends Can Mint Any NFT You Like.
+                </Typography>
+            </FlexColumn>
+
+            {/* <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: { xs: 'column', md: 'row' } }}>
                 <FilterSelection width={'280px'} tabs={['bla', 'bla', 'bla']}
                     text={'Filter'} id={'filter-private-gallery'} handleSelect={handleFilterSelect} selectValue={filterValue} />
                 <FilterSelection width={'280px'} tabs={['date', 'added to my collection', 'favorites']}
@@ -49,14 +75,14 @@ const PrivateGallery = () => {
                 <FilterSelection handleSelect={handleCatSelect} width={'280px'} tabs={['art', 'pink', 'bla', 'animal']}
                     text={'Category'} id={'category-private-gallery'} selectValue={categoryValue} />
                 <AscSelect asc={asc} width={'280px'} setAsc={setAsc} />
-            </Box>
+            </Box> */}
             <Gallery>
-                <NFTCard image={blueNft} creator={globalUser.username} price={5} likes={0} name={'Blue NFT'}/>
-                <NFTCard image={pinkNFT} creator={globalUser.username} price={50} likes={1} name={'Pink NFT'}/>
-                <NFTCard image={purpleNFT} creator={globalUser.username} price={5} likes={0} name={'Purple NFT'}/>
-                <NFTCard image={creamNFT} creator={globalUser.username} price={15} likes={4} name={'Sorkhabi NFT'}/>
-                <NFTCard image={sorkhabiNFT} creator={globalUser.username} price={5} likes={0} name={'Cream NFT'}/>
-                <NFTCard image={torqNFT} creator={globalUser.username} price={20} likes={0} name={'Turquoise NFT'}/>
+                <CollectionCard image={blueNft} likes={0} name={'Blue Collection'} setExpandedId={setExpandedColl} id={'blueCol'} expanded={expandedColl == 'blueCol'}/>
+                <CollectionCard image={pinkNFT} likes={1} name={'Pink Collection'} setExpandedId={setExpandedColl} id={'pinkCol'} expanded={expandedColl == 'pinkCol'}/>
+                <CollectionCard image={purpleNFT} likes={0} name={'Purple Collection'} setExpandedId={setExpandedColl} id={'purpleCol'} expanded={expandedColl == 'purpleCol'}/>
+                <CollectionCard image={creamNFT} likes={4} name={'Sorkhabi Collection'} setExpandedId={setExpandedColl} id={'creamCol'} expanded={expandedColl == 'creamCol'}/>
+                <CollectionCard image={sorkhabiNFT} likes={0} name={'Cream Collection'} setExpandedId={setExpandedColl} id={'sorkhabiCol'} expanded={expandedColl == 'sorkhabiCol'}/>
+                <CollectionCard image={torqNFT} likes={0} name={'Turquoise Collection'} setExpandedId={setExpandedColl} id={'torqCol'} expanded={expandedColl == 'torqCol'}/>
             </Gallery>
         </Box >
     );

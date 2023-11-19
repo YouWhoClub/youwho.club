@@ -5,7 +5,7 @@ import { MyInput, SubTab, SubTabs } from "../utils";
 import styled from "@emotion/styled";
 import FilterSelection from "../filterSelection";
 import Selection from "../selection";
-import { AspectRatio, BrandingWatermark, Description, Details, DetailsTwoTone, FileUpload, MovieCreation, NearMe } from "@mui/icons-material";
+import { AspectRatio, BrandingWatermark, Comment, Description, Details, DetailsTwoTone, FileUpload, MovieCreation, NearMe } from "@mui/icons-material";
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
 import nftImage from '../../assets/sokhabi-nft.svg'
 import ButtonPurple from "../buttons/buttonPurple";
@@ -18,6 +18,7 @@ import TextIcon from '../../assets/icons/text.svg'
 import CoinsIcon from '../../assets/icons/coins.svg'
 import CollIcon from '../../assets/icons/collectionIcon.svg'
 import { Coin } from "iconsax-react";
+import { Input } from "@mui/base";
 
 const Container = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -80,8 +81,8 @@ const CreateNFT = () => {
     const toastId = useRef(null);
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', px: {xs:2,sm:4} }}>
-            <SubTabs jc={'center'} mb={3}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', px: { xs: 2, sm: 4 } }}>
+            <SubTabs jc={'center'} mb={'32px'}>
                 <SubTab id={"create-collection"} onClick={(e) => setActiveTab(e.target.id)} text={'Create Collection'} selected={activeTab == 'create-collection'} />
                 <SubTab id={"create-NFT"} onClick={(e) => setActiveTab(e.target.id)} text={'Create NFT'} selected={activeTab == 'create-NFT'} />
             </SubTabs>
@@ -241,6 +242,15 @@ const CreateNFT = () => {
                         <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
                             New Collection Introduction
                         </Typography>
+                        <FlexRow>
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                <Typography>
+                                    Type : &nbsp;
+                                </Typography>
+                                <Input color="primary.gray" style={{ outline: "none" }} />
+                            </Box>
+                            <Comment color="primary.light" />
+                        </FlexRow>
                         <Box sx={{ height: '300px' }}>to be...</Box>
                     </Container>
                 </>
