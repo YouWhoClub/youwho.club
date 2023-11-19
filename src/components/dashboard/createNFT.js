@@ -19,6 +19,7 @@ import CoinsIcon from '../../assets/icons/coins.svg'
 import CollIcon from '../../assets/icons/collectionIcon.svg'
 import { Coin, Link } from "iconsax-react";
 import { Input } from "@mui/base";
+import { useNavigate } from "react-router";
 
 const Container = styled(Box)(({ theme }) => ({
     boxSizing: 'border-box',
@@ -84,203 +85,227 @@ const CreateNFT = () => {
         e.preventDefault()
         setMediaType(e.target.id)
     }
-
+    const navigate = useNavigate()
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', }}>
-            <SubTabs jc={'center'} mb={'32px'}>
-                <SubTab id={"create-collection"} onClick={(e) => setActiveTab(e.target.id)} text={'Create Collection'} selected={activeTab == 'create-collection'} />
-                <SubTab id={"create-NFT"} onClick={(e) => setActiveTab(e.target.id)} text={'Create NFT'} selected={activeTab == 'create-NFT'} />
-            </SubTabs>
-            {activeTab == 'create-NFT' ?
+            {globalUser.cid ?
                 <>
-                    <Container sx={{ mb: '32px' }}>
-                        <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' } }}>
-                            <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
-                                Upload Your NFT
-                            </Typography>
-                            <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '12px' } }}>
-                                You Can Upload NFT in Various Types & Sizes
-                            </Typography>
-                        </FlexColumn>
-                        <FlexRow sx={{ flexDirection: { xs: 'column', sm: 'row' }, gap: '12px' }}>
-                            <FlexColumn sx={{
-                                gap: { xs: '10px', sm: '16px' }
+                    <SubTabs jc={'center'} mb={'32px'}>
+                        <SubTab id={"create-collection"} onClick={(e) => setActiveTab(e.target.id)} text={'Create Collection'} selected={activeTab == 'create-collection'} />
+                        <SubTab id={"create-NFT"} onClick={(e) => setActiveTab(e.target.id)} text={'Create NFT'} selected={activeTab == 'create-NFT'} />
+                    </SubTabs>
+                    {activeTab == 'create-NFT' ?
+                        <>
+                            <Container sx={{ mb: '32px' }}>
+                                <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' } }}>
+                                    <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
+                                        Upload Your NFT
+                                    </Typography>
+                                    <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '12px' } }}>
+                                        You Can Upload NFT in Various Types & Sizes
+                                    </Typography>
+                                </FlexColumn>
+                                <FlexRow sx={{ flexDirection: { xs: 'column', sm: 'row' }, gap: '12px' }}>
+                                    <FlexColumn sx={{
+                                        gap: { xs: '10px', sm: '16px' }
+                                    }}>
+                                        <SelectInput tabs={['Image, .PNG', 'Image, .JPG', 'Video, .MP4']} label={'Your NFT Type'}
+                                            handleSelect={handleSelectMediaType} value={mediaType} id="nft-type-selection"
+                                            width={'100%'} icon={<Icon url={MediaTypeIcon} w={27} h={27} />} />
+                                        <ButtonInput label={'Upload NFT File *'} width={'100%'}
+                                            icon={<AddAPhotoOutlined sx={{ color: 'primary.light' }} />}
+                                            button={<ButtonOutline
+                                                height='35px'
+                                                onClick={() => imageInput.current.click()}
+                                                text={'Browse'}
+                                                br={'30px'} />
+                                            } />
+                                        <SelectInput tabs={['16 : 9', '1:1',]} label={'Aspect Ratio'}
+                                            handleSelect={(e) => setAspectRatio(e.target.id)} value={aspectRatio} id="nft-aspect-ratio-selection"
+                                            width={'100%'} icon={<Icon url={frameIcon} w={27} h={27} />} />
+                                    </FlexColumn>
+                                    <NFTImage sx={{}} />
+                                </FlexRow>
+                            </Container>
+                            <Container >
+                                <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' } }}>
+                                    <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
+                                        NFT Informations
+                                    </Typography>
+                                    <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '12px' } }}>
+                                        Tell Us About Your NFT Details
+                                    </Typography>
+                                </FlexColumn>
+                                <FlexColumn sx={{ gap: '16px' }}>
+                                    <FlexRow sx={{ flexDirection: { xs: 'column', sm: 'row' }, gap: '12px' }}>
+                                        <MyInput value={tokenAmount}
+                                            onChange={(e) => setTokenAmount(e.target.value)}
+                                            label={'NFT Price'} width={'100%'}
+                                            icon={<Coin color="#BEA2C5" />} type={'number'} id={'nft-price'} />
+                                        <MyInput value={NFTName}
+                                            onChange={(e) => setNFTName(e.target.value)}
+                                            label={'NFT Name*'} width={'100%'}
+                                            icon={<BrandingWatermark sx={{ color: "#BEA2C5" }} />} type={'string'} id={'nft-name'} />
+                                    </FlexRow>
+                                    <SelectInput tabs={['bla', 'blaa', 'blaaa']} label={'NFT Collection *'}
+                                        handleSelect={(e) => setNFTCollection(e.target.id)} value={NFTCollection}
+                                        id="nft-collection-selection"
+                                        width={'100%'} icon={<Icon url={CollIcon} w={27} h={27} />} />
+                                    <MyInput value={NFTDescription}
+                                        onChange={(e) => setNFTDescription(e.target.value)}
+                                        label={'NFT Description*'} width={'100%'}
+                                        icon={<Description sx={{ color: "#BEA2C5" }} />} type={'string'} id={'nft-decription'} />
+                                </FlexColumn>
+                            </Container>
+                            <Box sx={{
+                                width: { xs: '100%', sm: '350px' }, mt: '32px', display: 'flex', justifyContent: 'center'
                             }}>
-                                <SelectInput tabs={['Image, .PNG', 'Image, .JPG', 'Video, .MP4']} label={'Your NFT Type'}
-                                    handleSelect={handleSelectMediaType} value={mediaType} id="nft-type-selection"
-                                    width={'100%'} icon={<Icon url={MediaTypeIcon} w={27} h={27} />} />
-                                <ButtonInput label={'Upload NFT File *'} width={'100%'}
-                                    icon={<AddAPhotoOutlined sx={{ color: 'primary.light' }} />}
-                                    button={<ButtonOutline
-                                        onClick={() => imageInput.current.click()}
-                                        text={'Browse'}
-                                        br={'30px'} />
-                                    } />
-                                <SelectInput tabs={['16 : 9', '1:1',]} label={'Aspect Ratio'}
-                                    handleSelect={(e) => setAspectRatio(e.target.id)} value={aspectRatio} id="nft-aspect-ratio-selection"
-                                    width={'100%'} icon={<Icon url={frameIcon} w={27} h={27} />} />
-                            </FlexColumn>
-                            <NFTImage sx={{}} />
-                        </FlexRow>
-                    </Container>
-                    <Container >
-                        <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' } }}>
+                                <ButtonPurple text={'Create'} w={'100%'} />
+                            </Box>
+                        </>
+                        :
+                        <>
                             <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
-                                NFT Informations
+                                NFT Contract Information
                             </Typography>
-                            <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '12px' } }}>
-                                Tell Us About Your NFT Details
+                            <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '14px' } }}>
+                                You Can Read Information About Each Field,By Click On The Icon, to Show/Hide The Information.
                             </Typography>
-                        </FlexColumn>
-                        <FlexColumn sx={{ gap: '16px' }}>
-                            <FlexRow sx={{ flexDirection: { xs: 'column', sm: 'row' }, gap: '12px' }}>
-                                <MyInput value={tokenAmount}
-                                    onChange={(e) => setTokenAmount(e.target.value)}
-                                    label={'NFT Price'} width={'100%'}
-                                    icon={<Coin color="#BEA2C5" />} type={'number'} id={'nft-price'} />
-                                <MyInput value={NFTName}
-                                    onChange={(e) => setNFTName(e.target.value)}
-                                    label={'NFT Name*'} width={'100%'}
-                                    icon={<BrandingWatermark sx={{ color: "#BEA2C5" }} />} type={'string'} id={'nft-name'} />
-                            </FlexRow>
-                            <SelectInput tabs={['bla', 'blaa', 'blaaa']} label={'NFT Collection *'}
-                                handleSelect={(e) => setNFTCollection(e.target.id)} value={NFTCollection}
-                                id="nft-collection-selection"
-                                width={'100%'} icon={<Icon url={CollIcon} w={27} h={27} />} />
-                            <MyInput value={NFTDescription}
-                                onChange={(e) => setNFTDescription(e.target.value)}
-                                label={'NFT Description*'} width={'100%'}
-                                icon={<Description sx={{ color: "#BEA2C5" }} />} type={'string'} id={'nft-decription'} />
-                        </FlexColumn>
-                    </Container>
-                    <Box sx={{
-                        width: { xs: '100%', sm: '350px' }, mt: '32px', display: 'flex', justifyContent: 'center'
-                    }}>
-                        <ButtonPurple text={'Create'} w={'100%'} />
-                    </Box>
-                </>
-                :
+
+                            <Container sx={{ mt: '32px', }}>
+                                <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
+                                    New Collection Introduction
+                                </Typography>
+                                <FlexColumn>
+                                    <FlexRow sx={{ mb: '16px' }}>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', padding: '12px 15px' }}>
+                                            <Typography sx={{ fontSize: '12px' }}>
+                                                Type : &nbsp;
+                                            </Typography>
+                                            <Input color="primary.gray" style={{ outline: "none", fontSize: '12px' }} />
+                                        </Box>
+                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                    </FlexRow>
+                                    <FlexRow sx={{ mb: '12px' }}>
+                                        <MyInput label={'Name *'} width={'100%'} icon={<TitleOutlined sx={{ color: 'primary.light' }} />
+                                        } />
+                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                    </FlexRow>
+                                    <FlexRow sx={{ mb: '12px' }}>
+                                        <MyInput label={'Symbol *'} width={'100%'} icon={<EmojiSymbols sx={{ color: 'primary.light' }} />
+                                        } />
+                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                    </FlexRow>
+                                    <FlexRow sx={{ mb: '12px' }}>
+                                        <ButtonInput label={'Cover Image *'} width={'100%'}
+                                            icon={<ConnectedTvRounded sx={{ color: 'primary.light' }} />}
+                                            button={<ButtonOutline
+                                                height='35px'
+                                                onClick={() => imageInput.current.click()}
+                                                text={'Browse'}
+                                                br={'30px'} />
+                                            } />
+
+                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                    </FlexRow>
+                                    <FlexRow sx={{ mb: '12px' }}>
+                                        <MyInput label={'Description *'} width={'100%'} icon={<DescriptionOutlined sx={{ color: 'primary.light' }} />
+                                        } />
+                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                    </FlexRow>
+                                </FlexColumn>
+                            </Container>
+                            <Container sx={{ mt: '32px', }}>
+                                <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
+                                    The Collection Metadata
+                                </Typography>
+                                <FlexColumn>
+                                    <FlexRow sx={{ mb: '16px' }}>
+                                        <MyInput label={'Base URI *'} width={'100%'} icon={<LinkOutlined sx={{ color: 'primary.light' }} />
+                                        } />
+                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                    </FlexRow>
+                                    <FlexRow sx={{ mb: '16px' }}>
+                                        <ButtonInput label={'Metadata Updatable *'} width={'100%'}
+                                            icon={<List sx={{ color: 'primary.light' }} />
+                                            }
+                                            button={<BetweenTwoSelection
+                                                color={'secondary.text'}
+                                                options={[true, false]}
+                                                id={'metaupdate-create-coll'}
+                                                setOption={setMetadataUpdatable}
+                                                selected={metadataUpdatable}
+                                            />
+                                            } />
+                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                    </FlexRow>
+                                    <FlexRow sx={{ mb: '16px' }}>
+                                        <ButtonInput label={'Metadata Addition *'} width={'100%'}
+                                            icon={<AddBoxOutlined sx={{ color: 'primary.light' }} />
+                                            }
+                                            button={<Add sx={{ color: 'primary.gray' }} />
+                                            } />
+                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                    </FlexRow>
+                                </FlexColumn>
+                            </Container>
+                            <Container sx={{ mt: '32px', }}>
+                                <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
+                                    The Collection Finance
+                                </Typography>
+                                <FlexColumn>
+                                    <FlexRow sx={{ mb: '16px' }}>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', padding: '12px 15px' }}>
+                                            <Typography sx={{ fontSize: '12px' }}>
+                                                Owner Address : &nbsp;
+                                            </Typography>
+                                            <Input color="primary.gray" style={{ outline: "none", fontSize: '12px' }} />
+                                        </Box>
+                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                    </FlexRow>
+                                    <FlexRow sx={{ mb: '16px' }}>
+                                        <ButtonInput label={'Royalty Share *'} width={'100%'}
+                                            icon={<Money sx={{ color: 'primary.light' }} />
+                                            }
+                                            button={<ArrowBack sx={{ color: 'primary.gray', fontSize: '18px' }} />
+                                            } />
+                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                    </FlexRow>
+                                    <FlexRow sx={{ mb: '16px' }}>
+                                        <ButtonInput label={'Royalties Address *'} width={'100%'}
+                                            icon={<AddBoxOutlined sx={{ color: 'primary.light' }} />
+                                            }
+                                            button={<Add sx={{ color: 'primary.gray' }} />
+                                            } />
+                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                    </FlexRow>
+                                </FlexColumn>
+                            </Container>
+                            <Box sx={{
+                                width: { xs: '100%', sm: '350px' }, mt: '32px', display: 'flex', justifyContent: 'center'
+                            }}>
+                                <ButtonPurple text={'Create'} w={'100%'} />
+                            </Box>
+                        </>
+                    }
+
+
+                </> :
+                // if didnt create wallet yet =======>
                 <>
-                    <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
-                        NFT Contract Information
-                    </Typography>
-                    <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '14px' } }}>
-                        You Can Read Information About Each Field,By Click On The Icon, to Show/Hide The Information.
-                    </Typography>
-
-                    <Container sx={{ mt: '32px', }}>
-                        <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
-                            New Collection Introduction
+                    <FlexColumn sx={{ gap: { xs: '20px', sm: '30px' }, mb: '32px' }}>
+                        <Typography sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
+                            Dear
+                            <b>
+                                &nbsp;
+                                {globalUser.username}
+                                &nbsp;
+                            </b>
+                            to create artworks, private or public galleries in youwho platform ,
+                            you must create a youwho wallet first
                         </Typography>
-                        <FlexColumn>
-                            <FlexRow sx={{ mb: '16px' }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', padding: '12px 15px' }}>
-                                    <Typography sx={{ fontSize: '12px' }}>
-                                        Type : &nbsp;
-                                    </Typography>
-                                    <Input color="primary.gray" style={{ outline: "none", fontSize: '12px' }} />
-                                </Box>
-                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                            </FlexRow>
-                            <FlexRow sx={{ mb: '12px' }}>
-                                <MyInput label={'Name *'} width={'100%'} icon={<TitleOutlined sx={{ color: 'primary.light' }} />
-                                } />
-                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                            </FlexRow>
-                            <FlexRow sx={{ mb: '12px' }}>
-                                <MyInput label={'Symbol *'} width={'100%'} icon={<EmojiSymbols sx={{ color: 'primary.light' }} />
-                                } />
-                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                            </FlexRow>
-                            <FlexRow sx={{ mb: '12px' }}>
-                                <ButtonInput label={'Cover Image *'} width={'100%'}
-                                    icon={<ConnectedTvRounded sx={{ color: 'primary.light' }} />}
-                                    button={<ButtonOutline
-                                        onClick={() => imageInput.current.click()}
-                                        text={'Browse'}
-                                        br={'30px'} />
-                                    } />
-
-                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                            </FlexRow>
-                            <FlexRow sx={{ mb: '12px' }}>
-                                <MyInput label={'Description *'} width={'100%'} icon={<DescriptionOutlined sx={{ color: 'primary.light' }} />
-                                } />
-                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                            </FlexRow>
-                        </FlexColumn>
-                    </Container>
-                    <Container sx={{ mt: '32px', }}>
-                        <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
-                            The Collection Metadata
-                        </Typography>
-                        <FlexColumn>
-                            <FlexRow sx={{ mb: '16px' }}>
-                                <MyInput label={'Base URI *'} width={'100%'} icon={<LinkOutlined sx={{ color: 'primary.light' }} />
-                                } />
-                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                            </FlexRow>
-                            <FlexRow sx={{ mb: '16px' }}>
-                                <ButtonInput label={'Metadata Updatable *'} width={'100%'}
-                                    icon={<List sx={{ color: 'primary.light' }} />
-                                    }
-                                    button={<BetweenTwoSelection
-                                        color={'secondary.text'}
-                                        options={[true, false]}
-                                        id={'metaupdate-create-coll'}
-                                        setOption={setMetadataUpdatable}
-                                        selected={metadataUpdatable}
-                                    />
-                                    } />
-                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                            </FlexRow>
-                            <FlexRow sx={{ mb: '16px' }}>
-                                <ButtonInput label={'Metadata Addition *'} width={'100%'}
-                                    icon={<AddBoxOutlined sx={{ color: 'primary.light' }} />
-                                    }
-                                    button={<Add sx={{ color: 'primary.gray' }} />
-                                    } />
-                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                            </FlexRow>
-                        </FlexColumn>
-                    </Container>
-                    <Container sx={{ mt: '32px', }}>
-                        <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
-                            The Collection Finance
-                        </Typography>
-                        <FlexColumn>
-                            <FlexRow sx={{ mb: '16px' }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', padding: '12px 15px' }}>
-                                    <Typography sx={{ fontSize: '12px' }}>
-                                        Owner Address : &nbsp;
-                                    </Typography>
-                                    <Input color="primary.gray" style={{ outline: "none", fontSize: '12px' }} />
-                                </Box>
-                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                            </FlexRow>
-                            <FlexRow sx={{ mb: '16px' }}>
-                                <ButtonInput label={'Royalty Share *'} width={'100%'}
-                                    icon={<Money sx={{ color: 'primary.light' }} />
-                                    }
-                                    button={<ArrowBack sx={{ color: 'primary.gray', fontSize: '18px' }} />
-                                    } />
-                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                            </FlexRow>
-                            <FlexRow sx={{ mb: '16px' }}>
-                                <ButtonInput label={'Royalties Address *'} width={'100%'}
-                                    icon={<AddBoxOutlined sx={{ color: 'primary.light' }} />
-                                    }
-                                    button={<Add sx={{ color: 'primary.gray' }} />
-                                    } />
-                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                            </FlexRow>
-                        </FlexColumn>
-                    </Container>
-                    <Box sx={{
-                        width: { xs: '100%', sm: '350px' }, mt: '32px', display: 'flex', justifyContent: 'center'
-                    }}>
-                        <ButtonPurple text={'Create'} w={'100%'} />
-                    </Box>
+                        <ButtonPurple text={'Create Wallet'} onClick={() => navigate('/wallet')} height='35px' />
+                    </FlexColumn>
                 </>
             }
         </Box >

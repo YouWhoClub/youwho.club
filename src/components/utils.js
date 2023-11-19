@@ -56,7 +56,7 @@ const SelectInputs = styled(Box)(({ theme }) => ({
 const Inputt = styled(Box)(({ theme }) => ({
     boxSizing: 'border-box',
     height: '52px',
-    padding: '12px 15px',borderRadius:'12px',
+    padding: '12px 15px', borderRadius: '12px',
     color: theme.palette.primary.text, display: 'flex', justifyContent: 'space-between', alignItems: 'center'
 }))
 const SelectInputt = styled(Box)(({ theme }) => ({
@@ -155,6 +155,16 @@ const TabSimplee = styled(Box)(({ theme }) => ({
         color: theme.palette.secondary.text
     }
 }))
+const CommentCard = styled(Box)(({ theme }) => ({
+    borderRadius: '16px', width: '100%',
+    display: 'flex',
+    padding: '8px 16px',
+    boxSizing: 'border-box', boxShadow: theme.palette.primary.boxShadow
+}))
+const CommentCardProfileImg = styled(Box)(({ theme }) => ({
+    backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+    , width: '40px', height: '40px', borderRadius: '50%', backgroundColor: theme.palette.primary.bgOp
+}))
 
 //-------------------- ^ styles -------- comps > -------------------- //
 export const Tabs = ({ children, mb, w, jc }) => {
@@ -243,7 +253,7 @@ export const ButtonInput = ({ icon, textColor,
 export const SelectInput = ({ icon, textColor,
     labelColor, label, width, onChange,
     borderColor, type, button, value, placeholder, mb,
-    tabs, handleSelect, selectValue, id, }) => {
+    tabs, handleSelect, id, }) => {
     const [expanded, setExpanded] = useState(false)
     const [popWidth, setPopWidth] = useState(width)
     const [anchorEl, setAnchorEl] = useState(null);
@@ -793,5 +803,19 @@ export const ReactionCard = ({ active, passive, action, nftName, nftImage, usern
                 </RelationCardComp>
             </Box>
         </ClickAwayListener>
+    )
+}
+export const NFTCommentCard = ({ username, comment, profileImg }) => {
+    return (
+        <CommentCard sx={{ flexDirection: { xs: 'column', sm: 'row' }, alignItems: { xs: 'start', sm: 'center' }, }}>
+            <FlexRow>
+                <CommentCardProfileImg sx={{
+                    mr: '8px',
+                    backgroundImage: BG_URL(PUBLIC_URL(`${profileImg}`)),
+                }} />
+                <Typography sx={{ fontSize: '14px', fontWeight: 500, color: 'primary.text' }}>{username} :&nbsp;</Typography>
+            </FlexRow>
+            <Typography sx={{ fontSize: '10px', fontWeight: 400, color: 'primary.gray' }}>{comment}</Typography>
+        </CommentCard>
     )
 }

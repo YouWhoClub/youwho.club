@@ -25,7 +25,7 @@ const AuthBox = styled(Box)(({ theme }) => ({
     borderRadius: '30px',
     // display: "flex",
     flexDirection: "column",
-    padding: '30px',
+    padding: '30px',boxShadow:theme.palette.primary.boxShadow,
     // margin: '100px auto 30px',
     "@media (max-width: 900px)": {
     },

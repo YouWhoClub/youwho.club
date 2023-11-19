@@ -15,22 +15,16 @@ const changeBG = keyframes`
 `
 
 const WrapperIn = styled(Box)(({ theme }) => ({
-    // height: 'calc(100vh - 55px)',
     height: 'auto',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    // gap: '110px',
 }))
 const YouWhoPic = styled(Box)(({ theme }) => ({
-    // height: '560px',
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat', backgroundPosition: 'center',
-    // backgroundImage: "url('/YouWho-hugcoin.svg')",
-    backgroundImage: "url('/Y-HUG-COIN.svg')",
+    backgroundImage: "url('/YouwhoHugCoin.svg')",
     '&:hover': {
-        // backgroundImage: "url('/Y-HUG-COIN.svg')",
-        // animation: `${changeBG} 3s linear infinite`,
     }
 }))
 const Wrapper = styled(Box)(({ theme }) => ({

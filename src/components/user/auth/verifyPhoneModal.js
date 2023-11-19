@@ -5,7 +5,7 @@ import ButtonOutlineInset from "../../buttons/buttonOutlineInset";
 import ButtonPurple from "../../buttons/buttonPurple";
 import { useEffect, useState } from "react";
 import { ArrowLeft2, Location, Mobile } from "iconsax-react";
-import { MyInput } from "../../utils";
+import { MyInput, SelectInput } from "../../utils";
 import Selection from "../../selection";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
@@ -59,7 +59,7 @@ const VerifyPhoneModal = ({ openModal, setOpenModal }) => {
             setPhone(globalUser.phoneNumber)
     }, [globalUser.phoneNumber])
 
-    const [selectValue, setSelectValue] = useState('Location')
+    const [selectValue, setSelectValue] = useState(undefined)
     const handleSelect = (e) => {
         e.preventDefault()
         setSelectValue(e.target.id)
@@ -291,10 +291,22 @@ const VerifyPhoneModal = ({ openModal, setOpenModal }) => {
                                         width: '100%',
                                         display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', gap: 2
                                     }}>
-                                        <Selection icon={<Location />} width={'100%'} tabs={['iran', 'canada', 'alman']} id={'location-selection'} handleSelect={handleSelect} selectValue={selectValue} />
-                                        <MyInput icon={<Mobile />} borderColor={err ? 'primary.error' : undefined} onChange={(e) => setPhone(e.target.value)} label={'Mobile Number'} width={'100%'} id={'mobile-number'} />
+                                        <SelectInput
+                                            icon={<Location />}
+                                            label={'Location'}
+                                            width={'100%'} tabs={['iran', 'canada', 'alman']}
+                                            id={'location-selection'} handleSelect={handleSelect} value={selectValue} />
+                                        <Box sx={{
+                                            width: '100%',
+                                            display: 'flex', flexDirection: 'column', justifyContent: 'start', alignItems: 'start',
+                                        }}>
+                                            <MyInput
+                                                icon={<Mobile />} borderColor={err ? 'primary.error' : undefined}
+                                                onChange={(e) => setPhone(e.target.value)}
+                                                label={'Mobile Number'} width={'100%'} id={'mobile-number'} />
+                                            <Typography sx={{ color: 'primary.error', fontSize: '12px' }}>{err ? err : ''}</Typography>
+                                        </Box>
                                     </Box>
-                                    <Typography sx={{ color: 'primary.error', fontSize: '12px' }}>{err ? err : ''}</Typography>
                                     <FlexRow sx={{ gap: 2 }}>
                                         <ButtonOutlineInset text={'Not Yet'} onClick={() => setOpenModal(false)} w={'100px'} />
                                         <ButtonPurple disabled={isDisabled} text={'Send Verification Code'} w={'100%'} onClick={otpReqHandle} />

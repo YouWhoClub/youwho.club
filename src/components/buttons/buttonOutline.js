@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 
 const Button = styled('button')(({ theme }) => ({
-    boxSizing:'border-box',
+    boxSizing: 'border-box',
     backgroundColor: theme.palette.secondary.bg,
     display: 'flex', alignItems: 'center', justifyContent: 'center',
     // height: '35px',
@@ -20,15 +20,17 @@ const Button = styled('button')(({ theme }) => ({
     //     cursor: 'pointer'
     // }
 }))
-const ButtonOutline = ({ onClick, text, w, px, br ,height}) => {
+const ButtonOutline = ({ onClick, text, w, px, br, height, prevIcon, nextIcon, fontSize }) => {
     return (
         <Button onClick={onClick}
             style={{
-                height: height ? height : '40px',
+                height: height ? height : '40px', fontSize: fontSize ? fontSize : '16px',
                 width: w ? w : 'unset', paddingLeft: px ? px : '22px',
                 paddingRight: px ? px : '22px', borderRadius: br ? br : '12px'
             }}>
-            {text}
+            {prevIcon ? prevIcon : undefined}
+            &nbsp;{text}&nbsp;
+            {nextIcon ? nextIcon : undefined}
         </Button>
     );
 }
