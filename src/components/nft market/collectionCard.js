@@ -280,7 +280,8 @@ const CollectionCard = ({ image, name, likes, link, expanded, setExpandedId, id 
                         <div style={{ display: 'flex', alignItems: 'center', fontSize: '10px' }}><Heart size='15px' />&nbsp;{likes}</div>
                     </FlexRow>
                     <Typography sx={{ mb: '14px', fontSize: '12px' }}>{name}</Typography>
-                    <ButtonPurpleLight height={'30px'} text={'Expand Collection'} w={'100%'} onClick={() => setExpandedId(id)} />
+                    <ButtonPurpleLight
+                        br='8px' height={'30px'} text={'Expand Collection'} w={'100%'} onClick={() => setExpandedId(id)} />
                 </DetailsSection>
             </Card>
         }
