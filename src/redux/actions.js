@@ -25,6 +25,7 @@ const emptyUser = {
     bio: '',
     avatar: '',
     banner: '',
+    walletBackground: '',
     YouWhoID: '',
     cid: '',
     mail: '',
@@ -45,7 +46,7 @@ const anEmptyCart = []
 export const getUnclaimedDeposit = (token, cid) => {
     try {
         return async dispatch => {
-            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/deposit/get/unclaimed/recipient/${cid}/?from=0&to=10`, {
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/deposit/get/all/unclaimed/?from=0&to=10`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

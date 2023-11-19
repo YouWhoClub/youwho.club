@@ -105,7 +105,7 @@ const ChargeWallet = () => {
         const data = {
             user_id: globalUser.userId,
             buyer_cid: globalUser.cid,
-            tokens: tokenAmount,
+            tokens: Number(tokenAmount),
         }
 
         const dataString = JSON.stringify(data);

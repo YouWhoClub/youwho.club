@@ -55,13 +55,13 @@ const UnpaidCheckouts = () => {
     }
 
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (globalUser.cid && globalUser.token) {
-            getUnpaidCheckouts()
-        }
+    //     if (globalUser.cid && globalUser.token) {
+    //         getUnpaidCheckouts()
+    //     }
 
-    }, [globalUser.cid, globalUser.token])
+    // }, [globalUser.cid, globalUser.token])
 
     return (
         <Box sx={{ width: '90%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '30px' }}>

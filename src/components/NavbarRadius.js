@@ -130,11 +130,11 @@ const NavbarTwo = ({ switchTheme, theme }) => {
     const [intervalRef, setIntervalRef] = useState(null);
     const [openMenu, setOpenMenu] = useState(false)
 
-    useEffect(() => {
-        if (globalUser.isLoggedIn && !globalUser.isMailVerified) {
-            disconnect()
-        }
-    }, [globalUser.isLoggedIn, globalUser.isMailVerified])
+    // useEffect(() => {
+    //     if (globalUser.isLoggedIn && !globalUser.isMailVerified) {
+    //         disconnect()
+    //     }
+    // }, [globalUser.isLoggedIn, globalUser.isMailVerified])
 
     useEffect(() => {
         if (globalUser.cid) {

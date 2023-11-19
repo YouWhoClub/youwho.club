@@ -11,6 +11,8 @@ import { API_CONFIG } from "../../../config";
 import yCoin from '../../../assets/Ycoin.svg'
 import { MyInput } from '../../utils'
 import { Buffer } from 'buffer';
+import { EmptyWallet } from "iconsax-react";
+
 
 
 const Card = styled(Box)(({ theme }) => ({
@@ -141,57 +143,68 @@ const WithdrawPanel = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '40px', p: '0' }}>
             {
                 (globalUser.privateKey) ?
-                    unclaimedDeposits.map(item => {
-                        const { amount, id, iat, nft_img_url } = item;
-                        return (
-                            <Card>
-                                <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Box
-                                        component="img"
-                                        src={nft_img_url}
-                                        sx={{
-                                            width: '435px',
-                                            borderRadius: '12px',
-                                            backgroundColor: 'primary.gray',
-                                        }}
-                                    >
-                                    </Box>
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', py: '12px', gap: '12px', width: '327px', alignSelf: 'stretch' }}>
-                                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
-                                            <Typography sx={{ color: 'primary.text', textAlign: 'center', fontSize: '20px', fontWeight: '500' }}>NFT Name</Typography>
-                                            <Box sx={{ display: 'flex', alignItems: 'center', fontSize: "20px", color: 'primary.main', px: 2, gap: '5px' }}>
-                                                <Icon url={yCoin} w={20} h={20} />
-                                                <span>
-                                                    {amount}
-                                                </span>
-                                            </Box>
-                                        </Box>
-                                        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
-                                            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-start', gap: '10px', alignItems: 'center' }}>
-                                                <Typography sx={{ color: 'primary.text', fontWeight: '600', fontFamily: 'inter', fontSize: '12px' }}>Form: </Typography>
-                                                <Typography sx={{ color: 'primary.darkGray', fontWeight: '400', fontFamily: 'inter', fontSize: '12px' }}>Username</Typography>
-                                            </Box>
-                                            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-start', gap: '10px', alignItems: 'center' }}>
-                                                <Typography sx={{ color: 'primary.text', fontWeight: '600', fontFamily: 'inter', fontSize: '12px' }}>Transfer Date: </Typography>
-                                                <Typography sx={{ color: 'primary.darkGray', fontWeight: '400', fontFamily: 'inter', fontSize: '12px' }}>{iat.substring(0, 10)}</Typography>
-                                            </Box>
-                                            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-start', gap: '10px', alignItems: 'center' }}>
-                                                <Typography sx={{ color: 'primary.text', fontWeight: '600', fontFamily: 'inter', fontSize: '12px' }}>Transfer Time: </Typography>
-                                                <Typography sx={{ color: 'primary.darkGray', fontWeight: '400', fontFamily: 'inter', fontSize: '12px' }}>{iat.substring(10, 16)}</Typography>
-                                            </Box>
-                                        </Box>
-                                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
-                                            <Button
-                                                onClick={() => withdraw(id)}
-                                            >Claim
-                                            </Button>
+                    <>
+                        {
+                            unclaimedDeposits.length ?
+                                unclaimedDeposits.map(item => {
+                                    const { amount, id, iat, nft_img_url } = item;
+                                    return (
+                                        <Card>
+                                            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                <Box
+                                                    component="img"
+                                                    src={nft_img_url}
+                                                    sx={{
+                                                        width: '435px',
+                                                        borderRadius: '12px',
+                                                        backgroundColor: 'primary.gray',
+                                                    }}
+                                                >
+                                                </Box>
+                                                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', py: '12px', gap: '12px', width: '327px', alignSelf: 'stretch' }}>
+                                                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
+                                                        <Typography sx={{ color: 'primary.text', textAlign: 'center', fontSize: '20px', fontWeight: '500' }}>NFT Name</Typography>
+                                                        <Box sx={{ display: 'flex', alignItems: 'center', fontSize: "20px", color: 'primary.main', px: 2, gap: '5px' }}>
+                                                            <Icon url={yCoin} w={20} h={20} />
+                                                            <span>
+                                                                {amount}
+                                                            </span>
+                                                        </Box>
+                                                    </Box>
+                                                    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+                                                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-start', gap: '10px', alignItems: 'center' }}>
+                                                            <Typography sx={{ color: 'primary.text', fontWeight: '600', fontFamily: 'inter', fontSize: '12px' }}>Form: </Typography>
+                                                            <Typography sx={{ color: 'primary.darkGray', fontWeight: '400', fontFamily: 'inter', fontSize: '12px' }}>Username</Typography>
+                                                        </Box>
+                                                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-start', gap: '10px', alignItems: 'center' }}>
+                                                            <Typography sx={{ color: 'primary.text', fontWeight: '600', fontFamily: 'inter', fontSize: '12px' }}>Transfer Date: </Typography>
+                                                            <Typography sx={{ color: 'primary.darkGray', fontWeight: '400', fontFamily: 'inter', fontSize: '12px' }}>{iat.substring(0, 10)}</Typography>
+                                                        </Box>
+                                                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-start', gap: '10px', alignItems: 'center' }}>
+                                                            <Typography sx={{ color: 'primary.text', fontWeight: '600', fontFamily: 'inter', fontSize: '12px' }}>Transfer Time: </Typography>
+                                                            <Typography sx={{ color: 'primary.darkGray', fontWeight: '400', fontFamily: 'inter', fontSize: '12px' }}>{iat.substring(10, 16)}</Typography>
+                                                        </Box>
+                                                    </Box>
+                                                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
+                                                        <Button
+                                                            onClick={() => withdraw(id)}
+                                                        >Claim
+                                                        </Button>
 
-                                        </Box>
-                                    </Box>
+                                                    </Box>
+                                                </Box>
+                                            </Box>
+                                        </Card>
+                                    )
+                                }) :
+                                <Box sx={{ display: 'flex', flexDirection: 'column',height:'300px', alignItems: 'center', justifyContent:'center' }}>
+                                    <EmptyWallet size={'50px'} color="#787878" />
+                                    <Typography sx={{ mt: 2, fontSize: '20px', color: 'primary.darkGray', textAlign: 'center', mb: 2, fontWeight: '500' }}>
+                                        There are no unclaimed NFT gitfs
+                                    </Typography>
                                 </Box>
-                            </Card>
-                        )
-                    })
+                        }
+                    </>
                     :
                     <Card>
                         <Typography sx={{ fontFamily: 'Inter', mt: 2, fontSize: '13px', color: 'primary.text', textAlign: 'center', mb: 2, fontWeight: '400' }}>
