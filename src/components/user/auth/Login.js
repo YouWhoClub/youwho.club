@@ -86,14 +86,7 @@ const Login = () => {
         }
     }
     return (
-        <Box
-            sx={{
-                width: '100%',
-                height: '100%',
-                display: 'flex', flexDirection: 'column', textTransform: 'capitalize',
-                justifyContent: 'space-between', alignItems: 'center', color: 'primary.text'
-            }}
-        >
+        <>
             {state == 'identifier' || state == 'password' ?
                 <>
                     <LoginWithOthersBox sx={{ mb: '32px' }}>
@@ -105,11 +98,9 @@ const Login = () => {
                     <form
                         style={{
                             width: '100%',
-                            height: '100%',
                             display: 'flex', flexDirection: 'column',
                             alignItems: 'center',
                         }}
-                    // onSubmit={idStateChanger}
                     >
                         <Box sx={{
                             display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center'
@@ -124,7 +115,7 @@ const Login = () => {
                             {err ? <Typography sx={{ alignSelf: 'start !important', color: 'primary.error', fontSize: '12px', margin: 0 }}>{err}</Typography> : undefined}
                             {success ? <Typography sx={{ alignSelf: 'start !important', color: 'primary.success', fontSize: '12px', margin: 0 }}>{success}</Typography> : undefined}
                             <ShadowInput
-                                mb={'32px'}
+                                // mb={'32px'}
                                 icon={<LockRounded color="primary.light" sx={{ color: 'primary.light', }} />}
                                 borderColor={err ? 'primary.error' : success ? 'primary.success' : undefined}
                                 onChange={(e) => setPassword(e.target.value)}
@@ -148,41 +139,19 @@ const Login = () => {
                         </Box>
                         <p style={{
                             cursor: 'pointer', color: 'rgba(120, 120, 120, 1)',
-                            fontSize: '12px', margin: 0,
+                            fontSize: '12px',
                         }}>
                             FORGOT PASSWORD ?
                         </p>
-
-                        <Box
-                            sx={{
-                                diplay: 'flex',
-                                justifyContent: 'start',
-                                width: '100%',
-                            }}
-                        >
-                            {/* <Box
-                                onClick={() => {
-                                    setState('identifier')
-                                }}
-                                sx={{
-                                    color: 'primary.darkGray',
-                                    fontSize: '12px',
-                                    display: 'flex',
-                                    // justifyContent: 'center',
-                                    alignItems: 'center',
-                                    cursor: 'pointer', mt: '32px'
-                                }}
-                            >
-                                <ArrowLeftSharp sx={{ color: 'primary.darkGray', }} />back
-                            </Box> */}
-                        </Box>
                     </form>
-                    <ButtonPurple disabled={loading} w={'100%'} text={loading ? '...' : 'Sign In'} onClick={submit} />
+                    <Box sx={{ width: '100%', justifySelf: 'end', }}>
+                        <ButtonPurple disabled={loading} w={'100%'} text={loading ? '...' : 'Sign In'} onClick={submit} />
+                    </Box>
                 </>
                 :
                 <VerifyMail email={identifier} />
             }
-        </Box>
+        </>
 
 
     );

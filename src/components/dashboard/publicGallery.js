@@ -13,6 +13,7 @@ import { AscSelect } from '../utils'
 import { useSelector } from 'react-redux'
 import ButtonPurple from '../buttons/buttonPurple'
 import { useNavigate } from 'react-router'
+import ButtonPurpleLight from '../buttons/buttonPurpleLight'
 
 const Gallery = styled(Box)(({ theme }) => ({
     width: '100%', boxSizing: "border-box", gap: '16px',
@@ -58,19 +59,27 @@ const PublicGallery = () => {
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
             {globalUser.cid ?
                 <>
-                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: { xs: 'column', md: 'row' } }}>
-                        <FilterSelection width={'280px'} tabs={['bla', 'bla', 'bla']}
-                            text={'Filter'} id={'filter-public-gallery'} handleSelect={handleFilterSelect} selectValue={filterValue} />
-                        <FilterSelection width={'280px'} tabs={['date', 'added to my collection', 'favorites']}
-                            text={'Sort By'} id={'sort-public-gallery'} handleSelect={handleSortSelect} selectValue={sortValue} />
-                    </Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: { xs: 'column', md: 'row' } }}>
-                        <FilterSelection handleSelect={handleCatSelect} width={'280px'} tabs={['art', 'pink', 'bla', 'animal']}
-                            text={'Category'} id={'category-public-gallery'} selectValue={categoryValue} />
-                        <AscSelect asc={asc} id={'asc-public-gallery'} width={'280px'} setAsc={setAsc} />
-                    </Box>
+                    <FlexColumn sx={{ gap: '15px' }}>
+                        <Box sx={{
+                            display: 'flex', justifyContent: 'center', alignItems: 'center',
+                            flexDirection: { xs: 'column', md: 'row' }, gap: '15px'
+                        }}>
+                            <FilterSelection width={'280px'} tabs={['bla', 'bla', 'bla']}
+                                text={'Filter'} id={'filter-public-gallery'} handleSelect={handleFilterSelect} selectValue={filterValue} />
+                            <FilterSelection width={'280px'} tabs={['date', 'added to my collection', 'favorites']}
+                                text={'Sort By'} id={'sort-public-gallery'} handleSelect={handleSortSelect} selectValue={sortValue} />
+                        </Box>
+                        <Box sx={{
+                            display: 'flex', justifyContent: 'center', alignItems: 'center',
+                            flexDirection: { xs: 'column', md: 'row' }, gap: '15px'
+                        }}>
+                            <FilterSelection handleSelect={handleCatSelect} width={'280px'} tabs={['art', 'pink', 'bla', 'animal']}
+                                text={'Category'} id={'category-public-gallery'} selectValue={categoryValue} />
+                            <AscSelect asc={asc} id={'asc-public-gallery'} width={'280px'} setAsc={setAsc} />
+                        </Box>
+                    </FlexColumn>
 
-                    <Gallery>
+                    <Gallery sx={{ mt: 5 }}>
                         <NFTCard image={sorkhabiNFT} creator={globalUser.username} price={5} likes={10} name={'Sorkhabi NFT'} />
                         <NFTCard image={purpleNFT} creator={globalUser.username} price={5} likes={99} name={'Purple NFT'} />
                         <NFTCard image={creamNFT} creator={'Afshin_joon'} price={15} likes={4} name={'Cream NFT'} />
@@ -92,7 +101,7 @@ const PublicGallery = () => {
                             </b>
                             to create private or public galleries in youwho platform , you must create a youwho wallet first
                         </Typography>
-                        <ButtonPurple text={'Create Wallet'} onClick={() => navigate('/wallet')} height='35px' />
+                        <ButtonPurpleLight text={'Create Wallet'} onClick={() => navigate('/wallet')} height='35px' />
                     </FlexColumn>
                 </>
             }

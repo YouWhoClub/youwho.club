@@ -15,6 +15,7 @@ import CollectionCard from "../nft market/collectionCard";
 import { API_CONFIG } from "../../config";
 import ButtonPurple from "../buttons/buttonPurple";
 import { useNavigate } from "react-router";
+import ButtonPurpleLight from "../buttons/buttonPurpleLight";
 
 const Gallery = styled(Box)(({ theme }) => ({
     width: '100%', boxSizing: "border-box", gap: '16px',
@@ -83,26 +84,26 @@ const PrivateGallery = () => {
                 <>
                     {loading ? <CircularProgress /> :
                         <>
-                            {galleries && galleries.length > 0 ?
-                                <>
-                                    <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' }, mb: '32px' }}>
-                                        <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
-                                            NFT Collections
-                                        </Typography>
-                                        <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '12px' } }}>
-                                            You Can See All Collections With Their NFTs which You Have Created.
-                                            You & Your Friends Can Mint Any NFT You Like.
-                                        </Typography>
-                                    </FlexColumn>
-                                    <Gallery>
-                                        <CollectionCard image={blueNft} likes={0} name={'Blue Collection'} setExpandedId={setExpandedColl} id={'blueCol'} expanded={expandedColl == 'blueCol'} />
-                                        <CollectionCard image={pinkNFT} likes={1} name={'Pink Collection'} setExpandedId={setExpandedColl} id={'pinkCol'} expanded={expandedColl == 'pinkCol'} />
-                                        <CollectionCard image={purpleNFT} likes={0} name={'Purple Collection'} setExpandedId={setExpandedColl} id={'purpleCol'} expanded={expandedColl == 'purpleCol'} />
-                                        <CollectionCard image={creamNFT} likes={4} name={'Sorkhabi Collection'} setExpandedId={setExpandedColl} id={'creamCol'} expanded={expandedColl == 'creamCol'} />
-                                        <CollectionCard image={sorkhabiNFT} likes={0} name={'Cream Collection'} setExpandedId={setExpandedColl} id={'sorkhabiCol'} expanded={expandedColl == 'sorkhabiCol'} />
-                                        <CollectionCard image={torqNFT} likes={0} name={'Turquoise Collection'} setExpandedId={setExpandedColl} id={'torqCol'} expanded={expandedColl == 'torqCol'} />
-                                    </Gallery>
-                                </>
+                            {/* {galleries && galleries.length > 0 ?
+                                <> */}
+                            <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' }, mb: '32px' }}>
+                                <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
+                                    NFT Collections
+                                </Typography>
+                                <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '12px' } }}>
+                                    You Can See All Collections With Their NFTs which You Have Created.
+                                    You & Your Friends Can Mint Any NFT You Like.
+                                </Typography>
+                            </FlexColumn>
+                            <Gallery>
+                                <CollectionCard image={blueNft} likes={0} name={'Blue Collection'} setExpandedId={setExpandedColl} id={'blueCol'} expanded={expandedColl == 'blueCol'} />
+                                <CollectionCard image={pinkNFT} likes={1} name={'Pink Collection'} setExpandedId={setExpandedColl} id={'pinkCol'} expanded={expandedColl == 'pinkCol'} />
+                                <CollectionCard image={purpleNFT} likes={0} name={'Purple Collection'} setExpandedId={setExpandedColl} id={'purpleCol'} expanded={expandedColl == 'purpleCol'} />
+                                <CollectionCard image={creamNFT} likes={4} name={'Sorkhabi Collection'} setExpandedId={setExpandedColl} id={'creamCol'} expanded={expandedColl == 'creamCol'} />
+                                <CollectionCard image={sorkhabiNFT} likes={0} name={'Cream Collection'} setExpandedId={setExpandedColl} id={'sorkhabiCol'} expanded={expandedColl == 'sorkhabiCol'} />
+                                <CollectionCard image={torqNFT} likes={0} name={'Turquoise Collection'} setExpandedId={setExpandedColl} id={'torqCol'} expanded={expandedColl == 'torqCol'} />
+                            </Gallery>
+                            {/* </>
                                 :
                                 <>
                                     <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' }, mb: '32px' }}>
@@ -117,12 +118,12 @@ const PrivateGallery = () => {
                                         <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '12px' } }}>
                                             create one ?
                                         </Typography>
-                                        <ButtonPurple text={'Create'} height='35px' />
+                                        <ButtonPurpleLight text={'Create'} height='35px' />
 
                                     </FlexColumn>
 
                                 </>
-                            }
+                            } */}
                         </>
                     }
                 </>
@@ -139,7 +140,7 @@ const PrivateGallery = () => {
                             </b>
                             to create private or public galleries in youwho platform , you must create a youwho wallet first
                         </Typography>
-                        <ButtonPurple text={'Create Wallet'} onClick={() => navigate('/wallet')} height='35px' />
+                        <ButtonPurpleLight text={'Create Wallet'} onClick={() => navigate('/wallet')} height='35px' />
                     </FlexColumn>
                 </>
             }

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router"
 import { useEffect, useState } from "react"
 import ButtonPurple from "./buttons/buttonPurple"
 import { ArrowDown2, ArrowUp2 } from "iconsax-react"
+import ButtonPurpleLight from "./buttons/buttonPurpleLight"
 
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -18,7 +19,7 @@ const FilterSelectionBox = styled(Box)(({ theme }) => ({
     border: '1px solid #DEDEDE',
     borderRadius: '18px',
     overflow: 'hidden',
-    height: '20px',
+    height: '36px', boxSizing: 'border-box', padding: '8px 16px',
     color: theme.palette.primary.text
 }))
 const RelationCardComp = styled(Box)(({ theme }) => ({
@@ -29,10 +30,25 @@ const RelationCardComp = styled(Box)(({ theme }) => ({
     justifyContent: 'space-between',
     boxShadow: theme.palette.primary.boxShadow,
     borderRadius: '16px',
-    // height: '70px',
-    // width: '100%',
+    height: '74px',
+    width: '100%',
     color: theme.palette.primary.text,
     backgroundColor: theme.palette.secondary.bg,
+    boxSizing: 'border-box'
+}))
+const ReactionCardComp = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: '16px',
+    justifyContent: 'space-between',
+    boxShadow: theme.palette.primary.boxShadow,
+    borderRadius: '16px',
+    height: '110px',
+    width: '100%',
+    color: theme.palette.primary.text,
+    backgroundColor: theme.palette.secondary.bg,
+    boxSizing: 'border-box', gap: '16px'
 }))
 const FlexRow = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -491,20 +507,19 @@ export const ShadowInput = ({ icon, text, id, label, width, onChange, borderColo
 export const AscSelect = ({ asc, width, setAsc, id }) => {
     return (<FilterSelectionBox
         sx={{
-            py: 1,
-            m: 1,
+            mt: 1,
             width: { width }, color: 'primary.text',
             bgcolor: 'secondary.bg',
         }}
     >
-        <SelectInputs sx={{ ml: '16px' }}>
+        <SelectInputs sx={{}}>
             <Box onClick={(e) => setAsc(true)}
                 sx={{ cursor: 'pointer', p: '6px', borderRadius: '8px', borderColor: 'primary.text', border: '1px solid' }}>
                 <Box sx={{ borderRadius: '50%', bgcolor: asc ? 'primary.text' : 'transprent', width: '10px', height: '10px' }} />
             </Box>
             &nbsp;ASC
         </SelectInputs>
-        <SelectInputs sx={{ mr: '16px' }}>
+        <SelectInputs sx={{}}>
             <Box onClick={(e) => setAsc(false)}
                 sx={{ cursor: 'pointer', p: '6px', borderRadius: '8px', borderColor: 'primary.text', border: '1px solid' }}>
                 <Box sx={{ borderRadius: '50%', bgcolor: !asc ? 'primary.text' : 'transprent', width: '10px', height: '10px' }} />
@@ -572,53 +587,64 @@ export const RelationCard = ({ image, friend, username, allies, date }) => {
     const navigate = useNavigate()
     return (
         <ClickAwayListener onClickAway={handleClickAway}>
-            <Box sx={{ width: '100%', my: 1, height: '70px' }}>
-                <RelationCardComp>
-                    <FlexRow>
-                        <Box sx={{
-                            backgroundImage: BG_URL(PUBLIC_URL(`${image}`)),
-                            backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
-                            , width: '40px', height: '40px', borderRadius: '50%'
-                        }}
-                        />
-                        &nbsp;
-                        &nbsp;
-                        &nbsp;
+            <RelationCardComp sx={{ gap: '16px' }}>
+                <FlexRow sx={{ gap: '16px' }}>
+                    <Box sx={{
+                        backgroundImage: BG_URL(PUBLIC_URL(`${image}`)),
+                        backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+                        , width: '40px', height: '40px', borderRadius: '50%',
+                    }}
+                    />
+                    <Typography sx={{ fontWeight: 500, color: 'primary.text' }}>
                         {username}
-                    </FlexRow>
-                    <FlexRow>
-                        <ButtonPurple text={'View Profile'} onClick={() => navigate(`/profile/${username}`)} />
-                        &nbsp;
-                        &nbsp;
-                        &nbsp;
-                        <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} />
-                    </FlexRow>
-                    <Popper
-                        PaperProps={{
-                            style: {
-                            }
-                        }}
-                        disableScrollLock={true}
-                        id="basic-menu"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        MenuListProps={{
-                            'aria-labelledby': 'basic-button',
-                        }}
-                        placement='left-start'
-                        sx={{
-                            marginTop: '20px !important',
-                            width: '190px',
-                            bgcolor: 'secondary.bg', p: '20px',
-                            zIndex: 1400, borderRadius: '20px 0px 20px 20px',
-                            overflow: "hidden",
-                            // boxShadow: theme == 'light' ? '0px 0px 10px 0px rgba(0, 0, 0, 0.45)' : '0px 0px 12px 1px rgba(227,209,231, 0.25)',
-                            boxShadow: localStorage.getItem('theme') == 'dark' ? '0px 0px 12px 1px rgba(227,209,231, 0.25)' : '0px 0px 10px 0px rgba(0, 0, 0, 0.25)',
-                        }}
+                    </Typography>
+                </FlexRow>
+                <FlexRow sx={{ gap: '16px' }}>
+                    <ButtonPurpleLight br='4px'
+                        text={'View Profile'}
+                        onClick={() => navigate(`/profile/${username}`)}
+                        height='30px' />
+                    <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} color="#787878" />
+                </FlexRow>
+                <Popper
+                    PaperProps={{
+                        style: {
+                        }
+                    }}
+                    disableScrollLock={true}
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                        'aria-labelledby': 'basic-button',
+                    }}
+                    placement='left-start'
+                    sx={{
+                        marginTop: '20px !important',
+                        width: '190px',
+                        bgcolor: 'secondary.bg', p: '20px',
+                        zIndex: 1400, borderRadius: '20px 0px 20px 20px',
+                        overflow: "hidden",
+                        // boxShadow: theme == 'light' ? '0px 0px 10px 0px rgba(0, 0, 0, 0.45)' : '0px 0px 12px 1px rgba(227,209,231, 0.25)',
+                        boxShadow: localStorage.getItem('theme') == 'dark' ? '0px 0px 12px 1px rgba(227,209,231, 0.25)' : '0px 0px 10px 0px rgba(0, 0, 0, 0.25)',
+                    }}
+                >
+                    <MenuItem id={'share'} sx={{
+                        display: 'flex', alignItems: 'center', pb: '12px',
+                        color: 'primary.text',
+                        borderBottom: '1px solid',
+                        borderColor: 'primary.gray',
+                        '&:hover': {
+                            bgcolor: 'secondary.bgOp',
+                        }
+                    }}
                     >
-                        <MenuItem id={'share'} sx={{
-                            display: 'flex', alignItems: 'center', pb: '12px',
+                        Share
+                    </MenuItem>
+                    {friend ?
+                        <MenuItem id={'isfiends'} sx={{
+                            display: 'flex', alignItems: 'center', py: '12px',
                             color: 'primary.text',
                             borderBottom: '1px solid',
                             borderColor: 'primary.gray',
@@ -627,60 +653,46 @@ export const RelationCard = ({ image, friend, username, allies, date }) => {
                             }
                         }}
                         >
-                            Share
+                            Remove Friend
                         </MenuItem>
-                        {friend ?
-                            <MenuItem id={'isfiends'} sx={{
-                                display: 'flex', alignItems: 'center', py: '12px',
-                                color: 'primary.text',
-                                borderBottom: '1px solid',
-                                borderColor: 'primary.gray',
-                                '&:hover': {
-                                    bgcolor: 'secondary.bgOp',
-                                }
-                            }}
-                            >
-                                Remove Friend
-                            </MenuItem>
-                            : <MenuItem id={'notisfiends'} sx={{
-                                display: 'flex', alignItems: 'center', py: '12px',
-                                color: 'primary.text',
-                                borderBottom: '1px solid',
-                                borderColor: 'primary.gray',
-                                '&:hover': {
-                                    bgcolor: 'secondary.bgOp',
-                                }
-                            }}
-                            >
-                                "Be My Friend" Request
-                            </MenuItem>
-                        }
-                        {allies ?
-                            <MenuItem id={'isallies'} sx={{
-                                display: 'flex', alignItems: 'center', pt: '12px',
-                                color: 'primary.text',
-                                '&:hover': {
-                                    bgcolor: 'secondary.bgOp',
-                                }
-                            }}
-                            >
-                                Remove From Allies
-                            </MenuItem>
-                            : <MenuItem id={'isallies'} sx={{
-                                display: 'flex', alignItems: 'center', pt: '12px',
-                                color: 'primary.text',
-                                '&:hover': {
-                                    bgcolor: 'secondary.bgOp',
-                                }
-                            }}
-                            >
-                                "Be My Allie" Invitation
-                            </MenuItem>
-                        }
-                    </Popper>
+                        : <MenuItem id={'notisfiends'} sx={{
+                            display: 'flex', alignItems: 'center', py: '12px',
+                            color: 'primary.text',
+                            borderBottom: '1px solid',
+                            borderColor: 'primary.gray',
+                            '&:hover': {
+                                bgcolor: 'secondary.bgOp',
+                            }
+                        }}
+                        >
+                            "Be My Friend" Request
+                        </MenuItem>
+                    }
+                    {allies ?
+                        <MenuItem id={'isallies'} sx={{
+                            display: 'flex', alignItems: 'center', pt: '12px',
+                            color: 'primary.text',
+                            '&:hover': {
+                                bgcolor: 'secondary.bgOp',
+                            }
+                        }}
+                        >
+                            Remove From Allies
+                        </MenuItem>
+                        : <MenuItem id={'isallies'} sx={{
+                            display: 'flex', alignItems: 'center', pt: '12px',
+                            color: 'primary.text',
+                            '&:hover': {
+                                bgcolor: 'secondary.bgOp',
+                            }
+                        }}
+                        >
+                            "Be My Allie" Invitation
+                        </MenuItem>
+                    }
+                </Popper>
 
-                </RelationCardComp>
-            </Box>
+            </RelationCardComp>
         </ClickAwayListener>
     )
 }
@@ -703,105 +715,99 @@ export const ReactionCard = ({ active, passive, action, nftName, nftImage, usern
     const navigate = useNavigate()
     return (
         <ClickAwayListener onClickAway={handleClickAway}>
-            <Box sx={{ width: '100%', my: 1, height: '110px' }}>
-                <RelationCardComp>
-                    <FlexRow>
-                        <Box sx={{
-                            backgroundImage: BG_URL(PUBLIC_URL(`${nftImage}`)),
-                            backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
-                            , width: { xs: '60px', sm: '80px' }, height: { xs: '60px', sm: '80px' }, borderRadius: '18px'
-                        }}
-                        />
-                        &nbsp;
-                        &nbsp;
-                        &nbsp;
-                        <FlexColumn>
-                            <Typography
-                                sx={{
-                                    textTransform: 'capitalize',
-                                    fontWeight: 700,
-                                    fontSize: { xs: '10px', sm: '14px', md: '16px' }
-                                }}>
-                                {action}</Typography>
-                            <Typography
-                                sx={{
-                                    textTransform: 'capitalize',
-                                    fontWeight: 400,
-                                    fontSize: { xs: '10px', sm: '14px', md: '16px' }
-                                }}>
-                                {active}&nbsp;{action}&nbsp;on&nbsp;{passive}'s NFT Named {nftName}</Typography>
-                            <Typography
-                                sx={{
-                                    textTransform: 'capitalize',
-                                    fontWeight: 400,
-                                    color: 'primary.gray', fontSize: { xs: '10px', sm: '14px', md: '16px' }
-                                }}>
-                                {date}</Typography>
-                        </FlexColumn>
-                    </FlexRow>
-                    <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} />
-                    <Popper
-                        PaperProps={{
-                            style: {
-                            }
-                        }}
-                        disableScrollLock={true}
-                        id="basic-menu"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        MenuListProps={{
-                            'aria-labelledby': 'basic-button',
-                        }}
-                        placement='left-start'
-                        sx={{
-                            marginTop: '20px !important',
-                            width: '190px',
-                            bgcolor: 'secondary.bg', p: '20px',
-                            zIndex: 1400, borderRadius: '20px 0px 20px 20px',
-                            overflow: "hidden",
-                            // boxShadow: theme == 'light' ? '0px 0px 10px 0px rgba(0, 0, 0, 0.45)' : '0px 0px 12px 1px rgba(227,209,231, 0.25)',
-                            boxShadow: localStorage.getItem('theme') == 'dark' ? '0px 0px 12px 1px rgba(227,209,231, 0.25)' : '0px 0px 10px 0px rgba(0, 0, 0, 0.25)',
-                        }}
+            <ReactionCardComp>
+                <FlexRow sx={{ gap: '16px' }}>
+                    <Box sx={{
+                        backgroundImage: BG_URL(PUBLIC_URL(`${nftImage}`)),
+                        backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+                        , width: { xs: '60px', sm: '80px' }, height: { xs: '60px', sm: '80px' }, borderRadius: '18px'
+                    }}
+                    />
+                    <FlexColumn>
+                        <Typography
+                            sx={{
+                                textTransform: 'capitalize',
+                                fontWeight: 700,
+                                fontSize: { xs: '10px', sm: '14px', md: '16px' }, mb: '8px'
+                            }}>
+                            {action}</Typography>
+                        <Typography
+                            sx={{
+                                textTransform: 'capitalize',
+                                fontWeight: 400,
+                                fontSize: { xs: '10px', sm: '14px', md: '14px' }
+                            }}>
+                            {active}&nbsp;{action}&nbsp;on&nbsp;{passive}'s NFT Named {nftName}</Typography>
+                        <Typography
+                            sx={{
+                                textTransform: 'capitalize',
+                                fontWeight: 400,
+                                color: 'primary.gray', fontSize: { xs: '10px', sm: '14px', md: '14px' }
+                            }}>
+                            {date}</Typography>
+                    </FlexColumn>
+                </FlexRow>
+                <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} color="#787878" />
+                <Popper
+                    PaperProps={{
+                        style: {
+                        }
+                    }}
+                    disableScrollLock={true}
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                        'aria-labelledby': 'basic-button',
+                    }}
+                    placement='left-start'
+                    sx={{
+                        marginTop: '20px !important',
+                        width: '190px',
+                        bgcolor: 'secondary.bg', p: '20px',
+                        zIndex: 1400, borderRadius: '20px 0px 20px 20px',
+                        overflow: "hidden",
+                        // boxShadow: theme == 'light' ? '0px 0px 10px 0px rgba(0, 0, 0, 0.45)' : '0px 0px 12px 1px rgba(227,209,231, 0.25)',
+                        boxShadow: localStorage.getItem('theme') == 'dark' ? '0px 0px 12px 1px rgba(227,209,231, 0.25)' : '0px 0px 10px 0px rgba(0, 0, 0, 0.25)',
+                    }}
+                >
+                    <MenuItem id={'nft-det'} sx={{
+                        display: 'flex', alignItems: 'center', pb: '12px',
+                        color: 'primary.text',
+                        borderBottom: '1px solid',
+                        borderColor: 'primary.gray',
+                        '&:hover': {
+                            bgcolor: 'secondary.bgOp',
+                        }
+                    }}
                     >
-                        <MenuItem id={'nft-det'} sx={{
-                            display: 'flex', alignItems: 'center', pb: '12px',
-                            color: 'primary.text',
-                            borderBottom: '1px solid',
-                            borderColor: 'primary.gray',
-                            '&:hover': {
-                                bgcolor: 'secondary.bgOp',
-                            }
-                        }}
-                        >
-                            NFT Details
-                        </MenuItem>
-                        <MenuItem id={'users-profile'} sx={{
-                            display: 'flex', alignItems: 'center', py: '12px',
-                            color: 'primary.text',
-                            borderBottom: '1px solid',
-                            borderColor: 'primary.gray',
-                            '&:hover': {
-                                bgcolor: 'secondary.bgOp',
-                            }
-                        }}
-                        >
-                            {username}'s Profile
-                        </MenuItem>
-                        <MenuItem id={'select-action'} sx={{
-                            display: 'flex', alignItems: 'center', pt: '12px',
-                            color: 'primary.text',
-                            '&:hover': {
-                                bgcolor: 'secondary.bgOp',
-                            }
-                        }}
-                        >
-                            Select
-                        </MenuItem>
-                    </Popper>
-
-                </RelationCardComp>
-            </Box>
+                        NFT Details
+                    </MenuItem>
+                    <MenuItem id={'users-profile'} sx={{
+                        display: 'flex', alignItems: 'center', py: '12px',
+                        color: 'primary.text',
+                        borderBottom: '1px solid',
+                        borderColor: 'primary.gray',
+                        '&:hover': {
+                            bgcolor: 'secondary.bgOp',
+                        }
+                    }}
+                    >
+                        {username}'s Profile
+                    </MenuItem>
+                    <MenuItem id={'select-action'} sx={{
+                        display: 'flex', alignItems: 'center', pt: '12px',
+                        color: 'primary.text',
+                        '&:hover': {
+                            bgcolor: 'secondary.bgOp',
+                        }
+                    }}
+                    >
+                        Select
+                    </MenuItem>
+                </Popper>
+            </ReactionCardComp>
         </ClickAwayListener>
     )
 }

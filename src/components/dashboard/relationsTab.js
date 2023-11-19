@@ -9,7 +9,7 @@ import torqNFT from '../../assets/torqua-nft.svg'
 import styled from "@emotion/styled";
 import { useState } from "react";
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
-    display: 'flex',
+    display: 'flex', boxSizing: 'border-box',
     flexDirection: 'row',
     alignItems: 'center',
     cursor: 'pointer',
@@ -32,21 +32,18 @@ const RelationsTab = () => {
                 <SubTab id={"my-friends"} onClick={(e) => setActiveTab(e.target.id)} text={'My Friends'} selected={activeTab == 'my-friends'} />
                 <SubTab id={"expansion-of-communication"} onClick={(e) => setActiveTab(e.target.id)} text={'Expansion of communication '} selected={activeTab == 'expansion-of-communication'} />
             </SubTabs>
-            <FilterSelectionBox sx={{
-                py: 1,
-                my: 2,
-            }}>
-                <span style={{ marginLeft: '16px', width: '180px' }}>
+            <FilterSelectionBox sx={{ padding: '8px 16px', my: 4 }}>
+                <span style={{ width: '180px', fontSize: '14px' }}>
                     Search Username:
                 </span>
                 <input style={{
-                    height: '20px', marginRight: '16px',
+                    height: '20px',
                     backgroundColor: 'transparent', border: 'none', outline: 'none',
                     color: '#c2c2c2', width: '100%'
                 }} />
             </FilterSelectionBox>
             {activeTab == 'my-allies' &&
-                <>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                     <RelationCard image={purpleNFT} username={'Farhad'} allies={true} />
                     <RelationCard image={torqNFT} username={'Khosro'} friend={true} allies={true} />
                     <RelationCard image={pinkNFT} username={'Shirin'} allies={true} />
@@ -59,10 +56,10 @@ const RelationsTab = () => {
                     <RelationCard image={torqNFT} username={'Khosro'} friend={true} allies={true} />
                     <RelationCard image={pinkNFT} username={'Shirin'} allies={true} />
                     <RelationCard image={torqNFT} username={'Tequilla__'} friend={true} allies={true} />
-                </>
+                </Box>
             }
             {activeTab == 'my-friends' &&
-                <>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                     <RelationCard image={torqNFT} username={'Khosro'} friend={true} allies={true} />
                     <RelationCard image={purpleNFT} username={'Sweet_dreamer'} friend={true} allies={true} />
                     <RelationCard image={blueNft} username={'Shirin'} friend={true} />
@@ -73,10 +70,10 @@ const RelationsTab = () => {
                     <RelationCard image={blueNft} username={'Shirin'} friend={true} />
                     <RelationCard image={sorkhabiNFT} username={'red_garlic'} friend={true} />
                     <RelationCard image={creamNFT} username={'this.me'} friend={true} />
-                </>
+                </Box>
             }
             {activeTab == 'expansion-of-communication' &&
-                <>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                     <RelationCard image={torqNFT} username={'Khosro'} />
                     <RelationCard image={creamNFT} username={'Farhad'} />
                     <RelationCard image={blueNft} username={'Shirin'} />
@@ -107,7 +104,7 @@ const RelationsTab = () => {
                     <RelationCard image={blueNft} username={'Shirin'} />
                     <RelationCard image={sorkhabiNFT} username={'red_garlic'} />
                     <RelationCard image={creamNFT} username={'this.me'} />
-                </>
+                </Box>
             }
         </Box>
     );

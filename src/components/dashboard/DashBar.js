@@ -14,10 +14,10 @@ import { getuser } from "../../redux/actions";
 
 const Bar = styled(Box)(({ theme }) => ({
     height: 'max-content', backgroundColor: theme.palette.secondary.bg,
-    borderRadius: '24px', 
+    borderRadius: '24px',
     // marginBottom: '20px',
     boxShadow: theme.palette.primary.boxShadow, overflow: 'hidden',
-    transition:'500ms ease'
+    transition: '500ms ease'
 }))
 const Title = styled(Box)`
 display: flex;
@@ -199,31 +199,35 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
                 width: { xs: '100%', md: '325px' },
             }}>
             <Box sx={{
-                display: 'flex', flexDirection: 'column', alignItems: 'center', p: 1
+                display: 'flex', flexDirection: 'column', alignItems: 'center', p: '16px 12px'
             }}>
                 {editProfile ?
                     <>
-                        <Box sx={{ color: 'primary.text', display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center', my: 1 }}>
+                        <Box
+                            sx={{
+                                color: 'primary.text', display: 'flex', justifyContent: 'space-between',
+                                width: '100%', alignItems: 'center', mb: '15px'
+                            }}>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                 Edit Profile
                             </div>
-                            <Close fontSize='16px' cursor='pointer' onClick={() => setEditProfile(false)} />
+                            <Close sx={{ fontSize: '25px' }} cursor='pointer' onClick={() => setEditProfile(false)} />
                         </Box>
-                        <Accordion 
-                        sx={{
-                            my: 1,
-                            width: '100%',
-                            bgcolor: 'secondary.bg',
-                            color: 'primary.text',
-                            border: '1px solid', borderColor: 'primary.gray',
-                            // border: 'none',
-                            '&:before': {
-                                bgcolor: 'transparent',
-                            },
-                            // boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.07)',
-                            boxShadow: 'none !important',
-                            borderRadius: '24px !important', fontSize: '14px'
-                        }}>
+                        <Accordion
+                            sx={{
+                                my: 1,
+                                width: '100%',
+                                bgcolor: 'secondary.bg',
+                                color: 'primary.text',
+                                border: '1px solid', borderColor: 'primary.gray',
+                                // border: 'none',
+                                '&:before': {
+                                    bgcolor: 'transparent',
+                                },
+                                // boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.07)',
+                                boxShadow: 'none !important',
+                                borderRadius: '24px !important', fontSize: '14px'
+                            }}>
                             <AccordionSummary
                                 expandIcon={<ArrowDown2 size='16px' />}
                                 aria-controls="panel1a-content"
@@ -424,12 +428,15 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
                     </>
                     :
                     <>
-                        <Box sx={{ color: 'primary.text', display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center', my: 1 }}>
+                        <Box sx={{
+                            color: 'primary.text', display: 'flex', justifyContent: 'space-between',
+                            width: '100%', alignItems: 'center', mb: '15px'
+                        }}>
                             <div style={{ display: 'flex', alignItems: 'center', }}>
-                                <Face /> &nbsp;
+                                <Face sx={{ fontSize: '50px' }} /> &nbsp;
                                 {shorten(username)}
                             </div>
-                            <Setting2 size='16px' cursor='pointer' onClick={() => setEditProfile(true)} />
+                            <Setting2 size='25px' cursor='pointer' onClick={() => setEditProfile(true)} />
                         </Box>
                         <Accordion sx={{
                             width: '100%',

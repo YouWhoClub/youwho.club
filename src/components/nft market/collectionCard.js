@@ -10,6 +10,7 @@ import ButtonOutline from "../buttons/buttonOutline";
 import purpleNFT from '../../assets/purple-nft.svg'
 import { ArrowBack, ArrowForward, ArrowLeft, ArrowRight, ArrowUpward } from "@mui/icons-material";
 import { NFTCommentCard } from "../utils";
+import ButtonPurpleLight from "../buttons/buttonPurpleLight";
 
 const Card = styled(Box)(({ theme }) => ({
     display: 'flex', boxSizing: 'border-box',
@@ -279,7 +280,7 @@ const CollectionCard = ({ image, name, likes, link, expanded, setExpandedId, id 
                         <div style={{ display: 'flex', alignItems: 'center', fontSize: '10px' }}><Heart size='15px' />&nbsp;{likes}</div>
                     </FlexRow>
                     <Typography sx={{ mb: '14px', fontSize: '12px' }}>{name}</Typography>
-                    <ButtonPurple text={'Expand Collection'} w={'100%'} onClick={() => setExpandedId(id)} />
+                    <ButtonPurpleLight height={'30px'} text={'Expand Collection'} w={'100%'} onClick={() => setExpandedId(id)} />
                 </DetailsSection>
             </Card>
         }

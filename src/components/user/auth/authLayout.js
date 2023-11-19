@@ -64,15 +64,21 @@ const AuthLayout = ({ children }) => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        mt: 2,
-        mb: 4,
+        mt: '16px',
+        mb: '32px',
       }}>
         <YouWhoIcon onClick={() => navigate('/')} sx={{}} />
       </Box>
       {/* </NavAuth> */}
-      <>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: { xs: 'calc(100vh - 108px)', sm: 'auto' },
+        width: '100%',
+      }}>
         {children}
-      </>
+      </Box>
     </Box >
   </>);
 }

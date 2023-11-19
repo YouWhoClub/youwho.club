@@ -8,11 +8,11 @@ const FilterSelectionBox = styled(Box)(({ theme }) => ({
     flexDirection: 'row',
     alignItems: 'center',
     cursor: 'pointer',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between', boxSizing: 'border-box',
     border: '1px solid #DEDEDE',
     borderRadius: '18px',
     overflow: 'hidden',
-    height: '20px',
+    height: '36px',
     color: theme.palette.primary.text
 
 }))
@@ -57,7 +57,8 @@ const FilterSelection = ({ width, tabs, handleSelect, selectValue, id, icon, tex
                 id={id}
                 onClick={handleClick}
                 sx={{
-                    py: 1, m: 1,
+                    p: '8px 16px',
+                    mt:1,
                     width: { width }, color: 'primary.text',
                     borderBottomRightRadius: expanded ? 0 : '18px',
                     borderBottomLeftRadius: expanded ? 0 : '18px',
@@ -66,7 +67,7 @@ const FilterSelection = ({ width, tabs, handleSelect, selectValue, id, icon, tex
                 }}
             >
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Typography sx={{ color: "inherit", width: "max-content", paddingLeft: '16px' }}>
+                    <Typography sx={{ color: "inherit", width: "max-content", }}>
                         {icon ? icon : undefined}
                         {text}
                     </Typography>
@@ -75,7 +76,7 @@ const FilterSelection = ({ width, tabs, handleSelect, selectValue, id, icon, tex
                         {selectValue ? selectValue : ''}
                     </Typography>
                 </Box>
-                {expanded ? <ArrowUp2 size="18" style={{ paddingRight: '16px' }} /> : <ArrowDown2 size="18" style={{ paddingRight: '16px' }} />}
+                {expanded ? <ArrowUp2 size="18" style={{}} /> : <ArrowDown2 size="18" style={{}} />}
                 <Popper
                     PaperProps={{
                         style: {
