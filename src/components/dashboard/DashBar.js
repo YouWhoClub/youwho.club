@@ -14,7 +14,8 @@ import { getuser } from "../../redux/actions";
 
 const Bar = styled(Box)(({ theme }) => ({
     height: 'max-content', backgroundColor: theme.palette.secondary.bg,
-    borderRadius: '24px', marginBottom: '20px',
+    borderRadius: '24px', 
+    // marginBottom: '20px',
     boxShadow: theme.palette.primary.boxShadow, overflow: 'hidden',
     transition:'500ms ease'
 }))

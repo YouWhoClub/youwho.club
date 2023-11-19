@@ -14,7 +14,7 @@ const Card = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     gap: '12px',
     borderRadius: '16px',
-    background: theme.palette.secondary.background,
+    backgroundColor: theme.palette.secondary.bg,
     boxShadow: theme.palette.primary.boxShadow,
 }))
 const Container = styled(Box)(({ theme }) => ({
@@ -24,7 +24,7 @@ const Container = styled(Box)(({ theme }) => ({
     gap: '22px',
     borderRadius: '18px', width: '100%',
     // alignItems: 'center',
-    background: theme.palette.secondary.background,
+    backgroundColor: theme.palette.secondary.bg,
     boxShadow: theme.palette.primary.boxShadow,
 }))
 const Acc = styled(Box)(({ theme }) => ({
@@ -32,7 +32,7 @@ const Acc = styled(Box)(({ theme }) => ({
     alignItems: 'center', justifyContent: 'center',
     borderRadius: '9px', width: '100%', height: '40px',
     alignItems: 'center', color: theme.palette.primary.gray,
-    background: theme.palette.secondary.background,
+    backgroundColor: theme.palette.secondary.bg,
     boxShadow: theme.palette.primary.boxShadow, cursor: "pointer",
 }))
 const NFTsColumn = styled(Box)(({ theme }) => ({
@@ -44,7 +44,7 @@ const NFTsColumn = styled(Box)(({ theme }) => ({
     borderRadius: '9px',
     //  width: '170px',
     alignItems: 'center',
-    background: theme.palette.primary.gray,
+    backgroundColor: theme.palette.primary.gray,
     boxShadow: theme.palette.primary.boxShadow,
 }))
 const CollectionDetails = styled(Box)(({ theme }) => ({
@@ -107,12 +107,12 @@ const CollectionCard = ({ image, name, likes, link, expanded, setExpandedId, id 
                         <Typography>
                             Collection Name
                         </Typography>
-                        <FlexRow>
+                        <FlexRow sx={{ width: 'auto !important' }}>
                             <Heart />&nbsp;9
                         </FlexRow>
                     </FlexRow>
                     {colDetExpanded ?
-                        <CollectionDetails>
+                        <CollectionDetails sx={{ transition: '500ms ease' }}>
                             <FlexRow>Cover Image</FlexRow>
                             <FlexRow>Creation Date</FlexRow>
                             <FlexRow>Owner Address</FlexRow>
@@ -135,7 +135,7 @@ const CollectionCard = ({ image, name, likes, link, expanded, setExpandedId, id 
                     <FlexRow sx={{ mb: '4px', justifyContent: 'end' }}>
                         <div style={{ display: 'flex', alignItems: 'center', fontSize: '10px' }}><Heart size='15px' />&nbsp;{likes}</div>
                     </FlexRow>
-                    <Typography sx={{ mb: '14px' }}>{name}</Typography>
+                    <Typography sx={{ mb: '14px', fontSize: '12px' }}>{name}</Typography>
                     <ButtonPurple text={'Expand Collection'} w={'100%'} onClick={() => setExpandedId(id)} />
                 </DetailsSection>
             </Card>

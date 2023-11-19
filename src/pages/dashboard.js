@@ -42,7 +42,7 @@ const YID = styled('div')(({ theme }) => ({
     },
 }))
 const ShowPanel = styled(Box)(({ theme }) => ({
-    marginTop: '20px',
+    marginTop: '30px',
     marginBottom: '20px',
     display: 'flex',
     justifyContent: 'space-between',
@@ -125,12 +125,13 @@ const Dashboard = ({ switchTheme, theme }) => {
                         display: 'flex',
                         flexDirection: 'column',
                         width: '100%',
+                        // gap: '30px',
                         mt: 1, height: 'auto'
                     }}>
                     {globalUser.isLoggedIn ?
                         <>
                             <ProfileCard username={globalUser.username} YouWhoID={globalUser.YouWhoID} />
-                            <ShowPanel sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
+                            <ShowPanel sx={{ flexDirection: { xs: 'column', md: 'row' }, gap: '30px' }}>
                                 {/* <Selection width={'200px'} tabs={['zadtan', 'zadtann', 'zadtannn', 'zadtannnn']} handleSelect={handleSelect} selectValue={selectValue} /> */}
                                 <DashBar username={globalUser.username} />
                                 <ProfilePanel />

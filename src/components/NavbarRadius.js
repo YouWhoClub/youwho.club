@@ -266,11 +266,11 @@ const NavbarTwo = ({ switchTheme, theme }) => {
                     :
                     <>
                         <FlexRow sx={{ display: { xs: 'none', sm: 'flex' }, gap: 1 }}>
-                            <ButtonOutline text={'Sign in'} onClick={() => navigate('/auth#signin')} />
-                            <ButtonPurple text={'Get Started'} onClick={() => navigate('/auth#signup')} />
+                            <ButtonOutline text={'Sign in'} onClick={() => navigate('/auth#signin')} height={'35px'}/>
+                            <ButtonPurple text={'Get Started'} onClick={() => navigate('/auth#signup')} height={'35px'}/>
                         </FlexRow>
                         <FlexRow sx={{ display: { xs: 'flex', sm: 'none' } }}>
-                            <ButtonPurple text={'Get Started'} onClick={() => navigate('/auth#ignup')} />
+                            <ButtonPurple text={'Get Started'} onClick={() => navigate('/auth#ignup')} height={'35px'}/>
                             &nbsp;
                             &nbsp;
                             &nbsp;

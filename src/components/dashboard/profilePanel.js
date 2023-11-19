@@ -65,7 +65,9 @@ const ProfilePanel = () => {
         }
     }, [activeTab])
     return (
-        <Panel sx={{ py: { xs: 'unset', md: 1 }, px: { xs: 'unset', md: 2 } }}>
+        <Panel
+        // sx={{ py: { xs: 'unset', md: 1 }, px: { xs: 'unset', md: 2 } }}
+        >
             <Tabs
                 mb={'32px'}
                 jc={{ xs: 'center', md: 'center' }}

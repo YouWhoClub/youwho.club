@@ -3,10 +3,11 @@ import { Box } from "@mui/material";
 
 
 const Button = styled('button')(({ theme }) => ({
+    boxSizing:'border-box',
     backgroundColor: theme.palette.secondary.main,
     display: 'flex', alignItems: 'center', justifyContent: 'center',
     // width: '100px',
-    height: '35px',
+    // height: '35px',
     borderRadius: '12px',
     outline: 'none',
     color: 'white',
@@ -22,9 +23,10 @@ const Button = styled('button')(({ theme }) => ({
     //     cursor: 'pointer'
     // }
 }))
-const ButtonPurple = ({ onClick, text, w, px, disabled, icon, mt }) => {
+const ButtonPurple = ({ onClick, text, w, px, disabled, icon, mt, height }) => {
     return (
         <Button onClick={onClick} style={{
+            height: height ? height : '40px',
             marginTop: mt ? mt : undefined,
             backgroundColor: disabled ? '#ccc' : 'secondary.main',
             width: w ? w : '100px', paddingLeft: px ? px : 'unset', paddingRight: px ? px : 'unset',

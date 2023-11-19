@@ -5,8 +5,9 @@ import { BG_URL, PUBLIC_URL } from "../utils/utils"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons"
 import { useNavigate } from "react-router"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ButtonPurple from "./buttons/buttonPurple"
+import { ArrowDown2, ArrowUp2 } from "iconsax-react"
 
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -55,7 +56,13 @@ const SelectInputs = styled(Box)(({ theme }) => ({
 const Inputt = styled(Box)(({ theme }) => ({
     boxSizing: 'border-box',
     height: '52px',
-    borderRadius: '12px', padding: '12px 15px',
+    padding: '12px 15px',borderRadius:'12px',
+    color: theme.palette.primary.text, display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+}))
+const SelectInputt = styled(Box)(({ theme }) => ({
+    boxSizing: 'border-box',
+    height: '52px',
+    padding: '12px 15px',
     color: theme.palette.primary.text, display: 'flex', justifyContent: 'space-between', alignItems: 'center'
 }))
 const AuthInput = styled(Box)(({ theme }) => ({
@@ -205,6 +212,143 @@ export const TabSimple = ({ text, onClick, id, selected }) => {
         id={id} onClick={onClick}>
         {text}
     </TabSimplee>)
+}
+export const ButtonInput = ({ icon, textColor,
+    labelColor, py, id, label, width, onChange,
+    borderColor, type, button, value, placeholder, mb }) => {
+    return (
+        <Inputt sx={{
+            width: width ? width : '200px', border: '1px solid',
+            mb: mb ? mb : undefined,
+            borderColor: borderColor ? borderColor : '#DEDEDE'
+        }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', }}>
+                <Box sx={{
+                    mr: '10px', height: '27px', width: '27px', display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}>
+                    {icon ? icon : undefined}
+                </Box>
+                <Typography sx={{ fontSize: '12px', color: 'primary.text' }}>{label}</Typography>
+            </Box>
+            <Box
+                sx={{
+                    cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}>
+                {button ? button : undefined}
+            </Box>
+        </Inputt>
+    )
+
+}
+export const SelectInput = ({ icon, textColor,
+    labelColor, label, width, onChange,
+    borderColor, type, button, value, placeholder, mb,
+    tabs, handleSelect, selectValue, id, }) => {
+    const [expanded, setExpanded] = useState(false)
+    const [popWidth, setPopWidth] = useState(width)
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setExpanded(!expanded)
+        if (!expanded)
+            setAnchorEl(event.currentTarget);
+        else
+            setAnchorEl(null)
+    };
+    const handleClose = (e) => {
+        handleSelect(e)
+        // setValue(selectValue)
+        setAnchorEl(null);
+    };
+    const handleClickAway = () => {
+        setAnchorEl(null);
+        setExpanded(false)
+    }
+    useEffect(() => {
+        if (width == '100%') {
+            let pW = document.getElementById(id)?.offsetWidth
+            setPopWidth(`${pW}px`)
+        }
+        else {
+            setPopWidth(width)
+        }
+    }, [document.getElementById(id)?.offsetWidth, width])
+
+    return (
+        <ClickAwayListener onClickAway={handleClickAway}>
+
+            <SelectInputt sx={{
+                width: width ? width : '200px', border: '1px solid',
+                mb: mb ? mb : undefined,
+                bgcolor: 'secondary.bg',
+                borderRadius: expanded ? '12px 12px 0 0' : '12px',
+                borderColor: borderColor ? borderColor : '#DEDEDE',
+            }}
+                onClick={handleClick}
+            >
+                <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', }}>
+                    <Box sx={{
+                        mr: '10px', height: '27px', width: '27px', display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    }}>
+                        {icon ? icon : undefined}
+                    </Box>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                        <Typography sx={{ fontSize: '12px', color: 'primary.text' }}>{label}</Typography>
+                        {value ?
+                            <Typography sx={{ fontSize: '12px', color: 'secondary.text' }}>{value}</Typography>
+                            : undefined}
+                    </Box>
+                </Box>
+                <Box
+                    sx={{
+                        cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#DEDEDE'
+                    }}>
+                    {expanded ? <ArrowUp2 size={'24px'} />
+                        : <ArrowDown2 size={'24px'} />}
+                </Box>
+
+
+                <Popper
+                    PaperProps={{
+                        style: {
+                            // width: `${popWidth}px`,
+                            // backgroundColor: "transparent",
+                        }
+                    }}
+                    disableScrollLock={true}
+                    id="select-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                        'aria-labelledby': 'select-button',
+                    }}
+                    placement='bottom-end'
+                    sx={{
+                        // width:'100%',    
+                        // width: `${document.getElementById(id)?.offsetWidth}px`,
+                        bgcolor: 'secondary.bg',
+                        zIndex: 1400,
+                        borderBottomLeftRadius: "12px", borderBottomRightRadius: "12px",
+                        borderBottom: "1px solid #DEDEDE", borderRight: "1px solid #DEDEDE", borderLeft: "1px solid #DEDEDE",
+                        overflow: "hidden"
+                    }}
+                >
+                    {tabs.map((tab, index) => (
+                        <MenuItem id={tab} sx={{
+                            color: 'secondary.text', bgcolor: 'secondary.bg',
+                            '&:hover': {
+                                bgcolor: 'primary.bgOp',
+                            }
+                        }}
+                            onClick={handleClose}>{tab}</MenuItem>
+                    ))}
+                </Popper>
+
+            </SelectInputt>
+        </ClickAwayListener>
+    )
+
 }
 export const MyInput = ({ icon, textColor,
     labelColor, py, id, label, width, onChange,
@@ -358,6 +502,46 @@ export const AscSelect = ({ asc, width, setAsc, id }) => {
             &nbsp;DESC
         </SelectInputs>
     </FilterSelectionBox>)
+}
+export const BetweenTwoSelection = ({ selected, width, setOption, id, options, color, fontSize }) => {
+    return (<Box
+        sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '48px',
+            width: width ? width : 'auto',
+            // color: color ? color : 'primary.text',
+            color: 'secondary.text', fontSize: fontSize ? fontSize : '12px'
+        }}
+    >
+        <Box sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'secondary.text'
+        }}>
+            <Box onClick={(e) => setOption(options[0])}
+                sx={{ cursor: 'pointer', p: '4px', borderRadius: '5px', borderColor: 'primary.gray', border: '1px solid' }}>
+                <Box sx={{ borderRadius: '50%', bgcolor: selected == options[0] ? 'secondary.text' : 'transprent', width: '8px', height: '8px' }} />
+            </Box>&nbsp;
+            {String(options[0])}
+        </Box>
+
+        <Box sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'secondary.text'
+        }}>
+            <Box onClick={(e) => setOption(options[1])}
+                sx={{ cursor: 'pointer', p: '4px', borderRadius: '5px', borderColor: 'primary.gray', border: '1px solid' }}>
+                <Box sx={{ borderRadius: '50%', bgcolor: selected == options[1] ? 'secondary.text' : 'transprent', width: '8px', height: '8px' }} />
+            </Box>&nbsp;
+            {String(options[1])}
+        </Box>
+    </Box>)
 }
 export const RelationCard = ({ image, friend, username, allies, date }) => {
     const [anchorEl, setAnchorEl] = useState(null);
