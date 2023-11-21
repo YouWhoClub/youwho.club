@@ -18,7 +18,7 @@ import { PUBLIC_API } from "../utils/data/public_api";
 import yCoin from "../assets/Ycoin.svg"
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
-    backgroundImage: "url('/YouWho-white.svg')",
+    backgroundImage: "url('/youwho-white.svg')",
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     width: '50px',
@@ -26,7 +26,7 @@ const YouWhoIcon = styled('div')(({ theme }) => ({
 }))
 const YouWhoIconPurple = styled('div')(({ theme }) => ({
     cursor: 'pointer',
-    backgroundImage: "url('/YouWho-purple.svg')",
+    backgroundImage: "url('/youwho-purple.svg')",
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     width: '50px',
@@ -34,7 +34,7 @@ const YouWhoIconPurple = styled('div')(({ theme }) => ({
 }))
 const YouWhoHugCoinPurple = styled('div')(({ theme }) => ({
     cursor: 'pointer',
-    backgroundImage: "url('/YouWho-hugcoin.svg')",
+    backgroundImage: "url('/youwho-hugcoin.svg')",
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     width: '50px',

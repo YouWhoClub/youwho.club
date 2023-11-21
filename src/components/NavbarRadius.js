@@ -23,7 +23,7 @@ import MobileMenu from "./MobileMenu";
 
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
-    backgroundImage: "url('/YouWho-white.svg')",
+    backgroundImage: "url('/youwho-white.svg')",
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     // backgroundSize:'contain',
@@ -32,7 +32,7 @@ const YouWhoIcon = styled('div')(({ theme }) => ({
 }))
 const YouWhoIconPurple = styled('div')(({ theme }) => ({
     cursor: 'pointer',
-    backgroundImage: "url('/YouWho-purple.svg')",
+    backgroundImage: "url('/youwho-purple.svg')",
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     width: '45px',

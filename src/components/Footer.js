@@ -1,16 +1,17 @@
 import styled from "@emotion/styled";
 import { Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import yLogo from '../assets/youwho-white.svg'
 const Foot = styled(Box)(({ theme }) => ({
     width: '100%',
     borderRadius: '24px',
-    background: theme.palette.primary.footer,
+    background: theme.palette.primary.dark,
     color: theme.palette.primary.text,
     display: 'flex', justifyContent: 'center', alignItems: 'center',
 }))
 const YouWhoHugCoinPurple = styled(Box)(({ theme }) => ({
     cursor: 'pointer',
-    backgroundImage: "url('/YouWho-hugcoin.svg')",
+    backgroundImage: "url('/youwho-hugcoin.svg')",
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'start',
     width: '50px',
@@ -18,7 +19,7 @@ const YouWhoHugCoinPurple = styled(Box)(({ theme }) => ({
 }))
 const YouWhoIcon = styled(Box)(({ theme }) => ({
     cursor: 'pointer',
-    backgroundImage: "url('/YouWho-white.svg')",
+    backgroundImage: "url('/youwho-white.svg')",
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'start',backgroundSize:'contain',
     width: '50px',
