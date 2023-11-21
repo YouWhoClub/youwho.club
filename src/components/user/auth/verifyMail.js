@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Email, Lock, Verified } from '@mui/icons-material';
+import { ArrowBack, Email, Lock, Verified } from '@mui/icons-material';
 import { useEffect, useState } from "react";
 import OtpInput from 'react-otp-input';
 import { API_CONFIG } from "../../../config";
@@ -57,7 +57,7 @@ const Inputtt = styled('div')(({ theme }) => ({
     }
 }))
 
-const VerifyMail = ({ email, code }) => {
+const VerifyMail = ({ email, code, setProgress }) => {
 
     console.log(email)
 
@@ -81,6 +81,8 @@ const VerifyMail = ({ email, code }) => {
 
 
     const otpReqHandle = async () => {
+        setProgress('100%')
+
         // event.preventDefault()
         // Errors
         let errors = 0
@@ -219,62 +221,98 @@ const VerifyMail = ({ email, code }) => {
                     <>
                         {
                             showOtp ?
-                                <form onSubmit={otpCheckHandle} style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    display: 'flex', flexDirection: 'column',
-                                    justifyContent: 'space-between', alignItems: 'center',
+                                <Box sx={{
+                                    width: '100%', height: '100%', boxSizing: 'border-box',
+                                    display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
                                 }}>
-                                    <div >
-                                        <Lock sx={{ fontSize: '50px', marginBottom: '10px', color: 'primary.light' }} />
-                                    </div>
+                                    <Box sx={{
+                                        width: '100%', height: '100%', boxSizing: 'border-box',
+                                        display: 'flex', flexDirection: 'column',
+                                    }}>
+                                        <Typography sx={{ color: 'primary.darkGray', fontSize: '14px', textAlign: 'center' }}>
+                                            Email Varification code
+                                        </Typography>
 
-                                    <label htmlFor={"otp-code"}>enter code</label>
-                                    <OtpInput
-                                        value={otp}
-                                        onChange={setOtp}
-                                        numInputs={8}
-                                        renderInput={(props) => <input {...props} disabled={isDisabled} />}
-                                        containerStyle={{ direction: "ltr" }}
-                                        inputType="number"
-                                        inputStyle={{
-                                            outline: 'none', border: '1px solid white',
-                                            borderRadius: '12px', minWidth: '1rem', width: '35px', height: '35px',
-                                            padding: '0', margin: '2px', boxShadow: '0px 0px 2px 1px #DEDEDE'
-                                        }}
-                                    />
-                                    <ButtonPurple type={"submit"} id={"submit-otp"} disabled={isDisabled} w={'100%'} text={'confirm'} />
-                                    <p >{err ? err : ''}</p>
-                                    {
-                                        isExpired ?
-                                            <div >
-                                                <div>time is over</div>
-                                                {/* <button type={"button"} id={"resend"} onClick={resendOtp}>try again</button> */}
-                                                <ButtonPurple type={"button"} id={"resend"} onClick={resendOtp} w={'100%'} text={'try again'} />
-                                            </div>
-                                            :
-                                            <Timer expiryTimestamp={expiryTime} onExpire={handleExpire} />
-                                    }
-                                </form>
+                                        <form onSubmit={otpCheckHandle} style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            display: 'flex', flexDirection: 'column',
+                                            justifyContent: 'center', alignItems: 'center', gap: '18px'
+                                        }}>
+                                            <OtpInput
+                                                value={otp}
+                                                onChange={setOtp}
+                                                numInputs={8}
+                                                renderInput={(props) => <input {...props} disabled={isDisabled} />}
+                                                containerStyle={{ direction: "ltr" }}
+                                                inputType="number"
+                                                inputStyle={{
+                                                    outline: 'none', border: '1px solid #DEDEDE',
+                                                    borderRadius: '12px', minWidth: '1rem', width: '35px', height: '35px',
+                                                    padding: '0', margin: '2px', boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.2)'
+                                                }}
+                                            />
+                                            {
+                                                isExpired ?
+                                                    <Typography sx={{
+                                                        color: 'primary.gray', fontSize: '12px',
+                                                        textAlign: 'center', cursor: 'pointer'
+                                                    }}>
+                                                        Resend Varification Code
+                                                    </Typography>
+                                                    :
+                                                    <Timer expiryTimestamp={expiryTime} onExpire={handleExpire} />
+                                            }
+                                        </form>
+                                    </Box>
+
+                                    <Box sx={{ width: '100%', justifySelf: 'end', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                        <Box sx={{
+                                            display: 'flex',
+                                            justifyContent: 'start',
+                                            alignItems: 'center',
+                                            gap: '4px', cursor: 'pointer'
+                                        }}>
+                                            <ArrowBack sx={{ fontSize: '17px', color: 'primary.gray' }} />
+                                            <Typography sx={{ fontSize: '12px', color: 'primary.gray' }}>
+                                                Back
+                                            </Typography>
+                                        </Box>
+                                        <ButtonPurple
+                                            type={"submit"} id={"submit-otp"}
+                                            disabled={isDisabled}
+                                            onClick={otpCheckHandle}
+                                            w={'100%'} text={'confirm'} />
+                                    </Box>
+                                </Box>
+
                                 :
-                                <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                <Box sx={{
+                                    height: '100%', display: 'flex',
+                                    flexDirection: 'column', justifyContent: 'center'
+                                }}>
                                     <Typography sx={{ color: 'primary.dark' }}>
                                         Sending Email
                                     </Typography>
-                                    <LinearProgress sx={{ color: 'primary.main' }} /></Box>
+                                    <LinearProgress sx={{ color: 'primary.main' }} />
+                                </Box>
                         }
-                    </> :
-                    <div style={{
-                        width: '100%',
+                    </>
+                    :
+                    <Box sx={{
+                        height: '100%', width: '100%',
                         height: '100%',
                         display: 'flex', flexDirection: 'column',
-                        justifyContent: 'space-between', alignItems: 'center',
+                        alignItems: 'center', justifyContent: 'center', gap: '10px'
                     }}>
-                        <Verified sx={{ fontSize: '50px', marginBottom: '10px', color: 'primary.light' }} />
-                        <h2>Your Email Has been verified</h2>
-                    </div>
+                        <Verified sx={{ fontSize: '50px', color: 'primary.light' }} />
+                        <Typography sx={{ fontWeight: 500, fontSize: '14px' }}>Your Email Has been verified </Typography>
+                    </Box>
                 :
-                <p>you are not logged in </p>}
+                <Box sx={{ height: '100%', display: 'flex', alignItems: 'center' }}>
+                    <Typography sx={{ fontWeight: 500, fontSize: '14px' }}>you are not logged in </Typography>
+                </Box>
+            }
         </>
     );
 }

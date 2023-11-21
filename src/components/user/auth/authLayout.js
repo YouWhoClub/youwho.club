@@ -66,6 +66,7 @@ const AuthLayout = ({ children }) => {
         alignItems: 'center',
         mt: '16px',
         mb: '32px',
+
       }}>
         <YouWhoIcon onClick={() => navigate('/')} sx={{}} />
       </Box>

@@ -6,13 +6,15 @@ import SignUp from "../components/user/auth/Signup";
 import AuthLayout from "../components/user/auth/authLayout";
 
 const AuthBox = styled(Box)(({ theme }) => ({
+
     backgroundColor: theme.palette.secondary.bg,
+    position: 'relative',
     boxSizing: 'border-box',
     width: '355px',
-    height: '450px',
+    height: '480px',
     borderRadius: '25px',
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "column", justifyContent: 'space-between', alignItems: 'center',
     padding: '25px 22px',
     "@media (max-width: 600px)": {
         width: '100%',
@@ -20,18 +22,16 @@ const AuthBox = styled(Box)(({ theme }) => ({
         height: '100%',
         borderRadius: '25px 25px 0px 0px',
     },
-
 }))
 const Slider = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.primary.gray,
-    // backgroundColor: 'rgba(0,0,0,0.2)',
     boxSizing: 'border-box',
     height: '40px',
     borderRadius: '35px', padding: '4px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    // width: '100%',
+    width: '100%',
 }))
 const ChangeSlide = styled(Box)(({ theme }) => ({
     boxSizing: 'border-box',
@@ -44,54 +44,31 @@ const ChangeSlide = styled(Box)(({ theme }) => ({
     alignItems: "center",
     transition: '500ms ease'
 }))
-const AuthScrollBox = styled(Box)(({ theme }) => ({
-    // width: '100%',
-    height: '100%',
-    display: "flex",
-    flexDirection: "column",
-    //-------
-    overflowY: 'scroll',
-    '&::-webkit-scrollbar': {
-        display: 'none',
-        width: '8px',
-        background: 'white',
-        border: '0.5px solid #846894',
-        borderRadius: '20px !important'
-    },
-    '&::-webkit-scrollbar-thumb': {
-        width: '8px',
-        height: '8px',
-        background: '#846894',
-        border: '0.5px solid #846894',
-        borderRadius: '20px !important'
-    },
-    '&::-webkit-scrollbar-button': {
-        width: '3px',
-        height: '3px',
-        background: '#846894',
-        border: '0.5px solid #C6BAC5',
-        borderRadius: '50% !important'
-
-    },
-    //-------
-
-    "@media (max-width: 900px)": {
-        // width: '550px',
-    },
+const ProgressBar = styled(Box)(({ theme }) => ({
+    position: 'absolute',
+    width: 'calc(100% - 44px)',
+    height: '3px',
+    backgroundColor: theme.palette.primary.gray,
+    bottom: '4px',
+    borderRadius: '25px',
     "@media (max-width: 600px)": {
-        // width: '100%',
-        // margin: '0 auto',
-        // height: '100vh',
-        borderRadius: '0',
-        // paddingTop: '80px'
+        width: '100%',
+        bottom: '0px',
+        borderRadius: '0px',
     },
 }))
-const Title = styled('h4')(({ theme }) => ({
-    color: theme.palette.primary.text,
-    textAlign: 'center'
+const Progress = styled(Box)(({ theme }) => ({
+    height: '3px', transition: '500ms ease',
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: '25px',
+    "@media (max-width: 600px)": {
+        borderRadius: '0px 10px 10px 0px',
+    },
+
 }))
 
 const Auth = () => {
+    const [progress, setProgress] = useState('0%')
     console.log(window.location.hash.replace('#', ''))
     const [authState, setAuthState] = useState(window.location.hash ? window.location.hash.replace('#', '') : 'signin')
 
@@ -120,12 +97,13 @@ const Auth = () => {
                         Sign Up</ChangeSlide>
                 </Slider>
                 {authState == 'signin' ?
-                    <Login />
+                    <Login setProgress={setProgress} />
                     :
-                    <AuthScrollBox>
-                        <SignUp />
-                    </AuthScrollBox>
+                    <SignUp setProgress={setProgress} />
                 }
+                <ProgressBar>
+                    <Progress sx={{ width: progress }} />
+                </ProgressBar>
             </AuthBox>
             {/* </Box> */}
         </AuthLayout>

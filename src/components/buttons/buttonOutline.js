@@ -1,32 +1,35 @@
 import styled from "@emotion/styled";
+import { Box } from "@mui/material";
 
 
-const Button = styled('button')(({ theme }) => ({
+const Button = styled(Box)(({ theme }) => ({
     boxSizing: 'border-box',
-    backgroundColor: theme.palette.secondary.bg,
     display: 'flex', alignItems: 'center', justifyContent: 'center',
-    // height: '35px',
     borderRadius: '12px',
     outline: 'none',
-    color: theme.palette.secondary.text,
     cursor: 'pointer',
+    textTransform: 'capitalize',
     border: 'none',
     fontWeight: 500,
-    boxShadow: theme.palette.secondary.boxShadow,
     outline: 'none',
+    color: theme.palette.secondary.text,
+    backgroundColor: theme.palette.secondary.bg,
+    boxShadow: theme.palette.secondary.boxShadow,
     // '&:hover': {
     //     color: theme.palette.primary.text,
     //     boxShadow: theme.palette.primary.boxShadowInset,
     //     cursor: 'pointer'
     // }
 }))
-const ButtonOutline = ({ onClick, text, w, px, br, height, prevIcon, nextIcon, fontSize }) => {
+const ButtonOutline = ({ onClick, text, w, px, disabled, icon, mt, height, prevIcon, nextIcon, fontSize, br }) => {
     return (
         <Button onClick={onClick}
-            style={{
-                height: height ? height : '40px', fontSize: fontSize ? fontSize : '16px',
-                width: w ? w : 'unset', paddingLeft: px ? px : '22px',
-                paddingRight: px ? px : '22px', borderRadius: br ? br : '12px'
+            sx={{
+                height: height ? height : '40px',
+                mt: mt ? mt : undefined, fontSize: fontSize ? fontSize : '14px',
+                backgroundColor: disabled ? '#ccc' : 'secondary.bg',
+                width: w ? w : '100px', px: px ? px : 'unset',
+                boxShadow: disabled ? 'inset 0px 0px 4px 1px rgba(0, 0, 0, 0.25)' : '0px 0px 4px 1px rgba(0, 0, 0, 0.25)',
             }}>
             {prevIcon ? prevIcon : undefined}
             &nbsp;{text}&nbsp;

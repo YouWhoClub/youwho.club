@@ -441,10 +441,11 @@ export const MyInput = ({ icon, textColor,
     )
 
 }
-export const ShadowInput = ({ icon, text, id, label, width, onChange, borderColor, type, extraIcon, value, mb }) => {
+export const ShadowInput = ({ icon, text, id, label, width, onChange, borderColor, type, extraIcon, value, mb, mt }) => {
     return (<AuthInput sx={{
         width: width ? width : '272px',
-        border: borderColor ? '1px solid' : 'none', mb: mb ? mb : undefined,
+        border: borderColor ? '1px solid' : 'none',
+        mb: mb ? mb : undefined, mt: mt ? mt : undefined,
         borderColor: borderColor ? borderColor : '#DEDEDE',
         boxShadow: borderColor ? 'none' : localStorage.getItem('theme') == 'light' ? '0px 0px 5px 1px rgba(0, 0, 0, 0.15)' : '0px 0px 5px 1px rgba(227,209,231,0.7)',
     }}>

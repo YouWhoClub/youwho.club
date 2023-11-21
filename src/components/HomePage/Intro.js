@@ -81,7 +81,8 @@ const IntroNew = ({ theme }) => {
                             fontFamily: "Inter"
                         }}>YouWho is a NFT market place with
                         new unique features.</Typography>
-                    <ButtonPurple onClick={scrollToId} text={`YouWho NFTs Examples`} w={'max-content'} icon={<ArrowDown size='12px' />} px={'20px'} />
+                    <ButtonPurple onClick={scrollToId} text={`YouWho NFTs Examples`} w={'max-content'}
+                        nextIcon={<ArrowDown size='12px' />} px={'20px'} />
                 </Box>
                 <YouWhoPic sx={{
                     width: { xs: '100%', sm: '560px' },
