@@ -54,7 +54,7 @@ const AuthLayout = ({ children }) => {
       textTransform: 'capitalize',
       height: '100vh',
       position: 'relative',
-      bgcolor: 'primary.light',
+      bgcolor: 'primary.ultra',
       display: "flex", justifyContent: 'center',
       alignItems: 'center',
       flexDirection: 'column'

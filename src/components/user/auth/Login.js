@@ -31,7 +31,7 @@ const LoginLogos = styled(Box)(({ theme }) => ({
 const Line = styled(Box)(({ theme }) => ({
     width: '100%',
     height: '1px',
-    backgroundColor: 'rgba(17, 17, 19, 0.20)',
+    backgroundColor: theme.palette.primary.gray,
 }))
 
 const Login = ({ progress, setProgress }) => {
@@ -126,7 +126,7 @@ const Login = ({ progress, setProgress }) => {
     }, [identifier, password])
     return (
         <>
-            {state == 'identifier' || state == 'password' ?
+            {state == 'identifier' ?
                 <Box sx={{
                     width: '100%', height: '100%', boxSizing: 'border-box',
                     display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
@@ -149,8 +149,13 @@ const Login = ({ progress, setProgress }) => {
                             </Box>
 
                         </LoginWithOthersBox>
-                        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', mb: '32px', textTransform: 'lowercase' }}>
-                            <Line /> or <Line />
+                        <Box sx={{
+                            color: 'primary.text',
+                            display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', mb: '32px', textTransform: 'lowercase'
+                        }}>
+                            <Line sx={{ mr: '4px' }} />
+                            or
+                            <Line sx={{ ml: '4px' }} />
                         </Box>
                         <form
                             style={{
@@ -205,8 +210,8 @@ const Login = ({ progress, setProgress }) => {
                                     {err}</Typography> :
                                 <Typography
                                     sx={{
-                                        color: 'primary.gray',
-                                        fontSize: '12px', my: '12px'
+                                        color: 'primary.darkGray',
+                                        fontSize: '12px', my: '12px', cursor: 'pointer'
                                     }}>
                                     FORGOT PASSWORD ?
                                 </Typography>
@@ -220,7 +225,7 @@ const Login = ({ progress, setProgress }) => {
                     </Box>
                 </Box>
                 :
-                <VerifyMail email={identifier} />
+                <VerifyMail email={identifier} setProgress={setProgress} setState={setState} />
             }
         </>
     );

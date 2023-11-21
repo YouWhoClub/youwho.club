@@ -24,7 +24,7 @@ const AuthBox = styled(Box)(({ theme }) => ({
     },
 }))
 const Slider = styled(Box)(({ theme }) => ({
-    backgroundColor: theme.palette.primary.gray,
+    backgroundColor: theme.palette.primary.slider,
     boxSizing: 'border-box',
     height: '40px',
     borderRadius: '35px', padding: '4px',
@@ -80,19 +80,19 @@ const Auth = () => {
     return (
         <AuthLayout>
             <AuthBox>
-                <Slider sx={{ mb: '32px' }}>
+                <Slider sx={{ mb: '32px',  }}>
                     <ChangeSlide
                         id="signin"
                         sx={{
-                            bgcolor: authState == 'signin' ? 'white' : "transparent",
-                            color: authState == 'signin' ? 'black' : "primary.darkGray"
+                            bgcolor: authState == 'signin' ? 'secondary.bg' : "transparent",
+                            color: authState == 'signin' ? 'primary.text' : "primary.darkGray"
                         }} onClick={handleSlide}>
                         Sign In</ChangeSlide>
                     <ChangeSlide
                         id="signup"
                         sx={{
-                            bgcolor: authState == 'signup' ? 'white' : "transparent",
-                            color: authState == 'signup' ? 'black' : "primary.darkGray"
+                            bgcolor: authState == 'signup' ? 'secondary.bg' : "transparent",
+                            color: authState == 'signup' ? 'primary.text' : "primary.darkGray"
                         }} onClick={handleSlide}>
                         Sign Up</ChangeSlide>
                 </Slider>

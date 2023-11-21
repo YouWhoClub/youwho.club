@@ -10,6 +10,7 @@ import styled from "@emotion/styled";
 import { Box, CircularProgress, LinearProgress, Typography } from "@mui/material";
 import Timer from "../../Timer";
 import ButtonPurple from "../../buttons/buttonPurple";
+import { ArrowForward, ArrowRight } from "iconsax-react";
 
 const AuthBox = styled(Box)(({ theme }) => ({
     backgroundColor: 'white',
@@ -57,7 +58,7 @@ const Inputtt = styled('div')(({ theme }) => ({
     }
 }))
 
-const VerifyMail = ({ email, code, setProgress }) => {
+const VerifyMail = ({ email, code, setProgress, setState }) => {
 
     console.log(email)
 
@@ -68,6 +69,7 @@ const VerifyMail = ({ email, code, setProgress }) => {
     const [expiryTime, setExpiryTime] = useState('')
     const [isExpired, setIsExpired] = useState(false)
     const [isDisabled, setisDisabled] = useState(false)
+    const [isButtonDisabled, setisButtonDisabled] = useState(true)
     const [isMailDisabled, setMailDisabled] = useState(false)
     const [err, setErr] = useState(false)
     const navigate = useNavigate()
@@ -78,6 +80,11 @@ const VerifyMail = ({ email, code, setProgress }) => {
         if (globalUser.identifier && globalUser.token)
             otpReqHandle()
     }, [globalUser.identifier, globalUser.token])
+    useEffect(() => {
+        if (otp !== '') {
+            setisButtonDisabled(false)
+        } else setisButtonDisabled(true)
+    }, [otp])
 
 
     const otpReqHandle = async () => {
@@ -141,6 +148,7 @@ const VerifyMail = ({ email, code, setProgress }) => {
 
             // Disable all fields
             setisDisabled(true)
+            setisButtonDisabled(true)
 
             // check otp
             let time = Math.floor(new Date().getTime() / 1000);
@@ -176,6 +184,7 @@ const VerifyMail = ({ email, code, setProgress }) => {
                     setErr(response.message)
                 // Enable login button
                 setisDisabled(false);
+                setisButtonDisabled(false)
             }
         }
     }
@@ -196,6 +205,7 @@ const VerifyMail = ({ email, code, setProgress }) => {
             setExpiryTime(time.setSeconds(time.getSeconds() + 240))
             setShowOtp(true)
             setisDisabled(false)
+            setisButtonDisabled(false)
             setIsExpired(false)
             setErr('')
         } else {
@@ -212,6 +222,7 @@ const VerifyMail = ({ email, code, setProgress }) => {
     const handleExpire = () => {
         setIsExpired(true)
         setisDisabled(true)
+        setisButtonDisabled(true)
     }
 
     return (
@@ -254,10 +265,11 @@ const VerifyMail = ({ email, code, setProgress }) => {
                                             />
                                             {
                                                 isExpired ?
-                                                    <Typography sx={{
-                                                        color: 'primary.gray', fontSize: '12px',
+                                                    <Typography onClick={resendOtp} sx={{
+                                                        color: 'primary.darkGray', fontSize: '12px',
                                                         textAlign: 'center', cursor: 'pointer'
-                                                    }}>
+                                                    }}
+                                                    >
                                                         Resend Varification Code
                                                     </Typography>
                                                     :
@@ -270,19 +282,21 @@ const VerifyMail = ({ email, code, setProgress }) => {
                                         <Box sx={{
                                             display: 'flex',
                                             justifyContent: 'start',
-                                            alignItems: 'center',
+                                            alignItems: 'center',width:'max-content',
                                             gap: '4px', cursor: 'pointer'
-                                        }}>
-                                            <ArrowBack sx={{ fontSize: '17px', color: 'primary.gray' }} />
-                                            <Typography sx={{ fontSize: '12px', color: 'primary.gray' }}>
+                                        }} onClick={() => setState('identifier')}>
+                                            <ArrowBack sx={{ fontSize: '17px', color: 'primary.darkGray' }} />
+                                            <Typography sx={{ fontSize: '12px', color: 'primary.darkGray' }}>
                                                 Back
                                             </Typography>
                                         </Box>
                                         <ButtonPurple
                                             type={"submit"} id={"submit-otp"}
-                                            disabled={isDisabled}
+                                            disabled={isButtonDisabled}
                                             onClick={otpCheckHandle}
-                                            w={'100%'} text={'confirm'} />
+                                            w={'100%'}
+                                            text={'Verify & Let’s Go To YouWho'}
+                                            nextIcon={<ArrowRight size='18px' />} />
                                     </Box>
                                 </Box>
 

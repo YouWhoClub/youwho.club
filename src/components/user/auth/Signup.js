@@ -272,7 +272,7 @@ const Signup = ({ progress, setProgress }) => {
                     </Box>
                 </Box>
                 :
-                <VerifyMail email={identifier} />
+                <VerifyMail email={identifier} setProgress={setProgress} setState={setState}/>
             }
         </>
 
