@@ -282,9 +282,12 @@ const VerifyMail = ({ email, code, setProgress, setState }) => {
                                         <Box sx={{
                                             display: 'flex',
                                             justifyContent: 'start',
-                                            alignItems: 'center',width:'max-content',
+                                            alignItems: 'center', width: 'max-content',
                                             gap: '4px', cursor: 'pointer'
-                                        }} onClick={() => setState('identifier')}>
+                                        }} onClick={() => {
+                                            setState('identifier')
+                                            setProgress('50%')
+                                        }}>
                                             <ArrowBack sx={{ fontSize: '17px', color: 'primary.darkGray' }} />
                                             <Typography sx={{ fontSize: '12px', color: 'primary.darkGray' }}>
                                                 Back
