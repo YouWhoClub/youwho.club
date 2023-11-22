@@ -294,7 +294,7 @@ const NavbarTwo = ({ switchTheme, theme }) => {
                         <ButtonPurple text={'Get Started'} onClick={() => navigate('/auth#signup')} height={'35px'} />
                     </FlexRow>
                     <FlexRow sx={{ display: { xs: 'flex', sm: 'none' }, gap: '8px', alignItems: 'center' }}>
-                        <ButtonPurple text={'Get Started'} onClick={() => navigate('/auth#ignup')} height={'35px'} />
+                        <ButtonPurple text={'Get Started'} onClick={() => navigate('/auth#signup')} height={'35px'} />
                         <IconButton aria-label="menuIcon" sx={{ padding: '10px', color: 'primary.text' }}
                             onClick={() => setOpenMenu(true)}>
                             <FontAwesomeIcon icon={faEllipsisV} size="24px" />

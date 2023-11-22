@@ -241,7 +241,7 @@ export const TabSimple = ({ text, onClick, id, selected }) => {
 }
 export const ButtonInput = ({ icon, textColor,
     labelColor, py, id, label, width, onChange,
-    borderColor, type, button, value, placeholder, mb }) => {
+    borderColor, type, button, value, placeholder, mb, showable }) => {
     return (
         <Inputt sx={{
             width: width ? width : '200px', border: '1px solid',
@@ -255,6 +255,7 @@ export const ButtonInput = ({ icon, textColor,
                     {icon ? icon : undefined}
                 </Box>
                 <Typography sx={{ fontSize: '12px', color: 'primary.text' }}>{label}</Typography>
+                {showable ? showable : undefined}
             </Box>
             <Box
                 sx={{

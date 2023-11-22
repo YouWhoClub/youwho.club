@@ -25,7 +25,8 @@ import { getuser } from "../../../redux/actions";
 
 
 const ShowPanel = styled(Box)(({ theme }) => ({
-    marginTop: '50px', width: '100%',
+    // marginTop: '50px', 
+    width: '100%',
     marginBottom: '20px',
     display: 'flex',
     flexDirection: 'column',
@@ -180,12 +181,13 @@ const Wallet = ({ privateKey }) => {
             width: { xs: 'calc(100% - 30px)', sm: 'calc(100% - 80px)' },
             pr: { xs: 'none', sm: '15px', md: '30px' },
             pl: { xs: 'none', sm: '90px' },
-            color: 'primary.text'
+            color: 'primary.text', gap: { xs: '26px', sm: '50px' }
+            // boxSizing: 'border-box'
         }}>
 
             <Box
                 sx={(theme) => ({
-                    width: '490px',
+                    width: { xs: '100%', sm: '490px' },
                     height: '250px',
                     backgroundImage: () => (globalUser.walletBackground && finalCard.background == 'custom') ? BG_URL(PUBLIC_URL(`${API_CONFIG.API_URL}/${globalUser.walletBackground}`)) : BG_URL(PUBLIC_URL(`${cardBackgroundImage}`)),
                     backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',
@@ -193,8 +195,8 @@ const Wallet = ({ privateKey }) => {
                     borderRadius: '24px',
                     display: 'flex',
                     alignItems: 'center',
-                    p: '24px 24px 24px 24px', mt: 3,
-                    flexDirection: 'column', justifyContent: 'space-between',
+                    p: '24px 24px 24px 24px', mt: 1,
+                    flexDirection: 'column', justifyContent: 'space-between', boxSizing: 'border-box',
                     color: finalCard.color
                 })}
             >
@@ -205,7 +207,8 @@ const Wallet = ({ privateKey }) => {
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
                         <div>
-                            <ContentCopy size={25} sx={{ cursor: 'pointer' }} />
+                            <ContentCopy size={25} sx={{ cursor: 'pointer' }}
+                                onClick={() => copyIdToClipBoard(globalUser.YouWhoID)} />
                         </div>
                         <div>
                             <ShareOutlined size={25} sx={{ cursor: 'pointer' }} />
@@ -245,9 +248,13 @@ const Wallet = ({ privateKey }) => {
                     </Box>
 
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', px: 2, gap: '6px' }}>
-                        <Typography onClick={() => copyIdToClipBoard(globalUser.YouWhoID)} sx={{ width: '100%', fontSize: '21px', fontStyle: 'normal', fontWeight: '400', lineHeight: 'normal', textAlign: 'center', mb: '6px' }}>{globalUser.YouWhoID}</Typography>
-                        <Typography sx={{ fontSize: '16px' }}>{globalUser.username}</Typography>
-                        <Typography sx={{ fontSize: '16px' }}>{globalUser.mail}</Typography>
+                        <Typography onClick={() => copyIdToClipBoard(globalUser.YouWhoID)}
+                            sx={{
+                                width: '100%', fontSize: { xs: '14px', sm: '21px' }, fontStyle: 'normal', fontWeight: '400',
+                                lineHeight: 'normal', textAlign: 'start', mb: '6px'
+                            }}>{globalUser.YouWhoID}</Typography>
+                        <Typography sx={{ fontSize: { xs: '12px', sm: '16px' } }}>{globalUser.username}</Typography>
+                        <Typography sx={{ fontSize: { xs: '12px', sm: '16px' } }}>{globalUser.mail}</Typography>
                     </Box>
 
                 </Box>
@@ -267,9 +274,9 @@ const Wallet = ({ privateKey }) => {
                         {
                             openCrop ?
                                 <Box sx={{
-                                    borderRadius: '24px',
+                                    borderRadius: { xs: 0, sm: '24px' },
                                     width: { xs: '100%', sm: '600px' }, height: { xs: '100%', sm: '600px' },
-                                    backgroundColor: 'secondary.bg',
+                                    backgroundColor: 'secondary.bg', boxSizing: 'border-box', color: 'primary.text',
                                     display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between',
                                     boxShadow: '0px 0px 20px 0px black',
                                 }}>
@@ -286,7 +293,7 @@ const Wallet = ({ privateKey }) => {
                                 <Box sx={{
                                     borderRadius: '24px',
                                     width: { xs: '100%', sm: '533px' }, height: { xs: '100%', sm: '260px' },
-                                    backgroundColor: 'secondary.bg',
+                                    backgroundColor: 'secondary.bg', color: 'primary.text', boxSizing: 'border-box',
                                     display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between',
                                     boxShadow: '0px 0px 20px 0px rgba(0, 0, 0, 0.50)',
                                 }}>
@@ -342,7 +349,7 @@ const Wallet = ({ privateKey }) => {
                                         </Box>
                                     </Box>
                                     <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                                        <Button color="#F675A8" onClick={handleCancel}>cancel</Button>
+                                        <Button style={{ borderRight: '1px solid #DEDEDE' }} color="#F675A8" onClick={handleCancel}>cancel</Button>
                                         <Button color="#3DCA64" onClick={handleSave}>save</Button>
                                     </Box>
 
@@ -440,6 +447,7 @@ const Wallet = ({ privateKey }) => {
                     {state == 'turnover' && <Turnover />}
                 </Panel>
             </ShowPanel>
+
             <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick pauseOnFocusLoss pauseOnHover />
         </Box >
         // </Box >

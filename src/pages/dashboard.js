@@ -116,6 +116,7 @@ const Dashboard = ({ switchTheme, theme }) => {
                 pr: { xs: 'none', sm: '15px', md: '30px' },
                 pl: { xs: 'none', sm: '90px' },
                 display: 'flex',
+                // boxSizing:'border-box'
             }}>
                 <Box
                     id="dash"

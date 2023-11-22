@@ -13,12 +13,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { setPrivateKey } from "../../../redux/actions";
 import { API_CONFIG } from "../../../config";
 import { Buffer } from 'buffer';
-import { MyInput } from '../../utils'
+import { ButtonInput, MyInput, SelectInput } from '../../utils'
 
 
 
 const Container = styled(Box)(({ theme }) => ({
-    width: '670px',
+    boxSizing: 'border-box',
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -55,7 +56,7 @@ const Button = styled('button')(({ theme }) => ({
 const ChargeWallet = () => {
     const globalUser = useSelector(state => state.userReducer)
     const dispatch = useDispatch();
-    const [currency, setCurrency] = useState('USD')
+    const [currency, setCurrency] = useState(undefined)
     const [tokenAmount, setTokenAmount] = useState(1)
     const [IRRValue, setIIRValue] = useState(5000)
     const [USDValue, setUSDValue] = useState(0.01)
@@ -72,7 +73,7 @@ const ChargeWallet = () => {
     });
 
     const handleCurrencyChange = (event) => {
-        setCurrency(event.target.value);
+        setCurrency(event.target.id);
     }
 
     const loading = () => {
@@ -147,87 +148,63 @@ const ChargeWallet = () => {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '40px', p: '0' }}>
             <Container>
-                <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', p: '10px' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
                     <Typography sx={{ color: 'primary.text', textAlign: 'center', fontSize: '20px', lineHeight: 'normal', fontWeight: '400' }}>Token exchange</Typography>
                     <Typography sx={{ fontFamily: 'Inter', color: '#787878', textAlign: 'center', fontSize: '12px', lineHeight: 'normal', fontWeight: '400' }}>You Can exchange YouWho-Token Here.</Typography>
-                    {
-                        (globalUser.privateKey) ?
-                            <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '12px', mt: '40px' }}>
-                                <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: '40px' }}>
-                                    <FormControl sx={{ width: '314px' }}>
-                                        <Icon url={PinIcon} w={27} h={27} sx={{ position: 'absolute', top: '12px', left: '10px', }} />
-                                        <InputLabel sx={{ color: '#000' }} id="currency-label">Currency</InputLabel>
-                                        <Select
-                                            displayEmpty
-                                            sx={{ pl: '30px' }}
-                                            labelId="currency-label"
-                                            id="demo-simple-select"
-                                            value={currency}
-                                            label="Currency"
-                                            onChange={handleCurrencyChange}
-                                        >
-                                            <MenuItem value={'USD'}>Dollar, USA</MenuItem>
-                                            <MenuItem value={'IRR'}>Rial, Iran</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </Box>
-                                <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <FormControl sx={{ width: '314px' }}>
-                                        <Icon url={MoneyIcon} w={27} h={27} sx={{ position: 'absolute', top: '14px', left: '10px', }} />
-                                        {/* <InputLabel sx={{color:'#000'}} id="currency-label">Currency</InputLabel> */}
-                                        <TextField
-                                            id="outlined-basic"
-                                            label={`${currency == 'USD' ? 'Dollars' : 'Rials'}`}
-                                            sx={{
-                                                '& .MuiInputBase-input': {
-                                                    pl: '45px'
-                                                },
-                                                '& .MuiFormLabel-root': {
-                                                    color: 'black'
-                                                }
-                                            }}
-                                            value={currency == 'USD' ? USDollar.format(tokenAmount * USDValue) : IRRial.format(tokenAmount * IRRValue)}
-                                        />
-                                    </FormControl>
-                                    <West size='20px' />
-                                    <FormControl sx={{ width: '314px' }}>
-                                        <Icon url={CoinsIcon} w={27} h={27} sx={{ position: 'absolute', top: '14px', left: '10px', }} />
-                                        <TextField
-                                            id="outlined-basic"
-                                            label='YouWho Token'
-                                            sx={{
-                                                '& .MuiInputBase-input': {
-                                                    pl: '45px'
-                                                },
-                                                '& .MuiFormLabel-root': {
-                                                    color: 'black'
-                                                }
-                                            }}
-                                            value={tokenAmount}
-                                            onChange={(e) => setTokenAmount(e.target.value)}
-                                        />
-                                    </FormControl>
-                                </Box>
-                            </Box> :
-                            <>
-                                <Typography sx={{ fontFamily: 'Inter', mt: 2, fontSize: '13px', color: 'primary.text', textAlign: 'center', mb: 2, fontWeight: '400' }}>
-                                    We have cleared your private key as you logged out. Please provide your private key to continue. <br />Your private key will be securely stored for future transactions.
-                                </Typography>
-                                <MyInput
-                                    value={signer}
-                                    onChange={(e) => setSigner(e.target.value)}
-                                    placeholder="enter private key"
-                                    width={'400px'}
-                                    textColor={'black'}
-                                    py={'8px'} />
-                                <Button onClick={savePrivateKey}>save</Button>
-                            </>
-                    }
                 </Box>
+                {
+                    (globalUser.privateKey) ?
+                        <Box sx={{
+                            display: 'flex', flexDirection: 'column', width: '100%',
+                            alignItems: 'center', justifyContent: 'center', gap: '12px'
+                        }}>
+                            <Box sx={{
+                                width: '100%', display: 'flex', flexDirection: 'row',
+                                alignItems: 'center', justifyContent: 'flex-start', gap: '12px'
+                            }}>
+                                <SelectInput tabs={['Dollar, USA', 'Rial, Iran',]} label={'Currency'}
+                                    handleSelect={handleCurrencyChange} value={currency} id="currency-selection"
+                                    width={'100%'} icon={<Icon url={PinIcon} w={27} h={27} />} />
+                            </Box>
+                            <Box sx={{
+                                width: '100%', display: 'flex', flexDirection: 'row',
+                                alignItems: 'center', justifyContent: 'center', gap: '10px'
+                            }}>
+                                <MyInput
+                                    value={currency == 'Dollar, USA' ? USDollar.format(tokenAmount * USDValue) : IRRial.format(tokenAmount * IRRValue)}
+                                    label={`${currency == 'Dollar, USA' ? 'Dollars' : 'Rials'}`}
+                                    width={'100%'}
+                                    icon={<Icon url={MoneyIcon} w={27} h={27} />}
+                                />
+                                <West size='20px' />
+                                <MyInput
+                                    value={tokenAmount}
+                                    onChange={(e) => setTokenAmount(e.target.value)}
+                                    label={'YouWho Token'}
+                                    width={'100%'}
+                                    icon={<Icon url={CoinsIcon} w={27} h={27} />}
+                                />
+                            </Box>
+                        </Box>
+                        :
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
+                            <Typography sx={{ fontFamily: 'Inter', mt: 2, fontSize: '13px', color: 'primary.text', textAlign: 'center', mb: 2, fontWeight: '400' }}>
+                                We have cleared your private key as you logged out. Please provide your private key to continue. <br />Your private key will be securely stored for future transactions.
+                            </Typography>
+                            <MyInput
+                                value={signer}
+                                onChange={(e) => setSigner(e.target.value)}
+                                placeholder="enter private key"
+                                width={'400px'}
+                                textColor={'black'}
+                                py={'8px'} />
+                            <ButtonPurple onClick={savePrivateKey} text={'Save'} />
+                        </Box>
+                }
             </Container >
             {
                 (globalUser.privateKey) &&
-                <Button onClick={handleChargeWallet}>charge your wallet</Button>
+                <ButtonPurple onClick={handleChargeWallet} text={'charge your wallet'} px={'24px'} w={{ xs: '100%', sm: '350px' }} />
             }
         </Box>
 
