@@ -22,15 +22,12 @@ const Wrapper = styled(Box)(({ theme }) => ({
 const FABSection = ({ theme }) => {
 
     return (
-        <Section
-            sx={{
-                mt: 10,
-            }}>
+        <Section>
             <Wrapper>
                 <Box sx={{ px: { xs: 0, md: '60px' } }}>
                     <Box sx={{
                         display: 'flex', alignItems: 'center',
-                        p: { xs: '50px 10px 200px 10px', md: '100px 89px' },
+                        p: { xs: '50px 20px 200px 20px', md: '100px 89px' },
                         justifyContent: { xs: 'center', md: 'space-between' },
                         flexDirection: { xs: 'column-reverse', md: 'row' }
                     }}>

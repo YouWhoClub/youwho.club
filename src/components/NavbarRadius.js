@@ -91,15 +91,15 @@ const Inputtt = styled('div')(({ theme }) => ({
         borderColor: theme.palette.primary.main,
     }
 }))
-const NavStyle = styled('div')(({ theme }) => ({
+const NavStyle = styled(Box)(({ theme }) => ({
     height: '55px',
     width: '100%',
     position: "sticky",
     top: 0,
-    zIndex: 999,
+    zIndex: 999, boxSizing: 'border-box',
     borderRadius: '0 0 12px 12px',
     boxShadow: theme.palette.primary.boxShadow,
-    backgroundColor: theme.palette.secondary.bg,display:'flex',alignItems:'center',
+    backgroundColor: theme.palette.secondary.bg, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
 
 
     maxWidth: '1440px',
@@ -192,95 +192,116 @@ const NavbarTwo = ({ switchTheme, theme }) => {
     }
 
     return (
-        <NavStyle>
-            <Box sx={{
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                px: '30px'
-            }}>
-                <ThemeSwitcher switchTheme={switchTheme} right={'5px'} top={'calc(100vh - 110px)'}/>
-                <Box sx={{ display: 'flex', alignItems: 'center', }}>
-                    {theme == 'light' ?
-                        <YouWhoIconPurple onClick={() => navigate('/')} />
-                        : <YouWhoIcon onClick={() => navigate('/')} />}
-                    &nbsp;&nbsp;&nbsp;
-                    <Box sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', }}>
-                        <Link to={'/about-us'} style={{ textDecoration: 'none', color: theme == 'light' ? 'black' : 'white' }}>About Us</Link>
-                        &nbsp;&nbsp;&nbsp;
-                        <Link to={'/blog'} style={{ textDecoration: 'none', color: theme == 'light' ? 'black' : 'white' }}>Weblog</Link>
-                    </Box>
+        <NavStyle sx={{
+            padding: { xs: '9px 20px', sm: '9px 30px' }
+        }}>
+
+            <ThemeSwitcher switchTheme={switchTheme} right={'0'} top={'calc(100vh - 140px)'} m={'15px'} />
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '27px' }}>
+                {theme == 'light' ?
+                    <YouWhoIconPurple onClick={() => navigate('/')} />
+                    : <YouWhoIcon onClick={() => navigate('/')} />}
+                <Box sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: '25px' }}>
+                    <Link to={'/about-us'} style={{ textDecoration: 'none', color: theme == 'light' ? 'black' : 'white', fontSize: '18px' }}>About Us</Link>
+                    <Link to={'/blog'} style={{ textDecoration: 'none', color: theme == 'light' ? 'black' : 'white', fontSize: '18px' }}>Weblog</Link>
                 </Box>
-
-                {globalUser.isLoggedIn ?
-                    <>
-                        <Box sx={{
-                            display: { xs: 'flex', sm: 'none' }, alignItems: 'center', justifyContent: 'space-between',
-                            color: 'primary.text'
-                        }}>
-                            <div style={{ display: 'flex', alignItems: 'center', }}>
-                                <span style={{ fontSize: '14px' }}>{globalUser.balance}</span>&nbsp;<Box sx={{
-                                    backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
-                                    , width: '20px', height: '20px'
-                                }} />&nbsp; <Wallet size='16px' />
-                            </div>&nbsp;&nbsp;&nbsp;
-                            <IconButton aria-label="menuIcon" sx={{ padding: 0 }} onClick={() => setOpenMenu(true)}>
-                                <FontAwesomeIcon icon={faEllipsisV} />
-                            </IconButton>
-                        </Box>
-
-                        <Box sx={{
-                            display: { xs: 'none', sm: 'flex' }, alignItems: 'center', justifyContent: 'space-between',
-                            width: { xs: 'auto', lg: '30%' },
-                            color: 'primary.text'
-                        }}>
-                            <div style={{ display: 'flex', alignItems: 'center', }}>
-                                <span style={{ fontSize: '14px' }}>{globalUser.balance}</span>&nbsp;<Box sx={{
-                                    backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
-                                    , width: '20px', height: '20px'
-                                }} />&nbsp; <Wallet2 size='16px' />
-                            </div>&nbsp;&nbsp;&nbsp;
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
-                                <Notification size="16px" cursor='pointer' />
-                                {
-                                    unclaimedDeposits.length ?
-                                        <span style={{ backgroundColor: "#F84F31", color: "white", fontSize: '10px', borderRadius: '5px', padding: '5px' }}>you have unclaimed gifts!</span>
-                                        :
-                                        <></>
-                                }
-                            </div>&nbsp;&nbsp;&nbsp;
-                            <div style={{ display: 'flex', alignItems: 'center', }}>
-                                {window.location.pathname == '/dashboard' || window.location.pathname == '/gallery' || window.location.pathname == '/wallet' ?
-                                    undefined
-                                    : <div style={{ display: 'flex', alignItems: 'center', }} onClick={() => navigate('/dashboard')}>
-                                        <Profile cursor='pointer' size='16px' />
-                                    </div>
-                                }
-                                <div onClick={disconnect}>
-                                    <LogoutCurve style={{ display: 'flex', alignItems: 'center', }} cursor='pointer' size='16px' />
-                                </div>
-                            </div>
-                        </Box>
-                    </>
-                    :
-                    <>
-                        <FlexRow sx={{ display: { xs: 'none', sm: 'flex' }, gap: 1 }}>
-                            <ButtonOutline text={'Sign in'} onClick={() => navigate('/auth#signin')} height={'35px'}/>
-                            <ButtonPurple text={'Get Started'} onClick={() => navigate('/auth#signup')} height={'35px'}/>
-                        </FlexRow>
-                        <FlexRow sx={{ display: { xs: 'flex', sm: 'none' } }}>
-                            <ButtonPurple text={'Get Started'} onClick={() => navigate('/auth#ignup')} height={'35px'}/>
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            <IconButton aria-label="menuIcon" sx={{ padding: 0 }} onClick={() => setOpenMenu(true)}>
-                                <FontAwesomeIcon icon={faEllipsisV} />
-                            </IconButton>
-                        </FlexRow>
-                    </>
-                }
             </Box>
+
+            {globalUser.isLoggedIn ?
+                <>
+                    <Box sx={{
+                        display: { xs: 'none', sm: 'flex' },
+                        alignItems: 'center', justifyContent: 'space-between',
+                        color: 'primary.text', gap: '50px'
+                    }}>
+                        <div style={{ display: 'flex', gap: '3px', alignItems: 'center', }}>
+                            <span style={{ display: 'flex', alignItems: 'center', fontSize: '12px' }}>
+                                {globalUser.balance}
+                                &nbsp;<Box sx={{
+                                    backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)),
+                                    backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+                                    , width: '20px', height: '20px'
+                                }} />
+                            </span>
+                            <Wallet2 size='25px' />
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
+                            <Notification size="25px" cursor='pointer' />
+                            {
+                                unclaimedDeposits.length ?
+                                    <Box
+                                        sx={{
+                                            backgroundColor: "#C5221F", color: "white",
+                                            position: 'absolute', top: 0, right: 0,
+                                            width: '10px', height: '10px', borderRadius: '50%',
+                                        }} />
+                                    :
+                                    <></>
+                            }
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
+                            {window.location.pathname == '/dashboard' || window.location.pathname == '/gallery' || window.location.pathname == '/wallet' ?
+                                undefined
+                                : <div style={{ display: 'flex', alignItems: 'center', }} onClick={() => navigate('/dashboard')}>
+                                    <Profile cursor='pointer' size='25px' />
+                                </div>
+                            }
+                            <div onClick={disconnect}>
+                                <LogoutCurve style={{ display: 'flex', alignItems: 'center', }} cursor='pointer' size='25px' />
+                            </div>
+                        </div>
+                    </Box>
+                    <Box sx={{
+                        display: { xs: 'flex', sm: 'none' },
+                        alignItems: 'center', justifyContent: 'space-between',
+                        color: 'primary.text', gap: '8px'
+                    }}>
+                        <div style={{ display: 'flex', gap: '3px', alignItems: 'center', }}>
+                            <span style={{ display: 'flex', alignItems: 'center', fontSize: '12px' }}>
+                                {globalUser.balance}
+                                &nbsp;<Box sx={{
+                                    backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)),
+                                    backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+                                    , width: '20px', height: '20px'
+                                }} />
+                            </span>
+                            <Wallet2 size='24px' />
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
+                            <Notification size="24px" cursor='pointer' />
+                            {
+                                unclaimedDeposits.length ?
+                                    <Box
+                                        sx={{
+                                            backgroundColor: "#C5221F", color: "white",
+                                            position: 'absolute', top: 0, right: 0,
+                                            width: '10px', height: '10px', borderRadius: '50%',
+                                        }} />
+                                    :
+                                    <></>
+                            }
+                        </div>
+                        <IconButton aria-label="menuIcon" sx={{ padding: '10px', color: 'primary.text' }}
+                            onClick={() => setOpenMenu(true)}>
+                            <FontAwesomeIcon icon={faEllipsisV} size="24px" />
+                        </IconButton>
+                    </Box>
+                </>
+                :
+                <>
+                    <FlexRow sx={{ display: { xs: 'none', sm: 'flex' }, gap: '13px', alignItems: 'center' }}>
+                        <ButtonOutline text={'Sign in'} onClick={() => navigate('/auth#signin')} height={'35px'} />
+                        <ButtonPurple text={'Get Started'} onClick={() => navigate('/auth#signup')} height={'35px'} />
+                    </FlexRow>
+                    <FlexRow sx={{ display: { xs: 'flex', sm: 'none' }, gap: '8px', alignItems: 'center' }}>
+                        <ButtonPurple text={'Get Started'} onClick={() => navigate('/auth#ignup')} height={'35px'} />
+                        <IconButton aria-label="menuIcon" sx={{ padding: '10px', color: 'primary.text' }}
+                            onClick={() => setOpenMenu(true)}>
+                            <FontAwesomeIcon icon={faEllipsisV} size="24px" />
+                        </IconButton>
+                    </FlexRow>
+                </>
+            }
             <MobileMenu theme={theme} switchTheme={switchTheme} openMenu={openMenu} setOpenMenu={setOpenMenu} />
         </NavStyle >
     );

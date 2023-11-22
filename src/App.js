@@ -160,7 +160,7 @@ function App() {
         middle: '#9F72C0',
         light: '#C182ED',
         ultraLight: '#D2A6F2',
-        gray: '#C2C2C2',
+        gray: '#DEDEDE',
         darkGray: '#787878',
         bg: '#ffffff',
         bgOp: 'rgba(255,255,255,0.49)',

@@ -149,7 +149,7 @@ const NavbarDashBoard = ({ switchTheme, theme }) => {
             alignItems: 'center',
             px: { xs: '15px', md: '30px' }
         }}>
-                <ThemeSwitcher left={{ xs: '15px', md: '30px' }} switchTheme={switchTheme} />
+                <ThemeSwitcher left={{ xs: '15px', md: '30px' }} top={'63px'} switchTheme={switchTheme} />
                 {/* {window.location.pathname == '/' ? */}
                 <Box sx={{ display: 'flex', alignItems: 'center', }}>
                     {theme == 'light' ?

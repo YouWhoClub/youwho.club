@@ -37,6 +37,40 @@ const Home = ({ switchTheme, theme }) => {
             <NavbarTwo switchTheme={switchTheme} theme={theme} />
             <IntroNew theme={theme} />
             <YWServices theme={theme} />
+            <Box sx={{
+                padding: { xs: '32px 42px', sm: '56px 0px' },
+                boxSizing: 'border-box',
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: { xs: 'column', sm: 'row' },
+                gap: { xs: '18px', sm: '70px' },
+                justifyContent: { xs: 'space-between', sm: 'center' }, width: '100%'
+                // display: 'grid',
+                // gridTemplateColumns: { xs: '1fr 1fr', sm: '1fr 1fr 1fr 1fr' },
+            }}>
+                <Box sx={{
+                    display: 'flex', gap: { xs: 'auto', sm: '70px' }, alignItems: 'center', justifyContent: 'space-between',
+                    width: { xs: '100%', sm: 'max-content' }
+                }}>
+                    <Typography>
+                        OpenSea
+                    </Typography>
+                    <Typography>
+                        Polygonscan
+                    </Typography>
+                </Box>
+                <Box sx={{
+                    display: 'flex', gap: { xs: 'auto', sm: '70px' }, alignItems: 'center', justifyContent: 'space-between',
+                    width: { xs: '100%', sm: 'max-content' }
+                }}>
+                    <Typography>
+                        PayPal
+                    </Typography>
+                    <Typography>
+                        MetaMask
+                    </Typography>
+                </Box>
+            </Box>
             <FABSection theme={theme} />
             <DecorSection />
             <WhatsSection />
