@@ -20,7 +20,8 @@ const Button = styled('button')(({ theme }) => ({
 }))
 const ButtonOutlineInset = ({ onClick, text, w, px }) => {
     return (
-        <Button onClick={onClick} style={{ width: w ? w : '100px', paddingLeft: px ? px : 'unset', paddingRight: px ? px : 'unset' }}>
+        <Button onClick={onClick}
+            style={{ width: w ? w : '100px', paddingLeft: px ? px : 'unset', paddingRight: px ? px : 'unset' }}>
             {text}
         </Button>
     );

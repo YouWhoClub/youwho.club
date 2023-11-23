@@ -14,7 +14,7 @@ const Button = styled(Box)(({ theme }) => ({
     outline: 'none',
     color: theme.palette.secondary.text,
     backgroundColor: theme.palette.secondary.bg,
-    boxShadow: theme.palette.secondary.boxShadow,
+    // boxShadow: theme.palette.secondary.boxShadow,
     // '&:hover': {
     //     color: theme.palette.primary.text,
     //     boxShadow: theme.palette.primary.boxShadowInset,
@@ -24,13 +24,13 @@ const Button = styled(Box)(({ theme }) => ({
 const ButtonOutline = ({ onClick, text, w, px, disabled, icon, mt, height, prevIcon, nextIcon, fontSize, br }) => {
     return (
         <Button onClick={onClick}
-            sx={{
+            sx={(theme) => ({
                 height: height ? height : '40px',
                 mt: mt ? mt : undefined, fontSize: fontSize ? fontSize : '14px',
                 backgroundColor: disabled ? '#ccc' : 'secondary.bg',
                 width: w ? w : '100px', px: px ? px : 'unset',
-                boxShadow: disabled ? 'inset 0px 0px 4px 1px rgba(0, 0, 0, 0.25)' : '0px 0px 4px 1px rgba(0, 0, 0, 0.25)',
-            }}>
+                boxShadow: disabled ? theme.palette.primary.boxShadowInset : theme.palette.primary.boxShadow,
+            })}>
             {prevIcon ? prevIcon : undefined}
             &nbsp;{text}&nbsp;
             {nextIcon ? nextIcon : undefined}

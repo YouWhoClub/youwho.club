@@ -19,9 +19,10 @@ const IconHolder = styled(Box)(({ theme }) => ({
     borderColor: theme.palette.secondary.text,
     // border: '0.2px solid',
     borderRadius: '50%', cursor: 'pointer',
-    width: '50px', height: '50px', boxShadow: theme.palette.primary.boxShadowInset,
+    width: '50px', height: '50px',
+    boxShadow: theme.palette.primary.boxShadowInset,
     '&:hover': {
-        backgroundColor: theme.palette.primary.light, color: 'whitesmoke',
+        backgroundColor: theme.palette.primary.middle, color: 'whitesmoke',
         boxShadow: theme.palette.primary.boxShadow,
     },
     "@media (max-width: 600px)": {
@@ -107,7 +108,7 @@ const Bar = () => {
                 sx={{
                     bgcolor: window.location.pathname == '/dashboard' ? 'primary.main' : 'transparent',
                     color: window.location.pathname == '/dashboard' ? 'white' : 'primary.text',
-                    boxShadow: window.location.pathname == '/dashboard' && (localStorage.getItem('theme') == 'light' ? '0px 0px 6px 1px rgba(0, 0, 0, 0.25) !important' : '0px 0px 4px 1px rgba(227,209,231,0.9) !important'),
+                    boxShadow: window.location.pathname == '/dashboard' && (localStorage.getItem('theme') == 'light' ? '0px 0px 6px 1px rgba(0, 0, 0, 0.25) !important' : '0px 0px 4px 1px rgba(0, 0, 0, 0.30) !important'),
                 }}>
                 <Profile cursor='pointer' size='20px' />
             </IconHolder>
@@ -115,7 +116,7 @@ const Bar = () => {
                 sx={{
                     bgcolor: window.location.pathname == '/gallery' ? 'primary.main' : 'transparent',
                     color: window.location.pathname == '/gallery' ? 'white' : 'primary.text',
-                    boxShadow: window.location.pathname == '/gallery' && (localStorage.getItem('theme') == 'light' ? '0px 0px 6px 1px rgba(0, 0, 0, 0.25) !important' : '0px 0px 4px 1px rgba(227,209,231,0.9) !important'),
+                    boxShadow: window.location.pathname == '/gallery' && (localStorage.getItem('theme') == 'light' ? '0px 0px 6px 1px rgba(0, 0, 0, 0.25) !important' : '0px 0px 4px 1px rgba(0, 0, 0, 0.30) !important'),
 
                 }}>
                 <CenterFocusStrong cursor='pointer' fontSize='20px' />
@@ -124,7 +125,7 @@ const Bar = () => {
                 sx={{
                     bgcolor: window.location.pathname == '/wallet' ? 'primary.main' : 'transparent',
                     color: window.location.pathname == '/wallet' ? 'white' : 'primary.text',
-                    boxShadow: window.location.pathname == '/wallet' && (localStorage.getItem('theme') == 'light' ? '0px 0px 6px 1px rgba(0, 0, 0, 0.25) !important' : '0px 0px 4px 1px rgba(227,209,231,0.9) !important'),
+                    boxShadow: window.location.pathname == '/wallet' && (localStorage.getItem('theme') == 'light' ? '0px 0px 6px 1px rgba(0, 0, 0, 0.25) !important' : '0px 0px 4px 1px rgba(0, 0, 0, 0.30) !important'),
 
                 }}>
                 <Wallet2 cursor='pointer' size='20px' />

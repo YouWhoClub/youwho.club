@@ -19,13 +19,13 @@ const ButtonPurple = ({ onClick, text, w, px, disabled, icon, mt, height, prevIc
     return (
         <Button
             onClick={onClick}
-            sx={{
+            sx={(theme) => ({
                 height: height ? height : '40px',
                 mt: mt ? mt : undefined, fontSize: fontSize ? fontSize : '14px',
-                backgroundColor: disabled ? 'primary.gray' : 'secondary.main',
+                backgroundColor: disabled ? 'primary.disabled' : 'secondary.main',
                 width: w ? w : '100px', px: px ? px : 'unset', cursor: disabled ? 'auto' : 'pointer',
-                boxShadow: disabled ? 'inset 0px 0px 6px 1px rgba(0, 0, 0, 0.25)' : '0px 0px 4px 1px rgba(0, 0, 0, 0.25)',
-            }}>
+                boxShadow: disabled ? theme.palette.primary.boxShadowInset : theme.palette.primary.boxShadow,
+            })}>
             {prevIcon ? prevIcon : undefined}
             &nbsp;{text}&nbsp;
             {nextIcon ? nextIcon : undefined}

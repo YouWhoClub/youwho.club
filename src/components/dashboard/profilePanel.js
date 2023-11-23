@@ -10,7 +10,8 @@ import ReactionsTab from "./reactionsTab";
 const Panel = styled(Box)(({ theme }) => ({
     color: theme.palette.primary.text,
     transition: '500ms ease',
-    width: '100%', borderRadius: '24px',
+    width: '100%', 
+    // borderRadius: '24px',
     display: 'flex', flexDirection: 'column', alignItems: 'center',
 
 }))
@@ -86,7 +87,7 @@ const ProfilePanel = () => {
                     },
                     // height:'calc(100vh - 300px)',
                     pb: { xs: '50px', sm: '10px' },
-                    px: 1
+                    // px: 1
                 }}>
                 {activeTab == 'create-tab' && <CreateNFT />}
                 {activeTab == 'private-gallery-tab' && <PrivateGallery />}

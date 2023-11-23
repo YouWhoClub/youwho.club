@@ -22,6 +22,34 @@ import Crop from '../../crop/Crop'
 import { API_CONFIG } from "../../../config";
 import { getuser } from "../../../redux/actions";
 
+const ScrollablePanel = styled(Box)(({ theme }) => ({
+    color: theme.palette.primary.text,
+    width: '100%',
+    overflowX: 'hidden',
+    overflowY: 'scroll',
+    '&::-webkit-scrollbar': {
+        // display: 'none',
+        width: '5px',
+        background: 'white',
+        border: '0.5px solid #846894',
+        borderRadius: '20px !important'
+    },
+    '&::-webkit-scrollbar-thumb': {
+        width: '5px',
+        height: '5px',
+        background: '#846894',
+        border: '0.5px solid #846894',
+        borderRadius: '20px !important'
+    },
+    '&::-webkit-scrollbar-button': {
+        width: '1px',
+        height: '1px',
+        background: '#846894',
+        border: '0.5px solid #C6BAC5',
+        borderRadius: '50% !important'
+
+    },
+}))
 
 
 const ShowPanel = styled(Box)(({ theme }) => ({
@@ -34,11 +62,12 @@ const ShowPanel = styled(Box)(({ theme }) => ({
     alignItems: 'center'
 }))
 const Panel = styled(Box)(({ theme }) => ({
-    color: 'primary.text',
-    // marginLeft: { xs: '0', sm: '20px' },
-    width: '100%', borderRadius: '24px',
+    color: theme.palette.primary.text,
+    transition: '500ms ease',
+    width: '100%',
+    // borderRadius: '24px',
     display: 'flex', flexDirection: 'column', alignItems: 'center',
-    // boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)',
+
 }))
 const FlexRow = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -171,64 +200,72 @@ const Wallet = ({ privateKey }) => {
     };
 
     return (
-        <Box sx={{
-            bgcolor: 'primary.bg',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            // width: { xs: '100%', sm: 'calc(100% - 80px)' },
-            width: { xs: 'calc(100% - 30px)', sm: 'calc(100% - 80px)' },
-            pr: { xs: 'none', sm: '15px', md: '30px' },
-            pl: { xs: 'none', sm: '90px' },
-            color: 'primary.text', gap: { xs: '26px', sm: '50px' }
-            // boxSizing: 'border-box'
-        }}>
+        <Box
+            sx={{
+                width: { xs: 'calc(100% - 30px)', sm: 'calc(100% - 80px)' },
+                pr: { xs: 'none', sm: '15px', md: '30px' },
+                pl: { xs: 'none', sm: '90px' },
+                display: 'flex',
+                // boxSizing:'border-box'
+            }}
+        >
 
             <Box
-                sx={(theme) => ({
-                    width: { xs: '100%', sm: '490px' },
-                    height: '250px',
-                    backgroundImage: () => (globalUser.walletBackground && finalCard.background == 'custom') ? BG_URL(PUBLIC_URL(`${API_CONFIG.API_URL}/${globalUser.walletBackground}`)) : BG_URL(PUBLIC_URL(`${cardBackgroundImage}`)),
-                    backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',
-                    boxShadow: theme.palette.primary.boxShadow,
-                    borderRadius: '24px',
+                id="wallet"
+                sx={{
+                    // px: { xs: 'none', md: 1 },
+                    // mr: { xs: 'none', md: '30px' },
                     display: 'flex',
-                    alignItems: 'center',
-                    p: '24px 24px 24px 24px', mt: 1,
-                    flexDirection: 'column', justifyContent: 'space-between', boxSizing: 'border-box',
-                    color: finalCard.color
-                })}
-            >
-                <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', height: '45px', overflow: 'hidden' }}>
-                        <Box sx={{ width: '55px', height: '60px', mt: 1.5, ml: '-10px', backgroundImage: BG_URL(PUBLIC_URL(`./w-outline.svg`)), backgroundRepeat: 'no-repeat' }} />
-                        <Box sx={{ width: '72px', height: '16px', backgroundImage: BG_URL(PUBLIC_URL(`./w-typography.svg`)), backgroundRepeat: 'no-repeat' }} />
+                    flexDirection: 'column', alignItems: 'center',
+                    width: '100%',
+                    // gap: '30px',
+                    mt: 1, height: 'auto'
+                }}>
+
+                <Box
+                    sx={(theme) => ({
+                        width: { xs: '100%', sm: '490px' },
+                        height: '250px',
+                        backgroundImage: () => (globalUser.walletBackground && finalCard.background == 'custom') ? BG_URL(PUBLIC_URL(`${API_CONFIG.API_URL}/${globalUser.walletBackground}`)) : BG_URL(PUBLIC_URL(`${cardBackgroundImage}`)),
+                        backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',
+                        boxShadow: theme.palette.primary.boxShadow,
+                        borderRadius: '24px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        p: '24px 24px 24px 24px',
+                        flexDirection: 'column', justifyContent: 'space-between', boxSizing: 'border-box',
+                        color: finalCard.color
+                    })}
+                >
+                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', height: '45px', overflow: 'hidden' }}>
+                            <Box sx={{ width: '55px', height: '60px', mt: 1.5, ml: '-10px', backgroundImage: BG_URL(PUBLIC_URL(`./w-outline.svg`)), backgroundRepeat: 'no-repeat' }} />
+                            <Box sx={{ width: '72px', height: '16px', backgroundImage: BG_URL(PUBLIC_URL(`./w-typography.svg`)), backgroundRepeat: 'no-repeat' }} />
+                        </Box>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
+                            <div>
+                                <ContentCopy size={25} sx={{ cursor: 'pointer' }}
+                                    onClick={() => copyIdToClipBoard(globalUser.YouWhoID)} />
+                            </div>
+                            <div>
+                                <ShareOutlined size={25} sx={{ cursor: 'pointer' }} />
+                            </div>
+                            <div onClick={() => setOpenSetting(true)}>
+                                <SettingsOutlined size={25} sx={{ cursor: 'pointer' }} />
+                            </div>
+                        </Box>
                     </Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
-                        <div>
-                            <ContentCopy size={25} sx={{ cursor: 'pointer' }}
-                                onClick={() => copyIdToClipBoard(globalUser.YouWhoID)} />
-                        </div>
-                        <div>
-                            <ShareOutlined size={25} sx={{ cursor: 'pointer' }} />
-                        </div>
-                        <div onClick={() => setOpenSetting(true)}>
-                            <SettingsOutlined size={25} sx={{ cursor: 'pointer' }} />
-                        </div>
-                    </Box>
-                </Box>
-                <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '24px' }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', fontSize: "32px", px: 2 }}>
-                        <Box sx={{ width: '50px', height: '50px', mr: '16px', backgroundImage: BG_URL(PUBLIC_URL(`${Chip}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />
-                        <Box sx={{
-                            backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center'
-                            , width: '35px', height: '35px', mr: '4px'
-                        }} />
-                        <span>
-                            {globalUser.balance}
-                        </span>
-                        {/* {privateKey ? <>
+                    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '24px' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', fontSize: "32px", px: 2 }}>
+                            <Box sx={{ width: '50px', height: '50px', mr: '16px', backgroundImage: BG_URL(PUBLIC_URL(`${Chip}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />
+                            <Box sx={{
+                                backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center'
+                                , width: '35px', height: '35px', mr: '4px'
+                            }} />
+                            <span>
+                                {globalUser.balance}
+                            </span>
+                            {/* {privateKey ? <>
                                 <div style={{ display: 'flex', alignItems: 'center', }}> your private key :
                                     <span style={{
                                         //  fontSize: '13px', color: '#BEA2C5', 
@@ -245,209 +282,183 @@ const Wallet = ({ privateKey }) => {
                             </>
                                 :
                                 undefined} */}
+                        </Box>
+
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', px: 2, gap: '6px' }}>
+                            <Typography onClick={() => copyIdToClipBoard(globalUser.YouWhoID)}
+                                sx={{
+                                    width: '100%', fontSize: { xs: '14px', sm: '21px' }, fontStyle: 'normal', fontWeight: '400',
+                                    lineHeight: 'normal', textAlign: 'start', mb: '6px'
+                                }}>{globalUser.YouWhoID}</Typography>
+                            <Typography sx={{ fontSize: { xs: '12px', sm: '16px' } }}>{globalUser.username}</Typography>
+                            <Typography sx={{ fontSize: { xs: '12px', sm: '16px' } }}>{globalUser.mail}</Typography>
+                        </Box>
+
                     </Box>
 
-                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', px: 2, gap: '6px' }}>
-                        <Typography onClick={() => copyIdToClipBoard(globalUser.YouWhoID)}
-                            sx={{
-                                width: '100%', fontSize: { xs: '14px', sm: '21px' }, fontStyle: 'normal', fontWeight: '400',
-                                lineHeight: 'normal', textAlign: 'start', mb: '6px'
-                            }}>{globalUser.YouWhoID}</Typography>
-                        <Typography sx={{ fontSize: { xs: '12px', sm: '16px' } }}>{globalUser.username}</Typography>
-                        <Typography sx={{ fontSize: { xs: '12px', sm: '16px' } }}>{globalUser.mail}</Typography>
-                    </Box>
-
-                </Box>
-
-                <Modal
-                    open={openSetting}
-                    onClose={() => setOpenSetting(false)}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                    sx={{ '& .MuiBackdrop-root': { backgroundColor: 'rgba(255, 255, 255, 0.50)', backdropFilter: "blur(16.5px)", } }}
-                >
-                    <Box sx={{
-                        width: '100%',
-                        height: '100%',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    }}>
-                        {
-                            openCrop ?
-                                <Box sx={{
-                                    borderRadius: { xs: 0, sm: '24px' },
-                                    width: { xs: '100%', sm: '600px' }, height: { xs: '100%', sm: '600px' },
-                                    backgroundColor: 'secondary.bg', boxSizing: 'border-box', color: 'primary.text',
-                                    display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between',
-                                    boxShadow: '0px 0px 20px 0px black',
-                                }}>
-                                    <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}>
-                                        <Typography>Crop</Typography>
-                                        <div onClick={() => {
-                                            setOpenCrop(false)
-                                        }}>
-                                            <Close sx={{ cursor: 'pointer' }} />
-                                        </div>
-                                    </FlexRow>
-                                    <Crop imageURL={photoURL} aspectRatio={2 / 1} setOpenCrop={setOpenCrop} setFile={setFile} setPhotoURL={setPhotoURL} />
-                                </Box> :
-                                <Box sx={{
-                                    borderRadius: '24px',
-                                    width: { xs: '100%', sm: '533px' }, height: { xs: '100%', sm: '260px' },
-                                    backgroundColor: 'secondary.bg', color: 'primary.text', boxSizing: 'border-box',
-                                    display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between',
-                                    boxShadow: '0px 0px 20px 0px rgba(0, 0, 0, 0.50)',
-                                }}>
-                                    <Box>
-                                        <Typography sx={{ fontSize: '16px' }}>
-                                            YouWho Card Text Color
-                                        </Typography>
-                                        <FormControl >
-                                            <RadioGroup
-                                                row
-                                                aria-labelledby="row-radio-buttons-color-group-label"
-                                                name="color-radio-buttons-group"
-                                                value={cardTextColor}
-                                                onChange={(e) => setCardTextColor(e.target.value)}
-                                            >
-                                                <FormControlLabel sx={{ '& .MuiFormControlLabel-label': { fontFamily: 'inter', fontSize: '12px' } }} value="white" control={<Radio />} label="White" />
-                                                <FormControlLabel sx={{ '& .MuiFormControlLabel-label': { fontFamily: 'inter', fontSize: '12px' } }} value="black" control={<Radio />} label="Black" />
-                                            </RadioGroup>
-                                        </FormControl>
-                                    </Box>
-                                    <Box>
-                                        <Typography sx={{ fontSize: '16px' }}>
-                                            Youwho Card Text Background Image
-                                        </Typography>
-                                        <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '50px' }}>
+                    <Modal
+                        open={openSetting}
+                        onClose={() => setOpenSetting(false)}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                        sx={{ '& .MuiBackdrop-root': { backgroundColor: 'rgba(255, 255, 255, 0.50)', backdropFilter: "blur(16.5px)", } }}
+                    >
+                        <Box sx={{
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        }}>
+                            {
+                                openCrop ?
+                                    <Box sx={{
+                                        borderRadius: { xs: 0, sm: '24px' },
+                                        width: { xs: '100%', sm: '600px' }, height: { xs: '100%', sm: '600px' },
+                                        backgroundColor: 'secondary.bg', boxSizing: 'border-box', color: 'primary.text',
+                                        display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between',
+                                        boxShadow: '0px 0px 20px 0px black',
+                                    }}>
+                                        <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}>
+                                            <Typography>Crop</Typography>
+                                            <div onClick={() => {
+                                                setOpenCrop(false)
+                                            }}>
+                                                <Close sx={{ cursor: 'pointer' }} />
+                                            </div>
+                                        </FlexRow>
+                                        <Crop imageURL={photoURL} aspectRatio={2 / 1} setOpenCrop={setOpenCrop} setFile={setFile} setPhotoURL={setPhotoURL} />
+                                    </Box> :
+                                    <Box sx={{
+                                        borderRadius: '24px',
+                                        width: { xs: '100%', sm: '533px' }, height: { xs: '100%', sm: '260px' },
+                                        backgroundColor: 'secondary.bg', color: 'primary.text', boxSizing: 'border-box',
+                                        display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between',
+                                        boxShadow: '0px 0px 20px 0px rgba(0, 0, 0, 0.50)',
+                                    }}>
+                                        <Box>
+                                            <Typography sx={{ fontSize: '16px' }}>
+                                                YouWho Card Text Color
+                                            </Typography>
                                             <FormControl >
                                                 <RadioGroup
-                                                    aria-labelledby="row-radio-buttons-image-group-label"
-                                                    name="image-radio-buttons-group"
-                                                    value={cardBackground}
-                                                    onChange={(e) => setCardBackground(e.target.value)}
+                                                    row
+                                                    aria-labelledby="row-radio-buttons-color-group-label"
+                                                    name="color-radio-buttons-group"
+                                                    value={cardTextColor}
+                                                    onChange={(e) => setCardTextColor(e.target.value)}
                                                 >
-                                                    <FormControlLabel sx={{ '& .MuiFormControlLabel-label': { fontFamily: 'inter', fontSize: '12px' } }} value="custom" control={<Radio />} label="Browse Custom Image" />
-                                                    <FormControlLabel sx={{ '& .MuiFormControlLabel-label': { fontFamily: 'inter', fontSize: '12px' } }} value="default" control={<Radio />} label="Default" />
+                                                    <FormControlLabel sx={{ '& .MuiFormControlLabel-label': { fontFamily: 'inter', fontSize: '12px' } }} value="white" control={<Radio />} label="White" />
+                                                    <FormControlLabel sx={{ '& .MuiFormControlLabel-label': { fontFamily: 'inter', fontSize: '12px' } }} value="black" control={<Radio />} label="Black" />
                                                 </RadioGroup>
                                             </FormControl>
-                                            <Box
-                                                onClick={() => imageInput.current.click()}
-                                                sx={{
-                                                    width: '100px', height: '60px', borderRadius: '10px', cursor: () => cardBackground == 'default' ? 'default' : 'pointer', pointerEvents: () => cardBackground == 'default' ? 'none' : 'auto',
-                                                    backgroundImage: () => cardBackground == 'default' ? BG_URL(PUBLIC_URL(`${cardBackgroundImage}`)) : photoURL ? BG_URL(PUBLIC_URL(`${photoURL}`)) : BG_URL(PUBLIC_URL(`${API_CONFIG.API_URL}/${globalUser.walletBackground}`)),
-                                                    backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',
-                                                }}
-                                            ></Box>
-                                            <input
-                                                accept="image/*"
-                                                id="profilePhoto"
-                                                type="file"
-                                                style={{ display: 'none' }}
-                                                onChange={handleChange}
-                                                ref={imageInput}
-                                            />
                                         </Box>
+                                        <Box>
+                                            <Typography sx={{ fontSize: '16px' }}>
+                                                Youwho Card Text Background Image
+                                            </Typography>
+                                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '50px' }}>
+                                                <FormControl >
+                                                    <RadioGroup
+                                                        aria-labelledby="row-radio-buttons-image-group-label"
+                                                        name="image-radio-buttons-group"
+                                                        value={cardBackground}
+                                                        onChange={(e) => setCardBackground(e.target.value)}
+                                                    >
+                                                        <FormControlLabel sx={{ '& .MuiFormControlLabel-label': { fontFamily: 'inter', fontSize: '12px' } }} value="custom" control={<Radio />} label="Browse Custom Image" />
+                                                        <FormControlLabel sx={{ '& .MuiFormControlLabel-label': { fontFamily: 'inter', fontSize: '12px' } }} value="default" control={<Radio />} label="Default" />
+                                                    </RadioGroup>
+                                                </FormControl>
+                                                <Box
+                                                    onClick={() => imageInput.current.click()}
+                                                    sx={{
+                                                        width: '100px', height: '60px', borderRadius: '10px', cursor: () => cardBackground == 'default' ? 'default' : 'pointer', pointerEvents: () => cardBackground == 'default' ? 'none' : 'auto',
+                                                        backgroundImage: () => cardBackground == 'default' ? BG_URL(PUBLIC_URL(`${cardBackgroundImage}`)) : photoURL ? BG_URL(PUBLIC_URL(`${photoURL}`)) : BG_URL(PUBLIC_URL(`${API_CONFIG.API_URL}/${globalUser.walletBackground}`)),
+                                                        backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',
+                                                    }}
+                                                ></Box>
+                                                <input
+                                                    accept="image/*"
+                                                    id="profilePhoto"
+                                                    type="file"
+                                                    style={{ display: 'none' }}
+                                                    onChange={handleChange}
+                                                    ref={imageInput}
+                                                />
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                                            <Button style={{ borderRight: '1px solid #DEDEDE' }} color="#F675A8" onClick={handleCancel}>cancel</Button>
+                                            <Button color="#3DCA64" onClick={handleSave}>save</Button>
+                                        </Box>
+
                                     </Box>
-                                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                                        <Button style={{ borderRight: '1px solid #DEDEDE' }} color="#F675A8" onClick={handleCancel}>cancel</Button>
-                                        <Button color="#3DCA64" onClick={handleSave}>save</Button>
-                                    </Box>
+                            }
+                        </Box>
+                    </Modal >
+                </Box >
 
-                                </Box>
-                        }
-                    </Box>
-                </Modal >
-            </Box >
+                <ShowPanel>
+                    <Panel>
 
-            <ShowPanel>
-                {/* <Box sx={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    height: 'max-content',
-                }}>
-                    <Box sx={{
-                        display: 'flex', flexDirection: 'row', alignItems: 'center', padding: '16px 20px 26px 20px', gap: '10px', borderBottom: '1px solid #9A9A9A'
-                    }}>
-                        <Tab onClick={() => { setState('charge-wallet') }} className={state == 'charge-wallet' && 'active'}>
-                            <ArrowDownward size="16px" sx={{ mr: '4px' }} />
-                            <Typography>
-                                Charge Wallet
-                            </Typography>
-                        </Tab>
-                        <Tab onClick={() => { setState('withdraw') }} className={state == 'withdraw' && 'active'}>
-                            <ArrowUpward size="16px" sx={{ mr: '4px' }} />
-                            <Typography>
-                                Withdraw
-                            </Typography>
-                        </Tab>
-                        <Tab onClick={() => { setState('transfer') }} className={state == 'transfer' && 'active'}>
-                            <Box sx={{ width: '20px', height: '20px', mr: '7px', backgroundImage: () => state == 'transfer' ? BG_URL(PUBLIC_URL(`${giftOpenWhite}`)) : BG_URL(PUBLIC_URL(`${giftOpen}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />
-                            <Typography>
-                                Transfer NFT Gift
-                            </Typography>
-                        </Tab>
-                        <Tab onClick={() => { setState('claim') }} className={state == 'claim' && 'active'}>
-                            <Box sx={{ width: '20px', height: '20px', mr: '7px', backgroundImage: () => state == 'claim' ? BG_URL(PUBLIC_URL(`${giftWhite}`)) : BG_URL(PUBLIC_URL(`${gift}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />
-                            <Typography>
-                                Claim NFT Gift
-                            </Typography>
-                        </Tab>
-                        <Tab onClick={() => { setState('turnover') }} className={state == 'turnover' && 'active'}>
-                            <Sync size="16px" sx={{ mr: '4px' }} />
-                            <Typography>
-                                Turnover
-                            </Typography>
-                        </Tab>
-                    </Box>
-                </Box> */}
 
-                <Tabs jc={'center'} w={'70%'}>
-                    <Tab
-                        icon={<ArrowDownward size="16px" sx={{ mr: '4px', pointerEvents: 'none' }} />}
-                        text={`Charge Wallet`}
-                        id={"charge-wallet"}
-                        onClick={(e) => setState(e.target.id)}
-                        selected={state == 'charge-wallet'}
-                    />
-                    {/* <Tab
+                        <Tabs mb={'32px'} jc={'center'} w={'100%'}>
+                            <Tab
+                                icon={<ArrowDownward size="16px" sx={{ mr: '4px', pointerEvents: 'none' }} />}
+                                text={`Charge Wallet`}
+                                id={"charge-wallet"}
+                                onClick={(e) => setState(e.target.id)}
+                                selected={state == 'charge-wallet'}
+                            />
+                            {/* <Tab
                         icon={<ArrowUpward size="16px" sx={{ mr: '4px', pointerEvents: 'none' }} />}
                         text={`Withdraw`} id={"withdraw"}
                         onClick={(e) => setState(e.target.id)}
                         selected={state == 'withdraw'}
                     /> */}
-                    <Tab
-                        icon={<Box sx={{ width: '20px', height: '20px', mr: '7px', pointerEvents: 'none', backgroundImage: () => state == 'transfer' ? BG_URL(PUBLIC_URL(`${giftOpenWhite}`)) : BG_URL(PUBLIC_URL(`${giftOpen}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />}
-                        text={`Transfer NFT Gift`}
-                        id={"transfer"}
-                        onClick={(e) => setState(e.target.id)}
-                        selected={state == 'transfer'}
-                    />
-                    <Tab
-                        icon={<Box sx={{ width: '20px', height: '20px', mr: '7px', pointerEvents: 'none', backgroundImage: () => state == 'claim' ? BG_URL(PUBLIC_URL(`${giftWhite}`)) : BG_URL(PUBLIC_URL(`${gift}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />}
-                        text={`Claim NFT Gift`}
-                        id={"claim"}
-                        onClick={(e) => setState(e.target.id)}
-                        selected={state == 'claim'}
-                    />
-                    <Tab
-                        icon={<Sync size="16px" sx={{ mr: '4px', pointerEvents: 'none' }} />}
-                        text={`Turnover`}
-                        id={"turnover"}
-                        onClick={(e) => setState(e.target.id)}
-                        selected={state == 'turnover'}
-                    />
-                </Tabs>
+                            <Tab
+                                icon={<Box sx={{ width: '20px', height: '20px', mr: '7px', pointerEvents: 'none', backgroundImage: () => state == 'transfer' ? BG_URL(PUBLIC_URL(`${giftOpenWhite}`)) : BG_URL(PUBLIC_URL(`${giftOpen}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />}
+                                text={`Transfer NFT Gift`}
+                                id={"transfer"}
+                                onClick={(e) => setState(e.target.id)}
+                                selected={state == 'transfer'}
+                            />
+                            <Tab
+                                icon={<Box sx={{ width: '20px', height: '20px', mr: '7px', pointerEvents: 'none', backgroundImage: () => state == 'claim' ? BG_URL(PUBLIC_URL(`${giftWhite}`)) : BG_URL(PUBLIC_URL(`${gift}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />}
+                                text={`Claim NFT Gift`}
+                                id={"claim"}
+                                onClick={(e) => setState(e.target.id)}
+                                selected={state == 'claim'}
+                            />
+                            <Tab
+                                icon={<Sync size="16px" sx={{ mr: '4px', pointerEvents: 'none' }} />}
+                                text={`Turnover`}
+                                id={"turnover"}
+                                onClick={(e) => setState(e.target.id)}
+                                selected={state == 'turnover'}
+                            />
+                        </Tabs>
 
-                <Panel sx={{ width: '100%', pt: '26px' }}>
-                    {state == 'charge-wallet' && <ChargeWallet />}
-                    {/* {state == 'withdraw' && <WithdrawPanel />} */}
-                    {state == 'transfer' && <TransferGift />}
-                    {state == 'claim' && <WithdrawPanel />}
-                    {state == 'turnover' && <Turnover />}
-                </Panel>
-            </ShowPanel>
 
+                        <ScrollablePanel id="scrollable-profile-panel-inside"
+                            sx={{
+                                height: {
+                                    xs: 'calc(100vh - 400px)',
+                                    md: 'calc(100vh - 300px)'
+                                },
+                                // height:'calc(100vh - 300px)',
+                                pb: { xs: '50px', sm: '10px' },
+                                // px: 1
+                            }}>
+                            {state == 'charge-wallet' && <ChargeWallet />}
+                            {/* {state == 'withdraw' && <WithdrawPanel />} */}
+                            {state == 'transfer' && <TransferGift />}
+                            {state == 'claim' && <WithdrawPanel />}
+                            {state == 'turnover' && <Turnover />}
+                        </ScrollablePanel>
+
+                    </Panel>
+                </ShowPanel>
+
+            </Box>
             <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick pauseOnFocusLoss pauseOnHover />
         </Box >
         // </Box >

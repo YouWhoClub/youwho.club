@@ -91,7 +91,7 @@ const AuthInput = styled(Box)(({ theme }) => ({
 }))
 const TabsComp = styled(Box)(({ theme }) => ({
     borderBottom: '1px solid',
-    borderColor: theme.palette.primary.gray,
+    borderColor: theme.palette.primary.gray, boxSizing: 'border-box',
     // width: '100%',
     display: 'flex',
     padding: '12px 0px 24px 0px',
@@ -116,7 +116,7 @@ const TabComp = styled(Box)(({ theme }) => ({
     whiteSpace: 'nowrap',
     borderRadius: '30px',
     lineHeight: 'normal',
-    border: `1px solid ${theme.palette.primary.gray}`,
+    border: `1px solid ${theme.palette.secondary.gray}`,
 
     '& .MuiTypography-root': {
         fontFamily: 'Inter',
@@ -138,15 +138,14 @@ const TabComp = styled(Box)(({ theme }) => ({
     },
 }))
 const SubTabsComp = styled(Box)(({ theme }) => ({
-    display: 'flex', flexWrap: 'wrap',
+    gap: '10px',
+    display: 'flex', flexWrap: 'wrap', padding: '7px 22px', boxSizing: 'border-box', alignItems: 'center',
 }))
 const SubTabComp = styled(Box)(({ theme }) => ({
     cursor: 'pointer',
     borderRadius: '30px', fontSize: '12px', border: '1px solid', borderColor: theme.palette.primary.light,
-    margin: '2px 4px',
     padding: '5px 20px',
     width: 'max-content',
-    // height: '20px',
     textAlign: 'center',
     display: 'flex', alignItems: 'center', backgroundColor: theme.palette.secondary.bg,
     '&:hover': {
@@ -186,7 +185,7 @@ const CommentCardProfileImg = styled(Box)(({ theme }) => ({
 export const Tabs = ({ children, mb, w, jc }) => {
     return (
         <TabsComp
-            sx={{ py: 1, mb: mb, width: w ? w : '100%', justifyContent: jc ? jc : 'unset', }}
+            sx={{ mb: mb, width: w ? w : '100%', justifyContent: jc ? jc : 'unset', }}
         >
             {children}
         </TabsComp>
@@ -196,8 +195,14 @@ export const Tab = ({ text, onClick, id, selected, icon }) => {
     return (
         <TabComp
             sx={
-                selected ? { backgroundColor: 'primary.main', color: 'white', boxShadow: localStorage.getItem('theme') == 'light' ? '0px 0px 6px 1px rgba(0, 0, 0, 0.25)' : '0px 0px 4px 1px rgba(227,209,231,0.9)', }
-                    : { backgroundColor: 'secondary.bg', color: 'secondary.text', boxShadow: localStorage.getItem('theme') == 'light' ? '0px 0px 4px 1px rgba(0, 0, 0, 0.25) inset' : 'inset 0px 0px 4px 1px rgba(227,209,231,0.9)' }
+                selected ? {
+                    backgroundColor: 'primary.main', color: 'white',
+                    boxShadow: localStorage.getItem('theme') == 'light' ? '0px 0px 6px 1px rgba(0, 0, 0, 0.25)' : '0px 0px 5px 2px rgba(0, 0, 0, 0.30)',
+                }
+                    : {
+                        backgroundColor: 'secondary.bg', color: 'secondary.text',
+                        boxShadow: localStorage.getItem('theme') == 'light' ? '0px 0px 6px 0px rgba(0, 0, 0, 0.25) inset' : 'inset 0px 0px 6px 0px rgba(0, 0, 0, 0.30)'
+                    }
             }
             id={id}
             onClick={onClick}
@@ -212,14 +217,14 @@ export const Tab = ({ text, onClick, id, selected, icon }) => {
 export const SubTabs = ({ children, mb, w, jc }) => {
     return (<SubTabsComp
 
-        sx={{ py: 1, mb: mb, width: w ? w : '100%', justifyContent: jc ? jc : 'unset' }}
+        sx={{ mb: mb, width: w ? w : '100%', justifyContent: jc ? jc : 'unset' }}
     >{children}</SubTabsComp>)
 }
 export const SubTab = ({ text, onClick, id, selected, icon }) => {
     return (<SubTabComp
         sx={{
-            boxShadow: selected ? '0px 0px 4px 0px #8B3BBC' : 'unset',
-            color: selected ? 'primary.main' : 'secondary.text',
+            boxShadow: selected ? (localStorage.getItem('theme') == 'light' ? '0px 0px 4px 0px #9747FF' : '0px 0px 4px 0px #BEA2C5') : 'unset',
+            color: selected ? (localStorage.getItem('theme') == 'light' ? 'primary.main' : 'primary.light') : 'secondary.text',
         }}
         id={id} onClick={onClick}>
         {icon ? icon : undefined}
@@ -443,13 +448,13 @@ export const MyInput = ({ icon, textColor,
 
 }
 export const ShadowInput = ({ icon, text, id, label, width, onChange, borderColor, type, extraIcon, value, mb, mt }) => {
-    return (<AuthInput sx={{
+    return (<AuthInput sx={(theme) => ({
         width: width ? width : '272px',
         border: borderColor ? '1px solid' : 'none',
         mb: mb ? mb : undefined, mt: mt ? mt : undefined,
         borderColor: borderColor ? borderColor : '#DEDEDE',
-        boxShadow: borderColor ? 'none' : localStorage.getItem('theme') == 'light' ? '0px 0px 5px 1px rgba(0, 0, 0, 0.15)' : '0px 0px 5px 1px rgba(227,209,231,0.7)',
-    }}>
+        boxShadow: borderColor ? 'none' : theme.palette.primary.boxShadow,
+    })}>
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', }}>
             <Box sx={{
                 mr: '10px', height: '27px', width: '27px', display: 'flex', alignItems: 'center', justifyContent: 'center'

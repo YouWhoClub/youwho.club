@@ -27,15 +27,17 @@ const WalletPage = ({ switchTheme, theme }) => {
     return (
         <PanelLayout switchTheme={switchTheme} theme={theme}>
             {!globalUser.isLoggedIn ?
-                <Box sx={{
-                    height:'calc(100vh - 55px)',
+                <Box 
+                sx={{
+                    height: 'calc(100vh - 55px)',
                     bgcolor: 'primary.bg',
-                    display: 'flex',color:'primary.text',
+                    display: 'flex', color: 'primary.text',
                     flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center',
                     width: { xs: '100%', sm: 'calc(100% - 80px)' },
-                }}>
+                }}
+                >
                     <p> you are not logged in</p>
                     <ButtonOutline text={'start'} onClick={() => navigate('/auth')} />
                 </Box> :
@@ -48,9 +50,9 @@ const WalletPage = ({ switchTheme, theme }) => {
                         :
                         <>
                             <Box sx={{
-                                height:'calc(100vh - 55px)',
+                                height: 'calc(100vh - 55px)',
                                 bgcolor: 'primary.bg',
-                                display: 'flex',color:'primary.text',
+                                display: 'flex', color: 'primary.text',
                                 flexDirection: 'column',
                                 justifyContent: 'center',
                                 alignItems: 'center',

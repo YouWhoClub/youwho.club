@@ -92,10 +92,11 @@ function App() {
         grad: 'linear-gradient(251deg, rgba(111,48,150,1) 33%, rgba(210,166,242,1) 100%)',
         success: '#0Cb2B1',
         error: '#F675A8',
-        boxShadow: '0px 0px 5px 1px rgba(227,209,231,0.7)',
-        boxShadowLarge: '0px 0px 20px 0px rgba(227,209,231,0.7)',
-        boxShadowInset: 'inset 0px 0px 5px 1px rgba(227,209,231,0.7)',
+        boxShadow: '0px 0px  12px 1px rgba(0, 0, 0, 0.30)',
+        boxShadowLarge: '0px 0px 20px 1px rgba(0, 0, 0, 0.30)',
+        boxShadowInset: 'inset 0px 0px 10px 1px rgba(0, 0, 0, 0.30)',
         cardGradient: 'linear-gradient(41deg, rgba(61,0,98,1) 0%, rgba(18,0,28,1) 100%)',
+        disabled:'#8888',
       },
       secondary: {
         dark: '#3D0062',
@@ -104,7 +105,7 @@ function App() {
         middle: '#9F72C0',
         light: '#C182ED',
         ultraLight: '#D2A6F2',
-        gray: '#EBEBEB',
+        gray: '#939393',
         darkGray: '#787878',
         bg: '#3D0062',
         bgOp: 'rgba(61,0,98,0.49)',
@@ -117,6 +118,8 @@ function App() {
         success: '#B3E4E6',
         error: '#FA8FBA',
         boxShadow: '0px 0px 5px 1px rgba(227,209,231,0.7)',
+        boxShadowLarge: '0px 0px 20px 0px rgba(227,209,231,0.7)',
+        boxShadowInset: 'inset 0px 0px 5px 1px rgba(227,209,231,0.7)',
 
       },
     },
@@ -151,7 +154,8 @@ function App() {
         boxShadow: '0px 0px 5px 1px rgba(0, 0, 0, 0.25)',
         boxShadowLarge: '0px 0px 20px 0px rgba(0, 0, 0, 0.25)',
         boxShadowInset: 'inset 0px 0px 4px 1px rgba(0, 0, 0, 0.25)',
-        cardGradient: 'linear-gradient(231deg, rgba(200,200,200,1) 0%, rgba(111,48,150,1) 100%)'
+        cardGradient: 'linear-gradient(231deg, rgba(200,200,200,1) 0%, rgba(111,48,150,1) 100%)',
+        disabled:'#ccc',
       },
       secondary: {
         dark: '#3D0062',
@@ -173,6 +177,7 @@ function App() {
         success: '#B3E4E6',
         error: '#FA8FBA',
         boxShadow: '0px 0px 5px 1px rgba(0, 0, 0, 0.25)',
+        
 
       },
     },
@@ -265,90 +270,6 @@ function App() {
 }
 
 
-
-
-
-const oldDarkThemeBackUp = createTheme({
-  typography: {
-    "fontFamily": `"Josefin Sans", "Inter", sans-serif`,
-  },
-  palette: {
-    mode: 'dark',
-    primary: {
-      dark: '#1A0052',
-      ultra: '#32283E',
-      main: '#790DAB',
-      middle: '#846894',
-      light: '#BEA2C5',
-      gray: '#C7BDC6',
-      white: 'white',
-      bg: '#281240',
-      bgOp: 'rgba(40,18,64,0.3)',
-      // bgGradient: 'linear-gradient(180deg, rgba(10,3,17,1) 0%, rgba(40,18,64,0.8957634079022234) 100%)',
-      bgGradient: 'linear-gradient(180deg, rgba(10,3,17,1) 0%, rgba(40,18,64,1) 100%)',
-      bgGradientDown: 'linear-gradient(180deg, rgba(40,18,64,1) 0%, rgba(10,3,17,1) 100%)',
-      text: 'white',
-      themeSwitch: '#140920',
-      landBG: 'linear-gradient(180deg, rgba(40,18,64,0.9) 0%, rgba(10,3,17,0.6) 100%)',
-      footer: '#C182ED'
-    },
-    secondary: {
-      dark: '#1B0055',
-      ultra: '#32283E',
-      main: '#392F5A',
-      middle: '#846894',
-      light: '#BEA2C5',
-      gray: '#C7BDC6',
-      white: 'white',
-      bg: '#3C1A60',
-      bgOp: 'rgba(60,26,96,0.3)',
-      bgGradient: 'linear-gradient(180deg, rgba(40,18,64,1) 0%, rgba(93,45,134,1) 50%, rgba(40,18,64,1) 100%)',
-      text: '#F6F5F4',
-      themeSwitch: '#1E0D30'
-
-    },
-  },
-});
-const oldLightThemeBackUp = createTheme({
-  typography: {
-    "fontFamily": `"Josefin Sans", "Inter", sans-serif`,
-  },
-  palette: {
-    mode: 'light',
-    primary: {
-      dark: '#1B0055',
-      ultra: '#32283E',
-      main: '#5F0A87',
-      middle: '#846894',
-      light: '#BEA2C5',
-      gray: '#C7BDC6',
-      white: 'white',
-      bg: '#F8F4E3',
-      bgOp: 'rgba(248,244,227,0.5)',
-      bgGradient: 'linear-gradient(180deg, rgba(83,38,132,1) 0%, rgba(248,244,227,1) 100%)',
-      bgGradientDown: 'linear-gradient(180deg, rgba(248,244,227,1) 0%, rgba(83,38,132,1) 100%)',
-      text: 'black',
-      themeSwitch: '#FFC233',
-      landBG: 'linear-gradient(180deg, rgba(222, 222, 222, 0.25) 0%, rgba(217, 217, 217, 0.001) 100%)',
-      footer: '#3D0062'
-    },
-    secondary: {
-      dark: '#0F0A0A',
-      ultra: '#731A60',
-      main: '#B8145E',
-      middle: '#8D80AD',
-      light: '#BCB4CF',
-      gray: '#C7BDC6',
-      white: '#F5EFED',
-      bg: 'white',
-      bgOp: 'rgba(255,255,255,0.5)',
-      bgGradient: 'linear-gradient(180deg, rgba(248,244,227,1) 0%, rgba(83,38,132,0.7) 50%, rgba(248,244,227,1) 100%)',
-      text: '#707070',
-      themeSwitch: '#FFC43D'
-
-    },
-  },
-});
 
 
 export default App;

@@ -2,29 +2,33 @@ import styled from "@emotion/styled";
 import { Box } from "@mui/material";
 
 
-const Button = styled('button')(({ theme }) => ({
+const Button = styled(Box)(({ theme }) => ({
     boxSizing: 'border-box',
-    backgroundColor: theme.palette.primary.light,
     display: 'flex', alignItems: 'center', justifyContent: 'center',
+    borderRadius: '12px',
     outline: 'none',
     color: 'white',
-    cursor: 'pointer',
     border: 'none',
     textTransform: 'capitalize',
     fontWeight: 500,
-    boxShadow: theme.palette.primary.boxShadow,
+    // cursor: 'pointer',
+    // backgroundColor: theme.palette.secondary.main,
+    // boxShadow: theme.palette.secondary.boxShadow,
 }))
-const ButtonPurpleLight = ({ onClick, text, w, px, disabled, icon, mt, height, br }) => {
+const ButtonPurpleLight = ({ onClick, text, w, px, disabled, icon, mt, height, prevIcon, nextIcon, fontSize }) => {
     return (
-        <Button onClick={onClick} style={{
-            height: height ? height : '40px',
-            marginTop: mt ? mt : undefined, borderRadius: br ? br : '12px',
-            backgroundColor: disabled ? '#ccc' : 'secondary.main',
-            width: w ? w : '100px', paddingLeft: px ? px : 'unset', paddingRight: px ? px : 'unset',
-            boxShadow: disabled ? 'inset 0px 0px 4px 1px rgba(0, 0, 0, 0.25)' : 'secondary.boxShadow',
-        }}>
-            {text}
-            {icon ? icon : undefined}
+        <Button onClick={onClick}
+            sx={(theme) => ({
+                height: height ? height : '40px',
+                mt: mt ? mt : undefined, fontSize: fontSize ? fontSize : '14px',
+                backgroundColor: disabled ? 'primary.gray' : 'secondary.middle',
+                width: w ? w : '100px', px: px ? px : 'unset', cursor: disabled ? 'auto' : 'pointer',
+                boxShadow: disabled ? theme.palette.primary.boxShadowInset : theme.palette.primary.boxShadow,
+            })}>
+            {prevIcon ? prevIcon : undefined}
+            &nbsp;{text}&nbsp;
+            {nextIcon ? nextIcon : undefined}
+
         </Button>
     );
 }

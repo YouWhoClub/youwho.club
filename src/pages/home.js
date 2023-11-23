@@ -50,7 +50,7 @@ const Home = ({ switchTheme, theme }) => {
             }}>
                 <Box sx={{
                     display: 'flex', gap: { xs: 'auto', sm: '70px' }, alignItems: 'center', justifyContent: 'space-between',
-                    width: { xs: '100%', sm: 'max-content' }
+                    width: { xs: '100%', sm: 'max-content' }, color: 'primary.text'
                 }}>
                     <Typography>
                         OpenSea
@@ -61,7 +61,7 @@ const Home = ({ switchTheme, theme }) => {
                 </Box>
                 <Box sx={{
                     display: 'flex', gap: { xs: 'auto', sm: '70px' }, alignItems: 'center', justifyContent: 'space-between',
-                    width: { xs: '100%', sm: 'max-content' }
+                    width: { xs: '100%', sm: 'max-content' }, color: 'primary.text'
                 }}>
                     <Typography>
                         PayPal
