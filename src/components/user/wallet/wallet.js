@@ -444,9 +444,8 @@ const Wallet = ({ privateKey }) => {
                                     xs: 'calc(100vh - 400px)',
                                     md: 'calc(100vh - 300px)'
                                 },
-                                // height:'calc(100vh - 300px)',
-                                pb: { xs: '50px', sm: '10px' },
-                                // px: 1
+                                pb: { xs: '50px', sm: '10px' },pt:1,
+                                px: { xs: 1, sm: '22px' }
                             }}>
                             {state == 'charge-wallet' && <ChargeWallet />}
                             {/* {state == 'withdraw' && <WithdrawPanel />} */}
