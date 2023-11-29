@@ -16,7 +16,8 @@ import { EmptyWallet } from "iconsax-react";
 
 
 const Card = styled(Box)(({ theme }) => ({
-    width: '800px',
+    boxSizing: 'border-box',
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -37,7 +38,7 @@ const Icon = styled(Box)(({ theme, url, w, h }) => ({
     pointerEvents: 'none'
 }))
 const Button = styled('button')(({ theme }) => ({
-    width: '350px',
+    width: '100%',
     backgroundColor: '#7C42C7',
     padding: '12px 36px',
     borderRadius: '12px',
@@ -197,7 +198,7 @@ const WithdrawPanel = () => {
                                         </Card>
                                     )
                                 }) :
-                                <Box sx={{ display: 'flex', flexDirection: 'column',height:'300px', alignItems: 'center', justifyContent:'center' }}>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', height: '300px', alignItems: 'center', justifyContent: 'center' }}>
                                     <EmptyWallet size={'50px'} color="#787878" />
                                     <Typography sx={{ mt: 2, fontSize: '20px', color: 'primary.darkGray', textAlign: 'center', mb: 2, fontWeight: '500' }}>
                                         There are no unclaimed NFT gitfs

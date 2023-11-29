@@ -15,10 +15,11 @@ import { ArrowDown } from "iconsax-react";
 
 
 const Card = styled(Box)(({ theme }) => ({
-    width: '90%',
-    maxWidth: '730px',
+    width: '100%',
+    // maxWidth: '730px',
     borderRadius: '16px',
     display: 'flex',
+    boxSizing: 'border-box',
     alignItems: 'center',
     padding: '16px',
     backgroundColor: theme.palette.secondary.bg,
@@ -138,7 +139,10 @@ const Turnover = () => {
     }
 
     return (
-        <Box sx={{ width: '90%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '30px' }}>
+        <Box sx={{
+            width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
+            gap: '40px'
+        }}>
             <Box>
                 <FilterSelection
                     width={'280px'}
@@ -151,7 +155,10 @@ const Turnover = () => {
             </Box>
 
 
-            <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '20px' }}>
+            <Box sx={{
+                width: '100%',
+                display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '20px'
+            }}>
 
                 {
                     filterValue == 'Unpaid Checkouts' &&
@@ -175,9 +182,13 @@ const Turnover = () => {
                                         </Box>
                                     </Card>
                                 )
-                            }) : <Box sx={{ display: 'flex', flexDirection: 'column', height: '200px', alignItems: 'center', justifyContent: 'center' }}>
+                            })
+                            : <Box sx={{ display: 'flex', flexDirection: 'column', height: '200px', alignItems: 'center', justifyContent: 'center' }}>
                                 {/* <EmptyWallet size={'50px'} color="#787878" /> */}
-                                <Typography sx={{ mt: 2, fontSize: '20px', color: 'primary.darkGray', textAlign: 'center', mb: 2, fontWeight: '500' }}>
+                                <Typography sx={{
+                                    mt: 2, fontSize: '20px',
+                                    color: 'primary.darkGray', textAlign: 'center', mb: 2, fontWeight: '500'
+                                }}>
                                     There are no Unpaid Checkouts
                                 </Typography>
                             </Box>

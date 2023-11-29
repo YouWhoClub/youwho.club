@@ -218,7 +218,7 @@ function App() {
                   <Route exact path="/" element={<Home theme={theme} switchTheme={switchTheme} />} />
                   <Route exact path="/landing" element={<LandingPrev theme={theme} switchTheme={switchTheme} />} />
                   <Route exact path="/auth" element={<Auth theme={theme} switchTheme={switchTheme} />} />
-                  <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} />
+                  {/* <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} /> */}
                 </Routes>
 
                 <Box sx={{ bgcolor: 'secondary.bg' }}>
@@ -227,7 +227,7 @@ function App() {
                       <Route exact path="/" element={<></>} />
                       <Route exact path="/landing" element={<></>} />
                       <Route exact path="/auth" element={<></>} />
-                      <Route path='*' element={<></>} />
+                      {/* <Route path='*' element={<></>} /> */}
 
 
                       <Route exact path="/main-gallery" element={<ViewMainGalleryPage theme={theme} switchTheme={switchTheme} />} />
@@ -245,11 +245,15 @@ function App() {
                       <Route exact path="/verify-phone" element={<VerifyPhone theme={theme} />} />
                       <Route exact path="/checkout/success" element={<CheckoutSuccess switchTheme={switchTheme} theme={theme} />} />
                       <Route exact path="/checkout/cancel" element={<CheckoutCancel switchTheme={switchTheme} theme={theme} />} />
+                
 
+                      <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} />
                       <Route exact path="/privacy-policy" element={<PrivacyPolicy theme={theme} />} />
                     </Routes>
                   </Wrapper>
                 </Box>
+
+                
                 {/* </Wrapper>
                 </Box> */}
               </>
