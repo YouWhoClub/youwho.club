@@ -13,13 +13,12 @@ import { BG_URL, PUBLIC_URL } from "../../../utils/utils";
 import Crop from '../../crop/Crop'
 import { ButtonInput, MyInput, SelectInput } from '../../utils'
 import ButtonOutline from '../../buttons/buttonOutline'
-import Web3 from 'web3';
 import { useSelector, useDispatch } from "react-redux";
 import { setPrivateKey, updateBalance } from "../../../redux/actions";
 import { API_CONFIG } from "../../../config";
-import { Buffer } from 'buffer';
 import { toast } from 'react-toastify';
 import ButtonPurple from "../../buttons/buttonPurple";
+import generateSignature from "../../../utils/signatureUtils";
 
 
 const Card = styled(Box)(({ theme }) => ({
@@ -134,18 +133,11 @@ const TransferGift = () => {
         return data;
     }
 
-    // setting polygon-mainnet as web3.js provider
-
-    const provider = "https://polygon-mainnet.infura.io/v3/20f2a17bd46947669762f289a2a0c71c";
-    const web3Provider = new Web3.providers.HttpProvider(provider);
-    const web3 = new Web3(web3Provider);
 
     const transfer = async (IpfsURL) => {
         loading();
 
         if (globalUser.privateKey) {
-            const privateKey = Buffer.from(globalUser.privateKey, 'hex');
-
             const data = {
                 recipient: recipientID,
                 from_cid: globalUser.cid,
@@ -155,24 +147,7 @@ const TransferGift = () => {
                 nft_desc: NFTDescription,
             }
 
-            const dataString = JSON.stringify(data);
-            const dataHash = web3.utils.keccak256(dataString);
-
-            const signObject = web3.eth.accounts.sign(dataHash, privateKey);
-
-            const { signature } = signObject;
-
-            const requestData = {
-                ...data,
-                tx_signature: signature.replace('0x', ''),
-                hash_data: dataHash.replace('0x', ''),
-            };
-
-            console.log(signObject);
-            console.log(requestData);
-
-            const publicKey = web3.eth.accounts.recover(dataHash, signature);
-            console.log(publicKey)
+            const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
 
             // sending the request
 

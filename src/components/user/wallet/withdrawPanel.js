@@ -6,12 +6,11 @@ import { BG_URL, PUBLIC_URL } from "../../../utils/utils";
 import { useSelector, useDispatch } from "react-redux";
 import { setPrivateKey, updateBalance } from "../../../redux/actions";
 import { ToastContainer, toast } from 'react-toastify';
-import Web3 from 'web3';
 import { API_CONFIG } from "../../../config";
 import yCoin from '../../../assets/Ycoin.svg'
 import { MyInput } from '../../utils'
-import { Buffer } from 'buffer';
 import { EmptyWallet } from "iconsax-react";
+import generateSignature from "../../../utils/signatureUtils";
 
 
 
@@ -80,41 +79,18 @@ const WithdrawPanel = () => {
         dispatch(setPrivateKey(signer))
     }
 
-    // setting polygon-mainnet as web3.js provider
-
-    const provider = "https://polygon-mainnet.infura.io/v3/20f2a17bd46947669762f289a2a0c71c";
-    const web3Provider = new Web3.providers.HttpProvider(provider);
-    const web3 = new Web3(web3Provider);
-
     const withdraw = async (depositId) => {
         loading();
 
         if (globalUser.privateKey) {
-            const privateKey = Buffer.from(globalUser.privateKey, 'hex');
-
             const data = {
                 recipient_cid: globalUser.cid,
                 deposit_id: depositId,
             }
 
-            const dataString = JSON.stringify(data);
-            const dataHash = web3.utils.keccak256(dataString);
-
-            const signObject = web3.eth.accounts.sign(dataHash, privateKey);
-
-            const { signature } = signObject;
-
-            const requestData = {
-                ...data,
-                tx_signature: signature.replace('0x', ''),
-                hash_data: dataHash.replace('0x', ''),
-            };
-
-            console.log(signObject);
-            console.log(requestData);
+            const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
 
             // sending the request
-
             let request = await fetch(`${API_CONFIG.AUTH_API_URL}/withdraw/from/0x5a298eE7B1EDA4de9fBf18905974b059221CaC2e`, {
                 method: 'POST',
                 body: JSON.stringify(requestData),
