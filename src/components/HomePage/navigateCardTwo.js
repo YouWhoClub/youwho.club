@@ -25,7 +25,7 @@ const Card = styled(Box)(({ theme }) => ({
   position: 'relative',
   '&:hover': {
     animation: `${shake} 1s linear`,
-  },
+  }
 }))
 const UnderCard = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -52,8 +52,10 @@ const NavigateCardTwo = ({ image, title, content, link }) => {
   return (
     <Link style={{
       textDecoration: 'none', color: 'inherit',
-      position: 'relative', zIndex: 1,
-    }} to={link}>
+      position: 'relative', zIndex: 1,cursor:'auto'
+    }}
+      // to={link}
+    >
       <Card>
         <Box sx={{
           p: '25px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',

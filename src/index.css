@@ -39,7 +39,7 @@ h6 {
   overflow-y: scroll !important;
 }
 .dashAfterScroll {
-  height: calc(100vh - 60px) !important;
+  /* height: calc(100vh - 55px) !important; */
 }
 #myInput.MuiInputBase-input {
   padding: 0px 0px 15px 0px !important;
@@ -47,7 +47,7 @@ h6 {
 
 @media only screen and (max-width: 900px) {
   .dashAfterScroll {
-    height: calc(100vh - 100px) !important;
+    /* height: calc(100vh - 100px) !important; */
   }
 }
 

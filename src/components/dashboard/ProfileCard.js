@@ -15,7 +15,7 @@ const ProPic = styled(Box)(({ theme }) => ({
 }))
 const ProBanner = styled(Box)(({ theme }) => ({
     borderRadius: '24px',
-    display: 'flex', alignItems: 'center',
+    display: 'flex', alignItems: 'center', boxSizing: 'border-box',
     boxShadow: theme.palette.primary.boxShadow, transition: '500ms ease'
 }))
 const ProfileCard = ({ username, YouWhoID }) => {
@@ -40,8 +40,10 @@ const ProfileCard = ({ username, YouWhoID }) => {
         id='profile-card'
         sx={{
             // width: '100%',
-            height: { xs: '150px', sm: '250px' },
-            px: 3, py: { xs: 2, sm: 0 }, flexDirection: { xs: 'row' },
+            height: { xs: '150px', md: '250px' },
+            // px: 3, py: { xs: 2, md: 0 },
+            padding: '20px',
+            flexDirection: { xs: 'row' },
             background: () => globalUser.banner ? `url('${API_CONFIG.API_URL}/${globalUser.banner}') no-repeat center` : '#0Cb2B1',
             backgroundSize: 'cover'
         }}>
@@ -49,8 +51,8 @@ const ProfileCard = ({ username, YouWhoID }) => {
             id='profile-pic'
             sx={{
                 background: () => globalUser.avatar ? `url('${API_CONFIG.API_URL}/${globalUser.avatar}') no-repeat center` : BG_URL(PUBLIC_URL(`${profileFace}`)),
-                backgroundSize: 'cover', width: { xs: '70px', sm: '160px' },
-                height: { xs: '70px', sm: '160px' },
+                backgroundSize: 'cover', width: { xs: '100px', md: '200px' },
+                height: { xs: '100px', md: '200px' },
             }}
         />
         &nbsp;
@@ -58,22 +60,22 @@ const ProfileCard = ({ username, YouWhoID }) => {
         &nbsp;
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', color: 'white' }}>
             <Typography sx={{
-                fontWeight: 700, color: 'white', fontSize: { xs: '18px', sm: '20px' }
+                fontWeight: 700, color: 'white', fontSize: { xs: '18px', md: '20px' }
             }}>
                 {globalUser.cid ? globalUser.username : globalUser.identifier}
             </Typography>
             {YouWhoID ?
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                    <Typography sx={{ fontWeight: 500 , fontSize: { xs: '14px', sm: '16px' } }}>YouWho ID :</Typography>
+                    <Typography sx={{ fontWeight: 500, fontSize: { xs: '14px', md: '16px' } }}>YouWho ID :</Typography>
                     <Typography onClick={() => copyIdToClipBoard(YouWhoID)}
-                        sx={{ cursor: 'pointer', fontSize: { xs: '12px', sm: '14px' }, display: { xs: 'none', sm: 'block' } }}>
+                        sx={{ cursor: 'pointer', fontSize: { xs: '12px', md: '14px' }, display: { xs: 'none', md: 'block' } }}>
                         {YouWhoID}
                     </Typography>
                     <Typography onClick={() => copyIdToClipBoard(YouWhoID)}
-                        sx={{ cursor: 'pointer', fontSize: { xs: '12px', sm: '14px' }, display: { xs: 'block', sm: 'none' } }}>
+                        sx={{ cursor: 'pointer', fontSize: { xs: '12px', md: '14px' }, display: { xs: 'block', md: 'none' } }}>
                         {shorten(YouWhoID)}
                     </Typography>
-                    <TickSquare style={{ size: { xs: '10px', sm: '16px' }, display: idCopied ? 'block' : 'none', color: '#0Cb2B1' }} />
+                    <TickSquare style={{ size: { xs: '10px', md: '16px' }, display: idCopied ? 'block' : 'none', color: '#0Cb2B1' }} />
                 </Box>
                 : undefined}
         </Box>

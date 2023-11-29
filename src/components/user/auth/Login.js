@@ -34,11 +34,11 @@ const Line = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.primary.gray,
 }))
 
-const Login = ({ progress, setProgress }) => {
+const Login = ({ progress, setProgress, alreadyEmail }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const [state, setState] = useState('identifier')
-    const [identifier, setIdentifier] = useState(undefined)
+    const [identifier, setIdentifier] = useState(alreadyEmail ? alreadyEmail : undefined)
     const [password, setPassword] = useState(undefined)
     const [loading, setLoading] = useState(false)
     const [err, setErr] = useState(undefined)

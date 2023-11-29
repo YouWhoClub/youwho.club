@@ -88,7 +88,7 @@ function App() {
         text: 'white',
         themeSwitch: '#140920',
         landBG: 'linear-gradient(180deg, rgba(31,0,49,1) 0%, rgba(61,0,98,1) 100%)',
-        footer: '#6F3096',
+        footer: '#1E003A',
         grad: 'linear-gradient(251deg, rgba(111,48,150,1) 33%, rgba(210,166,242,1) 100%)',
         success: '#0Cb2B1',
         error: '#F675A8',
@@ -96,7 +96,7 @@ function App() {
         boxShadowLarge: '0px 0px 20px 1px rgba(0, 0, 0, 0.30)',
         boxShadowInset: 'inset 0px 0px 10px 1px rgba(0, 0, 0, 0.30)',
         cardGradient: 'linear-gradient(41deg, rgba(61,0,98,1) 0%, rgba(18,0,28,1) 100%)',
-        disabled:'#8888',
+        disabled: '#8888',
       },
       secondary: {
         dark: '#3D0062',
@@ -146,7 +146,7 @@ function App() {
         text: 'black',
         themeSwitch: '#FFC233',
         landBG: 'linear-gradient(180deg, rgba(222, 222, 222, 0.25) 0%, rgba(217, 217, 217, 0.001) 100%)',
-        footer: '#6F3096',
+        footer: '#1D0048',
         grad: 'linear-gradient(251deg, rgba(111,48,150,1) 33%, rgba(210,166,242,1) 100%)',
         success: '#0Cb2B1',
         error: '#F675A8',
@@ -155,7 +155,7 @@ function App() {
         boxShadowLarge: '0px 0px 20px 0px rgba(0, 0, 0, 0.25)',
         boxShadowInset: 'inset 0px 0px 4px 1px rgba(0, 0, 0, 0.25)',
         cardGradient: 'linear-gradient(231deg, rgba(200,200,200,1) 0%, rgba(111,48,150,1) 100%)',
-        disabled:'#ccc',
+        disabled: '#ccc',
       },
       secondary: {
         dark: '#3D0062',
@@ -177,7 +177,7 @@ function App() {
         success: '#B3E4E6',
         error: '#FA8FBA',
         boxShadow: '0px 0px 5px 1px rgba(0, 0, 0, 0.25)',
-        
+
 
       },
     },
@@ -218,6 +218,7 @@ function App() {
                   <Route exact path="/" element={<Home theme={theme} switchTheme={switchTheme} />} />
                   <Route exact path="/landing" element={<LandingPrev theme={theme} switchTheme={switchTheme} />} />
                   <Route exact path="/auth" element={<Auth theme={theme} switchTheme={switchTheme} />} />
+                  <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} />
                 </Routes>
 
                 <Box sx={{ bgcolor: 'secondary.bg' }}>
@@ -226,6 +227,7 @@ function App() {
                       <Route exact path="/" element={<></>} />
                       <Route exact path="/landing" element={<></>} />
                       <Route exact path="/auth" element={<></>} />
+                      <Route path='*' element={<></>} />
 
 
                       <Route exact path="/main-gallery" element={<ViewMainGalleryPage theme={theme} switchTheme={switchTheme} />} />
@@ -245,7 +247,6 @@ function App() {
                       <Route exact path="/checkout/cancel" element={<CheckoutCancel switchTheme={switchTheme} theme={theme} />} />
 
                       <Route exact path="/privacy-policy" element={<PrivacyPolicy theme={theme} />} />
-                      <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} />
                     </Routes>
                   </Wrapper>
                 </Box>

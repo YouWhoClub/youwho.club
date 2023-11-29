@@ -196,249 +196,24 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
         <Bar
             id="dash-bar"
             sx={{
-                width: { xs: '100%', md: '325px' },
-            }}>
-            <Box sx={{
+                width: { xs: '100%', md: '325px' }, boxSizing: 'border-box',
                 display: 'flex', flexDirection: 'column', alignItems: 'center', p: '16px 12px'
             }}>
-                {editProfile ?
-                    <>
-                        <Box
-                            sx={{
-                                color: 'primary.text', display: 'flex', justifyContent: 'space-between',
-                                width: '100%', alignItems: 'center', mb: '15px'
-                            }}>
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                Edit Profile
-                            </div>
-                            <Close sx={{ fontSize: '25px' }} cursor='pointer' onClick={() => setEditProfile(false)} />
-                        </Box>
-                        <Accordion
-                            sx={{
-                                my: 1,
-                                width: '100%',
-                                bgcolor: 'secondary.bg',
-                                color: 'primary.text',
-                                border: '1px solid', borderColor: 'primary.gray',
-                                // border: 'none',
-                                '&:before': {
-                                    bgcolor: 'transparent',
-                                },
-                                // boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.07)',
-                                boxShadow: 'none !important',
-                                borderRadius: '24px !important', fontSize: '14px'
-                            }}>
-                            <AccordionSummary
-                                expandIcon={<ArrowDown2 size='16px' />}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                                sx={{ minHeight: '30px !important', height: '30px' }}
-                            >
-                                <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Image</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails
-                                sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
-                            >
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                                    <input
-                                        type="file"
-                                        style={{ display: 'none' }}
-                                        id={"img"}
-                                        accept="image/*"
-                                        onChange={avatarChangeHandler}
-                                        ref={avatarFileInput}
-                                    />
-                                    <Typography sx={{ color: 'secondary.text', fontSize: '10px' }}>Set Profile Picture</Typography>
-                                    <AvatarEdit
-                                        sx={{
-                                            cursor: 'pointer',
-                                            background: () => {
-                                                return (
-                                                    selectedAvatar
-                                                        ? `url('${URL.createObjectURL(selectedAvatar)}') no-repeat center`
-                                                        : globalUser.avatar ? `url('${API_CONFIG.API_URL}/${globalUser.avatar}') no-repeat center` : '#846894'
-                                                )
-                                            },
-                                            backgroundSize: 'cover'
-                                        }}
-                                        onClick={() => avatarFileInput.current.click()}
-                                    />
-                                </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                                    <input
-                                        type="file"
-                                        style={{ display: 'none' }}
-                                        id={"img"}
-                                        accept="image/*"
-                                        onChange={bannerChangeHandler}
-                                        ref={bannerFileInput}
-                                    />
-                                    <Typography sx={{ color: 'secondary.text', fontSize: '10px' }}>Set Banner Picture</Typography>
-                                    <BannerEdit
-                                        sx={{
-                                            cursor: 'pointer',
-                                            background: () => {
-                                                return (
-                                                    selectedBanner
-                                                        ? `url('${URL.createObjectURL(selectedBanner)}') no-repeat center`
-                                                        : globalUser.banner ? `url('${API_CONFIG.API_URL}/${globalUser.banner}') no-repeat center` : '#846894'
-                                                )
-                                            },
-                                            backgroundSize: 'cover'
-                                        }}
-                                        onClick={() => bannerFileInput.current.click()}
-                                    />
-                                </Box>
-                                <Box
-                                    onClick={fileUploadHandler}
-                                    sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', cursor: 'pointer' }}>
-                                    <Typography
-                                        sx={{ fontSize: '10px' }}
-                                    >Save </Typography><TickCircle cursor='pointer' size='12px' />
-                                </Box>
-                            </AccordionDetails>
-                        </Accordion>
-                        <Accordion sx={{
-                            my: 1,
-                            width: '100%',
-                            bgcolor: 'secondary.bg',
-                            color: 'primary.text',
-                            border: '1px solid', borderColor: 'primary.gray',
-                            // border: 'none',
-                            '&:before': {
-                                bgcolor: 'transparent',
-                            },
-                            // boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.07)',
-                            boxShadow: 'none !important',
-                            borderRadius: '24px !important', fontSize: '14px'
-                        }}>
-                            <AccordionSummary
-                                expandIcon={<ArrowDown2 size='16px' />}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                                sx={{ minHeight: '30px !important', height: '30px' }}
-                            >
-                                <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Bio</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails
-                                sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
-                            >
-                                <TextField value={bio} onChange={e => setBio(e.target.value)} placeholder={globalUser.bio ? globalUser.bio : 'please write a few lines about your self'} multiline inputProps={{ style: { fontSize: 12 } }} />
-                                <Box
-                                    onClick={updateBio}
-                                    sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', cursor: 'pointer' }}>
-                                    <Typography
-                                        sx={{ fontSize: '10px' }}
-                                    >
-                                        Save</Typography>
-                                    <TickCircle cursor='pointer' size='12px' />
-                                </Box>
-                            </AccordionDetails>
-                        </Accordion>
-                        <Accordion sx={{
-                            my: 1,
-                            width: '100%',
-                            bgcolor: 'secondary.bg',
-                            color: 'primary.text',
-                            border: '1px solid', borderColor: 'primary.gray',
-                            // border: 'none',
-                            '&:before': {
-                                bgcolor: 'transparent',
-                            },
-                            // boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.07)',
-                            boxShadow: 'none !important',
-                            borderRadius: '24px !important', fontSize: '14px'
-                        }}>
-                            <AccordionSummary
-                                expandIcon={<ArrowDown2 size='16px' />}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                                sx={{ minHeight: '30px !important', height: '30px' }}
-                            >
-                                <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Social Media</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails
-                                sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
-                            >
-                                <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', }}>
-                                    <Typography sx={{ fontSize: '10px' }}>Save </Typography><TickCircle cursor='pointer' size='12px' />
-                                </Box>
-                            </AccordionDetails>
-                        </Accordion>
-                        <Accordion sx={{
-                            my: 1,
-                            width: '100%',
-                            bgcolor: 'secondary.bg',
-                            color: 'primary.text',
-                            border: '1px solid', borderColor: 'primary.gray',
-                            // border: 'none',
-                            '&:before': {
-                                bgcolor: 'transparent',
-                            },
-                            // boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.07)',
-                            boxShadow: 'none !important',
-                            borderRadius: '24px !important', fontSize: '14px'
-                        }}>
-                            <AccordionSummary
-                                expandIcon={<ArrowDown2 size='16px' />}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                                sx={{ minHeight: '30px !important', height: '30px' }}
-                            >
-                                <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Email</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails
-                                sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
-                            >
-                                <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', }}>
-                                    <Typography sx={{ fontSize: '10px' }}>Save </Typography><TickCircle cursor='pointer' size='12px' />
-                                </Box>
-                            </AccordionDetails>
-                        </Accordion>
-                        <Accordion sx={{
-                            my: 1,
-                            width: '100%',
-                            bgcolor: 'secondary.bg',
-                            color: 'primary.text',
-                            border: '1px solid', borderColor: 'primary.gray',
-                            // border: 'none',
-                            '&:before': {
-                                bgcolor: 'transparent',
-                            },
-                            // boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.07)',
-                            boxShadow: 'none !important',
-                            borderRadius: '24px !important', fontSize: '14px'
-                        }}>
-                            <AccordionSummary
-                                expandIcon={<ArrowDown2 size='16px' />}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                                sx={{ minHeight: '30px !important', height: '30px' }}
-                            >
-                                <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Mbile Numbe</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails
-                                sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
-                            >
-                                <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', }}>
-                                    <Typography sx={{ fontSize: '10px' }}>Save </Typography><TickCircle cursor='pointer' size='12px' />
-                                </Box>
-                            </AccordionDetails>
-                        </Accordion>
-                    </>
-                    :
-                    <>
-                        <Box sx={{
+            {editProfile ?
+                <>
+                    <Box
+                        sx={{
                             color: 'primary.text', display: 'flex', justifyContent: 'space-between',
                             width: '100%', alignItems: 'center', mb: '15px'
                         }}>
-                            <div style={{ display: 'flex', alignItems: 'center', }}>
-                                <Face sx={{ fontSize: '50px' }} /> &nbsp;
-                                {shorten(username)}
-                            </div>
-                            <Setting2 size='25px' cursor='pointer' onClick={() => setEditProfile(true)} />
-                        </Box>
-                        <Accordion sx={{
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            Edit Profile
+                        </div>
+                        <Close sx={{ fontSize: '25px' }} cursor='pointer' onClick={() => setEditProfile(false)} />
+                    </Box>
+                    <Accordion
+                        sx={{
+                            my: 1,
                             width: '100%',
                             bgcolor: 'secondary.bg',
                             color: 'primary.text',
@@ -451,99 +226,321 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
                             boxShadow: 'none !important',
                             borderRadius: '24px !important', fontSize: '14px'
                         }}>
-                            <AccordionSummary
-                                expandIcon={<ArrowDown2 size='16px' />}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                                sx={{ minHeight: '30px !important', height: '30px' }}
-                            >
-                                <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Progressive</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails
-                                sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
-                            >
-                                <FlexRow>
-                                    <Typography sx={{ fontSize: '12px' }}>Bio</Typography>
-                                    {globalUser.bio ?
-                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
-                                        : <Timer color="pink" size='14px' />
-                                    }
-                                </FlexRow>
-                                <FlexRow>
-                                    <Typography sx={{ fontSize: '12px' }}>YouWho Wallet</Typography>
-                                    {globalUser.YouWhoID ?
-                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
-                                        : <Timer color="pink" size='14px' />
-                                    }
-                                </FlexRow>
-                                <FlexRow>
-                                    <Typography sx={{ fontSize: '12px' }}>Social Links</Typography>
-                                    {globalUser.socials ?
-                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
-                                        : <Timer color="pink" size='14px' />
-                                    }
-                                </FlexRow>
-                                <FlexRow>
-                                    <Typography sx={{ fontSize: '12px' }}>Email</Typography>
-                                    {globalUser.mail ?
-                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
-                                        : <Timer color="pink" size='14px' />
-                                    }
-                                </FlexRow>
-                                <FlexRow>
-                                    <Typography sx={{ fontSize: '12px' }}>Mail Varification</Typography>
-                                    {globalUser.isMailVerified ?
-                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
-                                        : <Timer color="pink" size='14px' />
-                                    }
-                                </FlexRow>
-                                <FlexRow>
-                                    <Typography sx={{ fontSize: '12px' }}>Phone Varification</Typography>
-                                    {globalUser.isPhoneVerified ?
-                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
-                                        : <Timer color="pink" size='14px' />
-                                    }
-                                </FlexRow>
-                                <FlexRow>
-                                    <Typography sx={{ fontSize: '12px' }}>Invite Friends</Typography>
-                                    {globalUser.friends ?
-                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
-                                        : <Timer color="pink" size='14px' />
-                                    }
-                                </FlexRow>
-                                <FlexRow>
-                                    <Typography sx={{ fontSize: '12px' }}>Profile Image</Typography>
-                                    {globalUser.avatar ?
-                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
-                                        : <Timer color="pink" size='14px' />
-                                    }
-                                </FlexRow>
-                                <FlexRow>
-                                    <Typography sx={{ fontSize: '12px' }}>First Mint</Typography>
-                                    {globalUser.mint ?
-                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
-                                        : <Timer color="pink" size='14px' />
-                                    }
-                                </FlexRow>
-                                <FlexRow>
-                                    <Typography sx={{ fontSize: '12px' }}>First Buy</Typography>
-                                    {globalUser.buy ?
-                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
-                                        : <Timer color="pink" size='14px' />
-                                    }
-                                </FlexRow>
-                                <FlexRow>
-                                    <Typography sx={{ fontSize: '12px' }}>First Sell</Typography>
-                                    {globalUser.sell ?
-                                        <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
-                                        : <Timer color="pink" size='14px' />
-                                    }
-                                </FlexRow>
-                            </AccordionDetails>
-                        </Accordion>
-                    </>}
-            </Box>
-
+                        <AccordionSummary
+                            expandIcon={<ArrowDown2 size='16px' />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                            sx={{ minHeight: '30px !important', height: '30px' }}
+                        >
+                            <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Image</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails
+                            sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
+                        >
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                                <input
+                                    type="file"
+                                    style={{ display: 'none' }}
+                                    id={"img"}
+                                    accept="image/*"
+                                    onChange={avatarChangeHandler}
+                                    ref={avatarFileInput}
+                                />
+                                <Typography sx={{ color: 'secondary.text', fontSize: '10px' }}>Set Profile Picture</Typography>
+                                <AvatarEdit
+                                    sx={{
+                                        cursor: 'pointer',
+                                        background: () => {
+                                            return (
+                                                selectedAvatar
+                                                    ? `url('${URL.createObjectURL(selectedAvatar)}') no-repeat center`
+                                                    : globalUser.avatar ? `url('${API_CONFIG.API_URL}/${globalUser.avatar}') no-repeat center` : '#846894'
+                                            )
+                                        },
+                                        backgroundSize: 'cover'
+                                    }}
+                                    onClick={() => avatarFileInput.current.click()}
+                                />
+                            </Box>
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                                <input
+                                    type="file"
+                                    style={{ display: 'none' }}
+                                    id={"img"}
+                                    accept="image/*"
+                                    onChange={bannerChangeHandler}
+                                    ref={bannerFileInput}
+                                />
+                                <Typography sx={{ color: 'secondary.text', fontSize: '10px' }}>Set Banner Picture</Typography>
+                                <BannerEdit
+                                    sx={{
+                                        cursor: 'pointer',
+                                        background: () => {
+                                            return (
+                                                selectedBanner
+                                                    ? `url('${URL.createObjectURL(selectedBanner)}') no-repeat center`
+                                                    : globalUser.banner ? `url('${API_CONFIG.API_URL}/${globalUser.banner}') no-repeat center` : '#846894'
+                                            )
+                                        },
+                                        backgroundSize: 'cover'
+                                    }}
+                                    onClick={() => bannerFileInput.current.click()}
+                                />
+                            </Box>
+                            <Box
+                                onClick={fileUploadHandler}
+                                sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', cursor: 'pointer' }}>
+                                <Typography
+                                    sx={{ fontSize: '10px' }}
+                                >Save </Typography><TickCircle cursor='pointer' size='12px' />
+                            </Box>
+                        </AccordionDetails>
+                    </Accordion>
+                    <Accordion sx={{
+                        my: 1,
+                        width: '100%',
+                        bgcolor: 'secondary.bg',
+                        color: 'primary.text',
+                        border: '1px solid', borderColor: 'primary.gray',
+                        // border: 'none',
+                        '&:before': {
+                            bgcolor: 'transparent',
+                        },
+                        // boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.07)',
+                        boxShadow: 'none !important',
+                        borderRadius: '24px !important', fontSize: '14px'
+                    }}>
+                        <AccordionSummary
+                            expandIcon={<ArrowDown2 size='16px' />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                            sx={{ minHeight: '30px !important', height: '30px' }}
+                        >
+                            <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Bio</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails
+                            sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
+                        >
+                            <TextField value={bio} onChange={e => setBio(e.target.value)} placeholder={globalUser.bio ? globalUser.bio : 'please write a few lines about your self'} multiline inputProps={{ style: { fontSize: 12 } }} />
+                            <Box
+                                onClick={updateBio}
+                                sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', cursor: 'pointer' }}>
+                                <Typography
+                                    sx={{ fontSize: '10px' }}
+                                >
+                                    Save</Typography>
+                                <TickCircle cursor='pointer' size='12px' />
+                            </Box>
+                        </AccordionDetails>
+                    </Accordion>
+                    <Accordion sx={{
+                        my: 1,
+                        width: '100%',
+                        bgcolor: 'secondary.bg',
+                        color: 'primary.text',
+                        border: '1px solid', borderColor: 'primary.gray',
+                        // border: 'none',
+                        '&:before': {
+                            bgcolor: 'transparent',
+                        },
+                        // boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.07)',
+                        boxShadow: 'none !important',
+                        borderRadius: '24px !important', fontSize: '14px'
+                    }}>
+                        <AccordionSummary
+                            expandIcon={<ArrowDown2 size='16px' />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                            sx={{ minHeight: '30px !important', height: '30px' }}
+                        >
+                            <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Social Media</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails
+                            sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
+                        >
+                            <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', }}>
+                                <Typography sx={{ fontSize: '10px' }}>Save </Typography><TickCircle cursor='pointer' size='12px' />
+                            </Box>
+                        </AccordionDetails>
+                    </Accordion>
+                    <Accordion sx={{
+                        my: 1,
+                        width: '100%',
+                        bgcolor: 'secondary.bg',
+                        color: 'primary.text',
+                        border: '1px solid', borderColor: 'primary.gray',
+                        // border: 'none',
+                        '&:before': {
+                            bgcolor: 'transparent',
+                        },
+                        // boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.07)',
+                        boxShadow: 'none !important',
+                        borderRadius: '24px !important', fontSize: '14px'
+                    }}>
+                        <AccordionSummary
+                            expandIcon={<ArrowDown2 size='16px' />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                            sx={{ minHeight: '30px !important', height: '30px' }}
+                        >
+                            <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Email</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails
+                            sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
+                        >
+                            <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', }}>
+                                <Typography sx={{ fontSize: '10px' }}>Save </Typography><TickCircle cursor='pointer' size='12px' />
+                            </Box>
+                        </AccordionDetails>
+                    </Accordion>
+                    <Accordion sx={{
+                        my: 1,
+                        width: '100%',
+                        bgcolor: 'secondary.bg',
+                        color: 'primary.text',
+                        border: '1px solid', borderColor: 'primary.gray',
+                        // border: 'none',
+                        '&:before': {
+                            bgcolor: 'transparent',
+                        },
+                        // boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.07)',
+                        boxShadow: 'none !important',
+                        borderRadius: '24px !important', fontSize: '14px'
+                    }}>
+                        <AccordionSummary
+                            expandIcon={<ArrowDown2 size='16px' />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                            sx={{ minHeight: '30px !important', height: '30px' }}
+                        >
+                            <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Mbile Numbe</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails
+                            sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
+                        >
+                            <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', }}>
+                                <Typography sx={{ fontSize: '10px' }}>Save </Typography><TickCircle cursor='pointer' size='12px' />
+                            </Box>
+                        </AccordionDetails>
+                    </Accordion>
+                </>
+                :
+                <>
+                    <Box sx={{
+                        color: 'primary.text', display: 'flex', justifyContent: 'space-between',
+                        width: '100%', alignItems: 'center', mb: '15px'
+                    }}>
+                        <div style={{ display: 'flex', alignItems: 'center', }}>
+                            <Face sx={{ fontSize: '50px' }} /> &nbsp;
+                            {shorten(username)}
+                        </div>
+                        <Setting2 size='25px' cursor='pointer' onClick={() => setEditProfile(true)} />
+                    </Box>
+                    <Accordion sx={{
+                        width: '100%',
+                        bgcolor: 'secondary.bg',
+                        color: 'primary.text',
+                        border: '1px solid', borderColor: 'primary.gray',
+                        // border: 'none',
+                        '&:before': {
+                            bgcolor: 'transparent',
+                        },
+                        // boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.07)',
+                        boxShadow: 'none !important',
+                        borderRadius: '24px !important', fontSize: '14px'
+                    }}>
+                        <AccordionSummary
+                            expandIcon={<ArrowDown2 size='16px' />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                            sx={{ minHeight: '30px !important', height: '30px' }}
+                        >
+                            <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Progressive</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails
+                            sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
+                        >
+                            <FlexRow>
+                                <Typography sx={{ fontSize: '12px' }}>Bio</Typography>
+                                {globalUser.bio ?
+                                    <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
+                                    : <Timer color="pink" size='14px' />
+                                }
+                            </FlexRow>
+                            <FlexRow>
+                                <Typography sx={{ fontSize: '12px' }}>YouWho Wallet</Typography>
+                                {globalUser.YouWhoID ?
+                                    <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
+                                    : <Timer color="pink" size='14px' />
+                                }
+                            </FlexRow>
+                            <FlexRow>
+                                <Typography sx={{ fontSize: '12px' }}>Social Links</Typography>
+                                {globalUser.socials ?
+                                    <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
+                                    : <Timer color="pink" size='14px' />
+                                }
+                            </FlexRow>
+                            <FlexRow>
+                                <Typography sx={{ fontSize: '12px' }}>Email</Typography>
+                                {globalUser.mail ?
+                                    <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
+                                    : <Timer color="pink" size='14px' />
+                                }
+                            </FlexRow>
+                            <FlexRow>
+                                <Typography sx={{ fontSize: '12px' }}>Mail Varification</Typography>
+                                {globalUser.isMailVerified ?
+                                    <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
+                                    : <Timer color="pink" size='14px' />
+                                }
+                            </FlexRow>
+                            <FlexRow>
+                                <Typography sx={{ fontSize: '12px' }}>Phone Varification</Typography>
+                                {globalUser.isPhoneVerified ?
+                                    <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
+                                    : <Timer color="pink" size='14px' />
+                                }
+                            </FlexRow>
+                            <FlexRow>
+                                <Typography sx={{ fontSize: '12px' }}>Invite Friends</Typography>
+                                {globalUser.friends ?
+                                    <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
+                                    : <Timer color="pink" size='14px' />
+                                }
+                            </FlexRow>
+                            <FlexRow>
+                                <Typography sx={{ fontSize: '12px' }}>Profile Image</Typography>
+                                {globalUser.avatar ?
+                                    <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
+                                    : <Timer color="pink" size='14px' />
+                                }
+                            </FlexRow>
+                            <FlexRow>
+                                <Typography sx={{ fontSize: '12px' }}>First Mint</Typography>
+                                {globalUser.mint ?
+                                    <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
+                                    : <Timer color="pink" size='14px' />
+                                }
+                            </FlexRow>
+                            <FlexRow>
+                                <Typography sx={{ fontSize: '12px' }}>First Buy</Typography>
+                                {globalUser.buy ?
+                                    <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
+                                    : <Timer color="pink" size='14px' />
+                                }
+                            </FlexRow>
+                            <FlexRow>
+                                <Typography sx={{ fontSize: '12px' }}>First Sell</Typography>
+                                {globalUser.sell ?
+                                    <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
+                                    : <Timer color="pink" size='14px' />
+                                }
+                            </FlexRow>
+                        </AccordionDetails>
+                    </Accordion>
+                </>
+            }
         </Bar>
     );
 }

@@ -72,7 +72,8 @@ const SelectInputs = styled(Box)(({ theme }) => ({
 const Inputt = styled(Box)(({ theme }) => ({
     boxSizing: 'border-box',
     height: '52px',
-    padding: '12px 15px', borderRadius: '12px',
+    // padding: '12px 15px',
+    borderRadius: '12px',
     color: theme.palette.primary.text, display: 'flex', justifyContent: 'space-between', alignItems: 'center'
 }))
 const SelectInputt = styled(Box)(({ theme }) => ({
@@ -130,7 +131,8 @@ const TabComp = styled(Box)(({ theme }) => ({
 
     },
     '&:hover': {
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: theme.palette.secondary.middle,
+        boxShadow: theme.palette.primary.boxShadow,
         color: 'white',
     },
     "@media (max-width: 600px)": {
@@ -383,20 +385,21 @@ export const SelectInput = ({ icon, textColor,
 
 }
 export const MyInput = ({ icon, textColor,
-    labelColor, py, id, label, width, onChange,
-    borderColor, type, extraIcon, value, placeholder, mb }) => {
+    labelColor, id, label, width, onChange, bgcolor,
+    borderColor, type, extraIcon, value, placeholder, mb, p }) => {
     return (
         <Inputt sx={{
             width: width ? width : '200px', border: '1px solid',
             mb: mb ? mb : undefined,
-            borderColor: borderColor ? borderColor : '#DEDEDE'
+            borderColor: borderColor ? borderColor : '#DEDEDE',
+            bgcolor: bgcolor ? bgcolor : 'transparent', padding: p ? p : '12px 15px'
         }}>
             <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', }}>
-                <Box sx={{
+                {icon ? <Box sx={{
                     mr: '10px', height: '27px', width: '27px', display: 'flex', alignItems: 'center', justifyContent: 'center'
                 }}>
-                    {icon ? icon : undefined}
-                </Box>
+                    {icon}
+                </Box> : undefined}
                 <TextField
                     autoFocus={true}
                     type={type}
@@ -409,13 +412,13 @@ export const MyInput = ({ icon, textColor,
                         sx: {
                             display: 'flex', alignItems: 'center',
                             // my: '5px !important',
-                            color: 'primary.gray', width: '100%', fontSize: '12px',
+                            color: textColor ? textColor : 'primary.gray', width: '100%', fontSize: '12px',
                             //  margin: '0 !important',
                             "&:-webkit-autofill": {
                                 webkitboxshadow: "none !important", backgroundColor: 'transparent !important'
                             },
                             [`&.${inputBaseClasses.input}`]: {
-                                padding: '0 !important', color: 'primary.gray'
+                                padding: '0 !important', color: textColor ? textColor : 'primary.gray',
                             }
                             // .MuiInputBase-input-MuiInput-input
                         }
@@ -424,10 +427,11 @@ export const MyInput = ({ icon, textColor,
                         sx: {
                             top: '-7px !important',
                             fontSize: '12px',
-                            color: 'primary.text', [`&.${inputLabelClasses.shrink}`]: {
+                            color: labelColor ? labelColor : 'primary.text',
+                            [`&.${inputLabelClasses.shrink}`]: {
                                 top: '5px !important',
                                 // set the color of the label when shrinked (usually when the TextField is focused)
-                                color: "primary.text",
+                                color: labelColor ? labelColor : 'primary.text',
                                 fontSize: '12px',
                             }
                         }

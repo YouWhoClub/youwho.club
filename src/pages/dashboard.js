@@ -42,8 +42,8 @@ const YID = styled('div')(({ theme }) => ({
     },
 }))
 const ShowPanel = styled(Box)(({ theme }) => ({
-    marginTop: '30px',
-    marginBottom: '20px',
+    // marginTop: '30px',
+    // marginBottom: '20px',
     display: 'flex',
     justifyContent: 'space-between',
 
@@ -111,38 +111,40 @@ const Dashboard = ({ switchTheme, theme }) => {
 
     return (
         <PanelLayout switchTheme={switchTheme} theme={theme} id={"scrollable-profile-panel"}>
-            <Box sx={{
-                width: { xs: 'calc(100% - 30px)', sm: 'calc(100% - 80px)' },
-                pr: { xs: 'none', sm: '15px', md: '30px' },
-                pl: { xs: 'none', sm: '90px' },
+            {/* <Box sx={{
+                width: { xs: '100%', sm: 'calc(100% - 80px)' },
+                // pr: { xs: 'none', sm: '15px', md: '30px' },
+                pl: { xs: 'none', sm: '80px' },
                 display: 'flex',
                 // boxSizing:'border-box'
-            }}>
-                <Box
-                    id="dash"
-                    sx={{
-                        // px: { xs: 'none', md: 1 },
-                        // mr: { xs: 'none', md: '30px' },
-                        display: 'flex',
-                        flexDirection: 'column',
-                        width: '100%',
-                        // gap: '30px',
-                        mt: 1, height: 'auto'
-                    }}>
-                    {globalUser.isLoggedIn ?
-                        <>
-                            <ProfileCard username={globalUser.username} YouWhoID={globalUser.YouWhoID} />
-                            <ShowPanel sx={{ flexDirection: { xs: 'column', md: 'row' }, gap: '30px' }}>
-                                {/* <Selection width={'200px'} tabs={['zadtan', 'zadtann', 'zadtannn', 'zadtannnn']} handleSelect={handleSelect} selectValue={selectValue} /> */}
-                                <DashBar username={globalUser.username} />
-                                <ProfilePanel />
-                            </ShowPanel>
-                        </>
-                        :
-                        <>you are not logged in </>}
-                </Box>
-                <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick pauseOnFocusLoss pauseOnHover />
+            }}> */}
+            <Box
+                id="dash"
+                sx={{
+                    ml: { xs: 'none', sm: '80px' },
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: '100%',
+                    height: 'calc(100vh - 55px)',
+                    gap: { xs: '22px', md: '30px' },
+                    boxSizing: 'border-box', padding: '20px 15px 40px'
+                }}>
+                {globalUser.isLoggedIn ?
+                    <>
+                        <ProfileCard username={globalUser.username} YouWhoID={globalUser.YouWhoID} />
+                        <ShowPanel sx={{
+                            flexDirection: { xs: 'column', md: 'row' }, gap: { xs: '22px', md: '30px' },
+                        }}>
+                            {/* <Selection width={'200px'} tabs={['zadtan', 'zadtann', 'zadtannn', 'zadtannnn']} handleSelect={handleSelect} selectValue={selectValue} /> */}
+                            <DashBar username={globalUser.username} />
+                            <ProfilePanel />
+                        </ShowPanel>
+                    </>
+                    :
+                    <>you are not logged in </>}
             </Box>
+            <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick pauseOnFocusLoss pauseOnHover />
+            {/* </Box> */}
         </PanelLayout >
     );
 

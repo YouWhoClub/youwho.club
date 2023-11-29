@@ -9,7 +9,7 @@ import RelationsTab from "./relationsTab";
 import ReactionsTab from "./reactionsTab";
 const Panel = styled(Box)(({ theme }) => ({
     color: theme.palette.primary.text,
-    transition: '500ms ease',
+    transition: '500ms ease', boxSizing: 'border-box',
     width: '100%',
     // borderRadius: '24px',
     display: 'flex', flexDirection: 'column', alignItems: 'center',
@@ -82,11 +82,19 @@ const ProfilePanel = () => {
             <ScrollablePanel id="scrollable-profile-panel-inside"
                 sx={{
                     height: {
-                        xs: 'calc(100vh - 400px)',
-                        md: 'calc(100vh - 300px)'
+                        xs: 'calc(100vh - 479px)',
+                        sm: 'calc(100vh - 494px)',
+                        md: 'calc(100vh - 308px)'
                     },
-                    pb: { xs: '50px', sm: '10px' },
-                    px: { xs: 1, sm: '22px' }
+                    // height:'100%',
+                    p: {
+                        xs: '4px 4px 40px',
+                        sm: '4px 4px 20px',
+                    },
+                    // p: '4px 4px 20px', 
+                    boxSizing: 'border-box'
+                    // pb: { xs: '50px', sm: '10px' },
+                    // px: { xs: 1, sm: '22px' }
                 }}>
                 {activeTab == 'create-tab' && <CreateNFT />}
                 {activeTab == 'private-gallery-tab' && <PrivateGallery />}

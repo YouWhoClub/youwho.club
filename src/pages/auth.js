@@ -69,8 +69,8 @@ const Progress = styled(Box)(({ theme }) => ({
 
 const Auth = () => {
     const [progress, setProgress] = useState('0%')
-    console.log(window.location.hash.replace('#', ''))
     const [authState, setAuthState] = useState(window.location.hash ? window.location.hash.replace('#', '') : 'signin')
+    const [alreadyEmail, setAlreadyEmail] = useState(window.location.search ? window.location.search.replace('?', '') : undefined)
 
     const handleSlide = (e) => {
         setAuthState(e.target.id)
@@ -80,7 +80,7 @@ const Auth = () => {
     return (
         <AuthLayout>
             <AuthBox>
-                <Slider sx={{ mb: '32px',  }}>
+                <Slider sx={{ mb: '32px', }}>
                     <ChangeSlide
                         id="signin"
                         sx={{
@@ -97,9 +97,9 @@ const Auth = () => {
                         Sign Up</ChangeSlide>
                 </Slider>
                 {authState == 'signin' ?
-                    <Login setProgress={setProgress} />
+                    <Login setProgress={setProgress} alreadyEmail={alreadyEmail}/>
                     :
-                    <SignUp setProgress={setProgress} />
+                    <SignUp setProgress={setProgress} alreadyEmail={alreadyEmail}/>
                 }
                 <ProgressBar>
                     <Progress sx={{ width: progress }} />

@@ -34,11 +34,11 @@ const Line = styled(Box)(({ theme }) => ({
     height: '1px',
     backgroundColor: 'rgba(17, 17, 19, 0.20)',
 }))
-const Signup = ({ progress, setProgress }) => {
+const Signup = ({ progress, setProgress, alreadyEmail }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const [state, setState] = useState('identifier')
-    const [identifier, setIdentifier] = useState(undefined)
+    const [identifier, setIdentifier] = useState(alreadyEmail ? alreadyEmail : undefined)
     const [password, setPassword] = useState(undefined)
     const [repeatPassword, setRepeatPassword] = useState(undefined)
     const [showPassword, setShowPassword] = useState(false)
@@ -183,8 +183,13 @@ const Signup = ({ progress, setProgress }) => {
                             </Box>
 
                         </LoginWithOthersBox>
-                        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', mb: '32px', textTransform: 'lowercase' }}>
-                            <Line /> or <Line />
+                        <Box sx={{
+                            color: 'primary.text',
+                            display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', mb: '32px', textTransform: 'lowercase'
+                        }}>
+                            <Line sx={{ mr: '4px' }} />
+                            or
+                            <Line sx={{ ml: '4px' }} />
                         </Box>
                         <form
                             style={{
@@ -272,7 +277,7 @@ const Signup = ({ progress, setProgress }) => {
                     </Box>
                 </Box>
                 :
-                <VerifyMail email={identifier} setProgress={setProgress} setState={setState}/>
+                <VerifyMail email={identifier} setProgress={setProgress} setState={setState} />
             }
         </>
 

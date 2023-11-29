@@ -17,7 +17,7 @@ const Wrapper = styled(Box)(({ theme }) => ({
 const WhatsSection = () => {
     return (
         <Box sx={{
-            backgroundSize: 'contain',
+            // backgroundSize: 'contain',
             backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundImage: BG_URL(PUBLIC_URL(`${bgDots}`)),
         }}>
             <Wrapper>

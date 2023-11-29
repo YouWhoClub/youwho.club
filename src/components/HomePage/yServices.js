@@ -58,7 +58,7 @@ const YWServices = ({ theme }) => {
                         gap: '50px',
                     }}>
                         <NavigateCardTwo
-                            link={'/transfer'} image={theme == 'light' ? transferImgDark : transferImgLight} title={'Gift NFT'} content={'gift your nft artworks to your beloved ones'} />
+                            link={'/transfer'} image={theme == 'light' ? transferImgDark : transferImgLight} title={'Gift NFT'} content={'gift your nft artworks to your beloved ones by minting them with in-app tokens'} />
                         <NavigateCardTwo link={'/main-gallery'} image={theme == 'light' ? marketImgDark : marketImgLight} title={'NFT Gallery'} content={'trade and advertise on your nfts from any marketplace'} />
                         <NavigateCardTwo link={'/wallet'} image={theme == 'light' ? walletImgDark : walletImgLight} title={'Wallet'} content={'make your YouWho wallet to use our unique features'} />
                     </Box>

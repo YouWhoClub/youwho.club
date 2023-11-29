@@ -27,7 +27,8 @@ const NotFound = ({ theme, switchTheme }) => {
         sx={{
           height: 'calc(100vh - 55px)', width: '100%',
           color: 'primary.text',
-          backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundImage: BG_URL(PUBLIC_URL(`${bgDots}`)),
+          // backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundImage: BG_URL(PUBLIC_URL(`${bgDots}`)),
           display: 'flex', justifyContent: 'center', alignItems: 'center', alignContent: 'center', flexDirection: "column"
         }}>
         The Page You Are Looking For Was Not Found
