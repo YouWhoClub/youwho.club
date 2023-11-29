@@ -253,7 +253,8 @@ export const ButtonInput = ({ icon, textColor,
         <Inputt sx={{
             width: width ? width : '200px', border: '1px solid',
             mb: mb ? mb : undefined,
-            borderColor: borderColor ? borderColor : '#DEDEDE'
+            borderColor: borderColor ? borderColor : '#DEDEDE',
+            p : '12px 15px'
         }}>
             <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', }}>
                 <Box sx={{
@@ -384,7 +385,7 @@ export const SelectInput = ({ icon, textColor,
     )
 
 }
-export const MyInput = ({ icon, textColor,
+export const MyInput = ({ icon, textColor, name,
     labelColor, id, label, width, onChange, bgcolor,
     borderColor, type, extraIcon, value, placeholder, mb, p }) => {
     return (
@@ -405,6 +406,7 @@ export const MyInput = ({ icon, textColor,
                     type={type}
                     autoComplete="off"
                     value={value}
+                    name={name}
                     InputProps={{
                         autoFocus: true,
                         disableUnderline: true,
