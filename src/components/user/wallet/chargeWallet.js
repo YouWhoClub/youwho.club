@@ -1,19 +1,18 @@
 import { Box, Typography, Select, MenuItem, InputLabel, FormControl, TextField } from "@mui/material";
 import { Pin, West } from "@mui/icons-material";
 import styled from "@emotion/styled";
-import { useReducer, useRef, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import PinIcon from '../../../assets/icons/pin.svg'
 import MoneyIcon from '../../../assets/icons/money.svg'
 import CoinsIcon from '../../../assets/icons/coins.svg'
 import { BG_URL, PUBLIC_URL } from "../../../utils/utils";
-import Web3 from 'web3';
 import { ToastContainer, toast } from 'react-toastify';
 import ButtonPurple from "../../buttons/buttonPurple";
 import { useSelector, useDispatch } from "react-redux";
 import { setPrivateKey } from "../../../redux/actions";
 import { API_CONFIG } from "../../../config";
-import { Buffer } from 'buffer';
 import { ButtonInput, MyInput, SelectInput } from '../../utils'
+import generateSignature from './../../../utils/signatureUtils';
 
 
 
@@ -58,10 +57,28 @@ const ChargeWallet = () => {
     const dispatch = useDispatch();
     const [currency, setCurrency] = useState(undefined)
     const [tokenAmount, setTokenAmount] = useState(1)
-    const [IRRValue, setIIRValue] = useState(5000)
+    const [IRRValue, setIRRValue] = useState(5000)
     const [USDValue, setUSDValue] = useState(0.01)
     const toastId = useRef(null);
     const [signer, setSigner] = useState(undefined)
+
+    useEffect(() => {
+        getTokenValue()
+    }, [tokenAmount])
+
+    const getTokenValue = async () => {
+        const request = await fetch(`${API_CONFIG.AUTH_API_URL}/get-token-value/${tokenAmount}`, {
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${globalUser.token}`,
+            },
+        });
+
+        const response = await request.json();
+
+        setUSDValue(response.data.usd / 10000000)
+        setIRRValue(response.data.irr / 10000000)
+    }
 
     const USDollar = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -90,18 +107,10 @@ const ChargeWallet = () => {
         dispatch(setPrivateKey(signer))
     }
 
-    // setting polygon-mainnet as web3.js provider
-
-    const provider = "https://polygon-mainnet.infura.io/v3/20f2a17bd46947669762f289a2a0c71c";
-    const web3Provider = new Web3.providers.HttpProvider(provider);
-    const web3 = new Web3(web3Provider);
-
     const handleChargeWallet = async (e) => {
         e.preventDefault()
 
         loading();
-
-        const privateKey = Buffer.from(globalUser.privateKey, 'hex');
 
         const data = {
             user_id: globalUser.userId,
@@ -109,24 +118,9 @@ const ChargeWallet = () => {
             tokens: Number(tokenAmount),
         }
 
-        const dataString = JSON.stringify(data);
-        const dataHash = web3.utils.keccak256(dataString);
+        const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
 
-        const signObject = web3.eth.accounts.sign(dataHash, privateKey);
-
-        const { signature } = signObject;
-
-        const requestData = {
-            ...data,
-            tx_signature: signature.replace('0x', ''),
-            hash_data: dataHash.replace('0x', ''),
-        };
-
-        console.log(JSON.stringify(requestData));
-
-        const publicKey = web3.eth.accounts.recover(dataHash, signature);
-        console.log(publicKey)
-
+        // sending the request
         let request = await fetch(`${API_CONFIG.AUTH_API_URL}/cid/wallet/stripe/charge`, {
             method: 'POST',
             body: JSON.stringify(requestData),
@@ -165,13 +159,13 @@ const ChargeWallet = () => {
                                 <SelectInput tabs={['Dollar, USA', 'Rial, Iran',]} label={'Currency'}
                                     handleSelect={handleCurrencyChange} value={currency} id="currency-selection"
                                     width={'100%'} icon={<Icon url={PinIcon} w={27} h={27} />} />
-                            </Box>
+                            </Box> 
                             <Box sx={{
                                 width: '100%', display: 'flex', flexDirection: 'row',
                                 alignItems: 'center', justifyContent: 'center', gap: '10px'
                             }}>
                                 <MyInput
-                                    value={currency == 'Dollar, USA' ? USDollar.format(tokenAmount * USDValue) : IRRial.format(tokenAmount * IRRValue)}
+                                    value={currency == 'Dollar, USA' ? USDollar.format(USDValue.toFixed(2)) : IRRial.format(IRRValue).split(".")[0]}
                                     label={`${currency == 'Dollar, USA' ? 'Dollars' : 'Rials'}`}
                                     width={'100%'}
                                     icon={<Icon url={MoneyIcon} w={27} h={27} />}
@@ -179,10 +173,11 @@ const ChargeWallet = () => {
                                 <West size='20px' />
                                 <MyInput
                                     value={tokenAmount}
-                                    onChange={(e) => setTokenAmount(e.target.value)}
+                                    onChange={(e) => setTokenAmount(Number(e.target.value))}
                                     label={'YouWho Token'}
                                     width={'100%'}
                                     icon={<Icon url={CoinsIcon} w={27} h={27} />}
+                                    type={'number'}
                                 />
                             </Box>
                         </Box>
