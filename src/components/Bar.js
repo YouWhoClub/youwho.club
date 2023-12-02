@@ -89,22 +89,29 @@ const Bar = () => {
             setOpenModal(true)
         }
     }
+    const handleProfileClick = () => {
+        if (globalUser.isPhoneVerified) {
+            navigate('/dashboard')
+        } else {
+            setOpenModal(true)
+        }
+    }
     function disconnect() {
         logOut()
     }
     return (
         <BarStyle sx={{
             flexDirection: { xs: 'row', sm: 'column' },
-            height: { xs: '50px', sm: '70vh', md: '50vh' },
+            height: { xs: '50px', sm: '400px', md: '500px' },
             width: {
                 xs: '100%', sm: '75px'
             },
             left: { xs: 'unset', sm: 0 },
-            bottom: { xs: 0, sm: '10%', md: '20%' },
+            bottom: { xs: 0, sm: '10%' },
             borderRadius: { xs: '30px 30px 0 0', sm: '0 30px 30px 0' },
         }}
         >
-            <IconHolder onClick={() => navigate('/dashboard')}
+            <IconHolder onClick={handleProfileClick}
                 sx={{
                     bgcolor: window.location.pathname == '/dashboard' ? 'primary.main' : 'transparent',
                     color: window.location.pathname == '/dashboard' ? 'white' : 'primary.text',

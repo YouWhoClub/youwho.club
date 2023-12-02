@@ -1,13 +1,12 @@
 import styled from "@emotion/styled";
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
-import CreateNFT from "./createNFT";
 import PrivateGallery from "./privateGallery";
 import PublicGallery from "./publicGallery";
 import { Tab, Tabs } from "../utils";
 import RelationsTab from "./relationsTab";
 import ReactionsTab from "./reactionsTab";
-import AssetsTab from "./assets";
+import OthersProfieAssetTab from "./assets";
 const Panel = styled(Box)(({ theme }) => ({
     color: theme.palette.primary.text,
     transition: '500ms ease', boxSizing: 'border-box',
@@ -55,10 +54,10 @@ const FlexColumn = styled(Box)(({ theme }) => ({
     alignItems: 'center',
 }))
 
-const ProfilePanel = () => {
+const ProfilePanel = ({ user }) => {
     const [activeTab, setActiveTab] = useState('create-tab')
     useEffect(() => {
-        let dashbar = window.document.getElementById('dash-bar')
+        let dashbar = window.document.getElementById('profile-bar')
 
         if (activeTab == "private-gallery-tab" || activeTab == "public-gallery-tab") {
             dashbar.classList.add("dashbarAfterScroll")
@@ -67,19 +66,16 @@ const ProfilePanel = () => {
         }
     }, [activeTab])
     return (
-        <Panel
-        // sx={{ py: { xs: 'unset', md: 1 }, px: { xs: 'unset', md: 2 } }}
-        >
+        <Panel>
             <Tabs
                 mb={'32px'}
                 jc={{ xs: 'center', md: 'center' }}
             >
-                <Tab id={"create-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Create Artwork'} selected={activeTab == 'create-tab'} />
                 <Tab id={"private-gallery-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Private Gallery'} selected={activeTab == 'private-gallery-tab'} />
                 <Tab id={"public-gallery-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Public Gallery'} selected={activeTab == 'public-gallery-tab'} />
                 <Tab id={"assets-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Assets'} selected={activeTab == 'assets-tab'} />
                 <Tab id={"relations-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Relations'} selected={activeTab == 'relations-tab'} />
-                <Tab id={"reactions-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Reactions'} selected={activeTab == 'reactions-tab'} />
+                {/* <Tab id={"reactions-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Reactions'} selected={activeTab == 'reactions-tab'} /> */}
             </Tabs>
             <ScrollablePanel id="scrollable-profile-panel-inside"
                 sx={{
@@ -88,22 +84,17 @@ const ProfilePanel = () => {
                         sm: activeTab == 'private-gallery-tab' || activeTab == 'public-gallery-tab' ? 'calc(100vh - 366px)' : 'calc(100vh - 494px)',
                         md: 'calc(100vh - 350px)'
                     },
-                    // height:'100%',
                     p: {
                         xs: '4px 4px 40px',
                         sm: '4px 4px 20px',
                     },
-                    // p: '4px 4px 20px', 
                     boxSizing: 'border-box'
-                    // pb: { xs: '50px', sm: '10px' },
-                    // px: { xs: 1, sm: '22px' }
                 }}>
-                {activeTab == 'create-tab' && <CreateNFT />}
-                {activeTab == 'private-gallery-tab' && <PrivateGallery />}
-                {activeTab == 'public-gallery-tab' && <PublicGallery />}
-                {activeTab == 'assets-tab' && <AssetsTab />}
-                {activeTab == 'relations-tab' && <RelationsTab />}
-                {activeTab == 'reactions-tab' && <ReactionsTab />}
+                {activeTab == 'assets-tab' && <OthersProfieAssetTab user={user} />}
+                {activeTab == 'private-gallery-tab' && <PrivateGallery user={user} />}
+                {activeTab == 'public-gallery-tab' && <PublicGallery user={user} />}
+                {activeTab == 'relations-tab' && <RelationsTab user={user} />}
+                {/* {activeTab == 'reactions-tab' && <ReactionsTab />} */}
             </ScrollablePanel>
         </Panel>
     );

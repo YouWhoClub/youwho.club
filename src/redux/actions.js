@@ -53,7 +53,6 @@ export const getUnclaimedDeposit = (token, cid) => {
                     'Authorization': `Bearer ${token}`,
                 }
             })
-            console.log(request)
             let response = await request.json()
 
             let unclaimedDeposit = []
@@ -69,7 +68,7 @@ export const getUnclaimedDeposit = (token, cid) => {
                     type: GET_UNCLAIMED_DEPOSITE,
                     payload: unclaimedDeposit
                 });
-                console.log(request)
+                // console.log(request)
             }
         };
     } catch (error) {

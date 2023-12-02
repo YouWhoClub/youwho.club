@@ -218,14 +218,15 @@ const Wallet = ({ privateKey }) => {
                     display: 'flex',
                     flexDirection: 'column', alignItems: 'center',
                     width: '100%',
-                    // gap: '30px',
-                    mt: 1, height: 'auto'
+                    gap: { xs: '22px', md: '50px' },
+                    boxSizing: 'border-box', padding: '20px 15px 40px',
+                    height: 'auto'
                 }}>
 
                 <Box
                     sx={(theme) => ({
-                        width: { xs: '100%', sm: '490px' },
-                        height: '250px',
+                        width: { xs: '100%', sm: 'max-content' },
+                        height: { xs: '250px', sm: '300px' },
                         backgroundImage: () => (globalUser.walletBackground && finalCard.background == 'custom') ? BG_URL(PUBLIC_URL(`${API_CONFIG.API_URL}/${globalUser.walletBackground}`)) : BG_URL(PUBLIC_URL(`${cardBackgroundImage}`)),
                         backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',
                         boxShadow: theme.palette.primary.boxShadow,
@@ -238,26 +239,42 @@ const Wallet = ({ privateKey }) => {
                     })}
                 >
                     <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', height: '45px', overflow: 'hidden' }}>
-                            <Box sx={{ width: '55px', height: '60px', mt: 1.5, ml: '-10px', backgroundImage: BG_URL(PUBLIC_URL(`./w-outline.svg`)), backgroundRepeat: 'no-repeat' }} />
+                        <Box sx={{ display: 'flex', alignItems: 'center', height: '45px', overflow: 'hidden', gap: { xs: '6px', sm: '12px' } }}>
+                            <Box sx={{
+                                width: '35px', height: '45px',
+                                backgroundImage: BG_URL(PUBLIC_URL(`./w-outline.svg`)), backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+                            }} />
                             <Box sx={{ width: '72px', height: '16px', backgroundImage: BG_URL(PUBLIC_URL(`./w-typography.svg`)), backgroundRepeat: 'no-repeat' }} />
                         </Box>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
                             <div>
-                                <ContentCopy size={25} sx={{ cursor: 'pointer' }}
+                                <ContentCopy
+                                    // size={25}
+                                    sx={{ cursor: 'pointer', fontSize: { xs: '18px', sm: '24px' } }}
                                     onClick={() => copyIdToClipBoard(globalUser.YouWhoID)} />
                             </div>
                             <div>
-                                <ShareOutlined size={25} sx={{ cursor: 'pointer' }} />
+                                <ShareOutlined
+                                    // size={25}
+                                    sx={{ cursor: 'pointer', fontSize: { xs: '18px', sm: '24px' } }} />
                             </div>
                             <div onClick={() => setOpenSetting(true)}>
-                                <SettingsOutlined size={25} sx={{ cursor: 'pointer' }} />
+                                <SettingsOutlined
+                                    // size={25}
+                                    sx={{ cursor: 'pointer', fontSize: { xs: '18px', sm: '24px' } }} />
                             </div>
                         </Box>
                     </Box>
-                    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '24px' }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', fontSize: "32px", px: 2 }}>
-                            <Box sx={{ width: '50px', height: '50px', mr: '16px', backgroundImage: BG_URL(PUBLIC_URL(`${Chip}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />
+                    <Box sx={{
+                        width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center',
+                        gap: '24px', px: '8px', boxSizing: 'border-box'
+                    }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', fontSize: "32px", }}>
+                            <Box sx={{
+                                width: '50px', height: '35px',
+                                mr: '16px',
+                                backgroundImage: BG_URL(PUBLIC_URL(`${Chip}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center'
+                            }} />
                             <Box sx={{
                                 backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center'
                                 , width: '35px', height: '35px', mr: '4px'
@@ -265,26 +282,12 @@ const Wallet = ({ privateKey }) => {
                             <span>
                                 {globalUser.balance}
                             </span>
-                            {/* {privateKey ? <>
-                                <div style={{ display: 'flex', alignItems: 'center', }}> your private key :
-                                    <span style={{
-                                        //  fontSize: '13px', color: '#BEA2C5', 
-                                        cursor: 'pointer'
-                                    }}
-                                        onClick={() => copyToClipBoard(privateKey)}>
-                                        {privateKey}
-                                    </span>
-                                    <TickSquare style={{ display: keyCopied ? 'block' : 'none', color: '#0Cb2B1' }} />
-                                </div>
-                                <span style={{ fontSize: '12px', color: '#BEA2C5', }}>
-                                    please save this key
-                                </span>
-                            </>
-                                :
-                                undefined} */}
                         </Box>
 
-                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', px: 2, gap: '6px' }}>
+                        <Box sx={{
+                            display: 'flex', flexDirection: 'column', alignItems: 'flex-start', flexWrap: "wrap",
+                            gap: '6px'
+                        }}>
                             <Typography onClick={() => copyIdToClipBoard(globalUser.YouWhoID)}
                                 sx={{
                                     width: '100%', fontSize: { xs: '14px', sm: '21px' }, fontStyle: 'normal', fontWeight: '400',
@@ -444,7 +447,7 @@ const Wallet = ({ privateKey }) => {
                                     xs: 'calc(100vh - 400px)',
                                     md: 'calc(100vh - 300px)'
                                 },
-                                pb: { xs: '50px', sm: '10px' },pt:1,
+                                pb: { xs: '50px', sm: '10px' }, pt: 1,
                                 px: { xs: 1, sm: '22px' }
                             }}>
                             {state == 'charge-wallet' && <ChargeWallet />}
