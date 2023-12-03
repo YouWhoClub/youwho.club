@@ -16,14 +16,16 @@ const WalletPage = ({ switchTheme, theme }) => {
     const navigate = useNavigate()
     const [privateKey, setPrivateKey] = useState(undefined)
     const [openModal, setOpenModal] = useState(false)
+    // if phone verification is necessary ===>
+    // useEffect(() => {
+    //     if (globalUser.isLoggedIn) {
+    //         if (!globalUser.isPhoneVerified) {
+    //             setOpenModal(true)
+    //         }
+    //     }
+    // }, [globalUser.isLoggedIn, globalUser.YouWhoID, globalUser.isPhoneVerified])
 
-    useEffect(() => {
-        if (globalUser.isLoggedIn) {
-            if (!globalUser.isPhoneVerified) {
-                setOpenModal(true)
-            }
-        }
-    }, [globalUser.isLoggedIn, globalUser.YouWhoID, globalUser.isPhoneVerified])
+
     return (
         <PanelLayout switchTheme={switchTheme} theme={theme}>
             {!globalUser.isLoggedIn ?
@@ -41,12 +43,15 @@ const WalletPage = ({ switchTheme, theme }) => {
                     <ButtonOutline text={'start'} onClick={() => navigate('/auth')} />
                 </Box> :
                 <>
-                    {globalUser.isPhoneVerified ?
-                        <>{globalUser.YouWhoID ?
-                            <Wallet privateKey={privateKey} /> :
-                            <CreateWallet setPvKey={setPrivateKey} />
-                        }</>
-                        :
+                    {/* {globalUser.isPhoneVerified ? */}
+                    <>{globalUser.YouWhoID ?
+                        <Wallet privateKey={privateKey} /> :
+                        <CreateWallet setPvKey={setPrivateKey} />
+                    }</>
+
+                    {/* // if phone verification is necessary ===> */}
+
+                    {/* :
                         <>
                             <Box
                                 sx={{
@@ -64,14 +69,7 @@ const WalletPage = ({ switchTheme, theme }) => {
 
                             <VerifyPhoneModal openModal={openModal} setOpenModal={setOpenModal} />
                         </>
-                        // <Box sx={{
-                        //     width: { xs: '100%', sm: 'calc(100% - 80px)' },
-                        //     height: { xs: 'calc(100vh - 90px)', sm: '100%' },
-                        //     display: 'flex', justifyContent: 'center'
-                        // }}>
-                        //     <VerifyPhone />
-                        // </Box>
-                    }
+                    } */}
                 </>
             }
 

@@ -9,6 +9,7 @@ import { useEffect, useState } from "react"
 import ButtonPurple from "./buttons/buttonPurple"
 import { ArrowDown2, ArrowUp2 } from "iconsax-react"
 import ButtonPurpleLight from "./buttons/buttonPurpleLight"
+import ButtonOutline from "./buttons/buttonOutline"
 
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -725,6 +726,37 @@ export const RelationCard = ({
 
             </RelationCardComp>
         </ClickAwayListener >
+    )
+}
+export const FriendRequestCard = ({
+    image, username, date,
+    acceptRequest }) => {
+    const navigate = useNavigate()
+    return (
+        <RelationCardComp sx={{ gap: '16px' }}>
+            <FlexRow sx={{ gap: '16px' }}>
+                <Box sx={{
+                    backgroundImage: BG_URL(PUBLIC_URL(`${image}`)),
+                    backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+                    , width: '40px', height: '40px', borderRadius: '50%',
+                }}
+                />
+                <Typography sx={{ fontWeight: 500, color: 'primary.text' }}>
+                    {username}
+                </Typography>
+            </FlexRow>
+            <FlexRow sx={{ gap: '16px' }}>
+                <ButtonPurple br='4px'
+                    w={'max-content'}
+                    text={'Accept Request'}
+                    onClick={acceptRequest}
+                    height='30px' />
+                <ButtonOutline br='4px'
+                    text={'View Profile'}
+                    onClick={() => navigate(`/profile/${username}`)}
+                    height='30px' />
+            </FlexRow>
+        </RelationCardComp>
     )
 }
 export const ReactionCard = ({ active, passive, action, nftName, nftImage, username, date }) => {

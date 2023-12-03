@@ -24,7 +24,7 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
     // backgroundImage: "url('/w-outline-animated.svg')",
-    backgroundImage: "url('/YouWho-white.svg')",
+    backgroundImage: "url('/youwho-white.svg')",
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     width: '45px',
@@ -33,7 +33,7 @@ const YouWhoIcon = styled('div')(({ theme }) => ({
 const YouWhoIconPurple = styled('div')(({ theme }) => ({
     cursor: 'pointer',
     // backgroundImage: "url('/p-outline-animated.svg')",
-    backgroundImage: "url('/YouWho-purple.svg')",
+    backgroundImage: "url('/youwho-purple.svg')",
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     width: '45px',
@@ -41,7 +41,7 @@ const YouWhoIconPurple = styled('div')(({ theme }) => ({
 }))
 const YouWhoHugCoinPurple = styled('div')(({ theme }) => ({
     cursor: 'pointer',
-    backgroundImage: "url('/YouWho-hugcoin.svg')",
+    backgroundImage: "url('/youwho-hugcoin.svg')",
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     width: '50px',

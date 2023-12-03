@@ -79,13 +79,16 @@ const Dashboard = ({ switchTheme, theme }) => {
     };
     const [openModal, setOpenModal] = useState(false)
 
-    useEffect(() => {
-        if (globalUser.isLoggedIn) {
-            if (!globalUser.isPhoneVerified) {
-                setOpenModal(true)
-            }
-        }
-    }, [globalUser.isLoggedIn, globalUser.YouWhoID, globalUser.isPhoneVerified])
+
+    // if phone verification is necessary ===>
+
+    // useEffect(() => {
+    //     if (globalUser.isLoggedIn) {
+    //         if (!globalUser.isPhoneVerified) {
+    //             setOpenModal(true)
+    //         }
+    //     }
+    // }, [globalUser.isLoggedIn, globalUser.YouWhoID, globalUser.isPhoneVerified])
 
 
     const listenScrollEvent = e => {

@@ -5,7 +5,7 @@ import { Box } from "@mui/material";
 const Button = styled(Box)(({ theme }) => ({
     boxSizing: 'border-box',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
-    borderRadius: '12px',
+    // borderRadius: '12px',
     outline: 'none',
     cursor: 'pointer',
     textTransform: 'capitalize',
@@ -28,7 +28,7 @@ const ButtonOutline = ({ onClick, text, w, px, disabled, icon, mt, height, prevI
                 height: height ? height : '40px',
                 mt: mt ? mt : undefined, fontSize: fontSize ? fontSize : '14px',
                 backgroundColor: disabled ? '#ccc' : 'secondary.bg',
-                width: w ? w : '100px', px: px ? px : 'unset',
+                width: w ? w : '100px', px: px ? px : 'unset', borderRadius: br ? br : '12px',
                 boxShadow: disabled ? theme.palette.primary.boxShadowInset : theme.palette.primary.boxShadow,
             })}>
             {prevIcon ? prevIcon : undefined}

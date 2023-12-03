@@ -72,6 +72,7 @@ const BarStyle = styled(Box)(({ theme }) => ({
 
 const Bar = () => {
     const globalUser = useSelector(state => state.userReducer)
+    console.log(globalUser.token)
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const logOut = () => dispatch(logOutUser());
@@ -82,19 +83,29 @@ const Bar = () => {
         setSelectValue(e.target.id)
     }
 
+
+    // if phone verification is necessary ===>
+
+    // const handleWalletClick = () => {
+    //     if (globalUser.isPhoneVerified) {
+    //         navigate('/wallet')
+    //     } else {
+    //         setOpenModal(true)
+    //     }
+    // }
+    // const handleProfileClick = () => {
+    //     if (globalUser.isPhoneVerified) {
+    //         navigate('/dashboard')
+    //     } else {
+    //         setOpenModal(true)
+    //     }
+    // }
+    // else ==>
     const handleWalletClick = () => {
-        if (globalUser.isPhoneVerified) {
-            navigate('/wallet')
-        } else {
-            setOpenModal(true)
-        }
+        navigate('/wallet')
     }
     const handleProfileClick = () => {
-        if (globalUser.isPhoneVerified) {
-            navigate('/dashboard')
-        } else {
-            setOpenModal(true)
-        }
+        navigate('/dashboard')
     }
     function disconnect() {
         logOut()
