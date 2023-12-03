@@ -11,7 +11,7 @@ const Card = styled(Box)(({ theme }) => ({
     // width: '200px', height: '175px',
     // width: '100%',
     padding: '7px 7px 14px 7px',
-    borderRadius: '16px',
+    borderRadius: '16px', boxSizing: 'border-box',
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'column',
@@ -54,16 +54,16 @@ const DetailsSection = styled(Box)(({ theme }) => ({
 
 const NFTCardLanding = ({ image }) => {
     return (
-        <Outter sx={{ py: '10px' }}>
+        <Outter sx={{ py: '5px' }}>
             <Card onClick={() => alert('WILL REDIRECT TO NFT PAGE')}>
                 <NFTImage style={{ backgroundImage: BG_URL(PUBLIC_URL(`${image}`)) }} />
                 <DetailsSection>
                     <FlexRow>
-                        <Typography sx={{ margin: 0,fontWeight:400,fontSize:'12px' }}>NFT name</Typography>
-                        <ShareSharp sx={{ color: "secondary.text", }}fontSize="18px" />
+                        <Typography sx={{ margin: 0, fontWeight: 400, fontSize: '12px' }}>NFT name</Typography>
+                        <ShareSharp sx={{ color: "secondary.text", }} fontSize="18px" />
                     </FlexRow>
                     <FlexRow>
-                        <Typography sx={{ margin: 0, color: 'primary.text',fontWeight:300,fontSize:'10px' }}>10$</Typography>
+                        <Typography sx={{ margin: 0, color: 'primary.text', fontWeight: 300, fontSize: '10px' }}>10$</Typography>
                     </FlexRow>
 
                 </DetailsSection>

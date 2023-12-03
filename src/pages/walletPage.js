@@ -27,17 +27,16 @@ const WalletPage = ({ switchTheme, theme }) => {
     return (
         <PanelLayout switchTheme={switchTheme} theme={theme}>
             {!globalUser.isLoggedIn ?
-                <Box 
-                sx={{
-                    height: 'calc(100vh - 55px)',
-                    bgcolor: 'primary.bg',
-                    display: 'flex', color: 'primary.text',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: { xs: '100%', sm: 'calc(100% - 80px)' },
-                }}
-                >
+                <Box
+                    sx={{
+                        ml: { xs: 'none', sm: '80px' },
+                        display: 'flex',
+                        flexDirection: 'column',
+                        width: '100%',
+                        height: 'calc(100vh - 55px)',
+                        gap: { xs: '22px', md: '30px' }, color: 'primary.text', justifyContent: 'center', alignItems: 'center',
+                        boxSizing: 'border-box', padding: '20px 15px 40px'
+                    }}>
                     <p> you are not logged in</p>
                     <ButtonOutline text={'start'} onClick={() => navigate('/auth')} />
                 </Box> :
@@ -49,15 +48,16 @@ const WalletPage = ({ switchTheme, theme }) => {
                         }</>
                         :
                         <>
-                            <Box sx={{
-                                height: 'calc(100vh - 55px)',
-                                bgcolor: 'primary.bg',
-                                display: 'flex', color: 'primary.text',
-                                flexDirection: 'column',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                width: { xs: '100%', sm: 'calc(100% - 80px)' },
-                            }}>
+                            <Box
+                                sx={{
+                                    ml: { xs: 'none', sm: '80px' }, color: 'primary.text', justifyContent: 'center', alignItems: 'center',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    width: '100%',
+                                    height: 'calc(100vh - 55px)',
+                                    gap: { xs: '22px', md: '30px' },
+                                    boxSizing: 'border-box', padding: '20px 15px 40px'
+                                }}>
                                 <p>to create a wallet , you have to verify your phone first</p>
                                 <ButtonOutline text={'start'} onClick={() => setOpenModal(true)} />
                             </Box>

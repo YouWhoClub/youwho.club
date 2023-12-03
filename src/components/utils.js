@@ -146,7 +146,7 @@ const SubTabsComp = styled(Box)(({ theme }) => ({
 const SubTabComp = styled(Box)(({ theme }) => ({
     cursor: 'pointer',
     borderRadius: '30px', fontSize: '12px', border: '1px solid', borderColor: theme.palette.primary.light,
-    padding: '5px 20px',
+    padding: '6px 22px',
     width: 'max-content',
     textAlign: 'center',
     display: 'flex', alignItems: 'center', backgroundColor: theme.palette.secondary.bg,
@@ -254,7 +254,7 @@ export const ButtonInput = ({ icon, textColor,
             width: width ? width : '200px', border: '1px solid',
             mb: mb ? mb : undefined,
             borderColor: borderColor ? borderColor : '#DEDEDE',
-            p : '12px 15px'
+            p: '12px 15px'
         }}>
             <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', }}>
                 <Box sx={{
@@ -581,7 +581,10 @@ export const BetweenTwoSelection = ({ selected, width, setOption, id, options, c
         </Box>
     </Box>)
 }
-export const RelationCard = ({ image, friend, username, allies, date }) => {
+export const RelationCard = ({
+    image, username, date,
+    friend, allies, menuItems,
+    shareClick, sendAllieRequest, removeAllie, sendFriendRequest, removeFriend }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -643,8 +646,30 @@ export const RelationCard = ({ image, friend, username, allies, date }) => {
                         boxShadow: localStorage.getItem('theme') == 'dark' ? '0px 0px 12px 1px rgba(227,209,231, 0.25)' : '0px 0px 10px 0px rgba(0, 0, 0, 0.25)',
                     }}
                 >
+                    {/* // if we wanter to give an array for meu items logic ==> */}
+                    {/* {menuItems.length > 0 ?
+                        <>
+                            {menuItems.map((mI, index) => (
+                                <MenuItem id={mI.id} sx={{
+                                    display: 'flex', alignItems: 'center', p: '16px 8px',
+                                    color: 'primary.text',
+                                    borderBottom: index == menuItems.length - 1 ? '1px solid' : 'none',
+                                    borderColor: 'primary.gray',
+                                    '&:hover': {
+                                        bgcolor: 'secondary.bgOp',
+                                    }
+                                }}
+                                    onClick={mI.onClick}
+                                >
+                                    {mI.text}
+                                </MenuItem>
+                            ))}
+                        </>
+                        :
+                        <></>
+                    } */}
                     <MenuItem id={'share'} sx={{
-                        display: 'flex', alignItems: 'center', pb: '12px',
+                        display: 'flex', alignItems: 'center', p: '16px 8px',
                         color: 'primary.text',
                         borderBottom: '1px solid',
                         borderColor: 'primary.gray',
@@ -652,61 +677,54 @@ export const RelationCard = ({ image, friend, username, allies, date }) => {
                             bgcolor: 'secondary.bgOp',
                         }
                     }}
-                    >
+                        onClick={shareClick}>
                         Share
                     </MenuItem>
                     {friend ?
                         <MenuItem id={'isfiends'} sx={{
-                            display: 'flex', alignItems: 'center', py: '12px',
+                            display: 'flex', alignItems: 'center', p: '16px 8px',
                             color: 'primary.text',
-                            borderBottom: '1px solid',
+                            borderBottom: allies ? '1px solid' : 'none',
                             borderColor: 'primary.gray',
                             '&:hover': {
                                 bgcolor: 'secondary.bgOp',
                             }
                         }}
+                            onClick={removeFriend}
                         >
                             Remove Friend
                         </MenuItem>
                         : <MenuItem id={'notisfiends'} sx={{
-                            display: 'flex', alignItems: 'center', py: '12px',
+                            display: 'flex', alignItems: 'center', p: '16px 8px',
                             color: 'primary.text',
-                            borderBottom: '1px solid',
+                            borderBottom: allies ? '1px solid' : 'none',
                             borderColor: 'primary.gray',
                             '&:hover': {
                                 bgcolor: 'secondary.bgOp',
                             }
                         }}
+                            onClick={sendFriendRequest}
                         >
-                            "Be My Friend" Request
+                            Be {username}'s Ally
                         </MenuItem>
                     }
                     {allies ?
                         <MenuItem id={'isallies'} sx={{
-                            display: 'flex', alignItems: 'center', pt: '12px',
+                            display: 'flex', alignItems: 'center', p: '16px 8px',
                             color: 'primary.text',
                             '&:hover': {
                                 bgcolor: 'secondary.bgOp',
                             }
                         }}
+                            onClick={removeAllie}
                         >
                             Remove From Allies
                         </MenuItem>
-                        : <MenuItem id={'isallies'} sx={{
-                            display: 'flex', alignItems: 'center', pt: '12px',
-                            color: 'primary.text',
-                            '&:hover': {
-                                bgcolor: 'secondary.bgOp',
-                            }
-                        }}
-                        >
-                            "Be My Allie" Invitation
-                        </MenuItem>
-                    }
+                        : undefined}
                 </Popper>
 
             </RelationCardComp>
-        </ClickAwayListener>
+        </ClickAwayListener >
     )
 }
 export const ReactionCard = ({ active, passive, action, nftName, nftImage, username, date }) => {

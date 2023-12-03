@@ -18,6 +18,7 @@ import Selection from "../components/selection";
 import ProfilePanel from "../components/dashboard/profilePanel";
 import { ToastContainer } from 'react-toastify';
 import '../index.css'
+import VerifyPhoneModal from "../components/user/auth/verifyPhoneModal.js";
 const Avatarr = styled(Box)(({ theme }) => ({
     width: '100px',
     height: '100px',
@@ -76,6 +77,16 @@ const Dashboard = ({ switchTheme, theme }) => {
             setIdCopied('Failed to copy!');
         }
     };
+    const [openModal, setOpenModal] = useState(false)
+
+    useEffect(() => {
+        if (globalUser.isLoggedIn) {
+            if (!globalUser.isPhoneVerified) {
+                setOpenModal(true)
+            }
+        }
+    }, [globalUser.isLoggedIn, globalUser.YouWhoID, globalUser.isPhoneVerified])
+
 
     const listenScrollEvent = e => {
         let card = window.document.getElementById('profile-card')
@@ -145,6 +156,8 @@ const Dashboard = ({ switchTheme, theme }) => {
             </Box>
             <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick pauseOnFocusLoss pauseOnHover />
             {/* </Box> */}
+            <VerifyPhoneModal openModal={openModal} setOpenModal={setOpenModal} />
+
         </PanelLayout >
     );
 

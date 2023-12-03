@@ -19,91 +19,22 @@ import { MyInput } from "../../utils";
 
 
 const AuthBox = styled(Box)(({ theme }) => ({
-    // backgroundColor: 'white',
     width: '350px',
     height: '480px',
     borderRadius: '30px',
-    // display: "flex",
+    boxSizing: 'border-box',
     flexDirection: "column",
-    padding: '30px',boxShadow:theme.palette.primary.boxShadow,
-    // margin: '100px auto 30px',
+    padding: '30px', boxShadow: theme.palette.primary.boxShadow,
     "@media (max-width: 900px)": {
     },
     "@media (max-width: 600px)": {
         width: '100%',
         margin: '0 auto',
         height: '100%',
-        padding: '0',
-        borderRadius: '0',
-        paddingTop: '170px',
-        paddingBottom: '40px',
+        // borderRadius: '0',
+        // paddingTop: '170px',
+        // paddingBottom: '40px',
     },
-}))
-const AuthScrollBox = styled(Box)(({ theme }) => ({
-    // width: '100%',
-    height: '100%',
-    display: "flex",
-    flexDirection: "column",
-    //-------
-    overflowY: 'scroll',
-    '&::-webkit-scrollbar': {
-        display: 'none',
-        width: '8px',
-        background: 'white',
-        border: '0.5px solid #846894',
-        borderRadius: '20px !important'
-    },
-    '&::-webkit-scrollbar-thumb': {
-        width: '8px',
-        height: '8px',
-        background: '#846894',
-        border: '0.5px solid #846894',
-        borderRadius: '20px !important'
-    },
-    '&::-webkit-scrollbar-button': {
-        width: '3px',
-        height: '3px',
-        background: '#846894',
-        border: '0.5px solid #C6BAC5',
-        borderRadius: '50% !important'
-
-    },
-    //-------
-
-    "@media (max-width: 900px)": {
-        // width: '550px',
-    },
-    "@media (max-width: 600px)": {
-        // width: '100%',
-        // margin: '0 auto',
-        // height: '100vh',
-        borderRadius: '0',
-        // paddingTop: '80px'
-    },
-}))
-const Inputt = styled('input')(({ theme }) => ({
-    width: '100%',
-    outline: 'none',
-    color: theme.palette.primary.gray,
-    borderColor: theme.palette.primary.gray,
-    cursor: 'pointer',
-    border: 'none',
-    // borderBottom: '1px solid',
-    '&:hover': {
-        borderColor: theme.palette.primary.main,
-    }
-}))
-const Inputtt = styled('div')(({ theme }) => ({
-    width: '100%',
-    display: 'flex',
-    color: theme.palette.primary.gray,
-    borderColor: theme.palette.primary.gray,
-    cursor: 'pointer',
-    border: 'none',
-    borderBottom: '1px solid',
-    '&:hover': {
-        borderColor: theme.palette.primary.main,
-    }
 }))
 
 const Title = styled('h4')(({ theme }) => ({
@@ -199,15 +130,16 @@ const CreateWallet = ({ switchTheme, setPvKey }) => {
     }
 
     return (
-        <Box sx={{
-            // height: 'calc(100vh - 55px)',
-            bgcolor: 'primary.bg',
-            // color: 'white',
-            display: "flex", alignItems: 'center', justifyContent: 'center', flexDirection: 'column',
-            width: { xs: '100%', sm: 'calc(100% - 80px)' },
-            height: { xs: 'calc(100vh - 90px)', sm: 'calc(100vh - 55px)' },
-
-        }}>
+        <Box
+            sx={{
+                ml: { xs: 'none', sm: '80px' }, color: 'primary.text', justifyContent: 'center', alignItems: 'center',
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
+                height: 'calc(100vh - 55px)',
+                gap: { xs: '22px', md: '30px' },
+                boxSizing: 'border-box', padding: '20px 15px 40px'
+            }}>
             {globalUser.isLoggedIn ?
                 <>{YouWhoID ?
                     <>{privateKeey ?
@@ -239,18 +171,20 @@ const CreateWallet = ({ switchTheme, setPvKey }) => {
                         </AuthBox>
                         :
                         <AuthBox>
-                            <div> your YouWho id :<span style={{ color: '#BEA2C5', cursor: 'pointer' }} onClick={() => { navigator.clipboard.writeText(YouWhoID) }}> {YouWhoID}</span></div>
+                            <div> your YouWho id :<span style={{ color: '#BEA2C5', cursor: 'pointer' }}
+                                onClick={() => { navigator.clipboard.writeText(YouWhoID) }}>
+                                {YouWhoID}
+                            </span></div>
                         </AuthBox>
                     }
                     </>
                     :
-
-
                     <AuthBox sx={{
                         bgcolor: { xs: 'primary.bg', sm: 'secondary.bgOp' },
                     }}>
                         <Box sx={{
-                            px: { xs: '20px', sm: 0 }, height: '100%', display: "flex",
+                            // px: { xs: '20px', sm: 0 },
+                            height: '100%', display: "flex",
                             flexDirection: "column", justifyContent: 'space-between',
                         }}>
                             <Box sx={{

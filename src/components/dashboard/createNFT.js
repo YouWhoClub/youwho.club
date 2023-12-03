@@ -834,7 +834,7 @@ const CreateNFT = () => {
                             Dear
                             <b>
                                 &nbsp;
-                                {globalUser.username}
+                                {globalUser.mail}
                                 &nbsp;
                             </b>
                             to create artworks, private or public galleries in youwho platform ,

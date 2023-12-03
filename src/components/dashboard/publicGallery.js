@@ -96,7 +96,7 @@ const PublicGallery = () => {
                             Dear
                             <b>
                                 &nbsp;
-                                {globalUser.username}
+                                {globalUser.mail}
                                 &nbsp;
                             </b>
                             to create private or public galleries in youwho platform , you must create a youwho wallet first

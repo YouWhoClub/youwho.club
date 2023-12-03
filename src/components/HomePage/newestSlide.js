@@ -28,7 +28,7 @@ const NewestSlide = () => {
     const globalUser = useSelector(state => state.userReducer)
 
     return (<Box sx={{
-        display: 'flex', justifyContent: 'center', flexDirection: 'column',
+        display: 'flex', justifyContent: 'center', alignItems: 'center',
     }}>
         <CustomSlider slidesCount={6}>
             <NFTCardLanding image={gheart} />

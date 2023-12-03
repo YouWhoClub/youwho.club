@@ -5,106 +5,97 @@ import {
     Box,
     //  List, ListItem, ListItemButton, ListItemIcon, ListItemText 
 } from "@mui/material";
-import { Gallery } from "iconsax-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Bar from "../components/Bar";
+import NavbarTransparent from "../components/NavbarTransparent";
+import PanelLayout from "../components/PanelLayout";
+import Selection from "../components/selection";
+import { ToastContainer } from 'react-toastify';
+import '../index.css'
+import ProfileCard from "../components/profile/ProfileCard.js";
+import ProfileBar from "../components/profile/ProfileBar.js";
+import ProfilePanel from "../components/profile/profilePanel.js";
 
-const Avatarr = styled(Box)(({ theme }) => ({
-    width: '100px',
-    height: '100px',
+const ShowPanel = styled(Box)(({ theme }) => ({
     display: 'flex',
-    justifyContent: 'center', alignItems: 'center',
-    color: theme.palette.primary.gray,
-    borderColor: theme.palette.primary.gray,
-    backgroundColor: theme.palette.primary.ultra,
-    cursor: 'pointer',
-    border: '0.5px solid',
-    borderRadius:'50%',
-    textTransform:"uppercase",
-    "@media (max-width: 900px)": {
-        width: '50px',
-        height: '50px',
-    },
+    justifyContent: 'space-between',
+
+
 }))
 
-
-const Profile = () => {
+const Profile = ({ switchTheme, theme, props }) => {
     const globalUser = useSelector(state => state.userReducer)
-    const [user, setUser] = useState({ YouWhoID: '0x938203j8s849020hdh38jd', username: 'username' })
-    const shortenName = (str) => {
-        if (str)
-            return str.length > 1 ? str.substring(0, 1) : str;
-        return 'undefined'
+    const [idCopied, setIdCopied] = useState(false)
+    const [selectValue, setSelectValue] = useState(undefined)
 
+    const username = window.location.pathname.replace('/profile/', '')
+    const user = {
+        username: username,
+        identifier: `${username}@youwho.co`,
+        cid: 'sdfffffffff',
+        YouWhoID: '0xkwd4nd'
     }
+
+    const listenScrollEvent = e => {
+        let card = window.document.getElementById('profile-card')
+        let pic = window.document.getElementById('profile-pic')
+        let dashbar = window.document.getElementById('profile-bar')
+        let insidePanel = window.document.getElementById('scrollable-profile-panel-inside')
+        let outsidePanel = window.document.getElementById('profile')
+        if (window.document.getElementById("scrollable-profile-panel-inside").scrollTop > 0 || window.document.getElementById("scrollable-profile-panel").scrollTop > 0) {
+            card.classList.add("profileBannerAfterScroll")
+            pic.classList.add("profilePicAfterScroll")
+            // dashbar.classList.add("dashbarAfterScroll")
+            // insidePanel.classList.add("insidePanelAfterScroll")
+            outsidePanel.classList.add("dashAfterScroll")
+        }
+        else if (window.document.getElementById("scrollable-profile-panel").scrollTop >= 0 && window.document.getElementById("scrollable-profile-panel-inside").scrollTop == 0) {
+            card.classList.remove("profileBannerAfterScroll")
+            pic.classList.remove("profilePicAfterScroll")
+            // dashbar.classList.remove("dashbarAfterScroll")
+            // insidePanel.classList.remove("insidePanelAfterScroll")
+            outsidePanel.classList.remove("dashAfterScroll")
+        }
+    }
+
+    useEffect(() => {
+        if (window.document.getElementById("scrollable-profile-panel") && window.document.getElementById("scrollable-profile-panel-inside")) {
+
+            window.document.getElementById("scrollable-profile-panel").addEventListener('scroll', listenScrollEvent)
+            window.document.getElementById("scrollable-profile-panel-inside").addEventListener('scroll', listenScrollEvent)
+        }
+    }, [window.document.getElementById("scrollable-profile-panel"), window.document.getElementById("scrollable-profile-panel-inside")])
+
+
+
     return (
-        <Box sx={{
-            height: 'calc(100vh - 150px)',
-            bgcolor: 'primary.dark',
-            pb: 5,
-            pt: '100px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column',
-            color: 'white'
-        }}>
-            {/* {globalUser.isLoggedIn ?
-                <> */}
-
-
-
-            <Avatarr>{shortenName(user.username)}</Avatarr>
-            <div>
-                ((  PROFILE DESIGNS ...  ))
-            </div>
-            {/* <List>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <Inbox />
-                                </ListItemIcon>
-                                <ListItemText primary="Inbox" />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <Gallery />
-                                </ListItemIcon>
-                                <ListItemText primary="Private Gallery" />
-                            </ListItemButton>
-                        </ListItem>
-                    </List> */}
-            {user.YouWhoID ?
-                <>
-                    <Link style={{ textDecoration: 'none', color: 'lightblue' }} to={`/gallery/user/${globalUser.YouWhoID}`}>Private Gallery</Link>
-                    <Link style={{ textDecoration: 'none', color: 'lightblue' }} to={`/gallery/user/${globalUser.YouWhoID}`}>Public Gallery</Link>
-                </> : undefined}
-            <p />
+        <PanelLayout switchTheme={switchTheme} theme={theme} id={"scrollable-profile-panel"}>
             <Box
+                id="profile"
                 sx={{
-                    cursor: 'pointer',
-                    color: 'primary.gray',
-                    '&:hover': {
-                        color: 'primary.main',
-                    },
-                    transition: '300ms ease'
-
+                    ml: { xs: 'none', sm: '80px' },
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: '100%',
+                    height: 'calc(100vh - 55px)',
+                    gap: { xs: '22px', md: '30px' },
+                    boxSizing: 'border-box', padding: '20px 15px 40px'
                 }}>
-                {user.YouWhoID ?
-                    <>YouWho id :{user.YouWhoID}</> :
-                    <>user does not have YouWho id</>
-                }
+                <ProfileCard user={user} YouWhoID={user.YouWhoID} />
+                <ShowPanel sx={{
+                    flexDirection: { xs: 'column', md: 'row' }, gap: { xs: '22px', md: '30px' },
+                }}>
+                    <ProfileBar username={username} />
+                    <ProfilePanel user={user} />
+                </ShowPanel>
             </Box>
-            {/* </>
-                :
-                <>you are not logged in </>
-            } */}
+            <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick pauseOnFocusLoss pauseOnHover />
 
-        </Box >
+        </PanelLayout >
     );
+
 }
 
 export default Profile;

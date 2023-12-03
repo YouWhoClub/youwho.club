@@ -122,11 +122,11 @@ export default function CustomSlider({ children, slidesCount, slidesCountTablet,
     };
     return (
         <>
-            <div className="">
+            {/* <div className=""> */}
                 <Slider className='p-0' {...settings}>
                     {children}
                 </Slider>
-            </div>
+            {/* </div> */}
         </>
     )
 

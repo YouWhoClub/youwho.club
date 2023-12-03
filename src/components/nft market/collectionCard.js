@@ -39,7 +39,9 @@ const Acc = styled(Box)(({ theme }) => ({
     borderRadius: '9px', width: '100%', height: '40px',
     alignItems: 'center', color: theme.palette.primary.gray,
     backgroundColor: theme.palette.secondary.bg,
-    boxShadow: theme.palette.primary.boxShadow, cursor: "pointer",
+    // boxShadow: theme.palette.primary.boxShadow,
+    fontWeight: 500,
+    cursor: "pointer",
 }))
 const NFTsColumn = styled(Box)(({ theme }) => ({
     // display: 'flex',
@@ -141,7 +143,7 @@ const CollectionCard = ({ image, name, likes, link, expanded, setExpandedId, id 
                             <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: { xs: '18px', sm: '20px' } }}>
                                 Collection Name
                             </Typography>
-                            <FlexRow sx={{ width: 'auto !important', }}>
+                            <FlexRow sx={{ width: 'max-content !important', ml: '8px' }}>
                                 <Heart size={'24px'} />&nbsp;
                                 <Typography sx={{ fontSize: { xs: '16px', sm: '18px' } }}>
                                     9
@@ -156,8 +158,10 @@ const CollectionCard = ({ image, name, likes, link, expanded, setExpandedId, id 
                                 <FlexRow>Royalties</FlexRow>
                                 <FlexColumn>Collection Description</FlexColumn>
                                 <FlexColumn>Metadata</FlexColumn>
-                            </CollectionDetails> : undefined}
-                        <Acc sx={{ fontWeight: 500 }} onClick={() => setColDetExpanded(!colDetExpanded)}>Collection Details &nbsp; {colDetExpanded ? <ArrowUp2 size='12px' /> : <ArrowDown2 size='12px' />}</Acc>
+                            </CollectionDetails>
+                            : undefined}
+                        <Acc sx={(theme) => ({ boxShadow: theme.palette.primary.boxShadow })}
+                            onClick={() => setColDetExpanded(!colDetExpanded)}>Collection Details &nbsp; {colDetExpanded ? <ArrowUp2 size='12px' /> : <ArrowDown2 size='12px' />}</Acc>
                     </Box>
                     {/* // image of nft ===> */}
                     <NFTImage
@@ -264,6 +268,12 @@ const CollectionCard = ({ image, name, likes, link, expanded, setExpandedId, id 
                         </FlexColumn>
 
                     </Box>
+
+                    <Acc sx={(theme) => ({ boxShadow: theme.palette.primary.boxShadowInset })}
+                        onClick={() => setExpandedId(undefined)}>
+                        Contract Collection &nbsp;
+                        <ArrowUp2 size='12px' />
+                    </Acc>
 
                 </Box>
             </Container>
