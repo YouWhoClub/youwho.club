@@ -66,11 +66,6 @@ const RelationsTab = ({ user }) => {
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
             {user.username}'s relation tab
-            {reqs.map((req, index) => (
-                <ButtonPurpleLight
-                    w={'100%'}
-                    onClick={() => acceptFriendRequest(req.cid, globalUser.YouWhoID)} text={'accept friend request'} />
-            ))}
         </Box>
     );
 }
