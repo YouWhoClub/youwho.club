@@ -46,15 +46,10 @@ const FlexColumn = styled(Box)(({ theme }) => ({
     alignItems: 'center',
 }))
 const NFTImage = styled(Box)(({ theme }) => ({
-    backgroundImage: BG_URL(PUBLIC_URL(`${nftImage}`)),
-    backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
-    , borderRadius: '12px',
-    width: '100%',
-    height: '200px',
-    // "@media (min-width: 1440px)": {
-    //     height: '250px',
-    //   },
-
+    backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',
+    borderRadius: '12px',
+    width:'100%',
+    cursor:'pointer'
 }))
 const Icon = styled(Box)(({ theme, url, w, h }) => ({
     width: `${w}px`,
@@ -72,16 +67,22 @@ const CreateNFT = () => {
     const [activeTab, setActiveTab] = useState('create-NFT')
     const globalUser = useSelector(state => state.userReducer)
     const dispatch = useDispatch();
+    const [galleryId, setGalleryId] = useState(null)
+    const [privateCollection, setPrivateCollection] = useState([])
     const [mediaType, setMediaType] = useState(undefined)
-    const [aspectRatio, setAspectRatio] = useState(undefined)
-    const [openCrop, setOpenCrop] = useState(false)
-    const [tokenAmount, setTokenAmount] = useState(undefined)
-    const [NFTName, setNFTName] = useState(null)
-    const [NFTDescription, setNFTDescription] = useState(null)
-    const [NFTCollection, setNFTCollection] = useState(null)
+    const [aspectRatio, setAspectRatio] = useState('16 : 9')
+    const [openColCrop, setOpenColCrop] = useState(false)
+    const [openNFTCrop, setOpenNFTCrop] = useState(false)
+    // const [tokenAmount, setTokenAmount] = useState(undefined)
+    // const [NFTName, setNFTName] = useState(null)
+    // const [NFTDescription, setNFTDescription] = useState(null)
+    // const [NFTCollection, setNFTCollection] = useState(null)
     const colImageInput = useRef()
     const [colImageFile, setColImageFile] = useState(null);
     const [colPhotoURL, setColPhotoURL] = useState(null);
+    const NFTImageInput = useRef()
+    const [NFTImageFile, setNFTImageFile] = useState(null);
+    const [NFTPhotoURL, setNFTPhotoURL] = useState(null);
     const toastId = useRef(null);
     const [signer, setSigner] = useState(undefined)
     const [collectionForm, setCollectionForm] = useState({
@@ -97,12 +98,38 @@ const CreateNFT = () => {
         royalties_address_screen_cid: "",
         extra: [],
     })
+    const [NFTForm, setNFTForm] = useState({
+        caller_cid: "",
+        amount: null,
+        contract_address: "",
+        current_owner_screen_cid: "",
+        nft_name: "",
+        nft_description: "",
+        current_price: null,
+        extra: [],
+        attributes: [],
+    })
 
 
     useEffect(() => {
         getGasFee()
         getPrivateGallery()
     }, [])
+
+    useEffect(() => {
+        if (galleryId){
+            getPrivateCollection()
+        }
+    }, [galleryId])
+
+    useEffect(() => {
+        setNFTForm(prev => ({
+            ...prev,
+            caller_cid: globalUser.cid,
+            current_owner_screen_cid: globalUser.YouWhoID,
+        }))
+
+    }, [globalUser.cid, globalUser.YouWhoID])
 
     const loading = () => {
         toastId.current = toast.loading("Please wait...")
@@ -124,7 +151,7 @@ const CreateNFT = () => {
     }
     const navigate = useNavigate()
 
-    const handleChange = (e) => {
+    const handleColFormChange = (e) => {
         if (e.target.type == 'number')
             setCollectionForm(prev => ({
                 ...prev,
@@ -142,7 +169,15 @@ const CreateNFT = () => {
         if (file) {
             setColImageFile(file);
             setColPhotoURL(URL.createObjectURL(file));
-            setOpenCrop(true);
+            setOpenColCrop(true);
+        }
+    };
+	const handleNFTImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setNFTImageFile(file);
+            setNFTPhotoURL(URL.createObjectURL(file));
+            setOpenNFTCrop(true);
         }
     };
 
@@ -150,7 +185,7 @@ const CreateNFT = () => {
         const { name, value } = e.target;
         const updatedMetadata = [...collectionForm.extra];
 
-        if (isNaN(value))
+        if (isNaN(value) || name !== 'value' )
             updatedMetadata[index] = { ...updatedMetadata[index], [name]: value };
         else
             updatedMetadata[index] = { ...updatedMetadata[index], [name]: Number(value) };
@@ -161,6 +196,36 @@ const CreateNFT = () => {
             extra: updatedMetadata,
         }));
     };
+    
+    const handleAttributesChange = (e, index) => {
+        const { name, value } = e.target;
+        const updatedAttributes = [...NFTForm.attributes];
+
+        if (isNaN(value) || name !== 'value' )
+            updatedAttributes[index] = { ...updatedAttributes[index], [name]: value };
+        else
+            updatedAttributes[index] = { ...updatedAttributes[index], [name]: Number(value) };
+
+
+        setNFTForm((prev) => ({
+            ...prev,
+            attributes: updatedAttributes,
+        }));
+    };
+
+    const handleNFTFormChange = (e) => {
+        if (e.target.type == 'number')
+            setNFTForm(prev => ({
+                ...prev,
+                [e.target.name]: Number(e.target.value)
+            }))
+        else
+            setNFTForm(prev => ({
+                ...prev,
+                [e.target.name]: e.target.value
+            }))
+    }
+
 
     const getGasFee = async () => {
         let request = await fetch(`${API_CONFIG.AUTH_API_URL}/get-gas-fee`, {
@@ -174,10 +239,12 @@ const CreateNFT = () => {
 
         if (!response.is_error) {
             setCollectionForm(prev => ({ ...prev, amount: response.data }))
+            setNFTForm(prev => ({ ...prev, amount: response.data }))
         } else {
             console.log(response.message)
         }
     }
+
     const getPrivateGallery = async () => {
         let request = await fetch(`${API_CONFIG.AUTH_API_URL}/gallery/get/all/?from=0&to=10`, {
             method: 'GET',
@@ -190,6 +257,24 @@ const CreateNFT = () => {
 
         if (!response.is_error) {
             setCollectionForm(prev => ({ ...prev, gallery_id: response.data[0].id }))
+            setGalleryId(response.data[0].id)
+        } else {
+            console.log(response.message)
+        }
+    }
+
+    const getPrivateCollection = async () => {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/collection/get/all/private/in-gallery/${galleryId}/?from=0&to=10`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+
+        if (!response.is_error) {
+            setPrivateCollection(response.data)
         } else {
             console.log(response.message)
         }
@@ -222,7 +307,101 @@ const CreateNFT = () => {
             let response = await request.json()
             console.log(response);
 
-            if (response.status === 200 || response.status === 201) {
+            if (!response.is_error) {
+                updateToast(true, response.message)
+            } else {
+                console.error(response.message)
+                updateToast(false, response.message)
+            }
+        } else {
+            updateToast(false, 'please save your private key first')
+        }
+    }
+
+    const createNFT = async () => {
+        loading();
+
+        if (globalUser.privateKey) {
+			let data = {}
+
+			if(NFTForm.extra.length == 0){
+				data = {...NFTForm, extra: null}
+			}else{
+				data = {...NFTForm, extra: JSON.stringify(NFTForm.extra)}
+			}
+
+            const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
+
+            // sending the request
+
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/create`, {
+                method: 'POST',
+                body: JSON.stringify(requestData),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            })
+            let response = await request.json()
+            console.log(response);
+
+            if (!response.is_error) {
+                updateToast(true, response.message)
+                createNFTMetadataUri(response.data)
+            } else {
+                console.error(response.message)
+                updateToast(false, response.message)
+            }
+        } else {
+            updateToast(false, 'please save your private key first')
+        }
+    }
+
+    const createNFTMetadataUri = async NFTObject => {
+        loading();
+
+        if (globalUser.privateKey) {
+
+            const myFile = new File([NFTImageFile], 'image.jpeg', {
+                type: NFTImageFile.type,
+            });
+
+            const formData = new FormData();
+            formData.append('img', myFile)
+
+			const keyValuePairs = [
+                ['caller_cid',globalUser.cid],
+                ['amount', NFTForm.amount],
+                ['nft_id',NFTObject.id],
+                ['nft_new_attributes',JSON.stringify(NFTObject.attributes)],
+                ['nft_new_extra',JSON.stringify(NFTObject.extra)],
+                ['nft_new_name',NFTObject.nft_name],
+                ['nft_new_description',NFTObject.nft_description],
+            ]
+
+            keyValuePairs.forEach(([key, value]) => {
+                formData.append(key, value);
+            });
+
+
+            const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, formData);
+
+            formData.append('tx_signature', requestData.tx_signature);
+            formData.append('hash_data', requestData.hash_data);
+
+            // sending the request
+
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/create/metadata-uri`, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            })
+            let response = await request.json()
+            console.log(response);
+
+            if (!response.is_error) {
                 updateToast(true, response.message)
             } else {
                 console.error(response.message)
@@ -265,16 +444,36 @@ const CreateNFT = () => {
                                             icon={<AddAPhotoOutlined sx={{ color: 'primary.light' }} />}
                                             button={<ButtonOutline
                                                 height='35px'
-                                                onClick={() => colImageInput.current.click()}
+                                                onClick={() => NFTImageInput.current.click()}
                                                 text={'Browse'}
                                                 br={'30px'} 
 												/>
                                             } />
+                                        <input
+                                        	accept="image/*"
+                                        	id="nftPhoto"
+                                        	type="file"
+                                        	style={{ display: 'none' }}
+                                        	onChange={handleNFTImageChange}
+                                        	ref={NFTImageInput}
+                                    	/>
                                         <SelectInput tabs={['16 : 9', '1:1',]} label={'Aspect Ratio'}
                                             handleSelect={(e) => setAspectRatio(e.target.id)} value={aspectRatio} id="nft-aspect-ratio-selection"
                                             width={'100%'} icon={<Icon url={frameIcon} w={27} h={27} />} />
                                     </FlexColumn>
-                                    <NFTImage sx={{}} />
+                                    <NFTImage 
+                                        onClick={() => NFTImageInput.current.click()}
+                                        sx={{
+                                        background: () => {
+                                            return (
+                                                NFTPhotoURL
+                                                    ? `url('${NFTPhotoURL}') no-repeat center`
+                                                    : `url('${nftImage}') no-repeat center`
+                                            )
+                                        },
+                                        aspectRatio: () => aspectRatio == '16 : 9' ? 16 / 9 : 1,
+                                        }} 
+                                    />
                                 </FlexRow>
                             </Container>
                             <Container >
@@ -288,32 +487,102 @@ const CreateNFT = () => {
                                 </FlexColumn>
                                 <FlexColumn sx={{ gap: '16px' }}>
                                     <FlexRow sx={{ flexDirection: { xs: 'column', sm: 'row' }, gap: '12px' }}>
-                                        <MyInput value={tokenAmount}
-                                            onChange={(e) => setTokenAmount(e.target.value)}
+                                        <MyInput 
+                                            value={NFTForm.current_price}
+                                            name={"current_price"}
+                                            onChange={handleNFTFormChange}
                                             label={'NFT Price'} width={'100%'}
-                                            icon={<Coin color="#BEA2C5" />} type={'number'} id={'nft-price'} />
-                                        <MyInput value={NFTName}
-                                            onChange={(e) => setNFTName(e.target.value)}
+                                            icon={<Coin color="#BEA2C5" />} type={'number'} id={'nft-price'} 
+                                        />
+                                        <MyInput 
+                                            value={NFTForm.nft_name}
+                                            name={"nft_name"}
+                                            onChange={handleNFTFormChange}
                                             label={'NFT Name*'} width={'100%'}
-                                            icon={<BrandingWatermark sx={{ color: "#BEA2C5" }} />} type={'string'} id={'nft-name'} />
+                                            icon={<BrandingWatermark sx={{ color: "#BEA2C5" }} />} type={'string'} id={'nft-name'} 
+                                        />
                                     </FlexRow>
-                                    <SelectInput tabs={['bla', 'blaa', 'blaaa']} label={'NFT Collection *'}
-                                        handleSelect={(e) => setNFTCollection(e.target.id)} value={NFTCollection}
+                                    <SelectInput tabs={privateCollection.map(col=>(col.col_name))} label={'NFT Collection *'}
+                                        handleSelect={(e) => setNFTForm(prev=>({...prev,contract_address:privateCollection.filter(col=>col.col_name == e.target.id)[0].contract_address}))} 
+                                        value={NFTForm.contract_address?privateCollection.filter(col=>col.contract_address == NFTForm.contract_address)[0].col_name:''}
                                         id="nft-collection-selection"
                                         width={'100%'} icon={<Icon url={CollIcon} w={27} h={27} />} />
-                                    <MyInput value={NFTDescription}
-                                        onChange={(e) => setNFTDescription(e.target.value)}
+                                    <MyInput 
+                                        value={NFTForm.nft_description}
+                                        name={"nft_description"}
+                                        onChange={handleNFTFormChange}
                                         label={'NFT Description*'} width={'100%'}
-                                        icon={<Description sx={{ color: "#BEA2C5" }} />} type={'string'} id={'nft-decription'} />
+                                        icon={<Description sx={{ color: "#BEA2C5" }} />} type={'string'} id={'nft-decription'}
+                                    />
+                                    <FlexRow sx={{ mb: '16px' }}>
+                                        <ButtonInput label={'Metadata Addition *'} width={'100%'}
+                                            icon={<AddBoxOutlined
+                                                sx={{ color: 'primary.light' }}
+                                            />
+                                            }
+                                            button={<Add sx={{ color: 'primary.gray' }}
+                                                onClick={() => setNFTForm((prev) => ({ ...prev, attributes: [...prev.attributes, { trait_type: "", value: "" }] }))}
+                                            />
+                                        } />
+                                    </FlexRow>
+                                    {
+                                        NFTForm.attributes.map((object, index) => {
+                                            return (<FlexRow key={index} sx={{ mb: '16px' }}>
+                                                <span>{index + 1}</span>
+                                                <MyInput name={'trait_type'} label={'Trait Type'} width={'40%'}
+                                                    onChange={(e) => handleAttributesChange(e, index)}
+                                                    value={object.trait_type}
+                                                />
+                                                <MyInput name={'value'} label={'Value'} width={'40%'}
+                                                    onChange={(e) => handleAttributesChange(e, index)}
+                                                    value={object.value}
+                                                />
+                                            </FlexRow>)
+                                        })
+                                    }
                                 </FlexColumn>
+                                <Modal
+                                open={openNFTCrop}
+                                onClose={() => setOpenNFTCrop(false)}
+                                aria-labelledby="modal-modal-title"
+                                aria-describedby="modal-modal-description"
+                                >
+                                    <Box sx={{
+                                        width: '100%',
+                                        height: '100%',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center'
+                                    }}>
+                                        <Box sx={{
+                                            borderRadius: '24px',
+                                            width: { xs: '100%', sm: '600px' }, height: { xs: '100%', sm: '600px' },
+                                            backgroundColor: 'secondary.bg',
+                                            display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between'
+                                        }}>
+                                            <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}>
+                                                <Typography>Crop</Typography>
+                                                <div onClick={() => {
+                                                    setOpenNFTCrop(false)
+                                                }}>
+                                                    <Close sx={{ cursor: 'pointer' }} />
+                                                </div>
+                                            </FlexRow>
+                                            <Crop imageURL={NFTPhotoURL} aspectRatio={aspectRatio == '16 : 9' ? 16/9 : 1} setOpenCrop={setOpenNFTCrop} setFile={setNFTImageFile} setPhotoURL={setNFTPhotoURL} />
+                                        </Box>
+                                    </Box>
+                                </Modal>
                             </Container>
                             <Box sx={{
                                 width: { xs: '100%', sm: '350px' }, mt: '32px', display: 'flex', justifyContent: 'center'
                             }}>
-                                <ButtonPurple text={'Create'} w={'100%'} />
+                                <ButtonPurple 
+                                    text={'Create'}
+                                    w={'100%'}
+                                    disabled={!Object.values(NFTForm).every(value => value !== null && value !== "") || !NFTForm.attributes.length}      
+                                    onClick={createNFT}
+                                />
                             </Box>
                         </>
-                        :
+                        : // ____________________________________________________________________
                         <>
                             <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
                                 NFT Contract Information
@@ -338,14 +607,14 @@ const CreateNFT = () => {
                                     </FlexRow>
                                     <FlexRow sx={{ mb: '12px' }}>
                                         <MyInput name={'col_name'} label={'Name *'} width={'100%'} icon={<TitleOutlined sx={{ color: 'primary.light' }} />}
-                                            onChange={handleChange}
+                                            onChange={handleColFormChange}
                                             value={collectionForm.col_name}
                                         />
                                         <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
                                     </FlexRow>
                                     <FlexRow sx={{ mb: '12px' }}>
                                         <MyInput name={'symbol'} label={'Symbol *'} width={'100%'} icon={<EmojiSymbols sx={{ color: 'primary.light' }} />}
-                                            onChange={handleChange}
+                                            onChange={handleColFormChange}
                                             value={collectionForm.symbol}
                                         />
                                         <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
@@ -401,7 +670,7 @@ const CreateNFT = () => {
                                     </FlexRow>
                                     <FlexRow sx={{ mb: '12px' }}>
                                         <MyInput name={'col_description'} label={'Description *'} width={'100%'} icon={<DescriptionOutlined sx={{ color: 'primary.light' }} />}
-                                            onChange={handleChange}
+                                            onChange={handleColFormChange}
                                             value={collectionForm.col_description}
                                         />
                                         <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
@@ -415,7 +684,7 @@ const CreateNFT = () => {
                                 <FlexColumn>
                                     <FlexRow sx={{ mb: '16px' }}>
                                         <MyInput name={'base_uri'} label={'Base URI *'} width={'100%'} icon={<LinkOutlined sx={{ color: 'primary.light' }} />}
-                                            onChange={handleChange}
+                                            onChange={handleColFormChange}
                                             value={collectionForm.base_uri}
                                         />
                                         <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
@@ -477,7 +746,7 @@ const CreateNFT = () => {
                                                 Owner Address : &nbsp;
                                             </Typography>
                                             <Input name="owner_cid" color="primary.gray" style={{ outline: "none", fontSize: '12px' }}
-                                                onChange={handleChange}
+                                                onChange={handleColFormChange}
                                                 value={collectionForm.owner_cid}
                                             />
                                         </Box>
@@ -485,22 +754,22 @@ const CreateNFT = () => {
                                     </FlexRow>
                                     <FlexRow sx={{ mb: '16px' }}>
                                         <MyInput type='number' name={'royalties_share'} label={'Royalty Share *'} width={'100%'} icon={<Money sx={{ color: 'primary.light' }} />}
-                                            onChange={handleChange}
+                                            onChange={handleColFormChange}
                                             value={collectionForm.royalties_share}
                                         />
                                         <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
                                     </FlexRow>
                                     <FlexRow sx={{ mb: '16px' }}>
                                         <MyInput name={'royalties_address_screen_cid'} label={'Royalties Address *'} width={'100%'} icon={<AddBoxOutlined sx={{ color: 'primary.light' }} />}
-                                            onChange={handleChange}
+                                            onChange={handleColFormChange}
                                             value={collectionForm.royalties_address_screen_cid}
                                         />
                                         <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
                                     </FlexRow>
                                 </FlexColumn>
 								<Modal
-                                open={openCrop}
-                                onClose={() => setOpenCrop(false)}
+                                open={openColCrop}
+                                onClose={() => setOpenColCrop(false)}
                                 aria-labelledby="modal-modal-title"
                                 aria-describedby="modal-modal-description"
                             >
@@ -518,12 +787,12 @@ const CreateNFT = () => {
                                         <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}>
                                             <Typography>Crop</Typography>
                                             <div onClick={() => {
-                                                setOpenCrop(false)
+                                                setOpenColCrop(false)
                                             }}>
                                                 <Close sx={{ cursor: 'pointer' }} />
                                             </div>
                                         </FlexRow>
-                                        <Crop imageURL={colPhotoURL} aspectRatio={aspectRatio} setOpenCrop={setOpenCrop} setFile={setColImageFile} setPhotoURL={setColPhotoURL} />
+                                        <Crop imageURL={colPhotoURL} aspectRatio={aspectRatio == '16 : 9' ? 16/9 : 1} setOpenCrop={setOpenColCrop} setFile={setColImageFile} setPhotoURL={setColPhotoURL} />
                                     </Box>
                                 </Box>
                             </Modal>
