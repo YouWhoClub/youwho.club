@@ -10,6 +10,8 @@ import ButtonPurple from "./buttons/buttonPurple"
 import { ArrowDown2, ArrowUp2 } from "iconsax-react"
 import ButtonPurpleLight from "./buttons/buttonPurpleLight"
 import ButtonOutline from "./buttons/buttonOutline"
+import { API_CONFIG } from "../config"
+import profileFace from '../assets/face-pro.svg'
 
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -607,7 +609,9 @@ export const RelationCard = ({
             <RelationCardComp sx={{ gap: '16px' }}>
                 <FlexRow sx={{ gap: '16px' }}>
                     <Box sx={{
-                        backgroundImage: BG_URL(PUBLIC_URL(`${image}`)),
+                        backgroundColor: 'primary.bg',
+                        backgroundImage: () => image ? `url('${API_CONFIG.API_URL}/${image}')` : BG_URL(PUBLIC_URL(`${profileFace}`)),
+                        // backgroundImage: image ? BG_URL(PUBLIC_URL(`${API_CONFIG.API_URL}/${image}`)) : 'primary.bg',
                         backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
                         , width: '40px', height: '40px', borderRadius: '50%',
                     }}
@@ -729,14 +733,20 @@ export const RelationCard = ({
     )
 }
 export const FriendRequestCard = ({
-    image, username, date,
+    image, username, date, id, isAccepted,
     acceptRequest }) => {
     const navigate = useNavigate()
     return (
-        <RelationCardComp sx={{ gap: '16px' }}>
+        <RelationCardComp
+            // id={id}
+            sx={{
+                gap: '16px',
+                display: isAccepted.includes(id) ? 'none !important' : 'flex'
+            }}>
             <FlexRow sx={{ gap: '16px' }}>
                 <Box sx={{
-                    backgroundImage: BG_URL(PUBLIC_URL(`${image}`)),
+                    backgroundColor: 'primary.bg',
+                    background: () => image ? `url('${API_CONFIG.API_URL}/${image}') no-repeat center` : BG_URL(PUBLIC_URL(`${profileFace}`)),
                     backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
                     , width: '40px', height: '40px', borderRadius: '50%',
                 }}

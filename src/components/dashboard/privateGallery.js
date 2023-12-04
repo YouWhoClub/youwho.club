@@ -86,7 +86,7 @@ const PrivateGallery = () => {
                         <>
                             {/* {galleries && galleries.length > 0 ?
                                 <> */}
-                            <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' }, mb: '32px' }}>
+                            <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' }, mb: '24px' }}>
                                 <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
                                     NFT Collections
                                 </Typography>
@@ -106,7 +106,7 @@ const PrivateGallery = () => {
                             {/* </>
                                 :
                                 <>
-                                    <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' }, mb: '32px' }}>
+                                    <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' }, mb: '24px' }}>
                                         <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
                                             No Galleries
                                         </Typography>
@@ -130,7 +130,7 @@ const PrivateGallery = () => {
                 :
                 // if didnt create wallet yet =======>
                 <>
-                    <FlexColumn sx={{ gap: { xs: '20px', sm: '30px' }, mb: '32px' }}>
+                    <FlexColumn sx={{ gap: { xs: '20px', sm: '30px' }, mb: '24px' }}>
                         <Typography sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
                             Dear
                             <b>

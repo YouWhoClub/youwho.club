@@ -28,7 +28,7 @@ const FlexRow = styled(Box)(({ theme }) => ({
     margin: '3px 0'
 }))
 
-const ProfileBar = ({ username }) => {
+const ProfileBar = ({ user }) => {
     const [expanded, setExpanded] = useState(false)
     const [anchorEl, setAnchorEl] = useState(null);
     const [editProfile, setEditProfile] = useState(false)
@@ -66,7 +66,7 @@ const ProfileBar = ({ username }) => {
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', }}>
                     <Face sx={{ fontSize: '50px' }} /> &nbsp;
-                    {shorten(username)}
+                    {shorten(user.username)}
                 </div>
             </Box>
             <Accordion sx={{
@@ -88,13 +88,13 @@ const ProfileBar = ({ username }) => {
                     id="panel1a-header"
                     sx={{ minHeight: '30px !important', height: '30px' }}
                 >
-                    <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Bio</Typography>
+                    <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text', fontSize: '14px' }}>Bio</Typography>
                 </AccordionSummary>
                 <AccordionDetails
                     sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
                 >
-                    <Typography>
-                        Bio
+                    <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text', fontSize: '12px' }}>
+                        {user.bio}
                     </Typography>
                 </AccordionDetails>
             </Accordion>
@@ -117,12 +117,12 @@ const ProfileBar = ({ username }) => {
                     id="panel1a-header"
                     sx={{ minHeight: '30px !important', height: '30px' }}
                 >
-                    <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Social Media</Typography>
+                    <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text', fontSize: '14px' }}>Social Media</Typography>
                 </AccordionSummary>
                 <AccordionDetails
                     sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
                 >
-                    <Typography>
+                    <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text', fontSize: '12px' }}>
                         Social Media
                     </Typography>
                 </AccordionDetails>
@@ -146,12 +146,12 @@ const ProfileBar = ({ username }) => {
                     id="panel1a-header"
                     sx={{ minHeight: '30px !important', height: '30px' }}
                 >
-                    <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Youwho Wallet account circulation</Typography>
+                    <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text', fontSize: '14px' }}>Wallet Circulation</Typography>
                 </AccordionSummary>
                 <AccordionDetails
                     sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
                 >
-                    <Typography>
+                    <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text', fontSize: '12px' }}>
                         Youwho Wallet account circulation
                     </Typography>
                 </AccordionDetails>

@@ -140,14 +140,14 @@ const Dashboard = ({ switchTheme, theme }) => {
                     flexDirection: 'column',
                     width: '100%',
                     height: 'calc(100vh - 55px)',
-                    gap: { xs: '22px', md: '30px' },
+                    gap: { xs: '22px', md: '24px' },
                     boxSizing: 'border-box', padding: '20px 15px 40px'
                 }}>
                 {globalUser.isLoggedIn ?
                     <>
                         <ProfileCard username={globalUser.username} YouWhoID={globalUser.YouWhoID} />
                         <ShowPanel sx={{
-                            flexDirection: { xs: 'column', md: 'row' }, gap: { xs: '22px', md: '30px' },
+                            flexDirection: { xs: 'column', md: 'row' }, gap: { xs: '22px', md: '24px' },
                         }}>
                             {/* <Selection width={'200px'} tabs={['zadtan', 'zadtann', 'zadtannn', 'zadtannnn']} handleSelect={handleSelect} selectValue={selectValue} /> */}
                             <DashBar username={globalUser.username} />
