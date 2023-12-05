@@ -158,25 +158,27 @@ const CollectionCard = ({ likes, link, expanded, setExpandedId, collection }) =>
 
 
     const getMetadata = () => {
-        Promise.all(
-            collection.nfts.sort((a, b) => new Date(a.created_at) - new Date(b.created_at)).map((nft) =>
-                fetch(nft.metadata_uri.replace("ipfs://", "https://ipfs.io/ipfs/"))
-                    .then((response) => response.json())
-                    .then((data) => ({ ...nft, metadata: data }))
-                    .catch((error) => {
-                        // Handle any fetch or parsing errors
-                        console.error('Error fetching NFT image:', error);
-                        return nft; // Keep the original NFT object if fetching fails
-                    })
+        if (collection.nfts) {
+            Promise.all(
+                collection.nfts.sort((a, b) => new Date(a.created_at) - new Date(b.created_at)).map((nft) =>
+                    fetch(nft.metadata_uri.replace("ipfs://", "https://ipfs.io/ipfs/"))
+                        .then((response) => response.json())
+                        .then((data) => ({ ...nft, metadata: data }))
+                        .catch((error) => {
+                            // Handle any fetch or parsing errors
+                            console.error('Error fetching NFT image:', error);
+                            return nft; // Keep the original NFT object if fetching fails
+                        })
+                )
             )
-        )
-            .then((nftsWithMetadata) => {
-                setNFTs(nftsWithMetadata);
-            })
-            .catch((error) => {
-                // Handle any Promise.all errors
-                console.error('Error fetching NFT images:', error);
-            });
+                .then((nftsWithMetadata) => {
+                    setNFTs(nftsWithMetadata);
+                })
+                .catch((error) => {
+                    // Handle any Promise.all errors
+                    console.error('Error fetching NFT images:', error);
+                });
+        }
     }
 
     const getGasFee = async () => {
@@ -197,7 +199,7 @@ const CollectionCard = ({ likes, link, expanded, setExpandedId, collection }) =>
     }
 
 
-    const createCollection = async () => {
+    const mintNFT = async () => {
         loading();
 
         if (globalUser.privateKey) {
@@ -229,23 +231,23 @@ const CollectionCard = ({ likes, link, expanded, setExpandedId, collection }) =>
 
             // sending the request
 
-                let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/mint`, {
-                    method: 'POST',
-                    body: JSON.stringify(requestData),
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${globalUser.token}`,
-                    }
-                })
-                let response = await request.json()
-                console.log(response);
-
-                if (!response.is_error) {
-                    updateToast(true, response.message)
-                } else {
-                    console.error(response.message)
-                    updateToast(false, response.message)
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/mint`, {
+                method: 'POST',
+                body: JSON.stringify(requestData),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
                 }
+            })
+            let response = await request.json()
+            console.log(response);
+
+            if (!response.is_error) {
+                updateToast(true, response.message)
+            } else {
+                console.error(response.message)
+                updateToast(false, response.message)
+            }
         } else {
             updateToast(false, 'please save your private key first')
         }
@@ -255,31 +257,34 @@ const CollectionCard = ({ likes, link, expanded, setExpandedId, collection }) =>
     return (<>
         {expanded ?
             <Container sx={{ flexDirection: { xs: 'column-reverse', md: 'row' } }}>
-                <NFTsColumn sx={{
-                    // width: { xs: '100%', md: '170px' },
-                    display: { xs: 'flex', md: 'grid' }
-                }}>
-                    {
-                        nfts &&
-                        nfts.map((nft, index) => {
-                            const imageURL = (nft.metadata && nft.metadata.image) ? nft.metadata.image : purpleNFT;
-                            const selected = index == selectedNFT;
+                {
+                    nfts.length ?
+                        <NFTsColumn sx={{
+                            // width: { xs: '100%', md: '170px' },
+                            display: { xs: 'flex', md: 'grid' }
+                        }}>
+                            {
+                                nfts.map((nft, index) => {
+                                    const imageURL = (nft.metadata && nft.metadata.image) ? nft.metadata.image : purpleNFT;
+                                    const selected = index == selectedNFT;
 
-                            return (
-                                <OtherNFTCard
-                                    key={nft.id}
-                                    onClick={() => setSelectedNFT(index)}
-                                    sx={{
-                                        background: `url('${imageURL}') no-repeat center`,
-                                        cursor: "pointer",
-                                        border: () => (selected ? 'solid 2px' : 'none'),
-                                        borderColor: 'primary.main',
-                                        boxSizing: 'border-box'
-                                    }} />
-                            )
-                        })
-                    }
-                </NFTsColumn>
+                                    return (
+                                        <OtherNFTCard
+                                            key={nft.id}
+                                            onClick={() => setSelectedNFT(index)}
+                                            sx={{
+                                                background: `url('${imageURL}') no-repeat center`,
+                                                cursor: "pointer",
+                                                border: () => (selected ? 'solid 2px' : 'none'),
+                                                borderColor: 'primary.main',
+                                                boxSizing: 'border-box'
+                                            }} />
+                                    )
+                                })
+                            }
+                        </NFTsColumn>
+                        : <></>
+                }
                 {/* // details of collection and nft ===> */}
                 <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: '22px' }}>
                     {/* // details of collection ===> */}
@@ -309,87 +314,101 @@ const CollectionCard = ({ likes, link, expanded, setExpandedId, collection }) =>
                             onClick={() => setColDetExpanded(!colDetExpanded)}>Collection Details &nbsp; {colDetExpanded ? <ArrowUp2 size='12px' /> : <ArrowDown2 size='12px' />}</Acc>
                     </Box>
                     {/* // image of nft ===> */}
-                    <NFTImage
-                        id="nft-image-of-expanded-collection-card"
-                        className="nft-image-of-expanded-collection-card"
-                        component="img"
-                        src={(nfts[selectedNFT].metadata && nfts[selectedNFT].metadata.image) ? nfts[selectedNFT].metadata.image : purpleNFT}
-                    />
-                    {/* // details of  nft ===> */}
-                    <Box className="nft-details-of-expanded-collection-card"
-                        sx={{ display: 'flex', flexDirection: 'column', width: '100%', }}>
-                        <FlexRow sx={{ justifyContent: 'space-between', mb: 4 }}>
-                            <ButtonOutline onClick={() => setSelectedNFT(prev => prev > 0 ? prev - 1 : prev)} fontSize='12px' text={'Previous NFT'} height='28px' prevIcon={<ArrowBack fontSize="14px" />} />
-                            <Typography sx={{ color: 'secondary.text', fontSize: { xs: '10px', sm: '12px' } }}>
-                                {`${selectedNFT + 1}th of ${nfts.length} NFTs`}
-                            </Typography>
-                            <ButtonOutline onClick={() => setSelectedNFT(prev => prev < nfts.length - 1 ? prev + 1 : prev)} fontSize='12px' text={'Next NFT'} height='28px' nextIcon={<ArrowForward fontSize="14px" />} />
-                        </FlexRow>
-                        <FlexRow justifyContent={'space-between'} sx={{ mb: '20px' }}>
-                            <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: { xs: '18px', sm: '20px' } }}>
-                                {nfts[selectedNFT].nft_name}
-                            </Typography>
-                            <FlexRow sx={{ width: 'auto !important', }}>
-                                <Heart size={'24px'} />&nbsp;
-                                <Typography sx={{ fontSize: { xs: '16px', sm: '18px' } }}>
-                                    {nfts[selectedNFT].likes ? nfts[selectedNFT].likes : 0}
-                                </Typography>
-                            </FlexRow>
-                        </FlexRow>
-                        <FlexColumn sx={{ gap: '8px' }}>
-                            <FlexRow>
-                                <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>NFT Price : </Typography>
-                                <Typography sx={{ color: 'primary.main', fontSize: '14px' }}>&nbsp;{nfts[selectedNFT].current_price}</Typography>
-                            </FlexRow>
-                            <ButtonPurple text={'Mint This NFT'} onClick={createCollection} w='100%' />
-                            <FlexRow>
-                                <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>Creation Date : </Typography>
-                                <Typography sx={{ color: 'primary.gray', fontSize: '14px' }}>&nbsp;{nfts[selectedNFT].created_at.slice(0, 10)}</Typography>
-                            </FlexRow>
-                            <FlexColumn>
-                                <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>NFT Description : </Typography>
-                                <Typography sx={{ color: 'primary.gray', fontSize: '14px' }}>&nbsp;{nfts[selectedNFT].nft_description}</Typography>
-                            </FlexColumn>
-                            <FlexColumn sx={{
-                                borderTop: '1px solid #DEDEDE', borderBottom: '1px solid #DEDEDE',
-                                py: { xs: '12px', sm: '16px' }, gap: '8px'
-                            }}>
-                                <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>NFT Properties : </Typography>
-                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                                    {
-                                        nfts[selectedNFT].metadata &&
-                                        nfts[selectedNFT].metadata.attributes.map(attr => (
-                                            <NFTPropertyTag>
-                                                <PropertyTagTitle>{attr.trait_type} : </PropertyTagTitle>
-                                                <PropertyTagAnswer>{attr.value}</PropertyTagAnswer>
-                                            </NFTPropertyTag>
-                                        ))
-                                    }
+
+                    {
+                        nfts.length ?
+                            <>
+                                <NFTImage
+                                    id="nft-image-of-expanded-collection-card"
+                                    className="nft-image-of-expanded-collection-card"
+                                    component="img"
+                                    src={(nfts[selectedNFT].metadata && nfts[selectedNFT].metadata.image) ? nfts[selectedNFT].metadata.image : purpleNFT}
+                                />
+                                {/* // details of  nft ===> */}
+                                <Box className="nft-details-of-expanded-collection-card"
+                                    sx={{ display: 'flex', flexDirection: 'column', width: '100%', }}>
+                                    <FlexRow sx={{ justifyContent: 'space-between', mb: 4 }}>
+                                        <ButtonOutline onClick={() => setSelectedNFT(prev => prev > 0 ? prev - 1 : prev)} fontSize='12px' text={'Previous NFT'} height='28px' prevIcon={<ArrowBack fontSize="14px" />} />
+                                        <Typography sx={{ color: 'secondary.text', fontSize: { xs: '10px', sm: '12px' } }}>
+                                            {`${selectedNFT + 1}th of ${nfts.length} NFTs`}
+                                        </Typography>
+                                        <ButtonOutline onClick={() => setSelectedNFT(prev => prev < nfts.length - 1 ? prev + 1 : prev)} fontSize='12px' text={'Next NFT'} height='28px' nextIcon={<ArrowForward fontSize="14px" />} />
+                                    </FlexRow>
+                                    <FlexRow justifyContent={'space-between'} sx={{ mb: '20px' }}>
+                                        <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: { xs: '18px', sm: '20px' } }}>
+                                            {nfts[selectedNFT].nft_name}
+                                        </Typography>
+                                        <FlexRow sx={{ width: 'auto !important', }}>
+                                            <Heart size={'24px'} />&nbsp;
+                                            <Typography sx={{ fontSize: { xs: '16px', sm: '18px' } }}>
+                                                {nfts[selectedNFT].likes ? nfts[selectedNFT].likes : 0}
+                                            </Typography>
+                                        </FlexRow>
+                                    </FlexRow>
+                                    <FlexColumn sx={{ gap: '8px' }}>
+                                        <FlexRow>
+                                            <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>NFT Price : </Typography>
+                                            <Typography sx={{ color: 'primary.main', fontSize: '14px' }}>&nbsp;{nfts[selectedNFT].current_price}</Typography>
+                                        </FlexRow>
+                                        <ButtonPurple text={'Mint This NFT'} onClick={mintNFT} w='100%' />
+                                        <FlexRow>
+                                            <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>Creation Date : </Typography>
+                                            <Typography sx={{ color: 'primary.gray', fontSize: '14px' }}>&nbsp;{nfts[selectedNFT].created_at.slice(0, 10)}</Typography>
+                                        </FlexRow>
+                                        <FlexColumn>
+                                            <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>NFT Description : </Typography>
+                                            <Typography sx={{ color: 'primary.gray', fontSize: '14px' }}>&nbsp;{nfts[selectedNFT].nft_description}</Typography>
+                                        </FlexColumn>
+                                        <FlexColumn sx={{
+                                            borderTop: '1px solid #DEDEDE', borderBottom: '1px solid #DEDEDE',
+                                            py: { xs: '12px', sm: '16px' }, gap: '8px'
+                                        }}>
+                                            <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>NFT Properties : </Typography>
+                                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                                                {
+                                                    nfts[selectedNFT].metadata &&
+                                                    nfts[selectedNFT].metadata.attributes.map(attr => (
+                                                        <NFTPropertyTag>
+                                                            <PropertyTagTitle>{attr.trait_type} : </PropertyTagTitle>
+                                                            <PropertyTagAnswer>{attr.value}</PropertyTagAnswer>
+                                                        </NFTPropertyTag>
+                                                    ))
+                                                }
+
+                                            </Box>
+                                        </FlexColumn>
+                                        <FlexColumn sx={{ gap: '8px' }}>
+                                            <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>
+                                                Comments : </Typography>
+
+                                            {
+                                                nfts.comments &&
+                                                <FlexRow sx={{ gap: '12px', width: '100%', }}>
+                                                    <NFTCommentCard username={'youzarsif'}
+                                                        profileImg={purpleNFT}
+                                                        comment={'sooooo beautiful I lovee this nft pleasee sell this to me ill buy with a lot of tokns'} />
+                                                    <FlexColumn sx={{ alignItems: 'space-between !important', color: 'primary.text' }}>
+                                                        <ArrowUp2 size='16px' cursor='pointer' />
+                                                        <ArrowDown2 size='16px' cursor='pointer' />
+                                                    </FlexColumn>
+                                                </FlexRow>
+                                            }
+                                        </FlexColumn>
+
+
+                                    </FlexColumn>
 
                                 </Box>
-                            </FlexColumn>
-                            <FlexColumn sx={{ gap: '8px' }}>
-                                <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>
-                                    Comments : </Typography>
+                            </>
+                            :
+                            <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                                <Typography sx={{ fontFamily: 'Inter', mt: 2, fontSize: '16px', color: 'primary.text', textAlign: 'center', mb: 2, fontWeight: '400' }}>
+                                    There are no nfts in this collection.
+                                </Typography>
 
-                                {
-                                    nfts.comments &&
-                                    <FlexRow sx={{ gap: '12px', width: '100%', }}>
-                                        <NFTCommentCard username={'youzarsif'}
-                                            profileImg={purpleNFT}
-                                            comment={'sooooo beautiful I lovee this nft pleasee sell this to me ill buy with a lot of tokns'} />
-                                        <FlexColumn sx={{ alignItems: 'space-between !important', color: 'primary.text' }}>
-                                            <ArrowUp2 size='16px' cursor='pointer' />
-                                            <ArrowDown2 size='16px' cursor='pointer' />
-                                        </FlexColumn>
-                                    </FlexRow>
-                                }
-                            </FlexColumn>
+                            </Box>
 
-
-                        </FlexColumn>
-
-                    </Box>
+                    }
 
                     <Acc sx={(theme) => ({ boxShadow: theme.palette.primary.boxShadowInset })}
                         onClick={() => setExpandedId(undefined)}>
