@@ -8,14 +8,18 @@ import sorkhabiNFT from '../../assets/sokhabi-nft.svg'
 import torqNFT from '../../assets/torqua-nft.svg'
 import styled from "@emotion/styled";
 import FilterSelection from "../filterSelection";
-import { useEffect, useState } from "react";
-import { AscSelect, RelationCard } from "../utils";
-import { useSelector } from "react-redux";
+import { Fragment, useEffect, useState } from "react";
+import { AscSelect, RelationCard, MyInput } from "../utils";
+import { useSelector, useDispatch } from "react-redux";
 import CollectionCard from "../nft market/collectionCard";
 import { API_CONFIG } from "../../config";
 import ButtonPurple from "../buttons/buttonPurple";
 import { useNavigate } from "react-router";
 import ButtonPurpleLight from "../buttons/buttonPurpleLight";
+import { setPrivateKey } from "../../redux/actions";
+
+
+
 
 const Gallery = styled(Box)(({ theme }) => ({
     width: '100%', boxSizing: "border-box", gap: '16px',
@@ -34,6 +38,18 @@ const FlexColumn = styled(Box)(({ theme }) => ({
     //  width: '100%',
     alignItems: 'center',
 }))
+const Container = styled(Box)(({ theme }) => ({
+    boxSizing: 'border-box',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: theme.palette.secondary.bg,
+    padding: '12px 18px 18px 18px',
+    gap: '40px',
+    borderRadius: '18px',
+    boxShadow: theme.palette.primary.boxShadow
+}))
 
 
 const PrivateGallery = () => {
@@ -45,6 +61,9 @@ const PrivateGallery = () => {
     const [galleries, setGalleries] = useState([])
     const [loading, setLoading] = useState(true)
     const [loadErr, setLoadErr] = useState(undefined)
+    const dispatch = useDispatch();
+    const [signer, setSigner] = useState(undefined)
+
     const handleFilterSelect = (e) => {
         e.preventDefault()
         setFilterValue(e.target.id)
@@ -78,53 +97,62 @@ const PrivateGallery = () => {
         }
     }
     const navigate = useNavigate()
+
+
+    const savePrivateKey = (e) => {
+        e.preventDefault()
+        dispatch(setPrivateKey(signer))
+    }
+
+
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
             {globalUser.cid ?
                 <>
                     {loading ? <CircularProgress /> :
-                        <>
-                            {/* {galleries && galleries.length > 0 ?
+                        globalUser.privateKey ?
+                            <>
+                                {/* {galleries && galleries.length > 0 ?
                                 <> */}
-                            <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' }, mb: '32px' }}>
-                                <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
-                                    NFT Collections
+                                <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' }, mb: '32px' }}>
+                                    <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
+                                        NFT Collections
+                                    </Typography>
+                                    <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '12px' } }}>
+                                        You Can See All Collections With Their NFTs which You Have Created.
+                                        You & Your Friends Can Mint Any NFT You Like.
+                                    </Typography>
+                                </FlexColumn>
+                                <Gallery>
+                                    {
+                                        galleries[0].collections.map(collection => (
+                                            <Fragment key={`collection_${collection.id}`}>
+                                                <CollectionCard
+                                                    likes={0}
+                                                    setExpandedId={setExpandedColl}
+                                                    collection={collection}
+                                                    expanded={expandedColl == collection.id}
+                                                />
+                                            </Fragment>
+                                        )
+                                        )
+                                    }
+                                </Gallery>
+                            </>
+                            :
+                            <Container sx={{ mb: '32px' }}>
+                                <Typography sx={{ fontFamily: 'Inter', mt: 2, fontSize: '13px', color: 'primary.text', textAlign: 'center', mb: 2, fontWeight: '400' }}>
+                                    We have cleared your private key as you logged out. Please provide your private key to continue. <br />Your private key will be securely stored for future transactions.
                                 </Typography>
-                                <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '12px' } }}>
-                                    You Can See All Collections With Their NFTs which You Have Created.
-                                    You & Your Friends Can Mint Any NFT You Like.
-                                </Typography>
-                            </FlexColumn>
-                            <Gallery>
-                                <CollectionCard image={blueNft} likes={0} name={'Blue Collection'} setExpandedId={setExpandedColl} id={'blueCol'} expanded={expandedColl == 'blueCol'} />
-                                <CollectionCard image={pinkNFT} likes={1} name={'Pink Collection'} setExpandedId={setExpandedColl} id={'pinkCol'} expanded={expandedColl == 'pinkCol'} />
-                                <CollectionCard image={purpleNFT} likes={0} name={'Purple Collection'} setExpandedId={setExpandedColl} id={'purpleCol'} expanded={expandedColl == 'purpleCol'} />
-                                <CollectionCard image={creamNFT} likes={4} name={'Sorkhabi Collection'} setExpandedId={setExpandedColl} id={'creamCol'} expanded={expandedColl == 'creamCol'} />
-                                <CollectionCard image={sorkhabiNFT} likes={0} name={'Cream Collection'} setExpandedId={setExpandedColl} id={'sorkhabiCol'} expanded={expandedColl == 'sorkhabiCol'} />
-                                <CollectionCard image={torqNFT} likes={0} name={'Turquoise Collection'} setExpandedId={setExpandedColl} id={'torqCol'} expanded={expandedColl == 'torqCol'} />
-                            </Gallery>
-                            {/* </>
-                                :
-                                <>
-                                    <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' }, mb: '32px' }}>
-                                        <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
-                                            No Galleries
-                                        </Typography>
-                                        <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '12px' } }}>
-                                            you have not created any private gallery yet
-                                        </Typography>
-                                    </FlexColumn>
-                                    <FlexColumn sx={{ gap: '6px', }}>
-                                        <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '12px' } }}>
-                                            create one ?
-                                        </Typography>
-                                        <ButtonPurpleLight text={'Create'} height='35px' />
-
-                                    </FlexColumn>
-
-                                </>
-                            } */}
-                        </>
+                                <MyInput
+                                    value={signer}
+                                    onChange={(e) => setSigner(e.target.value)}
+                                    placeholder="enter private key"
+                                    width={'400px'}
+                                    textColor={'black'}
+                                    py={'8px'} />
+                                <ButtonPurple onClick={savePrivateKey} height='35px' text={'Save'} />
+                            </Container>
                     }
                 </>
                 :
