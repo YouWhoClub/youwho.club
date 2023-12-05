@@ -1,16 +1,29 @@
 import { useSelector } from "react-redux";
 import { API_CONFIG } from "../../config";
 import { FriendRequestCard } from "../utils";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import generateSignature from "../../utils/signatureUtils";
 import { Box, CircularProgress, Typography } from "@mui/material";
+import { toast } from 'react-toastify';
 import blueNft from '../../assets/blue-nft.svg'
 
 const MyFriendequests = () => {
     const globalUser = useSelector(state => state.userReducer)
-    const [loading, setLoading] = useState(true)
+    const [reqsLoading, setReqsLoading] = useState(true)
     const [err, setErr] = useState(undefined)
     const [requests, setRequests] = useState([])
+    const [isAccepted, setIsAccepted] = useState([])
+    const toastId = useRef(null);
+    const loading = () => {
+        toastId.current = toast.loading("Please wait...")
+        console.log(toastId)
+    }
+
+    const updateToast = (success, message) => {
+        success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
+            : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
+    }
+
     const getRequests = async () => {
         let request = await fetch(`${API_CONFIG.AUTH_API_URL}/gallery/get/unaccepted/friend-requests/?from=0&to=10`, {
             method: 'GET',
@@ -24,20 +37,21 @@ const MyFriendequests = () => {
 
         if (!response.is_error) {
             setRequests(response.data)
-            setLoading(false)
+            setReqsLoading(false)
         } else {
             if (response.status == 404) {
                 setRequests([])
-                setLoading(false)
+                setReqsLoading(false)
 
             } else {
                 setErr(response.message)
-                setLoading(false)
+                setReqsLoading(false)
             }
         }
     }
 
-    const acceptFriendRequest = async (receiver, sender) => {
+    const acceptFriendRequest = async (receiver, sender, id) => {
+        loading()
         let data = {
             owner_cid: sender,
             friend_screen_cid: receiver,
@@ -54,6 +68,15 @@ const MyFriendequests = () => {
         })
         let response = await request.json()
         console.log(response);
+        if (!response.is_error) {
+            var tempAccepted = isAccepted
+            tempAccepted.push(id)
+            setIsAccepted(tempAccepted)
+            console.log(tempAccepted)
+            updateToast(true, 'Friend Request Accepted')
+        } else {
+            updateToast(false, response.message)
+        }
     }
     useEffect(() => {
         if (globalUser.token) {
@@ -62,13 +85,15 @@ const MyFriendequests = () => {
     }, [globalUser.token])
 
     return (
-        <>{loading ? <CircularProgress /> :
+        <>{reqsLoading ? <CircularProgress /> :
             <>{requests.length > 0 ?
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                     {requests.map((req, index) => (
                         <FriendRequestCard
-                            image={blueNft} username={req.username}
-                            acceptRequest={() => acceptFriendRequest(req.screen_cid, globalUser.cid)}
+                            isAccepted={isAccepted}
+                            id={req.username}
+                            image={req.user_avatar} username={req.username}
+                            acceptRequest={() => acceptFriendRequest(req.screen_cid, globalUser.cid, req.username)}
                         />
                     ))}
                 </Box>

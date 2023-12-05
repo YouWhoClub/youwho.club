@@ -158,7 +158,7 @@ const PrivateGallery = () => {
                 :
                 // if didnt create wallet yet =======>
                 <>
-                    <FlexColumn sx={{ gap: { xs: '20px', sm: '30px' }, mb: '32px' }}>
+                    <FlexColumn sx={{ gap: { xs: '20px', sm: '30px' }, mb: '24px' }}>
                         <Typography sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
                             Dear
                             <b>

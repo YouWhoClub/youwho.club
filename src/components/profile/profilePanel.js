@@ -68,7 +68,7 @@ const ProfilePanel = ({ user }) => {
     return (
         <Panel>
             <Tabs
-                mb={'32px'}
+                mb={'24px'}
                 jc={{ xs: 'center', md: 'center' }}
             >
                 <Tab id={"private-gallery-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Private Gallery'} selected={activeTab == 'private-gallery-tab'} />
@@ -80,9 +80,10 @@ const ProfilePanel = ({ user }) => {
             <ScrollablePanel id="scrollable-profile-panel-inside"
                 sx={{
                     height: {
-                        xs: activeTab == 'private-gallery-tab' || activeTab == 'public-gallery-tab' ? 'calc(100vh - 351px)' : 'calc(100vh - 479px)',
-                        sm: activeTab == 'private-gallery-tab' || activeTab == 'public-gallery-tab' ? 'calc(100vh - 366px)' : 'calc(100vh - 494px)',
-                        md: 'calc(100vh - 350px)'
+                        xs: activeTab == 'private-gallery-tab' || activeTab == 'public-gallery-tab' ? 'calc(100vh - 351px)' : 'calc(100vh - 572px)',
+                        sm: activeTab == 'private-gallery-tab' || activeTab == 'public-gallery-tab' ? 'calc(100vh - 366px)' : 'calc(100vh - 587px)',
+                        md: 'calc(100vh - 334px)',
+                        // lg: 'calc(100vh - 334px)',
                     },
                     p: {
                         xs: '4px 4px 40px',

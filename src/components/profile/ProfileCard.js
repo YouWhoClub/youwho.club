@@ -18,7 +18,7 @@ const ProBanner = styled(Box)(({ theme }) => ({
     display: 'flex', alignItems: 'center', boxSizing: 'border-box',
     boxShadow: theme.palette.primary.boxShadow, transition: '500ms ease'
 }))
-const ProfileCard = ({ user, YouWhoID }) => {
+const ProfileCard = ({ user, }) => {
     const globalUser = useSelector(state => state.userReducer)
 
     const copyIdToClipBoard = async (textToCopy) => {
@@ -62,18 +62,18 @@ const ProfileCard = ({ user, YouWhoID }) => {
             <Typography sx={{
                 fontWeight: 700, color: 'white', fontSize: { xs: '18px', md: '20px' }
             }}>
-                {user && user.cid ? user.username : user && user.identifier}
+                {user && user.YouWhoID ? user.username : user && user.identifier}
             </Typography>
-            {YouWhoID ?
+            {user.YouWhoID ?
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
                     <Typography sx={{ fontWeight: 500, fontSize: { xs: '14px', md: '16px' } }}>YouWho ID :</Typography>
-                    <Typography onClick={() => copyIdToClipBoard(YouWhoID)}
+                    <Typography onClick={() => copyIdToClipBoard(user.YouWhoID)}
                         sx={{ cursor: 'pointer', fontSize: { xs: '12px', md: '14px' }, display: { xs: 'none', md: 'block' } }}>
-                        {YouWhoID}
+                        {user.YouWhoID}
                     </Typography>
-                    <Typography onClick={() => copyIdToClipBoard(YouWhoID)}
+                    <Typography onClick={() => copyIdToClipBoard(user.YouWhoID)}
                         sx={{ cursor: 'pointer', fontSize: { xs: '12px', md: '14px' }, display: { xs: 'block', md: 'none' } }}>
-                        {shorten(YouWhoID)}
+                        {shorten(user.YouWhoID)}
                     </Typography>
                     <TickSquare style={{ size: { xs: '10px', md: '16px' }, display: idCopied ? 'block' : 'none', color: '#0Cb2B1' }} />
                 </Box>

@@ -1,5 +1,5 @@
 import { Box, CircularProgress, TextField, Typography } from "@mui/material";
-import { RelationCard, SubTab, SubTabs } from "../utils";
+import { MyInput, RelationCard, SubTab, SubTabs } from "../utils";
 import blueNft from '../../assets/blue-nft.svg'
 import pinkNFT from '../../assets/pink-nft.svg'
 import purpleNFT from '../../assets/purple-nft.svg'
@@ -9,7 +9,7 @@ import torqNFT from '../../assets/torqua-nft.svg'
 import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
 import { AUTH_API } from "../../utils/data/auth_api";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ButtonPurpleLight from "../buttons/buttonPurpleLight";
 import { useNavigate } from "react-router";
 import generateSignature from "../../utils/signatureUtils";
@@ -18,6 +18,10 @@ import API from "../../utils/api";
 import MyFriendequests from "./myFriendRequests";
 import MyFans from "./myFans";
 import MyFriends from "./myFriends";
+import { toast } from 'react-toastify';
+import { setPrivateKey } from "../../redux/actions";
+import ButtonPurple from "../buttons/buttonPurple";
+import MyFriendSuggestions from "./myFriendSuggestions";
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex', boxSizing: 'border-box',
     flexDirection: 'row',
@@ -36,18 +40,45 @@ const FilterSelectionBox = styled(Box)(({ theme }) => ({
 const FlexColumn = styled(Box)(({ theme }) => ({
     display: 'flex', flexDirection: 'column', alignItems: 'center'
 }))
+const Container = styled(Box)(({ theme }) => ({
+    boxSizing: 'border-box',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: theme.palette.secondary.bg,
+    padding: '12px 18px 18px 18px',
+    gap: '40px',
+    borderRadius: '18px',
+    boxShadow: theme.palette.primary.boxShadow
+}))
+
 const RelationsTab = () => {
     const globalUser = useSelector(state => state.userReducer)
     const apiCall = useRef(undefined)
     const [activeTab, setActiveTab] = useState('my-allies')
-    const [friendsLoading, setFriendsLoading] = useState(true)
-    const [friends, setFriends] = useState([])
-    const [suggestions, setSuggestions] = useState([])
+    const [allFriends, setAllFriends] = useState([])
+    const [allFans, setAllFans] = useState([])
+    const [allSuggestions, setAllSuggestions] = useState([])
     const [err, setErr] = useState(undefined)
     const navigate = useNavigate()
+    const [signer, setSigner] = useState(undefined)
+    const dispatch = useDispatch();
+    const toastId = useRef(null);
+    const loading = () => {
+        toastId.current = toast.loading("Please wait...")
+        console.log(toastId)
+    }
+
+    const updateToast = (success, message) => {
+        success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
+            : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
+    }
 
 
     const sendFriendRequest = async (receiver, sender) => {
+        loading();
+
         let data = {
             owner_cid: sender,
             to_screen_cid: receiver,
@@ -64,8 +95,15 @@ const RelationsTab = () => {
         })
         let response = await request.json()
         console.log(response);
+        if (response.message == "Updated Successfully") {
+            updateToast(true, 'Friend Request Sent')
+        } else {
+            updateToast(false, response.message)
+        }
     }
     const sendAllieRequest = async (receiver, sender,) => {
+        loading();
+
         let data = {
             owner_cid: sender,
             to_screen_cid: receiver,
@@ -82,6 +120,11 @@ const RelationsTab = () => {
         })
         let response = await request.json()
         console.log(response);
+        if (response.message == "Updated Successfully") {
+            updateToast(true, 'Friend Request Sent')
+        } else {
+            updateToast(false, response.message)
+        }
 
     }
     const removeFriend = async (receiver, sender) => {
@@ -94,64 +137,76 @@ const RelationsTab = () => {
     const shareClick = async (id) => {
         console.log(id)
     }
+    const savePrivateKey = (e) => {
+        e.preventDefault()
+        dispatch(setPrivateKey(signer))
+    }
+
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
             {globalUser.cid ?
                 <>
-                    <SubTabs jc={'center'}>
-                        <SubTab id={"my-requests"} onClick={(e) => setActiveTab(e.target.id)} text={'My Requests'} selected={activeTab == 'my-requests'} />
-                        <SubTab id={"my-allies"} onClick={(e) => setActiveTab(e.target.id)} text={'My Allies'} selected={activeTab == 'my-allies'} />
-                        <SubTab id={"my-friends"} onClick={(e) => setActiveTab(e.target.id)} text={'My Friends'} selected={activeTab == 'my-friends'} />
-                        <SubTab id={"expansion-of-communication"} onClick={(e) => setActiveTab(e.target.id)} text={'Expansion of communication '} selected={activeTab == 'expansion-of-communication'} />
-                    </SubTabs>
-                    <FilterSelectionBox sx={{ padding: '8px 16px', my: 4 }}>
-                        <span style={{ width: '180px', fontSize: '14px' }}>
-                            Search Username:
-                        </span>
-                        <input style={{
-                            height: '20px',
-                            backgroundColor: 'transparent', border: 'none', outline: 'none',
-                            color: '#c2c2c2', width: '100%'
-                        }} />
-                    </FilterSelectionBox>
-                    {activeTab == 'my-requests' &&
-                        <MyFriendequests />
-                    }
-                    {activeTab == 'my-allies' &&
-                        <MyFans sendAllieRequest={sendAllieRequest}
-                            sendFriendRequest={sendFriendRequest} shareClick={shareClick}
-                            removeAllie={removeAllie} removeFriend={removeFriend} />
-                    }
-                    {activeTab == 'my-friends' &&
-                        <MyFriends sendAllieRequest={sendAllieRequest}
-                            sendFriendRequest={sendFriendRequest} shareClick={shareClick}
-                            removeAllie={removeAllie} removeFriend={removeFriend} />
-                    }
-                    {activeTab == 'expansion-of-communication' &&
-                        <>{suggestions.length > 0 ?
-                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
-                                {suggestions.map((suggestion, index) => (
-                                    <RelationCard
-                                        removeAllie={() => removeAllie(suggestion.cid, globalUser.cid)}
-                                        removeFriend={() => removeFriend(suggestion.cid, globalUser.cid)}
-                                        image={purpleNFT} username={suggestion.username}
-                                        sendAllieRequest={() => sendAllieRequest(suggestion.cid, globalUser.cid)}
-                                        sendFriendRequest={() => sendFriendRequest(suggestion.cid, globalUser.cid)}
-                                        shareClick={shareClick}
-                                    />
-                                ))}
-                            </Box>
-                            : <Typography
-                                sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
-                                No suggestions
-                            </Typography>}
+                    {globalUser.privateKey ?
+                        <>
+                            <SubTabs jc={'center'}>
+                                <SubTab id={"my-requests"} onClick={(e) => setActiveTab(e.target.id)} text={'My Requests'} selected={activeTab == 'my-requests'} />
+                                <SubTab id={"my-allies"} onClick={(e) => setActiveTab(e.target.id)} text={'My Allies'} selected={activeTab == 'my-allies'} />
+                                <SubTab id={"my-friends"} onClick={(e) => setActiveTab(e.target.id)} text={'My Friends'} selected={activeTab == 'my-friends'} />
+                                <SubTab id={"expansion-of-communication"} onClick={(e) => setActiveTab(e.target.id)} text={'Expansion of communication '} selected={activeTab == 'expansion-of-communication'} />
+                            </SubTabs>
+                            <FilterSelectionBox sx={{ padding: '8px 16px', my: '24px' }}>
+                                <span style={{ width: '180px', fontSize: '14px' }}>
+                                    Search Username:
+                                </span>
+                                <input style={{
+                                    height: '20px',
+                                    backgroundColor: 'transparent', border: 'none', outline: 'none',
+                                    color: '#c2c2c2', width: '100%'
+                                }} />
+                            </FilterSelectionBox>
+                            {activeTab == 'my-requests' &&
+                                <MyFriendequests />
+                            }
+                            {activeTab == 'my-allies' &&
+                                <MyFans sendAllieRequest={sendAllieRequest}
+                                    sendFriendRequest={sendFriendRequest} shareClick={shareClick}
+                                    removeAllie={removeAllie} removeFriend={removeFriend}
+                                    setAllFans={setAllFans} allFans={allFans} allFriends={allFriends}
+                                />
+                            }
+                            {activeTab == 'my-friends' &&
+                                <MyFriends sendAllieRequest={sendAllieRequest}
+                                    sendFriendRequest={sendFriendRequest} shareClick={shareClick}
+                                    removeAllie={removeAllie} removeFriend={removeFriend} setAllFriends={setAllFriends}
+                                    allFriends={allFriends} />
+                            }
+                            {activeTab == 'expansion-of-communication' &&
+                                <MyFriendSuggestions sendAllieRequest={sendAllieRequest}
+                                    sendFriendRequest={sendFriendRequest} shareClick={shareClick}
+                                    removeAllie={removeAllie} removeFriend={removeFriend}
+                                    setAllSuggestions={setAllSuggestions} allSuggestions={allSuggestions}
+                                    allFriends={allFriends} />
+                            }
                         </>
+                        :
+                        <Container sx={{ mb: '24px' }}>
+                            <Typography sx={{ fontFamily: 'Inter', mt: 2, fontSize: '13px', color: 'primary.text', textAlign: 'center', mb: 2, fontWeight: '400' }}>
+                                We have cleared your private key as you logged out. Please provide your private key to continue. <br />Your private key will be securely stored for future transactions.
+                            </Typography>
+                            <MyInput
+                                value={signer}
+                                onChange={(e) => setSigner(e.target.value)}
+                                placeholder="enter private key"
+                                width={'400px'}
+                                textColor={'black'}
+                                py={'8px'} />
+                            <ButtonPurple onClick={savePrivateKey} height='35px' text={'Save'} />
+                        </Container>
                     }
-                </>
-                :
+                </> :
                 // if didnt create wallet yet =======>
                 <>
-                    <FlexColumn sx={{ gap: { xs: '20px', sm: '30px' }, mb: '32px' }}>
+                    <FlexColumn sx={{ gap: { xs: '20px', sm: '30px' }, mb: '24px' }}>
                         <Typography
                             sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
                             Dear

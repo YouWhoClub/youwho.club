@@ -418,13 +418,13 @@ const CreateNFT = () => {
                 <>
                 {globalUser.privateKey ?
                     <>
-                    <SubTabs jc={'center'} mb={'32px'}>
+                    <SubTabs jc={'center'} mb={'24px'}>
                         <SubTab id={"create-collection"} onClick={(e) => setActiveTab(e.target.id)} text={'Create Collection'} selected={activeTab == 'create-collection'} />
                         <SubTab id={"create-NFT"} onClick={(e) => setActiveTab(e.target.id)} text={'Create NFT'} selected={activeTab == 'create-NFT'} />
                     </SubTabs>
                     {activeTab == 'create-NFT' ?
                         <>
-                            <Container sx={{ mb: '32px' }}>
+                            <Container sx={{ mb: '24px' }}>
                                 <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' } }}>
                                     <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
                                         Upload Your NFT
@@ -572,7 +572,7 @@ const CreateNFT = () => {
                                 </Modal>
                             </Container>
                             <Box sx={{
-                                width: { xs: '100%', sm: '350px' }, mt: '32px', display: 'flex', justifyContent: 'center'
+                                width: { xs: '100%', sm: '350px' }, mt: '24px', display: 'flex', justifyContent: 'center'
                             }}>
                                 <ButtonPurple 
                                     text={'Create'}
@@ -591,7 +591,7 @@ const CreateNFT = () => {
                                 You Can Read Information About Each Field,By Click On The Icon, to Show/Hide The Information.
                             </Typography>
 
-                            <Container sx={{ mt: '32px', }}>
+                            <Container sx={{ mt: '24px', }}>
                                 <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
                                     New Collection Introduction
                                 </Typography>
@@ -677,7 +677,7 @@ const CreateNFT = () => {
                                     </FlexRow>
                                 </FlexColumn>
                             </Container>
-                            <Container sx={{ mt: '32px', }}>
+                            <Container sx={{ mt: '24px', }}>
                                 <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
                                     The Collection Metadata
                                 </Typography>
@@ -735,7 +735,7 @@ const CreateNFT = () => {
 
                                 </FlexColumn>
                             </Container>
-                            <Container sx={{ mt: '32px', }}>
+                            <Container sx={{ mt: '24px', }}>
                                 <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
                                     The Collection Finance
                                 </Typography>
@@ -798,7 +798,7 @@ const CreateNFT = () => {
                             </Modal>
                             </Container>
                             <Box sx={{
-                                width: { xs: '100%', sm: '350px' }, mt: '32px', display: 'flex', justifyContent: 'center'
+                                width: { xs: '100%', sm: '350px' }, mt: '24px', display: 'flex', justifyContent: 'center'
                             }}>
                                 <ButtonPurple
                                  text={'Create'}
@@ -811,7 +811,7 @@ const CreateNFT = () => {
                     }
                     </>
                     :
-                    <Container sx={{ mb: '32px' }}>
+                    <Container sx={{ mb: '24px' }}>
                         <Typography sx={{ fontFamily: 'Inter', mt: 2, fontSize: '13px', color: 'primary.text', textAlign: 'center', mb: 2, fontWeight: '400' }}>
                             We have cleared your private key as you logged out. Please provide your private key to continue. <br />Your private key will be securely stored for future transactions.
                         </Typography>
@@ -829,7 +829,7 @@ const CreateNFT = () => {
                 </> :
                 // if didnt create wallet yet =======>
                 <>
-                    <FlexColumn sx={{ gap: { xs: '20px', sm: '30px' }, mb: '32px' }}>
+                    <FlexColumn sx={{ gap: { xs: '20px', sm: '30px' }, mb: '24px' }}>
                         <Typography sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
                             Dear
                             <b>

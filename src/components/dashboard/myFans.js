@@ -6,7 +6,8 @@ import { RelationCard } from "../utils"
 import purpleNFT from '../../assets/purple-nft.svg'
 import { API_CONFIG } from "../../config"
 
-const MyFans = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAllie, removeFriend }) => {
+const MyFans = ({ sendAllieRequest, sendFriendRequest,
+    shareClick, removeAllie, removeFriend, }) => {
     const globalUser = useSelector(state => state.userReducer)
     const apiCall = useRef(undefined)
     const [fans, setFans] = useState([])
@@ -25,21 +26,28 @@ const MyFans = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAllie, 
         console.log('fans', response)
 
         if (!response.is_error) {
-            if (response.data.length > 0) {
-                let tempFans = []
-                for (let i = 0; i < response.data[0].friends.length; i++) {
-                    if (response.data[0].friends[i].is_accepted == true) {
-                        tempFans.push(response.data[0].friends[i])
-                    }
-                }
-                setFans(tempFans)
+            if (response.data.friends.length > 0) {
+                // let tempFans = []
+                // for (let i = 0; i < response.data.friends.length; i++) {
+                //     if (response.data.friends[i].is_accepted == true) {
+                //         tempFans.push(response.data.friends[i])
+                //     }
+                // }
+                setFans(response.data.friends)
                 setFansLoading(false)
             } else {
                 setFans([])
                 setFansLoading(false)
             }
         } else {
-            console.log(response.message)
+            if (response.status == 404) {
+                setFans([])
+                setFansLoading(false)
+
+            } else {
+
+                console.log(response.message)
+            }
         }
     }
     useEffect(() => {
@@ -48,27 +56,28 @@ const MyFans = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAllie, 
         }
     }, [globalUser.token])
 
-    return (<>{fansLoading ? <CircularProgress /> :
-        <>{fans.length > 0 ?
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
-                {fans.map((fan, index) => (
-                    <RelationCard
-                        removeAllie={() => removeAllie(fan.cid, globalUser.cid)}
-                        removeFriend={() => removeFriend(fan.cid, globalUser.cid)}
-                        image={purpleNFT} username={fan.username} allies={true}
+    return (
+        <>{fansLoading ? <CircularProgress /> :
+            <>{fans.length > 0 ?
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
+                    {fans.map((fan, index) => (
+                        <RelationCard
+                            removeAllie={() => removeAllie(fan.screen_cid, globalUser.cid)}
+                            removeFriend={() => removeFriend(fan.screen_cid, globalUser.cid)}
+                            image={fan.user_avatar} username={fan.username} allies={true}
 
-                        sendAllieRequest={() => sendAllieRequest(fan.cid, globalUser.cid)}
+                            sendAllieRequest={() => sendAllieRequest(fan.screen_cid, globalUser.cid)}
 
-                        sendFriendRequest={() => sendFriendRequest(fan.cid, globalUser.cid)}
-                        shareClick={shareClick} />
-                ))}
-            </Box>
-            : <Typography
-                sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
-                Dear {globalUser.username} you dont have any allies yet</Typography>}
+                            sendFriendRequest={() => sendFriendRequest(fan.screen_cid, globalUser.cid)}
+                            shareClick={shareClick} />
+                    ))}
+                </Box>
+                : <Typography
+                    sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
+                    Dear {globalUser.username} you dont have any allies yet</Typography>}
+            </>
+        }
         </>
-    }
-    </>
     );
 }
 
