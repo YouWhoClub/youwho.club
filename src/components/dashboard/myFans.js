@@ -7,7 +7,7 @@ import purpleNFT from '../../assets/purple-nft.svg'
 import { API_CONFIG } from "../../config"
 
 const MyFans = ({ sendAllieRequest, sendFriendRequest,
-    shareClick, removeAllie, removeFriend, }) => {
+    shareClick, removeAllie, removeFriend, followings }) => {
     const globalUser = useSelector(state => state.userReducer)
     const apiCall = useRef(undefined)
     const [fans, setFans] = useState([])
@@ -27,14 +27,23 @@ const MyFans = ({ sendAllieRequest, sendFriendRequest,
 
         if (!response.is_error) {
             if (response.data.friends.length > 0) {
-                // let tempFans = []
-                // for (let i = 0; i < response.data.friends.length; i++) {
-                //     if (response.data.friends[i].is_accepted == true) {
-                //         tempFans.push(response.data.friends[i])
-                //     }
-                // }
-                setFans(response.data.friends)
-                setFansLoading(false)
+                if (followings && followings.length > 0) {
+                    let tempFans = []
+                    // for (let j = 0; j < followings.length; j++) {
+                    for (let i = 0; i < response.data.friends.length; i++) {
+                        // console.log(followings.includes(response.data.friends[i].screen_cid))
+                        if (!followings.includes(response.data.friends[i].screen_cid)) {
+                            tempFans.push(response.data.friends[i])
+                        }
+                    }
+                    // }
+                    setFans(tempFans)
+                    setFansLoading(false)
+
+                } else {
+                    setFans(response.data.friends)
+                    setFansLoading(false)
+                }
             } else {
                 setFans([])
                 setFansLoading(false)

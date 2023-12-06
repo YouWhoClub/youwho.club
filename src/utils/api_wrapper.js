@@ -23,6 +23,7 @@ export class APIWrapper {
                         axios({
                             method: "get",
                             url: url,
+                            headers: headers
                         }).then((res) => {
                             console.log(res)
                             resolve({

@@ -14,7 +14,7 @@ const MyFriends = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAlli
     const navigate = useNavigate()
     const [FriendsLoading, setFriendsLoading] = useState(true)
     const getFriends = async () => {
-        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/followings/?from=0&to=10`, {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/friends/?from=0&to=10`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

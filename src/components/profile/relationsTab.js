@@ -15,6 +15,8 @@ import { useNavigate } from "react-router";
 import generateSignature from "../../utils/signatureUtils";
 import { API_CONFIG } from "../../config";
 import API from "../../utils/api";
+import TheirAllies from "./TheirAllies";
+import TheirFriends from "./TheirFriends";
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex', boxSizing: 'border-box',
     flexDirection: 'row',
@@ -36,36 +38,56 @@ const FlexColumn = styled(Box)(({ theme }) => ({
 const RelationsTab = ({ user }) => {
     const globalUser = useSelector(state => state.userReducer)
     const apiCall = useRef(undefined)
-    const [activeTab, setActiveTab] = useState('my-allies')
-    const [friendsLoading, setFriendsLoading] = useState(true)
-    const [friends, setFriends] = useState([])
-    const [fans, setFans] = useState([])
-    const [reqs, setReqs] = useState([{ cid: '0xed2b3bdae27c24480f0676f43228a7981c42fdea', username: 'narni' },])
+    const [activeTab, setActiveTab] = useState('their-allies')
     const [suggestions, setSuggestions] = useState([])
     const [err, setErr] = useState(undefined)
     const navigate = useNavigate()
-
-    const acceptFriendRequest = async (receiver, sender) => {
-        let data = {
-            owner_cid: sender,
-            friend_screen_cid: receiver,
-        }
-        let { requestData } = generateSignature(globalUser.privateKey, data)
-        console.log(requestData)
-        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/accept/friend-request`, {
-            method: 'POST',
-            body: JSON.stringify(requestData),
+    const getRelations = async () => {
+        console.log(user)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/relations/for/${user.YouWhoID}/?from=0&to=10`, {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${globalUser.token}`,
             }
         })
         let response = await request.json()
-        console.log(response);
+        console.log('relations', response)
+
+        if (!response.is_error) {
+            console.log('relations', response)
+        } else {
+            console.log('relations', response)
+        }
     }
+    useEffect(() => {
+        if (globalUser.token && user && user.YouWhoID) {
+            getRelations()
+        }
+    }, [globalUser.token, user, user.YouWhoID])
+
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-            {user.username}'s relation tab
+            <SubTabs jc={'center'}>
+                <SubTab id={"their-allies"}
+                    onClick={(e) => setActiveTab(e.target.id)}
+                    text={'Allies'} selected={activeTab == 'their-allies'} />
+                <SubTab id={"their-friends"}
+                    onClick={(e) => setActiveTab(e.target.id)}
+                    text={'Friends'} selected={activeTab == 'their-friends'} />
+            </SubTabs>
+            <FilterSelectionBox sx={{ padding: '8px 16px', my: '24px' }}>
+                <span style={{ width: '180px', fontSize: '14px' }}>
+                    Search Username:
+                </span>
+                <input style={{
+                    height: '20px',
+                    backgroundColor: 'transparent', border: 'none', outline: 'none',
+                    color: '#c2c2c2', width: '100%'
+                }} />
+            </FilterSelectionBox>
+            {activeTab == 'Allies' && <TheirAllies />}
+            {activeTab == 'Friends' && <TheirFriends />}
         </Box>
     );
 }

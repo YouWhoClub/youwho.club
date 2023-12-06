@@ -57,12 +57,11 @@ const RelationsTab = () => {
     const globalUser = useSelector(state => state.userReducer)
     const apiCall = useRef(undefined)
     const [activeTab, setActiveTab] = useState('my-allies')
-    const [allFriends, setAllFriends] = useState([])
-    const [allFans, setAllFans] = useState([])
-    const [allSuggestions, setAllSuggestions] = useState([])
     const [err, setErr] = useState(undefined)
     const navigate = useNavigate()
     const [signer, setSigner] = useState(undefined)
+    const [followings, setFollowings] = useState([])
+    const [followingsLoading, setFollowingsLoading] = useState(true)
     const dispatch = useDispatch();
     const toastId = useRef(null);
     const loading = () => {
@@ -141,6 +140,86 @@ const RelationsTab = () => {
         e.preventDefault()
         dispatch(setPrivateKey(signer))
     }
+    const getFollowings = async () => {
+        // try {
+        //     apiCall.current = AUTH_API.request({
+        //         path: `/fan/get/all/followings/?from=0&to=10`,
+        //         method: 'get',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'Authorization': `Bearer ${globalUser.token}`,
+        //         }
+        //     });
+        //     let response = await apiCall.current.promise;
+        //     console.log('followings', response)
+
+        //     if (!response.isSuccess)
+        //         throw response
+        //     console.log('followings', response)
+        //     setFollowings(response.data)
+        //     setFollowingsLoading(false)
+        // }
+        // catch (err) {
+        //     if (err.status == 404) {
+        //         setFollowings([])
+        //         setFollowingsLoading(false)
+
+        //     } else {
+        //         setErr(err.message)
+        //         console.log(err.message)
+        //     }
+        // }
+
+
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/followings/?from=0&to=10`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log('followings', response)
+
+        if (!response.is_error) {
+
+            if (response.data.length > 0) {
+                let tempFolls = []
+                for (var i = 0; i < response.data.length; i++) {
+                    // let tempFoll = {}
+                    // tempFoll.ywid = response.data[i].user_screen_cid
+                    tempFolls.push(response.data[i].user_screen_cid)
+                }
+                setFollowings(tempFolls)
+                console.log(tempFolls)
+                setFollowingsLoading(false)
+            } else {
+                setFollowings([])
+                setFollowingsLoading(false)
+            }
+        } else {
+            if (response.status == 404) {
+                setFollowings([])
+                setFollowingsLoading(false)
+
+            } else {
+                setErr(response.message)
+                console.log(response.message)
+            }
+        }
+    }
+
+    useEffect(() => {
+        if (globalUser.token) {
+            getFollowings()
+        }
+        // return () => {
+        //     if (apiCall.current !== undefined) {
+        //         apiCall.current.cancel();
+        //     }
+        // }
+
+    }, [globalUser.token])
 
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
@@ -171,21 +250,19 @@ const RelationsTab = () => {
                                 <MyFans sendAllieRequest={sendAllieRequest}
                                     sendFriendRequest={sendFriendRequest} shareClick={shareClick}
                                     removeAllie={removeAllie} removeFriend={removeFriend}
-                                    setAllFans={setAllFans} allFans={allFans} allFriends={allFriends}
+                                    followings={followings}
                                 />
                             }
                             {activeTab == 'my-friends' &&
                                 <MyFriends sendAllieRequest={sendAllieRequest}
                                     sendFriendRequest={sendFriendRequest} shareClick={shareClick}
-                                    removeAllie={removeAllie} removeFriend={removeFriend} setAllFriends={setAllFriends}
-                                    allFriends={allFriends} />
+                                    removeAllie={removeAllie} removeFriend={removeFriend} />
                             }
                             {activeTab == 'expansion-of-communication' &&
                                 <MyFriendSuggestions sendAllieRequest={sendAllieRequest}
                                     sendFriendRequest={sendFriendRequest} shareClick={shareClick}
                                     removeAllie={removeAllie} removeFriend={removeFriend}
-                                    setAllSuggestions={setAllSuggestions} allSuggestions={allSuggestions}
-                                    allFriends={allFriends} />
+                                />
                             }
                         </>
                         :

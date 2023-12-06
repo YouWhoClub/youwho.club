@@ -31,7 +31,7 @@ const MyFriendSuggestions = ({ sendAllieRequest, sendFriendRequest, shareClick, 
                 setLoading(false)
                 setErr(undefined)
             }
-            else  throw response
+            else throw response
 
 
             // apiCall.current = PUBLIC_API.request({
