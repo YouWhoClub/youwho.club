@@ -48,8 +48,8 @@ const FlexColumn = styled(Box)(({ theme }) => ({
 const NFTImage = styled(Box)(({ theme }) => ({
     backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',
     borderRadius: '12px',
-    width:'100%',
-    cursor:'pointer'
+    width: '100%',
+    cursor: 'pointer'
 }))
 const Icon = styled(Box)(({ theme, url, w, h }) => ({
     width: `${w}px`,
@@ -117,7 +117,7 @@ const CreateNFT = () => {
     }, [])
 
     useEffect(() => {
-        if (galleryId){
+        if (galleryId) {
             getPrivateCollection()
         }
     }, [galleryId])
@@ -144,7 +144,7 @@ const CreateNFT = () => {
         e.preventDefault()
         dispatch(setPrivateKey(signer))
     }
-    
+
     const handleSelectMediaType = (e) => {
         e.preventDefault()
         setMediaType(e.target.id)
@@ -164,7 +164,7 @@ const CreateNFT = () => {
             }))
     }
 
-	const handleColImageChange = (e) => {
+    const handleColImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
             setColImageFile(file);
@@ -172,7 +172,7 @@ const CreateNFT = () => {
             setOpenColCrop(true);
         }
     };
-	const handleNFTImageChange = (e) => {
+    const handleNFTImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
             setNFTImageFile(file);
@@ -185,7 +185,7 @@ const CreateNFT = () => {
         const { name, value } = e.target;
         const updatedMetadata = [...collectionForm.extra];
 
-        if (isNaN(value) || name !== 'value' )
+        if (isNaN(value) || name !== 'value')
             updatedMetadata[index] = { ...updatedMetadata[index], [name]: value };
         else
             updatedMetadata[index] = { ...updatedMetadata[index], [name]: Number(value) };
@@ -196,12 +196,12 @@ const CreateNFT = () => {
             extra: updatedMetadata,
         }));
     };
-    
+
     const handleAttributesChange = (e, index) => {
         const { name, value } = e.target;
         const updatedAttributes = [...NFTForm.attributes];
 
-        if (isNaN(value) || name !== 'value' )
+        if (isNaN(value) || name !== 'value')
             updatedAttributes[index] = { ...updatedAttributes[index], [name]: value };
         else
             updatedAttributes[index] = { ...updatedAttributes[index], [name]: Number(value) };
@@ -280,17 +280,43 @@ const CreateNFT = () => {
         }
     }
 
+    const uploadCollectionBackground = async resData => {
+        loading();
+
+        const myFile = new File([colImageFile], 'image.jpeg', {
+            type: colImageFile.type,
+        });
+
+        const formData = new FormData();
+        formData.append('img', myFile)
+
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/collection/${resData.id}/upload/background`, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+
+        if (!response.is_error) {
+            updateToast(true, response.message)
+        } else {
+            console.log(response.message)
+        }
+    }
+
     const createCollection = async () => {
         loading();
 
         if (globalUser.privateKey) {
-			let data = {}
+            let data = {}
 
-			if(collectionForm.extra.length == 0){
-				data = {...collectionForm, extra: null}
-			}else{
-				data = {...collectionForm, extra: JSON.stringify(collectionForm.extra)}
-			}
+            if (collectionForm.extra.length == 0) {
+                data = { ...collectionForm, extra: null }
+            } else {
+                data = { ...collectionForm, extra: JSON.stringify(collectionForm.extra) }
+            }
 
             const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
 
@@ -309,6 +335,7 @@ const CreateNFT = () => {
 
             if (!response.is_error) {
                 updateToast(true, response.message)
+                uploadCollectionBackground(response.data)
             } else {
                 console.error(response.message)
                 updateToast(false, response.message)
@@ -322,13 +349,13 @@ const CreateNFT = () => {
         loading();
 
         if (globalUser.privateKey) {
-			let data = {}
+            let data = {}
 
-			if(NFTForm.extra.length == 0){
-				data = {...NFTForm, extra: null}
-			}else{
-				data = {...NFTForm, extra: JSON.stringify(NFTForm.extra)}
-			}
+            if (NFTForm.extra.length == 0) {
+                data = { ...NFTForm, extra: null }
+            } else {
+                data = { ...NFTForm, extra: JSON.stringify(NFTForm.extra) }
+            }
 
             const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
 
@@ -369,14 +396,14 @@ const CreateNFT = () => {
             const formData = new FormData();
             formData.append('img', myFile)
 
-			const keyValuePairs = [
-                ['caller_cid',globalUser.cid],
+            const keyValuePairs = [
+                ['caller_cid', globalUser.cid],
                 ['amount', NFTForm.amount],
-                ['nft_id',NFTObject.id],
-                ['nft_new_attributes',JSON.stringify(NFTObject.attributes)],
-                ['nft_new_extra',JSON.stringify(NFTObject.extra)],
-                ['nft_new_name',NFTObject.nft_name],
-                ['nft_new_description',NFTObject.nft_description],
+                ['nft_id', NFTObject.id],
+                ['nft_new_attributes', JSON.stringify(NFTObject.attributes)],
+                ['nft_new_extra', JSON.stringify(NFTObject.extra)],
+                ['nft_new_name', NFTObject.nft_name],
+                ['nft_new_description', NFTObject.nft_description],
             ]
 
             keyValuePairs.forEach(([key, value]) => {
@@ -416,415 +443,415 @@ const CreateNFT = () => {
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', }}>
             {globalUser.cid ?
                 <>
-                {globalUser.privateKey ?
-                    <>
-                    <SubTabs jc={'center'} mb={'24px'}>
-                        <SubTab id={"create-collection"} onClick={(e) => setActiveTab(e.target.id)} text={'Create Collection'} selected={activeTab == 'create-collection'} />
-                        <SubTab id={"create-NFT"} onClick={(e) => setActiveTab(e.target.id)} text={'Create NFT'} selected={activeTab == 'create-NFT'} />
-                    </SubTabs>
-                    {activeTab == 'create-NFT' ?
+                    {globalUser.privateKey ?
                         <>
-                            <Container sx={{ mb: '24px' }}>
-                                <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' } }}>
-                                    <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
-                                        Upload Your NFT
-                                    </Typography>
-                                    <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '12px' } }}>
-                                        You Can Upload NFT in Various Types & Sizes
-                                    </Typography>
-                                </FlexColumn>
-                                <FlexRow sx={{ flexDirection: { xs: 'column', sm: 'row' }, gap: '12px' }}>
-                                    <FlexColumn sx={{
-                                        gap: { xs: '10px', sm: '16px' }
-                                    }}>
-                                        <SelectInput tabs={['Image, .PNG', 'Image, .JPG', 'Video, .MP4']} label={'Your NFT Type'}
-                                            handleSelect={handleSelectMediaType} value={mediaType} id="nft-type-selection"
-                                            width={'100%'} icon={<Icon url={MediaTypeIcon} w={27} h={27} />} />
-                                        <ButtonInput label={'Upload NFT File *'} width={'100%'}
-                                            icon={<AddAPhotoOutlined sx={{ color: 'primary.light' }} />}
-                                            button={<ButtonOutline
-                                                height='35px'
-                                                onClick={() => NFTImageInput.current.click()}
-                                                text={'Browse'}
-                                                br={'30px'} 
-												/>
-                                            } />
-                                        <input
-                                        	accept="image/*"
-                                        	id="nftPhoto"
-                                        	type="file"
-                                        	style={{ display: 'none' }}
-                                        	onChange={handleNFTImageChange}
-                                        	ref={NFTImageInput}
-                                    	/>
-                                        <SelectInput tabs={['16 : 9', '1:1',]} label={'Aspect Ratio'}
-                                            handleSelect={(e) => setAspectRatio(e.target.id)} value={aspectRatio} id="nft-aspect-ratio-selection"
-                                            width={'100%'} icon={<Icon url={frameIcon} w={27} h={27} />} />
-                                    </FlexColumn>
-                                    <NFTImage 
-                                        onClick={() => NFTImageInput.current.click()}
-                                        sx={{
-                                        background: () => {
-                                            return (
-                                                NFTPhotoURL
-                                                    ? `url('${NFTPhotoURL}') no-repeat center`
-                                                    : `url('${nftImage}') no-repeat center`
-                                            )
-                                        },
-                                        aspectRatio: () => aspectRatio == '16 : 9' ? 16 / 9 : 1,
-                                        }} 
-                                    />
-                                </FlexRow>
-                            </Container>
-                            <Container >
-                                <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' } }}>
-                                    <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
-                                        NFT Informations
-                                    </Typography>
-                                    <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '12px' } }}>
-                                        Tell Us About Your NFT Details
-                                    </Typography>
-                                </FlexColumn>
-                                <FlexColumn sx={{ gap: '16px' }}>
-                                    <FlexRow sx={{ flexDirection: { xs: 'column', sm: 'row' }, gap: '12px' }}>
-                                        <MyInput 
-                                            value={NFTForm.current_price}
-                                            name={"current_price"}
-                                            onChange={handleNFTFormChange}
-                                            label={'NFT Price'} width={'100%'}
-                                            icon={<Coin color="#BEA2C5" />} type={'number'} id={'nft-price'} 
-                                        />
-                                        <MyInput 
-                                            value={NFTForm.nft_name}
-                                            name={"nft_name"}
-                                            onChange={handleNFTFormChange}
-                                            label={'NFT Name*'} width={'100%'}
-                                            icon={<BrandingWatermark sx={{ color: "#BEA2C5" }} />} type={'string'} id={'nft-name'} 
-                                        />
-                                    </FlexRow>
-                                    <SelectInput tabs={privateCollection.map(col=>(col.col_name))} label={'NFT Collection *'}
-                                        handleSelect={(e) => setNFTForm(prev=>({...prev,contract_address:privateCollection.filter(col=>col.col_name == e.target.id)[0].contract_address}))} 
-                                        value={NFTForm.contract_address?privateCollection.filter(col=>col.contract_address == NFTForm.contract_address)[0].col_name:''}
-                                        id="nft-collection-selection"
-                                        width={'100%'} icon={<Icon url={CollIcon} w={27} h={27} />} />
-                                    <MyInput 
-                                        value={NFTForm.nft_description}
-                                        name={"nft_description"}
-                                        onChange={handleNFTFormChange}
-                                        label={'NFT Description*'} width={'100%'}
-                                        icon={<Description sx={{ color: "#BEA2C5" }} />} type={'string'} id={'nft-decription'}
-                                    />
-                                    <FlexRow sx={{ mb: '16px' }}>
-                                        <ButtonInput label={'Metadata Addition *'} width={'100%'}
-                                            icon={<AddBoxOutlined
-                                                sx={{ color: 'primary.light' }}
-                                            />
-                                            }
-                                            button={<Add sx={{ color: 'primary.gray' }}
-                                                onClick={() => setNFTForm((prev) => ({ ...prev, attributes: [...prev.attributes, { trait_type: "", value: "" }] }))}
-                                            />
-                                        } />
-                                    </FlexRow>
-                                    {
-                                        NFTForm.attributes.map((object, index) => {
-                                            return (<FlexRow key={index} sx={{ mb: '16px' }}>
-                                                <span>{index + 1}</span>
-                                                <MyInput name={'trait_type'} label={'Trait Type'} width={'40%'}
-                                                    onChange={(e) => handleAttributesChange(e, index)}
-                                                    value={object.trait_type}
-                                                />
-                                                <MyInput name={'value'} label={'Value'} width={'40%'}
-                                                    onChange={(e) => handleAttributesChange(e, index)}
-                                                    value={object.value}
-                                                />
-                                            </FlexRow>)
-                                        })
-                                    }
-                                </FlexColumn>
-                                <Modal
-                                open={openNFTCrop}
-                                onClose={() => setOpenNFTCrop(false)}
-                                aria-labelledby="modal-modal-title"
-                                aria-describedby="modal-modal-description"
-                                >
-                                    <Box sx={{
-                                        width: '100%',
-                                        height: '100%',
-                                        display: 'flex', alignItems: 'center', justifyContent: 'center'
-                                    }}>
-                                        <Box sx={{
-                                            borderRadius: '24px',
-                                            width: { xs: '100%', sm: '600px' }, height: { xs: '100%', sm: '600px' },
-                                            backgroundColor: 'secondary.bg',
-                                            display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between'
-                                        }}>
-                                            <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}>
-                                                <Typography>Crop</Typography>
-                                                <div onClick={() => {
-                                                    setOpenNFTCrop(false)
-                                                }}>
-                                                    <Close sx={{ cursor: 'pointer' }} />
-                                                </div>
-                                            </FlexRow>
-                                            <Crop imageURL={NFTPhotoURL} aspectRatio={aspectRatio == '16 : 9' ? 16/9 : 1} setOpenCrop={setOpenNFTCrop} setFile={setNFTImageFile} setPhotoURL={setNFTPhotoURL} />
-                                        </Box>
-                                    </Box>
-                                </Modal>
-                            </Container>
-                            <Box sx={{
-                                width: { xs: '100%', sm: '350px' }, mt: '24px', display: 'flex', justifyContent: 'center'
-                            }}>
-                                <ButtonPurple 
-                                    text={'Create'}
-                                    w={'100%'}
-                                    disabled={!Object.values(NFTForm).every(value => value !== null && value !== "") || !NFTForm.attributes.length}      
-                                    onClick={createNFT}
-                                />
-                            </Box>
-                        </>
-                        : // ____________________________________________________________________
-                        <>
-                            <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
-                                NFT Contract Information
-                            </Typography>
-                            <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '14px' } }}>
-                                You Can Read Information About Each Field,By Click On The Icon, to Show/Hide The Information.
-                            </Typography>
-
-                            <Container sx={{ mt: '24px', }}>
-                                <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
-                                    New Collection Introduction
-                                </Typography>
-                                <FlexColumn>
-                                    <FlexRow sx={{ mb: '16px' }}>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', padding: '12px 15px' }}>
-                                            <Typography sx={{ fontSize: '12px' }}>
-                                                Type : &nbsp;
+                            <SubTabs jc={'center'} mb={'24px'}>
+                                <SubTab id={"create-collection"} onClick={(e) => setActiveTab(e.target.id)} text={'Create Collection'} selected={activeTab == 'create-collection'} />
+                                <SubTab id={"create-NFT"} onClick={(e) => setActiveTab(e.target.id)} text={'Create NFT'} selected={activeTab == 'create-NFT'} />
+                            </SubTabs>
+                            {activeTab == 'create-NFT' ?
+                                <>
+                                    <Container sx={{ mb: '24px' }}>
+                                        <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' } }}>
+                                            <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
+                                                Upload Your NFT
                                             </Typography>
-                                            <Input color="primary.gray" style={{ outline: "none", fontSize: '12px' }} />
-                                        </Box>
-                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                    </FlexRow>
-                                    <FlexRow sx={{ mb: '12px' }}>
-                                        <MyInput name={'col_name'} label={'Name *'} width={'100%'} icon={<TitleOutlined sx={{ color: 'primary.light' }} />}
-                                            onChange={handleColFormChange}
-                                            value={collectionForm.col_name}
-                                        />
-                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                    </FlexRow>
-                                    <FlexRow sx={{ mb: '12px' }}>
-                                        <MyInput name={'symbol'} label={'Symbol *'} width={'100%'} icon={<EmojiSymbols sx={{ color: 'primary.light' }} />}
-                                            onChange={handleColFormChange}
-                                            value={collectionForm.symbol}
-                                        />
-                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                    </FlexRow>
-                                    <FlexRow sx={{ mb: '12px' , position:'relative'}}>
-                                        <ButtonInput label={'Cover Image *'} width={'100%'}
-                                            icon={<ConnectedTvRounded sx={{ color: 'primary.light' }} />}
-                                            button={<ButtonOutline
-                                                height='35px'
-                                                onClick={() => colImageInput.current.click()}
-                                                text={'Browse'}
-                                                br={'30px'} />
-                                            } />
-
-    									<input
-                                        	accept="image/*"
-                                        	id="nftPhoto"
-                                        	type="file"
-                                        	style={{ display: 'none' }}
-                                        	onChange={handleColImageChange}
-                                        	ref={colImageInput}
-                                    	/>
-
-										<Box
-											sx={{
-												width: '68px',
-												aspectRatio: 16 / 9,
-												borderRadius: '12px',
-												backgroundColor: 'primary.gray',
-												cursor: 'pointer',
-												position:'absolute',
-												left:'150px', right:0,
-												display:() => {
-													return (
-														colPhotoURL
-															? 'block'
-															: 'none'
-													)
-												},
-												background: () => {
-													return (
-														colPhotoURL
-															? `url('${colPhotoURL}') no-repeat center`
-															: 'primary.gray'
-													)
-												},
-												backgroundSize: 'cover'
-											}}
-											onClick={() => colImageInput.current.click()}
-										></Box>
-
-                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                    </FlexRow>
-                                    <FlexRow sx={{ mb: '12px' }}>
-                                        <MyInput name={'col_description'} label={'Description *'} width={'100%'} icon={<DescriptionOutlined sx={{ color: 'primary.light' }} />}
-                                            onChange={handleColFormChange}
-                                            value={collectionForm.col_description}
-                                        />
-                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                    </FlexRow>
-                                </FlexColumn>
-                            </Container>
-                            <Container sx={{ mt: '24px', }}>
-                                <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
-                                    The Collection Metadata
-                                </Typography>
-                                <FlexColumn>
-                                    <FlexRow sx={{ mb: '16px' }}>
-                                        <MyInput name={'base_uri'} label={'Base URI *'} width={'100%'} icon={<LinkOutlined sx={{ color: 'primary.light' }} />}
-                                            onChange={handleColFormChange}
-                                            value={collectionForm.base_uri}
-                                        />
-                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                    </FlexRow>
-                                    <FlexRow sx={{ mb: '16px' }}>
-                                        <ButtonInput label={'Metadata Updatable *'} width={'100%'}
-                                            icon={<List sx={{ color: 'primary.light' }} />
-                                            }
-                                            button={<BetweenTwoSelection
-                                                color={'secondary.text'}
-                                                options={[true, false]}
-                                                id={'metaupdate-create-coll'}
-                                                name='metadata_updatable'
-                                                setOption={value => setCollectionForm((prev) => ({ ...prev, metadata_updatable: value }))}
-                                                selected={collectionForm.metadata_updatable}
-                                            />
-                                            } 
-										/>
-                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                    </FlexRow>
-                                    <FlexRow sx={{ mb: '16px' }}>
-                                        <ButtonInput label={'Metadata Addition *'} width={'100%'}
-                                            icon={<AddBoxOutlined
-                                                sx={{ color: 'primary.light' }}
-                                            />
-                                            }
-                                            button={<Add sx={{ color: 'primary.gray' }}
-                                                onClick={() => setCollectionForm((prev) => ({ ...prev, extra: [...prev.extra, { key: "", value: "" }] }))}
-                                            />
-                                            } />
-                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                    </FlexRow>
-                                    {
-                                        collectionForm.extra.map((object, index) => {
-                                            return (<FlexRow sx={{ mb: '16px' }}>
-                                                <span>{index + 1}</span>
-                                                <MyInput name={'key'} label={'Key'} width={'40%'}
-                                                    onChange={(e) => handleMetadataChange(e, index)}
-                                                    value={object.key}
-                                                />
-                                                <MyInput name={'value'} label={'Value'} width={'40%'}
-                                                    onChange={(e) => handleMetadataChange(e, index)}
-                                                    value={object.value}
-                                                />
-                                            </FlexRow>)
-                                        })
-                                    }
-
-                                </FlexColumn>
-                            </Container>
-                            <Container sx={{ mt: '24px', }}>
-                                <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
-                                    The Collection Finance
-                                </Typography>
-                                <FlexColumn>
-                                    <FlexRow sx={{ mb: '16px' }}>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', padding: '12px 15px' }}>
-                                            <Typography sx={{ fontSize: '12px' }}>
-                                                Owner Address : &nbsp;
+                                            <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '12px' } }}>
+                                                You Can Upload NFT in Various Types & Sizes
                                             </Typography>
-                                            <Input name="owner_cid" color="primary.gray" style={{ outline: "none", fontSize: '12px' }}
-                                                onChange={handleColFormChange}
-                                                value={collectionForm.owner_cid}
-                                            />
-                                        </Box>
-                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                    </FlexRow>
-                                    <FlexRow sx={{ mb: '16px' }}>
-                                        <MyInput type='number' name={'royalties_share'} label={'Royalty Share *'} width={'100%'} icon={<Money sx={{ color: 'primary.light' }} />}
-                                            onChange={handleColFormChange}
-                                            value={collectionForm.royalties_share}
-                                        />
-                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                    </FlexRow>
-                                    <FlexRow sx={{ mb: '16px' }}>
-                                        <MyInput name={'royalties_address_screen_cid'} label={'Royalties Address *'} width={'100%'} icon={<AddBoxOutlined sx={{ color: 'primary.light' }} />}
-                                            onChange={handleColFormChange}
-                                            value={collectionForm.royalties_address_screen_cid}
-                                        />
-                                        <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                    </FlexRow>
-                                </FlexColumn>
-								<Modal
-                                open={openColCrop}
-                                onClose={() => setOpenColCrop(false)}
-                                aria-labelledby="modal-modal-title"
-                                aria-describedby="modal-modal-description"
-                            >
-                                <Box sx={{
-                                    width: '100%',
-                                    height: '100%',
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center'
-                                }}>
-                                    <Box sx={{
-                                        borderRadius: '24px',
-                                        width: { xs: '100%', sm: '600px' }, height: { xs: '100%', sm: '600px' },
-                                        backgroundColor: 'secondary.bg',
-                                        display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between'
-                                    }}>
-                                        <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}>
-                                            <Typography>Crop</Typography>
-                                            <div onClick={() => {
-                                                setOpenColCrop(false)
+                                        </FlexColumn>
+                                        <FlexRow sx={{ flexDirection: { xs: 'column', sm: 'row' }, gap: '12px' }}>
+                                            <FlexColumn sx={{
+                                                gap: { xs: '10px', sm: '16px' }
                                             }}>
-                                                <Close sx={{ cursor: 'pointer' }} />
-                                            </div>
+                                                <SelectInput tabs={['Image, .PNG', 'Image, .JPG', 'Video, .MP4']} label={'Your NFT Type'}
+                                                    handleSelect={handleSelectMediaType} value={mediaType} id="nft-type-selection"
+                                                    width={'100%'} icon={<Icon url={MediaTypeIcon} w={27} h={27} />} />
+                                                <ButtonInput label={'Upload NFT File *'} width={'100%'}
+                                                    icon={<AddAPhotoOutlined sx={{ color: 'primary.light' }} />}
+                                                    button={<ButtonOutline
+                                                        height='35px'
+                                                        onClick={() => NFTImageInput.current.click()}
+                                                        text={'Browse'}
+                                                        br={'30px'}
+                                                    />
+                                                    } />
+                                                <input
+                                                    accept="image/*"
+                                                    id="nftPhoto"
+                                                    type="file"
+                                                    style={{ display: 'none' }}
+                                                    onChange={handleNFTImageChange}
+                                                    ref={NFTImageInput}
+                                                />
+                                                <SelectInput tabs={['16 : 9', '1:1',]} label={'Aspect Ratio'}
+                                                    handleSelect={(e) => setAspectRatio(e.target.id)} value={aspectRatio} id="nft-aspect-ratio-selection"
+                                                    width={'100%'} icon={<Icon url={frameIcon} w={27} h={27} />} />
+                                            </FlexColumn>
+                                            <NFTImage
+                                                onClick={() => NFTImageInput.current.click()}
+                                                sx={{
+                                                    background: () => {
+                                                        return (
+                                                            NFTPhotoURL
+                                                                ? `url('${NFTPhotoURL}') no-repeat center`
+                                                                : `url('${nftImage}') no-repeat center`
+                                                        )
+                                                    },
+                                                    aspectRatio: () => aspectRatio == '16 : 9' ? 16 / 9 : 1,
+                                                }}
+                                            />
                                         </FlexRow>
-                                        <Crop imageURL={colPhotoURL} aspectRatio={aspectRatio == '16 : 9' ? 16/9 : 1} setOpenCrop={setOpenColCrop} setFile={setColImageFile} setPhotoURL={setColPhotoURL} />
+                                    </Container>
+                                    <Container >
+                                        <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' } }}>
+                                            <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
+                                                NFT Informations
+                                            </Typography>
+                                            <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '12px' } }}>
+                                                Tell Us About Your NFT Details
+                                            </Typography>
+                                        </FlexColumn>
+                                        <FlexColumn sx={{ gap: '16px' }}>
+                                            <FlexRow sx={{ flexDirection: { xs: 'column', sm: 'row' }, gap: '12px' }}>
+                                                <MyInput
+                                                    value={NFTForm.current_price}
+                                                    name={"current_price"}
+                                                    onChange={handleNFTFormChange}
+                                                    label={'NFT Price'} width={'100%'}
+                                                    icon={<Coin color="#BEA2C5" />} type={'number'} id={'nft-price'}
+                                                />
+                                                <MyInput
+                                                    value={NFTForm.nft_name}
+                                                    name={"nft_name"}
+                                                    onChange={handleNFTFormChange}
+                                                    label={'NFT Name*'} width={'100%'}
+                                                    icon={<BrandingWatermark sx={{ color: "#BEA2C5" }} />} type={'string'} id={'nft-name'}
+                                                />
+                                            </FlexRow>
+                                            <SelectInput tabs={privateCollection.map(col => (col.col_name))} label={'NFT Collection *'}
+                                                handleSelect={(e) => setNFTForm(prev => ({ ...prev, contract_address: privateCollection.filter(col => col.col_name == e.target.id)[0].contract_address }))}
+                                                value={NFTForm.contract_address ? privateCollection.filter(col => col.contract_address == NFTForm.contract_address)[0].col_name : ''}
+                                                id="nft-collection-selection"
+                                                width={'100%'} icon={<Icon url={CollIcon} w={27} h={27} />} />
+                                            <MyInput
+                                                value={NFTForm.nft_description}
+                                                name={"nft_description"}
+                                                onChange={handleNFTFormChange}
+                                                label={'NFT Description*'} width={'100%'}
+                                                icon={<Description sx={{ color: "#BEA2C5" }} />} type={'string'} id={'nft-decription'}
+                                            />
+                                            <FlexRow sx={{ mb: '16px' }}>
+                                                <ButtonInput label={'Metadata Addition *'} width={'100%'}
+                                                    icon={<AddBoxOutlined
+                                                        sx={{ color: 'primary.light' }}
+                                                    />
+                                                    }
+                                                    button={<Add sx={{ color: 'primary.gray' }}
+                                                        onClick={() => setNFTForm((prev) => ({ ...prev, attributes: [...prev.attributes, { trait_type: "", value: "" }] }))}
+                                                    />
+                                                    } />
+                                            </FlexRow>
+                                            {
+                                                NFTForm.attributes.map((object, index) => {
+                                                    return (<FlexRow key={index} sx={{ mb: '16px' }}>
+                                                        <span>{index + 1}</span>
+                                                        <MyInput name={'trait_type'} label={'Trait Type'} width={'40%'}
+                                                            onChange={(e) => handleAttributesChange(e, index)}
+                                                            value={object.trait_type}
+                                                        />
+                                                        <MyInput name={'value'} label={'Value'} width={'40%'}
+                                                            onChange={(e) => handleAttributesChange(e, index)}
+                                                            value={object.value}
+                                                        />
+                                                    </FlexRow>)
+                                                })
+                                            }
+                                        </FlexColumn>
+                                        <Modal
+                                            open={openNFTCrop}
+                                            onClose={() => setOpenNFTCrop(false)}
+                                            aria-labelledby="modal-modal-title"
+                                            aria-describedby="modal-modal-description"
+                                        >
+                                            <Box sx={{
+                                                width: '100%',
+                                                height: '100%',
+                                                display: 'flex', alignItems: 'center', justifyContent: 'center'
+                                            }}>
+                                                <Box sx={{
+                                                    borderRadius: '24px',
+                                                    width: { xs: '100%', sm: '600px' }, height: { xs: '100%', sm: '600px' },
+                                                    backgroundColor: 'secondary.bg',
+                                                    display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between'
+                                                }}>
+                                                    <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}>
+                                                        <Typography>Crop</Typography>
+                                                        <div onClick={() => {
+                                                            setOpenNFTCrop(false)
+                                                        }}>
+                                                            <Close sx={{ cursor: 'pointer' }} />
+                                                        </div>
+                                                    </FlexRow>
+                                                    <Crop imageURL={NFTPhotoURL} aspectRatio={aspectRatio == '16 : 9' ? 16 / 9 : 1} setOpenCrop={setOpenNFTCrop} setFile={setNFTImageFile} setPhotoURL={setNFTPhotoURL} />
+                                                </Box>
+                                            </Box>
+                                        </Modal>
+                                    </Container>
+                                    <Box sx={{
+                                        width: { xs: '100%', sm: '350px' }, mt: '24px', display: 'flex', justifyContent: 'center'
+                                    }}>
+                                        <ButtonPurple
+                                            text={'Create'}
+                                            w={'100%'}
+                                            disabled={!Object.values(NFTForm).every(value => value !== null && value !== "") || !NFTForm.attributes.length}
+                                            onClick={createNFT}
+                                        />
                                     </Box>
-                                </Box>
-                            </Modal>
-                            </Container>
-                            <Box sx={{
-                                width: { xs: '100%', sm: '350px' }, mt: '24px', display: 'flex', justifyContent: 'center'
-                            }}>
-                                <ButtonPurple
-                                 text={'Create'}
-                                  w={'100%'}
-                                  onClick={createCollection}
-                                  disabled={!Object.values(collectionForm).every(value => value !== null && value !== "")}      
-                                  />
-                            </Box>
+                                </>
+                                : // ____________________________________________________________________
+                                <>
+                                    <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
+                                        NFT Contract Information
+                                    </Typography>
+                                    <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '14px' } }}>
+                                        You Can Read Information About Each Field,By Click On The Icon, to Show/Hide The Information.
+                                    </Typography>
+
+                                    <Container sx={{ mt: '24px', }}>
+                                        <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
+                                            New Collection Introduction
+                                        </Typography>
+                                        <FlexColumn>
+                                            <FlexRow sx={{ mb: '16px' }}>
+                                                <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', padding: '12px 15px' }}>
+                                                    <Typography sx={{ fontSize: '12px' }}>
+                                                        Type : &nbsp;
+                                                    </Typography>
+                                                    <Input color="primary.gray" style={{ outline: "none", fontSize: '12px' }} />
+                                                </Box>
+                                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                            </FlexRow>
+                                            <FlexRow sx={{ mb: '12px' }}>
+                                                <MyInput name={'col_name'} label={'Name *'} width={'100%'} icon={<TitleOutlined sx={{ color: 'primary.light' }} />}
+                                                    onChange={handleColFormChange}
+                                                    value={collectionForm.col_name}
+                                                />
+                                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                            </FlexRow>
+                                            <FlexRow sx={{ mb: '12px' }}>
+                                                <MyInput name={'symbol'} label={'Symbol *'} width={'100%'} icon={<EmojiSymbols sx={{ color: 'primary.light' }} />}
+                                                    onChange={handleColFormChange}
+                                                    value={collectionForm.symbol}
+                                                />
+                                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                            </FlexRow>
+                                            <FlexRow sx={{ mb: '12px', position: 'relative' }}>
+                                                <ButtonInput label={'Cover Image *'} width={'100%'}
+                                                    icon={<ConnectedTvRounded sx={{ color: 'primary.light' }} />}
+                                                    button={<ButtonOutline
+                                                        height='35px'
+                                                        onClick={() => colImageInput.current.click()}
+                                                        text={'Browse'}
+                                                        br={'30px'} />
+                                                    } />
+
+                                                <input
+                                                    accept="image/*"
+                                                    id="nftPhoto"
+                                                    type="file"
+                                                    style={{ display: 'none' }}
+                                                    onChange={handleColImageChange}
+                                                    ref={colImageInput}
+                                                />
+
+                                                <Box
+                                                    sx={{
+                                                        width: '68px',
+                                                        aspectRatio: 16 / 9,
+                                                        borderRadius: '12px',
+                                                        backgroundColor: 'primary.gray',
+                                                        cursor: 'pointer',
+                                                        position: 'absolute',
+                                                        left: '150px', right: 0,
+                                                        display: () => {
+                                                            return (
+                                                                colPhotoURL
+                                                                    ? 'block'
+                                                                    : 'none'
+                                                            )
+                                                        },
+                                                        background: () => {
+                                                            return (
+                                                                colPhotoURL
+                                                                    ? `url('${colPhotoURL}') no-repeat center`
+                                                                    : 'primary.gray'
+                                                            )
+                                                        },
+                                                        backgroundSize: 'cover'
+                                                    }}
+                                                    onClick={() => colImageInput.current.click()}
+                                                ></Box>
+
+                                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                            </FlexRow>
+                                            <FlexRow sx={{ mb: '12px' }}>
+                                                <MyInput name={'col_description'} label={'Description *'} width={'100%'} icon={<DescriptionOutlined sx={{ color: 'primary.light' }} />}
+                                                    onChange={handleColFormChange}
+                                                    value={collectionForm.col_description}
+                                                />
+                                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                            </FlexRow>
+                                        </FlexColumn>
+                                    </Container>
+                                    <Container sx={{ mt: '24px', }}>
+                                        <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
+                                            The Collection Metadata
+                                        </Typography>
+                                        <FlexColumn>
+                                            <FlexRow sx={{ mb: '16px' }}>
+                                                <MyInput name={'base_uri'} label={'Base URI *'} width={'100%'} icon={<LinkOutlined sx={{ color: 'primary.light' }} />}
+                                                    onChange={handleColFormChange}
+                                                    value={collectionForm.base_uri}
+                                                />
+                                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                            </FlexRow>
+                                            <FlexRow sx={{ mb: '16px' }}>
+                                                <ButtonInput label={'Metadata Updatable *'} width={'100%'}
+                                                    icon={<List sx={{ color: 'primary.light' }} />
+                                                    }
+                                                    button={<BetweenTwoSelection
+                                                        color={'secondary.text'}
+                                                        options={[true, false]}
+                                                        id={'metaupdate-create-coll'}
+                                                        name='metadata_updatable'
+                                                        setOption={value => setCollectionForm((prev) => ({ ...prev, metadata_updatable: value }))}
+                                                        selected={collectionForm.metadata_updatable}
+                                                    />
+                                                    }
+                                                />
+                                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                            </FlexRow>
+                                            <FlexRow sx={{ mb: '16px' }}>
+                                                <ButtonInput label={'Metadata Addition *'} width={'100%'}
+                                                    icon={<AddBoxOutlined
+                                                        sx={{ color: 'primary.light' }}
+                                                    />
+                                                    }
+                                                    button={<Add sx={{ color: 'primary.gray' }}
+                                                        onClick={() => setCollectionForm((prev) => ({ ...prev, extra: [...prev.extra, { key: "", value: "" }] }))}
+                                                    />
+                                                    } />
+                                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                            </FlexRow>
+                                            {
+                                                collectionForm.extra.map((object, index) => {
+                                                    return (<FlexRow sx={{ mb: '16px' }}>
+                                                        <span>{index + 1}</span>
+                                                        <MyInput name={'key'} label={'Key'} width={'40%'}
+                                                            onChange={(e) => handleMetadataChange(e, index)}
+                                                            value={object.key}
+                                                        />
+                                                        <MyInput name={'value'} label={'Value'} width={'40%'}
+                                                            onChange={(e) => handleMetadataChange(e, index)}
+                                                            value={object.value}
+                                                        />
+                                                    </FlexRow>)
+                                                })
+                                            }
+
+                                        </FlexColumn>
+                                    </Container>
+                                    <Container sx={{ mt: '24px', }}>
+                                        <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
+                                            The Collection Finance
+                                        </Typography>
+                                        <FlexColumn>
+                                            <FlexRow sx={{ mb: '16px' }}>
+                                                <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', padding: '12px 15px' }}>
+                                                    <Typography sx={{ fontSize: '12px' }}>
+                                                        Owner Address : &nbsp;
+                                                    </Typography>
+                                                    <Input name="owner_cid" color="primary.gray" style={{ outline: "none", fontSize: '12px' }}
+                                                        onChange={handleColFormChange}
+                                                        value={collectionForm.owner_cid}
+                                                    />
+                                                </Box>
+                                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                            </FlexRow>
+                                            <FlexRow sx={{ mb: '16px' }}>
+                                                <MyInput type='number' name={'royalties_share'} label={'Royalty Share *'} width={'100%'} icon={<Money sx={{ color: 'primary.light' }} />}
+                                                    onChange={handleColFormChange}
+                                                    value={collectionForm.royalties_share}
+                                                />
+                                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                            </FlexRow>
+                                            <FlexRow sx={{ mb: '16px' }}>
+                                                <MyInput name={'royalties_address_screen_cid'} label={'Royalties Address *'} width={'100%'} icon={<AddBoxOutlined sx={{ color: 'primary.light' }} />}
+                                                    onChange={handleColFormChange}
+                                                    value={collectionForm.royalties_address_screen_cid}
+                                                />
+                                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                            </FlexRow>
+                                        </FlexColumn>
+                                        <Modal
+                                            open={openColCrop}
+                                            onClose={() => setOpenColCrop(false)}
+                                            aria-labelledby="modal-modal-title"
+                                            aria-describedby="modal-modal-description"
+                                        >
+                                            <Box sx={{
+                                                width: '100%',
+                                                height: '100%',
+                                                display: 'flex', alignItems: 'center', justifyContent: 'center'
+                                            }}>
+                                                <Box sx={{
+                                                    borderRadius: '24px',
+                                                    width: { xs: '100%', sm: '600px' }, height: { xs: '100%', sm: '600px' },
+                                                    backgroundColor: 'secondary.bg',
+                                                    display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between'
+                                                }}>
+                                                    <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}>
+                                                        <Typography>Crop</Typography>
+                                                        <div onClick={() => {
+                                                            setOpenColCrop(false)
+                                                        }}>
+                                                            <Close sx={{ cursor: 'pointer' }} />
+                                                        </div>
+                                                    </FlexRow>
+                                                    <Crop imageURL={colPhotoURL} aspectRatio={aspectRatio == '16 : 9' ? 16 / 9 : 1} setOpenCrop={setOpenColCrop} setFile={setColImageFile} setPhotoURL={setColPhotoURL} />
+                                                </Box>
+                                            </Box>
+                                        </Modal>
+                                    </Container>
+                                    <Box sx={{
+                                        width: { xs: '100%', sm: '350px' }, mt: '24px', display: 'flex', justifyContent: 'center'
+                                    }}>
+                                        <ButtonPurple
+                                            text={'Create'}
+                                            w={'100%'}
+                                            onClick={createCollection}
+                                            disabled={!Object.values(collectionForm).every(value => value !== null && value !== "") || !colImageFile}
+                                        />
+                                    </Box>
+                                </>
+                            }
                         </>
+                        :
+                        <Container sx={{ mb: '24px' }}>
+                            <Typography sx={{ fontFamily: 'Inter', mt: 2, fontSize: '13px', color: 'primary.text', textAlign: 'center', mb: 2, fontWeight: '400' }}>
+                                We have cleared your private key as you logged out. Please provide your private key to continue. <br />Your private key will be securely stored for future transactions.
+                            </Typography>
+                            <MyInput
+                                value={signer}
+                                onChange={(e) => setSigner(e.target.value)}
+                                placeholder="enter private key"
+                                width={'400px'}
+                                textColor={'black'}
+                                py={'8px'} />
+                            <ButtonPurple onClick={savePrivateKey} height='35px' text={'Save'} />
+                        </Container>
                     }
-                    </>
-                    :
-                    <Container sx={{ mb: '24px' }}>
-                        <Typography sx={{ fontFamily: 'Inter', mt: 2, fontSize: '13px', color: 'primary.text', textAlign: 'center', mb: 2, fontWeight: '400' }}>
-                            We have cleared your private key as you logged out. Please provide your private key to continue. <br />Your private key will be securely stored for future transactions.
-                        </Typography>
-                        <MyInput
-                            value={signer}
-                            onChange={(e) => setSigner(e.target.value)}
-                            placeholder="enter private key"
-                            width={'400px'}
-                            textColor={'black'}
-                            py={'8px'} />
-                        <ButtonPurple onClick={savePrivateKey} height='35px' text={'Save'}/>
-                    </Container>
-                }
 
                 </> :
                 // if didnt create wallet yet =======>
