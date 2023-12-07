@@ -54,7 +54,7 @@ function App() {
     }
   }
 
-  const [theme, setTheme] = useState(localStorage.getItem('theme'))
+  const [theme, setTheme] = useState(localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light')
   const switchTheme = () => {
     // setLocalTheme()
     if (theme == 'light') {
@@ -65,6 +65,13 @@ function App() {
       localStorage.setItem('theme', 'light')
     }
   }
+
+  useEffect(() => {
+    if (localStorage.getItem('theme')) {
+    } else {
+      localStorage.setItem('theme', 'light')
+    }
+  }, [localStorage.getItem('theme')])
 
   const darkTheme = createTheme({
     typography: {
@@ -245,7 +252,7 @@ function App() {
                       <Route exact path="/verify-phone" element={<VerifyPhone theme={theme} />} />
                       <Route exact path="/checkout/success" element={<CheckoutSuccess switchTheme={switchTheme} theme={theme} />} />
                       <Route exact path="/checkout/cancel" element={<CheckoutCancel switchTheme={switchTheme} theme={theme} />} />
-                
+
 
                       <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} />
                       <Route exact path="/privacy-policy" element={<PrivacyPolicy theme={theme} />} />
@@ -253,7 +260,7 @@ function App() {
                   </Wrapper>
                 </Box>
 
-                
+
                 {/* </Wrapper>
                 </Box> */}
               </>
