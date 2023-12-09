@@ -124,7 +124,7 @@ const CreateWallet = ({ switchTheme, setPvKey }) => {
         }
         catch (err) {
             setSuccess(undefined)
-            setErr(err.statusText)
+            setErr(err.data.message)
             setLoading(false)
         }
     }

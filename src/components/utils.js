@@ -898,3 +898,47 @@ export const NFTCommentCard = ({ username, comment, profileImg }) => {
         </CommentCard>
     )
 }
+export const MorePopper = ({ tabs, open, anchorEl, handleClose }) => {
+    return (
+        <Popper
+            PaperProps={{
+                style: {
+                }
+            }}
+            disableScrollLock={true}
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+                'aria-labelledby': 'basic-button',
+            }}
+            placement='left-start'
+            sx={{
+                marginTop: '20px !important',
+                width: '190px',
+                bgcolor: 'secondary.bg', p: '20px',
+                zIndex: 1400, borderRadius: '20px 0px 20px 20px',
+                overflow: "hidden",
+                // boxShadow: theme == 'light' ? '0px 0px 10px 0px rgba(0, 0, 0, 0.45)' : '0px 0px 12px 1px rgba(227,209,231, 0.25)',
+                boxShadow: localStorage.getItem('theme') == 'dark' ? '0px 0px 12px 1px rgba(227,209,231, 0.25)' : '0px 0px 10px 0px rgba(0, 0, 0, 0.25)',
+            }}
+        >
+            {tabs ? <>
+                {tabs.map((tab, index) => (
+                    <MenuItem id={tab.id} sx={{
+                        display: 'flex', alignItems: 'center', pb: '12px',
+                        color: 'primary.text',
+                        borderBottom: index == tabs.length - 1 ? 'none' : '1px solid',
+                        borderColor: 'primary.gray',
+                        '&:hover': {
+                            bgcolor: 'secondary.bgOp',
+                        }
+                    }}
+                        onClick={tab.onClick}>{tab.text}</MenuItem>
+                ))}
+            </> : undefined}
+        </Popper>
+
+    )
+}

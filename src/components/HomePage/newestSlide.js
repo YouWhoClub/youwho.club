@@ -27,47 +27,53 @@ const NewestSlide = () => {
     const navigate = useNavigate()
     const globalUser = useSelector(state => state.userReducer)
 
-    return (<Box sx={{
-        display: 'flex', justifyContent: 'center', alignItems: 'center',
-    }}>
-        <CustomSlider slidesCount={6}>
-            <NFTCardLanding image={gheart} />
-            <NFTCardLanding image={ppheart} />
-            <NFTCardLanding image={heart} />
-            <NFTCardLanding image={torqNFT} />
-            <NFTCardLanding image={pinkNFT} />
-            <NFTCardLanding image={purpleNFT} />
-            <NFTCardLanding image={blueNft} />
-            <NFTCardLanding image={sorkhabiNFT} />
-            <NFTCardLanding image={creamNFT} />
-            <ViewMoreOrLogin link={globalUser.isLoggedIn ? '/gallery' : '/main-gallery'} />
-        </CustomSlider>
+    return (
+        <Box sx={{
+            display: 'flex', justifyContent: 'center', flexDirection: 'column',
+        }}>
+            <CustomSlider slidesCount={6}>
+                <NFTCardLanding image={gheart} />
+                <NFTCardLanding image={ppheart} />
+                <NFTCardLanding image={pinkNFT} />
+                <NFTCardLanding image={torqNFT} />
+                <NFTCardLanding image={heart} />
+                <NFTCardLanding image={creamNFT} />
+                <NFTCardLanding image={purpleNFT} />
+                <NFTCardLanding image={sorkhabiNFT} />
+                <NFTCardLanding image={bheart} />
+                <NFTCardLanding image={prheart} />
+                <NFTCardLanding image={blueNft} />
+                <ViewMoreOrLogin link={globalUser.isLoggedIn ? '/gallery' : '/main-gallery'} />
+                {/* <ViewMoreOrLogin link={'/gallery'} /> */}
+            </CustomSlider>
 
 
-        {/* {globalUser.isLoggedIn ?
-            <Box sx={{
+
+
+
+
+            {/* {globalUser.isLoggedIn ? */}
+            {/* <Box sx={{
                 display: 'flex', color: 'primary.text',
                 flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                 width: '100%', my: 5
             }}>
-                <ButtonPurple text={'View All'} onClick={() => navigate('/gallery')} px={'10px'} />
-            </Box>
-            :
-            <Box sx={{
-                display: 'flex', color: 'primary.text',
-                flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                width: '100%', my: 5
-            }}>
-                <Typography variant="p" sx={{ textAlign: 'center', mb: '30px' }}>
-                    To See More NFTs, Gift Cards, Mint, Sell and Buy NFTs, ...Enter Your Panel But You Must Login/Signup First.
-                </Typography>
-                <ButtonPurple text={'Get Started'} onClick={() => navigate('/auth')} px={'10px'} />
-            </Box>
-        } */}
-
-
-    </Box>
-    );
+                <ButtonPurple text={'View All'} onClick={() => navigate(globalUser.isLoggedIn ? '/gallery' : '/main-gallery')} px={'10px'} />
+            </Box> */}
+            {/* :
+                <Box sx={{
+                    display: 'flex', color: 'primary.text',
+                    flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                    width: '100%', my: 5
+                }}>
+                    <Typography variant="p" sx={{ textAlign: 'center', mb: '30px' }}>
+                        To See More NFTs, Gift Cards, Mint, Sell and Buy NFTs, ...Enter Your Panel But You Must Login/Signup First.
+                    </Typography>
+                    <ButtonPurple text={'Get Started'} onClick={() => navigate('/auth')} px={'10px'} />
+                </Box>
+            } */}
+        </Box>
+    )
 }
 
 export default NewestSlide;
