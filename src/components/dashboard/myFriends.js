@@ -6,7 +6,7 @@ import { RelationCard } from "../utils"
 import purpleNFT from '../../assets/purple-nft.svg'
 import { API_CONFIG } from "../../config"
 
-const MyFriends = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAllie, removeFriend }) => {
+const MyFriends = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAllie, removeFriend, searchResults, setAllFriends }) => {
     const globalUser = useSelector(state => state.userReducer)
     const apiCall = useRef(undefined)
     const [friends, setFriends] = useState([])
@@ -25,10 +25,12 @@ const MyFriends = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAlli
         console.log('frieds', response)
 
         if (!response.is_error) {
+            setAllFriends(response.data.friends)
             setFriends(response.data.friends)
             setFriendsLoading(false)
         } else {
             if (response.status == 404) {
+                setAllFriends([])
                 setFriends([])
                 setFriendsLoading(false)
 
@@ -45,22 +47,47 @@ const MyFriends = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAlli
     }, [globalUser.token])
 
     return (<>{FriendsLoading ? <CircularProgress /> :
-        <>{friends.length > 0 ?
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
-                {friends.map((friend, index) => (
-                    <RelationCard
-                        removeAllie={() => removeAllie(friend.Screen_cid, globalUser.cid)}
-                        removeFriend={() => removeFriend(friend.Screen_cid, globalUser.cid)}
-                        image={friend.user_avatar} username={friend.username} friend={true}
-                        sendAllieRequest={() => sendAllieRequest(friend.Screen_cid, globalUser.cid)}
-                        sendFriendRequest={() => sendFriendRequest(friend.Screen_cid, globalUser.cid)}
-                        shareClick={shareClick}
-                    />
-                ))}
-            </Box>
-            : <Typography
-                sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
-                Dear {globalUser.username} you dont have any friends yet</Typography>}
+        <>{searchResults ?
+            <>
+                {searchResults.length > 0 ?
+                    <>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
+                            {searchResults.map((friend, index) => (
+                                <RelationCard
+                                    removeAllie={() => removeAllie(friend.Screen_cid, globalUser.cid)}
+                                    removeFriend={() => removeFriend(friend.Screen_cid, globalUser.cid)}
+                                    image={friend.user_avatar} username={friend.username} friend={true}
+                                    sendAllieRequest={() => sendAllieRequest(friend.Screen_cid, globalUser.cid)}
+                                    sendFriendRequest={() => sendFriendRequest(friend.Screen_cid, globalUser.cid)}
+                                    shareClick={shareClick}
+                                />
+                            ))}
+                        </Box>
+                    </>
+                    : <Typography
+                        sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
+                        No results
+                    </Typography>}
+            </>
+            :
+            <>{friends.length > 0 ?
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
+                    {friends.map((friend, index) => (
+                        <RelationCard
+                            removeAllie={() => removeAllie(friend.Screen_cid, globalUser.cid)}
+                            removeFriend={() => removeFriend(friend.Screen_cid, globalUser.cid)}
+                            image={friend.user_avatar} username={friend.username} friend={true}
+                            sendAllieRequest={() => sendAllieRequest(friend.Screen_cid, globalUser.cid)}
+                            sendFriendRequest={() => sendFriendRequest(friend.Screen_cid, globalUser.cid)}
+                            shareClick={shareClick}
+                        />
+                    ))}
+                </Box>
+                : <Typography
+                    sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
+                    Dear {globalUser.username} you dont have any friends yet</Typography>}
+            </>
+        }
         </>
     }
     </>

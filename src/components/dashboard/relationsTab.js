@@ -22,6 +22,7 @@ import { toast } from 'react-toastify';
 import { setPrivateKey } from "../../redux/actions";
 import ButtonPurple from "../buttons/buttonPurple";
 import MyFriendSuggestions from "./myFriendSuggestions";
+import { PUBLIC_API } from "../../utils/data/public_api";
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex', boxSizing: 'border-box',
     flexDirection: 'row',
@@ -56,25 +57,27 @@ const Container = styled(Box)(({ theme }) => ({
 const RelationsTab = () => {
     const globalUser = useSelector(state => state.userReducer)
     const apiCall = useRef(undefined)
-    const [activeTab, setActiveTab] = useState('my-allies')
+    const [activeTab, setActiveTab] = useState('my-friends')
+    const [FollowingsLoading, setFollowingsLoading] = useState(true)
     const [err, setErr] = useState(undefined)
     const navigate = useNavigate()
     const [signer, setSigner] = useState(undefined)
     const [followings, setFollowings] = useState([])
-    const [followingsLoading, setFollowingsLoading] = useState(true)
+    const [followers, setFollowers] = useState([])
+    const [friends, setFriends] = useState([])
+    const [allRequests, setAllRequests] = useState([])
+    const [suggestions, setSuggestions] = useState([])
+    const [searchResults, setSearchResults] = useState(undefined)
     const dispatch = useDispatch();
     const toastId = useRef(null);
     const loading = () => {
         toastId.current = toast.loading("Please wait...")
         console.log(toastId)
     }
-
     const updateToast = (success, message) => {
         success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
             : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
     }
-
-
     const sendFriendRequest = async (receiver, sender) => {
         loading();
 
@@ -141,34 +144,6 @@ const RelationsTab = () => {
         dispatch(setPrivateKey(signer))
     }
     const getFollowings = async () => {
-        // try {
-        //     apiCall.current = AUTH_API.request({
-        //         path: `/fan/get/all/followings/?from=0&to=10`,
-        //         method: 'get',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             'Authorization': `Bearer ${globalUser.token}`,
-        //         }
-        //     });
-        //     let response = await apiCall.current.promise;
-        //     console.log('followings', response)
-
-        //     if (!response.isSuccess)
-        //         throw response
-        //     console.log('followings', response)
-        //     setFollowings(response.data)
-        //     setFollowingsLoading(false)
-        // }
-        // catch (err) {
-        //     if (err.status == 404) {
-        //         setFollowings([])
-        //         setFollowingsLoading(false)
-
-        //     } else {
-        //         setErr(err.message)
-        //         console.log(err.message)
-        //     }
-        // }
 
 
         let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/followings/?from=0&to=10`, {
@@ -208,7 +183,89 @@ const RelationsTab = () => {
             }
         }
     }
+    const search = async (q, from, to) => {
+        if (q == '') {
+            setSearchResults(undefined)
+            return
+        }
+        try {
+            apiCall.current = PUBLIC_API.request({
+                path: `/search/?q=${q}&from=${from}&to=${to}`,
+                method: 'get',
+            });
+            let response = await apiCall.current.promise;
+            if (!response.isSuccess)
+                throw response
+            if (activeTab == 'expansion-of-communication') {
+                let tempSuggs = []
+                for (var d = 0; d < suggestions.length; d++) {
+                    tempSuggs.push(suggestions[d].screen_cid)
+                }
+                let tempArr = []
+                for (var j = 0; j < response.data.data.users.length; j++) {
+                    if (tempSuggs.includes(response.data.data.users[j].screen_cid)) {
+                        tempArr.push(response.data.data.users[j])
+                    }
+                }
+                setSearchResults(tempArr)
+            }
+            else if (activeTab == 'my-allies') {
+                let tempFans = []
+                for (var d = 0; d < followers.length; d++) {
+                    tempFans.push(followers[d].screen_cid)
+                }
+                console.log(tempFans)
+                let tempArr = []
+                for (var j = 0; j < response.data.data.users.length; j++) {
+                    if (tempFans.includes(response.data.data.users[j].screen_cid)) {
+                        tempArr.push(response.data.data.users[j])
+                    }
+                }
+                setSearchResults(tempArr)
+            }
+            else if (activeTab == 'my-friends') {
+                let tempFriends = []
+                for (var d = 0; d < friends.length; d++) {
+                    tempFriends.push(friends[d].screen_cid)
+                }
+                console.log(tempFriends)
+                let tempArr = []
+                for (var j = 0; j < response.data.data.users.length; j++) {
+                    if (tempFriends.includes(response.data.data.users[j].screen_cid)) {
+                        tempArr.push(response.data.data.users[j])
+                    }
+                }
+                setSearchResults(tempArr)
+            }
+            else if (activeTab == 'my-requests') {
+                let tempRequests = []
+                for (var d = 0; d < allRequests.length; d++) {
+                    tempRequests.push(allRequests[d].screen_cid)
+                }
+                console.log(tempRequests)
+                let tempArr = []
+                for (var j = 0; j < response.data.data.users.length; j++) {
+                    if (tempRequests.includes(response.data.data.users[j].screen_cid)) {
+                        tempArr.push(response.data.data.users[j])
+                    }
+                }
+                setSearchResults(tempArr)
+            }
+            else setSearchResults(undefined)
+        }
+        catch (err) {
+            if (err.status == 404) {
+                setSearchResults([])
+            } else {
+                setSearchResults([])
+            }
+        }
 
+    }
+    const changeTab = (e) => {
+        setSearchResults(undefined)
+        setActiveTab(e.target.id)
+    }
     useEffect(() => {
         if (globalUser.token) {
             getFollowings()
@@ -228,10 +285,10 @@ const RelationsTab = () => {
                     {globalUser.privateKey ?
                         <>
                             <SubTabs jc={'center'}>
-                                <SubTab id={"my-requests"} onClick={(e) => setActiveTab(e.target.id)} text={'My Requests'} selected={activeTab == 'my-requests'} />
-                                <SubTab id={"my-allies"} onClick={(e) => setActiveTab(e.target.id)} text={'My Allies'} selected={activeTab == 'my-allies'} />
-                                <SubTab id={"my-friends"} onClick={(e) => setActiveTab(e.target.id)} text={'My Friends'} selected={activeTab == 'my-friends'} />
-                                <SubTab id={"expansion-of-communication"} onClick={(e) => setActiveTab(e.target.id)} text={'Expansion of communication '} selected={activeTab == 'expansion-of-communication'} />
+                                <SubTab id={"my-requests"} onClick={changeTab} text={'My Requests'} selected={activeTab == 'my-requests'} />
+                                <SubTab id={"my-allies"} onClick={changeTab} text={'My Allies'} selected={activeTab == 'my-allies'} />
+                                <SubTab id={"my-friends"} onClick={changeTab} text={'My Friends'} selected={activeTab == 'my-friends'} />
+                                <SubTab id={"expansion-of-communication"} onClick={changeTab} text={'Expansion of communication '} selected={activeTab == 'expansion-of-communication'} />
                             </SubTabs>
                             <FilterSelectionBox sx={{ padding: '8px 16px', my: '24px' }}>
                                 <span style={{ width: '180px', fontSize: '14px' }}>
@@ -241,27 +298,30 @@ const RelationsTab = () => {
                                     height: '20px',
                                     backgroundColor: 'transparent', border: 'none', outline: 'none',
                                     color: '#c2c2c2', width: '100%'
-                                }} />
+                                }}
+                                    onChange={(e) => search(e.target.value, 0, 10)} />
                             </FilterSelectionBox>
                             {activeTab == 'my-requests' &&
-                                <MyFriendequests />
+                                <MyFriendequests setAllRequests={setAllRequests} searchResults={searchResults} />
                             }
                             {activeTab == 'my-allies' &&
                                 <MyFans sendAllieRequest={sendAllieRequest}
                                     sendFriendRequest={sendFriendRequest} shareClick={shareClick}
                                     removeAllie={removeAllie} removeFriend={removeFriend}
-                                    followings={followings}
+                                    followings={followings} searchResults={searchResults} setAllFollowers={setFollowers}
                                 />
                             }
                             {activeTab == 'my-friends' &&
                                 <MyFriends sendAllieRequest={sendAllieRequest}
                                     sendFriendRequest={sendFriendRequest} shareClick={shareClick}
-                                    removeAllie={removeAllie} removeFriend={removeFriend} />
+                                    removeAllie={removeAllie} removeFriend={removeFriend}
+                                    searchResults={searchResults} setAllFriends={setFriends} />
                             }
                             {activeTab == 'expansion-of-communication' &&
                                 <MyFriendSuggestions sendAllieRequest={sendAllieRequest}
                                     sendFriendRequest={sendFriendRequest} shareClick={shareClick}
                                     removeAllie={removeAllie} removeFriend={removeFriend}
+                                    searchResults={searchResults} setAllSuggestions={setSuggestions}
                                 />
                             }
                         </>

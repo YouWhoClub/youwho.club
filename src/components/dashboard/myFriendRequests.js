@@ -7,7 +7,7 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import { toast } from 'react-toastify';
 import blueNft from '../../assets/blue-nft.svg'
 
-const MyFriendequests = () => {
+const MyFriendequests = ({ setAllRequests, searchResults }) => {
     const globalUser = useSelector(state => state.userReducer)
     const [reqsLoading, setReqsLoading] = useState(true)
     const [err, setErr] = useState(undefined)
@@ -36,10 +36,12 @@ const MyFriendequests = () => {
         console.log('requests', response)
 
         if (!response.is_error) {
+            setAllRequests(response.data)
             setRequests(response.data)
             setReqsLoading(false)
         } else {
             if (response.status == 404) {
+                setAllRequests([])
                 setRequests([])
                 setReqsLoading(false)
 
@@ -86,26 +88,50 @@ const MyFriendequests = () => {
 
     return (
         <>{reqsLoading ? <CircularProgress /> :
-            <>{requests.length > 0 ?
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
-                    {requests.map((req, index) => (
-                        <FriendRequestCard
-                            isAccepted={isAccepted}
-                            id={req.username}
-                            image={req.user_avatar} username={req.username}
-                            acceptRequest={() => acceptFriendRequest(req.screen_cid, globalUser.cid, req.username)}
-                        />
-                    ))}
-                </Box>
+            <>{searchResults ?
+                <>
+                    {searchResults.length > 0 ?
+                        <>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
+                                {searchResults.map((req, index) => (
+                                    <FriendRequestCard
+                                        isAccepted={isAccepted}
+                                        id={req.username}
+                                        image={req.user_avatar} username={req.username}
+                                        acceptRequest={() => acceptFriendRequest(req.screen_cid, globalUser.cid, req.username)}
+                                    />
+                                ))}
+                            </Box>
+                        </>
+                        : <Typography
+                            sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
+                            No results
+                        </Typography>}
+                </>
                 :
-                <>{err ? <Typography
-                    sx={{ color: 'primary.error', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
-                    {err}
-                </Typography>
+
+                <>{requests.length > 0 ?
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
+                        {requests.map((req, index) => (
+                            <FriendRequestCard
+                                isAccepted={isAccepted}
+                                id={req.username}
+                                image={req.user_avatar} username={req.username}
+                                acceptRequest={() => acceptFriendRequest(req.screen_cid, globalUser.cid, req.username)}
+                            />
+                        ))}
+                    </Box>
                     :
-                    <Typography
-                        sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
-                        Dear {globalUser.username} you dont have any unaccepted friend requests</Typography>}</>
+                    <>{err ? <Typography
+                        sx={{ color: 'primary.error', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
+                        {err}
+                    </Typography>
+                        :
+                        <Typography
+                            sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
+                            Dear {globalUser.username} you dont have any unaccepted friend requests</Typography>}</>
+                }
+                </>
             }
             </>
         }
