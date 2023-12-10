@@ -8,6 +8,7 @@ import { Tab, Tabs } from "../utils";
 import RelationsTab from "./relationsTab";
 import ReactionsTab from "./reactionsTab";
 import AssetsTab from "./assets";
+import ProgSettTab from "./progressSettingTab";
 const Panel = styled(Box)(({ theme }) => ({
     color: theme.palette.primary.text,
     transition: '500ms ease', boxSizing: 'border-box',
@@ -80,6 +81,9 @@ const ProfilePanel = () => {
                 <Tab id={"assets-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Assets'} selected={activeTab == 'assets-tab'} />
                 <Tab id={"relations-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Relations'} selected={activeTab == 'relations-tab'} />
                 <Tab id={"reactions-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Reactions'} selected={activeTab == 'reactions-tab'} />
+                {/* <Tab id={"settings"}
+                    onClick={(e) => setActiveTab(e.target.id)}
+                    text={'Progressive'} selected={activeTab == 'settings'} /> */}
             </Tabs>
             <ScrollablePanel id="scrollable-profile-panel-inside"
                 sx={{
@@ -105,6 +109,7 @@ const ProfilePanel = () => {
                 {activeTab == 'assets-tab' && <AssetsTab />}
                 {activeTab == 'relations-tab' && <RelationsTab />}
                 {activeTab == 'reactions-tab' && <ReactionsTab />}
+                {/* {activeTab == 'settings' && <ProgSettTab />} */}
             </ScrollablePanel>
         </Panel>
     );

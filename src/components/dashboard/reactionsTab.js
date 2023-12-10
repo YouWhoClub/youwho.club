@@ -7,7 +7,7 @@ import creamNFT from '../../assets/cream-nft.svg'
 import sorkhabiNFT from '../../assets/sokhabi-nft.svg'
 import torqNFT from '../../assets/torqua-nft.svg'
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FilterSelection from "../filterSelection";
 import ButtonPurpleLight from "../buttons/buttonPurpleLight";
 import { useSelector } from "react-redux";
@@ -46,6 +46,9 @@ const ReactionsTab = () => {
         setSortValue(e.target.id)
     }
     const navigate = useNavigate()
+    useEffect(() => {
+        window.document.getElementById("scrollable-profile-panel-inside").scrollTo(0, 0);
+    }, [])
 
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>

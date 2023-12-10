@@ -114,6 +114,7 @@ const CreateNFT = () => {
     useEffect(() => {
         getGasFee()
         getPrivateGallery()
+        window.document.getElementById("scrollable-profile-panel-inside").scrollTo(0, 0);
     }, [])
 
     useEffect(() => {

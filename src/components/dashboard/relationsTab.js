@@ -270,6 +270,7 @@ const RelationsTab = () => {
         if (globalUser.token) {
             getFollowings()
         }
+        window.document.getElementById("scrollable-profile-panel-inside").scrollTo(0, 0);
         // return () => {
         //     if (apiCall.current !== undefined) {
         //         apiCall.current.cancel();

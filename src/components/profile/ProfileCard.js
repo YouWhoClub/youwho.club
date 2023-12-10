@@ -51,8 +51,8 @@ const ProfileCard = ({ user, }) => {
             id='profile-pic-user'
             sx={{
                 background: () => user && user.avatar ? `url('${API_CONFIG.API_URL}/${user.avatar}') no-repeat center` : BG_URL(PUBLIC_URL(`${profileFace}`)),
-                backgroundSize: 'cover', width: { xs: '100px', md: '200px' },
-                height: { xs: '100px', md: '200px' },
+                backgroundSize: 'cover', width: { xs: '80px', md: '200px' },
+                height: { xs: '80px', md: '200px' },
             }}
         />
         &nbsp;

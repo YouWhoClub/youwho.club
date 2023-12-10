@@ -8,7 +8,7 @@ import styled from "@emotion/styled";
 import { Box, Typography } from "@mui/material";
 import NFTCard from "../nft market/nftCard";
 import FilterSelection from '../filterSelection'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AscSelect } from '../utils'
 import { useSelector } from 'react-redux'
 import ButtonPurple from '../buttons/buttonPurple'
@@ -55,6 +55,9 @@ const PublicGallery = () => {
     }
     const navigate = useNavigate()
 
+    useEffect(() => {
+        window.document.getElementById("scrollable-profile-panel-inside").scrollTo(0, 0);
+    }, [])
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
             {globalUser.cid ?

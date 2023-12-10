@@ -51,8 +51,8 @@ const ProfileCard = ({ username, YouWhoID }) => {
             id='profile-pic'
             sx={{
                 background: () => globalUser.avatar ? `url('${API_CONFIG.API_URL}/${globalUser.avatar}') no-repeat center` : BG_URL(PUBLIC_URL(`${profileFace}`)),
-                backgroundSize: 'cover', width: { xs: '100px', md: '200px' },
-                height: { xs: '100px', md: '200px' },
+                backgroundSize: 'cover', width: { xs: '80px', md: '200px' },
+                height: { xs: '80px', md: '200px' },
             }}
         />
         &nbsp;
@@ -60,19 +60,19 @@ const ProfileCard = ({ username, YouWhoID }) => {
         &nbsp;
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', color: 'white' }}>
             <Typography sx={{
-                fontWeight: 700, color: 'white', fontSize: { xs: '18px', md: '20px' }
+                fontWeight: 700, color: 'white', fontSize: { xs: '16px', md: '20px' }
             }}>
                 {globalUser.cid ? globalUser.username : globalUser.identifier}
             </Typography>
             {YouWhoID ?
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                    <Typography sx={{ fontWeight: 500, fontSize: { xs: '14px', md: '16px' } }}>YouWho ID :</Typography>
+                    <Typography sx={{ fontWeight: 500, fontSize: { xs: '12px', md: '16px' } }}>YouWho ID :</Typography>
                     <Typography onClick={() => copyIdToClipBoard(YouWhoID)}
                         sx={{ cursor: 'pointer', fontSize: { xs: '12px', md: '14px' }, display: { xs: 'none', md: 'block' } }}>
                         {YouWhoID}
                     </Typography>
                     <Typography onClick={() => copyIdToClipBoard(YouWhoID)}
-                        sx={{ cursor: 'pointer', fontSize: { xs: '12px', md: '14px' }, display: { xs: 'block', md: 'none' } }}>
+                        sx={{ cursor: 'pointer', fontSize: { xs: '10px', md: '14px' }, display: { xs: 'block', md: 'none' } }}>
                         {shorten(YouWhoID)}
                     </Typography>
                     <TickSquare style={{ size: { xs: '10px', md: '16px' }, display: idCopied ? 'block' : 'none', color: '#0Cb2B1' }} />

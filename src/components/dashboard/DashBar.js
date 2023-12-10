@@ -56,7 +56,7 @@ const FlexRow = styled(Box)(({ theme }) => ({
     margin: '3px 0'
 }))
 
-const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
+const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
     const [expanded, setExpanded] = useState(false)
     const [anchorEl, setAnchorEl] = useState(null);
     const [editProfile, setEditProfile] = useState(false)
@@ -196,7 +196,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username }) => {
         <Bar
             id="dash-bar"
             sx={{
-                width: { xs: '100%', md: '325px' }, boxSizing: 'border-box',
+                width: { xs: '100%', md: w ? w : '325px' }, boxSizing: 'border-box',
                 display: 'flex', flexDirection: 'column', alignItems: 'center', p: '16px 12px'
             }}>
             {editProfile ?
