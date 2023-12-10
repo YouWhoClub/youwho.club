@@ -55,7 +55,7 @@ const ProfileBar = ({ user }) => {
 
     return (
         <Bar
-            id="profile-bar"
+            id="profile-bar-user"
             sx={{
                 width: { xs: '100%', md: '325px' }, boxSizing: 'border-box',
                 display: 'flex', flexDirection: 'column', alignItems: 'center', p: '16px 12px', gap: '15px'

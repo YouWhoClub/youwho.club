@@ -84,19 +84,19 @@ const Profile = ({ switchTheme, theme, props }) => {
     }, [])
 
     const listenScrollEvent = e => {
-        let card = window.document.getElementById('profile-card')
-        let pic = window.document.getElementById('profile-pic')
-        let dashbar = window.document.getElementById('profile-bar')
-        let insidePanel = window.document.getElementById('scrollable-profile-panel-inside')
+        let card = window.document.getElementById('profile-card-user')
+        let pic = window.document.getElementById('profile-pic-user')
+        let dashbar = window.document.getElementById('profile-bar-user')
+        let insidePanel = window.document.getElementById('scrollable-profile-panel-inside-user')
         let outsidePanel = window.document.getElementById('profile')
-        if (window.document.getElementById("scrollable-profile-panel-inside").scrollTop > 0 || window.document.getElementById("scrollable-profile-panel").scrollTop > 0) {
+        if (window.document.getElementById("scrollable-profile-panel-inside-user").scrollTop > 0 || window.document.getElementById("scrollable-profile-panel-user").scrollTop > 0) {
             card.classList.add("profileBannerAfterScroll")
             pic.classList.add("profilePicAfterScroll")
             // dashbar.classList.add("dashbarAfterScroll")
             // insidePanel.classList.add("insidePanelAfterScroll")
             outsidePanel.classList.add("dashAfterScroll")
         }
-        else if (window.document.getElementById("scrollable-profile-panel").scrollTop >= 0 && window.document.getElementById("scrollable-profile-panel-inside").scrollTop == 0) {
+        else if (window.document.getElementById("scrollable-profile-panel-user").scrollTop >= 0 && window.document.getElementById("scrollable-profile-panel-inside-user").scrollTop == 0) {
             card.classList.remove("profileBannerAfterScroll")
             pic.classList.remove("profilePicAfterScroll")
             // dashbar.classList.remove("dashbarAfterScroll")
@@ -106,17 +106,17 @@ const Profile = ({ switchTheme, theme, props }) => {
     }
 
     useEffect(() => {
-        if (window.document.getElementById("scrollable-profile-panel") && window.document.getElementById("scrollable-profile-panel-inside")) {
+        if (window.document.getElementById("scrollable-profile-panel-user") && window.document.getElementById("scrollable-profile-panel-inside-user")) {
 
-            window.document.getElementById("scrollable-profile-panel").addEventListener('scroll', listenScrollEvent)
-            window.document.getElementById("scrollable-profile-panel-inside").addEventListener('scroll', listenScrollEvent)
+            window.document.getElementById("scrollable-profile-panel-user").addEventListener('scroll', listenScrollEvent)
+            window.document.getElementById("scrollable-profile-panel-inside-user").addEventListener('scroll', listenScrollEvent)
         }
-    }, [window.document.getElementById("scrollable-profile-panel"), window.document.getElementById("scrollable-profile-panel-inside")])
+    }, [window.document.getElementById("scrollable-profile-panel-user"), window.document.getElementById("scrollable-profile-panel-inside-user")])
 
     console.log('err', err)
 
     return (
-        <PanelLayout switchTheme={switchTheme} theme={theme} id={"scrollable-profile-panel"}>
+        <PanelLayout switchTheme={switchTheme} theme={theme} id={"scrollable-profile-panel-user"}>
             <Box
                 id="profile"
                 sx={{

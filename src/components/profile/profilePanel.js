@@ -57,7 +57,7 @@ const FlexColumn = styled(Box)(({ theme }) => ({
 const ProfilePanel = ({ user }) => {
     const [activeTab, setActiveTab] = useState('create-tab')
     useEffect(() => {
-        let dashbar = window.document.getElementById('profile-bar')
+        let dashbar = window.document.getElementById('profile-bar-user')
 
         if (activeTab == "private-gallery-tab" || activeTab == "public-gallery-tab") {
             dashbar.classList.add("dashbarAfterScroll")
@@ -77,7 +77,7 @@ const ProfilePanel = ({ user }) => {
                 <Tab id={"relations-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Relations'} selected={activeTab == 'relations-tab'} />
                 {/* <Tab id={"reactions-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Reactions'} selected={activeTab == 'reactions-tab'} /> */}
             </Tabs>
-            <ScrollablePanel id="scrollable-profile-panel-inside"
+            <ScrollablePanel id="scrollable-profile-panel-inside-user"
                 sx={{
                     height: {
                         xs: activeTab == 'private-gallery-tab' || activeTab == 'public-gallery-tab' ? 'calc(100vh - 351px)' : 'calc(100vh - 572px)',

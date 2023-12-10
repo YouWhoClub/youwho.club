@@ -37,7 +37,7 @@ const ProfileCard = ({ user, }) => {
     }
 
     return (<ProBanner
-        id='profile-card'
+        id='profile-card-user'
         sx={{
             // width: '100%',
             height: { xs: '150px', md: '250px' },
@@ -48,7 +48,7 @@ const ProfileCard = ({ user, }) => {
             backgroundSize: 'cover'
         }}>
         <ProPic
-            id='profile-pic'
+            id='profile-pic-user'
             sx={{
                 background: () => user && user.avatar ? `url('${API_CONFIG.API_URL}/${user.avatar}') no-repeat center` : BG_URL(PUBLIC_URL(`${profileFace}`)),
                 backgroundSize: 'cover', width: { xs: '100px', md: '200px' },

@@ -97,7 +97,7 @@ const MyFriendequests = ({ setAllRequests, searchResults }) => {
                                     <FriendRequestCard
                                         isAccepted={isAccepted}
                                         id={req.username}
-                                        image={req.user_avatar} username={req.username}
+                                        image={req.avatar} username={req.username}
                                         acceptRequest={() => acceptFriendRequest(req.screen_cid, globalUser.cid, req.username)}
                                     />
                                 ))}

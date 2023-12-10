@@ -56,7 +56,7 @@ const MyFriends = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAlli
                                 <RelationCard
                                     removeAllie={() => removeAllie(friend.Screen_cid, globalUser.cid)}
                                     removeFriend={() => removeFriend(friend.Screen_cid, globalUser.cid)}
-                                    image={friend.user_avatar} username={friend.username} friend={true}
+                                    image={friend.avatar} username={friend.username} friend={true}
                                     sendAllieRequest={() => sendAllieRequest(friend.Screen_cid, globalUser.cid)}
                                     sendFriendRequest={() => sendFriendRequest(friend.Screen_cid, globalUser.cid)}
                                     shareClick={shareClick}

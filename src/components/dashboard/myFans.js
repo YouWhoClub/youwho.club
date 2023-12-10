@@ -80,7 +80,7 @@ const MyFans = ({ sendAllieRequest, sendFriendRequest,
                                     <RelationCard
                                         removeAllie={() => removeAllie(fan.screen_cid, globalUser.cid)}
                                         removeFriend={() => removeFriend(fan.screen_cid, globalUser.cid)}
-                                        image={fan.user_avatar} username={fan.username} allies={true}
+                                        image={fan.avatar} username={fan.username} allies={true}
 
                                         sendAllieRequest={() => sendAllieRequest(fan.screen_cid, globalUser.cid)}
 

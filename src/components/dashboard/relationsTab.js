@@ -299,7 +299,7 @@ const RelationsTab = () => {
                                     backgroundColor: 'transparent', border: 'none', outline: 'none',
                                     color: '#c2c2c2', width: '100%'
                                 }}
-                                    onChange={(e) => search(e.target.value, 0, 10)} />
+                                    onChange={(e) => search(e.target.value, 0, 20)} />
                             </FilterSelectionBox>
                             {activeTab == 'my-requests' &&
                                 <MyFriendequests setAllRequests={setAllRequests} searchResults={searchResults} />
