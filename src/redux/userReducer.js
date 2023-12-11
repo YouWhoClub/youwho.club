@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import { GET_USER, UPDATE_BALANCE, SET_NFT_CONTRACT, SET_PROPOSAL_CONTRACT, SET_MARKET_CONTRACT, SET_EVENT_CONTRACT, WALLET_CONNECTION, LOGOUT_USER, SET_ACCOUNT, ADD_TO_CART, REMOVE_FROM_CART, INCREMENT_QUANTITY, DECREMENT_QUANTITY, SET_ID } from './actions';
+import { GET_USER, UPDATE_BALANCE, SET_NFT_CONTRACT, SET_PROPOSAL_CONTRACT, SET_MARKET_CONTRACT, SET_EVENT_CONTRACT, WALLET_CONNECTION, LOGOUT_USER, SET_ACCOUNT, ADD_TO_CART, REMOVE_FROM_CART, INCREMENT_QUANTITY, DECREMENT_QUANTITY, SET_ID, SET_REFRESH_TOKEN } from './actions';
 const initialState = {
     username: '',
     walletAddress: '',
@@ -33,7 +33,7 @@ function userReducer(state = initialState, action) {
                 bio: action.payload.bio,
                 avatar: action.payload.avatar,
                 banner: action.payload.banner,
-                walletBackground:action.payload.wallet_background,
+                walletBackground: action.payload.wallet_background,
             };
         case LOGOUT_USER:
             localStorage.removeItem('account')
@@ -55,11 +55,19 @@ function userReducer(state = initialState, action) {
                 socialId: action.payload.social_id,
                 balance: action.payload.balance,
                 privateKey: action.payload.privateKey,
+                bio: action.payload.bio,
+                avatar: action.payload.avatar,
+                banner: action.payload.banner,
+                walletBackground: action.payload.walletBackground,
+                refreshToken: action.payload.refreshToken,
+                tokenExpiration: action.payload.tokenExpiration,
             };
         case SET_ACCOUNT:
             return { ...state, account: action.payload };
         case SET_ID:
             return { ...state, privateKey: action.payload };
+        case SET_REFRESH_TOKEN:
+            return { ...state, refreshToken: action.payload.refreshToken, tokenExpiration: action.payload.tokenExpiration };
         case UPDATE_BALANCE:
             return { ...state, balance: action.payload };
         default:

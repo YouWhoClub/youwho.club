@@ -6,7 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import ButtonOutline from "./buttons/buttonOutline";
 import ButtonPurple from "./buttons/buttonPurple";
 import { useDispatch, useSelector } from "react-redux";
-import { logOutUser, getUnclaimedDeposit, deleteUnclaimedDeposit } from "../redux/actions";
+import { logOutUser, getUnclaimedDeposit, deleteUnclaimedDeposit, getuser, setRefreshToken } from "../redux/actions";
 import styled from "@emotion/styled";
 import { HambergerMenu, LogoutCurve, Notification, Profile, Wallet, Wallet2, } from "iconsax-react";
 import { Close, Square } from "@mui/icons-material";
@@ -20,6 +20,8 @@ import ThemeSwitcher from "../components/HomePage/themeSwitchComp"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MobileMenu from "./MobileMenu";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { AUTH_API } from "../utils/data/auth_api";
+
 
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
@@ -66,13 +68,18 @@ const NavbarDashBoard = ({ switchTheme, theme }) => {
     const unclaimedDeposits = useSelector(state => state.unclaimedDepositReducer)
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const fetchUser = (token) => dispatch(getuser(token));
     const logOut = () => dispatch(logOutUser());
-    const getUnclaimed = () => dispatch(getUnclaimedDeposit(globalUser.token, globalUser.cid));
+    const tokenRef = useRef(null);
+    const getUnclaimed = () => dispatch(getUnclaimedDeposit(tokenRef.current, globalUser.cid));
     const deleteUnclaimed = () => dispatch(deleteUnclaimedDeposit());
     const apiCall = useRef(undefined)
     const [err, setErr] = useState(false)
     const [intervalRef, setIntervalRef] = useState(null);
+    const [tokenIntervalRef, setTokenIntervalRef] = useState(null);
     const [openMenu, setOpenMenu] = useState(false)
+    const [unclaimedInitialRender, setUnclaimedInitialRender] = useState(true);
+    const [loginInitialRender, setLoginInitialRender] = useState(true);
 
     useEffect(() => {
         if (globalUser.isLoggedIn && !globalUser.isMailVerified) {
@@ -81,7 +88,11 @@ const NavbarDashBoard = ({ switchTheme, theme }) => {
     }, [globalUser.isLoggedIn, globalUser.isMailVerified])
 
     useEffect(() => {
-        if (globalUser.cid) {
+        tokenRef.current = globalUser.token;
+    }, [globalUser.token]);
+
+    useEffect(() => {
+        if (!unclaimedInitialRender && globalUser.cid) {
             getUnclaimed();
             const intervalId = setInterval(() => {
                 getUnclaimed();
@@ -94,13 +105,70 @@ const NavbarDashBoard = ({ switchTheme, theme }) => {
             }
         }
 
+        if (unclaimedInitialRender) {
+            setUnclaimedInitialRender(false);
+        }
+
         return () => {
             if (intervalRef) {
                 clearInterval(intervalRef);
                 setIntervalRef(null);
             }
         };
-    }, [globalUser.cid]);
+    }, [globalUser.cid, unclaimedInitialRender]);
+
+
+    useEffect(() => {
+
+        const checkTokenExpiration = async () => {
+            console.log('checked!');
+            if (new Date().getTime() > globalUser.tokenExpiration) {
+                try {
+                    apiCall.current = AUTH_API.request({
+                        path: `/login`,
+                        method: "post",
+                        body: { identifier: '', password: '' },
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${globalUser.refreshToken}`,
+                        },
+                    });
+                    let response = await apiCall.current.promise;
+
+                    if (!response.isSuccess)
+                        throw response
+                    else {
+                        fetchUser(response.headers.cookie.match(/\/accesstoken=([^&]+)/)[1])
+                        dispatch(setRefreshToken(response.headers.cookie.match(/refrestoken=([^&]+)/)[1], new Date().getTime() + 31 * 60000))
+                        setUnclaimedInitialRender(true);
+                    }
+                }
+                catch (err) {
+                    if (err.data.status == 406)
+                        disconnect()
+
+                    console.log(err)
+                }
+            }
+        }
+
+        if (!loginInitialRender && globalUser.tokenExpiration) {
+            checkTokenExpiration()
+            const interval = setInterval(checkTokenExpiration, 60000);
+            setTokenIntervalRef(interval);
+        }
+
+        if (loginInitialRender) {
+            setLoginInitialRender(false);
+        }
+
+        return () => {
+            if (tokenIntervalRef) {
+                clearInterval(tokenIntervalRef);
+                setTokenIntervalRef(null);
+            }
+        };
+    }, [loginInitialRender]);
 
 
     async function disconnect() {

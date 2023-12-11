@@ -64,9 +64,9 @@ const VerifyPhoneModal = ({ openModal, setOpenModal }) => {
         e.preventDefault()
         setSelectValue(e.target.id)
     }
-    useEffect(() => {
-        fetchUser(globalUser.token)
-    }, [globalUser.token])
+    // useEffect(() => {
+    //     fetchUser(globalUser.token)
+    // }, [globalUser.token])
 
 
     const otpReqHandle = async event => {

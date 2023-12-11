@@ -15,6 +15,7 @@ export const INCREMENT_QUANTITY = 'INCREMENT_QUANTITY';
 export const DECREMENT_QUANTITY = 'DECREMENT_QUANTITY';
 export const SET_CART = 'SET_CART'
 export const SET_ID = 'SET_ID'
+export const SET_REFRESH_TOKEN = 'SET_REFRESH_TOKEN'
 export const EMPTY_CART = 'EMPTY_CART';
 export const GET_UNCLAIMED_DEPOSITE = 'GET_UNCLAIMED_DEPOSITE';
 export const DELETE_UNCLAIMED_DEPOSITE = 'DELETE_UNCLAIMED_DEPOSITE';
@@ -33,6 +34,8 @@ const emptyUser = {
     identifier: '',
     phoneNumber: '',
     token: '',
+    refreshToken: '',
+    tokenExpiration: '',
     isMailVerified: false,
     isPhoneVerified: false,
     account: '',
@@ -134,6 +137,15 @@ export const setPrivateKey = (signer) => {
         dispatch({
             type: SET_ID,
             payload: id
+        });
+    }
+};
+
+export const setRefreshToken = (refreshToken, tokenExpiration) => {
+    return async dispatch => {
+        dispatch({
+            type: SET_REFRESH_TOKEN,
+            payload: { refreshToken: refreshToken, tokenExpiration: tokenExpiration }
         });
     }
 };

@@ -7,7 +7,7 @@ import ButtonPurple from "../../buttons/buttonPurple";
 import styled from "@emotion/styled";
 import { AUTH_API } from "../../../utils/data/auth_api";
 import { useDispatch } from "react-redux";
-import { getuser } from "../../../redux/actions";
+import { getuser, setRefreshToken } from "../../../redux/actions";
 import { useNavigate } from "react-router";
 import { ArrowLeft3, Eye, EyeSlash, Lock } from "iconsax-react";
 import VerifyMail from "./verifyMail";
@@ -93,7 +93,8 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
                 throw response
             localStorage.setItem('lastActive', true)
             // fetchUser(response.token)
-            fetchUser(response.headers.cookie.split("::")[0])
+            fetchUser(response.headers.cookie.match(/\/accesstoken=([^&]+)/)[1])
+            dispatch(setRefreshToken(response.headers.cookie.match(/refrestoken=([^&]+)/)[1], new Date().getTime() + 31 * 60000 ))
             setSuccess(response.message)
             setErr(undefined)
             setLoading(false)
