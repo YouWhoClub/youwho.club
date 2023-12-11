@@ -34,9 +34,15 @@ h6 {
 }
 .dashbarAfterScroll {
   display: none !important;
+  transition: 500ms ease;
 }
 .insidePanelAfterScroll {
-  overflow-y: scroll !important;
+  /* overflow-y: scroll !important; */
+  height: calc(100vh - 334px);
+}
+.insidePanelBeforeScroll {
+  /* overflow-y: scroll !important; */
+  height: calc(100vh - 484px);
 }
 .dashAfterScroll {
   /* height: calc(100vh - 55px) !important; */
@@ -48,6 +54,13 @@ h6 {
 @media only screen and (max-width: 900px) {
   .dashAfterScroll {
     /* height: calc(100vh - 100px) !important; */
+  }
+  .insidePanelAfterScroll {
+    height: calc(100vh - 324px);
+  }
+  .insidePanelBeforeScroll {
+    /* overflow-y: scroll !important; */
+    height: calc(100vh - 486px);
   }
 }
 
@@ -177,6 +190,6 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-    transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s;
-    transition-delay: background-color 5000s, color 5000s;
+  transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s;
+  transition-delay: background-color 5000s, color 5000s;
 }

@@ -196,7 +196,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
         <Bar
             id="dash-bar"
             sx={{
-                width: { xs: '100%', md: w ? w : '325px' }, boxSizing: 'border-box',
+                width: { xs: '100%', lg: w ? w : '325px' }, boxSizing: 'border-box',
                 display: 'flex', flexDirection: 'column', alignItems: 'center', p: '16px 12px'
             }}>
             {editProfile ?

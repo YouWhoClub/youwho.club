@@ -98,9 +98,10 @@ const TabsComp = styled(Box)(({ theme }) => ({
     borderColor: theme.palette.primary.gray, boxSizing: 'border-box',
     // width: '100%',
     display: 'flex',
-    padding: '12px 0px 24px 0px',
+    // padding: '12px 24px 24px',
     gap: '10px',
-    flexWrap: 'wrap',
+    transition: '500ms ease',
+    // flexWrap: 'wrap',
     overflowX: 'scroll',
     '&::-webkit-scrollbar': {
         display: 'none',
@@ -190,7 +191,7 @@ const CommentCardProfileImg = styled(Box)(({ theme }) => ({
 export const Tabs = ({ children, mb, w, jc }) => {
     return (
         <TabsComp
-            sx={{ mb: mb, width: w ? w : '100%', justifyContent: jc ? jc : 'unset', }}
+            sx={{ mb: mb, width: w ? w : '100%', justifyContent: jc ? jc : 'start', padding: { xs: '12px 0px 24px', md: '12px 24px 24px' } }}
         >
             {children}
         </TabsComp>

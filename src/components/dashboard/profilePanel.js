@@ -73,7 +73,7 @@ const ProfilePanel = () => {
         >
             <Tabs
                 mb={'24px'}
-                jc={{ xs: 'center', md: 'center' }}
+                jc={{ xs: 'start', md: 'center' }}
             >
                 <Tab id={"create-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Create Artwork'} selected={activeTab == 'create-tab'} />
                 <Tab id={"private-gallery-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Private Gallery'} selected={activeTab == 'private-gallery-tab'} />
@@ -81,18 +81,15 @@ const ProfilePanel = () => {
                 <Tab id={"assets-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Assets'} selected={activeTab == 'assets-tab'} />
                 <Tab id={"relations-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Relations'} selected={activeTab == 'relations-tab'} />
                 <Tab id={"reactions-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Reactions'} selected={activeTab == 'reactions-tab'} />
-                {/* <Tab id={"settings"}
-                    onClick={(e) => setActiveTab(e.target.id)}
-                    text={'Progressive'} selected={activeTab == 'settings'} /> */}
             </Tabs>
-            <ScrollablePanel id="scrollable-profile-panel-inside"
+            <ScrollablePanel id="scrollable-profile-panel-inside" className="insidePanelBeforeScroll"
                 sx={{
-                    height: {
-                        xs: activeTab == 'private-gallery-tab' || activeTab == 'public-gallery-tab' ? 'calc(100vh - 351px)' : 'calc(100vh - 486px)',
-                        sm: activeTab == 'private-gallery-tab' || activeTab == 'public-gallery-tab' ? 'calc(100vh - 366px)' : 'calc(100vh - 481px)',
-                        md: 'calc(100vh - 378px)',
-                        lg: 'calc(100vh - 334px)',
-                    },
+                    // height: {
+                    //     xs: activeTab == 'private-gallery-tab' || activeTab == 'public-gallery-tab' ? 'calc(100vh - 351px)' : 'calc(100vh - 486px)',
+                    //     sm: activeTab == 'private-gallery-tab' || activeTab == 'public-gallery-tab' ? 'calc(100vh - 366px)' : 'calc(100vh - 481px)',
+                    //     // md: 'calc(100vh - 378px)',
+                    //     lg: 'calc(100vh - 484px)',
+                    // },
                     // height:'100%',
                     p: {
                         xs: '4px 4px 40px',

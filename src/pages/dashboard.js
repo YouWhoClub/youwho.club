@@ -45,6 +45,7 @@ const YID = styled('div')(({ theme }) => ({
 const ShowPanel = styled(Box)(({ theme }) => ({
     // marginTop: '30px',
     // marginBottom: '20px',
+    transition: '500ms ease',
     display: 'flex',
     justifyContent: 'space-between',
 
@@ -100,15 +101,17 @@ const Dashboard = ({ switchTheme, theme }) => {
         if (window.document.getElementById("scrollable-profile-panel-inside").scrollTop > 0 || window.document.getElementById("scrollable-profile-panel").scrollTop > 0) {
             card.classList.add("profileBannerAfterScroll")
             pic.classList.add("profilePicAfterScroll")
-            // dashbar.classList.add("dashbarAfterScroll")
-            // insidePanel.classList.add("insidePanelAfterScroll")
+            dashbar.classList.add("dashbarAfterScroll")
+            insidePanel.classList.remove("insidePanelBeforeScroll")
+            insidePanel.classList.add("insidePanelAfterScroll")
             outsidePanel.classList.add("dashAfterScroll")
         }
         else if (window.document.getElementById("scrollable-profile-panel").scrollTop >= 0 && window.document.getElementById("scrollable-profile-panel-inside").scrollTop == 0) {
             card.classList.remove("profileBannerAfterScroll")
             pic.classList.remove("profilePicAfterScroll")
-            // dashbar.classList.remove("dashbarAfterScroll")
-            // insidePanel.classList.remove("insidePanelAfterScroll")
+            dashbar.classList.remove("dashbarAfterScroll")
+            insidePanel.classList.add("insidePanelBeforeScroll")
+            insidePanel.classList.remove("insidePanelAfterScroll")
             outsidePanel.classList.remove("dashAfterScroll")
         }
     }
@@ -138,7 +141,7 @@ const Dashboard = ({ switchTheme, theme }) => {
                     ml: { xs: 'none', sm: '80px' },
                     display: 'flex',
                     flexDirection: 'column',
-                    width: '100%',
+                    width: { xs: '100%', sm: 'calc(100% - 80px)' },
                     height: 'calc(100vh - 55px)',
                     gap: { xs: '22px', md: '24px' },
                     boxSizing: 'border-box', padding: '20px 15px 40px'
@@ -147,7 +150,7 @@ const Dashboard = ({ switchTheme, theme }) => {
                     <>
                         <ProfileCard username={globalUser.username} YouWhoID={globalUser.YouWhoID} />
                         <ShowPanel sx={{
-                            flexDirection: { xs: 'column', md: 'row' }, gap: { xs: '22px', md: '24px' },
+                            flexDirection: { xs: 'column', lg: 'row' }, gap: { xs: '22px', md: '24px' }, boxSizing: 'border-box'
                         }}>
                             {/* <Selection width={'200px'} tabs={['zadtan', 'zadtann', 'zadtannn', 'zadtannnn']} handleSelect={handleSelect} selectValue={selectValue} /> */}
                             <DashBar username={globalUser.username} />
