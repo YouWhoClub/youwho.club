@@ -63,7 +63,7 @@ const Icon = styled(Box)(({ theme, url, w, h }) => ({
 }))
 
 
-const CreateNFT = () => {
+const CreateNFT = ({ setMainActiveTab }) => {
     const [activeTab, setActiveTab] = useState('create-NFT')
     const globalUser = useSelector(state => state.userReducer)
     const dispatch = useDispatch();
@@ -85,6 +85,8 @@ const CreateNFT = () => {
     const [NFTPhotoURL, setNFTPhotoURL] = useState(null);
     const toastId = useRef(null);
     const [signer, setSigner] = useState(undefined)
+    const [isCollSuccses, setIsCollSuccses] = useState(false)
+    const [isNFTSuccses, setIsNFTSuccses] = useState(false)
     const [collectionForm, setCollectionForm] = useState({
         gallery_id: null,
         amount: null, // gas fee of creating collection onchain
@@ -128,6 +130,10 @@ const CreateNFT = () => {
             ...prev,
             caller_cid: globalUser.cid,
             current_owner_screen_cid: globalUser.YouWhoID,
+        }))
+        setCollectionForm(prev => ({
+            ...prev,
+            owner_cid: globalUser.cid,
         }))
 
     }, [globalUser.cid, globalUser.YouWhoID])
@@ -302,6 +308,7 @@ const CreateNFT = () => {
 
         if (!response.is_error) {
             updateToast(true, response.message)
+            setIsCollSuccses(true)
         } else {
             console.log(response.message)
         }
@@ -337,6 +344,19 @@ const CreateNFT = () => {
             if (!response.is_error) {
                 updateToast(true, response.message)
                 uploadCollectionBackground(response.data)
+                setCollectionForm({
+                    gallery_id: null,
+                    amount: null, // gas fee of creating collection onchain
+                    col_name: "",
+                    col_description: "",
+                    symbol: "",
+                    owner_cid: "",
+                    metadata_updatable: false,
+                    base_uri: "",
+                    royalties_share: 0, // in-app token amount | 100 means 1%
+                    royalties_address_screen_cid: "",
+                    extra: [],
+                })
             } else {
                 console.error(response.message)
                 updateToast(false, response.message)
@@ -376,6 +396,17 @@ const CreateNFT = () => {
             if (!response.is_error) {
                 updateToast(true, response.message)
                 createNFTMetadataUri(response.data)
+                setNFTForm({
+                    caller_cid: "",
+                    amount: null,
+                    contract_address: "",
+                    current_owner_screen_cid: "",
+                    nft_name: "",
+                    nft_description: "",
+                    current_price: null,
+                    extra: [],
+                    attributes: [],
+                })
             } else {
                 console.error(response.message)
                 updateToast(false, response.message)
@@ -431,6 +462,7 @@ const CreateNFT = () => {
 
             if (!response.is_error) {
                 updateToast(true, response.message)
+                setIsNFTSuccses(true)
             } else {
                 console.error(response.message)
                 updateToast(false, response.message)
@@ -569,36 +601,65 @@ const CreateNFT = () => {
                                                 })
                                             }
                                         </FlexColumn>
-                                        <Modal
-                                            open={openNFTCrop}
-                                            onClose={() => setOpenNFTCrop(false)}
-                                            aria-labelledby="modal-modal-title"
-                                            aria-describedby="modal-modal-description"
-                                        >
-                                            <Box sx={{
-                                                width: '100%',
-                                                height: '100%',
-                                                display: 'flex', alignItems: 'center', justifyContent: 'center'
-                                            }}>
-                                                <Box sx={{
-                                                    borderRadius: '24px',
-                                                    width: { xs: '100%', sm: '600px' }, height: { xs: '100%', sm: '600px' },
-                                                    backgroundColor: 'secondary.bg',
-                                                    display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between'
-                                                }}>
-                                                    <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}>
-                                                        <Typography>Crop</Typography>
-                                                        <div onClick={() => {
-                                                            setOpenNFTCrop(false)
-                                                        }}>
-                                                            <Close sx={{ cursor: 'pointer' }} />
-                                                        </div>
-                                                    </FlexRow>
-                                                    <Crop imageURL={NFTPhotoURL} aspectRatio={aspectRatio == '16 : 9' ? 16 / 9 : 1} setOpenCrop={setOpenNFTCrop} setFile={setNFTImageFile} setPhotoURL={setNFTPhotoURL} />
-                                                </Box>
-                                            </Box>
-                                        </Modal>
+                                        {
+                                            isNFTSuccses &&
+                                            <Container sx={{ flexDirection: 'row', mt: '24px' }}>
+                                                <FlexRow sx={{ gap: '40px' }}>
+                                                    <NFTImage
+                                                        sx={{
+                                                            background: `url(${NFTPhotoURL})`,
+                                                            aspectRatio: '16 / 9',
+                                                        }}
+                                                    />
+                                                    <FlexColumn sx={{ height: '100%', gap: '16px', justifyContent: 'space-between' }}>
+                                                        <Typography sx={{ color: '#3DCA64', fontSize: { xs: '18px', sm: '22px' }, width: '100%' }}>
+                                                            NFT Was Created Successfully
+                                                        </Typography>
+                                                        <Typography sx={{ fontSize: '12px', width: '100%' }}>
+                                                            Created NFT Goes To “ Profile , Private Gallery ”.
+                                                        </Typography>
+                                                        <ButtonPurple
+                                                            text={'Go To Private Gallery'}
+                                                            w={'100%'}
+                                                            onClick={() => {
+                                                                setMainActiveTab("private-gallery-tab")
+                                                                setIsNFTSuccses(false)
+                                                            }}
+                                                        />
+                                                    </FlexColumn>
+                                                </FlexRow>
+                                            </Container>
+                                        }
                                     </Container>
+                                    <Modal
+                                        open={openNFTCrop}
+                                        onClose={() => setOpenNFTCrop(false)}
+                                        aria-labelledby="modal-modal-title"
+                                        aria-describedby="modal-modal-description"
+                                    >
+                                        <Box sx={{
+                                            width: '100%',
+                                            height: '100%',
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center'
+                                        }}>
+                                            <Box sx={{
+                                                borderRadius: '24px',
+                                                width: { xs: '100%', sm: '600px' }, height: { xs: '100%', sm: '600px' },
+                                                backgroundColor: 'secondary.bg',
+                                                display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between'
+                                            }}>
+                                                <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}>
+                                                    <Typography>Crop</Typography>
+                                                    <div onClick={() => {
+                                                        setOpenNFTCrop(false)
+                                                    }}>
+                                                        <Close sx={{ cursor: 'pointer' }} />
+                                                    </div>
+                                                </FlexRow>
+                                                <Crop imageURL={NFTPhotoURL} aspectRatio={aspectRatio == '16 : 9' ? 16 / 9 : 1} setOpenCrop={setOpenNFTCrop} setFile={setNFTImageFile} setPhotoURL={setNFTPhotoURL} />
+                                            </Box>
+                                        </Box>
+                                    </Modal>
                                     <Box sx={{
                                         width: { xs: '100%', sm: '350px' }, mt: '24px', display: 'flex', justifyContent: 'center'
                                     }}>
@@ -629,7 +690,9 @@ const CreateNFT = () => {
                                                     <Typography sx={{ fontSize: '12px' }}>
                                                         Type : &nbsp;
                                                     </Typography>
-                                                    <Input color="primary.gray" style={{ outline: "none", fontSize: '12px' }} />
+                                                    <Typography sx={{ fontSize: '12px', fontFamily: 'inter' }}>
+                                                        erc721
+                                                    </Typography>
                                                 </Box>
                                                 <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
                                             </FlexRow>
@@ -733,7 +796,7 @@ const CreateNFT = () => {
                                                 />
                                                 <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
                                             </FlexRow>
-                                            <FlexRow sx={{ mb: '16px' }}>
+                                            {/* <FlexRow sx={{ mb: '16px' }}>
                                                 <ButtonInput label={'Metadata Addition *'} width={'100%'}
                                                     icon={<AddBoxOutlined
                                                         sx={{ color: 'primary.light' }}
@@ -744,7 +807,7 @@ const CreateNFT = () => {
                                                     />
                                                     } />
                                                 <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                            </FlexRow>
+                                            </FlexRow> */}
                                             {
                                                 collectionForm.extra.map((object, index) => {
                                                     return (<FlexRow sx={{ mb: '16px' }}>
@@ -776,6 +839,7 @@ const CreateNFT = () => {
                                                     <Input name="owner_cid" color="primary.gray" style={{ outline: "none", fontSize: '12px' }}
                                                         onChange={handleColFormChange}
                                                         value={collectionForm.owner_cid}
+                                                        disabled={true}
                                                     />
                                                 </Box>
                                                 <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
@@ -795,36 +859,65 @@ const CreateNFT = () => {
                                                 <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
                                             </FlexRow>
                                         </FlexColumn>
-                                        <Modal
-                                            open={openColCrop}
-                                            onClose={() => setOpenColCrop(false)}
-                                            aria-labelledby="modal-modal-title"
-                                            aria-describedby="modal-modal-description"
-                                        >
-                                            <Box sx={{
-                                                width: '100%',
-                                                height: '100%',
-                                                display: 'flex', alignItems: 'center', justifyContent: 'center'
-                                            }}>
-                                                <Box sx={{
-                                                    borderRadius: '24px',
-                                                    width: { xs: '100%', sm: '600px' }, height: { xs: '100%', sm: '600px' },
-                                                    backgroundColor: 'secondary.bg',
-                                                    display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between'
-                                                }}>
-                                                    <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}>
-                                                        <Typography>Crop</Typography>
-                                                        <div onClick={() => {
-                                                            setOpenColCrop(false)
-                                                        }}>
-                                                            <Close sx={{ cursor: 'pointer' }} />
-                                                        </div>
-                                                    </FlexRow>
-                                                    <Crop imageURL={colPhotoURL} aspectRatio={aspectRatio == '16 : 9' ? 16 / 9 : 1} setOpenCrop={setOpenColCrop} setFile={setColImageFile} setPhotoURL={setColPhotoURL} />
-                                                </Box>
-                                            </Box>
-                                        </Modal>
                                     </Container>
+                                    {
+                                        isCollSuccses &&
+                                        <Container sx={{ flexDirection: 'row', mt: '24px' }}>
+                                            <FlexRow sx={{ gap: '40px' }}>
+                                                <NFTImage
+                                                    sx={{
+                                                        background: `url(${colPhotoURL})`,
+                                                        aspectRatio: '16 / 9',
+                                                    }}
+                                                />
+                                                <FlexColumn sx={{ height: '100%', gap: '16px', justifyContent: 'space-between' }}>
+                                                    <Typography sx={{ color: '#3DCA64', fontSize: { xs: '18px', sm: '22px' }, width: '100%' }}>
+                                                        Collection Was Created Successfully
+                                                    </Typography>
+                                                    <Typography sx={{ fontSize: '12px', width: '100%' }}>
+                                                        Created Collection Goes To “ Profile , Private Gallery ”.
+                                                    </Typography>
+                                                    <ButtonPurple
+                                                        text={'Go To Private Gallery'}
+                                                        w={'100%'}
+                                                        onClick={() => {
+                                                            setMainActiveTab("private-gallery-tab")
+                                                            setIsCollSuccses(false)
+                                                        }}
+                                                    />
+                                                </FlexColumn>
+                                            </FlexRow>
+                                        </Container>
+                                    }
+                                    <Modal
+                                        open={openColCrop}
+                                        onClose={() => setOpenColCrop(false)}
+                                        aria-labelledby="modal-modal-title"
+                                        aria-describedby="modal-modal-description"
+                                    >
+                                        <Box sx={{
+                                            width: '100%',
+                                            height: '100%',
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center'
+                                        }}>
+                                            <Box sx={{
+                                                borderRadius: '24px',
+                                                width: { xs: '100%', sm: '600px' }, height: { xs: '100%', sm: '600px' },
+                                                backgroundColor: 'secondary.bg',
+                                                display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between'
+                                            }}>
+                                                <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}>
+                                                    <Typography>Crop</Typography>
+                                                    <div onClick={() => {
+                                                        setOpenColCrop(false)
+                                                    }}>
+                                                        <Close sx={{ cursor: 'pointer' }} />
+                                                    </div>
+                                                </FlexRow>
+                                                <Crop imageURL={colPhotoURL} aspectRatio={aspectRatio == '16 : 9' ? 16 / 9 : 1} setOpenCrop={setOpenColCrop} setFile={setColImageFile} setPhotoURL={setColPhotoURL} />
+                                            </Box>
+                                        </Box>
+                                    </Modal>
                                     <Box sx={{
                                         width: { xs: '100%', sm: '350px' }, mt: '24px', display: 'flex', justifyContent: 'center'
                                     }}>

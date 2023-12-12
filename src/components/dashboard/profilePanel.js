@@ -100,7 +100,7 @@ const ProfilePanel = () => {
                     // pb: { xs: '50px', sm: '10px' },
                     // px: { xs: 1, sm: '22px' }
                 }}>
-                {activeTab == 'create-tab' && <CreateNFT />}
+                {activeTab == 'create-tab' && <CreateNFT setMainActiveTab={setActiveTab} />}
                 {activeTab == 'private-gallery-tab' && <PrivateGallery />}
                 {activeTab == 'public-gallery-tab' && <PublicGallery />}
                 {activeTab == 'assets-tab' && <AssetsTab />}

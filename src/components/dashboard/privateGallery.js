@@ -130,6 +130,7 @@ const PrivateGallery = () => {
                                         galleries[0].collections.map(collection => (
                                             <Fragment key={`collection_${collection.id}`}>
                                                 <CollectionCard
+                                                    action={'mint'}
                                                     likes={0}
                                                     setExpandedId={setExpandedColl}
                                                     collection={collection}

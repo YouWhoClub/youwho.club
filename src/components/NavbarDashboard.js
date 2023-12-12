@@ -121,7 +121,7 @@ const NavbarDashBoard = ({ switchTheme, theme }) => {
     useEffect(() => {
 
         const checkTokenExpiration = async () => {
-            console.log('checked!');
+            console.log('checked!', (new Date().getTime() > globalUser.tokenExpiration));
             if (new Date().getTime() > globalUser.tokenExpiration) {
                 try {
                     apiCall.current = AUTH_API.request({
