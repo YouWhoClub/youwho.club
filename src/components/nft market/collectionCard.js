@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
-import { Box, ClickAwayListener, MenuItem, Popper, Typography } from "@mui/material";
+import { Box, ClickAwayListener, MenuItem, Popper, Typography, Modal } from "@mui/material";
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
-import { ArrowDown2, ArrowUp2, Heart, More } from "iconsax-react";
+import { ArrowDown2, ArrowUp2, Heart, More, Coin } from "iconsax-react";
 import { useEffect, useState, useRef } from "react";
 import ButtonPurple from "../buttons/buttonPurple";
 import tempPic from '../../assets/bgDots.svg'
@@ -15,8 +15,6 @@ import { API_CONFIG } from "../../config";
 import { useDispatch, useSelector } from "react-redux";
 import { toast, ToastContainer } from 'react-toastify';
 import generateSignature from "../../utils/signatureUtils";
-
-
 
 
 const Card = styled(Box)(({ theme }) => ({
@@ -129,8 +127,18 @@ const DetailsSection = styled(Box)(({ theme }) => ({
     justifyContent: 'space-between',
     color: theme.palette.primary.text,
 }))
+const Button = styled('button')(({ theme, color }) => ({
+    backgroundColor: 'transparent',
+    padding: '8px 24px',
+    outline: 'none',
+    color: color,
+    cursor: 'pointer',
+    border: 'none',
+    fontFamily: "Inter",
+    fontSize: '12px',
+}))
 
-const CollectionCard = ({ likes, link, expanded, setExpandedId, collection }) => {
+const CollectionCard = ({ likes, link, expanded, setExpandedId, collection, action, setActiveTab }) => {
 
     const { id, col_name, collection_background, created_at, owner_screen_cid, royalties_address_screen_cid, col_description, extra } = collection
     const [colDetExpanded, setColDetExpanded] = useState(true)
@@ -140,6 +148,8 @@ const CollectionCard = ({ likes, link, expanded, setExpandedId, collection }) =>
     const [isHovered, setIsHovered] = useState(false);
     const toastId = useRef(null);
     const [amount, setAmount] = useState(0)
+    const [NFTPrice, setNFTPrice] = useState(null)
+    const [openModal, setOpenModal] = useState(false)
 
 
     useEffect(() => {
@@ -159,8 +169,14 @@ const CollectionCard = ({ likes, link, expanded, setExpandedId, collection }) =>
 
     const getMetadata = () => {
         if (collection.nfts) {
+            const nfts = collection.nfts.filter((nft) => {
+                if (nft.is_listed) {
+                    return false;
+                }
+                return true;
+            })
             Promise.all(
-                collection.nfts.sort((a, b) => new Date(a.created_at) - new Date(b.created_at)).map((nft) =>
+                nfts.sort((a, b) => new Date(a.created_at) - new Date(b.created_at)).map((nft) =>
                     fetch(nft.metadata_uri.replace("ipfs://", "https://ipfs.io/ipfs/"))
                         .then((response) => response.json())
                         .then((data) => ({ ...nft, metadata: data }))
@@ -196,6 +212,11 @@ const CollectionCard = ({ likes, link, expanded, setExpandedId, collection }) =>
         } else {
             console.log(response.message)
         }
+    }
+
+    const handleCancel = () => {
+        setOpenModal(false)
+        setNFTPrice(null)
     }
 
 
@@ -244,6 +265,61 @@ const CollectionCard = ({ likes, link, expanded, setExpandedId, collection }) =>
 
             if (!response.is_error) {
                 updateToast(true, response.message)
+            } else {
+                console.error(response.message)
+                updateToast(false, response.message)
+            }
+        } else {
+            updateToast(false, 'please save your private key first')
+        }
+    }
+
+    const sellNFT = async () => {
+        loading();
+
+        if (globalUser.privateKey) {
+            const nft = nfts[selectedNFT]
+
+            const data = {
+                caller_cid: globalUser.cid,
+                nft_id: nft.id,
+                amount: amount,
+                event_type: "sell",
+                buyer_screen_cid: null,
+                contract_address: nft.contract_address,
+                metadata_uri: nft.metadata_uri,
+                current_owner_screen_cid: nft.current_owner_screen_cid,
+                onchain_id: nft.onchain_id,
+                is_minted: nft.is_minted,
+                is_listed: nft.is_listed,
+                nft_name: nft.nft_name,
+                nft_description: nft.nft_description,
+                current_price: NFTPrice, // mint with primary price of 20 tokens, this must be the one in db
+                freeze_metadata: nft.freeze_metadata,
+                extra: nft.extra,
+                attributes: nft.attributes,
+                comments: nft.comments,
+                likes: nft.likes,
+            }
+
+            const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
+
+            // sending the request
+
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/update`, {
+                method: 'POST',
+                body: JSON.stringify(requestData),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            })
+            let response = await request.json()
+            console.log(response);
+
+            if (!response.is_error) {
+                updateToast(true, response.message)
+                setActiveTab("sales-list")
             } else {
                 console.error(response.message)
                 updateToast(false, response.message)
@@ -350,7 +426,11 @@ const CollectionCard = ({ likes, link, expanded, setExpandedId, collection }) =>
                                             <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>NFT Price : </Typography>
                                             <Typography sx={{ color: 'primary.main', fontSize: '14px' }}>&nbsp;{nfts[selectedNFT].current_price}</Typography>
                                         </FlexRow>
-                                        <ButtonPurple text={'Mint This NFT'} onClick={mintNFT} w='100%' />
+                                        {
+                                            action == 'mint' ?
+                                                <ButtonPurple text={'Mint This NFT'} onClick={mintNFT} w='100%' />
+                                                : <ButtonPurple text={'Add To Sales List'} onClick={() => setOpenModal(true)} w='100%' />
+                                        }
                                         <FlexRow>
                                             <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>Creation Date : </Typography>
                                             <Typography sx={{ color: 'primary.gray', fontSize: '14px' }}>&nbsp;{nfts[selectedNFT].created_at.slice(0, 10)}</Typography>
@@ -399,6 +479,53 @@ const CollectionCard = ({ likes, link, expanded, setExpandedId, collection }) =>
                                     </FlexColumn>
 
                                 </Box>
+
+                                <Modal
+                                    open={openModal}
+                                    onClose={() => setOpenModal(false)}
+                                    aria-labelledby="modal-modal-title"
+                                    aria-describedby="modal-modal-description"
+                                    sx={{ '& .MuiBackdrop-root': { backgroundColor: 'rgba(255, 255, 255, 0.50)', backdropFilter: "blur(16.5px)", } }}
+                                >
+                                    <Box sx={{
+                                        width: '100%',
+                                        height: '100%',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    }}>
+                                        <Box sx={{
+                                            borderRadius: '24px',
+                                            width: { xs: '100%', sm: '400px' }, height: { xs: '100%', sm: '450px' },
+                                            backgroundColor: 'secondary.bg', color: 'primary.text', boxSizing: 'border-box',
+                                            display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between',
+                                            boxShadow: '0px 0px 20px 0px rgba(0, 0, 0, 0.50)',
+                                        }}>
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '30px', padding: '40px' }}>
+                                                <Typography sx={{ textAlign: 'center', fontSize: '16px' }}>
+                                                    Enter Your NFT Value
+                                                </Typography>
+                                                <Typography sx={{ textAlign: 'center', fontSize: '12px', fontFamily: 'inter', color: 'primary.darkGray' }}>
+                                                    This NFT New Value Is The Price You Want To Sell It.                                                </Typography>
+                                                <FlexRow>
+                                                    <MyInput
+                                                        value={NFTPrice}
+                                                        name={"current_price"}
+                                                        onChange={(e) => setNFTPrice(Number(e.target.value))}
+                                                        label={'NFT Price'} width={'100%'}
+                                                        icon={<Coin color="#BEA2C5" />} type={'number'} id={'nft-price'}
+                                                    />
+                                                </FlexRow>
+                                            </Box>
+                                            <Box>
+                                                <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                                                    <Button style={{ borderRight: '1px solid #DEDEDE' }} color="primary.darkGray" onClick={handleCancel}>cancel</Button>
+                                                    <ButtonPurple disabled={(NFTPrice == 0 || NFTPrice == null)} text={'Add To Sales List'} onClick={sellNFT} w='100%' />
+                                                </Box>
+
+                                            </Box>
+                                        </Box>
+                                    </Box>
+
+                                </Modal >
                             </>
                             :
                             <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
