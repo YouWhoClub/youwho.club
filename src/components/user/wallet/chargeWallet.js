@@ -55,7 +55,7 @@ const Button = styled('button')(({ theme }) => ({
 const ChargeWallet = () => {
     const globalUser = useSelector(state => state.userReducer)
     const dispatch = useDispatch();
-    const [currency, setCurrency] = useState(undefined)
+    const [currency, setCurrency] = useState('Dollar, USA')
     const [tokenAmount, setTokenAmount] = useState(1)
     const [IRRValue, setIRRValue] = useState(5000)
     const [USDValue, setUSDValue] = useState(0.01)
@@ -143,8 +143,8 @@ const ChargeWallet = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '40px', p: '0' }}>
             <Container>
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
-                    <Typography sx={{ color: 'primary.text', textAlign: 'center', fontSize: '20px', lineHeight: 'normal', fontWeight: '400' }}>Token exchange</Typography>
-                    <Typography sx={{ fontFamily: 'Inter', color: '#787878', textAlign: 'center', fontSize: '12px', lineHeight: 'normal', fontWeight: '400' }}>You Can exchange YouWho-Token Here.</Typography>
+                    <Typography sx={{ color: 'primary.text', textAlign: 'center', fontSize: '20px', lineHeight: 'normal', fontWeight: '400' }}>Preaches Token</Typography>
+                    <Typography sx={{ fontFamily: 'Inter', color: '#787878', textAlign: 'center', fontSize: '12px', lineHeight: 'normal', fontWeight: '400' }}>You Can Preaches YouWho-Token Here.</Typography>
                 </Box>
                 {
                     (globalUser.privateKey) ?
@@ -156,7 +156,7 @@ const ChargeWallet = () => {
                                 width: '100%', display: 'flex', flexDirection: 'row',
                                 alignItems: 'center', justifyContent: 'flex-start', gap: '12px'
                             }}>
-                                <SelectInput tabs={['Dollar, USA', 'Rial, Iran',]} label={'Currency'}
+                                <SelectInput tabs={['Dollar, USA']} label={'Currency'}
                                     handleSelect={handleCurrencyChange} value={currency} id="currency-selection"
                                     width={'100%'} icon={<Icon url={PinIcon} w={27} h={27} />} />
                             </Box> 

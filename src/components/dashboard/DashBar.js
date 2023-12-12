@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { CheckRounded, Close, Face } from "@mui/icons-material";
 import { Typography } from "@mui/joy";
-import { Accordion, AccordionDetails, AccordionSummary, MenuItem, Popper, TextField } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, MenuItem, Popper, TextField, Modal } from "@mui/material";
 import { Box, ClickAwayListener } from "@mui/material";
 import { ArrowDown2, ArrowUp2, Check, Clock, Profile, Setting2, TickCircle, Timer } from "iconsax-react";
 import { useState, useRef } from "react";
@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { API_CONFIG } from "../../config";
 import { toast } from 'react-toastify';
 import { getuser } from "../../redux/actions";
+import Crop from "../crop/Crop";
 
 
 
@@ -40,13 +41,14 @@ const AvatarEdit = styled(Box)(({ theme }) => ({
     borderRadius: '50%',
     width: '30px',
     height: '30px',
+    backgroundColor: theme.palette.primary.gray,
 }))
 
 const BannerEdit = styled(Box)(({ theme }) => ({
     borderRadius: '10px',
     width: '60px',
     height: '30px',
-    backgroundColor: theme.palette.primary.middle,
+    backgroundColor: theme.palette.primary.gray,
 }))
 const FlexRow = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -62,13 +64,19 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
     const [editProfile, setEditProfile] = useState(false)
     const globalUser = useSelector(state => state.userReducer)
     const [bio, setBio] = useState('')
-    const [selectedAvatar, setSelectedAvatar] = useState(null)
-    const [selectedBanner, setSelectedBanner] = useState(null)
-    const avatarFileInput = useRef()
-    const bannerFileInput = useRef()
+    // const [selectedAvatar, setSelectedAvatar] = useState(null)
+    // const [selectedBanner, setSelectedBanner] = useState(null)
+    const [openAvatarCrop, setOpenAvatarCrop] = useState(false)
+    const [openBannerCrop, setOpenBannerCrop] = useState(false)
     const toastId = useRef(null);
     const dispatch = useDispatch();
     const fetchUser = (token) => dispatch(getuser(token));
+    const avatarFileInput = useRef()
+    const [avatarFile, setAvatarFile] = useState(null);
+    const [avatarPhotoURL, setAvatarPhotoURL] = useState(null);
+    const bannerFileInput = useRef()
+    const [bannerFile, setBannerFile] = useState(null);
+    const [bannerPhotoURL, setBannerPhotoURL] = useState(null);
 
     const loading = () => {
         toastId.current = toast.loading("Please wait...")
@@ -103,20 +111,34 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
         return 'undefined'
     }
 
-    const avatarChangeHandler = event => {
-        setSelectedAvatar(event.target.files[0])
+    const avatarChangeHandler = e => {
+        const file = e.target.files[0];
+        if (file) {
+            setAvatarFile(file);
+            setAvatarPhotoURL(URL.createObjectURL(file));
+            setOpenAvatarCrop(true);
+        }
     }
-    const bannerChangeHandler = event => {
-        setSelectedBanner(event.target.files[0])
+    const bannerChangeHandler = e => {
+        const file = e.target.files[0];
+        if (file) {
+            setBannerFile(file);
+            setBannerPhotoURL(URL.createObjectURL(file));
+            setOpenBannerCrop(true);
+        }
     }
 
     const fileUploadHandler = async event => {
         loading();
         const promises = [];
 
-        if (selectedAvatar) {
+        if (avatarFile) {
+            const myFile = new File([avatarFile], 'image.jpeg', {
+                type: avatarFile.type,
+            });
+
             const avatarfd = new FormData();
-            avatarfd.append('img', selectedAvatar)
+            avatarfd.append('img', myFile)
 
             const avatarPromise = fetch(`${API_CONFIG.AUTH_API_URL}/profile/update/avatar`, {
                 method: 'POST',
@@ -129,9 +151,13 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
             promises.push(avatarPromise);
         }
 
-        if (selectedBanner) {
+        if (bannerFile) {
+            const myFile = new File([bannerFile], 'image.jpeg', {
+                type: bannerFile.type,
+            });
+
             const bannerfd = new FormData();
-            bannerfd.append('img', selectedBanner)
+            bannerfd.append('img', myFile)
 
             const bannerPromise = fetch(`${API_CONFIG.AUTH_API_URL}/profile/update/banner`, {
                 method: 'POST',
@@ -252,9 +278,9 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
                                         cursor: 'pointer',
                                         background: () => {
                                             return (
-                                                selectedAvatar
-                                                    ? `url('${URL.createObjectURL(selectedAvatar)}') no-repeat center`
-                                                    : globalUser.avatar ? `url('${API_CONFIG.API_URL}/${globalUser.avatar}') no-repeat center` : '#846894'
+                                                avatarPhotoURL
+                                                    ? `url('${avatarPhotoURL}') no-repeat center`
+                                                    : globalUser.avatar ? `url('${API_CONFIG.API_URL}/${globalUser.avatar}') no-repeat center` : 'primary.gray'
                                             )
                                         },
                                         backgroundSize: 'cover'
@@ -277,9 +303,9 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
                                         cursor: 'pointer',
                                         background: () => {
                                             return (
-                                                selectedBanner
-                                                    ? `url('${URL.createObjectURL(selectedBanner)}') no-repeat center`
-                                                    : globalUser.banner ? `url('${API_CONFIG.API_URL}/${globalUser.banner}') no-repeat center` : '#846894'
+                                                bannerPhotoURL
+                                                    ? `url('${bannerPhotoURL}') no-repeat center`
+                                                    : globalUser.banner ? `url('${API_CONFIG.API_URL}/${globalUser.banner}') no-repeat center` : 'primary.gray'
                                             )
                                         },
                                         backgroundSize: 'cover'
@@ -423,6 +449,68 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
                             </Box>
                         </AccordionDetails>
                     </Accordion>
+
+
+                    {/* -------- CropModals -------- */}
+
+                    <Modal
+                        open={openAvatarCrop}
+                        onClose={() => setOpenAvatarCrop(false)}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <Box sx={{
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center'
+                        }}>
+                            <Box sx={{
+                                borderRadius: '24px',
+                                width: { xs: '100%', sm: '600px' }, height: { xs: '100%', sm: '600px' },
+                                backgroundColor: 'secondary.bg',
+                                display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between'
+                            }}>
+                                <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}>
+                                    <Typography>Crop</Typography>
+                                    <div onClick={() => {
+                                        setOpenAvatarCrop(false)
+                                    }}>
+                                        <Close sx={{ cursor: 'pointer' }} />
+                                    </div>
+                                </FlexRow>
+                                <Crop imageURL={avatarPhotoURL} aspectRatio={1} setOpenCrop={setOpenAvatarCrop} setFile={setAvatarFile} setPhotoURL={setAvatarPhotoURL} />
+                            </Box>
+                        </Box>
+                    </Modal>
+                    <Modal
+                        open={openBannerCrop}
+                        onClose={() => setOpenBannerCrop(false)}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <Box sx={{
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center'
+                        }}>
+                            <Box sx={{
+                                borderRadius: '24px',
+                                width: { xs: '100%', sm: '600px' }, height: { xs: '100%', sm: '600px' },
+                                backgroundColor: 'secondary.bg',
+                                display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between'
+                            }}>
+                                <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}>
+                                    <Typography>Crop</Typography>
+                                    <div onClick={() => {
+                                        setOpenBannerCrop(false)
+                                    }}>
+                                        <Close sx={{ cursor: 'pointer' }} />
+                                    </div>
+                                </FlexRow>
+                                <Crop imageURL={bannerPhotoURL} aspectRatio={18/5} setOpenCrop={setOpenBannerCrop} setFile={setBannerFile} setPhotoURL={setBannerPhotoURL} />
+                            </Box>
+                        </Box>
+                    </Modal>
                 </>
                 :
                 <>
