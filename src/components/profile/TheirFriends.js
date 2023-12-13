@@ -51,7 +51,7 @@ const TheirFriends = ({ user, sendAllieRequest, sendFriendRequest,
                 </Box>
                 : <Typography
                     sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
-                    {user.username} does not have any allies yet</Typography>}
+                    {user.username} does not have any friends yet</Typography>}
             </>
         }
         </>

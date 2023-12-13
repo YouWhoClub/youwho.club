@@ -1,12 +1,13 @@
 import styled from "@emotion/styled";
 import { Box, Typography } from "@mui/material";
-import { TickSquare } from "iconsax-react";
+import { Setting2, TickSquare } from "iconsax-react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { API_CONFIG } from "../../config";
 import { Face } from "@mui/icons-material";
 import profileFace from '../../assets/face-pro.svg'
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
+import ButtonBorder from "../buttons/buttonBorder";
 
 
 const ProPic = styled(Box)(({ theme }) => ({
@@ -18,7 +19,13 @@ const ProBanner = styled(Box)(({ theme }) => ({
     display: 'flex', alignItems: 'center', boxSizing: 'border-box',
     boxShadow: theme.palette.primary.boxShadow, transition: '500ms ease'
 }))
-const ProfileCard = ({ username, YouWhoID }) => {
+const Line = styled(Box)(({ theme }) => ({
+    borderRadius: '24px',
+    width: '100%', boxSizing: 'border-box',
+    backgroundColor: 'white', transition: '500ms ease', height: '1px'
+}))
+
+const ProfileCard = ({ username, YouWhoID, progressBarOpen, setProgressBarOpen }) => {
     const globalUser = useSelector(state => state.userReducer)
 
     const copyIdToClipBoard = async (textToCopy) => {
@@ -78,6 +85,24 @@ const ProfileCard = ({ username, YouWhoID }) => {
                     <TickSquare style={{ size: { xs: '10px', md: '16px' }, display: idCopied ? 'block' : 'none', color: '#0Cb2B1' }} />
                 </Box>
                 : undefined}
+            <Line sx={{ my: '12px' }} id='line-profile-user' />
+            <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'end' }}>
+                <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+                    <ButtonBorder onClick={() => setProgressBarOpen(!progressBarOpen)} bgcolor={'primary.main'}
+                        fontColor={'white'}
+                        prevIcon={<Setting2 size='16px' />}
+                        text={'Progressive'} px={'26px'} br={'30px'} height={'25px'} w={'max-content'} />
+                </Box>
+                <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+                    <ButtonBorder onClick={() => setProgressBarOpen(!progressBarOpen)} bgcolor={'primary.main'}
+                        prevIcon={<Setting2 size='16px' />}
+                        fontColor={'white'}
+                        px={'4px'}
+                        py={'4px'}
+                        br={'30px'} height={'25px'} w={'max-content'} />
+                </Box>
+            </Box>
+
         </Box>
     </ProBanner>);
 }

@@ -82,8 +82,14 @@ const RelationsTab = ({ user }) => {
             console.log('flwngs', tempFolls)
             console.log('flwrs', tempFans)
         } else {
-            console.log('relations', response)
-            setRelationsLoading(true)
+            if (response.status == 404) {
+                setFriends([])
+                setFollowers([])
+                setRelationsLoading(false)
+            } else {
+                console.log('relations', response)
+                setRelationsLoading(true)
+            }
         }
     }
     useEffect(() => {

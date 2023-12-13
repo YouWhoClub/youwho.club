@@ -159,7 +159,7 @@ const ChargeWallet = () => {
                                 <SelectInput tabs={['Dollar, USA']} label={'Currency'}
                                     handleSelect={handleCurrencyChange} value={currency} id="currency-selection"
                                     width={'100%'} icon={<Icon url={PinIcon} w={27} h={27} />} />
-                            </Box> 
+                            </Box>
                             <Box sx={{
                                 width: '100%', display: 'flex', flexDirection: 'row',
                                 alignItems: 'center', justifyContent: 'center', gap: '10px'
@@ -190,7 +190,7 @@ const ChargeWallet = () => {
                                 value={signer}
                                 onChange={(e) => setSigner(e.target.value)}
                                 placeholder="enter private key"
-                                width={'400px'}
+                                width={'100%'}
                                 textColor={'black'}
                                 py={'8px'} />
                             <ButtonPurple onClick={savePrivateKey} text={'Save'} />

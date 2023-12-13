@@ -335,7 +335,7 @@ const RelationsTab = () => {
                                 value={signer}
                                 onChange={(e) => setSigner(e.target.value)}
                                 placeholder="enter private key"
-                                width={'400px'}
+                                width={'100%'}
                                 textColor={'black'}
                                 py={'8px'} />
                             <ButtonPurple onClick={savePrivateKey} height='35px' text={'Save'} />

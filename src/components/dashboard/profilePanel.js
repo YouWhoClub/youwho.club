@@ -58,15 +58,15 @@ const FlexColumn = styled(Box)(({ theme }) => ({
 
 const ProfilePanel = () => {
     const [activeTab, setActiveTab] = useState('create-tab')
-    useEffect(() => {
-        let dashbar = window.document.getElementById('dash-bar')
+    // useEffect(() => {
+    //     let dashbar = window.document.getElementById('dash-bar')
 
-        if (activeTab == "private-gallery-tab" || activeTab == "public-gallery-tab") {
-            dashbar.classList.add("dashbarAfterScroll")
-        } else {
-            dashbar.classList.remove("dashbarAfterScroll")
-        }
-    }, [activeTab])
+    //     if (activeTab == "private-gallery-tab" || activeTab == "public-gallery-tab") {
+    //         dashbar.classList.add("dashbarAfterScroll")
+    //     } else {
+    //         dashbar.classList.remove("dashbarAfterScroll")
+    //     }
+    // }, [activeTab])
     return (
         <Panel
         // sx={{ py: { xs: 'unset', md: 1 }, px: { xs: 'unset', md: 2 } }}

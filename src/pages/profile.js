@@ -114,7 +114,13 @@ const Profile = ({ switchTheme, theme, props }) => {
         }
         catch (err) {
             console.log(err)
-            setErr(err.data.message)
+            if (err.data && err.data.message) {
+                setErr(err.data.message)
+            } else if (err.message) {
+                setErr(err.message)
+            } else {
+                setErr('Network Error')
+            }
         }
     }
     useEffect(() => {
@@ -246,14 +252,17 @@ const Profile = ({ switchTheme, theme, props }) => {
                             </>
                             :
                             <>
-                                <ProfileCard user={user} isFriend={isFriends} setProgressBarOpen={setProgressBarOpen} progressBarOpen={progressBarOpen} />
+                                <ProfileCard
+                                    sendFriendRequest={sendFriendRequest}
+                                    user={user} isFriend={isFriends} setProgressBarOpen={setProgressBarOpen} progressBarOpen={progressBarOpen} />
                                 <ShowPanel sx={{
+
                                     flexDirection: { xs: 'column', md: 'row' }, gap: { xs: '22px', md: '24px' },
                                 }}>
                                     {progressBarOpen ?
                                         <ProfileBar user={user} />
                                         : undefined}
-                                    <ProfilePanel user={user} isFriend={isFriends} />
+                                    <ProfilePanel sendFriendRequest={sendFriendRequest} user={user} isFriend={isFriends} />
                                 </ShowPanel>
                             </>
                         }

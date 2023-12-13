@@ -68,11 +68,13 @@ h6 {
     /* height: calc(100vh - 100px) !important; */
   }
   .insidePanelAfterScroll {
-    height: calc(100vh - 324px);
+    height: calc(100vh - 332px);
+    /* height: calc(100vh - 324px); */
   }
   .insidePanelBeforeScroll {
     /* overflow-y: scroll !important; */
-    height: calc(100vh - 486px);
+    height: calc(100vh - 382px);
+    /* height: calc(100vh - 486px); */
   }
   .insidePanelUserAfterScroll {
     height: calc(100vh - 332px);

@@ -55,7 +55,7 @@ const FlexColumn = styled(Box)(({ theme }) => ({
 }))
 
 const ProfilePanel = ({ user, isFriend }) => {
-    const [activeTab, setActiveTab] = useState('create-tab')
+    const [activeTab, setActiveTab] = useState('relations-tab')
     // useEffect(() => {
     //     let dashbar = window.document.getElementById('profile-bar-user')
 
@@ -69,7 +69,7 @@ const ProfilePanel = ({ user, isFriend }) => {
         <Panel>
             <Tabs
                 mb={'24px'}
-                jc={{ xs: 'center', md: 'center' }}
+                jc={{ xs: 'start', md: 'center' }}
             >
                 <Tab id={"private-gallery-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Private Gallery'} selected={activeTab == 'private-gallery-tab'} />
                 <Tab id={"public-gallery-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Public Gallery'} selected={activeTab == 'public-gallery-tab'} />

@@ -90,28 +90,35 @@ const Dashboard = ({ switchTheme, theme }) => {
     //     }
     // }, [globalUser.isLoggedIn, globalUser.YouWhoID, globalUser.isPhoneVerified])
 
+    const [progressBarOpen, setProgressBarOpen] = useState(false)
 
     const listenScrollEvent = e => {
         let card = window.document.getElementById('profile-card')
+        let line = window.document.getElementById('line-profile-user')
         let pic = window.document.getElementById('profile-pic')
-        let dashbar = window.document.getElementById('dash-bar')
+        // let dashbar = window.document.getElementById('dash-bar')
         let insidePanel = window.document.getElementById('scrollable-profile-panel-inside')
         let outsidePanel = window.document.getElementById('dash')
         if (window.document.getElementById("scrollable-profile-panel-inside").scrollTop > 0 || window.document.getElementById("scrollable-profile-panel").scrollTop > 0) {
             card.classList.add("profileBannerAfterScroll")
             pic.classList.add("profilePicAfterScroll")
-            dashbar.classList.add("dashbarAfterScroll")
+            line.classList.add("profileLineAfterScroll")
             insidePanel.classList.remove("insidePanelBeforeScroll")
             insidePanel.classList.add("insidePanelAfterScroll")
             outsidePanel.classList.add("dashAfterScroll")
+            if (progressBarOpen) {
+                setProgressBarOpen(false)
+            }
+
         }
         else if (window.document.getElementById("scrollable-profile-panel").scrollTop >= 0 && window.document.getElementById("scrollable-profile-panel-inside").scrollTop == 0) {
             card.classList.remove("profileBannerAfterScroll")
             pic.classList.remove("profilePicAfterScroll")
-            dashbar.classList.remove("dashbarAfterScroll")
+            // dashbar.classList.remove("dashbarAfterScroll")
             insidePanel.classList.add("insidePanelBeforeScroll")
             insidePanel.classList.remove("insidePanelAfterScroll")
             outsidePanel.classList.remove("dashAfterScroll")
+            line.classList.remove("profileLineAfterScroll")
         }
     }
 
@@ -147,12 +154,12 @@ const Dashboard = ({ switchTheme, theme }) => {
                 }}>
                 {globalUser.isLoggedIn ?
                     <>
-                        <ProfileCard username={globalUser.username} YouWhoID={globalUser.YouWhoID} />
+                        <ProfileCard username={globalUser.username} YouWhoID={globalUser.YouWhoID} setProgressBarOpen={setProgressBarOpen} progressBarOpen={progressBarOpen} />
                         <ShowPanel sx={{
                             flexDirection: { xs: 'column', lg: 'row' }, gap: { xs: '22px', md: '24px' }, boxSizing: 'border-box'
                         }}>
-                            {/* <Selection width={'200px'} tabs={['zadtan', 'zadtann', 'zadtannn', 'zadtannnn']} handleSelect={handleSelect} selectValue={selectValue} /> */}
-                            <DashBar username={globalUser.username} />
+                            {progressBarOpen ?
+                                <DashBar username={globalUser.username} /> : undefined}
                             <ProfilePanel />
                         </ShowPanel>
                     </>

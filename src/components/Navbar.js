@@ -197,6 +197,7 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
             setLoginInitialRender(false)
         }
         else {
+            checkTokenExpiration()
             tokenInterval.current = setInterval(checkTokenExpiration, 60000);
             console.log(tokenInterval)
         }

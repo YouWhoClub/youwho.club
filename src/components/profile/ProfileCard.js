@@ -24,7 +24,7 @@ const Line = styled(Box)(({ theme }) => ({
     width: '100%', boxSizing: 'border-box',
     backgroundColor: 'white', transition: '500ms ease', height: '1px'
 }))
-const ProfileCard = ({ user, isFriend, setProgressBarOpen, progressBarOpen }) => {
+const ProfileCard = ({ user, isFriend, setProgressBarOpen, progressBarOpen, sendFriendRequest }) => {
     const globalUser = useSelector(state => state.userReducer)
 
     const copyIdToClipBoard = async (textToCopy) => {
@@ -106,7 +106,7 @@ const ProfileCard = ({ user, isFriend, setProgressBarOpen, progressBarOpen }) =>
                     </>
                     :
                     <ButtonBorder bgcolor={'primary.main'}
-                        fontColor={'white'}
+                        fontColor={'white'} onClick={() => sendFriendRequest(user.YouWhoID, globalUser.cid)}
                         text={'Friend Request'} px={'26px'} br={'30px'} height={'25px'} w={'max-content'} />
                 }
 
