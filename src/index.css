@@ -36,6 +36,10 @@ h6 {
   display: none !important;
   transition: 500ms ease;
 }
+.profileLineAfterScroll {
+  margin-top: 4px !important;
+  margin-bottom: 4px !important;
+}
 .insidePanelAfterScroll {
   /* overflow-y: scroll !important; */
   height: calc(100vh - 334px);
@@ -44,6 +48,14 @@ h6 {
   /* overflow-y: scroll !important; */
   height: calc(100vh - 484px);
 }
+.insidePanelUserAfterScroll {
+  height: calc(100vh - 334px);
+}
+.insidePanelUserBeforeScroll {
+  /* overflow-y: scroll !important; */
+  height: calc(100vh - 484px);
+}
+
 .dashAfterScroll {
   /* height: calc(100vh - 55px) !important; */
 }
@@ -61,6 +73,13 @@ h6 {
   .insidePanelBeforeScroll {
     /* overflow-y: scroll !important; */
     height: calc(100vh - 486px);
+  }
+  .insidePanelUserAfterScroll {
+    height: calc(100vh - 332px);
+  }
+  .insidePanelUserBeforeScroll {
+    /* overflow-y: scroll !important; */
+    height: calc(100vh - 382px);
   }
 }
 

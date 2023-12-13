@@ -9,7 +9,6 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Bar from "../components/Bar";
-import NavbarTransparent from "../components/NavbarTransparent";
 import PanelLayout from "../components/PanelLayout";
 import Selection from "../components/selection";
 import { ToastContainer } from 'react-toastify';
@@ -19,7 +18,10 @@ import ProfileBar from "../components/profile/ProfileBar.js";
 import ProfilePanel from "../components/profile/profilePanel.js";
 import { PUBLIC_API } from "../utils/data/public_api.js";
 import { BG_URL, PUBLIC_URL } from "../utils/utils.js";
+import { toast } from 'react-toastify';
 import bgDots from '../assets/bgDots.svg'
+import { API_CONFIG } from "../config.js";
+import generateSignature from "../utils/signatureUtils.js";
 const ShowPanel = styled(Box)(({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-between',
@@ -31,10 +33,50 @@ const Profile = ({ switchTheme, theme, props }) => {
     const globalUser = useSelector(state => state.userReducer)
     const [idCopied, setIdCopied] = useState(false)
     const [selectValue, setSelectValue] = useState(undefined)
+    const [myFriends, setMyFriends] = useState([])
     const [err, setErr] = useState(undefined)
-    const [loading, setLoading] = useState(true)
+    const [userloading, setuserLoading] = useState(true)
     const apiCall = useRef(undefined)
     const [user, setUser] = useState(undefined)
+    const [isFriends, setisFriend] = useState(undefined)
+    const toastId = useRef(null);
+    const loading = () => {
+        toastId.current = toast.loading("Please wait...")
+        console.log(toastId)
+    }
+    const updateToast = (success, message) => {
+        success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
+            : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
+    }
+
+    const sendFriendRequest = async (receiver, sender) => {
+        loading();
+
+        let data = {
+            owner_cid: sender,
+            to_screen_cid: receiver,
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        console.log(requestData)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/send/friend-request`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+        if (response.message == "Updated Successfully") {
+            updateToast(true, 'Friend Request Sent')
+        } else {
+            updateToast(false, response.message)
+        }
+    }
+
+
+
 
     const username = window.location.pathname.replace('/profile/', '')
     const getUser = async () => {
@@ -67,11 +109,12 @@ const Profile = ({ switchTheme, theme, props }) => {
             tempUser.created_at = response.data.data.created_at
             console.log(tempUser)
             setUser(tempUser)
-            setLoading(false)
+            setuserLoading(false)
             setErr(undefined)
         }
         catch (err) {
-            setErr(err.message)
+            console.log(err)
+            setErr(err.data.message)
         }
     }
     useEffect(() => {
@@ -82,29 +125,72 @@ const Profile = ({ switchTheme, theme, props }) => {
             }
         }
     }, [])
+    const getMyFriends = async () => {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/friends/?from=0&to=10`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log('my friends', response)
+
+        if (!response.is_error) {
+            setMyFriends(response.data.friends)
+            for (var i = 0; i < response.data.friends.length; i++) {
+                if (response.data.friends[i].screen_cid == user.YouWhoID) {
+                    setisFriend(true)
+                } else {
+                    setisFriend(false)
+                }
+            }
+        } else {
+            if (response.status == 404) {
+                setMyFriends([])
+                setisFriend(false)
+
+            } else {
+                console.log(response.message)
+            }
+        }
+    }
+    useEffect(() => {
+        if (globalUser.token && user) {
+            getMyFriends()
+        }
+    }, [globalUser.token, user])
 
     const listenScrollEvent = e => {
         let card = window.document.getElementById('profile-card-user')
         let pic = window.document.getElementById('profile-pic-user')
-        let dashbar = window.document.getElementById('profile-bar-user')
+        let line = window.document.getElementById('line-profile-user')
+        // let dashbar = window.document.getElementById('profile-bar-user')
         let insidePanel = window.document.getElementById('scrollable-profile-panel-inside-user')
         let outsidePanel = window.document.getElementById('profile')
         if (window.document.getElementById("scrollable-profile-panel-inside-user").scrollTop > 0 || window.document.getElementById("scrollable-profile-panel-user").scrollTop > 0) {
             card.classList.add("profileBannerAfterScroll")
             pic.classList.add("profilePicAfterScroll")
-            // dashbar.classList.add("dashbarAfterScroll")
-            // insidePanel.classList.add("insidePanelAfterScroll")
+            line.classList.add("profileLineAfterScroll")
+            insidePanel.classList.add("insidePanelUserAfterScroll")
+            insidePanel.classList.remove("insidePanelUserBeforeScroll")
             outsidePanel.classList.add("dashAfterScroll")
+            if (progressBarOpen) {
+                setProgressBarOpen(false)
+            }
         }
         else if (window.document.getElementById("scrollable-profile-panel-user").scrollTop >= 0 && window.document.getElementById("scrollable-profile-panel-inside-user").scrollTop == 0) {
             card.classList.remove("profileBannerAfterScroll")
+            line.classList.remove("profileLineAfterScroll")
+            insidePanel.classList.add("insidePanelUserBeforeScroll")
             pic.classList.remove("profilePicAfterScroll")
             // dashbar.classList.remove("dashbarAfterScroll")
-            // insidePanel.classList.remove("insidePanelAfterScroll")
+            insidePanel.classList.remove("insidePanelUserAfterScroll")
             outsidePanel.classList.remove("dashAfterScroll")
         }
     }
 
+    const [progressBarOpen, setProgressBarOpen] = useState(false)
     useEffect(() => {
         if (window.document.getElementById("scrollable-profile-panel-user") && window.document.getElementById("scrollable-profile-panel-inside-user")) {
 
@@ -120,13 +206,22 @@ const Profile = ({ switchTheme, theme, props }) => {
             <Box
                 id="profile"
                 sx={{
+                    // ml: { xs: 'none', sm: '80px' },
+                    // display: 'flex',
+                    // flexDirection: 'column',
+                    // width: '100%',
+                    // height: 'calc(100vh - 55px)',
+                    // gap: { xs: '22px', md: '24px' },
+                    // boxSizing: 'border-box', padding: '20px 15px 40px'
+
                     ml: { xs: 'none', sm: '80px' },
                     display: 'flex',
                     flexDirection: 'column',
-                    width: '100%',
+                    width: { xs: '100%', sm: 'calc(100% - 80px)' },
                     height: 'calc(100vh - 55px)',
                     gap: { xs: '22px', md: '24px' },
                     boxSizing: 'border-box', padding: '20px 15px 40px'
+
                 }}>
                 {err ?
                     <Box sx={{
@@ -144,19 +239,21 @@ const Profile = ({ switchTheme, theme, props }) => {
                     </Box>
                     :
                     <>
-                        {loading ?
+                        {userloading ?
                             <>
                                 <Skeleton sx={{ borderRadius: '24px' }} width={'100%'} height={'250px'} />
                                 <Skeleton sx={{ borderRadius: '24px' }} width={'100%'} height={'100%'} />
                             </>
                             :
                             <>
-                                <ProfileCard user={user} />
+                                <ProfileCard user={user} isFriend={isFriends} setProgressBarOpen={setProgressBarOpen} progressBarOpen={progressBarOpen} />
                                 <ShowPanel sx={{
                                     flexDirection: { xs: 'column', md: 'row' }, gap: { xs: '22px', md: '24px' },
                                 }}>
-                                    <ProfileBar user={user} />
-                                    <ProfilePanel user={user} />
+                                    {progressBarOpen ?
+                                        <ProfileBar user={user} />
+                                        : undefined}
+                                    <ProfilePanel user={user} isFriend={isFriends} />
                                 </ShowPanel>
                             </>
                         }

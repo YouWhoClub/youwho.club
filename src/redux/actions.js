@@ -87,18 +87,20 @@ export const deleteUnclaimedDeposit = () => {
         });
     };
 }
-export const getuser = (token) => {
+export const getuser = (accesstoken) => {
     const isLoggedIn = localStorage.getItem('lastActive')
     const hasAccount = localStorage.getItem('account')
     try {
         return async dispatch => {
             // if (isLoggedIn) {
             //     console.log('hellow?')
-            console.log(token)
+            // console.log(accesstoken)
+            // console.log(refreshToken)
+            // console.log(tokenExpiration)
             const response = await axios.get(`${API_CONFIG.HEALTH_API_URL}/check-token`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Bearer ${accesstoken}`,
                 }
             })
             console.log('responseeeeeee', response)
@@ -106,7 +108,9 @@ export const getuser = (token) => {
             if (response.status >= 200 && response.status < 300) {
                 userDetails = response.data.data
                 userDetails.isLoggedIn = true
-                userDetails.token = token
+                userDetails.token = accesstoken
+                // userDetails.refreshToken = refreshToken
+                // userDetails.tokenExpiration = tokenExpiration
                 dispatch({
                     type: GET_USER,
                     payload: userDetails

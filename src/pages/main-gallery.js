@@ -16,7 +16,7 @@ import sorkhabiNFT from '../assets/sokhabi-nft.svg'
 import torqNFT from '../assets/torqua-nft.svg'
 import NFTCard from "../components/nft market/nftCard";
 import Footer from "../components/Footer";
-import NavbarTwo from "../components/NavbarRadius";
+import Navbar from "../components/Navbar";
 
 const GiftsScrollWrapper = styled(Box)(({ theme }) => ({
     // width: '100%',
@@ -73,7 +73,7 @@ const ViewMainGalleryPage = ({ theme, switchTheme }) => {
                 flexDirection: 'column',
                 color: 'primary.text',
             }}>
-                <NavbarTwo theme={theme} switchTheme={switchTheme} />
+                <Navbar navbarType={'radius'} theme={theme} switchTheme={switchTheme} />
                 <h4 style={{ margin: '30px 0' }}>EXPLORE YouWho MAIN GALLERY</h4>
                 <GiftsScrollWrapper sx={{
                     mb: 5,

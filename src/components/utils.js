@@ -7,7 +7,7 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons"
 import { useNavigate } from "react-router"
 import { useEffect, useState } from "react"
 import ButtonPurple from "./buttons/buttonPurple"
-import { ArrowDown2, ArrowUp2 } from "iconsax-react"
+import { ArrowDown2, ArrowUp2, More } from "iconsax-react"
 import ButtonPurpleLight from "./buttons/buttonPurpleLight"
 import ButtonOutline from "./buttons/buttonOutline"
 import { API_CONFIG } from "../config"
@@ -182,12 +182,38 @@ const CommentCard = styled(Box)(({ theme }) => ({
     padding: '8px 16px',
     boxSizing: 'border-box', boxShadow: theme.palette.primary.boxShadow
 }))
+const PVGalleryCardComp = styled(Box)(({ theme }) => ({
+    borderRadius: '16px',
+    //  width: '50%',
+    display: 'flex',
+    padding: '8px', gap: '12px', boxSizing: 'border-box',
+    boxSizing: 'border-box', boxShadow: theme.palette.primary.boxShadow, backgroundColor: theme.palette.secondary.bg
+}))
+const PVGalleryCardImage = styled(Box)(({ theme }) => ({
+    borderRadius: '8px',
+    width: '200px',
+    height: '144px',
+    backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',
+    backgroundColor: theme.palette.primary.bgOp
+}))
 const CommentCardProfileImg = styled(Box)(({ theme }) => ({
     backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
     , width: '40px', height: '40px', borderRadius: '50%', backgroundColor: theme.palette.primary.bgOp
 }))
 
+
+
 //-------------------- ^ styles -------- comps > -------------------- //
+
+
+//------------------------functions >> --------------------------------- //
+const shorten = (str, lngth) => {
+    if (str)
+        return str.length > parseInt(lngth) ? str.substring(0, parseInt(lngth)) + '...' : str;
+    return 'undefined'
+}
+//------------------------functions--------------------------------- //
+
 export const Tabs = ({ children, mb, w, jc }) => {
     return (
         <TabsComp
@@ -941,5 +967,51 @@ export const MorePopper = ({ tabs, open, anchorEl, handleClose }) => {
             </> : undefined}
         </Popper>
 
+    )
+}
+
+export const PVGalleryCard = ({ image, title, entranceFee, requestToJoin, joinedCount }) => {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        if (!open)
+            setAnchorEl(event.currentTarget);
+        else
+            setAnchorEl(null)
+    };
+    const handleClose = (e) => {
+        setAnchorEl(null);
+    };
+    const handleClickAway = () => {
+        setAnchorEl(null);
+    }
+
+    const navigate = useNavigate()
+    return (
+        <ClickAwayListener onClickAway={handleClickAway}>
+            <PVGalleryCardComp sx={{ width: { xs: '100%', md: 'calc(50% - 8px)' } }}>
+                <PVGalleryCardImage sx={{
+                    backgroundImage: () => image ? `url('${API_CONFIG.API_URL}/${image}')` : 'unset',
+                }} />
+                <FlexColumn sx={{ width: '100%' }}>
+                    <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'end !important' }}>
+                        <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} color="#999999" />
+                    </Box>
+                    <FlexRow>
+                        <Typography sx={{
+                            display: { xs: 'block', sm: 'none', md: 'none' },
+                            fontWeight: 500, fontFamily: 'Inter', fontSize: { xs: '12px', sm: '16px' }
+                        }}>{shorten(title, 20)}</Typography>
+                        <Typography sx={{
+                            display: { xs: 'none', sm: 'block', md: 'block' },
+                            fontWeight: 500, fontFamily: 'Inter', fontSize: { xs: '12px', sm: '16px' }
+                        }}>{shorten(title, 30)}</Typography>
+                    </FlexRow>
+                    <Typography sx={{ fontWeight: 400, fontSize: { xs: '9px', sm: '11px' }, fontFamily: 'Inter' }}>x people joined</Typography>
+                    <Typography sx={{ fontWeight: 400, fontSize: { xs: '10px', sm: '12px' }, fontFamily: 'Inter' }}>Entrance Fee</Typography>
+                    <ButtonPurpleLight text={'request to join'} w={'100%'} px={'16px'} height={'30px'} br={'8px'} />
+                </FlexColumn>
+            </PVGalleryCardComp>
+        </ClickAwayListener>
     )
 }

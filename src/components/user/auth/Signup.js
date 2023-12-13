@@ -6,7 +6,7 @@ import { FormControl, Input } from "@mui/base";
 import ButtonPurple from "../../buttons/buttonPurple";
 import styled from "@emotion/styled";
 import { useDispatch } from "react-redux";
-import { getuser } from "../../../redux/actions";
+import { getuser, setRefreshToken } from "../../../redux/actions";
 import { AUTH_API } from "../../../utils/data/auth_api";
 import { useNavigate } from "react-router";
 import { Eye, EyeSlash, Lock } from "iconsax-react";
@@ -52,6 +52,7 @@ const Signup = ({ progress, setProgress, alreadyEmail }) => {
     const [success, setSuccess] = useState(false)
     const apiCall = useRef(undefined)
     const fetchUser = (token) => dispatch(getuser(token));
+    const refreshUserToken = (refreshToken, tokenExpiration) => dispatch(setRefreshToken(refreshToken, tokenExpiration));
 
     useEffect(() => {
         if (identifier && password && repeatPassword) {
@@ -119,8 +120,13 @@ const Signup = ({ progress, setProgress, alreadyEmail }) => {
             if (!response.isSuccess)
                 throw response
             localStorage.setItem('lastActive', true)
-            // fetchUser(response.token)
-            fetchUser(response.headers.cookie.split("::")[0])
+            let dt = new Date();
+            dt = new Date(dt.getTime() + 30 * 60 * 1000)
+            let accesstoken = response.headers.cookie.match(/\/accesstoken=([^&]+)/)[1]
+            let refreshToken = response.headers.cookie.match(/refrestoken=([^&]+)/)[1]
+            let tokenExpiration = dt.getTime()
+            fetchUser(accesstoken)
+            refreshUserToken(refreshToken, tokenExpiration)
             setSuccess(response.message)
             setErr(undefined)
             setLoading(false)

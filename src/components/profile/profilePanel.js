@@ -54,17 +54,17 @@ const FlexColumn = styled(Box)(({ theme }) => ({
     alignItems: 'center',
 }))
 
-const ProfilePanel = ({ user }) => {
+const ProfilePanel = ({ user, isFriend }) => {
     const [activeTab, setActiveTab] = useState('create-tab')
-    useEffect(() => {
-        let dashbar = window.document.getElementById('profile-bar-user')
+    // useEffect(() => {
+    //     let dashbar = window.document.getElementById('profile-bar-user')
 
-        if (activeTab == "private-gallery-tab" || activeTab == "public-gallery-tab") {
-            dashbar.classList.add("dashbarAfterScroll")
-        } else {
-            dashbar.classList.remove("dashbarAfterScroll")
-        }
-    }, [activeTab])
+    //     if (activeTab == "private-gallery-tab" || activeTab == "public-gallery-tab") {
+    //         dashbar.classList.add("dashbarAfterScroll")
+    //     } else {
+    //         dashbar.classList.remove("dashbarAfterScroll")
+    //     }
+    // }, [activeTab])
     return (
         <Panel>
             <Tabs
@@ -77,24 +77,24 @@ const ProfilePanel = ({ user }) => {
                 <Tab id={"relations-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Relations'} selected={activeTab == 'relations-tab'} />
                 {/* <Tab id={"reactions-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Reactions'} selected={activeTab == 'reactions-tab'} /> */}
             </Tabs>
-            <ScrollablePanel id="scrollable-profile-panel-inside-user"
+            <ScrollablePanel id="scrollable-profile-panel-inside-user" className="insidePanelUserBeforeScroll"
                 sx={{
-                    height: {
-                        xs: activeTab == 'private-gallery-tab' || activeTab == 'public-gallery-tab' ? 'calc(100vh - 351px)' : 'calc(100vh - 572px)',
-                        sm: activeTab == 'private-gallery-tab' || activeTab == 'public-gallery-tab' ? 'calc(100vh - 366px)' : 'calc(100vh - 587px)',
-                        md: 'calc(100vh - 334px)',
-                        // lg: 'calc(100vh - 334px)',
-                    },
+                    // height: {
+                    //     xs: 'calc(100vh - 572px)',
+                    //     sm: 'calc(100vh - 382px)',
+                    //     md: 'calc(100vh - 334px)',
+                    //     // lg: 'calc(100vh - 334px)',
+                    // },
                     p: {
                         xs: '4px 4px 40px',
                         sm: '4px 4px 20px',
                     },
                     boxSizing: 'border-box'
                 }}>
-                {activeTab == 'assets-tab' && <OthersProfieAssetTab user={user} />}
-                {activeTab == 'private-gallery-tab' && <PrivateGallery user={user} />}
-                {activeTab == 'public-gallery-tab' && <PublicGallery user={user} />}
-                {activeTab == 'relations-tab' && <RelationsTab user={user} />}
+                {activeTab == 'assets-tab' && <OthersProfieAssetTab user={user} isFriend={isFriend} />}
+                {activeTab == 'private-gallery-tab' && <PrivateGallery user={user} isFriend={isFriend} />}
+                {activeTab == 'public-gallery-tab' && <PublicGallery user={user} isFriend={isFriend} />}
+                {activeTab == 'relations-tab' && <RelationsTab user={user} isFriend={isFriend} />}
                 {/* {activeTab == 'reactions-tab' && <ReactionsTab />} */}
             </ScrollablePanel>
         </Panel>

@@ -303,7 +303,7 @@ const RelationsTab = () => {
                                     onChange={(e) => search(e.target.value, 0, 20)} />
                             </FilterSelectionBox>
                             {activeTab == 'my-requests' &&
-                                <MyFriendequests setAllRequests={setAllRequests} searchResults={searchResults} />
+                                <MyFriendequests setAllRequests={setAllRequests} searchResults={searchResults} getFollowings={getFollowings} />
                             }
                             {activeTab == 'my-allies' &&
                                 <MyFans sendAllieRequest={sendAllieRequest}

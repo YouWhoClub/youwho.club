@@ -1,12 +1,13 @@
 import styled from "@emotion/styled";
 import { Box, Typography } from "@mui/material";
-import { TickSquare } from "iconsax-react";
+import { Setting, Setting2, TickSquare } from "iconsax-react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { API_CONFIG } from "../../config";
 import { Face } from "@mui/icons-material";
 import profileFace from '../../assets/face-pro.svg'
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
+import ButtonBorder from "../buttons/buttonBorder";
 
 
 const ProPic = styled(Box)(({ theme }) => ({
@@ -18,7 +19,12 @@ const ProBanner = styled(Box)(({ theme }) => ({
     display: 'flex', alignItems: 'center', boxSizing: 'border-box',
     boxShadow: theme.palette.primary.boxShadow, transition: '500ms ease'
 }))
-const ProfileCard = ({ user, }) => {
+const Line = styled(Box)(({ theme }) => ({
+    borderRadius: '24px',
+    width: '100%', boxSizing: 'border-box',
+    backgroundColor: 'white', transition: '500ms ease', height: '1px'
+}))
+const ProfileCard = ({ user, isFriend, setProgressBarOpen, progressBarOpen }) => {
     const globalUser = useSelector(state => state.userReducer)
 
     const copyIdToClipBoard = async (textToCopy) => {
@@ -35,11 +41,14 @@ const ProfileCard = ({ user, }) => {
             return str.length > 15 ? str.substring(0, 15) + '...' : str;
         return 'undefined'
     }
+    const year = new Date(user.created_at).getFullYear()
+    const month = new Date(user.created_at).toLocaleString('default', { month: 'short' });
 
     return (<ProBanner
         id='profile-card-user'
         sx={{
             // width: '100%',
+            gap: '20px',
             height: { xs: '150px', md: '250px' },
             // px: 3, py: { xs: 2, md: 0 },
             padding: '20px',
@@ -55,10 +64,7 @@ const ProfileCard = ({ user, }) => {
                 height: { xs: '80px', md: '200px' },
             }}
         />
-        &nbsp;
-        &nbsp;
-        &nbsp;
-        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', color: 'white' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', color: 'white', width: { xs: 'calc(100% - 80px)', md: 'calc(100vh - 200px)' } }}>
             <Typography sx={{
                 fontWeight: 700, color: 'white', fontSize: { xs: '18px', md: '20px' }
             }}>
@@ -78,6 +84,33 @@ const ProfileCard = ({ user, }) => {
                     <TickSquare style={{ size: { xs: '10px', md: '16px' }, display: idCopied ? 'block' : 'none', color: '#0Cb2B1' }} />
                 </Box>
                 : undefined}
+            <Line sx={{ my: '12px' }} id='line-profile-user' />
+            <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'space-between' }}>
+                <ButtonBorder bgcolor={'secondary.bg'} w={'max-content'} text={`From ${month + year}`} px={'26px'} br={'30px'} height={'25px'} />
+                {isFriend ?
+                    <>
+                        <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+                            <ButtonBorder onClick={() => setProgressBarOpen(!progressBarOpen)} bgcolor={'primary.main'}
+                                fontColor={'white'}
+                                prevIcon={<Setting2 size='16px' />}
+                                text={'Progressive'} px={'26px'} br={'30px'} height={'25px'} w={'max-content'} />
+                        </Box>
+                        <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+                            <ButtonBorder onClick={() => setProgressBarOpen(!progressBarOpen)} bgcolor={'primary.main'}
+                                prevIcon={<Setting2 size='16px' />}
+                                fontColor={'white'}
+                                px={'4px'}
+                                py={'4px'}
+                                br={'30px'} height={'25px'} w={'max-content'} />
+                        </Box>
+                    </>
+                    :
+                    <ButtonBorder bgcolor={'primary.main'}
+                        fontColor={'white'}
+                        text={'Friend Request'} px={'26px'} br={'30px'} height={'25px'} w={'max-content'} />
+                }
+
+            </Box>
         </Box>
     </ProBanner>);
 }

@@ -1,6 +1,5 @@
 import { Box, Typography } from "@mui/material";
 import styled from "@emotion/styled";
-import NavbarTwo from "../components/NavbarRadius";
 import IntroNew from "../components/HomePage/Intro"
 import YWServices from "../components/HomePage/yServices"
 import FABSection from "../components/HomePage/features&benefits"
@@ -8,6 +7,7 @@ import DecorSection from "../components/HomePage/decorSection"
 import WhatsSection from "../components/HomePage/whatsNFT"
 import NFTSlides from "../components/HomePage/nftSlides"
 import Footer from "../components/Footer"
+import Navbar from "../components/Navbar";
 
 
 const Homme = styled(Box)(({ theme }) => ({
@@ -34,7 +34,7 @@ const Home = ({ switchTheme, theme }) => {
 
     return (
         <Homme>
-            <NavbarTwo switchTheme={switchTheme} theme={theme} />
+            <Navbar navbarType={'radius'} theme={theme} switchTheme={switchTheme} />
             <IntroNew theme={theme} />
             <YWServices theme={theme} />
             <Box sx={{

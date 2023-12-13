@@ -49,7 +49,8 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
     const [buttonDisabled, setButtonDisabled] = useState(true)
 
     const apiCall = useRef(undefined)
-    const fetchUser = (token) => dispatch(getuser(token));
+    const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
+    const refreshUserToken = (refreshToken, tokenExpiration) => dispatch(setRefreshToken(refreshToken, tokenExpiration));
 
     const submit = async () => {
         setProgress('100%')
@@ -92,9 +93,14 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
             if (!response.isSuccess)
                 throw response
             localStorage.setItem('lastActive', true)
-            // fetchUser(response.token)
-            fetchUser(response.headers.cookie.match(/\/accesstoken=([^&]+)/)[1])
-            dispatch(setRefreshToken(response.headers.cookie.match(/refrestoken=([^&]+)/)[1], new Date().getTime() + 31 * 60000 ))
+            let dt = new Date();
+            // dt = new Date(dt.getTime() + 30 * 60 * 1000)
+            dt = new Date(dt.getTime() + 30 * 60 * 1000)
+            let accesstoken = response.headers.cookie.match(/\/accesstoken=([^&]+)/)[1]
+            let refreshToken = response.headers.cookie.match(/refrestoken=([^&]+)/)[1]
+            let tokenExpiration = dt.getTime()
+            fetchUser(accesstoken)
+            refreshUserToken(refreshToken, tokenExpiration)
             setSuccess(response.message)
             setErr(undefined)
             setLoading(false)
@@ -104,11 +110,26 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
             else setState('mailVerification')
         }
         catch (err) {
-            setProgress('0%')
-            setSuccess(undefined)
-            setErr(err.data.message)
-            setLoading(false)
-            setButtonDisabled(false)
+            console.log('errrrrrrrrrrrrrrrrr', err)
+            if (err.data && err.data.message) {
+                setProgress('0%')
+                setSuccess(undefined)
+                setErr(err.data.message)
+                setLoading(false)
+                setButtonDisabled(false)
+            } else if (err.message) {
+                setProgress('0%')
+                setSuccess(undefined)
+                setErr(err.message)
+                setLoading(false)
+                setButtonDisabled(false)
+            } else {
+                setProgress('0%')
+                setSuccess(undefined)
+                setErr('Network Error')
+                setLoading(false)
+                setButtonDisabled(false)
+            }
         }
     }
     const idStateChanger = (event) => {

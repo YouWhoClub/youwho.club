@@ -9,7 +9,6 @@ import marketImgDark from '../../assets/galleryDark.svg'
 import walletImgDark from '../../assets/walletDark.svg'
 import { Box, Typography } from "@mui/material";
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
-import NavigateCard from '../HomePagePrev/navigateCard';
 import NavigateCardTwo from './navigateCardTwo';
 import styled from '@emotion/styled';
 

@@ -25,6 +25,8 @@ function userReducer(state = initialState, action) {
                 identifier: action.payload.identifier,
                 phoneNumber: action.payload.phone_number,
                 token: action.payload.token,
+                // refreshToken: action.payload.refreshToken,
+                // tokenExpiration: action.payload.tokenExpiration,
                 isMailVerified: action.payload.is_mail_verified,
                 isPhoneVerified: action.payload.is_phone_verified,
                 account: action.payload.account_number,

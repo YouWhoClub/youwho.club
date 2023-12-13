@@ -1,5 +1,4 @@
 import { Box } from "@mui/material";
-import NavbarTransparent from "./NavbarTransparent";
 import Bar from "./Bar";
 import { useSelector } from "react-redux";
 import ButtonPurple from "./buttons/buttonPurple";
@@ -7,7 +6,7 @@ import bgDots from '../assets/bgDots.svg'
 import { useNavigate } from "react-router";
 import styled from "@emotion/styled";
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
-import NavbarDashBoard from "./NavbarDashboard";
+import Navbar from "./Navbar";
 const Title = styled('h4')(({ theme }) => ({
     color: theme.palette.primary.text,
 }))
@@ -64,7 +63,7 @@ const PanelLayout = ({ switchTheme, theme, children, id }) => {
                 // alignItems: 'center',
                 // flexDirection: 'column',
             }}>
-            <NavbarDashBoard switchTheme={switchTheme} theme={theme} />
+            <Navbar navbarType={'dashboard'} theme={theme} switchTheme={switchTheme} />
             {!globalUser.isLoggedIn ?
                 <Box sx={{
                     display: 'flex', marginTop: '20%', height: '50%',

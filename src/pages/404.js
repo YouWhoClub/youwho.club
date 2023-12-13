@@ -3,8 +3,8 @@ import { Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
 import bgDots from '../assets/bgDots.svg'
-import NavbarTwo from "../components/NavbarRadius";
 import styled from "@emotion/styled";
+import Navbar from "../components/Navbar";
 
 const Wrapper = styled(Box)(({ theme }) => ({
   maxWidth: '1440px',
@@ -22,7 +22,7 @@ const NotFound = ({ theme, switchTheme }) => {
       height: '100vh', bgcolor: 'primary.bg',
       display: 'flex', alignItems: 'center', flexDirection: "column"
     }}>
-      <NavbarTwo theme={theme} switchTheme={switchTheme} />
+      <Navbar navbarType={'radius'} theme={theme} switchTheme={switchTheme} />
       <Box
         sx={{
           height: 'calc(100vh - 55px)', width: '100%',

@@ -9,12 +9,10 @@ import {
   useLocation,
 } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
-import LandingPrev from './pages/landingPrev';
 import { useEffect, useState } from 'react';
 import { Box, LinearProgress, ThemeProvider, createTheme } from '@mui/material';
 import NotFound from './pages/404';
-import NavbarTransparent from './components/NavbarTransparent';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './redux/store';
 import Footer from './components/FooterPrev';
@@ -53,7 +51,6 @@ function App() {
       localStorage.setItem('theme', 'light')
     }
   }
-
   const [theme, setTheme] = useState(localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light')
   const switchTheme = () => {
     // setLocalTheme()
@@ -223,7 +220,6 @@ function App() {
                   <Wrapper> */}
                 <Routes>
                   <Route exact path="/" element={<Home theme={theme} switchTheme={switchTheme} />} />
-                  <Route exact path="/landing" element={<LandingPrev theme={theme} switchTheme={switchTheme} />} />
                   <Route exact path="/auth" element={<Auth theme={theme} switchTheme={switchTheme} />} />
                   {/* <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} /> */}
                 </Routes>

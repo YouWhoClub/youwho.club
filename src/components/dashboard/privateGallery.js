@@ -93,6 +93,7 @@ const PrivateGallery = () => {
             }
         })
         let response = await request.json()
+        console.log(response,'966666')
         if (response.is_error == false) {
             setGalleries(response.data)
             setLoading(false)
