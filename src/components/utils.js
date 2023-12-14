@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
-import { AccountCircle } from "@mui/icons-material"
-import { Box, ClickAwayListener, MenuItem, Popper, TextField, Typography, inputBaseClasses, inputLabelClasses } from "@mui/material"
+import { AccountCircle, AddAPhotoOutlined, Close, Description, PriceChange, Subject, Title } from "@mui/icons-material"
+import { Box, ClickAwayListener, MenuItem, Modal, Popper, TextField, Typography, inputBaseClasses, inputLabelClasses } from "@mui/material"
 import { BG_URL, PUBLIC_URL } from "../utils/utils"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons"
@@ -12,6 +12,7 @@ import ButtonPurpleLight from "./buttons/buttonPurpleLight"
 import ButtonOutline from "./buttons/buttonOutline"
 import { API_CONFIG } from "../config"
 import profileFace from '../assets/face-pro.svg'
+import ButtonOutlineInset from "./buttons/buttonOutlineInset"
 
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -970,9 +971,15 @@ export const MorePopper = ({ tabs, open, anchorEl, handleClose }) => {
     )
 }
 
-export const PVGalleryCard = ({ image, title, entranceFee, requestToJoin, joinedCount }) => {
+export const PVGalleryCard = ({ image, title, entranceFee, requestToJoin, joinedCount, isMine }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const [openEditModal, setOpenEditModal] = useState(false)
+    const [galleryName, setGalleryName] = useState(title)
+    const [gallerySubject, setgallerySubject] = useState(undefined)
+    const [galleryDesc, setGalleryDesc] = useState(undefined)
+    const [galleryFee, setGalleryFee] = useState(entranceFee)
+    const [disableButton, setDisableButton] = useState(true)
     const handleClick = (event) => {
         if (!open)
             setAnchorEl(event.currentTarget);
@@ -985,33 +992,136 @@ export const PVGalleryCard = ({ image, title, entranceFee, requestToJoin, joined
     const handleClickAway = () => {
         setAnchorEl(null);
     }
+    const handleEditClick = () => {
+        handleClose()
+        setOpenEditModal(true)
+    }
+    const mineTabs = [
+        { text: 'Send Invitaion', id: 'gall-card-invitation', onClick: () => console.log('send invitation') },
+        { text: 'Joined List', id: 'gall-card-joined-list', onClick: () => console.log('view joined list') },
+        { text: 'Edit', id: 'gall-card-edit', onClick: handleEditClick },
+        { text: 'Delete', id: 'gall-card-delete', onClick: () => console.log('delete gallery ?') },
+    ]
+    const othersTabs = [
+        { text: 'Galley Details', id: 'gall-card-details', onClick: () => console.log('Galley Details') },
+        { text: 'Exit Gallery', id: 'gall-card-exit', onClick: () => console.log('gall-card-exit') },
+    ]
 
     const navigate = useNavigate()
     return (
-        <ClickAwayListener onClickAway={handleClickAway}>
-            <PVGalleryCardComp sx={{ width: { xs: '100%', md: 'calc(50% - 8px)' } }}>
-                <PVGalleryCardImage sx={{
-                    backgroundImage: () => image ? `url('${API_CONFIG.API_URL}/${image}')` : 'unset',
-                }} />
-                <FlexColumn sx={{ width: '100%' }}>
-                    <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'end !important' }}>
-                        <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} color="#999999" />
+        <>
+            <ClickAwayListener onClickAway={handleClickAway}>
+                <PVGalleryCardComp sx={{ width: { xs: '100%', md: 'calc(50% - 8px)' } }}>
+                    <PVGalleryCardImage sx={{
+                        backgroundImage: () => image ? `url('${API_CONFIG.API_URL}/${image}')` : 'unset',
+                    }} />
+                    <FlexColumn sx={{ width: '100%' }}>
+                        <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'end !important' }}>
+                            <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} color="#999999" />
+                        </Box>
+                        <FlexRow>
+                            <Typography sx={{
+                                display: { xs: 'block', sm: 'none', md: 'none' },
+                                fontWeight: 500, fontFamily: 'Inter', fontSize: { xs: '12px', sm: '16px' }
+                            }}>{shorten(title, 20)}</Typography>
+                            <Typography sx={{
+                                display: { xs: 'none', sm: 'block', md: 'block' },
+                                fontWeight: 500, fontFamily: 'Inter', fontSize: { xs: '12px', sm: '16px' }
+                            }}>{shorten(title, 30)}</Typography>
+                        </FlexRow>
+                        <Typography sx={{ fontWeight: 400, fontSize: { xs: '9px', sm: '11px' }, fontFamily: 'Inter' }}>x people joined</Typography>
+                        <Typography sx={{ fontWeight: 400, fontSize: { xs: '10px', sm: '12px' }, fontFamily: 'Inter' }}>Entrance Fee</Typography>
+                        {isMine ?
+                            <ButtonPurpleLight text={'open'} w={'100%'} px={'16px'} height={'30px'} br={'8px'} />
+                            :
+                            <ButtonPurpleLight text={'request to join'} w={'100%'} px={'16px'} height={'30px'} br={'8px'} />
+                        }
+                        {
+                            isMine ?
+                                <MorePopper tabs={mineTabs} open={open} anchorEl={anchorEl} handleClose={handleClose} />
+                                :
+                                <MorePopper tabs={othersTabs} open={open} anchorEl={anchorEl} handleClose={handleClose} />
+                        }
+                    </FlexColumn>
+                </PVGalleryCardComp>
+            </ClickAwayListener>
+            <Modal
+                open={openEditModal}
+                onClose={() => {
+                    setOpenEditModal(false)
+                }}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                disableScrollLock={true}
+            >
+                <Box sx={(theme) => ({
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    backdropFilter: 'blur(10px)'
+                })}>
+                    <Box sx={(theme) => ({
+                        borderRadius: { xs: '0', sm: '24px' },
+                        width: { xs: '100%', sm: '400px' }, height: { xs: '100%', sm: 'auto' },
+                        backgroundColor: 'secondary.bg', boxShadow: theme.palette.primary.boxShadow, boxSizing: 'border-box',
+                        display: 'flex', flexDirection: 'column',
+                        padding: '30px', justifyContent: 'space-between', alignItems: 'center'
+                    })}>
+                        <FlexRow sx={{ justifyContent: 'end !important', width: '100%' }}>
+                            <Box sx={{ padding: '10px' }}>
+                                <Close onClick={() => setOpenEditModal(false)} sx={{ cursor: 'pointer', fontSize: '24px' }} />
+                            </Box>
+                        </FlexRow>
+                        <FlexColumn sx={{ width: '100%', gap: { xs: '20px', md: '32px' } }}>
+                            <Typography
+                                sx={{ color: 'primary.text', fontSize: '16px', width: '100%', textAlign: 'center' }}>
+                                Edit {shorten(title, 15)} Gallery</Typography>
+                            <FlexColumn sx={{ width: '100%', gap: { xs: '12px', md: '16px' } }}>
+                                <MyInput name={'gallery-name'} label={'Gallery Name'} width={'100%'}
+                                    icon={<Title sx={{ color: 'primary.light' }} />}
+                                    onChange={(e) => setGalleryName(e.target.value)}
+                                    value={galleryName}
+                                />
+
+                                <MyInput name={'gallery-subject'} label={'Gallery subject'} width={'100%'}
+                                    icon={<Subject sx={{ color: 'primary.light' }} />}
+                                    onChange={(e) => setgallerySubject(e.target.value)}
+                                    value={gallerySubject}
+                                />
+
+                                <MyInput name={'gallery-price'} type={'number'} label={'Entrance Fee'} width={'100%'}
+                                    icon={<PriceChange sx={{ color: 'primary.light' }} />}
+                                    onChange={(e) => setGalleryFee(e.target.value)}
+                                    value={galleryFee}
+                                />
+                                <ButtonInput label={'Cover Image'} width={'100%'}
+                                    icon={<AddAPhotoOutlined sx={{ color: 'primary.light' }} />}
+                                    button={<ButtonOutline
+                                        height='35px'
+                                        onClick={() => console.log('change gallery cover')}
+                                        text={'Browse'}
+                                        br={'30px'}
+                                    />
+                                    } />
+                                <MyInput name={'gallery-description'}
+                                    label={'Gallery Description'} width={'100%'}
+                                    icon={<Description sx={{ color: 'primary.light' }} />}
+                                    onChange={(e) => setGalleryDesc(e.target.value)}
+                                    value={galleryDesc}
+                                />
+
+                            </FlexColumn>
+                            <FlexRow sx={{ gap: { xs: '12px', md: '16px' }, width: '100%' }}>
+                                <ButtonOutlineInset text={'Not Yet'} onClick={() => setOpenEditModal(false)} w={'100px'} />
+                                <ButtonPurple disabled={disableButton}
+                                    text={'Save Changes'} w={'100%'} onClick={disableButton ? undefined : () => console.log('save')} />
+                            </FlexRow>
+
+                        </FlexColumn>
+
                     </Box>
-                    <FlexRow>
-                        <Typography sx={{
-                            display: { xs: 'block', sm: 'none', md: 'none' },
-                            fontWeight: 500, fontFamily: 'Inter', fontSize: { xs: '12px', sm: '16px' }
-                        }}>{shorten(title, 20)}</Typography>
-                        <Typography sx={{
-                            display: { xs: 'none', sm: 'block', md: 'block' },
-                            fontWeight: 500, fontFamily: 'Inter', fontSize: { xs: '12px', sm: '16px' }
-                        }}>{shorten(title, 30)}</Typography>
-                    </FlexRow>
-                    <Typography sx={{ fontWeight: 400, fontSize: { xs: '9px', sm: '11px' }, fontFamily: 'Inter' }}>x people joined</Typography>
-                    <Typography sx={{ fontWeight: 400, fontSize: { xs: '10px', sm: '12px' }, fontFamily: 'Inter' }}>Entrance Fee</Typography>
-                    <ButtonPurpleLight text={'request to join'} w={'100%'} px={'16px'} height={'30px'} br={'8px'} />
-                </FlexColumn>
-            </PVGalleryCardComp>
-        </ClickAwayListener>
+                </Box>
+            </Modal>
+        </>
     )
 }

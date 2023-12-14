@@ -9,7 +9,7 @@ import torqNFT from '../../assets/torqua-nft.svg'
 import styled from "@emotion/styled";
 import FilterSelection from "../filterSelection";
 import { Fragment, useEffect, useState } from "react";
-import { AscSelect, RelationCard, MyInput } from "../utils";
+import { AscSelect, RelationCard, MyInput, PVGalleryCard } from "../utils";
 import { useSelector, useDispatch } from "react-redux";
 import CollectionCard from "../nft market/collectionCard";
 import { API_CONFIG } from "../../config";
@@ -24,7 +24,8 @@ import { setPrivateKey } from "../../redux/actions";
 const Gallery = styled(Box)(({ theme }) => ({
     width: '100%', boxSizing: "border-box", gap: '16px',
     display: 'flex', alignItems: 'center',
-    flexWrap: 'wrap', justifyContent: 'center'
+    flexWrap: 'wrap',
+    //  justifyContent: 'center'
 }))
 const FlexRow = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -93,7 +94,7 @@ const PrivateGallery = () => {
             }
         })
         let response = await request.json()
-        console.log(response,'966666')
+        console.log(response, '966666')
         if (response.is_error == false) {
             setGalleries(response.data)
             setLoading(false)
@@ -109,7 +110,7 @@ const PrivateGallery = () => {
 
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: '24px' }}>
             {globalUser.cid ?
                 <>
                     {loading ? <CircularProgress /> :
@@ -117,7 +118,25 @@ const PrivateGallery = () => {
                             <>
                                 {/* {galleries && galleries.length > 0 ?
                                 <> */}
-                                <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' }, mb: '32px' }}>
+                                <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '12px' } }}>
+                                    only friends joined by invitation link or by paying entrance fee will be able to view the desired gallery
+                                </Typography>
+
+                                <Gallery>
+                                    {
+                                        galleries.map(gallery => (
+                                            <Fragment key={`gallery_${gallery.id}`}>
+                                                <PVGalleryCard
+                                                    isMine={true}
+                                                    title={gallery.gal_name} image={gallery.gallery_background}
+                                                />
+                                            </Fragment>
+                                        )
+                                        )
+                                    }
+
+                                </Gallery>
+                                {/* <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' }, mb: '32px' }}>
                                     <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
                                         NFT Collections
                                     </Typography>
@@ -141,7 +160,7 @@ const PrivateGallery = () => {
                                         )
                                         )
                                     }
-                                </Gallery>
+                                </Gallery> */}
                             </>
                             :
                             <Container sx={{ mb: '32px' }}>
