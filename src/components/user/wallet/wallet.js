@@ -21,6 +21,7 @@ import { Tab, Tabs } from "../../utils";
 import Crop from '../../crop/Crop'
 import { API_CONFIG } from "../../../config";
 import { getuser } from "../../../redux/actions";
+import { TickSquare } from "iconsax-react";
 
 const ScrollablePanel = styled(Box)(({ theme }) => ({
     color: theme.palette.primary.text,
@@ -75,6 +76,11 @@ const FlexRow = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     color: theme.palette.primary.light,
 }))
+const FlexColumn = styled(Box)(({ theme }) => ({
+    display: 'flex', flexDirection: 'column',
+    alignItems: 'center',
+
+}))
 
 const Button = styled('button')(({ theme, color }) => ({
     backgroundColor: 'transparent',
@@ -104,7 +110,7 @@ const Wallet = ({ privateKey }) => {
     const toastId = useRef(null);
     const [file, setFile] = useState(null);
     const [photoURL, setPhotoURL] = useState(null);
-
+    const [openPVKeyModal, setOpenPVKeyModal] = useState(false)
     useEffect(() => {
         if (globalUser.walletBackground) {
             setCardBackground('custom')
@@ -187,7 +193,7 @@ const Wallet = ({ privateKey }) => {
             await navigator.clipboard.writeText(textToCopy);
             setKeyCopied('Copied!');
         } catch (err) {
-            setKeyCopied('Failed to copy!');
+            setKeyCopied(undefined);
         }
     };
     const copyIdToClipBoard = async (textToCopy) => {

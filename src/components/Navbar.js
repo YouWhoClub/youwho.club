@@ -6,9 +6,9 @@ import { useEffect, useRef, useState } from "react";
 import { AUTH_API } from "../utils/data/auth_api";
 import { HEALTH_API } from "../utils/data/health_api";
 import ThemeSwitcher from "./HomePage/themeSwitchComp";
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, Modal, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { LogoutCurve, Notification, Profile, Wallet2 } from "iconsax-react";
+import { LogoutCurve, Notification, Profile, TickSquare, Wallet2 } from "iconsax-react";
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ButtonOutline from "./buttons/buttonOutline";
@@ -17,6 +17,7 @@ import MobileMenu from "./MobileMenu";
 import SvgIcon from '@mui/material/SvgIcon';
 import yCoin from "../assets/Ycoin.svg"
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { Close } from "@mui/icons-material";
 
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
@@ -61,6 +62,12 @@ const NavStyle = styled(Box)(({ theme }) => ({
     },
 
 }))
+const FlexColumn = styled(Box)(({ theme }) => ({
+    display: 'flex', flexDirection: 'column',
+    alignItems: 'center',
+
+}))
+
 
 function HomeIcon(props) {
     return (
@@ -89,6 +96,9 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
     const [loginInitialRender, setLoginInitialRender] = useState(true);
     const [tokensObj, setTokenObj] = useState({})
     const tokenInterval = useRef(null)
+    const [openPVKeyModal, setOpenPVKeyModal] = useState(false)
+    const [keyCopied, setKeyCopied] = useState(false)
+
     useEffect(() => {
         if (globalUser.isLoggedIn && !globalUser.isMailVerified) {
             disconnect()
@@ -232,7 +242,12 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
 
 
     async function disconnect() {
+        if (globalUser.privateKey) {
+            setOpenPVKeyModal(true)
+        }
+
         try {
+
             apiCall.current = HEALTH_API.request({
                 path: `/logout`,
                 method: "post",
@@ -265,6 +280,14 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
 
     }
 
+    const copyToClipBoard = async (textToCopy) => {
+        try {
+            await navigator.clipboard.writeText(textToCopy);
+            setKeyCopied('Copied!');
+        } catch (err) {
+            setKeyCopied(undefined);
+        }
+    };
 
     return (
         <>{navbarType == 'radius' ?
@@ -506,6 +529,68 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
             </Box>
 
         }
+
+            <Modal
+                open={openPVKeyModal}
+                onClose={() => {
+                    setOpenPVKeyModal(false)
+                }}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                disableScrollLock={true}
+            >
+                <Box sx={(theme) => ({
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    backdropFilter: 'blur(10px)'
+                })}>
+                    <Box sx={(theme) => ({
+                        borderRadius: { xs: '0', sm: '24px' },
+                        width: { xs: '100%', sm: 'max-content' }, height: { xs: '100%', sm: 'auto' },
+                        backgroundColor: 'secondary.bg', boxShadow: theme.palette.primary.boxShadow, boxSizing: 'border-box',
+                        display: 'flex', flexDirection: 'column',
+                        padding: '30px', alignItems: 'center'
+                    })}>
+                        <FlexRow sx={{ justifyContent: 'end !important', width: '100%' }}>
+                            <Box sx={{ padding: '10px' }}>
+                                <Close onClick={() => setOpenPVKeyModal(false)}
+                                    sx={{ cursor: 'pointer', fontSize: '24px' }} />
+                            </Box>
+                        </FlexRow>
+                        <FlexColumn sx={{ width: '100%', gap: { xs: '12px', md: '16px' } }}>
+                            <Typography
+                                sx={{
+                                    color: 'primary.text', fontSize: '16px', width: '100%', textAlign: 'center',
+                                    textTransform: 'capitalize'
+                                }}>
+                                Save Private Key
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    color: 'secondary.text', fontSize: '12px', width: '100%', textAlign: 'center',
+                                    textTransform: 'capitalize'
+                                }}>
+                                Please Save Your Private Key Before Logging out.it will be needed for future uses
+                            </Typography>
+                            <FlexRow>
+                                <Typography
+                                    onClick={() => copyToClipBoard(globalUser.privateKey)}
+                                    sx={{
+                                        color: 'secondary.text', fontSize: '12px', width: '100%', textAlign: 'center',
+                                        textTransform: 'capitalize', cursor: 'pointer'
+                                    }}>
+                                    {globalUser.privateKey}
+                                </Typography>
+                                <TickSquare style={{ display: keyCopied ? 'block' : 'none', color: 'green' }} />
+                            </FlexRow>
+
+                        </FlexColumn>
+
+                    </Box>
+                </Box>
+            </Modal>
+
         </>
     );
 }

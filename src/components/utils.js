@@ -5,7 +5,7 @@ import { BG_URL, PUBLIC_URL } from "../utils/utils"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons"
 import { useNavigate } from "react-router"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import ButtonPurple from "./buttons/buttonPurple"
 import { ArrowDown2, ArrowUp2, More } from "iconsax-react"
 import ButtonPurpleLight from "./buttons/buttonPurpleLight"
@@ -13,6 +13,10 @@ import ButtonOutline from "./buttons/buttonOutline"
 import { API_CONFIG } from "../config"
 import profileFace from '../assets/face-pro.svg'
 import ButtonOutlineInset from "./buttons/buttonOutlineInset"
+import generateSignature from "../utils/signatureUtils"
+import { toast } from "react-toastify"
+import { useSelector } from "react-redux"
+import yCoin from "../assets/Ycoin.svg"
 
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -214,6 +218,17 @@ const shorten = (str, lngth) => {
     return 'undefined'
 }
 //------------------------functions--------------------------------- //
+export const YouwhoCoinIcon = styled(Box)(({ w, h }) => ({
+    width: `${w}px`,
+    height: `${h}px`,
+    borderRadius: '50%',
+    backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)),
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'contain',
+    backgroundPosition: 'center',
+    pointerEvents: 'none'
+}))
+
 
 export const Tabs = ({ children, mb, w, jc }) => {
     return (
@@ -874,7 +889,7 @@ export const ReactionCard = ({ active, passive, action, nftName, nftImage, usern
                     }}
                 >
                     <MenuItem id={'nft-det'} sx={{
-                        display: 'flex', alignItems: 'center', pb: '12px',
+                        display: 'flex', alignItems: 'center', p: '16px 8px',
                         color: 'primary.text',
                         borderBottom: '1px solid',
                         borderColor: 'primary.gray',
@@ -886,7 +901,7 @@ export const ReactionCard = ({ active, passive, action, nftName, nftImage, usern
                         NFT Details
                     </MenuItem>
                     <MenuItem id={'users-profile'} sx={{
-                        display: 'flex', alignItems: 'center', py: '12px',
+                        display: 'flex', alignItems: 'center', p: '16px 8px',
                         color: 'primary.text',
                         borderBottom: '1px solid',
                         borderColor: 'primary.gray',
@@ -898,7 +913,7 @@ export const ReactionCard = ({ active, passive, action, nftName, nftImage, usern
                         {username}'s Profile
                     </MenuItem>
                     <MenuItem id={'select-action'} sx={{
-                        display: 'flex', alignItems: 'center', pt: '12px',
+                        display: 'flex', alignItems: 'center', p: '16px 8px',
                         color: 'primary.text',
                         '&:hover': {
                             bgcolor: 'secondary.bgOp',
@@ -955,7 +970,7 @@ export const MorePopper = ({ tabs, open, anchorEl, handleClose }) => {
             {tabs ? <>
                 {tabs.map((tab, index) => (
                     <MenuItem id={tab.id} sx={{
-                        display: 'flex', alignItems: 'center', pb: '12px',
+                        display: 'flex', alignItems: 'center', p: '16px 8px',
                         color: 'primary.text',
                         borderBottom: index == tabs.length - 1 ? 'none' : '1px solid',
                         borderColor: 'primary.gray',
@@ -971,15 +986,18 @@ export const MorePopper = ({ tabs, open, anchorEl, handleClose }) => {
     )
 }
 
-export const PVGalleryCard = ({ image, title, entranceFee, requestToJoin, joinedCount, isMine }) => {
+export const PVGalleryCard = ({ gallery, requestToJoin, joinedCount, isMine, galleryId, isJoined, setOpenedGallery }) => {
+    const globalUser = useSelector(state => state.userReducer)
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const [openEditModal, setOpenEditModal] = useState(false)
-    const [galleryName, setGalleryName] = useState(title)
-    const [gallerySubject, setgallerySubject] = useState(undefined)
-    const [galleryDesc, setGalleryDesc] = useState(undefined)
-    const [galleryFee, setGalleryFee] = useState(entranceFee)
+    const [galleryName, setGalleryName] = useState(gallery.gal_name)
+    const [gallerySubject, setgallerySubject] = useState(gallery.extra ? gallery.extra[0].gallery_subject : undefined)
+    const [galleryDesc, setGalleryDesc] = useState(gallery.gal_description)
+    const [galleryFee, setGalleryFee] = useState(gallery.extra ? gallery.extra[1].entrance_fee : undefined)
+    const [galleryBG, setGalleryBG] = useState(gallery.gallery_background)
     const [disableButton, setDisableButton] = useState(true)
+    const [gallExtra, setGallExtra] = useState(null)
     const handleClick = (event) => {
         if (!open)
             setAnchorEl(event.currentTarget);
@@ -996,6 +1014,78 @@ export const PVGalleryCard = ({ image, title, entranceFee, requestToJoin, joined
         handleClose()
         setOpenEditModal(true)
     }
+    const toastId = useRef(null);
+    const loading = () => {
+        toastId.current = toast.loading("Please wait...")
+    }
+    const updateToast = (success, message) => {
+        success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
+            : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
+    }
+    const updateGallery = async (galleryId) => {
+        loading()
+        if (galleryId) {
+            setDisableButton(true)
+            let extra = []
+            // if (gallerySubject) {
+            extra.push({ gallery_subject: gallerySubject })
+            // }
+            // if (galleryFee) {
+            extra.push({ entrance_fee: galleryFee })
+            // }
+            let data = {
+                owner_cid: globalUser.cid,
+                collections: gallery.collections,
+                gal_name: galleryName,
+                gal_description: galleryDesc,
+                extra: extra.length > 0 ? extra : null
+            }
+            let { requestData } = generateSignature(globalUser.privateKey, data)
+            console.log(requestData)
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/gallery/${galleryId}/update`, {
+                method: 'POST',
+                body: JSON.stringify(requestData),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            })
+            let response = await request.json()
+            console.log('updat resp?', response);
+
+            if (response.status === 200 || response.status === 201) {
+                setDisableButton(false)
+                updateToast(true, response.message)
+            } else {
+                setDisableButton(false)
+                updateToast(false, response.message)
+            }
+        }
+    }
+    const joinGallery = async (galleryId) => {
+        let data = {
+            caller_cid: globalUser.cid,
+            owner_screen_cid: gallery.owner_screen_cid,
+            gal_id: galleryId,
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/gallery/enter`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log('enter resp?', response);
+    }
+
+    useEffect(() => {
+        if (galleryName)
+            setDisableButton(false)
+        else setDisableButton(true)
+    }, [galleryName])
     const mineTabs = [
         { text: 'Send Invitaion', id: 'gall-card-invitation', onClick: () => console.log('send invitation') },
         { text: 'Joined List', id: 'gall-card-joined-list', onClick: () => console.log('view joined list') },
@@ -1013,7 +1103,7 @@ export const PVGalleryCard = ({ image, title, entranceFee, requestToJoin, joined
             <ClickAwayListener onClickAway={handleClickAway}>
                 <PVGalleryCardComp sx={{ width: { xs: '100%', md: 'calc(50% - 8px)' } }}>
                     <PVGalleryCardImage sx={{
-                        backgroundImage: () => image ? `url('${API_CONFIG.API_URL}/${image}')` : 'unset',
+                        backgroundImage: () => gallery.gallery_background ? `url('${API_CONFIG.API_URL}/${gallery.gallery_background}')` : 'unset',
                     }} />
                     <FlexColumn sx={{ width: '100%' }}>
                         <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'end !important' }}>
@@ -1023,18 +1113,30 @@ export const PVGalleryCard = ({ image, title, entranceFee, requestToJoin, joined
                             <Typography sx={{
                                 display: { xs: 'block', sm: 'none', md: 'none' },
                                 fontWeight: 500, fontFamily: 'Inter', fontSize: { xs: '12px', sm: '16px' }
-                            }}>{shorten(title, 20)}</Typography>
+                            }}>{shorten(gallery.gal_name, 20)}</Typography>
                             <Typography sx={{
                                 display: { xs: 'none', sm: 'block', md: 'block' },
                                 fontWeight: 500, fontFamily: 'Inter', fontSize: { xs: '12px', sm: '16px' }
-                            }}>{shorten(title, 30)}</Typography>
+                            }}>{shorten(gallery.gal_name, 30)}</Typography>
                         </FlexRow>
                         <Typography sx={{ fontWeight: 400, fontSize: { xs: '9px', sm: '11px' }, fontFamily: 'Inter' }}>x people joined</Typography>
-                        <Typography sx={{ fontWeight: 400, fontSize: { xs: '10px', sm: '12px' }, fontFamily: 'Inter' }}>Entrance Fee</Typography>
+                        <FlexRow sx={{ justifyContent: 'start !important', gap: '4px' }}>
+                            <Typography sx={{ fontWeight: 400, fontSize: { xs: '10px', sm: '12px' }, fontFamily: 'Inter' }}>Entrance Fee :</Typography>
+                            <YouwhoCoinIcon w={20} h={20} />
+                            <Typography sx={{ fontWeight: 400, color: 'secondary.text', fontSize: { xs: '10px', sm: '12px' }, fontFamily: 'Inter' }}>{gallery.extra ? gallery.extra[1].entrance_fee : '--'}</Typography>
+                        </FlexRow>
                         {isMine ?
                             <ButtonPurpleLight text={'open'} w={'100%'} px={'16px'} height={'30px'} br={'8px'} />
                             :
-                            <ButtonPurpleLight text={'request to join'} w={'100%'} px={'16px'} height={'30px'} br={'8px'} />
+                            <>
+                                {isJoined ?
+                                    <ButtonPurpleLight text={'view'} w={'100%'} px={'16px'} height={'30px'} br={'8px'} />
+                                    :
+                                    <ButtonPurpleLight
+                                        onClick={() => joinGallery(gallery.id)}
+                                        text={'request to join'} w={'100%'} px={'16px'} height={'30px'} br={'8px'} />
+                                }
+                            </>
                         }
                         {
                             isMine ?
@@ -1075,7 +1177,7 @@ export const PVGalleryCard = ({ image, title, entranceFee, requestToJoin, joined
                         <FlexColumn sx={{ width: '100%', gap: { xs: '20px', md: '32px' } }}>
                             <Typography
                                 sx={{ color: 'primary.text', fontSize: '16px', width: '100%', textAlign: 'center' }}>
-                                Edit {shorten(title, 15)} Gallery</Typography>
+                                Edit {shorten(gallery.gal_name, 15)} Gallery</Typography>
                             <FlexColumn sx={{ width: '100%', gap: { xs: '12px', md: '16px' } }}>
                                 <MyInput name={'gallery-name'} label={'Gallery Name'} width={'100%'}
                                     icon={<Title sx={{ color: 'primary.light' }} />}
@@ -1114,7 +1216,7 @@ export const PVGalleryCard = ({ image, title, entranceFee, requestToJoin, joined
                             <FlexRow sx={{ gap: { xs: '12px', md: '16px' }, width: '100%' }}>
                                 <ButtonOutlineInset text={'Not Yet'} onClick={() => setOpenEditModal(false)} w={'100px'} />
                                 <ButtonPurple disabled={disableButton}
-                                    text={'Save Changes'} w={'100%'} onClick={disableButton ? undefined : () => console.log('save')} />
+                                    text={'Save Changes'} w={'100%'} onClick={disableButton ? undefined : () => updateGallery(galleryId)} />
                             </FlexRow>
 
                         </FlexColumn>

@@ -40,6 +40,8 @@ const PrivateGallery = ({ user, isFriend }) => {
     const [galleries, setGalleries] = useState([])
     const [galleriesLoading, setGalleriesLoading] = useState(true)
     const [cancelToken, setCancelToken] = useState(null);
+    const [openedGallery, setOpenedGallery] = useState(undefined)
+
     const shorten = (str) => {
         if (str)
             return str.length > 15 ? str.substring(0, 15) + '...' : str;
@@ -80,7 +82,7 @@ const PrivateGallery = ({ user, isFriend }) => {
                     </Typography>
                     <FlexRow sx={{ flexWrap: 'wrap', width: '100%', gap: '16px', flexDirection: { xs: 'column', md: 'row' } }}>
                         {galleries.map((gallery, index) => (
-                            <PVGalleryCard title={gallery.gal_name} image={gallery.gallery_background} />
+                            <PVGalleryCard setOpenedGallery={setOpenedGallery} gallery={gallery} title={gallery.gal_name} image={gallery.gallery_background} />
                         ))}
                     </FlexRow>
                 </FlexColumn>

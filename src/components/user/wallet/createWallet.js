@@ -143,9 +143,12 @@ const CreateWallet = ({ switchTheme, setPvKey }) => {
             {globalUser.isLoggedIn ?
                 <>{YouWhoID ?
                     <>{privateKeey ?
-                        <AuthBox>
+                        <AuthBox sx={{ width: 'max-content !important' }}>
                             {/* <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', color: "primary.darkGray" }}> */}
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}> your YouWho id :
+                            <div style={{
+                                display: 'flex', flexDirection: 'column',
+                                alignItems: 'center', justifyContent: 'center'
+                            }}> your YouWho id :
                                 <span
                                     style={{ fontSize: '13px', color: '#BEA2C5', cursor: 'pointer' }}
                                     onClick={() => copyidToClipBoard(YouWhoID)}> {YouWhoID}

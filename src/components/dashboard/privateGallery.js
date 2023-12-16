@@ -60,10 +60,77 @@ const PrivateGallery = () => {
     const [categoryValue, setCategoryValue] = useState('')
     const [asc, setAsc] = useState(true)
     const [galleries, setGalleries] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [galleryloading, setgalleryLoading] = useState(true)
     const [loadErr, setLoadErr] = useState(undefined)
     const dispatch = useDispatch();
     const [signer, setSigner] = useState(undefined)
+    const [openedGallery, setOpenedGallery] = useState(undefined)
+    // const fileUploadHandler = async event => {
+    //     loading();
+    //     const promises = [];
+
+    //     if (avatarFile) {
+    //         const myFile = new File([avatarFile], 'image.jpeg', {
+    //             type: avatarFile.type,
+    //         });
+
+    //         const avatarfd = new FormData();
+    //         avatarfd.append('img', myFile)
+
+    //         const avatarPromise = fetch(`${API_CONFIG.AUTH_API_URL}/profile/update/avatar`, {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Authorization': `Bearer ${globalUser.token}`,
+    //             },
+    //             body: avatarfd,
+    //         }).then(response => response.json());
+
+    //         promises.push(avatarPromise);
+    //     }
+
+    //     if (bannerFile) {
+    //         const myFile = new File([bannerFile], 'image.jpeg', {
+    //             type: bannerFile.type,
+    //         });
+
+    //         const bannerfd = new FormData();
+    //         bannerfd.append('img', myFile)
+
+    //         const bannerPromise = fetch(`${API_CONFIG.AUTH_API_URL}/profile/update/banner`, {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Authorization': `Bearer ${globalUser.token}`,
+    //             },
+    //             body: bannerfd,
+    //         }).then(response => response.json());
+
+    //         promises.push(bannerPromise);
+    //     }
+
+    //     if (promises.length > 0) {
+    //         Promise.all(promises)
+    //             .then(results => {
+    //                 const areSuccessful = results.every(result => result.status === 200);
+    //                 if (areSuccessful) {
+    //                     updateToast(true, results[0].message);
+    //                     fetchUser(globalUser.token)
+    //                     // Perform other tasks here
+    //                 } else {
+    //                     // Handle error case when at least one API call fails
+    //                     updateToast(false, 'An error occurred');
+    //                 }
+    //             })
+    //             .catch(error => {
+    //                 console.error('Error:', error);
+    //                 // Handle error case
+    //                 updateToast(false, 'An error occurred');
+    //             });
+    //     } else {
+    //         // Handle case when no API calls are made
+    //         updateToast(false, 'An error occurred');
+    //     }
+
+    // }
 
     const handleFilterSelect = (e) => {
         e.preventDefault()
@@ -97,7 +164,7 @@ const PrivateGallery = () => {
         console.log(response, '966666')
         if (response.is_error == false) {
             setGalleries(response.data)
-            setLoading(false)
+            setgalleryLoading(false)
         }
     }
     const navigate = useNavigate()
@@ -113,7 +180,7 @@ const PrivateGallery = () => {
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: '24px' }}>
             {globalUser.cid ?
                 <>
-                    {loading ? <CircularProgress /> :
+                    {galleryloading ? <CircularProgress /> :
                         globalUser.privateKey ?
                             <>
                                 {/* {galleries && galleries.length > 0 ?
@@ -127,7 +194,10 @@ const PrivateGallery = () => {
                                         galleries.map(gallery => (
                                             <Fragment key={`gallery_${gallery.id}`}>
                                                 <PVGalleryCard
+                                                    gallery={gallery}
+                                                    galleryId={gallery.id}
                                                     isMine={true}
+                                                    setOpenedGallery={setOpenedGallery}
                                                     title={gallery.gal_name} image={gallery.gallery_background}
                                                 />
                                             </Fragment>
