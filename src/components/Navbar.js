@@ -98,7 +98,7 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
     const tokenInterval = useRef(null)
     const [openPVKeyModal, setOpenPVKeyModal] = useState(false)
     const [keyCopied, setKeyCopied] = useState(false)
-
+    const [logoutTimer, setLogoutTimer] = useState(10)
     useEffect(() => {
         if (globalUser.isLoggedIn && !globalUser.isMailVerified) {
             disconnect()
@@ -240,11 +240,21 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
     //     };
     // }, [loginInitialRender, globalUser.tokenExpiration, globalUser.isLoggedIn]);
 
-
-    async function disconnect() {
+    const checkPVkeyCopyThenDisconnect = () => {
         if (globalUser.privateKey) {
             setOpenPVKeyModal(true)
+            setInterval(() => {
+                setLogoutTimer(logoutTimer - 1)
+            }, 1000);
+            setTimeout(() => {
+                disconnect()
+            }, 10000);
+        } else {
+            disconnect()
         }
+    }
+
+    async function disconnect() {
 
         try {
 
@@ -345,7 +355,7 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                                         <Profile cursor='pointer' size='25px' />
                                     </div>
                                 }
-                                <div onClick={disconnect}>
+                                <div onClick={checkPVkeyCopyThenDisconnect}>
                                     <LogoutCurve style={{ display: 'flex', alignItems: 'center', }} cursor='pointer' size='25px' />
                                 </div>
                             </div>
@@ -467,7 +477,7 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                                             <Profile cursor='pointer' size='25px' />
                                         </div>
                                     }
-                                    <div onClick={disconnect}>
+                                    <div onClick={checkPVkeyCopyThenDisconnect}>
                                         <LogoutCurve style={{ display: 'flex', alignItems: 'center', }} cursor='pointer' size='25px' />
                                     </div>
                                 </div>
@@ -584,6 +594,7 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                                 </Typography>
                                 <TickSquare style={{ display: keyCopied ? 'block' : 'none', color: 'green' }} />
                             </FlexRow>
+                            <Typography sx={{ color: 'primary.text' }}>Logging Out In {logoutTimer} Seconds...</Typography>
 
                         </FlexColumn>
 
