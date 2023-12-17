@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
-import { AccountCircle, AddAPhotoOutlined, Close, Description, PriceChange, Subject, Title } from "@mui/icons-material"
-import { Box, ClickAwayListener, MenuItem, Modal, Popper, TextField, Typography, inputBaseClasses, inputLabelClasses } from "@mui/material"
+import { AccountCircle, AddAPhotoOutlined, Close, Description, PriceChange, Search, Subject, Title } from "@mui/icons-material"
+import { Box, CircularProgress, ClickAwayListener, MenuItem, Modal, Popper, TextField, Typography, inputBaseClasses, inputLabelClasses } from "@mui/material"
 import { BG_URL, PUBLIC_URL } from "../utils/utils"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons"
@@ -985,19 +985,60 @@ export const MorePopper = ({ tabs, open, anchorEl, handleClose }) => {
 
     )
 }
+export const SmallPeopleCard = ({ image, name, action, }) => {
+    return (
+        <FlexRow sx={{ width: '100%' }}>
+            <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <Box sx={{
+                    borderRadius: '50%', width: '30px', height: '30px', backgroundColor: 'primary.bg',
+                    background: () => image ? `url('${API_CONFIG.API_URL}/${image}') no-repeat center` : BG_URL(PUBLIC_URL(`${profileFace}`)),
+                    backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+                }} /><Typography sx={{ color: 'primary.text', fontSize: '12px' }}>{name}</Typography>
+            </Box>
+            {action ?
+                action
+                :
+                undefined}
+        </FlexRow>
 
-export const PVGalleryCard = ({ gallery, requestToJoin, joinedCount, isMine, galleryId, isJoined, setOpenedGallery }) => {
+    )
+}
+
+export const PVGalleryCard = ({ gallery, requestToJoin, galleryIndex, joinedCount, isMine, galleryId, isJoined, openGalleryClick }) => {
     const globalUser = useSelector(state => state.userReducer)
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const [openEditModal, setOpenEditModal] = useState(false)
+    const [openInviteModal, setOpenInviteModal] = useState(false)
     const [galleryName, setGalleryName] = useState(gallery.gal_name)
-    const [gallerySubject, setgallerySubject] = useState(gallery.extra ? gallery.extra[0].gallery_subject : undefined)
+    // const [gallerySubject, setgallerySubject] = useState(gallery.extra ? gallery.extra[0].gallery_subject : undefined)
     const [galleryDesc, setGalleryDesc] = useState(gallery.gal_description)
-    const [galleryFee, setGalleryFee] = useState(gallery.extra ? gallery.extra[1].entrance_fee : undefined)
+    const [galleryFee, setGalleryFee] = useState(gallery.extra ? gallery.extra[0].entry_price : undefined)
     const [galleryBG, setGalleryBG] = useState(gallery.gallery_background)
     const [disableButton, setDisableButton] = useState(true)
     const [gallExtra, setGallExtra] = useState(null)
+    const [friends, setFriends] = useState([])
+    const [FriendsLoading, setFriendsLoading] = useState(true)
+    const [searchFriendsValue, setSearchFriendsValue] = useState(undefined)
+    const [inviteList, setInviteList] = useState([])
+    const [inviteListUpdating, setInviteListUpdating] = useState(false)
+    const addToInvitedList = (youwhoID) => {
+        // setInviteListUpdating(true)
+        let tempList = inviteList
+        tempList.push(youwhoID)
+        setInviteList(tempList)
+        // setInviteListUpdating(false)
+    }
+    const removeFromInviteList = (youwhoID) => {
+        // setInviteListUpdating(true)
+        let tempList = inviteList
+        const index = tempList.indexOf(youwhoID);
+        if (index > -1) { // only splice array when item is found
+            tempList.splice(index, 1); // 2nd parameter means remove one item only
+        }
+        setInviteList(tempList)
+        // setInviteListUpdating(false)
+    }
     const handleClick = (event) => {
         if (!open)
             setAnchorEl(event.currentTarget);
@@ -1014,6 +1055,11 @@ export const PVGalleryCard = ({ gallery, requestToJoin, joinedCount, isMine, gal
         handleClose()
         setOpenEditModal(true)
     }
+    const handleInviteClick = () => {
+        getFriends()
+        handleClose()
+        setOpenInviteModal(true)
+    }
     const toastId = useRef(null);
     const loading = () => {
         toastId.current = toast.loading("Please wait...")
@@ -1028,17 +1074,17 @@ export const PVGalleryCard = ({ gallery, requestToJoin, joinedCount, isMine, gal
             setDisableButton(true)
             let extra = []
             // if (gallerySubject) {
-            extra.push({ gallery_subject: gallerySubject })
+            // extra.push({ gallery_subject: gallerySubject })
             // }
             // if (galleryFee) {
-            extra.push({ entrance_fee: galleryFee })
+            extra.push({ entry_price: galleryFee })
             // }
             let data = {
                 owner_cid: globalUser.cid,
                 collections: gallery.collections,
                 gal_name: galleryName,
                 gal_description: galleryDesc,
-                extra: extra.length > 0 ? extra : null
+                extra: galleryFee ? extra : null
             }
             let { requestData } = generateSignature(globalUser.privateKey, data)
             console.log(requestData)
@@ -1063,6 +1109,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin, joinedCount, isMine, gal
         }
     }
     const joinGallery = async (galleryId) => {
+        loading()
         let data = {
             caller_cid: globalUser.cid,
             owner_screen_cid: gallery.owner_screen_cid,
@@ -1079,6 +1126,45 @@ export const PVGalleryCard = ({ gallery, requestToJoin, joinedCount, isMine, gal
         })
         let response = await request.json()
         console.log('enter resp?', response);
+        if (!response.is_error) {
+            updateToast(true, 'joined')
+        } else {
+            updateToast(false, response.message)
+        }
+    }
+    const deleteMyPVGallery = async () => {
+        loading()
+        if (galleryIndex == 0) {
+            updateToast(false, 'you cant delete your initial private gallery')
+            // return
+        } else {
+            console.log('for later features , after adding more than one pv gallery')
+        }
+    }
+    const getFriends = async () => {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/friends/?from=0&to=5`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log('friends', response)
+
+        if (!response.is_error) {
+            setFriends(response.data.friends)
+            setFriendsLoading(false)
+        } else {
+            if (response.status == 404) {
+                setFriends([])
+                setFriendsLoading(false)
+
+            } else {
+
+                console.log(response.message)
+            }
+        }
     }
 
     useEffect(() => {
@@ -1087,16 +1173,18 @@ export const PVGalleryCard = ({ gallery, requestToJoin, joinedCount, isMine, gal
         else setDisableButton(true)
     }, [galleryName])
     const mineTabs = [
-        { text: 'Send Invitaion', id: 'gall-card-invitation', onClick: () => console.log('send invitation') },
+        { text: 'Send Invitation', id: 'gall-card-invitation', onClick: handleInviteClick },
         { text: 'Joined List', id: 'gall-card-joined-list', onClick: () => console.log('view joined list') },
         { text: 'Edit', id: 'gall-card-edit', onClick: handleEditClick },
-        { text: 'Delete', id: 'gall-card-delete', onClick: () => console.log('delete gallery ?') },
+        { text: 'Delete', id: 'gall-card-delete', onClick: deleteMyPVGallery },
     ]
-    const othersTabs = [
+    const joinedOthersTabs = [
         { text: 'Galley Details', id: 'gall-card-details', onClick: () => console.log('Galley Details') },
         { text: 'Exit Gallery', id: 'gall-card-exit', onClick: () => console.log('gall-card-exit') },
     ]
-
+    const othersTabs = [
+        { text: 'Galley Details', id: 'gall-card-details', onClick: () => console.log('Galley Details') },
+    ]
     const navigate = useNavigate()
     return (
         <>
@@ -1119,18 +1207,20 @@ export const PVGalleryCard = ({ gallery, requestToJoin, joinedCount, isMine, gal
                                 fontWeight: 500, fontFamily: 'Inter', fontSize: { xs: '12px', sm: '16px' }
                             }}>{shorten(gallery.gal_name, 30)}</Typography>
                         </FlexRow>
-                        <Typography sx={{ fontWeight: 400, fontSize: { xs: '9px', sm: '11px' }, fontFamily: 'Inter' }}>x people joined</Typography>
+                        <Typography sx={{ fontWeight: 400, fontSize: { xs: '9px', sm: '11px' }, fontFamily: 'Inter' }}>{gallery.invited_friends.length} people joined</Typography>
                         <FlexRow sx={{ justifyContent: 'start !important', gap: '4px' }}>
                             <Typography sx={{ fontWeight: 400, fontSize: { xs: '10px', sm: '12px' }, fontFamily: 'Inter' }}>Entrance Fee :</Typography>
                             <YouwhoCoinIcon w={20} h={20} />
-                            <Typography sx={{ fontWeight: 400, color: 'secondary.text', fontSize: { xs: '10px', sm: '12px' }, fontFamily: 'Inter' }}>{gallery.extra ? gallery.extra[1].entrance_fee : '--'}</Typography>
+                            <Typography sx={{ fontWeight: 400, color: 'secondary.text', fontSize: { xs: '10px', sm: '12px' }, fontFamily: 'Inter' }}>{gallery.extra ? gallery.extra[0].entry_price : '--'}</Typography>
                         </FlexRow>
                         {isMine ?
-                            <ButtonPurpleLight text={'open'} w={'100%'} px={'16px'} height={'30px'} br={'8px'} />
+                            <ButtonPurpleLight onClick={openGalleryClick}
+                                text={'open'} w={'100%'} px={'16px'} height={'30px'} br={'8px'} />
                             :
                             <>
                                 {isJoined ?
-                                    <ButtonPurpleLight text={'view'} w={'100%'} px={'16px'} height={'30px'} br={'8px'} />
+                                    <ButtonPurpleLight
+                                        onClick={openGalleryClick} text={'view'} w={'100%'} px={'16px'} height={'30px'} br={'8px'} />
                                     :
                                     <ButtonPurpleLight
                                         onClick={() => joinGallery(gallery.id)}
@@ -1142,7 +1232,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin, joinedCount, isMine, gal
                             isMine ?
                                 <MorePopper tabs={mineTabs} open={open} anchorEl={anchorEl} handleClose={handleClose} />
                                 :
-                                <MorePopper tabs={othersTabs} open={open} anchorEl={anchorEl} handleClose={handleClose} />
+                                <MorePopper tabs={isJoined ? joinedOthersTabs : othersTabs} open={open} anchorEl={anchorEl} handleClose={handleClose} />
                         }
                     </FlexColumn>
                 </PVGalleryCardComp>
@@ -1180,16 +1270,16 @@ export const PVGalleryCard = ({ gallery, requestToJoin, joinedCount, isMine, gal
                                 Edit {shorten(gallery.gal_name, 15)} Gallery</Typography>
                             <FlexColumn sx={{ width: '100%', gap: { xs: '12px', md: '16px' } }}>
                                 <MyInput name={'gallery-name'} label={'Gallery Name'} width={'100%'}
-                                    icon={<Title sx={{ color: 'primary.light' }} />}
+                                    icon={<Subject sx={{ color: 'primary.light' }} />}
                                     onChange={(e) => setGalleryName(e.target.value)}
                                     value={galleryName}
                                 />
 
-                                <MyInput name={'gallery-subject'} label={'Gallery subject'} width={'100%'}
+                                {/* <MyInput name={'gallery-subject'} label={'Gallery subject'} width={'100%'}
                                     icon={<Subject sx={{ color: 'primary.light' }} />}
                                     onChange={(e) => setgallerySubject(e.target.value)}
                                     value={gallerySubject}
-                                />
+                                /> */}
 
                                 <MyInput name={'gallery-price'} type={'number'} label={'Entrance Fee'} width={'100%'}
                                     icon={<PriceChange sx={{ color: 'primary.light' }} />}
@@ -1217,6 +1307,84 @@ export const PVGalleryCard = ({ gallery, requestToJoin, joinedCount, isMine, gal
                                 <ButtonOutlineInset text={'Not Yet'} onClick={() => setOpenEditModal(false)} w={'100px'} />
                                 <ButtonPurple disabled={disableButton}
                                     text={'Save Changes'} w={'100%'} onClick={disableButton ? undefined : () => updateGallery(galleryId)} />
+                            </FlexRow>
+
+                        </FlexColumn>
+
+                    </Box>
+                </Box>
+            </Modal>
+            <Modal
+                open={openInviteModal}
+                onClose={() => {
+                    setOpenInviteModal(false)
+                }}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                disableScrollLock={true}
+            >
+                <Box sx={(theme) => ({
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    backdropFilter: 'blur(10px)'
+                })}>
+                    <Box sx={(theme) => ({
+                        borderRadius: { xs: '0', sm: '24px' },
+                        width: { xs: '100%', sm: '400px' }, height: { xs: '100%', sm: 'auto' },
+                        backgroundColor: 'secondary.bg', boxShadow: theme.palette.primary.boxShadow, boxSizing: 'border-box',
+                        display: 'flex', flexDirection: 'column',
+                        padding: '30px', alignItems: 'center'
+                    })}>
+                        <FlexRow sx={{ justifyContent: 'end !important', width: '100%' }}>
+                            <Box sx={{ padding: '10px' }}>
+                                <Close onClick={() => setOpenInviteModal(false)} sx={{ cursor: 'pointer', fontSize: '24px' }} />
+                            </Box>
+                        </FlexRow>
+                        <FlexColumn sx={{ width: '100%', gap: { xs: '20px', md: '32px' } }}>
+                            <Typography
+                                sx={{ color: 'primary.text', fontSize: '16px', width: '100%', textAlign: 'center' }}>
+                                Send Invitation Links to Join The Private Gallery</Typography>
+                            <FlexColumn sx={{ width: '100%', gap: { xs: '12px', md: '16px' } }}>
+                                <MyInput name={'gallery-invite-search'} label={'Search From friends'} width={'100%'}
+                                    icon={<Search sx={{ color: 'primary.light' }} />}
+                                    onChange={(e) => setSearchFriendsValue(e.target.value)}
+                                    value={searchFriendsValue}
+                                />
+
+                                <Box sx={{
+                                    border: '1px solid #DEDEDE', borderRadius: '12px', width: '100%', padding: '12px 12px 12px 15px',
+                                    boxSizing: 'border-box', gap: '8px', display: 'flex', flexDirection: 'column'
+                                }}>
+                                    <FlexRow sx={{ justifyContent: 'start !important', gap: '10px' }}>
+                                        <Subject sx={{ color: 'primary.light' }} />
+                                        <Typography sx={{ color: 'primary.text', fontSize: '12px' }}>Select Friends</Typography>
+                                    </FlexRow>
+                                    {FriendsLoading ? <CircularProgress sx={{ fontSize: '14px' }} /> :
+                                        <FlexColumn sx={{ gap: '8px' }}>
+                                            {friends.map((friend) => (
+                                                <SmallPeopleCard image={friend.user_avatar}
+                                                    name={friend.username} ywid={friend.screen_cid}
+                                                    action={<>
+                                                        {inviteList.length > 0 && inviteList.includes(friend.screen_cid) ?
+                                                            <ButtonOutline br={'30px'} height={'20px'}
+                                                                text={inviteListUpdating ? '...' : 'Added'} w={'70px'}
+                                                                onClick={() => removeFromInviteList(friend.screen_cid)} />
+                                                            :
+                                                            <ButtonOutline br={'30px'} height={'20px'}
+                                                                onClick={() => addToInvitedList(friend.screen_cid)}
+                                                                text={inviteListUpdating ? '...' : 'Add'} w={'70px'} />}
+                                                    </>
+                                                    } />
+                                            ))}
+                                        </FlexColumn>}
+                                </Box>
+
+                            </FlexColumn>
+                            <FlexRow sx={{ gap: { xs: '12px', md: '16px' }, width: '100%' }}>
+                                <ButtonOutlineInset text={'Not Yet'} onClick={() => setOpenInviteModal(false)} w={'100px'} />
+                                <ButtonPurple disabled={disableButton}
+                                    text={'Send'} w={'100%'} onClick={disableButton ? undefined : () => console.log(galleryId)} />
                             </FlexRow>
 
                         </FlexColumn>

@@ -118,9 +118,10 @@ const Profile = ({ switchTheme, theme, props }) => {
                 setErr(err.data.message)
             } else if (err.message) {
                 setErr(err.message)
-            } else {
-                setErr('Network Error')
             }
+            // else {
+            //     setErr('Network Error')
+            // }
         }
     }
     useEffect(() => {

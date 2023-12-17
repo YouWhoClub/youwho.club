@@ -54,7 +54,7 @@ const FlexColumn = styled(Box)(({ theme }) => ({
     alignItems: 'center',
 }))
 
-const ProfilePanel = ({ user, isFriend }) => {
+const ProfilePanel = ({ user, isFriend, sendFriendRequest }) => {
     const [activeTab, setActiveTab] = useState('relations-tab')
     // useEffect(() => {
     //     let dashbar = window.document.getElementById('profile-bar-user')
@@ -91,10 +91,19 @@ const ProfilePanel = ({ user, isFriend }) => {
                     },
                     boxSizing: 'border-box'
                 }}>
-                {activeTab == 'assets-tab' && <OthersProfieAssetTab user={user} isFriend={isFriend} />}
-                {activeTab == 'private-gallery-tab' && <PrivateGallery user={user} isFriend={isFriend} />}
-                {activeTab == 'public-gallery-tab' && <PublicGallery user={user} isFriend={isFriend} />}
-                {activeTab == 'relations-tab' && <RelationsTab user={user} isFriend={isFriend} />}
+                {activeTab == 'assets-tab' &&
+                    <OthersProfieAssetTab
+                        sendFriendRequest={sendFriendRequest}
+                        user={user} isFriend={isFriend} />}
+                {activeTab == 'private-gallery-tab' &&
+                    <PrivateGallery sendFriendRequest={sendFriendRequest}
+                        user={user} isFriend={isFriend} />}
+                {activeTab == 'public-gallery-tab' &&
+                    <PublicGallery user={user} isFriend={isFriend} />}
+                {activeTab == 'relations-tab' &&
+                    <RelationsTab
+                        sendFriendRequest={sendFriendRequest}
+                        user={user} isFriend={isFriend} />}
                 {/* {activeTab == 'reactions-tab' && <ReactionsTab />} */}
             </ScrollablePanel>
         </Panel>

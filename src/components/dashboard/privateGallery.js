@@ -17,6 +17,7 @@ import ButtonPurple from "../buttons/buttonPurple";
 import { useNavigate } from "react-router";
 import ButtonPurpleLight from "../buttons/buttonPurpleLight";
 import { setPrivateKey } from "../../redux/actions";
+import { ArrowBack } from "@mui/icons-material";
 
 
 
@@ -183,54 +184,79 @@ const PrivateGallery = () => {
                     {galleryloading ? <CircularProgress /> :
                         globalUser.privateKey ?
                             <>
-                                {/* {galleries && galleries.length > 0 ?
-                                <> */}
-                                <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '12px' } }}>
-                                    only friends joined by invitation link or by paying entrance fee will be able to view the desired gallery
-                                </Typography>
-
-                                <Gallery>
-                                    {
-                                        galleries.map(gallery => (
-                                            <Fragment key={`gallery_${gallery.id}`}>
-                                                <PVGalleryCard
-                                                    gallery={gallery}
-                                                    galleryId={gallery.id}
-                                                    isMine={true}
-                                                    setOpenedGallery={setOpenedGallery}
-                                                    title={gallery.gal_name} image={gallery.gallery_background}
-                                                />
-                                            </Fragment>
-                                        )
-                                        )
-                                    }
-
-                                </Gallery>
-                                {/* <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' }, mb: '32px' }}>
-                                    <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
-                                        NFT Collections
+                                {openedGallery ? undefined : <>
+                                    <Typography sx={{ color: 'secondary.text', textAlign: 'center', fontSize: { xs: '12px', sm: '12px' } }}>
+                                        only friends joined by invitation link or by paying entrance fee will be able to view the desired gallery
                                     </Typography>
-                                    <Typography sx={{ color: 'secondary.text', fontSize: { xs: '12px', sm: '12px' } }}>
-                                        You Can See All Collections With Their NFTs which You Have Created.
-                                        You & Your Friends Can Mint Any NFT You Like.
-                                    </Typography>
-                                </FlexColumn>
-                                <Gallery>
-                                    {
-                                        galleries[0].collections.map(collection => (
-                                            <Fragment key={`collection_${collection.id}`}>
-                                                <CollectionCard
-                                                    action={'mint'}
-                                                    likes={0}
-                                                    setExpandedId={setExpandedColl}
-                                                    collection={collection}
-                                                    expanded={expandedColl == collection.id}
-                                                />
-                                            </Fragment>
-                                        )
-                                        )
-                                    }
-                                </Gallery> */}
+                                    <Gallery>
+                                        {
+                                            galleries.map((gallery, index) => (
+                                                <Fragment key={`gallery_${gallery.id}`}>
+                                                    <PVGalleryCard
+                                                        galleryIndex={index}
+                                                        gallery={gallery}
+                                                        galleryId={gallery.id}
+                                                        isMine={true}
+                                                        title={gallery.gal_name} image={gallery.gallery_background}
+                                                        openGalleryClick={() => setOpenedGallery(gallery)}
+                                                    />
+                                                </Fragment>
+                                            )
+                                            )
+                                        }
+
+                                    </Gallery>
+                                </>}
+                                {openedGallery ?
+                                    <>
+                                        <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' }, mb: '32px', width: '100%' }}>
+                                            <FlexRow
+                                                sx={{ width: '100%', justifyContent: 'start !important', cursor: 'pointer' }}
+                                                onClick={() => setOpenedGallery(undefined)}>
+                                                <ArrowBack sx={{ color: 'primary.gray', fontSize: '15px' }} />
+                                                <Typography sx={{ color: 'primary.gray', fontSize: '12px' }}>Back</Typography>
+                                            </FlexRow>
+                                            <Typography sx={{ width: '100%', textAlign: 'center', color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
+                                                {openedGallery.gal_name}
+                                            </Typography>
+                                            <Typography sx={{
+                                                textAlign: 'center', width: '100%',
+                                                color: 'secondary.text', textTransform: 'capitalize',
+                                                fontSize: { xs: '12px', sm: '12px' }
+                                            }}>
+                                                You Can See All Collections With Their NFTs which You Have Created in this gallery.
+                                                You & Your Friends Can Mint Any NFT You Like.
+                                            </Typography>
+                                        </FlexColumn>
+                                        <Gallery>
+                                            {openedGallery.collections.length > 0 ?
+                                                <>
+                                                    {
+                                                        openedGallery.collections.map(collection => (
+                                                            <Fragment key={`collection_${collection.id}`}>
+                                                                <CollectionCard
+                                                                    action={'mint'}
+                                                                    likes={0}
+                                                                    setExpandedId={setExpandedColl}
+                                                                    collection={collection}
+                                                                    expanded={expandedColl == collection.id}
+                                                                />
+                                                            </Fragment>
+                                                        )
+                                                        )
+                                                    }
+                                                </> :
+                                                <Typography sx={{
+                                                    color: 'primary.text', textTransform: 'capitalize',
+                                                    fontSize: { xs: '14px', sm: '16px' }, width: '100%', textAlign: 'center'
+                                                }}>
+                                                    this gallery has no collections yet
+                                                </Typography>
+
+                                            }
+                                        </Gallery>
+                                    </> : undefined
+                                }
                             </>
                             :
                             <Container sx={{ mb: '32px' }}>

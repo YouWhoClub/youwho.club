@@ -35,7 +35,7 @@ const FlexColumn = styled(Box)(({ theme }) => ({
 }))
 
 
-const PrivateGallery = ({ user, isFriend }) => {
+const PrivateGallery = ({ user, isFriend, sendFriendRequest }) => {
     const globalUser = useSelector(state => state.userReducer)
     const [galleries, setGalleries] = useState([])
     const [galleriesLoading, setGalleriesLoading] = useState(true)
@@ -97,7 +97,7 @@ const PrivateGallery = ({ user, isFriend }) => {
                         </b>
                         to see {user.username}'s private galleries , you must be their friend first
                     </Typography>
-                    <ButtonPurpleLight text={'Request Friendship'} onClick={() => console.log('request friendship')}
+                    <ButtonPurpleLight text={'Request Friendship'} onClick={() => sendFriendRequest(user.YouWhoID, globalUser.cid)}
                         w={'max-content'}
                         px={'12px'}
                         height='35px' />
