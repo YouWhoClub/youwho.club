@@ -1081,7 +1081,9 @@ export const SmallPeopleCard = ({ image, name, action, removeFromInviteList, fri
     )
 }
 
-export const PVGalleryCard = ({ gallery, requestToJoin, galleryIndex, joinedCount, isMine, galleryId, isJoined, openGalleryClick }) => {
+export const PVGalleryCard = ({ gallery, requestToJoin,
+    galleryIndex, joinedCount, isMine, getUserPVGalleries,
+    galleryId, openGalleryClick }) => {
     const globalUser = useSelector(state => state.userReducer)
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -1104,7 +1106,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin, galleryIndex, joinedCoun
     const [gallImageFile, setgallImageFile] = useState(null);
     const [gallPhotoURL, setgallPhotoURL] = useState(null);
     const [openGallCrop, setOpenGallCrop] = useState(false)
-
+    const [isJoined, setIsJoined] = useState(false)
     const apiCall = useRef(null)
     const addToInvitedList = (youwhoID) => {
         let tempList = inviteList
@@ -1236,6 +1238,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin, galleryIndex, joinedCoun
         console.log('enter resp?', response);
         if (!response.is_error) {
             updateToast(true, 'joined')
+            getUserPVGalleries()
         } else {
             updateToast(false, response.message)
         }
@@ -1364,6 +1367,22 @@ export const PVGalleryCard = ({ gallery, requestToJoin, galleryIndex, joinedCoun
         }
     };
     const navigate = useNavigate()
+    useEffect(() => {
+        if (isMine) {
+            setIsJoined(false)
+        } else {
+            let tempList = []
+            for (let i = 0; i < gallery.invited_friends.length; i++) {
+                tempList.push(gallery.invited_friends[i].screen_cid)
+            }
+            if (tempList.includes(globalUser.YouWhoID)) {
+                setIsJoined(true)
+            } else {
+                setIsJoined(false)
+            }
+
+        }
+    }, [isMine])
     return (
         <>
             <ClickAwayListener onClickAway={handleClickAway}>

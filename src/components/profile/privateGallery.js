@@ -15,6 +15,8 @@ import ButtonPurple from '../buttons/buttonPurple'
 import { useNavigate } from 'react-router'
 import ButtonPurpleLight from '../buttons/buttonPurpleLight'
 import { API_CONFIG } from '../../config'
+import CollectionCard from '../nft market/collectionCard'
+import { ArrowBack } from '@mui/icons-material'
 
 const Gallery = styled(Box)(({ theme }) => ({
     width: '100%', boxSizing: "border-box", gap: '16px',
@@ -41,6 +43,7 @@ const PrivateGallery = ({ user, isFriend, sendFriendRequest }) => {
     const [galleriesLoading, setGalleriesLoading] = useState(true)
     const [cancelToken, setCancelToken] = useState(null);
     const [openedGallery, setOpenedGallery] = useState(undefined)
+    const [expandedColl, setExpandedColl] = useState(undefined)
 
     const shorten = (str) => {
         if (str)
@@ -74,29 +77,81 @@ const PrivateGallery = ({ user, isFriend, sendFriendRequest }) => {
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
             {isFriend ?
                 <FlexColumn sx={{ gap: { xs: '20px', sm: '24px' }, width: '100%' }}>
-                    <Typography sx={{
-                        textAlign: 'center', color: 'primary.darkGray',
-                        fontSize: '12px', textTransform: 'capitalize'
-                    }}>
-                        Only Friends who joined by invitation code or by requestion to join by entrance fee will be able to view the desired gallery
-                    </Typography>
-                    <FlexRow sx={{ flexWrap: 'wrap', width: '100%', gap: '16px', flexDirection: { xs: 'column', md: 'row' } }}>
-                        {
-                            galleries.map((gallery, index) => (
-                                <Fragment key={`gallery_${gallery.id}`}>
-                                    <PVGalleryCard
-                                        galleryIndex={index}
-                                        gallery={gallery}
-                                        galleryId={gallery.id}
-                                        isMine={false}
-                                        title={gallery.gal_name} image={gallery.gallery_background}
-                                        openGalleryClick={() => setOpenedGallery(gallery)}
-                                    />
-                                </Fragment>
-                            )
-                            )
+                    <>
+                        {openedGallery ? undefined : <>
+                            <Typography sx={{ color: 'secondary.text', textAlign: 'center', fontSize: { xs: '12px', sm: '12px' } }}>
+                                only friends joined by invitation link or by paying entrance fee will be able to view the desired gallery
+                            </Typography>
+                            <Gallery>
+                                {
+                                    galleries.map((gallery, index) => (
+                                        <Fragment key={`gallery_${gallery.id}`}>
+                                            <PVGalleryCard
+                                                galleryIndex={index}
+                                                gallery={gallery}
+                                                galleryId={gallery.id}
+                                                isMine={false}
+                                                title={gallery.gal_name} image={gallery.gallery_background}
+                                                openGalleryClick={() => setOpenedGallery(gallery)}
+                                            />
+                                        </Fragment>
+                                    )
+                                    )
+                                }
+
+                            </Gallery>
+                        </>}
+                        {openedGallery ?
+                            <>
+                                <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' }, mb: '32px', width: '100%' }}>
+                                    <FlexRow
+                                        sx={{ width: '100%', justifyContent: 'start !important', cursor: 'pointer' }}
+                                        onClick={() => setOpenedGallery(undefined)}>
+                                        <ArrowBack sx={{ color: 'primary.gray', fontSize: '15px' }} />
+                                        <Typography sx={{ color: 'primary.gray', fontSize: '12px' }}>Back</Typography>
+                                    </FlexRow>
+                                    <Typography sx={{ width: '100%', textAlign: 'center', color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
+                                        {openedGallery.gal_name}
+                                    </Typography>
+                                    <Typography sx={{
+                                        textAlign: 'center', width: '100%',
+                                        color: 'secondary.text', textTransform: 'capitalize',
+                                        fontSize: { xs: '12px', sm: '12px' }
+                                    }}>
+                                        You Can See All Collections With Their NFTs which {user.username} Has Created in this gallery.
+                                        You & their Friends Can Mint Any NFT You Like.
+                                    </Typography>
+                                </FlexColumn>
+                                <Gallery>
+                                    {openedGallery.collections.length > 0 ?
+                                        <>
+                                            {
+                                                openedGallery.collections.map(collection => (
+                                                    <Fragment key={`collection_${collection.id}`}>
+                                                        <CollectionCard
+                                                            action={'mint'}
+                                                            likes={0}
+                                                            setExpandedId={setExpandedColl}
+                                                            collection={collection}
+                                                            expanded={expandedColl == collection.id}
+                                                        />
+                                                    </Fragment>
+                                                )
+                                                )
+                                            }
+                                        </> :
+                                        <Typography sx={{
+                                            color: 'primary.text', textTransform: 'capitalize',
+                                            fontSize: { xs: '14px', sm: '16px' }, width: '100%', textAlign: 'center'
+                                        }}>
+                                            this gallery has no collections yet
+                                        </Typography>
+
+                                    }
+                                </Gallery>
+                            </> : undefined
                         }
-                    </FlexRow>
+                    </>
                 </FlexColumn>
                 :
                 <FlexColumn sx={{ gap: { xs: '20px', sm: '30px' }, mb: '24px' }}>
@@ -109,7 +164,8 @@ const PrivateGallery = ({ user, isFriend, sendFriendRequest }) => {
                         </b>
                         to see {user.username}'s private galleries , you must be their friend first
                     </Typography>
-                    <ButtonPurpleLight text={'Request Friendship'} onClick={() => sendFriendRequest(user.YouWhoID, globalUser.cid)}
+                    <ButtonPurpleLight
+                        text={'Request Friendship'} onClick={() => sendFriendRequest(user.YouWhoID, globalUser.cid)}
                         w={'max-content'}
                         px={'12px'}
                         height='35px' />

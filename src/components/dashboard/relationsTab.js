@@ -130,10 +130,54 @@ const RelationsTab = () => {
 
     }
     const removeFriend = async (receiver, sender) => {
-        console.log('remove-friend-request');
+        loading();
+
+        let data = {
+            owner_cid: sender,
+            friend_screen_cid: receiver,
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        console.log(requestData)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/remove/friend`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+        if (response.message == "Updated Successfully") {
+            updateToast(true, 'Friend Removed')
+        } else {
+            updateToast(false, response.message)
+        }
     }
     const removeAllie = async (receiver, sender) => {
-        console.log('remove-ally-request');
+        loading();
+
+        let data = {
+            owner_cid: sender,
+            friend_screen_cid: receiver,
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        console.log(requestData)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/remove/friend`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+        if (response.message == "Updated Successfully") {
+            updateToast(true, 'Friend Removed')
+        } else {
+            updateToast(false, response.message)
+        }
 
     }
     const shareClick = async (id) => {

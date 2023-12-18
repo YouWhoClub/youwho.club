@@ -1,15 +1,20 @@
 import styled from "@emotion/styled";
 import { Close, LogoutOutlined } from "@mui/icons-material";
 import { Box, Modal, Typography } from "@mui/material";
-import { ArrowRight2, Logout } from "iconsax-react";
+import { ArrowRight2, Logout, TickSquare } from "iconsax-react";
 import { useNavigate } from "react-router";
 import ThemeSwitcher from "./HomePage/themeSwitchComp";
 import ButtonPurple from "./buttons/buttonPurple";
 import { useDispatch, useSelector } from "react-redux";
 import { HEALTH_API } from "../utils/data/health_api";
 import { useRef, useState } from "react";
-import { logOutUser } from "../redux/actions";
+import { deleteUnclaimedDeposit, logOutUser } from "../redux/actions";
 
+const FlexColumn = styled(Box)(({ theme }) => ({
+    display: 'flex', flexDirection: 'column',
+    alignItems: 'center',
+
+}))
 
 const FlexRow = styled(Box)(({ theme }) => ({
     display: 'flex', width: '100%',
@@ -50,6 +55,22 @@ const MobileMenu = ({ openMenu, setOpenMenu, theme, switchTheme }) => {
     const logOut = () => dispatch(logOutUser());
     const apiCall = useRef(undefined)
     const [err, setErr] = useState(false)
+    const [openPVKeyModal, setOpenPVKeyModal] = useState(false)
+    const deleteUnclaimed = () => dispatch(deleteUnclaimedDeposit());
+    const [keyCopied, setKeyCopied] = useState(false)
+    const checkPVkeyCopyThenDisconnect = () => {
+        if (globalUser.privateKey) {
+            setOpenPVKeyModal(true)
+            // setInterval(() => {
+            //     setLogoutTimer(logoutTimer - 1)
+            // }, 1000);
+            // setTimeout(() => {
+            //     disconnect()
+            // }, 10000);
+        } else {
+            disconnect()
+        }
+    }
 
     async function disconnect() {
         try {
@@ -67,6 +88,7 @@ const MobileMenu = ({ openMenu, setOpenMenu, theme, switchTheme }) => {
                 throw response
             // else {
             logOut()
+            deleteUnclaimed()
             setTimeout(() => {
                 navigate('/')
             }, 1000);
@@ -75,109 +97,183 @@ const MobileMenu = ({ openMenu, setOpenMenu, theme, switchTheme }) => {
         }
         catch (err) {
             logOut()
+            deleteUnclaimed()
 
             setErr(err.statusText)
             console.log(err.statusText)
         }
 
     }
+    const copyToClipBoard = async (textToCopy) => {
+        try {
+            await navigator.clipboard.writeText(textToCopy);
+            setKeyCopied('Copied!');
+        } catch (err) {
+            setKeyCopied(undefined);
+        }
+    };
+
 
     return (
-        <Modal
-            open={openMenu}
-            onClose={() => {
-                setOpenMenu(false)
-            }}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-            disableScrollLock={true}
-        >
-            <Box sx={{
-                width: '100%',
-                height: '100%',
-                display: { xs: 'flex', sm: 'none' }, boxSizing: 'border-box',
-                // padding: '0 15px 20px',
-                flexDirection: 'column',
-                alignItems: 'center', justifyContent: 'space-between', backdropFilter: 'blur(10px)', bgcolor: 'secondary.bg'
-            }}>
-                <FlexRow sx={{ padding: "9px 14px" }}>
-                    {theme == 'light' ?
-                        <Box sx={{ pl: '10px' }}>
-                            <YouWhoIconPurple />
-                        </Box>
-                        :
-                        <Box sx={{ pl: '10px' }}>
-                            <YouWhoIcon />
-                        </Box>
-                    }
-                    <Box sx={{ padding: '10px' }}>
-                        <Close onClick={() => setOpenMenu(false)} sx={{ cursor: 'pointer', fontSize: '24px' }} />
-                    </Box>
-                </FlexRow>
+        <>
+            <Modal
+                open={openMenu}
+                onClose={() => {
+                    setOpenMenu(false)
+                }}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                disableScrollLock={true}
+            >
                 <Box sx={{
                     width: '100%',
-                    flexDirection: 'column', display: 'flex', boxSizing: 'border-box',
-                    alignItems: 'center', justifyContent: 'center', padding: '15px',
+                    height: '100%',
+                    display: { xs: 'flex', sm: 'none' }, boxSizing: 'border-box',
+                    // padding: '0 15px 20px',
+                    flexDirection: 'column',
+                    alignItems: 'center', justifyContent: 'space-between', backdropFilter: 'blur(10px)', bgcolor: 'secondary.bg'
                 }}>
-                    <MenuItem onClick={() => navigate('/')}>
-                        <Typography sx={{ fontSize: '14px' }}>
-                            Home
-                        </Typography>
-                        <ArrowRight2 size='24px' />
-                    </MenuItem>
-                    {globalUser.isLoggedIn ?
-                        <MenuItem onClick={() => navigate('/dashboard')}>
+                    <FlexRow sx={{ padding: "9px 14px" }}>
+                        {theme == 'light' ?
+                            <Box sx={{ pl: '10px' }}>
+                                <YouWhoIconPurple />
+                            </Box>
+                            :
+                            <Box sx={{ pl: '10px' }}>
+                                <YouWhoIcon />
+                            </Box>
+                        }
+                        <Box sx={{ padding: '10px' }}>
+                            <Close onClick={() => setOpenMenu(false)} sx={{ cursor: 'pointer', fontSize: '24px' }} />
+                        </Box>
+                    </FlexRow>
+                    <Box sx={{
+                        width: '100%',
+                        flexDirection: 'column', display: 'flex', boxSizing: 'border-box',
+                        alignItems: 'center', justifyContent: 'center', padding: '15px',
+                    }}>
+                        <MenuItem onClick={() => navigate('/')}>
                             <Typography sx={{ fontSize: '14px' }}>
-                                Dashboard
+                                Home
                             </Typography>
                             <ArrowRight2 size='24px' />
                         </MenuItem>
-                        :
-                        <MenuItem onClick={() => navigate('/auth')}>
+                        {globalUser.isLoggedIn ?
+                            <MenuItem onClick={() => navigate('/dashboard')}>
+                                <Typography sx={{ fontSize: '14px' }}>
+                                    Dashboard
+                                </Typography>
+                                <ArrowRight2 size='24px' />
+                            </MenuItem>
+                            :
+                            <MenuItem onClick={() => navigate('/auth')}>
+                                <Typography sx={{ fontSize: '14px' }}>
+                                    Sign In / Sign Up
+                                </Typography>
+                                <ArrowRight2 size='24px' />
+                            </MenuItem>
+                        }
+                        <MenuItem onClick={() => navigate('/blogs')}>
                             <Typography sx={{ fontSize: '14px' }}>
-                                Sign In / Sign Up
+                                Blogs
                             </Typography>
                             <ArrowRight2 size='24px' />
                         </MenuItem>
-                    }
-                    <MenuItem onClick={() => navigate('/blogs')}>
-                        <Typography sx={{ fontSize: '14px' }}>
-                            Blogs
-                        </Typography>
-                        <ArrowRight2 size='24px' />
-                    </MenuItem>
-                    <MenuItem onClick={() => navigate('/about-us')}>
-                        <Typography sx={{ fontSize: '14px' }}>
-                            about us
-                        </Typography>
-                        <ArrowRight2 size='24px' />
-                    </MenuItem>
-                    <MenuItem onClick={() => navigate('/contact-us')}>
-                        <Typography sx={{ fontSize: '14px' }}>
-                            Contat us
-                        </Typography>
-                        <ArrowRight2 size='24px' />
-                    </MenuItem>
-                    <MenuItem onClick={() => navigate('/privacy-policy')}>
-                        <Typography sx={{ fontSize: '14px' }}>
-                            privacy policy
-                        </Typography>
-                        <ArrowRight2 size='24px' />
-                    </MenuItem>
+                        <MenuItem onClick={() => navigate('/about-us')}>
+                            <Typography sx={{ fontSize: '14px' }}>
+                                about us
+                            </Typography>
+                            <ArrowRight2 size='24px' />
+                        </MenuItem>
+                        <MenuItem onClick={() => navigate('/contact-us')}>
+                            <Typography sx={{ fontSize: '14px' }}>
+                                Contat us
+                            </Typography>
+                            <ArrowRight2 size='24px' />
+                        </MenuItem>
+                        <MenuItem onClick={() => navigate('/privacy-policy')}>
+                            <Typography sx={{ fontSize: '14px' }}>
+                                privacy policy
+                            </Typography>
+                            <ArrowRight2 size='24px' />
+                        </MenuItem>
+                    </Box>
+
+                    <FlexRow sx={{ mt: '24px', padding: "0px 14px 20px" }}>
+                        <ThemeSwitcher switchTheme={switchTheme} isModalOpen={openMenu} />
+                        {globalUser.isLoggedIn ?
+                            <ButtonPurple height={'35px'} text={'Logout'} onClick={checkPVkeyCopyThenDisconnect} nextIcon={<LogoutOutlined sx={{ fontSize: '14px', color: 'white' }} />} />
+                            :
+                            <ButtonPurple height={'35px'} text={'Get Started'} onClick={() => navigate('/auth')} />
+                        }
+                    </FlexRow>
                 </Box>
 
-                <FlexRow sx={{ mt: '24px', padding: "0px 14px 20px" }}>
-                    <ThemeSwitcher switchTheme={switchTheme} isModalOpen={openMenu} />
-                    {globalUser.isLoggedIn ?
-                        <ButtonPurple height={'35px'} text={'Logout'} onClick={disconnect} nextIcon={<LogoutOutlined sx={{ fontSize: '14px', color: 'white' }} />} />
-                        :
-                        <ButtonPurple height={'35px'} text={'Get Started'} onClick={() => navigate('/auth')} /> 
-                    }
-                </FlexRow>
-            </Box>
 
+            </Modal>
+            <Modal
+                open={openPVKeyModal}
+                onClose={() => {
+                    setOpenPVKeyModal(false)
+                }}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                disableScrollLock={true}
+            >
+                <Box sx={(theme) => ({
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    backdropFilter: 'blur(10px)'
+                })}>
+                    <Box sx={(theme) => ({
+                        borderRadius: { xs: '0', sm: '24px' },
+                        width: { xs: '100%', sm: 'max-content' }, height: { xs: '100%', sm: 'auto' },
+                        backgroundColor: 'secondary.bg', boxShadow: theme.palette.primary.boxShadow, boxSizing: 'border-box',
+                        display: 'flex', flexDirection: 'column',
+                        padding: '30px', alignItems: 'center'
+                    })}>
+                        <FlexRow sx={{ justifyContent: 'end !important', width: '100%' }}>
+                            <Box sx={{ padding: '10px' }}>
+                                <Close onClick={() => setOpenPVKeyModal(false)}
+                                    sx={{ cursor: 'pointer', fontSize: '24px' }} />
+                            </Box>
+                        </FlexRow>
+                        <FlexColumn sx={{ width: '100%', gap: { xs: '12px', md: '16px' } }}>
+                            <Typography
+                                sx={{
+                                    color: 'primary.text', fontSize: '16px', width: '100%', textAlign: 'center',
+                                    textTransform: 'capitalize'
+                                }}>
+                                Save Private Key
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    color: 'secondary.text', fontSize: '12px', width: '100%', textAlign: 'center',
+                                    textTransform: 'capitalize'
+                                }}>
+                                Please Save Your Private Key Before Logging out.it will be needed for future uses
+                            </Typography>
+                            <FlexRow>
+                                <Typography
+                                    onClick={() => copyToClipBoard(globalUser.privateKey)}
+                                    sx={{
+                                        color: 'secondary.text', fontSize: '12px', width: '100%', textAlign: 'center',
+                                        textTransform: 'capitalize', cursor: 'pointer'
+                                    }}>
+                                    {globalUser.privateKey}
+                                </Typography>
+                                <TickSquare style={{ display: keyCopied ? 'block' : 'none', color: 'green' }} />
+                            </FlexRow>
+                            {/* <Typography sx={{ color: 'primary.text' }}>Logging Out In {logoutTimer} Seconds...</Typography> */}
+                            <ButtonPurple w={'max-content'} text={'Log Me Out'} onClick={disconnect} px={'12px'} />
+                        </FlexColumn>
 
-        </Modal>
+                    </Box>
+                </Box>
+            </Modal>
+
+        </>
     );
 }
 

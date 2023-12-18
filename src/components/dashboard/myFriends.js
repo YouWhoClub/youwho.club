@@ -54,11 +54,11 @@ const MyFriends = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAlli
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                             {searchResults.map((friend, index) => (
                                 <RelationCard
-                                    removeAllie={() => removeAllie(friend.Screen_cid, globalUser.cid)}
-                                    removeFriend={() => removeFriend(friend.Screen_cid, globalUser.cid)}
+                                    removeAllie={() => removeAllie(friend.screen_cid, globalUser.cid)}
+                                    removeFriend={() => removeFriend(friend.screen_cid, globalUser.cid)}
                                     image={friend.avatar} username={friend.username} friend={true}
-                                    sendAllieRequest={() => sendAllieRequest(friend.Screen_cid, globalUser.cid)}
-                                    sendFriendRequest={() => sendFriendRequest(friend.Screen_cid, globalUser.cid)}
+                                    sendAllieRequest={() => sendAllieRequest(friend.screen_cid, globalUser.cid)}
+                                    sendFriendRequest={() => sendFriendRequest(friend.screen_cid, globalUser.cid)}
                                     shareClick={shareClick}
                                 />
                             ))}
@@ -74,11 +74,11 @@ const MyFriends = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAlli
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                     {friends.map((friend, index) => (
                         <RelationCard
-                            removeAllie={() => removeAllie(friend.Screen_cid, globalUser.cid)}
-                            removeFriend={() => removeFriend(friend.Screen_cid, globalUser.cid)}
+                            removeAllie={() => removeAllie(friend.screen_cid, globalUser.cid)}
+                            removeFriend={() => removeFriend(friend.screen_cid, globalUser.cid)}
                             image={friend.user_avatar} username={friend.username} friend={true}
-                            sendAllieRequest={() => sendAllieRequest(friend.Screen_cid, globalUser.cid)}
-                            sendFriendRequest={() => sendFriendRequest(friend.Screen_cid, globalUser.cid)}
+                            sendAllieRequest={() => sendAllieRequest(friend.screen_cid, globalUser.cid)}
+                            sendFriendRequest={() => sendFriendRequest(friend.screen_cid, globalUser.cid)}
                             shareClick={shareClick}
                         />
                     ))}
