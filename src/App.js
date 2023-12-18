@@ -244,7 +244,7 @@ function App() {
                       <Route exact path="/profile/:name" element={<Profile theme={theme} switchTheme={switchTheme} />} />
 
 
-                      <Route exact path="/verify-mail" element={<VerifyMail theme={theme} />} />
+                      {/* <Route exact path="/verify-mail" element={<VerifyMail theme={theme} />} /> */}
                       <Route exact path="/verify-phone" element={<VerifyPhone theme={theme} />} />
                       <Route exact path="/checkout/success" element={<CheckoutSuccess switchTheme={switchTheme} theme={theme} />} />
                       <Route exact path="/checkout/cancel" element={<CheckoutCancel switchTheme={switchTheme} theme={theme} />} />

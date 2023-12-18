@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import OtpInput from 'react-otp-input';
 import { API_CONFIG } from "../../../config";
 import { useNavigate } from "react-router";
-import { getuser } from "../../../redux/actions";
+import { deleteUnclaimedDeposit, getuser } from "../../../redux/actions";
 import styled from "@emotion/styled";
 import { Box, CircularProgress, LinearProgress, Typography } from "@mui/material";
 import Timer from "../../Timer";
@@ -58,12 +58,12 @@ const Inputtt = styled('div')(({ theme }) => ({
     }
 }))
 
-const VerifyMail = ({ email, code, setProgress, setState }) => {
+const VerifyMail = ({ email, code, setProgress, setState, disconnect }) => {
 
     console.log(email)
 
     const globalUser = useSelector(state => state.userReducer)
-    const [mail, setMail] = useState(email)
+    const [mail, setMail] = useState(email ? email : globalUser.identifier)
     const [otp, setOtp] = useState('')
     const [showOtp, setShowOtp] = useState(false)
     const [expiryTime, setExpiryTime] = useState('')
@@ -285,6 +285,7 @@ const VerifyMail = ({ email, code, setProgress, setState }) => {
                                             alignItems: 'center', width: 'max-content',
                                             gap: '4px', cursor: 'pointer'
                                         }} onClick={() => {
+                                            disconnect()
                                             setState('identifier')
                                             setProgress('50%')
                                         }}>
@@ -326,8 +327,24 @@ const VerifyMail = ({ email, code, setProgress, setState }) => {
                         <Typography sx={{ fontWeight: 500, fontSize: '14px' }}>Your Email Has been verified </Typography>
                     </Box>
                 :
-                <Box sx={{ height: '100%', display: 'flex', alignItems: 'center' }}>
-                    <Typography sx={{ fontWeight: 500, fontSize: '14px' }}>you are not logged in </Typography>
+                <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <Typography sx={{ fontWeight: 500, fontSize: '14px', textTransform: 'capitalize' }}>something went wrong,please try again later</Typography>
+                    <Box sx={{
+                        display: 'flex',
+                        justifyContent: 'start',
+                        alignItems: 'center', width: 'max-content',
+                        gap: '4px', cursor: 'pointer'
+                    }} onClick={() => {
+                        disconnect()
+                        setState('identifier')
+                        setProgress('50%')
+                    }}>
+                        <ArrowBack sx={{ fontSize: '17px', color: 'primary.darkGray' }} />
+                        <Typography sx={{ fontSize: '12px', color: 'primary.darkGray' }}>
+                            Back
+                        </Typography>
+                    </Box>
+
                 </Box>
             }
         </>

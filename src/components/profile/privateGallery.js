@@ -8,7 +8,7 @@ import styled from "@emotion/styled";
 import { Box, Typography } from "@mui/material";
 import NFTCard from "../nft market/nftCard";
 import FilterSelection from '../filterSelection'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { AscSelect, PVGalleryCard } from '../utils'
 import { useSelector } from 'react-redux'
 import ButtonPurple from '../buttons/buttonPurple'
@@ -81,9 +81,21 @@ const PrivateGallery = ({ user, isFriend, sendFriendRequest }) => {
                         Only Friends who joined by invitation code or by requestion to join by entrance fee will be able to view the desired gallery
                     </Typography>
                     <FlexRow sx={{ flexWrap: 'wrap', width: '100%', gap: '16px', flexDirection: { xs: 'column', md: 'row' } }}>
-                        {galleries.map((gallery, index) => (
-                            <PVGalleryCard setOpenedGallery={setOpenedGallery} gallery={gallery} title={gallery.gal_name} image={gallery.gallery_background} />
-                        ))}
+                        {
+                            galleries.map((gallery, index) => (
+                                <Fragment key={`gallery_${gallery.id}`}>
+                                    <PVGalleryCard
+                                        galleryIndex={index}
+                                        gallery={gallery}
+                                        galleryId={gallery.id}
+                                        isMine={false}
+                                        title={gallery.gal_name} image={gallery.gallery_background}
+                                        openGalleryClick={() => setOpenedGallery(gallery)}
+                                    />
+                                </Fragment>
+                            )
+                            )
+                        }
                     </FlexRow>
                 </FlexColumn>
                 :

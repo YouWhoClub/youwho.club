@@ -6,8 +6,8 @@ import { FormControl, Input } from "@mui/base";
 import ButtonPurple from "../../buttons/buttonPurple";
 import styled from "@emotion/styled";
 import { AUTH_API } from "../../../utils/data/auth_api";
-import { useDispatch } from "react-redux";
-import { getuser, setRefreshToken } from "../../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteUnclaimedDeposit, getuser, logOutUser, setRefreshToken } from "../../../redux/actions";
 import { useNavigate } from "react-router";
 import { ArrowLeft3, Eye, EyeSlash, Lock } from "iconsax-react";
 import VerifyMail from "./verifyMail";
@@ -15,6 +15,7 @@ import { MyInput, ShadowInput } from "../../utils";
 import { BG_URL, PUBLIC_URL } from "../../../utils/utils";
 import gmailLogo from '../../../assets/gmailLogo.svg'
 import microsoftLogo from '../../../assets/micosoftLogo.svg'
+import { HEALTH_API } from "../../../utils/data/health_api";
 
 const LoginWithOthersBox = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -35,6 +36,7 @@ const Line = styled(Box)(({ theme }) => ({
 }))
 
 const Login = ({ progress, setProgress, alreadyEmail }) => {
+    const globalUser = useSelector(state => state.userReducer)
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const [state, setState] = useState('identifier')
@@ -47,6 +49,8 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
     const [success, setSuccess] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
     const [buttonDisabled, setButtonDisabled] = useState(true)
+    const logOut = () => dispatch(logOutUser());
+    const deleteUnclaimed = () => dispatch(deleteUnclaimedDeposit());
 
     const apiCall = useRef(undefined)
     const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
@@ -88,13 +92,10 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
                 body: { identifier: identifier, password: password },
             });
             let response = await apiCall.current.promise;
-            console.log('uuuuseeeeeer', response)
-            console.log('uuuuseeeeeer token', response.token)
             if (!response.isSuccess)
                 throw response
             localStorage.setItem('lastActive', true)
             let dt = new Date();
-            // dt = new Date(dt.getTime() + 30 * 60 * 1000)
             dt = new Date(dt.getTime() + 30 * 60 * 1000)
             let accesstoken = response.headers.cookie.match(/\/accesstoken=([^&]+)/)[1]
             let refreshToken = response.headers.cookie.match(/refrestoken=([^&]+)/)[1]
@@ -104,10 +105,10 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
             setSuccess(response.message)
             setErr(undefined)
             setLoading(false)
-
             if (response.data.data.is_mail_verified)
                 navigate('/dashboard')
             else setState('mailVerification')
+
         }
         catch (err) {
             console.log('errrrrrrrrrrrrrrrrr', err)
@@ -132,6 +133,14 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
             }
         }
     }
+    // useEffect(() => {
+    //     if (globalUser.isLoggedIn) {
+    //         if (globalUser.isMailVerified) {
+    //             navigate('/dashboard')
+    //         }
+    //         else setState('mailVerification')
+    //     }
+    // }, [globalUser.isLoggedIn, globalUser.isMailVerified])
     const idStateChanger = (event) => {
         event.preventDefault()
         if (identifier) {
@@ -146,6 +155,37 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
             setButtonDisabled(false)
         } else setButtonDisabled(true)
     }, [identifier, password])
+    async function disconnect() {
+
+        try {
+
+            apiCall.current = HEALTH_API.request({
+                path: `/logout`,
+                method: "post",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            });
+            let response = await apiCall.current.promise;
+
+            if (!response.isSuccess)
+                throw response
+            logOut()
+            refreshUserToken('', '')
+            deleteUnclaimed()
+        }
+        catch (err) {
+            logOut()
+            refreshUserToken('', '')
+            deleteUnclaimed()
+
+            setErr(err.statusText)
+            console.log(err.statusText)
+        }
+
+    }
+
     return (
         <>
             {state == 'identifier' ?
@@ -247,7 +287,7 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
                     </Box>
                 </Box>
                 :
-                <VerifyMail email={identifier} setProgress={setProgress} setState={setState} />
+                <VerifyMail email={identifier} disconnect={disconnect} setProgress={setProgress} setState={setState} />
             }
         </>
     );

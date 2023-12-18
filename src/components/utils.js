@@ -17,6 +17,8 @@ import generateSignature from "../utils/signatureUtils"
 import { toast } from "react-toastify"
 import { useSelector } from "react-redux"
 import yCoin from "../assets/Ycoin.svg"
+import { PUBLIC_API } from "../utils/data/public_api"
+import Crop from "./crop/Crop"
 
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -927,6 +929,64 @@ export const ReactionCard = ({ active, passive, action, nftName, nftImage, usern
         </ClickAwayListener>
     )
 }
+export const ReactionCardNew = ({ text, action, image, date, popperTabs }) => {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        if (!open)
+            setAnchorEl(event.currentTarget);
+        else
+            setAnchorEl(null)
+    };
+    const handleClose = (e) => {
+        setAnchorEl(null);
+    };
+    const handleClickAway = () => {
+        setAnchorEl(null);
+    }
+
+    const navigate = useNavigate()
+    return (
+        <ClickAwayListener onClickAway={handleClickAway}>
+            <ReactionCardComp>
+                <FlexRow sx={{ gap: '16px' }}>
+                    <Box sx={{
+                        backgroundImage: BG_URL(PUBLIC_URL(`${image}`)),
+                        backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+                        , width: { xs: '60px', sm: '80px' }, height: { xs: '60px', sm: '80px' }, borderRadius: '18px'
+                    }}
+                    />
+                    <FlexColumn>
+                        <Typography
+                            sx={{
+                                textTransform: 'capitalize',
+                                fontWeight: 700,
+                                fontSize: { xs: '10px', sm: '14px', md: '16px' }, mb: '8px'
+                            }}>
+                            {action}</Typography>
+                        <Typography
+                            sx={{
+                                textTransform: 'capitalize',
+                                fontWeight: 400,
+                                fontSize: { xs: '10px', sm: '14px', md: '14px' }
+                            }}>
+                            {text}
+                        </Typography>
+                        <Typography
+                            sx={{
+                                textTransform: 'capitalize',
+                                fontWeight: 400,
+                                color: 'primary.gray', fontSize: { xs: '10px', sm: '14px', md: '14px' }
+                            }}>
+                            {date}</Typography>
+                    </FlexColumn>
+                </FlexRow>
+                <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} color="#787878" />
+                <MorePopper tabs={popperTabs} />
+            </ReactionCardComp>
+        </ClickAwayListener>
+    )
+}
 export const NFTCommentCard = ({ username, comment, profileImg }) => {
     return (
         <CommentCard sx={{ flexDirection: { xs: 'column', sm: 'row' }, alignItems: { xs: 'start', sm: 'center' }, }}>
@@ -985,7 +1045,8 @@ export const MorePopper = ({ tabs, open, anchorEl, handleClose }) => {
 
     )
 }
-export const SmallPeopleCard = ({ image, name, action, }) => {
+export const SmallPeopleCard = ({ image, name, action, removeFromInviteList, friend, inviteList, addToInvitedList }) => {
+    const [isAdded, setIsAdded] = useState(false)
     return (
         <FlexRow sx={{ width: '100%' }}>
             <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
@@ -995,8 +1056,24 @@ export const SmallPeopleCard = ({ image, name, action, }) => {
                     backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
                 }} /><Typography sx={{ color: 'primary.text', fontSize: '12px' }}>{name}</Typography>
             </Box>
-            {action ?
-                action
+            {action == 'addPeople' ?
+                <>
+                    {isAdded ?
+                        <ButtonOutline br={'30px'} height={'20px'}
+                            text={'Added'} w={'70px'}
+                            onClick={() => {
+                                removeFromInviteList(friend.screen_cid)
+                                setIsAdded(false)
+                            }} />
+
+                        :
+                        <ButtonOutline br={'30px'} height={'20px'}
+                            onClick={() => {
+                                addToInvitedList(friend.screen_cid)
+                                setIsAdded(true)
+                            }}
+                            text={'Add'} w={'70px'} />}
+                </>
                 :
                 undefined}
         </FlexRow>
@@ -1022,22 +1099,25 @@ export const PVGalleryCard = ({ gallery, requestToJoin, galleryIndex, joinedCoun
     const [searchFriendsValue, setSearchFriendsValue] = useState(undefined)
     const [inviteList, setInviteList] = useState([])
     const [inviteListUpdating, setInviteListUpdating] = useState(false)
+    const [searchResults, setSearchResults] = useState(undefined)
+    const gallImageInput = useRef()
+    const [gallImageFile, setgallImageFile] = useState(null);
+    const [gallPhotoURL, setgallPhotoURL] = useState(null);
+    const [openGallCrop, setOpenGallCrop] = useState(false)
+
+    const apiCall = useRef(null)
     const addToInvitedList = (youwhoID) => {
-        // setInviteListUpdating(true)
         let tempList = inviteList
         tempList.push(youwhoID)
         setInviteList(tempList)
-        // setInviteListUpdating(false)
     }
     const removeFromInviteList = (youwhoID) => {
-        // setInviteListUpdating(true)
         let tempList = inviteList
         const index = tempList.indexOf(youwhoID);
         if (index > -1) { // only splice array when item is found
             tempList.splice(index, 1); // 2nd parameter means remove one item only
         }
         setInviteList(tempList)
-        // setInviteListUpdating(false)
     }
     const handleClick = (event) => {
         if (!open)
@@ -1077,7 +1157,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin, galleryIndex, joinedCoun
             // extra.push({ gallery_subject: gallerySubject })
             // }
             // if (galleryFee) {
-            extra.push({ entry_price: galleryFee })
+            extra.push({ entry_price: parseInt(galleryFee) })
             // }
             let data = {
                 owner_cid: globalUser.cid,
@@ -1087,7 +1167,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin, galleryIndex, joinedCoun
                 extra: galleryFee ? extra : null
             }
             let { requestData } = generateSignature(globalUser.privateKey, data)
-            console.log(requestData)
+            console.log(JSON.stringify(requestData))
             let request = await fetch(`${API_CONFIG.AUTH_API_URL}/gallery/${galleryId}/update`, {
                 method: 'POST',
                 body: JSON.stringify(requestData),
@@ -1099,13 +1179,41 @@ export const PVGalleryCard = ({ gallery, requestToJoin, galleryIndex, joinedCoun
             let response = await request.json()
             console.log('updat resp?', response);
 
-            if (response.status === 200 || response.status === 201) {
+            if (!response.is_error) {
                 setDisableButton(false)
                 updateToast(true, response.message)
+                if (gallImageFile) {
+                    uploadGalleryBackground()
+                }
             } else {
                 setDisableButton(false)
                 updateToast(false, response.message)
             }
+        }
+    }
+    const uploadGalleryBackground = async () => {
+        loading();
+
+        const myFile = new File([gallImageFile], 'image.jpeg', {
+            type: gallImageFile.type,
+        });
+
+        const formData = new FormData();
+        formData.append('img', myFile)
+
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/gallery/${gallery.id}/upload/background`, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+
+        if (!response.is_error) {
+            updateToast(true, response.message)
+        } else {
+            updateToast(false, response.message)
         }
     }
     const joinGallery = async (galleryId) => {
@@ -1128,6 +1236,35 @@ export const PVGalleryCard = ({ gallery, requestToJoin, galleryIndex, joinedCoun
         console.log('enter resp?', response);
         if (!response.is_error) {
             updateToast(true, 'joined')
+        } else {
+            updateToast(false, response.message)
+        }
+    }
+    const batchInvite = (inviteList) => {
+        for (let i = 0; i < inviteList.length; i++) {
+            inviteToGallery(inviteList[i])
+        }
+    }
+    const inviteToGallery = async (userID) => {
+        loading()
+        let data = {
+            gallery_owner_cid: globalUser.cid,
+            to_screen_cid: userID,
+            gal_id: galleryId,
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/gallery/send/invitation-request`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log('invite resp?', response);
+        if (!response.is_error) {
+            updateToast(true, 'sent')
         } else {
             updateToast(false, response.message)
         }
@@ -1166,7 +1303,40 @@ export const PVGalleryCard = ({ gallery, requestToJoin, galleryIndex, joinedCoun
             }
         }
     }
+    const search = async (q, from, to) => {
+        if (q == '') {
+            setSearchResults(undefined)
+            return
+        }
+        try {
+            apiCall.current = PUBLIC_API.request({
+                path: `/search/?q=${q}&from=${from}&to=${to}`,
+                method: 'get',
+            });
+            let response = await apiCall.current.promise;
+            if (!response.isSuccess)
+                throw response
+            let tempFriends = []
+            for (var d = 0; d < friends.length; d++) {
+                tempFriends.push(friends[d].screen_cid)
+            }
+            let tempArr = []
+            for (var j = 0; j < response.data.data.users.length; j++) {
+                if (tempFriends.includes(response.data.data.users[j].screen_cid)) {
+                    tempArr.push(response.data.data.users[j])
+                }
+            }
+            setSearchResults(tempArr)
+        }
+        catch (err) {
+            if (err.status == 404) {
+                setSearchResults([])
+            } else {
+                setSearchResults([])
+            }
+        }
 
+    }
     useEffect(() => {
         if (galleryName)
             setDisableButton(false)
@@ -1185,6 +1355,14 @@ export const PVGalleryCard = ({ gallery, requestToJoin, galleryIndex, joinedCoun
     const othersTabs = [
         { text: 'Galley Details', id: 'gall-card-details', onClick: () => console.log('Galley Details') },
     ]
+    const handleGallImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setgallImageFile(file);
+            setgallPhotoURL(URL.createObjectURL(file));
+            setOpenGallCrop(true);
+        }
+    };
     const navigate = useNavigate()
     return (
         <>
@@ -1290,11 +1468,19 @@ export const PVGalleryCard = ({ gallery, requestToJoin, galleryIndex, joinedCoun
                                     icon={<AddAPhotoOutlined sx={{ color: 'primary.light' }} />}
                                     button={<ButtonOutline
                                         height='35px'
-                                        onClick={() => console.log('change gallery cover')}
+                                        onClick={() => gallImageInput.current.click()}
                                         text={'Browse'}
                                         br={'30px'}
                                     />
                                     } />
+                                <input
+                                    accept="image/*"
+                                    id="nftPhoto"
+                                    type="file"
+                                    style={{ display: 'none' }}
+                                    onChange={handleGallImageChange}
+                                    ref={gallImageInput}
+                                />
                                 <MyInput name={'gallery-description'}
                                     label={'Gallery Description'} width={'100%'}
                                     icon={<Description sx={{ color: 'primary.light' }} />}
@@ -1348,8 +1534,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin, galleryIndex, joinedCoun
                             <FlexColumn sx={{ width: '100%', gap: { xs: '12px', md: '16px' } }}>
                                 <MyInput name={'gallery-invite-search'} label={'Search From friends'} width={'100%'}
                                     icon={<Search sx={{ color: 'primary.light' }} />}
-                                    onChange={(e) => setSearchFriendsValue(e.target.value)}
-                                    value={searchFriendsValue}
+                                    onChange={(e) => search(e.target.value, 0, 5)}
                                 />
 
                                 <Box sx={{
@@ -1361,30 +1546,51 @@ export const PVGalleryCard = ({ gallery, requestToJoin, galleryIndex, joinedCoun
                                         <Typography sx={{ color: 'primary.text', fontSize: '12px' }}>Select Friends</Typography>
                                     </FlexRow>
                                     {FriendsLoading ? <CircularProgress sx={{ fontSize: '14px' }} /> :
-                                        <FlexColumn sx={{ gap: '8px' }}>
-                                            {friends.map((friend) => (
-                                                <SmallPeopleCard image={friend.user_avatar}
-                                                    name={friend.username} ywid={friend.screen_cid}
-                                                    action={<>
-                                                        {inviteList.length > 0 && inviteList.includes(friend.screen_cid) ?
-                                                            <ButtonOutline br={'30px'} height={'20px'}
-                                                                text={inviteListUpdating ? '...' : 'Added'} w={'70px'}
-                                                                onClick={() => removeFromInviteList(friend.screen_cid)} />
-                                                            :
-                                                            <ButtonOutline br={'30px'} height={'20px'}
-                                                                onClick={() => addToInvitedList(friend.screen_cid)}
-                                                                text={inviteListUpdating ? '...' : 'Add'} w={'70px'} />}
-                                                    </>
-                                                    } />
-                                            ))}
-                                        </FlexColumn>}
+                                        <>
+                                            {searchResults ?
+                                                <>{searchResults.length > 0 ?
+                                                    <FlexColumn sx={{ gap: '8px' }}>
+                                                        {searchResults.map((friend) => (
+                                                            <SmallPeopleCard
+                                                                friend={friend}
+                                                                addToInvitedList={addToInvitedList}
+                                                                removeFromInviteList={removeFromInviteList}
+                                                                inviteList={inviteList}
+                                                                image={friend.avatar}
+                                                                name={friend.username} ywid={friend.screen_cid}
+                                                                action={'addPeople'} />
+                                                        ))}
+                                                    </FlexColumn>
+                                                    :
+                                                    <Typography sx={{ color: 'primary.text', textTransform: 'capitalize', fontSize: '12px' }}>
+                                                        no result for you search
+                                                    </Typography>
+                                                }
+                                                </>
+                                                :
+                                                <FlexColumn sx={{ gap: '8px' }}>
+                                                    {friends.map((friend) => (
+                                                        <SmallPeopleCard
+                                                            friend={friend}
+                                                            addToInvitedList={addToInvitedList}
+                                                            removeFromInviteList={removeFromInviteList}
+                                                            inviteList={inviteList}
+                                                            image={friend.user_avatar}
+                                                            name={friend.username} ywid={friend.screen_cid}
+                                                            action={'addPeople'} />
+                                                    ))}
+                                                </FlexColumn>
+
+                                            }
+                                        </>
+                                    }
                                 </Box>
 
                             </FlexColumn>
                             <FlexRow sx={{ gap: { xs: '12px', md: '16px' }, width: '100%' }}>
                                 <ButtonOutlineInset text={'Not Yet'} onClick={() => setOpenInviteModal(false)} w={'100px'} />
                                 <ButtonPurple disabled={disableButton}
-                                    text={'Send'} w={'100%'} onClick={disableButton ? undefined : () => console.log(galleryId)} />
+                                    text={'Send'} w={'100%'} onClick={disableButton ? undefined : () => batchInvite(inviteList)} />
                             </FlexRow>
 
                         </FlexColumn>
@@ -1392,6 +1598,41 @@ export const PVGalleryCard = ({ gallery, requestToJoin, galleryIndex, joinedCoun
                     </Box>
                 </Box>
             </Modal>
+            <Modal
+                open={openGallCrop}
+                onClose={() => setOpenGallCrop(false)}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}>
+                    <Box sx={{
+                        borderRadius: '24px',
+                        width: { xs: '100%', sm: '600px' }, height: { xs: '100%', sm: '600px' },
+                        backgroundColor: 'secondary.bg',
+                        display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between'
+                    }}>
+                        <FlexRow sx={{ borderBottom: '1px solid', borderColor: 'primary.light' }}>
+                            <Typography>Crop</Typography>
+                            <div onClick={() => {
+                                setOpenGallCrop(false)
+                            }}>
+                                <Close sx={{ cursor: 'pointer' }} />
+                            </div>
+                        </FlexRow>
+
+                        <Crop imageURL={gallPhotoURL}
+                            // aspectRatio={aspectRatio == '16 : 9' ? 16 / 9 : 1}
+                            setOpenCrop={setOpenGallCrop}
+                            setFile={setgallImageFile}
+                            setPhotoURL={setgallPhotoURL} />
+                    </Box>
+                </Box>
+            </Modal>
+
         </>
     )
 }

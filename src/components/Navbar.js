@@ -243,12 +243,12 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
     const checkPVkeyCopyThenDisconnect = () => {
         if (globalUser.privateKey) {
             setOpenPVKeyModal(true)
-            setInterval(() => {
-                setLogoutTimer(logoutTimer - 1)
-            }, 1000);
-            setTimeout(() => {
-                disconnect()
-            }, 10000);
+            // setInterval(() => {
+            //     setLogoutTimer(logoutTimer - 1)
+            // }, 1000);
+            // setTimeout(() => {
+            //     disconnect()
+            // }, 10000);
         } else {
             disconnect()
         }
@@ -594,8 +594,8 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                                 </Typography>
                                 <TickSquare style={{ display: keyCopied ? 'block' : 'none', color: 'green' }} />
                             </FlexRow>
-                            <Typography sx={{ color: 'primary.text' }}>Logging Out In {logoutTimer} Seconds...</Typography>
-
+                            {/* <Typography sx={{ color: 'primary.text' }}>Logging Out In {logoutTimer} Seconds...</Typography> */}
+                            <ButtonPurple w={'max-content'} text={'Log Me Out'} onClick={disconnect} px={'12px'} />
                         </FlexColumn>
 
                     </Box>

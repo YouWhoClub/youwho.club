@@ -116,7 +116,6 @@ const Signup = ({ progress, setProgress, alreadyEmail }) => {
             });
             let response = await apiCall.current.promise;
             console.log('uuuuseeeeeer', response)
-            console.log('uuuuseeeeeer token', response.token)
             if (!response.isSuccess)
                 throw response
             localStorage.setItem('lastActive', true)
@@ -137,11 +136,26 @@ const Signup = ({ progress, setProgress, alreadyEmail }) => {
 
         }
         catch (err) {
-            setProgress('0%')
-            setSuccess(undefined)
-            setErr(err.data.message)
-            setLoading(false)
-            setButtonDisabled(false)
+            if (err.data && err.data.message) {
+                setProgress('0%')
+                setSuccess(undefined)
+                setErr(err.data.message)
+                setLoading(false)
+                setButtonDisabled(false)
+            } else if (err.message) {
+                setProgress('0%')
+                setSuccess(undefined)
+                setErr(err.message)
+                setLoading(false)
+                setButtonDisabled(false)
+            } else {
+                setProgress('0%')
+                setSuccess(undefined)
+                setErr('Network Error')
+                setLoading(false)
+                setButtonDisabled(false)
+            }
+
         }
     }
     const idStateChanger = (event) => {
