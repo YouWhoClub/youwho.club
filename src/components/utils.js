@@ -1405,7 +1405,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
             }
         }
     }
-    const search = async (q, from, to) => {
+    const search = async (searchTab, q, from, to) => {
         if (q == '') {
             setSearchResults(undefined)
             return
@@ -1418,17 +1418,32 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
             let response = await apiCall.current.promise;
             if (!response.isSuccess)
                 throw response
-            let tempFriends = []
-            for (var d = 0; d < friends.length; d++) {
-                tempFriends.push(friends[d].screen_cid)
-            }
-            let tempArr = []
-            for (var j = 0; j < response.data.data.users.length; j++) {
-                if (tempFriends.includes(response.data.data.users[j].screen_cid)) {
-                    tempArr.push(response.data.data.users[j])
+            if (searchTab == 'invite-friends') {
+                let tempFriends = []
+                for (var d = 0; d < friends.length; d++) {
+                    tempFriends.push(friends[d].screen_cid)
                 }
+                let tempArr = []
+                for (var j = 0; j < response.data.data.users.length; j++) {
+                    if (tempFriends.includes(response.data.data.users[j].screen_cid)) {
+                        tempArr.push(response.data.data.users[j])
+                    }
+                }
+                setSearchResults(tempArr)
             }
-            setSearchResults(tempArr)
+            if (searchTab == 'remove-friends') {
+                let tempFriends = []
+                for (var d = 0; d < joinedList.length; d++) {
+                    tempFriends.push(joinedList[d].screen_cid)
+                }
+                let tempArr = []
+                for (var j = 0; j < response.data.data.users.length; j++) {
+                    if (tempFriends.includes(response.data.data.users[j].screen_cid)) {
+                        tempArr.push(response.data.data.users[j])
+                    }
+                }
+                setSearchResults(tempArr)
+            }
         }
         catch (err) {
             if (err.status == 404) {
@@ -1654,7 +1669,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
                             <FlexColumn sx={{ width: '100%', gap: { xs: '12px', md: '16px' } }}>
                                 <MyInput name={'gallery-invite-search'} label={'Search From friends'} width={'100%'}
                                     icon={<Search sx={{ color: 'primary.light' }} />}
-                                    onChange={(e) => search(e.target.value, 0, 5)}
+                                    onChange={(e) => search('invite-friends', e.target.value, 0, 5)}
                                 />
 
                                 <Box sx={{
@@ -1773,7 +1788,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
                                 <FlexColumn sx={{ width: '100%', gap: { xs: '12px', md: '16px' } }}>
                                     <MyInput name={'gallery-joined-search'} label={'Search From The List'} width={'100%'}
                                         icon={<Search sx={{ color: 'primary.light' }} />}
-                                        onChange={(e) => search(e.target.value, 0, 5)}
+                                        onChange={(e) => search('remove-friends', e.target.value, 0, 5)}
                                     />
 
                                     <Box sx={{
