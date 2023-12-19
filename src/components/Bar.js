@@ -113,7 +113,7 @@ const Bar = () => {
     return (
         <BarStyle sx={{
             flexDirection: { xs: 'row', sm: 'column' },
-            height: { xs: '50px', sm: '400px', md: '500px' },
+            height: { xs: '50px', sm: 'calc(100vh - 300px)', md: 'calc(100vh - 300px)' },
             width: {
                 xs: '100%', sm: '75px'
             },

@@ -143,29 +143,31 @@ const CreateWallet = ({ switchTheme, setPvKey }) => {
             {globalUser.isLoggedIn ?
                 <>{YouWhoID ?
                     <>{privateKeey ?
-                        <AuthBox sx={{ width: 'max-content !important' }}>
+                        <AuthBox sx={{
+                            width: 'max-content !important', bgcolor: { xs: 'primary.bg', sm: 'secondary.bgOp' }, gap: '10px'
+                        }}>
                             {/* <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', color: "primary.darkGray" }}> */}
-                            <div style={{
+                            <Box sx={{
                                 display: 'flex', flexDirection: 'column',
-                                alignItems: 'center', justifyContent: 'center'
+                                alignItems: 'center', justifyContent: 'center', color: 'primary.text'
                             }}> your YouWho id :
                                 <span
                                     style={{ fontSize: '13px', color: '#BEA2C5', cursor: 'pointer' }}
                                     onClick={() => copyidToClipBoard(YouWhoID)}> {YouWhoID}
                                 </span>
                                 <TickSquare style={{ display: idCopied ? 'block' : 'none', color: 'green' }} />
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}> your private key :
+                            </Box>
+                            <Box sx={{ color: 'primary.text', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}> your private key :
                                 <span style={{ fontSize: '13px', color: '#BEA2C5', cursor: 'pointer' }}
                                     onClick={() => copyToClipBoard(privateKeey)}>
                                     {privateKeey}
                                 </span>
                                 <TickSquare style={{ display: keyCopied ? 'block' : 'none', color: 'green' }} />
-                            </div>
+                            </Box>
 
-                            <div>
+                            <Box sx={{ color: 'primary.text' }}>
                                 please save this information
-                            </div>
+                            </Box>
                             <Link to={'/dashboard'} style={{ color: '#392F5A', textAlign: 'center', marginTop: '30px' }}>
                                 go back to your profile
                             </Link>
@@ -173,7 +175,9 @@ const CreateWallet = ({ switchTheme, setPvKey }) => {
                             {/* </Box> */}
                         </AuthBox>
                         :
-                        <AuthBox>
+                        <AuthBox sx={{
+                            bgcolor: { xs: 'primary.bg', sm: 'secondary.bgOp' },
+                        }}>
                             <div> your YouWho id :<span style={{ color: '#BEA2C5', cursor: 'pointer' }}
                                 onClick={() => { navigator.clipboard.writeText(YouWhoID) }}>
                                 {YouWhoID}

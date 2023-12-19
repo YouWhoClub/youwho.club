@@ -46,6 +46,9 @@ const Turnover = () => {
     const [userDeposits, setUserDeposits] = useState([])
     const [userWithdrawals, setUserWithdrawals] = useState([])
 
+    useEffect(() => {
+        window.document.getElementById("scrollable-wallet-panel-inside").scrollTo(0, 0);
+    }, [])
 
     const navigate = useNavigate()
 
@@ -141,7 +144,7 @@ const Turnover = () => {
     return (
         <Box sx={{
             width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
-            gap: '40px'
+            gap: '40px', mb: '20px'
         }}>
             <Box>
                 <FilterSelection

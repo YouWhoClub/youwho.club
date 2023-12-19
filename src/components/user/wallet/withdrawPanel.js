@@ -64,6 +64,9 @@ const WithdrawPanel = () => {
     const [signer, setSigner] = useState(undefined)
 
 
+    useEffect(() => {
+        window.document.getElementById("scrollable-wallet-panel-inside").scrollTo(0, 0);
+    }, [])
 
     const loading = () => {
         toastId.current = toast.loading("Please wait...")
@@ -117,7 +120,7 @@ const WithdrawPanel = () => {
 
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '40px', p: '0' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '40px', p: '0' , mb: '20px'}}>
             {
                 (globalUser.privateKey) ?
                     <>

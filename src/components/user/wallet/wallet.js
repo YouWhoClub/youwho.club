@@ -51,23 +51,18 @@ const ScrollablePanel = styled(Box)(({ theme }) => ({
 
     },
 }))
-
-
 const ShowPanel = styled(Box)(({ theme }) => ({
-    // marginTop: '50px', 
-    width: '100%',
-    marginBottom: '20px',
+    transition: '500ms ease',
     display: 'flex',
-    flexDirection: 'column',
     justifyContent: 'space-between',
-    alignItems: 'center'
 }))
 const Panel = styled(Box)(({ theme }) => ({
     color: theme.palette.primary.text,
-    transition: '500ms ease',
+    transition: '500ms ease', boxSizing: 'border-box',
     width: '100%',
     // borderRadius: '24px',
     display: 'flex', flexDirection: 'column', alignItems: 'center',
+
 
 }))
 const FlexRow = styled(Box)(({ theme }) => ({
@@ -81,7 +76,6 @@ const FlexColumn = styled(Box)(({ theme }) => ({
     alignItems: 'center',
 
 }))
-
 const Button = styled('button')(({ theme, color }) => ({
     backgroundColor: 'transparent',
     padding: '8px 24px',
@@ -94,7 +88,7 @@ const Button = styled('button')(({ theme, color }) => ({
 }))
 
 
-const Wallet = ({ privateKey }) => {
+const Wallet = ({ privateKey, switchTheme, theme }) => {
     const globalUser = useSelector(state => state.userReducer)
     const dispatch = useDispatch();
     const fetchUser = (token) => dispatch(getuser(token));
@@ -117,18 +111,14 @@ const Wallet = ({ privateKey }) => {
             setFinalCard(prev => ({ ...prev, background: 'custom' }))
         }
     }, [globalUser.walletBackground])
-
-
     const loading = () => {
         toastId.current = toast.loading("Please wait...")
         console.log(toastId)
     }
-
     const updateToast = (success, message) => {
         success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
             : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
     }
-
     async function uploadBackgroundImage() {
         loading();
 
@@ -161,9 +151,6 @@ const Wallet = ({ privateKey }) => {
             updateToast(false, `An error occurred: ${response.message}`);
         }
     }
-
-
-
     const handleSave = async () => {
         setFinalCard(prev => ({ ...prev, color: cardTextColor, background: cardBackground }))
         if (file && cardBackground == 'custom') {
@@ -172,13 +159,11 @@ const Wallet = ({ privateKey }) => {
             setOpenSetting(false)
         }
     }
-
     const handleCancel = async () => {
         setCardTextColor(finalCard.color)
         setCardBackground(finalCard.background)
         setOpenSetting(false)
     }
-
     const handleChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -187,7 +172,6 @@ const Wallet = ({ privateKey }) => {
             setOpenCrop(true);
         }
     };
-
     const copyToClipBoard = async (textToCopy) => {
         try {
             await navigator.clipboard.writeText(textToCopy);
@@ -204,35 +188,74 @@ const Wallet = ({ privateKey }) => {
             setIdCopied('Failed to copy!');
         }
     };
+    const listenScrollEvent = e => {
+        let card = window.document.getElementById('walletCard')
+        let shouldSmallerComp = window.document.getElementById('smaller-after-scroll')
+        let shouldSmallerGapComp = window.document.getElementById('smaller-gap-after-scroll')
+        let chipAfterScroll = window.document.getElementById('chip-after-scroll')
+        let walletCoinAfterScroll = window.document.getElementById('wallet-coin-after-scroll')
+        let shouldHideComp1 = window.document.getElementById('hidden-after-scroll-one')
+        let shouldHideComp2 = window.document.getElementById('hidden-after-scroll-two')
+        let insidePanel = window.document.getElementById('scrollable-wallet-panel-inside')
+        if (window.document.getElementById("scrollable-wallet-panel-inside").scrollTop > 0) {
+            card.classList.remove("walletCardBeforeScroll")
+            insidePanel.classList.remove("insidePanelWalletBeforeScroll")
+            card.classList.add("walletCardAfterScroll")
+            insidePanel.classList.add("insidePanelWalletAfterScroll")
+            shouldSmallerComp.classList.add("smallerAfterScroll")
+            shouldSmallerGapComp.classList.add("smallerGapAfterScroll")
+            chipAfterScroll.classList.add("chipAfterScroll")
+            walletCoinAfterScroll.classList.add("walletCoinAfterScroll")
+            shouldHideComp1.classList.add("hiddenAfterScroll")
+            shouldHideComp2.classList.add("hiddenAfterScroll")
+        }
+        else
+        // if (window.document.getElementById("scrollable-wallet-panel-inside").scrollTop == 0) 
+        {
+            card.classList.remove("walletCardAfterScroll")
+            card.classList.add("walletCardBeforeScroll")
+            insidePanel.classList.remove("insidePanelWalletAfterScroll")
+            insidePanel.classList.add("insidePanelWalletBeforeScroll")
+            shouldHideComp1.classList.remove("hiddenAfterScroll")
+            shouldHideComp2.classList.remove("hiddenAfterScroll")
+            shouldSmallerComp.classList.remove("smallerAfterScroll")
+            shouldSmallerGapComp.classList.remove("smallerGapAfterScroll")
+            chipAfterScroll.classList.remove("chipAfterScroll")
+            walletCoinAfterScroll.classList.remove("walletCoinAfterScroll")
+
+        }
+    }
+
+    useEffect(() => {
+        if (window.document.getElementById("scrollable-wallet-panel-inside")) {
+
+            window.document.getElementById("scrollable-wallet-panel").addEventListener('scroll', listenScrollEvent)
+            window.document.getElementById("scrollable-wallet-panel-inside").addEventListener('scroll', listenScrollEvent)
+        }
+    }, [window.document.getElementById("scrollable-wallet-panel-inside")])
 
     return (
-        <Box
-            sx={{
-                width: { xs: 'calc(100% - 30px)', sm: 'calc(100% - 80px)' },
-                pr: { xs: 'none', sm: '15px', md: '30px' },
-                pl: { xs: 'none', sm: '90px' },
-                display: 'flex',
-                // boxSizing:'border-box'
-            }}
-        >
-
+        <>
             <Box
                 id="wallet"
                 sx={{
-                    // px: { xs: 'none', md: 1 },
-                    // mr: { xs: 'none', md: '30px' },
+                    ml: { xs: 'none', sm: '80px' },
                     display: 'flex',
                     flexDirection: 'column', alignItems: 'center',
-                    width: '100%',
-                    gap: { xs: '22px', md: '50px' },
-                    boxSizing: 'border-box', padding: '20px 15px 40px',
-                    height: 'auto'
+                    width: { xs: '100%', sm: 'calc(100% - 80px)' },
+                    height: 'calc(100vh - 55px)',
+                    gap: { xs: '22px', md: '24px' },
+                    boxSizing: 'border-box', padding: '20px 15px 40px'
                 }}>
 
                 <Box
+                    id="walletCard"
+                    className="walletCardBeforeScroll"
                     sx={(theme) => ({
-                        width: { xs: '100%', sm: 'max-content' },
-                        height: { xs: '250px', sm: '300px' },
+                        // width: { xs: '100%', md: 'max-content' },
+                        // height: { xs: '250px', md: '300px' },
+                        transition: '500ms ease',
+                        boxSizing: 'border-box',
                         backgroundImage: () => (globalUser.walletBackground && finalCard.background == 'custom') ? BG_URL(PUBLIC_URL(`${API_CONFIG.API_URL}/${globalUser.walletBackground}`)) : BG_URL(PUBLIC_URL(`${cardBackgroundImage}`)),
                         backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',
                         boxShadow: theme.palette.primary.boxShadow,
@@ -271,20 +294,22 @@ const Wallet = ({ privateKey }) => {
                             </div>
                         </Box>
                     </Box>
-                    <Box sx={{
+                    <Box id="smaller-gap-after-scroll" sx={{
                         width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center',
                         gap: '24px', px: '8px', boxSizing: 'border-box'
                     }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', fontSize: "32px", }}>
-                            <Box sx={{
-                                width: '50px', height: '35px',
-                                mr: '16px',
-                                backgroundImage: BG_URL(PUBLIC_URL(`${Chip}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center'
-                            }} />
-                            <Box sx={{
-                                backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center'
-                                , width: '35px', height: '35px', mr: '4px'
-                            }} />
+                        <Box id="smaller-after-scroll" sx={{ display: 'flex', alignItems: 'center', fontSize: "32px", }}>
+                            <Box id="chip-after-scroll"
+                                sx={{
+                                    width: '50px', height: '35px',
+                                    mr: '16px',
+                                    backgroundImage: BG_URL(PUBLIC_URL(`${Chip}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center'
+                                }} />
+                            <Box id="wallet-coin-after-scroll"
+                                sx={{
+                                    backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center'
+                                    , width: '35px', height: '35px', mr: '4px'
+                                }} />
                             <span>
                                 {globalUser.balance}
                             </span>
@@ -296,11 +321,20 @@ const Wallet = ({ privateKey }) => {
                         }}>
                             <Typography onClick={() => copyIdToClipBoard(globalUser.YouWhoID)}
                                 sx={{
+                                    cursor: 'pointer',
                                     width: '100%', fontSize: { xs: '14px', sm: '21px' }, fontStyle: 'normal', fontWeight: '400',
                                     lineHeight: 'normal', textAlign: 'start', mb: '6px'
                                 }}>{globalUser.YouWhoID}</Typography>
-                            <Typography sx={{ fontSize: { xs: '12px', sm: '16px' } }}>{globalUser.username}</Typography>
-                            <Typography sx={{ fontSize: { xs: '12px', sm: '16px' } }}>{globalUser.mail}</Typography>
+                            {globalUser.privateKey &&
+                                <Typography onClick={() => copyIdToClipBoard(globalUser.privateKey)}
+                                    sx={{
+                                        cursor: 'pointer',
+                                        width: '100%', fontSize: { xs: '9px', sm: '12px' },
+                                        fontStyle: 'normal', fontWeight: '400',
+                                        lineHeight: 'normal', textAlign: 'start',
+                                    }}>private key : {globalUser.privateKey}</Typography>}
+                            <Typography id="hidden-after-scroll-one" sx={{ fontSize: { xs: '12px', sm: '16px' } }}>{globalUser.username}</Typography>
+                            <Typography id="hidden-after-scroll-two" sx={{ fontSize: { xs: '12px', sm: '16px' } }}>{globalUser.mail}</Typography>
                         </Box>
 
                     </Box>
@@ -402,14 +436,19 @@ const Wallet = ({ privateKey }) => {
                                     </Box>
                             }
                         </Box>
-                    </Modal >
+                    </Modal>
                 </Box >
 
-                <ShowPanel>
+                <ShowPanel sx={{
+                    flexDirection: 'column', gap: { xs: '22px', md: '24px' }, boxSizing: 'border-box', width: '100%'
+                }}>
                     <Panel>
 
 
-                        <Tabs mb={'32px'} jc={'center'} w={'100%'}>
+                        <Tabs
+                            mb={'24px'}
+                            jc={{ xs: 'start', md: 'center' }}
+                        >
                             <Tab
                                 icon={<ArrowDownward size="16px" sx={{ mr: '4px', pointerEvents: 'none' }} />}
                                 text={`Charge Wallet`}
@@ -447,14 +486,18 @@ const Wallet = ({ privateKey }) => {
                         </Tabs>
 
 
-                        <ScrollablePanel id="scrollable-profile-panel-inside"
+                        <ScrollablePanel id="scrollable-wallet-panel-inside" className="insidePanelWalletBeforeScroll"
                             sx={{
-                                height: {
-                                    xs: 'calc(100vh - 400px)',
-                                    md: 'calc(100vh - 300px)'
+                                transition: '500ms ease',
+                                // height: {
+                                //     xs: 'calc(100vh - 483px)',
+                                //     md: 'calc(100vh - 541px)'
+                                // },
+                                p: {
+                                    xs: '4px 4px 40px',
+                                    sm: '4px 4px 20px',
                                 },
-                                pb: { xs: '50px', sm: '10px' }, pt: 1,
-                                px: { xs: 1, sm: '22px' }
+                                boxSizing: 'border-box'
                             }}>
                             {state == 'charge-wallet' && <ChargeWallet />}
                             {/* {state == 'withdraw' && <WithdrawPanel />} */}
@@ -468,9 +511,7 @@ const Wallet = ({ privateKey }) => {
 
             </Box>
             <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick pauseOnFocusLoss pauseOnHover />
-        </Box >
-        // </Box >
-
+        </>
     );
 }
 

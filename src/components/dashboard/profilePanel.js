@@ -95,10 +95,7 @@ const ProfilePanel = () => {
                         xs: '4px 4px 40px',
                         sm: '4px 4px 20px',
                     },
-                    // p: '4px 4px 20px', 
-                    boxSizing: 'border-box'
-                    // pb: { xs: '50px', sm: '10px' },
-                    // px: { xs: 1, sm: '22px' }
+                    boxSizing: 'border-box', transition: '500ms ease',
                 }}>
                 {activeTab == 'create-tab' && <CreateNFT setMainActiveTab={setActiveTab} />}
                 {activeTab == 'private-gallery-tab' && <PrivateGallery />}

@@ -16,7 +16,7 @@ import { API_CONFIG } from "../../config";
 import ButtonPurple from "../buttons/buttonPurple";
 import { useNavigate } from "react-router";
 import ButtonPurpleLight from "../buttons/buttonPurpleLight";
-import { setPrivateKey } from "../../redux/actions";
+import { getuser, setPrivateKey } from "../../redux/actions";
 import { ArrowBack } from "@mui/icons-material";
 
 
@@ -66,72 +66,7 @@ const PrivateGallery = () => {
     const dispatch = useDispatch();
     const [signer, setSigner] = useState(undefined)
     const [openedGallery, setOpenedGallery] = useState(undefined)
-    // const fileUploadHandler = async event => {
-    //     loading();
-    //     const promises = [];
-
-    //     if (avatarFile) {
-    //         const myFile = new File([avatarFile], 'image.jpeg', {
-    //             type: avatarFile.type,
-    //         });
-
-    //         const avatarfd = new FormData();
-    //         avatarfd.append('img', myFile)
-
-    //         const avatarPromise = fetch(`${API_CONFIG.AUTH_API_URL}/profile/update/avatar`, {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Authorization': `Bearer ${globalUser.token}`,
-    //             },
-    //             body: avatarfd,
-    //         }).then(response => response.json());
-
-    //         promises.push(avatarPromise);
-    //     }
-
-    //     if (bannerFile) {
-    //         const myFile = new File([bannerFile], 'image.jpeg', {
-    //             type: bannerFile.type,
-    //         });
-
-    //         const bannerfd = new FormData();
-    //         bannerfd.append('img', myFile)
-
-    //         const bannerPromise = fetch(`${API_CONFIG.AUTH_API_URL}/profile/update/banner`, {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Authorization': `Bearer ${globalUser.token}`,
-    //             },
-    //             body: bannerfd,
-    //         }).then(response => response.json());
-
-    //         promises.push(bannerPromise);
-    //     }
-
-    //     if (promises.length > 0) {
-    //         Promise.all(promises)
-    //             .then(results => {
-    //                 const areSuccessful = results.every(result => result.status === 200);
-    //                 if (areSuccessful) {
-    //                     updateToast(true, results[0].message);
-    //                     fetchUser(globalUser.token)
-    //                     // Perform other tasks here
-    //                 } else {
-    //                     // Handle error case when at least one API call fails
-    //                     updateToast(false, 'An error occurred');
-    //                 }
-    //             })
-    //             .catch(error => {
-    //                 console.error('Error:', error);
-    //                 // Handle error case
-    //                 updateToast(false, 'An error occurred');
-    //             });
-    //     } else {
-    //         // Handle case when no API calls are made
-    //         updateToast(false, 'An error occurred');
-    //     }
-
-    // }
+    const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
 
     const handleFilterSelect = (e) => {
         e.preventDefault()
@@ -150,6 +85,7 @@ const PrivateGallery = () => {
 
     useEffect(() => {
         getUserPVGalleries()
+        fetchUser(globalUser.token)
         window.document.getElementById("scrollable-profile-panel-inside").scrollTo(0, 0);
 
     }, [globalUser, globalUser.token])

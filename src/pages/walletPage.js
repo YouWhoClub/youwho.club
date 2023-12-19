@@ -27,7 +27,7 @@ const WalletPage = ({ switchTheme, theme }) => {
 
 
     return (
-        <PanelLayout switchTheme={switchTheme} theme={theme}>
+        <PanelLayout switchTheme={switchTheme} theme={theme} id={"scrollable-wallet-panel"}>
             {!globalUser.isLoggedIn ?
                 <Box
                     sx={{

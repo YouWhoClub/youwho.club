@@ -150,6 +150,7 @@ const RelationsTab = () => {
         console.log(response);
         if (response.message == "Updated Successfully") {
             updateToast(true, 'Friend Removed')
+            getFollowings()
         } else {
             updateToast(false, response.message)
         }
@@ -159,11 +160,11 @@ const RelationsTab = () => {
 
         let data = {
             owner_cid: sender,
-            friend_screen_cid: receiver,
+            follower_screen_cid: receiver,
         }
         let { requestData } = generateSignature(globalUser.privateKey, data)
         console.log(requestData)
-        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/remove/friend`, {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/remove/follower`, {
             method: 'POST',
             body: JSON.stringify(requestData),
             headers: {
@@ -174,7 +175,8 @@ const RelationsTab = () => {
         let response = await request.json()
         console.log(response);
         if (response.message == "Updated Successfully") {
-            updateToast(true, 'Friend Removed')
+            updateToast(true, 'Follower Removed')
+            getFollowings()
         } else {
             updateToast(false, response.message)
         }

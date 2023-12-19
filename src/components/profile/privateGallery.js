@@ -8,15 +8,18 @@ import styled from "@emotion/styled";
 import { Box, Typography } from "@mui/material";
 import NFTCard from "../nft market/nftCard";
 import FilterSelection from '../filterSelection'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { AscSelect, PVGalleryCard } from '../utils'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ButtonPurple from '../buttons/buttonPurple'
 import { useNavigate } from 'react-router'
 import ButtonPurpleLight from '../buttons/buttonPurpleLight'
 import { API_CONFIG } from '../../config'
 import CollectionCard from '../nft market/collectionCard'
 import { ArrowBack } from '@mui/icons-material'
+import { toast } from 'react-toastify'
+import generateSignature from '../../utils/signatureUtils'
+import { getuser } from '../../redux/actions'
 
 const Gallery = styled(Box)(({ theme }) => ({
     width: '100%', boxSizing: "border-box", gap: '16px',
@@ -43,7 +46,17 @@ const PrivateGallery = ({ user, isFriend, sendFriendRequest }) => {
     const [galleriesLoading, setGalleriesLoading] = useState(true)
     const [cancelToken, setCancelToken] = useState(null);
     const [openedGallery, setOpenedGallery] = useState(undefined)
+    const dispatch = useDispatch();
+    const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
     const [expandedColl, setExpandedColl] = useState(undefined)
+    const toastId = useRef(null);
+    const loading = () => {
+        toastId.current = toast.loading("Please wait...")
+    }
+    const updateToast = (success, message) => {
+        success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
+            : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
+    }
 
     const shorten = (str) => {
         if (str)
@@ -64,6 +77,32 @@ const PrivateGallery = ({ user, isFriend, sendFriendRequest }) => {
         if (response.is_error == false) {
             setGalleries(response.data)
             setGalleriesLoading(false)
+        }
+    }
+    const exitGallery = async (caller, galleryId) => {
+        loading();
+
+        let data = {
+            caller_cid: caller,
+            gal_id: galleryId,
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        console.log(requestData)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/gallery/exit`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+        if (response.message == "Updated Successfully") {
+            updateToast(true, 'You Left The Gallery')
+            getUserPVGalleries()
+        } else {
+            updateToast(false, response.message)
         }
     }
 
@@ -87,6 +126,7 @@ const PrivateGallery = ({ user, isFriend, sendFriendRequest }) => {
                                     galleries.map((gallery, index) => (
                                         <Fragment key={`gallery_${gallery.id}`}>
                                             <PVGalleryCard
+                                                exitGallery={exitGallery}
                                                 galleryIndex={index}
                                                 gallery={gallery}
                                                 galleryId={gallery.id}

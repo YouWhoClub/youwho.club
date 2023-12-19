@@ -1,7 +1,7 @@
 import { Box, Typography, Select, MenuItem, InputLabel, FormControl, Modal, TextField, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import { Close, ContentPaste, ContentPasteGoRounded, ContentPasteRounded, FormatTextdirectionLToRTwoTone } from '@mui/icons-material'
 import styled from "@emotion/styled";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MediaTypeIcon from '../../../assets/icons/media-type.svg'
 import frameIcon from '../../../assets/icons/frame.svg'
 import fileIcon from '../../../assets/icons/upload-file.svg'
@@ -89,6 +89,9 @@ const TransferGift = () => {
     const [signer, setSigner] = useState(undefined)
     const [IpfsURL, setIpfsURL] = useState(undefined)
     const [txHash, setTxHash] = useState(null)
+    useEffect(() => {
+        window.document.getElementById("scrollable-wallet-panel-inside").scrollTo(0, 0);
+    }, [])
 
     const handleChange = (e) => {
         const file = e.target.files[0];
@@ -193,7 +196,7 @@ const TransferGift = () => {
 
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '40px', p: '0' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '40px', p: '0', mb: '20px' }}>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', p: '10px' }}>
                 <Typography sx={{ color: 'primary.text', textAlign: 'center', fontSize: '26px', lineHeight: 'normal', fontWeight: '400' }}>Transfer NFT Gift</Typography>
                 <Typography sx={{ fontFamily: 'Inter', color: '#787878', textAlign: 'center', fontSize: '16px', lineHeight: 'normal', fontWeight: '400' }}>Create Nft, Then Transfer It To Your Friend As A NFT Gift !</Typography>

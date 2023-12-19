@@ -61,6 +61,9 @@ const ChargeWallet = () => {
     const [USDValue, setUSDValue] = useState(0.01)
     const toastId = useRef(null);
     const [signer, setSigner] = useState(undefined)
+    useEffect(() => {
+        window.document.getElementById("scrollable-wallet-panel-inside").scrollTo(0, 0);
+    }, [])
 
     useEffect(() => {
         getTokenValue()
@@ -140,7 +143,7 @@ const ChargeWallet = () => {
         }
     }
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '40px', p: '0' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '40px', p: '0', mb: '10px', mt: '10px' }}>
             <Container>
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
                     <Typography sx={{ color: 'primary.text', textAlign: 'center', fontSize: '20px', lineHeight: 'normal', fontWeight: '400' }}>Preaches Token</Typography>

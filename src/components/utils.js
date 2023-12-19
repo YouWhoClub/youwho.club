@@ -15,10 +15,11 @@ import profileFace from '../assets/face-pro.svg'
 import ButtonOutlineInset from "./buttons/buttonOutlineInset"
 import generateSignature from "../utils/signatureUtils"
 import { toast } from "react-toastify"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import yCoin from "../assets/Ycoin.svg"
 import { PUBLIC_API } from "../utils/data/public_api"
 import Crop from "./crop/Crop"
+import { getuser } from "../redux/actions"
 
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -126,7 +127,7 @@ const TabComp = styled(Box)(({ theme }) => ({
     cursor: 'pointer',
     padding: '8px 20px',
     whiteSpace: 'nowrap',
-    borderRadius: '30px',
+    borderRadius: '30px', boxSizing: 'border-box',
     lineHeight: 'normal',
     border: `1px solid ${theme.palette.secondary.gray}`,
 
@@ -1082,7 +1083,7 @@ export const SmallPeopleCard = ({ image, name, action, removeFromInviteList, fri
 }
 
 export const PVGalleryCard = ({ gallery, requestToJoin,
-    galleryIndex, joinedCount, isMine, getUserPVGalleries,
+    galleryIndex, joinedCount, isMine, getUserPVGalleries, exitGallery,
     galleryId, openGalleryClick }) => {
     const globalUser = useSelector(state => state.userReducer)
     const [anchorEl, setAnchorEl] = useState(null);
@@ -1108,6 +1109,9 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
     const [openGallCrop, setOpenGallCrop] = useState(false)
     const [isJoined, setIsJoined] = useState(false)
     const apiCall = useRef(null)
+    const dispatch = useDispatch();
+    const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
+
     const addToInvitedList = (youwhoID) => {
         let tempList = inviteList
         tempList.push(youwhoID)
@@ -1238,6 +1242,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
         console.log('enter resp?', response);
         if (!response.is_error) {
             updateToast(true, 'joined')
+            fetchUser(globalUser.token)
             getUserPVGalleries()
         } else {
             updateToast(false, response.message)
@@ -1353,7 +1358,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
     ]
     const joinedOthersTabs = [
         { text: 'Galley Details', id: 'gall-card-details', onClick: () => console.log('Galley Details') },
-        { text: 'Exit Gallery', id: 'gall-card-exit', onClick: () => console.log('gall-card-exit') },
+        { text: 'Exit Gallery', id: 'gall-card-exit', onClick: () => exitGallery(globalUser.cid, gallery.id) },
     ]
     const othersTabs = [
         { text: 'Galley Details', id: 'gall-card-details', onClick: () => console.log('Galley Details') },

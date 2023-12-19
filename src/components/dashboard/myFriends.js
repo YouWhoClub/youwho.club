@@ -54,8 +54,10 @@ const MyFriends = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAlli
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                             {searchResults.map((friend, index) => (
                                 <RelationCard
-                                    removeAllie={() => removeAllie(friend.screen_cid, globalUser.cid)}
-                                    removeFriend={() => removeFriend(friend.screen_cid, globalUser.cid)}
+                                    removeFriend={() => {
+                                        removeFriend(friend.screen_cid, globalUser.cid)
+                                        getFriends()
+                                    }}
                                     image={friend.avatar} username={friend.username} friend={true}
                                     sendAllieRequest={() => sendAllieRequest(friend.screen_cid, globalUser.cid)}
                                     sendFriendRequest={() => sendFriendRequest(friend.screen_cid, globalUser.cid)}
@@ -74,8 +76,11 @@ const MyFriends = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAlli
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                     {friends.map((friend, index) => (
                         <RelationCard
-                            removeAllie={() => removeAllie(friend.screen_cid, globalUser.cid)}
-                            removeFriend={() => removeFriend(friend.screen_cid, globalUser.cid)}
+                            // removeAllie={() => removeAllie(friend.screen_cid, globalUser.cid)}
+                            removeFriend={() => {
+                                removeFriend(friend.screen_cid, globalUser.cid)
+                                getFriends()
+                            }}
                             image={friend.user_avatar} username={friend.username} friend={true}
                             sendAllieRequest={() => sendAllieRequest(friend.screen_cid, globalUser.cid)}
                             sendFriendRequest={() => sendFriendRequest(friend.screen_cid, globalUser.cid)}

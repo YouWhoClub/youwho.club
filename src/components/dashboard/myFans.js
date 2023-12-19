@@ -78,8 +78,10 @@ const MyFans = ({ sendAllieRequest, sendFriendRequest,
                             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                                 {searchResults.map((fan, index) => (
                                     <RelationCard
-                                        removeAllie={() => removeAllie(fan.screen_cid, globalUser.cid)}
-                                        removeFriend={() => removeFriend(fan.screen_cid, globalUser.cid)}
+                                        removeAllie={() => {
+                                            removeAllie(fan.screen_cid, globalUser.cid)
+                                            getFans()
+                                        }}
                                         image={fan.avatar} username={fan.username} allies={true}
 
                                         sendAllieRequest={() => sendAllieRequest(fan.screen_cid, globalUser.cid)}
@@ -99,8 +101,10 @@ const MyFans = ({ sendAllieRequest, sendFriendRequest,
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                         {fans.map((fan, index) => (
                             <RelationCard
-                                removeAllie={() => removeAllie(fan.screen_cid, globalUser.cid)}
-                                removeFriend={() => removeFriend(fan.screen_cid, globalUser.cid)}
+                                removeAllie={() => {
+                                    removeAllie(fan.screen_cid, globalUser.cid)
+                                    getFans()
+                                }}
                                 image={fan.user_avatar} username={fan.username} allies={true}
 
                                 sendAllieRequest={() => sendAllieRequest(fan.screen_cid, globalUser.cid)}
