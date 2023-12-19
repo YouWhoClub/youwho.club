@@ -133,8 +133,8 @@ const ReactionsTab = () => {
                                     {likes.map((like) => (
                                         <ReactionCardNew
                                             image={purpleNFT}
-                                            action={'Invite'}
-                                            text={`You've been Invited to ${like.title} gallery`}
+                                            action={'like'}
+                                            text={`like on nft`}
                                             date={'10.9.2012 12:03AM'} />
                                     ))}</>
                                 :
@@ -151,8 +151,8 @@ const ReactionsTab = () => {
                                     {comments.map((comment) => (
                                         <ReactionCardNew
                                             image={purpleNFT}
-                                            action={'Invite'}
-                                            text={`You've been Invited to ${comment.title} gallery`}
+                                            action={'comment'}
+                                            text={`comment on nft`}
                                             date={'10.9.2012 12:03AM'} />
                                     ))}</>
                                 :

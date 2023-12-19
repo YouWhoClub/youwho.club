@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { Setting, Setting2, TickSquare } from "iconsax-react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -87,7 +87,7 @@ const ProfileCard = ({ user, isFriend, setProgressBarOpen, progressBarOpen, send
             <Line sx={{ my: '12px' }} id='line-profile-user' />
             <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'space-between' }}>
                 <ButtonBorder bgcolor={'secondary.bg'} w={'max-content'} text={`From ${month + year}`} px={'26px'} br={'30px'} height={'25px'} />
-                {isFriend ?
+                {isFriend && isFriend == 'true' ?
                     <>
                         <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                             <ButtonBorder onClick={() => setProgressBarOpen(!progressBarOpen)} bgcolor={'primary.main'}
@@ -104,18 +104,20 @@ const ProfileCard = ({ user, isFriend, setProgressBarOpen, progressBarOpen, send
                                 br={'30px'} height={'25px'} w={'max-content'} />
                         </Box>
                     </>
-                    :
-                    <>
-                        {isFollowing == 'false' &&
-                            <ButtonBorder bgcolor={'primary.main'}
-                                fontColor={'white'} onClick={() => sendFriendRequest(user.YouWhoID, globalUser.cid)}
-                                text={'Friend Request'} px={'26px'} br={'30px'} height={'25px'} w={'max-content'} />}
-                        {isFollowing == 'pending' &&
-                            <ButtonBorder bgcolor={'primary.main'}
-                                fontColor={'white'} disabled={true}
-                                text={'Pending'} px={'26px'} br={'30px'} height={'25px'} w={'max-content'} />
-                        }
-                    </>
+                    : isFriend && isFriend == 'false' ?
+                        <>
+                            {isFollowing == 'false' &&
+                                <ButtonBorder bgcolor={'primary.main'}
+                                    fontColor={'white'} onClick={() => sendFriendRequest(user.YouWhoID, globalUser.cid)}
+                                    text={'Friend Request'} px={'26px'} br={'30px'} height={'25px'} w={'max-content'} />}
+                            {isFollowing == 'pending' &&
+                                <ButtonBorder bgcolor={'primary.main'}
+                                    fontColor={'white'} disabled={true}
+                                    text={'Pending'} px={'26px'} br={'30px'} height={'25px'} w={'max-content'} />
+                            }
+                        </>
+                        :
+                        <CircularProgress />
                 }
 
             </Box>

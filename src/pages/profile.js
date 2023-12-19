@@ -37,7 +37,7 @@ const Profile = ({ switchTheme, theme, props }) => {
     const [userloading, setuserLoading] = useState(true)
     const apiCall = useRef(undefined)
     const [user, setUser] = useState(undefined)
-    const [isFriends, setisFriend] = useState(undefined)
+    const [isFriends, setisFriend] = useState('false')
     const [isFollowing, setIsFollowing] = useState('false')
     const toastId = useRef(null);
     const loading = () => {
@@ -130,6 +130,7 @@ const Profile = ({ switchTheme, theme, props }) => {
                 tempIDs.push(response.data.friends[i].screen_cid)
             }
             if (tempIDs.includes(user.YouWhoID)) {
+                console.log('mage inja am miay?!')
                 setisFriend('true')
             } else {
                 setisFriend('false')

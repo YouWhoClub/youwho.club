@@ -111,7 +111,7 @@ const PrivateGallery = ({ user, isFriend, sendFriendRequest, isFollowing }) => {
     }
     console.log(isFollowing)
     useEffect(() => {
-        if (globalUser.isLoggedIn && globalUser.token && isFriend && user) {
+        if (globalUser.isLoggedIn && globalUser.token && isFriend && user && isFriend == 'true') {
             getUserPVGalleries()
         }
     }, [globalUser.isLoggedIn, globalUser.token, isFriend, user])

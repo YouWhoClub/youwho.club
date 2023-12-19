@@ -107,6 +107,9 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
 
     useEffect(() => {
         tokenRef.current = globalUser.token;
+        if (globalUser.token) {
+            fetchUser(globalUser.token)
+        }
     }, [globalUser.token]);
 
     useEffect(() => {
