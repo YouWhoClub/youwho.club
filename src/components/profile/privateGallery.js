@@ -5,7 +5,7 @@ import creamNFT from '../../assets/cream-nft.svg'
 import sorkhabiNFT from '../../assets/sokhabi-nft.svg'
 import torqNFT from '../../assets/torqua-nft.svg'
 import styled from "@emotion/styled";
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import NFTCard from "../nft market/nftCard";
 import FilterSelection from '../filterSelection'
 import { Fragment, useEffect, useRef, useState } from 'react'
@@ -40,13 +40,14 @@ const FlexColumn = styled(Box)(({ theme }) => ({
 }))
 
 
-const PrivateGallery = ({ user, isFriend, sendFriendRequest }) => {
+const PrivateGallery = ({ user, isFriend, sendFriendRequest, isFollowing }) => {
     const globalUser = useSelector(state => state.userReducer)
     const [galleries, setGalleries] = useState([])
     const [galleriesLoading, setGalleriesLoading] = useState(true)
     const [cancelToken, setCancelToken] = useState(null);
     const [openedGallery, setOpenedGallery] = useState(undefined)
     const dispatch = useDispatch();
+    const [err, setErr] = useState(undefined)
     const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
     const [expandedColl, setExpandedColl] = useState(undefined)
     const toastId = useRef(null);
@@ -77,6 +78,9 @@ const PrivateGallery = ({ user, isFriend, sendFriendRequest }) => {
         if (response.is_error == false) {
             setGalleries(response.data)
             setGalleriesLoading(false)
+        } else {
+            setErr(response.message)
+            console.log(response)
         }
     }
     const exitGallery = async (caller, galleryId) => {
@@ -105,7 +109,7 @@ const PrivateGallery = ({ user, isFriend, sendFriendRequest }) => {
             updateToast(false, response.message)
         }
     }
-
+    console.log(isFollowing)
     useEffect(() => {
         if (globalUser.isLoggedIn && globalUser.token && isFriend && user) {
             getUserPVGalleries()
@@ -114,102 +118,131 @@ const PrivateGallery = ({ user, isFriend, sendFriendRequest }) => {
 
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-            {isFriend ?
-                <FlexColumn sx={{ gap: { xs: '20px', sm: '24px' }, width: '100%' }}>
-                    <>
-                        {openedGallery ? undefined : <>
-                            <Typography sx={{ color: 'secondary.text', textAlign: 'center', fontSize: { xs: '12px', sm: '12px' } }}>
-                                only friends joined by invitation link or by paying entrance fee will be able to view the desired gallery
-                            </Typography>
-                            <Gallery>
-                                {
-                                    galleries.map((gallery, index) => (
-                                        <Fragment key={`gallery_${gallery.id}`}>
-                                            <PVGalleryCard
-                                                exitGallery={exitGallery}
-                                                galleryIndex={index}
-                                                gallery={gallery}
-                                                galleryId={gallery.id}
-                                                isMine={false}
-                                                title={gallery.gal_name} image={gallery.gallery_background}
-                                                openGalleryClick={() => setOpenedGallery(gallery)}
-                                            />
-                                        </Fragment>
-                                    )
-                                    )
-                                }
-
-                            </Gallery>
-                        </>}
-                        {openedGallery ?
+            {err ?
+                <Typography sx={{ color: 'primary.err', textTransform: 'capitalize' }}>
+                    {err}
+                </Typography> :
+                <>
+                    {isFriend && isFriend == 'true' ?
+                        <FlexColumn sx={{ gap: { xs: '20px', sm: '24px' }, width: '100%' }}>
                             <>
-                                <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' }, mb: '32px', width: '100%' }}>
-                                    <FlexRow
-                                        sx={{ width: '100%', justifyContent: 'start !important', cursor: 'pointer' }}
-                                        onClick={() => setOpenedGallery(undefined)}>
-                                        <ArrowBack sx={{ color: 'primary.gray', fontSize: '15px' }} />
-                                        <Typography sx={{ color: 'primary.gray', fontSize: '12px' }}>Back</Typography>
-                                    </FlexRow>
-                                    <Typography sx={{ width: '100%', textAlign: 'center', color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
-                                        {openedGallery.gal_name}
+                                {openedGallery ? undefined : <>
+                                    <Typography sx={{ color: 'secondary.text', textAlign: 'center', fontSize: { xs: '12px', sm: '12px' } }}>
+                                        only friends joined by invitation link or by paying entrance fee will be able to view the desired gallery
                                     </Typography>
-                                    <Typography sx={{
-                                        textAlign: 'center', width: '100%',
-                                        color: 'secondary.text', textTransform: 'capitalize',
-                                        fontSize: { xs: '12px', sm: '12px' }
-                                    }}>
-                                        You Can See All Collections With Their NFTs which {user.username} Has Created in this gallery.
-                                        You & their Friends Can Mint Any NFT You Like.
-                                    </Typography>
-                                </FlexColumn>
-                                <Gallery>
-                                    {openedGallery.collections.length > 0 ?
-                                        <>
-                                            {
-                                                openedGallery.collections.map(collection => (
-                                                    <Fragment key={`collection_${collection.id}`}>
-                                                        <CollectionCard
-                                                            action={'mint'}
-                                                            likes={0}
-                                                            setExpandedId={setExpandedColl}
-                                                            collection={collection}
-                                                            expanded={expandedColl == collection.id}
-                                                        />
-                                                    </Fragment>
-                                                )
-                                                )
-                                            }
-                                        </> :
-                                        <Typography sx={{
-                                            color: 'primary.text', textTransform: 'capitalize',
-                                            fontSize: { xs: '14px', sm: '16px' }, width: '100%', textAlign: 'center'
-                                        }}>
-                                            this gallery has no collections yet
-                                        </Typography>
+                                    <Gallery>
+                                        {
+                                            galleries.map((gallery, index) => (
+                                                <Fragment key={`gallery_${gallery.id}`}>
+                                                    <PVGalleryCard
+                                                        exitGallery={exitGallery}
+                                                        galleryIndex={index}
+                                                        getUserPVGalleries={getUserPVGalleries}
+                                                        gallery={gallery}
+                                                        galleryId={gallery.id}
+                                                        isMine={false}
+                                                        title={gallery.gal_name} image={gallery.gallery_background}
+                                                        openGalleryClick={() => setOpenedGallery(gallery)}
+                                                    />
+                                                </Fragment>
+                                            )
+                                            )
+                                        }
 
-                                    }
-                                </Gallery>
-                            </> : undefined
-                        }
-                    </>
-                </FlexColumn>
-                :
-                <FlexColumn sx={{ gap: { xs: '20px', sm: '30px' }, mb: '24px' }}>
-                    <Typography sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
-                        Dear
-                        <b>
-                            &nbsp;
-                            {globalUser.username}
-                            &nbsp;
-                        </b>
-                        to see {user.username}'s private galleries , you must be their friend first
-                    </Typography>
-                    <ButtonPurpleLight
-                        text={'Request Friendship'} onClick={() => sendFriendRequest(user.YouWhoID, globalUser.cid)}
-                        w={'max-content'}
-                        px={'12px'}
-                        height='35px' />
-                </FlexColumn>
+                                    </Gallery>
+                                </>}
+                                {openedGallery ?
+                                    <>
+                                        <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' }, mb: '32px', width: '100%' }}>
+                                            <FlexRow
+                                                sx={{ width: '100%', justifyContent: 'start !important', cursor: 'pointer' }}
+                                                onClick={() => setOpenedGallery(undefined)}>
+                                                <ArrowBack sx={{ color: 'primary.gray', fontSize: '15px' }} />
+                                                <Typography sx={{ color: 'primary.gray', fontSize: '12px' }}>Back</Typography>
+                                            </FlexRow>
+                                            <Typography sx={{ width: '100%', textAlign: 'center', color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
+                                                {openedGallery.gal_name}
+                                            </Typography>
+                                            <Typography sx={{
+                                                textAlign: 'center', width: '100%',
+                                                color: 'secondary.text', textTransform: 'capitalize',
+                                                fontSize: { xs: '12px', sm: '12px' }
+                                            }}>
+                                                You Can See All Collections With Their NFTs which {user.username} Has Created in this gallery.
+                                                You & their Friends Can Mint Any NFT You Like.
+                                            </Typography>
+                                        </FlexColumn>
+                                        <Gallery>
+                                            {openedGallery.collections.length > 0 ?
+                                                <>
+                                                    {
+                                                        openedGallery.collections.map(collection => (
+                                                            <Fragment key={`collection_${collection.id}`}>
+                                                                <CollectionCard
+                                                                    action={'mint'}
+                                                                    likes={0}
+                                                                    setExpandedId={setExpandedColl}
+                                                                    collection={collection}
+                                                                    expanded={expandedColl == collection.id}
+                                                                />
+                                                            </Fragment>
+                                                        )
+                                                        )
+                                                    }
+                                                </> :
+                                                <Typography sx={{
+                                                    color: 'primary.text', textTransform: 'capitalize',
+                                                    fontSize: { xs: '14px', sm: '16px' }, width: '100%', textAlign: 'center'
+                                                }}>
+                                                    this gallery has no collections yet
+                                                </Typography>
+
+                                            }
+                                        </Gallery>
+                                    </> : undefined
+                                }
+                            </>
+                        </FlexColumn>
+                        : isFriend && isFriend == 'false' ?
+                            <FlexColumn sx={{ gap: { xs: '20px', sm: '30px' }, mb: '24px' }}>
+                                <Typography sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
+                                    Dear
+                                    <b>
+                                        &nbsp;
+                                        {globalUser.username}
+                                        &nbsp;
+                                    </b>
+                                    to see {user.username}'s private galleries , you must be their friend first
+                                </Typography>
+                                {
+                                    <>
+                                        {isFollowing && isFollowing == 'false' &&
+                                            <ButtonPurpleLight
+                                                text={'Request Friendship'} onClick={() => sendFriendRequest(user.YouWhoID, globalUser.cid)}
+                                                w={'max-content'}
+                                                px={'12px'}
+                                                height='35px' />}
+                                        {isFollowing && isFollowing == 'pending' &&
+                                            <ButtonPurpleLight
+                                                text={'Pending'} disabled={true}
+                                                w={'max-content'}
+                                                px={'12px'}
+                                                height='35px' />}
+                                        {isFollowing && isFollowing == 'true' &&
+                                            <ButtonPurpleLight
+                                                text={`we're waiting for ${user.username} to follow you back`}
+                                                disabled={true}
+                                                w={'max-content'}
+                                                px={'12px'}
+                                                height='35px' />
+                                        }
+                                    </>
+
+                                }
+                            </FlexColumn> :
+                            <CircularProgress />
+                    }
+                </>
             }
         </Box>);
 }

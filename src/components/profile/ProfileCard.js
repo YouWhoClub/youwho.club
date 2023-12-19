@@ -24,9 +24,9 @@ const Line = styled(Box)(({ theme }) => ({
     width: '100%', boxSizing: 'border-box',
     backgroundColor: 'white', transition: '500ms ease', height: '1px'
 }))
-const ProfileCard = ({ user, isFriend, setProgressBarOpen, progressBarOpen, sendFriendRequest }) => {
+const ProfileCard = ({ user, isFriend, setProgressBarOpen, progressBarOpen, sendFriendRequest, isFollowing }) => {
     const globalUser = useSelector(state => state.userReducer)
-
+    console.log(isFollowing)
     const copyIdToClipBoard = async (textToCopy) => {
         try {
             await navigator.clipboard.writeText(textToCopy);
@@ -105,9 +105,17 @@ const ProfileCard = ({ user, isFriend, setProgressBarOpen, progressBarOpen, send
                         </Box>
                     </>
                     :
-                    <ButtonBorder bgcolor={'primary.main'}
-                        fontColor={'white'} onClick={() => sendFriendRequest(user.YouWhoID, globalUser.cid)}
-                        text={'Friend Request'} px={'26px'} br={'30px'} height={'25px'} w={'max-content'} />
+                    <>
+                        {isFollowing == 'false' &&
+                            <ButtonBorder bgcolor={'primary.main'}
+                                fontColor={'white'} onClick={() => sendFriendRequest(user.YouWhoID, globalUser.cid)}
+                                text={'Friend Request'} px={'26px'} br={'30px'} height={'25px'} w={'max-content'} />}
+                        {isFollowing == 'pending' &&
+                            <ButtonBorder bgcolor={'primary.main'}
+                                fontColor={'white'} disabled={true}
+                                text={'Pending'} px={'26px'} br={'30px'} height={'25px'} w={'max-content'} />
+                        }
+                    </>
                 }
 
             </Box>

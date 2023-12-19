@@ -1,4 +1,4 @@
-import { Box, CircularProgress, TextField, Typography } from "@mui/material";
+import { Box, CircularProgress, Modal, TextField, Typography } from "@mui/material";
 import { MyInput, RelationCard, SubTab, SubTabs } from "../utils";
 import blueNft from '../../assets/blue-nft.svg'
 import pinkNFT from '../../assets/pink-nft.svg'
@@ -23,6 +23,7 @@ import { setPrivateKey } from "../../redux/actions";
 import ButtonPurple from "../buttons/buttonPurple";
 import MyFriendSuggestions from "./myFriendSuggestions";
 import { PUBLIC_API } from "../../utils/data/public_api";
+import { Close } from "@mui/icons-material";
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex', boxSizing: 'border-box',
     flexDirection: 'row',
@@ -52,6 +53,12 @@ const Container = styled(Box)(({ theme }) => ({
     gap: '40px',
     borderRadius: '18px',
     boxShadow: theme.palette.primary.boxShadow
+}))
+const FlexRow = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    color: theme.palette.primary.text,
 }))
 
 const RelationsTab = () => {
@@ -207,9 +214,12 @@ const RelationsTab = () => {
             if (response.data.length > 0) {
                 let tempFolls = []
                 for (var i = 0; i < response.data.length; i++) {
-                    // let tempFoll = {}
-                    // tempFoll.ywid = response.data[i].user_screen_cid
-                    tempFolls.push(response.data[i].user_screen_cid)
+                    for (var j = 0; j < response.data[i].friends.length; j++) {
+                        if (response.data[i].friends[j].screen_cid == globalUser.YouWhoID && response.data[i].friends[j].is_accepted == true) {
+                            tempFolls.push(response.data[i].user_screen_cid)
+
+                        }
+                    }
                 }
                 setFollowings(tempFolls)
                 console.log(tempFolls)
@@ -326,7 +336,10 @@ const RelationsTab = () => {
     }, [globalUser.token])
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+        <Box sx={{
+            display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
+            //  my: '10px'
+        }}>
             {globalUser.cid ?
                 <>
                     {globalUser.privateKey ?

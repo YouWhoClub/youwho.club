@@ -54,7 +54,7 @@ const FlexColumn = styled(Box)(({ theme }) => ({
     alignItems: 'center',
 }))
 
-const ProfilePanel = ({ user, isFriend, sendFriendRequest }) => {
+const ProfilePanel = ({ user, isFriend, sendFriendRequest, isFollowing }) => {
     const [activeTab, setActiveTab] = useState('relations-tab')
     // useEffect(() => {
     //     let dashbar = window.document.getElementById('profile-bar-user')
@@ -97,7 +97,7 @@ const ProfilePanel = ({ user, isFriend, sendFriendRequest }) => {
                         user={user} isFriend={isFriend} />}
                 {activeTab == 'private-gallery-tab' &&
                     <PrivateGallery sendFriendRequest={sendFriendRequest}
-                        user={user} isFriend={isFriend} />}
+                        user={user} isFriend={isFriend} isFollowing={isFollowing} />}
                 {activeTab == 'public-gallery-tab' &&
                     <PublicGallery user={user} isFriend={isFriend} />}
                 {activeTab == 'relations-tab' &&

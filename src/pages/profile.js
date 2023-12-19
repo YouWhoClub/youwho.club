@@ -33,12 +33,12 @@ const Profile = ({ switchTheme, theme, props }) => {
     const globalUser = useSelector(state => state.userReducer)
     const [idCopied, setIdCopied] = useState(false)
     const [selectValue, setSelectValue] = useState(undefined)
-    const [myFriends, setMyFriends] = useState([])
     const [err, setErr] = useState(undefined)
     const [userloading, setuserLoading] = useState(true)
     const apiCall = useRef(undefined)
     const [user, setUser] = useState(undefined)
     const [isFriends, setisFriend] = useState(undefined)
+    const [isFollowing, setIsFollowing] = useState('false')
     const toastId = useRef(null);
     const loading = () => {
         toastId.current = toast.loading("Please wait...")
@@ -48,7 +48,6 @@ const Profile = ({ switchTheme, theme, props }) => {
         success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
             : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
     }
-
     const sendFriendRequest = async (receiver, sender) => {
         loading();
 
@@ -70,14 +69,80 @@ const Profile = ({ switchTheme, theme, props }) => {
         console.log(response);
         if (response.message == "Updated Successfully") {
             updateToast(true, 'Friend Request Sent')
+            getMyFollowings()
+            getMyFriends()
         } else {
             updateToast(false, response.message)
         }
     }
+    const getMyFollowings = async () => {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/followings/?from=0&to=10`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log('followings', response)
+        if (!response.is_error) {
+            if (response.data.length > 0) {
+                for (var i = 0; i < response.data.length; i++) {
+                    if (response.data[i].user_screen_cid == user.YouWhoID) {
+                        for (var j = 0; j < response.data[i].friends.length; j++) {
+                            if (response.data[i].friends[j].screen_cid == globalUser.YouWhoID) {
+                                if (response.data[i].friends[j].is_accepted == true) {
+                                    setIsFollowing('true')
+                                } else {
+                                    setIsFollowing('pending')
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                setIsFollowing('false')
+            }
+        } else {
+            if (response.status == 404) {
+                setIsFollowing('false')
 
+            } else {
+                setErr(response.message)
+                console.log(response.message)
+            }
+        }
+    }
+    const getMyFriends = async () => {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/friends/?from=0&to=10`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log('my friends', response)
 
+        if (!response.is_error) {
+            let tempIDs = []
+            for (var i = 0; i < response.data.friends.length; i++) {
+                tempIDs.push(response.data.friends[i].screen_cid)
+            }
+            if (tempIDs.includes(user.YouWhoID)) {
+                setisFriend('true')
+            } else {
+                setisFriend('false')
+            }
+        } else {
+            if (response.status == 404) {
+                setisFriend('false')
 
-
+            } else {
+                console.log(response.message)
+            }
+        }
+    }
     const username = window.location.pathname.replace('/profile/', '')
     const getUser = async () => {
         try {
@@ -132,38 +197,9 @@ const Profile = ({ switchTheme, theme, props }) => {
             }
         }
     }, [])
-    const getMyFriends = async () => {
-        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/friends/?from=0&to=10`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${globalUser.token}`,
-            }
-        })
-        let response = await request.json()
-        console.log('my friends', response)
-
-        if (!response.is_error) {
-            setMyFriends(response.data.friends)
-            for (var i = 0; i < response.data.friends.length; i++) {
-                if (response.data.friends[i].screen_cid == user.YouWhoID) {
-                    setisFriend(true)
-                } else {
-                    setisFriend(false)
-                }
-            }
-        } else {
-            if (response.status == 404) {
-                setMyFriends([])
-                setisFriend(false)
-
-            } else {
-                console.log(response.message)
-            }
-        }
-    }
     useEffect(() => {
         if (globalUser.token && user) {
+            getMyFollowings()
             getMyFriends()
         }
     }, [globalUser.token, user])
@@ -196,7 +232,6 @@ const Profile = ({ switchTheme, theme, props }) => {
             outsidePanel.classList.remove("dashAfterScroll")
         }
     }
-
     const [progressBarOpen, setProgressBarOpen] = useState(false)
     useEffect(() => {
         if (window.document.getElementById("scrollable-profile-panel-user") && window.document.getElementById("scrollable-profile-panel-inside-user")) {
@@ -213,14 +248,6 @@ const Profile = ({ switchTheme, theme, props }) => {
             <Box
                 id="profile"
                 sx={{
-                    // ml: { xs: 'none', sm: '80px' },
-                    // display: 'flex',
-                    // flexDirection: 'column',
-                    // width: '100%',
-                    // height: 'calc(100vh - 55px)',
-                    // gap: { xs: '22px', md: '24px' },
-                    // boxSizing: 'border-box', padding: '20px 15px 40px'
-
                     ml: { xs: 'none', sm: '80px' },
                     display: 'flex',
                     flexDirection: 'column',
@@ -255,7 +282,9 @@ const Profile = ({ switchTheme, theme, props }) => {
                             <>
                                 <ProfileCard
                                     sendFriendRequest={sendFriendRequest}
-                                    user={user} isFriend={isFriends} setProgressBarOpen={setProgressBarOpen} progressBarOpen={progressBarOpen} />
+                                    user={user}
+                                    isFriend={isFriends} isFollowing={isFollowing}
+                                    setProgressBarOpen={setProgressBarOpen} progressBarOpen={progressBarOpen} />
                                 <ShowPanel sx={{
 
                                     flexDirection: { xs: 'column', md: 'row' }, gap: { xs: '22px', md: '24px' },
@@ -263,7 +292,8 @@ const Profile = ({ switchTheme, theme, props }) => {
                                     {progressBarOpen ?
                                         <ProfileBar user={user} />
                                         : undefined}
-                                    <ProfilePanel sendFriendRequest={sendFriendRequest} user={user} isFriend={isFriends} />
+                                    <ProfilePanel sendFriendRequest={sendFriendRequest}
+                                        user={user} isFriend={isFriends} isFollowing={isFollowing} />
                                 </ShowPanel>
                             </>
                         }

@@ -62,10 +62,12 @@ const PrivateGallery = () => {
     const [asc, setAsc] = useState(true)
     const [galleries, setGalleries] = useState([])
     const [galleryloading, setgalleryLoading] = useState(true)
+    const [joinedLoading, setjoinedLoading] = useState(true)
     const [loadErr, setLoadErr] = useState(undefined)
     const dispatch = useDispatch();
     const [signer, setSigner] = useState(undefined)
     const [openedGallery, setOpenedGallery] = useState(undefined)
+    const [joinedList, setJoinedList] = useState([])
     const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
 
     const handleFilterSelect = (e) => {
@@ -80,12 +82,33 @@ const PrivateGallery = () => {
         e.preventDefault()
         setSortValue(e.target.id)
     }
+    const getJoinedPeople = async (galleryId) => {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/gallery/${galleryId}/get/invited-friends/?from=0&to=5`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log('invited people', response)
 
+        if (!response.is_error) {
+            setJoinedList(response.data)
+            setjoinedLoading(false)
+        } else {
+            if (response.status == 404) {
+                setJoinedList([])
+            } else {
+                setJoinedList(undefined)
+            }
+        }
+    }
     const [expandedColl, setExpandedColl] = useState(undefined)
 
     useEffect(() => {
         getUserPVGalleries()
-        fetchUser(globalUser.token)
+        // fetchUser(globalUser.token)
         window.document.getElementById("scrollable-profile-panel-inside").scrollTo(0, 0);
 
     }, [globalUser, globalUser.token])
@@ -129,6 +152,9 @@ const PrivateGallery = () => {
                                             galleries.map((gallery, index) => (
                                                 <Fragment key={`gallery_${gallery.id}`}>
                                                     <PVGalleryCard
+                                                        getJoinedPeople={getJoinedPeople}
+                                                        joinedList={joinedList}
+                                                        joinedLoading={joinedLoading}
                                                         galleryIndex={index}
                                                         gallery={gallery}
                                                         galleryId={gallery.id}

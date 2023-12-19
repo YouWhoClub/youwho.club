@@ -648,6 +648,7 @@ export const RelationCard = ({
     const handleClickAway = () => {
         setAnchorEl(null);
     }
+    const [alertModal, setAlertModal] = useState(false)
 
     const navigate = useNavigate()
     return (
@@ -741,7 +742,10 @@ export const RelationCard = ({
                                 bgcolor: 'secondary.bgOp',
                             }
                         }}
-                            onClick={removeFriend}
+                            onClick={() => {
+                                setAlertModal(true)
+                                handleClose()
+                            }}
                         >
                             Remove Friend
                         </MenuItem>
@@ -774,7 +778,45 @@ export const RelationCard = ({
                         : undefined}
                 </Popper>
 
+
+
+                <Modal
+                    open={alertModal}
+                    onClose={() => {
+                        setAlertModal(false)
+                    }}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                    disableScrollLock={true}
+                >
+                    <Box sx={(theme) => ({
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        backdropFilter: 'blur(10px)'
+                    })}>
+                        <Box sx={(theme) => ({
+                            borderRadius: { xs: '0', sm: '24px' },
+                            width: { xs: '100%', sm: '400px' }, height: { xs: '100%', sm: 'auto' },
+                            backgroundColor: 'secondary.bg', boxShadow: theme.palette.primary.boxShadow, boxSizing: 'border-box',
+                            display: 'flex', flexDirection: 'column',
+                            padding: '30px', alignItems: 'center'
+                        })}>
+                            <FlexRow sx={{ justifyContent: 'end !important', width: '100%' }}>
+                                <Box sx={{ padding: '10px' }}>
+                                    <Close onClick={() => setAlertModal(false)} sx={{ cursor: 'pointer', fontSize: '24px' }} />
+                                </Box>
+                            </FlexRow>
+                            <Typography sx={{
+                                color: 'primary.text', textTransform: 'capitalize', fontSize: '14px', width: '100%', textAlign: 'center'
+                            }}>Removing Friend(unfollowing them) Will Remove him/her from any of your private galleries that they joined , are you sure ?</Typography>
+                            <ButtonPurple px={'12px'} mt={'48px'} text={'go on'} onClick={removeFriend} />
+                        </Box>
+                    </Box>
+                </Modal>
+
             </RelationCardComp>
+
         </ClickAwayListener >
     )
 }
@@ -1048,6 +1090,7 @@ export const MorePopper = ({ tabs, open, anchorEl, handleClose }) => {
 }
 export const SmallPeopleCard = ({ image, name, action, removeFromInviteList, friend, inviteList, addToInvitedList }) => {
     const [isAdded, setIsAdded] = useState(false)
+    const [isRemoved, setIsRemoved] = useState(false)
     return (
         <FlexRow sx={{ width: '100%' }}>
             <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
@@ -1057,7 +1100,7 @@ export const SmallPeopleCard = ({ image, name, action, removeFromInviteList, fri
                     backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
                 }} /><Typography sx={{ color: 'primary.text', fontSize: '12px' }}>{name}</Typography>
             </Box>
-            {action == 'addPeople' ?
+            {action == 'addPeople' &&
                 <>
                     {isAdded ?
                         <ButtonOutline br={'30px'} height={'20px'}
@@ -1075,21 +1118,33 @@ export const SmallPeopleCard = ({ image, name, action, removeFromInviteList, fri
                             }}
                             text={'Add'} w={'70px'} />}
                 </>
-                :
-                undefined}
+            }
+            {action == 'removePeople' &&
+                <>
+                    {!isRemoved ?
+                        <ButtonOutline br={'30px'} height={'20px'}
+                            text={'Remove'} w={'70px'}
+                            onClick={() => {
+                                removeFromInviteList(friend.screen_cid)
+                                setIsRemoved(true)
+                            }} />
+                        :
+                        undefined}
+                </>
+            }
         </FlexRow>
 
     )
 }
-
 export const PVGalleryCard = ({ gallery, requestToJoin,
     galleryIndex, joinedCount, isMine, getUserPVGalleries, exitGallery,
-    galleryId, openGalleryClick }) => {
+    galleryId, openGalleryClick, getJoinedPeople, joinedList, joinedLoading }) => {
     const globalUser = useSelector(state => state.userReducer)
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const [openEditModal, setOpenEditModal] = useState(false)
     const [openInviteModal, setOpenInviteModal] = useState(false)
+    const [openJoinedListModal, setOpenJoinedListModal] = useState(false)
     const [galleryName, setGalleryName] = useState(gallery.gal_name)
     // const [gallerySubject, setgallerySubject] = useState(gallery.extra ? gallery.extra[0].gallery_subject : undefined)
     const [galleryDesc, setGalleryDesc] = useState(gallery.gal_description)
@@ -1140,6 +1195,11 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
     const handleEditClick = () => {
         handleClose()
         setOpenEditModal(true)
+    }
+    const handleJoinedListClick = () => {
+        getJoinedPeople(gallery.id)
+        handleClose()
+        setOpenJoinedListModal(true)
     }
     const handleInviteClick = () => {
         getFriends()
@@ -1218,6 +1278,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
 
         if (!response.is_error) {
             updateToast(true, response.message)
+            setOpenEditModal(false)
         } else {
             updateToast(false, response.message)
         }
@@ -1244,6 +1305,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
             updateToast(true, 'joined')
             fetchUser(globalUser.token)
             getUserPVGalleries()
+            setIsJoined(true)
         } else {
             updateToast(false, response.message)
         }
@@ -1277,6 +1339,31 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
             updateToast(false, response.message)
         }
     }
+    const removeFromGallery = async (userID) => {
+        loading()
+        let data = {
+            caller_cid: globalUser.cid,
+            friend_screen_cid: userID,
+            gal_id: galleryId,
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/gallery/remove/invited-friend`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log('remove resp?', response);
+        if (!response.is_error) {
+            updateToast(true, 'removed')
+            getJoinedPeople()
+        } else {
+            updateToast(false, response.message)
+        }
+    }
     const deleteMyPVGallery = async () => {
         loading()
         if (galleryIndex == 0) {
@@ -1298,7 +1385,14 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
         console.log('friends', response)
 
         if (!response.is_error) {
-            setFriends(response.data.friends)
+            let tempNonJoiners = []
+            let tempFriends = response.data.friends
+            for (let f = 0; f < response.data.friends.length; f++) {
+                if (!gallery.invited_friends.includes(response.data.friends[f].screen_cid)) {
+                    tempNonJoiners.push(response.data.friends[f])
+                }
+            }
+            setFriends(tempNonJoiners)
             setFriendsLoading(false)
         } else {
             if (response.status == 404) {
@@ -1352,7 +1446,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
     }, [galleryName])
     const mineTabs = [
         { text: 'Send Invitation', id: 'gall-card-invitation', onClick: handleInviteClick },
-        { text: 'Joined List', id: 'gall-card-joined-list', onClick: () => console.log('view joined list') },
+        { text: 'Joined List', id: 'gall-card-joined-list', onClick: handleJoinedListClick },
         { text: 'Edit', id: 'gall-card-edit', onClick: handleEditClick },
         { text: 'Delete', id: 'gall-card-delete', onClick: deleteMyPVGallery },
     ]
@@ -1439,6 +1533,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
                     </FlexColumn>
                 </PVGalleryCardComp>
             </ClickAwayListener>
+            {/* edit gallery modal ==> */}
             <Modal
                 open={openEditModal}
                 onClose={() => {
@@ -1524,6 +1619,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
                     </Box>
                 </Box>
             </Modal>
+            {/* invite friends modal ==> */}
             <Modal
                 open={openInviteModal}
                 onClose={() => {
@@ -1586,23 +1682,34 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
                                                         ))}
                                                     </FlexColumn>
                                                     :
-                                                    <Typography sx={{ color: 'primary.text', textTransform: 'capitalize', fontSize: '12px' }}>
+                                                    <Typography sx={{ color: 'primary.text', textAlign: 'center', width: '100%', textTransform: 'capitalize', fontSize: '12px' }}>
                                                         no result for you search
                                                     </Typography>
                                                 }
                                                 </>
                                                 :
                                                 <FlexColumn sx={{ gap: '8px' }}>
-                                                    {friends.map((friend) => (
-                                                        <SmallPeopleCard
-                                                            friend={friend}
-                                                            addToInvitedList={addToInvitedList}
-                                                            removeFromInviteList={removeFromInviteList}
-                                                            inviteList={inviteList}
-                                                            image={friend.user_avatar}
-                                                            name={friend.username} ywid={friend.screen_cid}
-                                                            action={'addPeople'} />
-                                                    ))}
+                                                    {friends.length > 0 ?
+                                                        <>
+                                                            {friends.map((friend) => (
+                                                                <SmallPeopleCard
+                                                                    friend={friend}
+                                                                    addToInvitedList={addToInvitedList}
+                                                                    removeFromInviteList={removeFromInviteList}
+                                                                    inviteList={inviteList}
+                                                                    image={friend.user_avatar}
+                                                                    name={friend.username} ywid={friend.screen_cid}
+                                                                    action={'addPeople'} />
+                                                            ))}
+                                                        </> :
+                                                        <Typography sx={{
+                                                            color: 'primary.text',
+                                                            textTransform: 'capitalize', textAlign: 'center', width: '100%',
+                                                            fontSize: '12px'
+                                                        }}>
+                                                            no uninvited friend found
+                                                        </Typography>
+                                                    }
                                                 </FlexColumn>
 
                                             }
@@ -1622,6 +1729,120 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
                     </Box>
                 </Box>
             </Modal>
+            {/* joined list and remove friends modal ==> */}
+            <Modal
+                open={openJoinedListModal}
+                onClose={() => {
+                    setOpenJoinedListModal(false)
+                }}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                disableScrollLock={true}
+            >
+                <Box sx={(theme) => ({
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    backdropFilter: 'blur(10px)'
+                })}>
+                    <Box sx={(theme) => ({
+                        borderRadius: { xs: '0', sm: '24px' },
+                        width: { xs: '100%', sm: '400px' }, height: { xs: '100%', sm: 'auto' },
+                        backgroundColor: 'secondary.bg', boxShadow: theme.palette.primary.boxShadow, boxSizing: 'border-box',
+                        display: 'flex', flexDirection: 'column',
+                        padding: '30px', alignItems: 'center'
+                    })}>
+                        <FlexRow sx={{ justifyContent: 'end !important', width: '100%' }}>
+                            <Box sx={{ padding: '10px' }}>
+                                <Close onClick={() => setOpenJoinedListModal(false)} sx={{ cursor: 'pointer', fontSize: '24px' }} />
+                            </Box>
+                        </FlexRow>
+                        <FlexColumn sx={{ width: '100%', gap: { xs: '20px', md: '32px' } }}>
+                            <Typography
+                                sx={{ color: 'primary.text', fontSize: '16px', width: '100%', textAlign: 'center' }}>
+                                The Private Gallery Joined List
+                            </Typography>
+                            {joinedList ? <>
+                                <Typography sx={{
+                                    color: 'secondary.text',
+                                    fontSize: '12px',
+                                    width: '100%', textAlign: 'center'
+                                }}>
+                                    {joinedList.length} people of your friends are joined in this gallery
+                                </Typography>
+                                <FlexColumn sx={{ width: '100%', gap: { xs: '12px', md: '16px' } }}>
+                                    <MyInput name={'gallery-joined-search'} label={'Search From The List'} width={'100%'}
+                                        icon={<Search sx={{ color: 'primary.light' }} />}
+                                        onChange={(e) => search(e.target.value, 0, 5)}
+                                    />
+
+                                    <Box sx={{
+                                        border: '1px solid #DEDEDE', borderRadius: '12px', width: '100%', padding: '12px 12px 12px 15px',
+                                        boxSizing: 'border-box', gap: '8px', display: 'flex', flexDirection: 'column'
+                                    }}>
+                                        <FlexRow sx={{ justifyContent: 'start !important', gap: '10px' }}>
+                                            <Subject sx={{ color: 'primary.light' }} />
+                                            <Typography sx={{ color: 'primary.text', fontSize: '12px' }}>Select Friends</Typography>
+                                        </FlexRow>
+                                        {joinedLoading ? <CircularProgress sx={{ fontSize: '14px' }} /> :
+                                            <>
+                                                {searchResults ?
+                                                    <>{searchResults.length > 0 ?
+                                                        <FlexColumn sx={{ gap: '8px' }}>
+                                                            {searchResults.map((friend) => (
+                                                                <SmallPeopleCard
+                                                                    friend={friend}
+                                                                    addToInvitedList={addToInvitedList}
+                                                                    removeFromInviteList={removeFromInviteList}
+                                                                    inviteList={inviteList}
+                                                                    image={friend.avatar}
+                                                                    name={friend.username} ywid={friend.screen_cid}
+                                                                    action={'addPeople'} />
+                                                            ))}
+                                                        </FlexColumn>
+                                                        :
+                                                        <Typography sx={{ color: 'primary.text', textAlign: 'center', width: '100%', textTransform: 'capitalize', fontSize: '12px' }}>
+                                                            no result for you search
+                                                        </Typography>
+                                                    }
+                                                    </>
+                                                    :
+                                                    <FlexColumn sx={{ gap: '8px' }}>
+                                                        {joinedList.length > 0 ?
+                                                            <>
+                                                                {joinedList.map((friend) => (
+                                                                    <SmallPeopleCard
+                                                                        friend={friend}
+                                                                        removeFromInviteList={removeFromGallery}
+                                                                        image={friend.user_avatar}
+                                                                        name={friend.username} ywid={friend.screen_cid}
+                                                                        action={'removePeople'} />
+                                                                ))}
+                                                            </> :
+                                                            <Typography sx={{
+                                                                color: 'primary.text',
+                                                                textTransform: 'capitalize', textAlign: 'center', width: '100%',
+                                                                fontSize: '12px'
+                                                            }}>
+                                                                no joined friend found
+                                                            </Typography>
+                                                        }
+                                                    </FlexColumn>
+
+                                                }
+                                            </>
+                                        }
+                                    </Box>
+
+                                </FlexColumn>
+                            </> :
+                                <CircularProgress />}
+                        </FlexColumn>
+
+                    </Box>
+                </Box>
+            </Modal>
+            {/* crop modal ==> */}
             <Modal
                 open={openGallCrop}
                 onClose={() => setOpenGallCrop(false)}

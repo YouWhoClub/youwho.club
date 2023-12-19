@@ -155,7 +155,10 @@ const RelationsTab = ({ user }) => {
     }
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+        <Box sx={{
+            display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
+            //  my: '10px' 
+        }}>
             <SubTabs jc={'center'}>
                 <SubTab id={"their-allies"}
                     onClick={changeTab}
