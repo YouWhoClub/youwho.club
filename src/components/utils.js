@@ -55,7 +55,7 @@ const ReactionCardCompNew = styled(Box)(({ theme }) => ({
     justifyContent: 'space-between',
     boxShadow: theme.palette.primary.boxShadow,
     borderRadius: '16px',
-    height: '74px',
+    height: '75px',
     width: '100%',
     color: theme.palette.primary.text,
     backgroundColor: theme.palette.secondary.bg,
@@ -1010,7 +1010,7 @@ export const ReactionCardNew = ({ text, action, image, date, popperTabs, actionB
                     <Box sx={{
                         background: () => image ? `url('${API_CONFIG.API_URL}/${image}') no-repeat center` : 'primary.bg',
                         backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
-                        , width: { xs: '50px', sm: '54px' }, height: { xs: '50px', sm: '54px' }, borderRadius: '18px'
+                        , width: { xs: '50px', sm: '54px' }, height: { xs: '50px', sm: '54px' }, borderRadius: '8px'
                     }}
                     />
                     <FlexColumn sx={{ width: { xs: 'calc(100% - 50px)', sm: 'calc(100% - 54px)' } }}>
@@ -1204,6 +1204,7 @@ export const SmallPeopleCard = ({ image, name, action, removeFromInviteList, fri
                                     onClick={() => {
                                         removeFromInviteList(friend.screen_cid)
                                         setIsRemoved(true)
+                                        setAlertOnremove(false)
                                     }} />
                             </FlexRow>
 
@@ -1441,6 +1442,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
         if (!response.is_error) {
             updateToast(true, 'removed')
             getJoinedPeople()
+            fetchUser(globalUser.token)
         } else {
             updateToast(false, response.message)
         }

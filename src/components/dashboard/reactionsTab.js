@@ -130,6 +130,7 @@ const ReactionsTab = () => {
             updateToast(false, response.message)
         }
     }
+    console.log(new Date(1703178189))
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
             {globalUser.cid ?
@@ -152,17 +153,17 @@ const ReactionsTab = () => {
                                     {myInvitations.map((invitation) => (
                                         <ReactionCardNew
                                             image={invitation.gallery_background}
-                                            action={`Invitation to ${invitation.gal_name} gallery`}
+                                            action={`Invitation to "${invitation.gal_name}" gallery From "${invitation.owner_username}"`}
                                             text={`it costs free for you`}
-                                            date={invitation.updated_at}
+                                            date={(new Date(invitation.requested_at * 1000)).toLocaleString()}
                                             popperTabs={[{
                                                 text: 'Private Gallery Details',
                                                 id: 'reaction-gall-invitation-view',
-                                                onClick: () => navigate(`/profile/${invitation.owner_screen_cid}`)
+                                                onClick: () => navigate(`/profile/${invitation.owner_username}`)
                                             }, {
-                                                text: `${invitation.owner_screen_cid}'s profile`,
+                                                text: `${invitation.owner_username}'s profile`,
                                                 id: 'reaction-gall-invitation-profile-view',
-                                                onClick: () => navigate(`/profile/${invitation.owner_screen_cid}`)
+                                                onClick: () => navigate(`/profile/${invitation.owner_username}`)
                                             }]}
                                             actionButton={<ButtonOutline
                                                 fontSize={'10px'} height={'20px'}
