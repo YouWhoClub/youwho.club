@@ -106,6 +106,7 @@ const RelationsTab = () => {
         console.log(response);
         if (response.message == "Updated Successfully") {
             updateToast(true, 'Friend Request Sent')
+            setActiveTab(activeTab)
         } else {
             updateToast(false, response.message)
         }

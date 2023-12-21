@@ -24,7 +24,8 @@ import { getuser } from '../../redux/actions'
 const Gallery = styled(Box)(({ theme }) => ({
     width: '100%', boxSizing: "border-box", gap: '16px',
     display: 'flex', alignItems: 'center',
-    flexWrap: 'wrap', justifyContent: 'center'
+    flexWrap: 'wrap',
+    // justifyContent: 'center'
 }))
 const FlexRow = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -58,13 +59,11 @@ const PrivateGallery = ({ user, isFriend, sendFriendRequest, isFollowing }) => {
         success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
             : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
     }
-
     const shorten = (str) => {
         if (str)
             return str.length > 15 ? str.substring(0, 15) + '...' : str;
         return 'undefined'
     }
-
     const getUserPVGalleries = async () => {
         let request = await fetch(`${API_CONFIG.AUTH_API_URL}/gallery/get/all/for/${user.YouWhoID}/?from=0&to=10`, {
             method: 'GET',

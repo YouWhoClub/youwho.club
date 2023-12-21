@@ -47,6 +47,20 @@ const RelationCardComp = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.secondary.bg,
     boxSizing: 'border-box'
 }))
+const ReactionCardCompNew = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: '8px 12px',
+    justifyContent: 'space-between',
+    boxShadow: theme.palette.primary.boxShadow,
+    borderRadius: '16px',
+    height: '74px',
+    width: '100%',
+    color: theme.palette.primary.text,
+    backgroundColor: theme.palette.secondary.bg,
+    boxSizing: 'border-box'
+}))
 const ReactionCardComp = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
@@ -972,7 +986,7 @@ export const ReactionCard = ({ active, passive, action, nftName, nftImage, usern
         </ClickAwayListener>
     )
 }
-export const ReactionCardNew = ({ text, action, image, date, popperTabs }) => {
+export const ReactionCardNew = ({ text, action, image, date, popperTabs, actionButton }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -991,22 +1005,23 @@ export const ReactionCardNew = ({ text, action, image, date, popperTabs }) => {
     const navigate = useNavigate()
     return (
         <ClickAwayListener onClickAway={handleClickAway}>
-            <ReactionCardComp>
-                <FlexRow sx={{ gap: '16px' }}>
+            <ReactionCardCompNew>
+                <FlexRow sx={{ gap: '16px', width: '100%' }}>
                     <Box sx={{
-                        backgroundImage: BG_URL(PUBLIC_URL(`${image}`)),
+                        background: () => image ? `url('${API_CONFIG.API_URL}/${image}') no-repeat center` : 'primary.bg',
                         backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
-                        , width: { xs: '60px', sm: '80px' }, height: { xs: '60px', sm: '80px' }, borderRadius: '18px'
+                        , width: { xs: '50px', sm: '54px' }, height: { xs: '50px', sm: '54px' }, borderRadius: '18px'
                     }}
                     />
-                    <FlexColumn>
+                    <FlexColumn sx={{ width: { xs: 'calc(100% - 50px)', sm: 'calc(100% - 54px)' } }}>
                         <Typography
                             sx={{
                                 textTransform: 'capitalize',
                                 fontWeight: 700,
-                                fontSize: { xs: '10px', sm: '14px', md: '16px' }, mb: '8px'
+                                fontSize: { xs: '10px', sm: '14px', md: '16px' },
                             }}>
-                            {action}</Typography>
+                            {action}
+                        </Typography>
                         <Typography
                             sx={{
                                 textTransform: 'capitalize',
@@ -1015,18 +1030,22 @@ export const ReactionCardNew = ({ text, action, image, date, popperTabs }) => {
                             }}>
                             {text}
                         </Typography>
-                        <Typography
-                            sx={{
-                                textTransform: 'capitalize',
-                                fontWeight: 400,
-                                color: 'primary.gray', fontSize: { xs: '10px', sm: '14px', md: '14px' }
-                            }}>
-                            {date}</Typography>
+                        <FlexRow sx={{ width: '100%' }}>
+                            <Typography
+                                sx={{
+                                    textTransform: 'capitalize',
+                                    fontWeight: 400,
+                                    color: 'primary.gray', fontSize: { xs: '10px', sm: '14px', md: '14px' }
+                                }}>
+                                {date}</Typography>
+                            {actionButton ?
+                                actionButton : undefined}
+                        </FlexRow>
                     </FlexColumn>
                 </FlexRow>
                 <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} color="#787878" />
-                <MorePopper tabs={popperTabs} />
-            </ReactionCardComp>
+                <MorePopper tabs={popperTabs} handleClose={handleClose} anchorEl={anchorEl} open={open} />
+            </ReactionCardCompNew>
         </ClickAwayListener>
     )
 }
@@ -1091,48 +1110,110 @@ export const MorePopper = ({ tabs, open, anchorEl, handleClose }) => {
 export const SmallPeopleCard = ({ image, name, action, removeFromInviteList, friend, inviteList, addToInvitedList }) => {
     const [isAdded, setIsAdded] = useState(false)
     const [isRemoved, setIsRemoved] = useState(false)
-    return (
-        <FlexRow sx={{ width: '100%' }}>
-            <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                <Box sx={{
-                    borderRadius: '50%', width: '30px', height: '30px', backgroundColor: 'primary.bg',
-                    background: () => image ? `url('${API_CONFIG.API_URL}/${image}') no-repeat center` : BG_URL(PUBLIC_URL(`${profileFace}`)),
-                    backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
-                }} /><Typography sx={{ color: 'primary.text', fontSize: '12px' }}>{name}</Typography>
-            </Box>
-            {action == 'addPeople' &&
-                <>
-                    {isAdded ?
-                        <ButtonOutline br={'30px'} height={'20px'}
-                            text={'Added'} w={'70px'}
-                            onClick={() => {
-                                removeFromInviteList(friend.screen_cid)
-                                setIsAdded(false)
-                            }} />
+    const [alertOnRemove, setAlertOnremove] = useState(false)
 
-                        :
-                        <ButtonOutline br={'30px'} height={'20px'}
-                            onClick={() => {
-                                addToInvitedList(friend.screen_cid)
-                                setIsAdded(true)
-                            }}
-                            text={'Add'} w={'70px'} />}
-                </>
-            }
-            {action == 'removePeople' &&
-                <>
-                    {!isRemoved ?
-                        <ButtonOutline br={'30px'} height={'20px'}
-                            text={'Remove'} w={'70px'}
-                            onClick={() => {
-                                removeFromInviteList(friend.screen_cid)
-                                setIsRemoved(true)
-                            }} />
-                        :
-                        undefined}
-                </>
-            }
-        </FlexRow>
+    return (
+        <>
+            <FlexRow sx={{ width: '100%' }}>
+                <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <Box sx={{
+                        borderRadius: '50%', width: '30px', height: '30px', backgroundColor: 'primary.bg',
+                        background: () => image ? `url('${API_CONFIG.API_URL}/${image}') no-repeat center` : BG_URL(PUBLIC_URL(`${profileFace}`)),
+                        backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+                    }} /><Typography sx={{ color: 'primary.text', fontSize: '12px' }}>{name}</Typography>
+                </Box>
+                {action == 'addPeople' &&
+                    <>
+                        {isAdded ?
+                            <ButtonOutline br={'30px'} height={'20px'}
+                                text={'Added'} w={'70px'}
+                                onClick={() => {
+                                    removeFromInviteList(friend.screen_cid)
+                                    setIsAdded(false)
+                                }} />
+
+                            :
+                            <ButtonOutline br={'30px'} height={'20px'}
+                                onClick={() => {
+                                    addToInvitedList(friend.screen_cid)
+                                    setIsAdded(true)
+                                }}
+                                text={'Add'} w={'70px'} />}
+                    </>
+                }
+                {action == 'removePeople' &&
+                    <>
+                        {!isRemoved ?
+                            <ButtonOutline br={'30px'} height={'20px'}
+                                text={'Remove'} w={'70px'}
+                                onClick={() => setAlertOnremove(true)} />
+                            :
+                            undefined}
+                    </>
+                }
+            </FlexRow>
+
+
+            {/* allert on remove from gallery modal ==> */}
+            <Modal
+                open={alertOnRemove}
+                onClose={() => {
+                    setAlertOnremove(false)
+                }}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                disableScrollLock={true}
+            >
+                <Box sx={(theme) => ({
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    backdropFilter: 'blur(10px)'
+                })}>
+                    <Box sx={(theme) => ({
+                        borderRadius: { xs: '0', sm: '24px' },
+                        width: { xs: '100%', sm: '400px' }, height: { xs: '100%', sm: 'auto' },
+                        backgroundColor: 'secondary.bg', boxShadow: theme.palette.primary.boxShadow, boxSizing: 'border-box',
+                        display: 'flex', flexDirection: 'column',
+                        padding: '30px', justifyContent: 'space-between', alignItems: 'center'
+                    })}>
+                        <FlexRow sx={{ justifyContent: 'end !important', width: '100%' }}>
+                            <Box sx={{ padding: '10px' }}>
+                                <Close onClick={() => setAlertOnremove(false)} sx={{ cursor: 'pointer', fontSize: '24px' }} />
+                            </Box>
+                        </FlexRow>
+                        <FlexColumn sx={{ width: '100%', gap: { xs: '20px', md: '32px' } }}>
+                            <Typography
+                                sx={{
+                                    color: 'primary.text', fontSize: '16px', width: '100%',
+                                    textAlign: 'center', textTransform: 'capitalize'
+                                }}>
+                                Are You Sure You Want To Remove {friend.username} From gallery's Joined List?
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    color: 'secondary.text', fontSize: '12px', width: '100%',
+                                    textAlign: 'center', textTransform: 'capitalize'
+                                }}>
+                                to remove {friend.username} from your gallery , you must send back their payed tokens to them
+                            </Typography>
+                            <FlexRow sx={{ gap: { xs: '12px', md: '16px' }, width: '100%' }}>
+                                <ButtonOutlineInset text={'Not Yet'} onClick={() => setAlertOnremove(false)} w={'100px'} />
+                                <ButtonPurple
+                                    text={'Im Sure'} w={'100%'}
+                                    onClick={() => {
+                                        removeFromInviteList(friend.screen_cid)
+                                        setIsRemoved(true)
+                                    }} />
+                            </FlexRow>
+
+                        </FlexColumn>
+
+                    </Box>
+                </Box>
+            </Modal>
+
+        </>
 
     )
 }
@@ -1166,7 +1247,6 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
     const apiCall = useRef(null)
     const dispatch = useDispatch();
     const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
-
     const addToInvitedList = (youwhoID) => {
         let tempList = inviteList
         tempList.push(youwhoID)
@@ -1335,6 +1415,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
         console.log('invite resp?', response);
         if (!response.is_error) {
             updateToast(true, 'sent')
+            setOpenInviteModal(false)
         } else {
             updateToast(false, response.message)
         }
@@ -1807,12 +1888,10 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
                                                             {searchResults.map((friend) => (
                                                                 <SmallPeopleCard
                                                                     friend={friend}
-                                                                    addToInvitedList={addToInvitedList}
-                                                                    removeFromInviteList={removeFromInviteList}
-                                                                    inviteList={inviteList}
+                                                                    removeFromInviteList={removeFromGallery}
                                                                     image={friend.avatar}
                                                                     name={friend.username} ywid={friend.screen_cid}
-                                                                    action={'addPeople'} />
+                                                                    action={'removePeople'} />
                                                             ))}
                                                         </FlexColumn>
                                                         :
@@ -1829,7 +1908,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
                                                                     <SmallPeopleCard
                                                                         friend={friend}
                                                                         removeFromInviteList={removeFromGallery}
-                                                                        image={friend.user_avatar}
+                                                                        image={friend.avatar}
                                                                         name={friend.username} ywid={friend.screen_cid}
                                                                         action={'removePeople'} />
                                                                 ))}

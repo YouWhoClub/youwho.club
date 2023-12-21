@@ -7,12 +7,15 @@ import creamNFT from '../../assets/cream-nft.svg'
 import sorkhabiNFT from '../../assets/sokhabi-nft.svg'
 import torqNFT from '../../assets/torqua-nft.svg'
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import FilterSelection from "../filterSelection";
 import ButtonPurpleLight from "../buttons/buttonPurpleLight";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { API_CONFIG } from "../../config";
+import ButtonOutline from "../buttons/buttonOutline";
+import { toast } from "react-toastify";
+import generateSignature from "../../utils/signatureUtils";
 
 
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
@@ -52,6 +55,15 @@ const ReactionsTab = () => {
     const [sells, setSells] = useState([])
     const [allNotifs, setAllNotifs] = useState([])
     const navigate = useNavigate()
+    const toastId = useRef(null);
+    const loading = () => {
+        toastId.current = toast.loading("Please wait...")
+        console.log(toastId)
+    }
+    const updateToast = (success, message) => {
+        success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
+            : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
+    }
     useEffect(() => {
         window.document.getElementById("scrollable-profile-panel-inside").scrollTo(0, 0);
     }, [])
@@ -92,7 +104,32 @@ const ReactionsTab = () => {
             console.log('get all reactions')
         }
     }, [filterValue])
-
+    const acceptGalleryInvitation = async (receiver, sender, galleryId) => {
+        loading()
+        let data = {
+            owner_cid: sender,
+            from_screen_cid: receiver,
+            gal_id: galleryId
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        console.log(requestData)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/gallery/accept/invitation-request`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+        if (!response.is_error) {
+            updateToast(true, 'Invitation Accepted')
+            getInvitations()
+        } else {
+            updateToast(false, response.message)
+        }
+    }
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
             {globalUser.cid ?
@@ -114,16 +151,33 @@ const ReactionsTab = () => {
                                 <>
                                     {myInvitations.map((invitation) => (
                                         <ReactionCardNew
-                                            image={purpleNFT}
-                                            action={'Invite'}
-                                            text={`You've been Invited to ${invitation.title} gallery`}
-                                            date={'10.9.2012 12:03AM'} />
+                                            image={invitation.gallery_background}
+                                            action={`Invitation to ${invitation.gal_name} gallery`}
+                                            text={`it costs free for you`}
+                                            date={invitation.updated_at}
+                                            popperTabs={[{
+                                                text: 'Private Gallery Details',
+                                                id: 'reaction-gall-invitation-view',
+                                                onClick: () => navigate(`/profile/${invitation.owner_screen_cid}`)
+                                            }, {
+                                                text: `${invitation.owner_screen_cid}'s profile`,
+                                                id: 'reaction-gall-invitation-profile-view',
+                                                onClick: () => navigate(`/profile/${invitation.owner_screen_cid}`)
+                                            }]}
+                                            actionButton={<ButtonOutline
+                                                fontSize={'10px'} height={'20px'}
+                                                br={'30px'} w={'max-content'} px={'20px'}
+                                                text={'Accept'}
+                                                onClick={() => acceptGalleryInvitation(invitation.owner_screen_cid, globalUser.cid, invitation.id)} />}
+                                        />
                                     ))}</>
                                 :
                                 <Typography sx={{
                                     color: 'primary.text', textTransform: 'capitalize',
                                     fontSize: '14px', width: '100%', textAlign: 'center'
-                                }}>You have no Invitations Yet</Typography>
+                                }}>
+                                    You have no Invitations Yet
+                                </Typography>
                             }
                             </>
                         }
