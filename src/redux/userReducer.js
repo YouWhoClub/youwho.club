@@ -36,6 +36,7 @@ function userReducer(state = initialState, action) {
                 avatar: action.payload.avatar,
                 banner: action.payload.banner,
                 walletBackground: action.payload.wallet_background,
+                extra: action.payload.extra
             };
         case LOGOUT_USER:
             localStorage.removeItem('account')
@@ -63,6 +64,7 @@ function userReducer(state = initialState, action) {
                 walletBackground: action.payload.walletBackground,
                 refreshToken: action.payload.refreshToken,
                 tokenExpiration: action.payload.tokenExpiration,
+                extra: action.payload.extra
             };
         case SET_ACCOUNT:
             return { ...state, account: action.payload };

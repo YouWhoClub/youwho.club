@@ -1,15 +1,18 @@
 import styled from "@emotion/styled";
-import { CheckRounded, Close, Face } from "@mui/icons-material";
+import { AddBoxOutlined, CheckRounded, Close, Face, Phone } from "@mui/icons-material";
 import { Typography } from "@mui/joy";
 import { Accordion, AccordionDetails, AccordionSummary, MenuItem, Popper, TextField, Modal } from "@mui/material";
 import { Box, ClickAwayListener } from "@mui/material";
-import { ArrowDown2, ArrowUp2, Check, Clock, Profile, Setting2, TickCircle, Timer } from "iconsax-react";
+import { Add, ArrowDown2, ArrowUp2, Check, Clock, Profile, Setting2, TickCircle, Timer } from "iconsax-react";
 import { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { API_CONFIG } from "../../config";
 import { toast } from 'react-toastify';
 import { getuser } from "../../redux/actions";
 import Crop from "../crop/Crop";
+import { useEffect } from "react";
+import { ButtonInput, MyInput } from "../utils";
+
 
 
 
@@ -58,12 +61,40 @@ const FlexRow = styled(Box)(({ theme }) => ({
     margin: '3px 0'
 }))
 
+const Inputt = styled('input')(({ theme }) => ({
+    width: '100%',
+    outline: 'none',
+    color: theme.palette.primary.gray,
+    borderColor: theme.palette.primary.gray,
+    cursor: 'pointer',
+    border: 'none',
+    fontFamily: 'inter',
+    // borderBottom: '1px solid',
+    '&:hover': {
+        borderColor: theme.palette.primary.main,
+    }
+}))
+const Inputtt = styled('div')(({ theme }) => ({
+    width: '100%',
+    display: 'flex',
+    color: theme.palette.primary.gray,
+    borderColor: theme.palette.primary.gray,
+    cursor: 'pointer',
+    border: 'none',
+    borderBottom: '1px solid',
+    '&:hover': {
+        borderColor: theme.palette.primary.main,
+    }
+}))
+
 const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
     const [expanded, setExpanded] = useState(false)
     const [anchorEl, setAnchorEl] = useState(null);
     const [editProfile, setEditProfile] = useState(false)
     const globalUser = useSelector(state => state.userReducer)
     const [bio, setBio] = useState('')
+    const [phone, setPhone] = useState(null)
+    const [socialLinks, setSocialLinks] = useState([])
     // const [selectedAvatar, setSelectedAvatar] = useState(null)
     // const [selectedBanner, setSelectedBanner] = useState(null)
     const [openAvatarCrop, setOpenAvatarCrop] = useState(false)
@@ -77,6 +108,16 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
     const bannerFileInput = useRef()
     const [bannerFile, setBannerFile] = useState(null);
     const [bannerPhotoURL, setBannerPhotoURL] = useState(null);
+
+    useEffect(() => {
+        let phoneObject = globalUser.extra.find(obj => obj.hasOwnProperty('phone'))
+        let socialObject = globalUser.extra.find(obj => obj.hasOwnProperty("social"))
+        if (phoneObject)
+            setPhone(phoneObject.phone)
+        if (socialObject)
+            setSocialLinks(socialObject.social)
+    }, [globalUser.extra])
+
 
     const loading = () => {
         toastId.current = toast.loading("Please wait...")
@@ -217,6 +258,121 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
             }
         }
     }
+
+    const updatePhoneNum = async event => {
+        loading()
+        let body;
+
+        if (globalUser.extra !== null) {
+            let updatedExtra = JSON.parse(JSON.stringify(globalUser.extra));
+            let phoneObject = updatedExtra.find(obj => obj.hasOwnProperty('phone'))
+
+
+            if (phoneObject) {
+                phoneObject.phone = phone
+                body = {
+                    extra: [
+                        ...updatedExtra,
+                    ]
+                }
+            } else {
+                body = {
+                    extra: [
+                        ...updatedExtra,
+                        { phone: phone }
+                    ]
+                }
+            }
+        } else {
+            body = {
+                extra: [
+                    { phone: phone }
+                ]
+            }
+        }
+
+        if (phone) {
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/profile/update/extra`, {
+                method: 'POST',
+                body: JSON.stringify(body),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            })
+            let response = await request.json()
+            console.log(response);
+
+            if (response.status === 200 || response.status === 201) {
+                fetchUser(globalUser.token)
+                updateToast(true, response.message)
+            } else {
+                updateToast(false, response.message)
+            }
+        }
+    }
+
+    const handleSocialLinksChange = (e, index) => {
+        const { name, value } = e.target;
+        const updatedObj = [...socialLinks];
+
+        updatedObj[index] = { ...updatedObj[index], [name]: value };
+
+        setSocialLinks(updatedObj)
+    };
+
+    const updateSocialLinks = async event => {
+        loading()
+        let body;
+
+        if (globalUser.extra !== null) {
+            let updatedExtra = JSON.parse(JSON.stringify(globalUser.extra));
+            let SocialObject = updatedExtra.find(obj => obj.hasOwnProperty('social'))
+
+            if (SocialObject) {
+                SocialObject.social = socialLinks
+                body = {
+                    extra: [
+                        ...updatedExtra,
+                    ]
+                }
+            } else {
+                body = {
+                    extra: [
+                        ...updatedExtra,
+                        { social: socialLinks }
+                    ]
+                }
+            }
+        } else {
+            body = {
+                extra: [
+                    { social: socialLinks }
+                ]
+            }
+        }
+
+        if (socialLinks.length) {
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/profile/update/extra`, {
+                method: 'POST',
+                body: JSON.stringify(body),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            })
+            let response = await request.json()
+            console.log(response);
+
+            if (response.status === 200 || response.status === 201) {
+                fetchUser(globalUser.token)
+                updateToast(true, response.message)
+            } else {
+                updateToast(false, response.message)
+            }
+        }
+    }
+
 
     return (
         <Bar
@@ -384,8 +540,36 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
                         <AccordionDetails
                             sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
                         >
-                            <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', }}>
-                                <Typography sx={{ fontSize: '10px' }}>Save </Typography><TickCircle cursor='pointer' size='12px' />
+                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'end', color: 'primary.main', gap: '20px', p: '20px 8px' }}>
+                                <FlexRow sx={{ width: '100%' }}>
+                                    <Typography sx={{ fontSize: '14px' }}>Social Media</Typography>
+                                    <Typography sx={{ fontSize: '14px' }}>URL Link</Typography>
+                                    <Box sx={{ cursor: 'pointer', color: '#3DCA64' }}>
+                                        <Add onClick={() => setSocialLinks(prev => [...prev, { name: "", url: "" }])} />
+                                    </Box>
+                                </FlexRow>
+                                {
+                                    socialLinks?.map((obj, index) => {
+                                        return (
+                                            <FlexRow key={`obj_${index}`} sx={{ width: '100%' }}>
+                                                <MyInput name={'name'} width={'40%'}
+                                                    onChange={(e) => handleSocialLinksChange(e, index)}
+                                                    value={obj.name}
+                                                />
+                                                <MyInput name={'url'} width={'40%'}
+                                                    onChange={(e) => handleSocialLinksChange(e, index)}
+                                                    value={obj.url}
+                                                />
+                                            </FlexRow>
+                                        )
+                                    })
+                                }
+                                <Box
+                                    onClick={updateSocialLinks}
+                                    sx={{ display: 'flex', justifyContent: 'center', gap: '5px', alignItems: 'center', color: 'primary.main', cursor: 'pointer', width: '60px' }}
+                                >
+                                    <Typography sx={{ fontSize: '10px' }}>Save </Typography><TickCircle cursor='pointer' size='12px' />
+                                </Box>
                             </Box>
                         </AccordionDetails>
                     </Accordion>
@@ -439,13 +623,31 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
                             id="panel1a-header"
                             sx={{ minHeight: '30px !important', height: '30px' }}
                         >
-                            <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Mbile Numbe</Typography>
+                            <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Mobile Numbe</Typography>
                         </AccordionSummary>
                         <AccordionDetails
                             sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
                         >
-                            <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', }}>
-                                <Typography sx={{ fontSize: '10px' }}>Save </Typography><TickCircle cursor='pointer' size='12px' />
+
+                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'end', color: 'primary.main', gap: '20px', p: '20px 8px' }}>
+                                <Inputtt>
+                                    {/* <Phone sx={{ color: 'primary.light', fontSize: '30px' }} /> */}
+                                    <Inputt
+                                        placeholder="enter your phone number"
+                                        type="tel"
+                                        value={phone}
+                                        id="phone"
+                                        name="phone"
+                                        dir="ltr"
+                                        onChange={(e) => setPhone(e.target.value)}
+                                    />
+                                </Inputtt>
+                                <Box
+                                    onClick={updatePhoneNum}
+                                    sx={{ display: 'flex', justifyContent: 'center', gap: '5px', alignItems: 'center', color: 'primary.main', cursor: 'pointer', width: '60px' }}
+                                >
+                                    <Typography sx={{ fontSize: '10px' }}>Save </Typography><TickCircle cursor='pointer' size='12px' />
+                                </Box>
                             </Box>
                         </AccordionDetails>
                     </Accordion>
@@ -507,7 +709,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
                                         <Close sx={{ cursor: 'pointer' }} />
                                     </div>
                                 </FlexRow>
-                                <Crop imageURL={bannerPhotoURL} aspectRatio={18/5} setOpenCrop={setOpenBannerCrop} setFile={setBannerFile} setPhotoURL={setBannerPhotoURL} />
+                                <Crop imageURL={bannerPhotoURL} aspectRatio={18 / 5} setOpenCrop={setOpenBannerCrop} setFile={setBannerFile} setPhotoURL={setBannerPhotoURL} />
                             </Box>
                         </Box>
                     </Modal>
@@ -629,7 +831,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
                     </Accordion>
                 </>
             }
-        </Bar>
+        </Bar >
     );
 }
 

@@ -42,6 +42,7 @@ const emptyUser = {
     socialId: '',
     balance: '',
     privateKey: '',
+    extra:[]
 }
 
 const anEmptyCart = []
