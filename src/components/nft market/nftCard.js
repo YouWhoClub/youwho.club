@@ -99,9 +99,6 @@ const NFTCard = ({ image, name, creator, likes, price }) => {
                                 price:{price}$
                             </div>
                         </FlexRow>
-
-
-
                         <MorePopper tabs={moretabs} open={open} anchorEl={anchorEl} handleClose={handleClose} />
                     </DetailsSection>
                 </Card>
