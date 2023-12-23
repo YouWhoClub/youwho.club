@@ -107,8 +107,13 @@ const PrivateGallery = () => {
     const [expandedColl, setExpandedColl] = useState(undefined)
 
     useEffect(() => {
-        getUserPVGalleries()
-        // fetchUser(globalUser.token)
+        if (globalUser.YouWhoID) {
+            getUserPVGalleries()
+        }
+    }, [globalUser.YouWhoID])
+
+
+    useEffect(() => {
         window.document.getElementById("scrollable-profile-panel-inside").scrollTo(0, 0);
 
     }, [globalUser, globalUser.token])
@@ -197,6 +202,7 @@ const PrivateGallery = () => {
                                                         openedGallery.collections.map(collection => (
                                                             <Fragment key={`collection_${collection.id}`}>
                                                                 <CollectionCard
+                                                                    gallId={openedGallery.id}
                                                                     action={'mint'}
                                                                     likes={0}
                                                                     setExpandedId={setExpandedColl}

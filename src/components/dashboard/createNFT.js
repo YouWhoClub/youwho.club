@@ -73,10 +73,6 @@ const CreateNFT = ({ setMainActiveTab }) => {
     const [aspectRatio, setAspectRatio] = useState('16 : 9')
     const [openColCrop, setOpenColCrop] = useState(false)
     const [openNFTCrop, setOpenNFTCrop] = useState(false)
-    // const [tokenAmount, setTokenAmount] = useState(undefined)
-    // const [NFTName, setNFTName] = useState(null)
-    // const [NFTDescription, setNFTDescription] = useState(null)
-    // const [NFTCollection, setNFTCollection] = useState(null)
     const colImageInput = useRef()
     const [colImageFile, setColImageFile] = useState(null);
     const [colPhotoURL, setColPhotoURL] = useState(null);
@@ -112,10 +108,15 @@ const CreateNFT = ({ setMainActiveTab }) => {
         attributes: [],
     })
 
+    useEffect(() => {
+        if (globalUser.YouWhoID) {
+            getGasFee()
+            getPrivateGallery()
+        }
+    }, [globalUser.YouWhoID])
+
 
     useEffect(() => {
-        getGasFee()
-        getPrivateGallery()
         window.document.getElementById("scrollable-profile-panel-inside").scrollTo(0, 0);
     }, [])
 
@@ -837,8 +838,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
                                                         Owner Address : &nbsp;
                                                     </Typography>
                                                     <Input name="owner_cid" color="primary.gray" style={{ outline: "none", fontSize: '12px' }}
-                                                        onChange={handleColFormChange}
-                                                        value={collectionForm.owner_cid}
+                                                        value={globalUser.YouWhoID}
                                                         disabled={true}
                                                     />
                                                 </Box>

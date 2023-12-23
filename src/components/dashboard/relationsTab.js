@@ -324,9 +324,10 @@ const RelationsTab = () => {
         setActiveTab(e.target.id)
     }
     useEffect(() => {
-        if (globalUser.token) {
+        if (globalUser.token && globalUser.YouWhoID) {
             getFollowings()
         }
+
         window.document.getElementById("scrollable-profile-panel-inside").scrollTo(0, 0);
         // return () => {
         //     if (apiCall.current !== undefined) {
@@ -334,7 +335,7 @@ const RelationsTab = () => {
         //     }
         // }
 
-    }, [globalUser.token])
+    }, [globalUser.token, globalUser.YouWhoID])
 
     return (
         <Box sx={{

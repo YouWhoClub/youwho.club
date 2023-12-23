@@ -87,8 +87,10 @@ const PublicGallery = () => {
     }, [])
 
     useEffect(() => {
-        getUserPublicCollection()
-    }, [globalUser, globalUser.token])
+        if (globalUser.YouWhoID) {
+            getUserPublicCollection()
+        }
+    }, [globalUser.YouWhoID, globalUser.token])
 
     const getUserPublicCollection = async () => {
         let request = await fetch(`${API_CONFIG.AUTH_API_URL}/collection/get/all/for/${globalUser.YouWhoID}/?from=0&to=10`, {

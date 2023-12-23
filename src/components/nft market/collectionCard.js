@@ -1,20 +1,24 @@
 import styled from "@emotion/styled";
-import { Box, ClickAwayListener, MenuItem, Popper, Typography, Modal } from "@mui/material";
+import { Box, ClickAwayListener, MenuItem, Popper, Typography, Modal, List } from "@mui/material";
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
-import { ArrowDown2, ArrowUp2, Heart, More, Coin } from "iconsax-react";
+import { ArrowDown2, ArrowUp2, Heart, More, Coin, Money } from "iconsax-react";
 import { useEffect, useState, useRef } from "react";
 import ButtonPurple from "../buttons/buttonPurple";
 import tempPic from '../../assets/bgDots.svg'
 import tempNFT from '../../assets/youwho-hugcoin.svg'
 import ButtonOutline from "../buttons/buttonOutline";
 import purpleNFT from '../../assets/purple-nft.svg'
-import { ArrowBack, ArrowForward, ArrowLeft, ArrowRight, ArrowUpward } from "@mui/icons-material";
-import { NFTCommentCard, MyInput } from "../utils";
+import { ArrowBack, ArrowForward, ArrowLeft, ArrowRight, ArrowUpward, Close, CommentOutlined, DescriptionOutlined, LinkOutlined } from "@mui/icons-material";
+import { NFTCommentCard, MyInput, ButtonInput, BetweenTwoSelection } from "../utils";
 import ButtonPurpleLight from "../buttons/buttonPurpleLight";
 import { API_CONFIG } from "../../config";
 import { useDispatch, useSelector } from "react-redux";
 import { toast, ToastContainer } from 'react-toastify';
 import generateSignature from "../../utils/signatureUtils";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+// import { Box, CircularProgress, ClickAwayListener, MenuItem, Modal, Popper, TextField, Typography, inputBaseClasses, inputLabelClasses } from "@mui/material"
+
 
 
 const Card = styled(Box)(({ theme }) => ({
@@ -138,9 +142,9 @@ const Button = styled('button')(({ theme, color }) => ({
     fontSize: '12px',
 }))
 
-const CollectionCard = ({ likes, link, expanded, setExpandedId, collection, action, setActiveTab }) => {
+const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collection, action, setActiveTab }) => {
 
-    const { id, col_name, collection_background, created_at, owner_screen_cid, royalties_address_screen_cid, col_description, extra } = collection
+    const { id, col_name, collection_background, created_at, owner_screen_cid, royalties_address_screen_cid, col_description, extra, freeze_metadata, base_uri, royalties_share } = collection
     const [colDetExpanded, setColDetExpanded] = useState(true)
     const globalUser = useSelector(state => state.userReducer)
     const [nfts, setNFTs] = useState([]);
@@ -150,6 +154,49 @@ const CollectionCard = ({ likes, link, expanded, setExpandedId, collection, acti
     const [amount, setAmount] = useState(0)
     const [NFTPrice, setNFTPrice] = useState(null)
     const [openModal, setOpenModal] = useState(false)
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const [editModal, setEditModal] = useState(false)
+    const [collectionForm, setCollectionForm] = useState({
+        collection_id: id,
+        gallery_id: gallId,
+        freeze_metadata: freeze_metadata, //*
+        nfts: collection.nfts,
+        amount: 0,
+        owner_cid: globalUser.cid,
+        base_uri: base_uri, // *
+        royalties_share: royalties_share, // *
+        royalties_address_screen_cid: royalties_address_screen_cid,
+        extra: extra,
+        col_description: col_description,
+    })
+
+
+    const handleColFormChange = (e) => {
+        if (e.target.type == 'number')
+            setCollectionForm(prev => ({
+                ...prev,
+                [e.target.name]: Number(e.target.value)
+            }))
+        else
+            setCollectionForm(prev => ({
+                ...prev,
+                [e.target.name]: e.target.value
+            }))
+    }
+
+    const handleClick = (event) => {
+        if (!open)
+            setAnchorEl(event.currentTarget);
+        else
+            setAnchorEl(null)
+    };
+    const handleClose = (e) => {
+        setAnchorEl(null);
+    };
+    const handleClickAway = () => {
+        setAnchorEl(null);
+    }
 
 
     useEffect(() => {
@@ -209,6 +256,7 @@ const CollectionCard = ({ likes, link, expanded, setExpandedId, collection, acti
 
         if (!response.is_error) {
             setAmount(response.data)
+            setCollectionForm(prev => ({ ...prev, amount: response.data }))
         } else {
             console.log(response.message)
         }
@@ -320,6 +368,37 @@ const CollectionCard = ({ likes, link, expanded, setExpandedId, collection, acti
             if (!response.is_error) {
                 updateToast(true, response.message)
                 setActiveTab("sales-list")
+            } else {
+                console.error(response.message)
+                updateToast(false, response.message)
+            }
+        } else {
+            updateToast(false, 'please save your private key first')
+        }
+    }
+
+
+    const updateCollection = async () => {
+        loading();
+        if (globalUser.privateKey) {
+            const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, collectionForm);
+
+            // sending the request
+
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/collection/update`, {
+                method: 'POST',
+                body: JSON.stringify(requestData),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            })
+            let response = await request.json()
+            console.log(response);
+
+            if (!response.is_error) {
+                updateToast(true, response.message)
+                setEditModal(false)
             } else {
                 console.error(response.message)
                 updateToast(false, response.message)
@@ -546,64 +625,177 @@ const CollectionCard = ({ likes, link, expanded, setExpandedId, collection, acti
                 </Box>
             </Container>
             :
-            <Card
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-            >
-                {
-                    isHovered ?
-                        <Box sx={{
-                            display: 'grid',
-                            gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
-                            gridTemplateRows: '1fr 1fr 1fr',
-                            height: '144px',
-                            width: '200px',
-                            boxSizing: 'border-box',
-                            padding: '4px', gap: '4px',
-                            borderRadius: '9px',
-                            alignItems: 'center',
-                            backgroundColor: 'primary.gray',
-                            boxShadow: 'primary.boxShadow',
-                        }}>
-                            {
-                                nfts &&
-                                nfts.map((nft, index) => {
-                                    const imageURL = (nft.metadata && nft.metadata.image) ? nft.metadata.image : purpleNFT;
+            <ClickAwayListener onClickAway={handleClickAway}>
+                <Card
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                >
+                    {
+                        isHovered ?
+                            <Box sx={{
+                                display: 'grid',
+                                gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
+                                gridTemplateRows: '1fr 1fr 1fr',
+                                height: '144px',
+                                width: '200px',
+                                boxSizing: 'border-box',
+                                padding: '4px', gap: '4px',
+                                borderRadius: '9px',
+                                alignItems: 'center',
+                                backgroundColor: 'primary.gray',
+                                boxShadow: 'primary.boxShadow',
+                            }}>
+                                {
+                                    nfts &&
+                                    nfts.map((nft, index) => {
+                                        const imageURL = (nft.metadata && nft.metadata.image) ? nft.metadata.image : purpleNFT;
 
-                                    return (
-                                        <Box
-                                            key={nft.id}
-                                            sx={{
-                                                background: `url('${imageURL}') no-repeat center`,
-                                                backgroundSize: 'cover',
-                                                borderColor: 'primary.main',
-                                                boxSizing: 'border-box',
-                                                aspectRatio: '1',
-                                                borderRadius: '8px',
-                                            }} >
-                                        </Box>
-                                    )
-                                })
+                                        return (
+                                            <Box
+                                                key={nft.id}
+                                                sx={{
+                                                    background: `url('${imageURL}') no-repeat center`,
+                                                    backgroundSize: 'cover',
+                                                    borderColor: 'primary.main',
+                                                    boxSizing: 'border-box',
+                                                    aspectRatio: '1',
+                                                    borderRadius: '8px',
+                                                }} >
+                                            </Box>
+                                        )
+                                    })
+                                }
+                            </Box>
+                            :
+                            <CollectionImage sx={{
+                                background: `${BG_URL(PUBLIC_URL(`${API_CONFIG.API_URL}/${collection_background}`))} no-repeat center`,
+                                '&:hover': {
+                                    background: `${BG_URL(PUBLIC_URL(`${collection_background}`))} no-repeat center`,
+                                }
+                            }} />
+                    }
+
+                    <DetailsSection>
+                        <FlexRow sx={{ mb: '4px', justifyContent: 'end' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', fontSize: '10px' }}><Heart size='15px' />&nbsp;{likes}</div>
+                        </FlexRow>
+                        <Typography sx={{ mb: '14px', fontSize: '12px' }}>{col_name}</Typography>
+                        <FlexRow sx={{ mb: '4px', alignItems: 'center', gap: '16px' }}>
+                            <ButtonPurpleLight
+                                br='8px' height={'30px'} text={'Expand Collection'} w={'100%'} onClick={() => setExpandedId(id)} />
+                            <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} color="#787878" />
+                        </FlexRow>
+                    </DetailsSection>
+                    <Popper
+                        PaperProps={{
+                            style: {
                             }
-                        </Box>
-                        :
-                        <CollectionImage sx={{
-                            background: `${BG_URL(PUBLIC_URL(`${API_CONFIG.API_URL}/${collection_background}`))} no-repeat center`,
+                        }}
+                        disableScrollLock={true}
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                        }}
+                        placement='left-start'
+                        sx={{
+                            marginTop: '20px !important',
+                            width: '190px',
+                            bgcolor: 'secondary.bg', p: '20px',
+                            zIndex: 1400, borderRadius: '20px 0px 20px 20px',
+                            overflow: "hidden",
+                            boxShadow: localStorage.getItem('theme') == 'dark' ? '0px 0px 12px 1px rgba(227,209,231, 0.25)' : '0px 0px 10px 0px rgba(0, 0, 0, 0.25)',
+                        }}
+                    >
+                        <MenuItem id={'edit'} sx={{
+                            display: 'flex', alignItems: 'center', p: '16px 8px',
+                            color: 'primary.text',
                             '&:hover': {
-                                background: `${BG_URL(PUBLIC_URL(`${collection_background}`))} no-repeat center`,
+                                bgcolor: 'secondary.bgOp',
                             }
-                        }} />
-                }
+                        }}
+                            onClick={() => {
+                                setEditModal(true)
+                                handleClose()
+                            }}
+                        >
+                            edit
+                        </MenuItem>
+                    </Popper>
 
-                <DetailsSection>
-                    <FlexRow sx={{ mb: '4px', justifyContent: 'end' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', fontSize: '10px' }}><Heart size='15px' />&nbsp;{likes}</div>
-                    </FlexRow>
-                    <Typography sx={{ mb: '14px', fontSize: '12px' }}>{col_name}</Typography>
-                    <ButtonPurpleLight
-                        br='8px' height={'30px'} text={'Expand Collection'} w={'100%'} onClick={() => setExpandedId(id)} />
-                </DetailsSection>
-            </Card>
+                    <Modal
+                        open={editModal}
+                        onClose={() => {
+                            setEditModal(false)
+                        }}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                        disableScrollLock={true}
+                    ><Box sx={(theme) => ({
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        backdropFilter: 'blur(10px)'
+                    })}>
+                            <Box sx={(theme) => ({
+                                borderRadius: { xs: '0', sm: '24px' },
+                                width: { xs: '100%', sm: '400px' }, height: { xs: '100%', sm: 'auto' },
+                                backgroundColor: 'secondary.bg', boxShadow: theme.palette.primary.boxShadow, boxSizing: 'border-box',
+                                display: 'flex', flexDirection: 'column',
+                                padding: '30px', justifyContent: 'space-between', alignItems: 'center'
+                            })}>
+                                <FlexRow sx={{ justifyContent: 'end !important', width: '100%' }}>
+                                    <Box sx={{ padding: '10px' }}>
+                                        <Close onClick={() => setEditModal(false)} sx={{ cursor: 'pointer', fontSize: '24px' }} />
+                                    </Box>
+                                </FlexRow>
+
+                                < FlexRow sx={{ mb: '12px' }}>
+                                    <MyInput name={'col_description'} label={'Description *'} width={'100%'} icon={<DescriptionOutlined sx={{ color: 'primary.light' }} />}
+                                        onChange={handleColFormChange}
+                                        value={collectionForm.col_description}
+                                    />
+                                    <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                </FlexRow >
+
+                                <FlexRow sx={{ mb: '16px' }}>
+                                    <MyInput name={'base_uri'} label={'Base URI *'} width={'100%'} icon={<LinkOutlined sx={{ color: 'primary.light' }} />}
+                                        onChange={handleColFormChange}
+                                        value={collectionForm.base_uri}
+                                    />
+                                    <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                </FlexRow>
+                                <FlexRow sx={{ mb: '16px' }}>
+                                    <ButtonInput label={'Freeze Metadata'} width={'100%'}
+                                        button={<BetweenTwoSelection
+                                            color={'secondary.text'}
+                                            options={[true, false]}
+                                            id={'metaupdate-create-coll'}
+                                            name='freeze_metadata'
+                                            setOption={value => setCollectionForm((prev) => ({ ...prev, freeze_metadata: value }))}
+                                            selected={collectionForm.freeze_metadata}
+                                        />
+                                        }
+                                    />
+                                    <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                </FlexRow>
+                                <FlexRow sx={{ mb: '16px' }}>
+                                    <MyInput type='number' name={'royalties_share'} label={'Royalty Share *'} width={'100%'} icon={<Money sx={{ color: 'primary.light' }} />}
+                                        onChange={handleColFormChange}
+                                        value={collectionForm.royalties_share}
+                                    />
+                                    <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                </FlexRow>
+                                <ButtonPurple text={'Update'} onClick={updateCollection} w='100%' />
+                            </Box>
+                        </Box>
+
+                    </Modal>
+                </Card>
+            </ClickAwayListener >
+
         }
     </>
     );
