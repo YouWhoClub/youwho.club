@@ -313,9 +313,17 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                     {theme == 'light' ?
                         <YouWhoIconPurple onClick={() => navigate('/')} />
                         : <YouWhoIcon onClick={() => navigate('/')} />}
-                    <Box sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: '25px' }}>
-                        <Link to={'/about-us'} style={{ textDecoration: 'none', color: theme == 'light' ? 'black' : 'white', fontSize: '18px' }}>About Us</Link>
-                        <Link to={'/blog'} style={{ textDecoration: 'none', color: theme == 'light' ? 'black' : 'white', fontSize: '18px' }}>Weblog</Link>
+                    <Box sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: '25px', color: 'primary.text' }}>
+                        <Link to={'/about-us'} style={{
+                            textDecoration: window.location.pathname == '/about-us' ? 'underline' : 'none', fontSize: '18px',
+                            fontWeight: window.location.pathname == '/about-us' ? 700 : 400,
+                            color: window.location.pathname == '/about-us' ? '#9747FF' : 'inherit'
+                        }}>About Us</Link>
+                        <Link to={'/blog'} style={{
+                            textDecoration: window.location.pathname == '/blog' ? 'underline' : 'none', fontSize: '18px',
+                            fontWeight: window.location.pathname == '/blog' ? 700 : 400,
+                            color: window.location.pathname == '/blog' ? '#9747FF' : 'inherit'
+                        }}>Weblog</Link>
                     </Box>
                 </Box>
 

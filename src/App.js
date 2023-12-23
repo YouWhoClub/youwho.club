@@ -34,6 +34,8 @@ import CheckoutSuccess from './pages/checkoutSuccess'
 import CheckoutCancel from './pages/checkoutCancel'
 import PrivacyPolicy from './pages/privacyPolicy';
 import ViewMainGalleryPage from './pages/main-gallery';
+import Weblog from './pages/weblog';
+import AboutUs from './pages/about-us';
 // import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
 
 
@@ -228,16 +230,17 @@ function App() {
                   <Wrapper>
                     <Routes>
                       <Route exact path="/" element={<></>} />
-                      <Route exact path="/landing" element={<></>} />
+                      {/* <Route exact path="/landing" element={<></>} /> */}
                       <Route exact path="/auth" element={<></>} />
+                      <Route exact path="/blog" element={<Weblog switchTheme={switchTheme} theme={theme}/>} />
+                      <Route exact path="/about-us" element={<AboutUs switchTheme={switchTheme} theme={theme}/>} />
                       {/* <Route path='*' element={<></>} /> */}
 
 
                       <Route exact path="/main-gallery" element={<ViewMainGalleryPage theme={theme} switchTheme={switchTheme} />} />
-                      <Route exact path="/transfer" element={<TransferPage theme={theme} switchTheme={switchTheme} />} />
+                      {/* <Route exact path="/transfer" element={<TransferPage theme={theme} switchTheme={switchTheme} />} /> */}
 
                       <Route exact path="/gallery" element={<MainGallery switchTheme={switchTheme} theme={theme} />} />
-
                       <Route exact path="/dashboard" element={<Dashboard switchTheme={switchTheme} theme={theme} />} />
                       <Route exact path="/wallet" element={<WalletPage theme={theme} switchTheme={switchTheme} />} />
 
@@ -245,7 +248,7 @@ function App() {
 
 
                       {/* <Route exact path="/verify-mail" element={<VerifyMail theme={theme} />} /> */}
-                      <Route exact path="/verify-phone" element={<VerifyPhone theme={theme} />} />
+                      {/* <Route exact path="/verify-phone" element={<VerifyPhone theme={theme} />} /> */}
                       <Route exact path="/checkout/success" element={<CheckoutSuccess switchTheme={switchTheme} theme={theme} />} />
                       <Route exact path="/checkout/cancel" element={<CheckoutCancel switchTheme={switchTheme} theme={theme} />} />
 
