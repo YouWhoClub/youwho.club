@@ -84,7 +84,7 @@ const AssetsTab = () => {
     }, [globalUser.YouWhoID, globalUser.token])
 
     const getUserOncahinNfts = async () => {
-        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/get/all/onchain/?from=0&to=10`, {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/get/all/onchain/for/${globalUser.YouWhoID}/?from=0&to=10`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

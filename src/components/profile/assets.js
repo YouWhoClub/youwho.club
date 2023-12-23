@@ -1,14 +1,17 @@
 import styled from "@emotion/styled";
-import { Box } from "@mui/material";
 import FilterSelection from "../filterSelection";
 import { AscSelect } from "../utils";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import purpleNFT from '../../assets/purple-nft.svg'
 import creamNFT from '../../assets/cream-nft.svg'
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
-import NFTAssetCard from "../nft market/nftAssetCard";
+// import NFTAssetCard from "../nft market/nftAssetCard";
+import { Box, CircularProgress, Typography } from "@mui/material";
+import { API_CONFIG } from '../../config'
+import NFTOnchainCard from "../nft market/nftOnchainCard";
+
 
 const Container = styled(Box)(({ theme }) => ({
     display: 'flex', boxSizing: 'border-box',
@@ -38,13 +41,26 @@ const FlexColumn = styled(Box)(({ theme }) => ({
     //  width: '100%',
     alignItems: 'center',
 }))
-const OthersProfieAssetTab = ({ user }) => {
-    const globalUser = useSelector(state => state.userReducer)
 
+const Gallery = styled(Box)(({ theme }) => ({
+    width: '100%', boxSizing: "border-box", gap: '16px',
+    display: 'flex', alignItems: 'center',
+    flexWrap: 'wrap', justifyContent: 'center'
+}))
+
+const OthersProfieAssetTab = ({ user }) => {
+
+    const globalUser = useSelector(state => state.userReducer)
     const [filterValue, setFilterValue] = useState('')
     const [sortValue, setSortValue] = useState('')
     const [categoryValue, setCategoryValue] = useState('')
     const [asc, setAsc] = useState(true)
+    const [oncahinNfts, setOncahinNfts] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [expandedColl, setExpandedColl] = useState(undefined)
+    const [expandedNFT, setExpandedNFT] = useState(undefined)
+
+
     const handleFilterSelect = (e) => {
         e.preventDefault()
         setFilterValue(e.target.id)
@@ -57,14 +73,39 @@ const OthersProfieAssetTab = ({ user }) => {
         e.preventDefault()
         setSortValue(e.target.id)
     }
-    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (user.YouWhoID) {
+            getUserOncahinNfts()
+        }
+    }, [user.YouWhoID, globalUser.token])
+
+    const getUserOncahinNfts = async () => {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/get/all/onchain/for/${user.YouWhoID}/?from=0&to=10`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response)
+        if (response.is_error == false) {
+            setOncahinNfts(response.data.onchain_nfts.nfts)
+
+            setLoading(false)
+        }
+    }
+
+
+
 
 
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: '24px' }}>
             <FlexColumn sx={{ gap: '15px' }}>
                 <Box sx={{
-                    display: 'flex', justifyContent: 'center', alignItems: 'center',flexWrap:'wrap',
+                    display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap',
                     flexDirection: { xs: 'column', md: 'row' }, gap: '15px'
                 }}>
                     <FilterSelection width={'280px'} tabs={['bla', 'bla', 'bla']}
@@ -73,7 +114,7 @@ const OthersProfieAssetTab = ({ user }) => {
                         text={'Sort By'} id={'sort-others-assets'} handleSelect={handleSortSelect} selectValue={sortValue} />
                 </Box>
                 <Box sx={{
-                    display: 'flex', justifyContent: 'center', alignItems: 'center',flexWrap:'wrap',
+                    display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap',
                     flexDirection: { xs: 'column', md: 'row' }, gap: '15px'
                 }}>
                     <FilterSelection handleSelect={handleCatSelect} width={'280px'} tabs={['art', 'pink', 'bla', 'animal']}
@@ -81,16 +122,31 @@ const OthersProfieAssetTab = ({ user }) => {
                     <AscSelect asc={asc} id={'asc-others-assets'} width={'280px'} setAsc={setAsc} />
                 </Box>
             </FlexColumn>
-            <Box sx={{
-                display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap',
-                rowGap: '24px', columnGap: '10px'
-            }}>
-                <NFTAssetCard />
-                <NFTAssetCard />
-                <NFTAssetCard />
-                <NFTAssetCard />
-                <NFTAssetCard />
-            </Box>
+            <Gallery sx={{ mt: 5 }}>
+                {
+                    oncahinNfts &&
+                    oncahinNfts.map((nft, index) => {
+                        return (
+                            <Fragment key={`collection_${nft.token_id}`}>
+                                <NFTOnchainCard
+                                    setActiveTab={null}
+                                    nft={nft}
+                                    setExpandedId={setExpandedNFT}
+                                    expanded={expandedNFT == nft.token_id}
+                                    id={nft.token_id}
+                                />
+                            </Fragment>
+                        )
+                    })
+                }
+                {oncahinNfts && oncahinNfts.length > 0 ?
+                    undefined :
+                    <Typography
+                        sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
+                        No NFTs Listed
+                    </Typography>}
+
+            </Gallery>
         </Box>
     );
 }

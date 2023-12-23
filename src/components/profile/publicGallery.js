@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router'
 import ButtonPurpleLight from '../buttons/buttonPurpleLight'
 import { API_CONFIG } from '../../config'
 import CollectionCard from '../nft market/collectionCard'
-import NFTSellCard from '../nft market/nftSellCard'
+import NFTBuyCard from '../nft market/nftBuyCard'
 import { setPrivateKey } from '../../redux/actions'
 
 const Gallery = styled(Box)(({ theme }) => ({
@@ -219,7 +219,7 @@ const PublicGallery = ({ user }) => {
                                                 listedNFTs.map(nft => {
                                                     return (
                                                         <Fragment key={`collection_${nft.id}`}>
-                                                            <NFTSellCard
+                                                            <NFTBuyCard
                                                                 setActiveTab={setActiveTab}
                                                                 nft={nft}
                                                                 setExpandedId={setExpandedNFT}
