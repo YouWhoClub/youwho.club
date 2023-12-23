@@ -154,6 +154,8 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
     const [amount, setAmount] = useState(0)
     const [NFTPrice, setNFTPrice] = useState(null)
     const [openModal, setOpenModal] = useState(false)
+    const [openTransferModal, setOpenTransferModal] = useState(false)
+    const [TransferTo, setTransferTo] = useState(null)
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const [editModal, setEditModal] = useState(false)
@@ -266,6 +268,10 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
         setOpenModal(false)
         setNFTPrice(null)
     }
+    const handleTransferCancel = () => {
+        setOpenTransferModal(false)
+        setTransferTo(null)
+    }
 
 
     const mintNFT = async () => {
@@ -343,6 +349,61 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                 nft_name: nft.nft_name,
                 nft_description: nft.nft_description,
                 current_price: NFTPrice, // mint with primary price of 20 tokens, this must be the one in db
+                freeze_metadata: nft.freeze_metadata,
+                extra: nft.extra,
+                attributes: nft.attributes,
+                comments: nft.comments,
+                likes: nft.likes,
+            }
+
+            const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
+
+            // sending the request
+
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/update`, {
+                method: 'POST',
+                body: JSON.stringify(requestData),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            })
+            let response = await request.json()
+            console.log(response);
+
+            if (!response.is_error) {
+                updateToast(true, response.message)
+                setActiveTab("sales-list")
+            } else {
+                console.error(response.message)
+                updateToast(false, response.message)
+            }
+        } else {
+            updateToast(false, 'please save your private key first')
+        }
+    }
+    const Transfer = async () => {
+        loading();
+
+        if (globalUser.privateKey) {
+            const nft = nfts[selectedNFT]
+
+            const data = {
+                caller_cid: globalUser.cid,
+                transfer_to_screen_cid: TransferTo,
+                nft_id: nft.id,
+                amount: amount,
+                event_type: "transfer",
+                buyer_screen_cid: null,
+                contract_address: nft.contract_address,
+                metadata_uri: nft.metadata_uri,
+                current_owner_screen_cid: nft.current_owner_screen_cid,
+                onchain_id: nft.onchain_id,
+                is_minted: nft.is_minted,
+                is_listed: nft.is_listed,
+                nft_name: nft.nft_name,
+                nft_description: nft.nft_description,
+                current_price: nft.current_price,
                 freeze_metadata: nft.freeze_metadata,
                 extra: nft.extra,
                 attributes: nft.attributes,
@@ -508,7 +569,10 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                                         {
                                             action == 'mint' ?
                                                 <ButtonPurple text={'Mint This NFT'} onClick={mintNFT} w='100%' />
-                                                : <ButtonPurple text={'Add To Sales List'} onClick={() => setOpenModal(true)} w='100%' />
+                                                : <>
+                                                    <ButtonPurple text={'Add To Sales List'} onClick={() => setOpenModal(true)} w='100%' />
+                                                    <ButtonPurple text={'Transfer'} onClick={() => setOpenTransferModal(true)} w='100%' />
+                                                </>
                                         }
                                         <FlexRow>
                                             <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>Creation Date : </Typography>
@@ -598,6 +662,52 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                                                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
                                                     <Button style={{ borderRight: '1px solid #DEDEDE' }} color="primary.darkGray" onClick={handleCancel}>cancel</Button>
                                                     <ButtonPurple disabled={(NFTPrice == 0 || NFTPrice == null)} text={'Add To Sales List'} onClick={sellNFT} w='100%' />
+                                                </Box>
+
+                                            </Box>
+                                        </Box>
+                                    </Box>
+
+                                </Modal >
+                                <Modal
+                                    open={openTransferModal}
+                                    onClose={() => setOpenTransferModal(false)}
+                                    aria-labelledby="modal-modal-title"
+                                    aria-describedby="modal-modal-description"
+                                    sx={{ '& .MuiBackdrop-root': { backgroundColor: 'rgba(255, 255, 255, 0.50)', backdropFilter: "blur(16.5px)", } }}
+                                >
+                                    <Box sx={{
+                                        width: '100%',
+                                        height: '100%',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    }}>
+                                        <Box sx={{
+                                            borderRadius: '24px',
+                                            width: { xs: '100%', sm: '400px' }, height: { xs: '100%', sm: '450px' },
+                                            backgroundColor: 'secondary.bg', color: 'primary.text', boxSizing: 'border-box',
+                                            display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between',
+                                            boxShadow: '0px 0px 20px 0px rgba(0, 0, 0, 0.50)',
+                                        }}>
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '30px', padding: '40px' }}>
+                                                <Typography sx={{ textAlign: 'center', fontSize: '16px' }}>
+                                                    Enter YouWhoID
+                                                </Typography>
+                                                <Typography sx={{ textAlign: 'center', fontSize: '12px', fontFamily: 'inter', color: 'primary.darkGray' }}>
+                                                    Enter the YouWhoID of the person you'd like to transfer your NFT to                                           </Typography>
+                                                <FlexRow>
+                                                    <MyInput
+                                                        value={TransferTo}
+                                                        name={"recipent_screen_cid"}
+                                                        onChange={(e) => setTransferTo(e.target.value)}
+                                                        label={'YouWho ID'} width={'100%'}
+                                                        icon={<Coin color="#BEA2C5" />} type={'text'} id={'recipent_screen_cid'}
+                                                    />
+                                                </FlexRow>
+                                            </Box>
+                                            <Box>
+                                                <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                                                    <Button style={{ borderRight: '1px solid #DEDEDE' }} color="primary.darkGray" onClick={handleTransferCancel}>cancel</Button>
+                                                    <ButtonPurple disabled={(TransferTo == null)} text={'Transfer'} onClick={Transfer} w='100%' />
                                                 </Box>
 
                                             </Box>
