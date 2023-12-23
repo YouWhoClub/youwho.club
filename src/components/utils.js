@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { AccountCircle, AddAPhotoOutlined, Close, Description, PriceChange, Search, Subject, Title } from "@mui/icons-material"
+import { AccountCircle, AddAPhotoOutlined, Close, Description, PriceChange, Search, Subject, Title, Token } from "@mui/icons-material"
 import { Box, CircularProgress, ClickAwayListener, MenuItem, Modal, Popper, TextField, Typography, inputBaseClasses, inputLabelClasses } from "@mui/material"
 import { BG_URL, PUBLIC_URL } from "../utils/utils"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -7,7 +7,7 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons"
 import { useNavigate } from "react-router"
 import { useEffect, useRef, useState } from "react"
 import ButtonPurple from "./buttons/buttonPurple"
-import { ArrowDown2, ArrowUp2, More } from "iconsax-react"
+import { ArrowDown2, ArrowSwapHorizontal, ArrowUp2, DollarCircle, More, OceanProtocol } from "iconsax-react"
 import ButtonPurpleLight from "./buttons/buttonPurpleLight"
 import ButtonOutline from "./buttons/buttonOutline"
 import { API_CONFIG } from "../config"
@@ -1225,6 +1225,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const [openEditModal, setOpenEditModal] = useState(false)
+    const [openGalleryDetails, setOpenGalleryDetails] = useState(false)
     const [openInviteModal, setOpenInviteModal] = useState(false)
     const [openJoinedListModal, setOpenJoinedListModal] = useState(false)
     const [galleryName, setGalleryName] = useState(gallery.gal_name)
@@ -1549,11 +1550,21 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
         { text: 'Delete', id: 'gall-card-delete', onClick: deleteMyPVGallery },
     ]
     const joinedOthersTabs = [
-        { text: 'Galley Details', id: 'gall-card-details', onClick: () => console.log('Galley Details') },
+        {
+            text: 'Galley Details', id: 'gall-card-details', onClick: () => {
+                setOpenGalleryDetails(true)
+                handleClose()
+            }
+        },
         { text: 'Exit Gallery', id: 'gall-card-exit', onClick: () => exitGallery(globalUser.cid, gallery.id) },
     ]
     const othersTabs = [
-        { text: 'Galley Details', id: 'gall-card-details', onClick: () => console.log('Galley Details') },
+        {
+            text: 'Galley Details', id: 'gall-card-details', onClick: () => {
+                setOpenGalleryDetails(true)
+                handleClose()
+            }
+        },
     ]
     const handleGallImageChange = (e) => {
         const file = e.target.files[0];
@@ -1973,7 +1984,173 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
                     </Box>
                 </Box>
             </Modal>
+            {/* gallery details modal ==> */}
+            <Modal
+                open={openGalleryDetails}
+                onClose={() => {
+                    setOpenGalleryDetails(false)
+                }}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                disableScrollLock={true}
+            >
+                <Box sx={(theme) => ({
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    backdropFilter: 'blur(10px)'
+                })}>
+                    <Box sx={(theme) => ({
+                        borderRadius: { xs: '0', sm: '24px' },
+                        width: { xs: '100%', sm: '400px' }, height: { xs: '100%', sm: 'auto' },
+                        backgroundColor: 'secondary.bg', boxShadow: theme.palette.primary.boxShadow, boxSizing: 'border-box',
+                        display: 'flex', flexDirection: 'column',
+                        padding: '30px', justifyContent: 'space-between', alignItems: 'center'
+                    })}>
+                        <FlexRow sx={{ justifyContent: 'end !important', width: '100%' }}>
+                            <Box sx={{ padding: '10px' }}>
+                                <Close onClick={() => setOpenGalleryDetails(false)} sx={{ cursor: 'pointer', fontSize: '24px' }} />
+                            </Box>
+                        </FlexRow>
+                        <FlexColumn sx={{ width: '100%', gap: { xs: '20px', md: '32px' } }}>
+                            <Typography
+                                sx={{ color: 'primary.text', fontSize: '16px', width: '100%', textAlign: 'center' }}>
+                                Private Gallery Details</Typography>
+                            <FlexColumn sx={{ width: '100%', gap: { xs: '12px', md: '16px' } }}>
+                                <MyInput bgcolor={'primary.bgOp'} name={'gallery-name'} label={'Gallery Name'} width={'100%'}
+                                    icon={<Subject sx={{ color: 'primary.light' }} />}
+                                    value={galleryName}
+                                />
+
+                                {/* <MyInput bgcolor={'primary.bgOp'} name={'gallery-subject'} label={'Gallery subject'} width={'100%'}
+                                    icon={<Subject sx={{ color: 'primary.light' }} />}
+                                    value={gallerySubject}
+                                /> */}
+
+                                <MyInput bgcolor={'primary.bgOp'} name={'gallery-price'} type={'number'} label={'Entrance Fee'} width={'100%'}
+                                    icon={<PriceChange sx={{ color: 'primary.light' }} />}
+                                    value={galleryFee}
+                                />
+                                <MyInput bgcolor={'primary.bgOp'} name={'gallery-description'}
+                                    label={'Gallery Description'} width={'100%'}
+                                    icon={<Description sx={{ color: 'primary.light' }} />}
+                                    value={galleryDesc}
+                                />
+                            </FlexColumn>
+
+                        </FlexColumn>
+
+                    </Box>
+                </Box>
+            </Modal>
 
         </>
+    )
+}
+export const ChargeYourWalletModal = ({ neededPrice, open, handleClose }) => {
+    const [tokensValue, setTokensValue] = useState(undefined)
+    const [usdValue, setusdValue] = useState(undefined)
+    const [disableButton, setdisableButton] = useState(false)
+    const globalUser = useSelector(state => state.userReducer)
+    const [isCharged, setIsCharged] = useState(false)
+    return (
+        <Modal
+            open={open}
+            onClose={() => {
+                handleClose()
+            }}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            disableScrollLock={true}
+        >
+            <Box sx={(theme) => ({
+                width: '100%',
+                height: '100%',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                backdropFilter: 'blur(10px)'
+            })}>
+                <Box sx={(theme) => ({
+                    borderRadius: { xs: '0', sm: '24px' },
+                    width: { xs: '100%', sm: '400px' }, height: { xs: '100%', sm: 'auto' },
+                    backgroundColor: 'secondary.bg', boxShadow: theme.palette.primary.boxShadow, boxSizing: 'border-box',
+                    display: 'flex', flexDirection: 'column',
+                    padding: '30px', justifyContent: 'space-between', alignItems: 'center'
+                })}>
+                    {isCharged ?
+                        <FlexColumn sx={{ width: '100%', gap: { xs: '20px', md: '32px' } }}>
+                            <FlexColumn sx={{ width: '100%', gap: { xs: '8px', md: '12px' }, }}>
+                                <FlexRow sx={{ justifyContent: 'center !important' }}>
+                                    <Typography
+                                        sx={{ color: 'primary.text', fontSize: '16px', textAlign: 'center' }}>
+                                        SUCCESSFULL!
+                                    </Typography>
+                                    <OceanProtocol size={'50px'} />
+                                </FlexRow>
+                                <Typography
+                                    sx={{ color: 'secondary.text', fontSize: '12px', width: '100%', textAlign: 'center' }}>
+                                    Your Wallet Balance Charged Successfully.
+                                </Typography>
+                            </FlexColumn>
+
+                            <FlexColumn sx={{ width: '100%', gap: { xs: '5px', md: '5px' }, }}>
+                                <YouwhoCoinIcon w={'50px'} h={'50px'} />
+                                <Typography sx={{
+                                    color: 'primary.text', fontWeight: 500,
+                                    fontSize: '16px', width: '100%', textAlign: 'center'
+                                }}>
+                                    New balance : {globalUser.balance}
+                                </Typography>
+                            </FlexColumn>
+                            <FlexRow sx={{ width: '100%' }}>
+                                <ButtonPurple
+                                    text={'Back To YouWho'} w={'100%'}
+                                    onClick={() => handleClose()} />
+                            </FlexRow>
+
+                        </FlexColumn>
+                        : <>
+                            <FlexRow sx={{ justifyContent: 'end !important', width: '100%' }}>
+                                <Box sx={{ padding: '10px' }}>
+                                    <Close onClick={() => handleClose()} sx={{ cursor: 'pointer', fontSize: '24px' }} />
+                                </Box>
+                            </FlexRow>
+                            <FlexColumn sx={{ width: '100%', gap: { xs: '30px', md: '50px' } }}>
+                                <FlexColumn sx={{ width: '100%', gap: { xs: '8px', md: '12px' }, }}>
+                                    <Typography
+                                        sx={{ color: 'primary.text', fontSize: '16px', width: '100%', textAlign: 'center' }}>
+                                        Your Wallet Balance Is Insufficient!
+                                    </Typography>
+                                    <Typography
+                                        sx={{ color: 'secondary.text', fontSize: '12px', width: '100%', textAlign: 'center' }}>
+                                        you must charge your wallet first !
+                                        you need at least <b>"{neededPrice} tokens"</b>.
+                                    </Typography>
+                                </FlexColumn>
+
+                                <FlexColumn sx={{ width: '100%', gap: { xs: '5px', md: '5px' }, color: 'primary.gray' }}>
+                                    <MyInput name={'yw-tokens-charge'} type={'number'} label={'YouWho Tokens'} width={'100%'}
+                                        icon={<Token sx={{ color: 'primary.light' }} />}
+                                        value={tokensValue}
+                                    />
+                                    <ArrowSwapHorizontal />
+                                    <MyInput name={'usd-charde'}
+                                        label={'Gallery Description'} width={'100%'}
+                                        icon={<DollarCircle sx={{ color: 'primary.light' }} />}
+                                        value={usdValue}
+                                    />
+                                </FlexColumn>
+                                <FlexRow sx={{ gap: { xs: '12px', md: '16px' }, width: '100%' }}>
+                                    <ButtonOutlineInset text={'Not Yet'} onClick={() => handleClose()} w={'100px'} />
+                                    <ButtonPurple disabled={disableButton}
+                                        text={'Charge'} w={'100%'}
+                                        onClick={disableButton ? undefined : () => setIsCharged(true)} />
+                                </FlexRow>
+
+                            </FlexColumn>
+                        </>}
+                </Box>
+            </Box>
+        </Modal>
+
     )
 }
