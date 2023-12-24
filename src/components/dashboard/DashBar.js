@@ -505,10 +505,13 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
                         <AccordionDetails
                             sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
                         >
-                            <TextField value={bio} onChange={e => setBio(e.target.value)} placeholder={globalUser.bio ? globalUser.bio : 'please write a few lines about your self'} multiline inputProps={{ style: { fontSize: 12 } }} />
+                            <TextField sx={{ width: '100%' }} value={bio}
+                                onChange={e => setBio(e.target.value)}
+                                placeholder={globalUser.bio ? globalUser.bio : 'please write a few lines about your self'}
+                                multiline inputProps={{ style: { fontSize: 12, } }} />
                             <Box
                                 onClick={updateBio}
-                                sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', cursor: 'pointer' }}>
+                                sx={{ display: 'flex', mt: 1, justifyContent: 'end', alignItems: 'center', color: 'primary.main', cursor: 'pointer' }}>
                                 <Typography
                                     sx={{ fontSize: '10px' }}
                                 >
