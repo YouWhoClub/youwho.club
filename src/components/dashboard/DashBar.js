@@ -110,12 +110,14 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
     const [bannerPhotoURL, setBannerPhotoURL] = useState(null);
 
     useEffect(() => {
-        let phoneObject = globalUser.extra.find(obj => obj.hasOwnProperty('phone'))
-        let socialObject = globalUser.extra.find(obj => obj.hasOwnProperty("social"))
-        if (phoneObject)
-            setPhone(phoneObject.phone)
-        if (socialObject)
-            setSocialLinks(socialObject.social)
+        if (globalUser.extra) {
+            let phoneObject = globalUser.extra.find(obj => obj.hasOwnProperty('phone'))
+            let socialObject = globalUser.extra.find(obj => obj.hasOwnProperty("social"))
+            if (phoneObject)
+                setPhone(phoneObject.phone)
+            if (socialObject)
+                setSocialLinks(socialObject.social)
+        }
     }, [globalUser.extra])
 
 
