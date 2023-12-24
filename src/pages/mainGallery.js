@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Bar from "../components/Bar";
 import PanelLayout from "../components/PanelLayout";
 import blueNft from '../assets/blue-nft.svg'
@@ -14,6 +14,11 @@ import { useState } from "react";
 // import { Title } from "../components/utils";
 import ButtonOutline from "../components/buttons/buttonOutline";
 import { useNavigate } from "react-router";
+import { Profile, Wallet, Wallet2 } from "iconsax-react";
+import ButtonPurpleLight from "../components/buttons/buttonPurpleLight";
+import { Tab, Tabs } from "../components/utils";
+import AllNFTsTab from "../components/explore/allNFTsTab";
+import TopNFTsTab from "../components/explore/topNFTsTab";
 
 const Gallery = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -37,57 +42,191 @@ const Outer = styled(Box)(({ theme }) => ({
     justifyContent: 'center',
     alignItems: 'center',
 }))
+const ScrollablePanel = styled(Box)(({ theme }) => ({
+    color: theme.palette.primary.text,
+    width: '100%',
+    overflowX: 'hidden',
+    // overflowY: 'scroll',
+    '&::-webkit-scrollbar': {
+        // display: 'none',
+        width: '5px',
+        background: 'white',
+        border: '0.5px solid #846894',
+        borderRadius: '20px !important'
+    },
+    '&::-webkit-scrollbar-thumb': {
+        width: '5px',
+        height: '5px',
+        background: '#846894',
+        border: '0.5px solid #846894',
+        borderRadius: '20px !important'
+    },
+    '&::-webkit-scrollbar-button': {
+        width: '1px',
+        height: '1px',
+        background: '#846894',
+        border: '0.5px solid #C6BAC5',
+        borderRadius: '50% !important'
+
+    },
+}))
+const ShowPanel = styled(Box)(({ theme }) => ({
+    transition: '500ms ease',
+    display: 'flex',
+    justifyContent: 'space-between',
+}))
+const Panel = styled(Box)(({ theme }) => ({
+    color: theme.palette.primary.text,
+    transition: '500ms ease', boxSizing: 'border-box',
+    width: '100%',
+    // borderRadius: '24px',
+    display: 'flex', flexDirection: 'column', alignItems: 'center',
+
+
+}))
+const FlexRow = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    color: theme.palette.primary.light,
+}))
+const FlexColumn = styled(Box)(({ theme }) => ({
+    display: 'flex', flexDirection: 'column',
+    alignItems: 'center',
+
+}))
+
+const TeachingBox = styled(Box)(({ theme }) => ({
+    padding: '24px', boxSizing: 'border-box', height: '250px', width: '100%',
+    display: 'flex', borderRadius: '24px', boxShadow: theme.palette.primary.boxShadow,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '30px'
+}))
 
 const MainGallery = ({ switchTheme, theme }) => {
     const [dollarValue, setDollarValue] = useState(undefined)
     const [irrValue, setIrrValue] = useState(undefined)
     const navigate = useNavigate()
+    const [activeTab, setActiveTab] = useState('all-nfts')
 
     return (
         <PanelLayout switchTheme={switchTheme} theme={theme}>
+            <Box
+                id="explore"
+                sx={{
+                    ml: { xs: 'none', sm: '80px' },
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: { xs: '100%', sm: 'calc(100% - 80px)' },
+                    height: 'calc(100vh - 55px)',
+                    gap: { xs: '22px', md: '24px' },
+                    boxSizing: 'border-box', padding: '20px 15px 40px'
+                }}>
+                <Box id="commercials-box"
+                    sx={{
+                        width: '100%',
+                        flexDirection: { xs: 'column', md: 'row' },
+                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                        gap: { xs: '10px', md: '30px' }
+                    }}>
+                    <TeachingBox sx={{ bgcolor: 'primary.yellow' }} >
+                        <Profile size={'150px'} />
+                        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', }}>
+                                <Typography sx={{ color: 'black', fontSize: { xs: '20px', md: '32px' }, mb: '18px' }}>
+                                    1st Step
+                                </Typography>
+                                <Typography sx={{ color: 'black', fontSize: { xs: '16px', md: '20px' }, mb: '14px' }}>
+                                    Complete Your Profile
+                                </Typography>
+                                <Typography sx={{
+                                    textTransform: 'capitalize',
+                                    color: '#616265', fontSize: { xs: '12px', md: '14px' }, fontFamily: 'Inter'
+                                }}>
+                                    & get one YouWho token as a gift
+                                </Typography>
+                            </Box>
+                            <ButtonPurpleLight onClick={() => navigate('/dashboard')} text={'Lets go'} w={'max-content'} px={'20px'} />
+                        </Box>
+                    </TeachingBox>
+                    <TeachingBox sx={{ bgcolor: 'primary.pink' }}>
+                        <Wallet2 size={'150px'} />
+                        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', }}>
+                                <Typography sx={{ color: 'black', fontSize: { xs: '20px', md: '32px' }, mb: '18px' }}>
+                                    2nd Step
+                                </Typography>
+                                <Typography sx={{ color: 'black', fontSize: { xs: '16px', md: '20px' }, mb: '14px' }}>
+                                    Create YouWho Wallet
+                                </Typography>
+                                <Typography sx={{
+                                    textTransform: 'capitalize',
+                                    color: '#616265', fontSize: { xs: '12px', md: '14px' }, fontFamily: 'Inter'
+                                }}>
+                                    & get one YouWho token as a gift
+                                </Typography>
+                            </Box>
+                            <ButtonPurpleLight onClick={() => navigate('/wallet')} text={'Lets go'} w={'max-content'} px={'20px'} />
+                        </Box>
 
-            <Outer sx={{
-                bgcolor: 'primary.bg',
-                // width: { xs: '100%', sm: 'calc(100% - 80px)' },
-                color: 'primary.text',
-                width: { xs: 'calc(100% - 30px)', sm: 'calc(100% - 80px)' },
-                pr: { xs: 'none', sm: '15px', md: '30px' },
-                pl: { xs: 'none', sm: '90px' },
-            }}>
-                {/* <h4>YouWho GIFT CARDS</h4>
-                <Gallery>
-                    <GiftCard price={5} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
-                    <GiftCard price={10} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
-                    <GiftCard price={25} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
-                    <GiftCard price={50} sender={true} dollarValue={dollarValue ? dollarValue : '...'} irrValue={irrValue} />
-                </Gallery>
-                <Box sx={{ mt: 2, mb: 5 }}>
-                    <ButtonOutline text={'view all'} onClick={() => navigate('/transfer')} />
-                </Box> */}
+                    </TeachingBox>
+                </Box>
+                <ShowPanel sx={{
+                    flexDirection: 'column', gap: { xs: '22px', md: '24px' }, boxSizing: 'border-box', width: '100%'
+                }}>
+                    <Panel>
+                        <Tabs
+                            mb={'24px'}
+                            jc={{ xs: 'start', md: 'center' }}
+                        >
+                            <Tab
+                                text={`All NFTs`}
+                                id={"all-nfts"}
+                                onClick={(e) => setActiveTab(e.target.id)}
+                                selected={activeTab == 'all-nfts'}
+                            />
+                            <Tab
+                                text={`Top NFTs`}
+                                id={"top-nfts"}
+                                onClick={(e) => setActiveTab(e.target.id)}
+                                selected={activeTab == 'top-nfts'}
+                            />
+                            <Tab
+                                text={`New NFTs`}
+                                id={"new-nfts"}
+                                onClick={(e) => setActiveTab(e.target.id)}
+                                selected={activeTab == 'new-nfts'}
+                            />
+                            <Tab
+                                text={`Top YouWho Users`}
+                                id={"top-users"}
+                                onClick={(e) => setActiveTab(e.target.id)}
+                                selected={activeTab == 'top-users'}
+                            />
+                        </Tabs>
 
-                <h4>EXPLORE YouWho MAIN GALLERY</h4>
-                <Gallery>
-                    <NFTCard image={blueNft} name={'Blue NFT'} creator={'Amir'} price={9} likes={104} />
-                    <NFTCard image={pinkNFT} name={'Pink NFT'} creator={'Naarin'} price={50} likes={199} />
-                    <NFTCard image={purpleNFT} name={'Purple NFT'} creator={'Wildonion'} price={109} likes={13} />
-                    <NFTCard image={creamNFT} name={'Cream NFT'} creator={'Ramin'} price={5} likes={7} />
-                    <NFTCard image={sorkhabiNFT} name={'Sorkhabi NFT'} creator={'Negin'} price={3} likes={9} />
-                    <NFTCard image={torqNFT} name={'Turquoise NFT'} creator={'Javad'} price={9} likes={0} />
-                    <NFTCard image={blueNft} name={'Blue NFT'} creator={'Shayan'} price={11} likes={11} />
-                    <NFTCard image={pinkNFT} name={'Pink NFT'} creator={'Fateme'} price={45} likes={3} />
-                    <NFTCard image={blueNft} name={'Blue NFT'} creator={'Amir'} price={25} likes={54} />
-                    <NFTCard image={pinkNFT} name={'Pink NFT'} creator={'Naarin'} price={5} likes={7778} />
-                    <NFTCard image={purpleNFT} name={'Colorful NFT'} creator={'Wildonion'} price={5} likes={938} />
-                    <NFTCard image={creamNFT} name={'Cream NFT'} creator={'Ramin'} price={5} likes={9} />
-                    <NFTCard image={sorkhabiNFT} name={'Sorkhabi'} creator={'Negin'} price={5} likes={38} />
-                    <NFTCard image={torqNFT} name={'aaabiiiii'} creator={'Javad'} price={24} likes={10} />
-                    <NFTCard image={blueNft} name={'abiii porangggg'} creator={'Shayan'} price={115} likes={107} />
-                    <NFTCard image={pinkNFT} name={'Colorful NFT'} creator={'Fateme'} price={100} likes={113} />
-                    <NFTCard image={purpleNFT} name={'Colorful NFT'} creator={'Amir'} price={90} likes={203} />
-                    <NFTCard image={creamNFT} name={'light'} creator={'Amir'} price={59} likes={43} />
-                    <NFTCard image={sorkhabiNFT} name={'Colorful NFT 2'} creator={'Amir'} price={12} likes={5} />
-                </Gallery>
-            </Outer>
+
+                        <ScrollablePanel id="scrollable-explore-panel-inside" className="insidePanelExploreBeforeScroll"
+                            sx={{
+                                transition: '500ms ease',
+                                // height: {
+                                //     xs: 'calc(100vh - 483px)',
+                                //     md: 'calc(100vh - 541px)'
+                                // },
+                                boxSizing: 'border-box'
+                            }}>
+                            {activeTab == 'all-nfts' &&
+                                <AllNFTsTab />
+                            }
+                            {activeTab == 'top-nfts' && <TopNFTsTab />}
+                            {activeTab == 'new-nfts' && <AllNFTsTab />}
+                            {activeTab == 'top-users' && <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>COMING SOON</Box>}
+                        </ScrollablePanel>
+
+                    </Panel>
+                </ShowPanel>
+            </Box>
         </PanelLayout>
 
     );

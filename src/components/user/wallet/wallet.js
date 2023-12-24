@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import PanelLayout from "../../PanelLayout";
-import { Box, Typography, Modal, FormControl, FormControlLabel, Radio, RadioGroup } from "@mui/material";
+import { Box, Typography, Modal, FormControl, FormControlLabel, Radio, RadioGroup, keyframes } from "@mui/material";
 import { ContentCopy, ShareOutlined, SettingsOutlined, Sync, ArrowUpward, ArrowDownward, Close } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
@@ -22,6 +22,38 @@ import Crop from '../../crop/Crop'
 import { API_CONFIG } from "../../../config";
 import { getuser } from "../../../redux/actions";
 import { TickSquare } from "iconsax-react";
+// const shake = keyframes`
+//   0% {
+//     transform: rotateY(0deg);
+//   }
+//   25% {
+//     transform: rotateY(45deg);
+//   }
+//   50% {
+//     transform: rotateY(0deg);
+//   }
+//    75%{
+//     transform: rotateY(-45deg);
+//   }
+//   100%{
+//     transform: rotateY(0);
+//   }
+// `
+const shake = keyframes`
+  0% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(180deg);
+  }
+  75%{
+    filter:blur(5px);
+  }
+  100%{
+    filter:blur(0px);
+    transform: rotateY(0);
+  }
+`
 
 const ScrollablePanel = styled(Box)(({ theme }) => ({
     color: theme.palette.primary.text,
@@ -264,7 +296,10 @@ const Wallet = ({ privateKey, switchTheme, theme }) => {
                         alignItems: 'center',
                         p: '24px 24px 24px 24px',
                         flexDirection: 'column', justifyContent: 'space-between', boxSizing: 'border-box',
-                        color: finalCard.color
+                        color: finalCard.color,
+                        '&:hover': {
+                            animation: `${shake} 2s linear`,
+                        }
                     })}
                 >
                     <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

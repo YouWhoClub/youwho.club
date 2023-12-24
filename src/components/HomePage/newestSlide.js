@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Skeleton, Typography } from "@mui/material";
 import CustomSlider from "../customSlider";
 import GiftCard from "../nft market/giftCard";
 import { Link, useNavigate } from "react-router-dom";
@@ -22,56 +22,84 @@ import NFTCardLanding from "../nft market/nftCardLanding";
 import ViewMoreOrLogin from "../nft market/viewMoreCard";
 import { useSelector } from "react-redux";
 import ButtonPurple from "../buttons/buttonPurple";
+import { useEffect, useRef, useState } from "react";
+import { PUBLIC_API } from "../../utils/data/public_api";
 
 const NewestSlide = () => {
     const navigate = useNavigate()
     const globalUser = useSelector(state => state.userReducer)
+    const [err, setErr] = useState(undefined)
+    const apiCall = useRef(undefined)
+    const [NFTs, setNFTs] = useState(undefined)
+    const getMainNFTs = async () => {
+        setErr(undefined)
+        try {
+            apiCall.current = PUBLIC_API.request({
+                path: `/get-all-minted-nfts/?from=0&to=11`,
+                method: "get",
+            });
+            let response = await apiCall.current.promise;
+            console.log(response)
+            if (!response.isSuccess)
+                throw response
+            setNFTs(response.data.data)
+        }
+        catch (err) {
+            setErr(err.statusText)
+        }
+    }
+
+    useEffect(() => {
+        getMainNFTs()
+        return () => {
+            if (apiCall.current) {
+                apiCall.current.cancel();
+            }
+        }
+    }, [])
+
 
     return (
         <Box sx={{
             display: 'flex', justifyContent: 'center', flexDirection: 'column',
         }}>
-            <CustomSlider slidesCount={6}>
-                <NFTCardLanding image={gheart} />
-                <NFTCardLanding image={ppheart} />
-                <NFTCardLanding image={pinkNFT} />
-                <NFTCardLanding image={torqNFT} />
-                <NFTCardLanding image={heart} />
-                <NFTCardLanding image={creamNFT} />
-                <NFTCardLanding image={purpleNFT} />
-                <NFTCardLanding image={sorkhabiNFT} />
-                <NFTCardLanding image={bheart} />
-                <NFTCardLanding image={prheart} />
-                <NFTCardLanding image={blueNft} />
-                <ViewMoreOrLogin link={globalUser.isLoggedIn ? '/gallery' : '/main-gallery'} />
-                {/* <ViewMoreOrLogin link={'/gallery'} /> */}
-            </CustomSlider>
-
-
-
-
-
-
-            {/* {globalUser.isLoggedIn ? */}
-            {/* <Box sx={{
-                display: 'flex', color: 'primary.text',
-                flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                width: '100%', my: 5
-            }}>
-                <ButtonPurple text={'View All'} onClick={() => navigate(globalUser.isLoggedIn ? '/gallery' : '/main-gallery')} px={'10px'} />
-            </Box> */}
-            {/* :
-                <Box sx={{
-                    display: 'flex', color: 'primary.text',
-                    flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                    width: '100%', my: 5
-                }}>
-                    <Typography variant="p" sx={{ textAlign: 'center', mb: '30px' }}>
-                        To See More NFTs, Gift Cards, Mint, Sell and Buy NFTs, ...Enter Your Panel But You Must Login/Signup First.
-                    </Typography>
-                    <ButtonPurple text={'Get Started'} onClick={() => navigate('/auth')} px={'10px'} />
-                </Box>
-            } */}
+            {NFTs ?
+                <>
+                    {NFTs.length > 0 ?
+                        <CustomSlider slidesCount={6}>
+                            {NFTs.map((nft) => (<NFTCardLanding nft={nft} image={nft.metadata_uri} />))}
+                            <ViewMoreOrLogin link={globalUser.isLoggedIn ? '/gallery' : '/main-gallery'} />
+                        </CustomSlider>
+                        :
+                        <Box sx={{ width: '100%', height: '180px', display: 'flex', alignItems: 'center' }}>
+                            <Typography sx={{ color: 'secondary.text', fontSize: '13px', textAlign: 'center', width: '100%' }}>
+                                No NFTs Yet
+                            </Typography>
+                        </Box>
+                    }
+                </>
+                :
+                <CustomSlider slidesCount={6}>
+                    <Box sx={{ width: '200px', height: '180px', display: 'flex', alignItems: 'center' }}>
+                        <Skeleton sx={{ borderRadius: '16px', }} width={'200px'} height={'180px'} />
+                    </Box>
+                    <Box sx={{ width: '200px', height: '180px', display: 'flex', alignItems: 'center' }}>
+                        <Skeleton sx={{ borderRadius: '16px', }} width={'200px'} height={'180px'} />
+                    </Box>
+                    <Box sx={{ width: '200px', height: '180px', display: 'flex', alignItems: 'center' }}>
+                        <Skeleton sx={{ borderRadius: '16px', }} width={'200px'} height={'180px'} />
+                    </Box>
+                    <Box sx={{ width: '200px', height: '180px', display: 'flex', alignItems: 'center' }}>
+                        <Skeleton sx={{ borderRadius: '16px', }} width={'200px'} height={'180px'} />
+                    </Box>
+                    <Box sx={{ width: '200px', height: '180px', display: 'flex', alignItems: 'center' }}>
+                        <Skeleton sx={{ borderRadius: '16px', }} width={'200px'} height={'180px'} />
+                    </Box>
+                    <Box sx={{ width: '200px', height: '180px', display: 'flex', alignItems: 'center' }}>
+                        <Skeleton sx={{ borderRadius: '16px', }} width={'200px'} height={'180px'} />
+                    </Box>
+                </CustomSlider>
+            }
         </Box>
     )
 }

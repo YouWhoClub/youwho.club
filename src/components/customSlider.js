@@ -70,11 +70,14 @@ function SamplePrevArrow(props) {
     );
 }
 export default function CustomSlider({ children, slidesCount, slidesCountTablet, items, theme }) {
+    console.log(children.length)
     const settings = {
         infinite: false,
         // dots: false,
         slidesToShow: slidesCount ? slidesCount : 5,
         slidesToScroll: slidesCount ? slidesCount : 5,
+        slidesToShow: children.length < 6 ? children.length + 1 : slidesCount ? slidesCount : 5,
+        slidesToScroll: children.length < 6 ? children.length + 1 : slidesCount ? slidesCount : 5,
         nextArrow: <SampleNextArrow theme={theme} />,
         prevArrow: <SamplePrevArrow theme={theme} />,
         // lazyLoad: true,
@@ -85,29 +88,29 @@ export default function CustomSlider({ children, slidesCount, slidesCountTablet,
             {
                 breakpoint: 1400,
                 settings: {
-                    slidesToShow: slidesCountTablet ? slidesCountTablet : 5,
-                    slidesToScroll: slidesCountTablet ? slidesCountTablet : 5,
+                    slidesToShow: children.length < 5 ? children.length : 5,
+                    slidesToScroll: children.length < 5 ? children.length : 5,
                 }
             },
             {
                 breakpoint: 1300,
                 settings: {
-                    slidesToShow: slidesCountTablet ? slidesCountTablet : 4,
-                    slidesToScroll: slidesCountTablet ? slidesCountTablet : 4,
+                    slidesToShow: children.length < 4 ? children.length : 4,
+                    slidesToScroll: children.length < 4 ? children.length : 4,
                 }
             },
             {
                 breakpoint: 1024,
                 settings: {
-                    slidesToShow: slidesCountTablet ? slidesCountTablet : 3,
-                    slidesToScroll: slidesCountTablet ? slidesCountTablet : 3,
+                    slidesToShow: children.length < 3 ? children.length : 3,
+                    slidesToScroll: children.length < 3 ? children.length : 3,
                 }
             },
             {
                 breakpoint: 660,
                 settings: {
-                    slidesToShow: slidesCountTablet ? slidesCountTablet : 2,
-                    slidesToScroll: slidesCountTablet ? slidesCountTablet : 2,
+                    slidesToShow: children.length < 2 ? children.length : 2,
+                    slidesToScroll: children.length < 2 ? children.length : 2,
                 }
             },
             {
@@ -123,9 +126,9 @@ export default function CustomSlider({ children, slidesCount, slidesCountTablet,
     return (
         <>
             {/* <div className=""> */}
-                <Slider className='p-0' {...settings}>
-                    {children}
-                </Slider>
+            <Slider className='p-0' {...settings}>
+                {children}
+            </Slider>
             {/* </div> */}
         </>
     )

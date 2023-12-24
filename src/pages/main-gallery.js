@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Skeleton, Typography } from "@mui/material";
 import GiftCard from "../components/nft market/giftCard";
 import styled from "@emotion/styled";
 import heart from '../assets/heart.png'
@@ -17,13 +17,19 @@ import torqNFT from '../assets/torqua-nft.svg'
 import NFTCard from "../components/nft market/nftCard";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import { useSelector } from "react-redux";
+import { useEffect, useRef, useState } from "react";
+import { PUBLIC_API } from "../utils/data/public_api";
 
 const GiftsScrollWrapper = styled(Box)(({ theme }) => ({
     // width: '100%',
     // height: '100%',
     display: "flex",
-    alignItems: 'center',
-    justifyContent: 'center', flexWrap: 'wrap',
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    columnGap: '10px',
+    rowGap: '24px',
+    flexWrap: 'wrap',
     // overflowY: 'scroll',
     '&::-webkit-scrollbar': {
         width: '8px',
@@ -58,81 +64,91 @@ const Wrapper = styled(Box)(({ theme }) => ({
 
 
 const ViewMainGalleryPage = ({ theme, switchTheme }) => {
+    const globalUser = useSelector(state => state.userReducer)
+    const [err, setErr] = useState(undefined)
+    const apiCall = useRef(undefined)
+    const [NFTs, setNFTs] = useState(undefined)
+    const getMainNFTs = async () => {
+        setErr(undefined)
+        try {
+            apiCall.current = PUBLIC_API.request({
+                path: `/get-all-minted-nfts/?from=0&to=11`,
+                method: "get",
+            });
+            let response = await apiCall.current.promise;
+            console.log(response)
+            if (!response.isSuccess)
+                throw response
+            setNFTs(response.data.data)
+        }
+        catch (err) {
+            setErr(err.statusText)
+        }
+    }
+
+    useEffect(() => {
+        getMainNFTs()
+        return () => {
+            if (apiCall.current) {
+                apiCall.current.cancel();
+            }
+        }
+    }, [])
+
+
     return (
         <Box sx={{
-            bgcolor: 'primary.bg',
+            bgcolor: 'secondary.bg', display: "flex",
+            flexDirection: 'column',
+            color: 'primary.text', gap: '32px'
+
         }}>
-            <Box sx={{
-                // height: '100vh',
-                // pb: 5,
-                // pt: { xs: '180px', sm: '110px' },
-                // px: { xs: '10px', sm: '40px' },
-                // pb: '40px',
-                display: "flex", alignItems: 'center',
-                // justifyContent: 'center',
-                flexDirection: 'column',
-                color: 'primary.text',
+            <Navbar navbarType={'radius'} theme={theme} switchTheme={switchTheme} />
+            <Typography variant="h3" sx={{
+                fontSize: { xs: '20px', md: '32px' }, textAlign: 'center', width: '100%',
+                color: 'primary.text', textTransform: 'capitalize'
+            }}>explore YouWho main Gallery</Typography>
+            <GiftsScrollWrapper sx={{
+                boxSizing: 'border-box', px: '30px'
             }}>
-                <Navbar navbarType={'radius'} theme={theme} switchTheme={switchTheme} />
-                <h4 style={{ margin: '30px 0' }}>EXPLORE YouWho MAIN GALLERY</h4>
-                <GiftsScrollWrapper sx={{
-                    mb: 5,
-                }}>
-                    <NFTCard image={heart} />
-                    <NFTCard image={gheart} />
-                    <NFTCard image={ppheart} />
-                    <NFTCard image={prheart} />
-                    <NFTCard image={bheart} />
-                    <NFTCard image={gryheart} />
-                    <NFTCard image={orngheart} />
-                    <NFTCard image={blueNft} />
-                    <NFTCard image={pinkNFT} />
-                    <NFTCard image={purpleNFT} />
-                    <NFTCard image={creamNFT} />
-                    <NFTCard image={sorkhabiNFT} />
-                    <NFTCard image={torqNFT} />
-                    <NFTCard image={ppheart} />
-                    <NFTCard image={blueNft} />
-                    <NFTCard image={pinkNFT} />
-                    <NFTCard image={purpleNFT} />
-                    <NFTCard image={creamNFT} />
-                    <NFTCard image={heart} />
-                    <NFTCard image={gheart} />
-                    <NFTCard image={purpleNFT} />
-                    <NFTCard image={ppheart} />
-                    <NFTCard image={prheart} />
-                    <NFTCard image={bheart} />
-                    <NFTCard image={orngheart} />
-                    <NFTCard image={heart} />
-                    <NFTCard image={gheart} />
-                    <NFTCard image={sorkhabiNFT} />
-                    <NFTCard image={prheart} />
-                    <NFTCard image={torqNFT} />
-                    <NFTCard image={pinkNFT} />
-                    <NFTCard image={bheart} />
-                    <NFTCard image={creamNFT} />
-                    <NFTCard image={sorkhabiNFT} />
-                    <NFTCard image={prheart} />
-                    <NFTCard image={bheart} />
-                    <NFTCard image={gryheart} />
-                    <NFTCard image={orngheart} />
-                    <NFTCard image={blueNft} />
-                    <NFTCard image={gryheart} />
-                    <NFTCard image={heart} />
-                    <NFTCard image={gheart} />
-                    <NFTCard image={ppheart} />
-                    <NFTCard image={prheart} />
-                    <NFTCard image={bheart} />
-                    <NFTCard image={gryheart} />
-                    <NFTCard image={orngheart} />
-                    <NFTCard image={heart} />
-                    <NFTCard image={gheart} />
-                    <NFTCard image={ppheart} />
-                    <NFTCard image={gryheart} />
-                    <NFTCard image={torqNFT} />
-                    <NFTCard image={orngheart} />
-                </GiftsScrollWrapper>
-            </Box>
+                {NFTs ?
+                    <>
+                        {NFTs.length > 0 ?
+                            <>
+                                {NFTs.map((nft) => (<NFTCard nft={nft} />
+                                ))}
+                            </>
+                            :
+                            <Box sx={{ width: '100%', height: '180px', display: 'flex', alignItems: 'center' }}>
+                                <Typography sx={{ color: 'secondary.text', fontSize: '13px', textAlign: 'center', width: '100%' }}>
+                                    No NFTs Yet
+                                </Typography>
+                            </Box>
+                        }
+                    </>
+                    :
+                    <>
+                        <Box sx={{ width: '200px', height: '180px', display: 'flex', alignItems: 'center' }}>
+                            <Skeleton sx={{ borderRadius: '16px', }} width={'200px'} height={'180px'} />
+                        </Box>
+                        <Box sx={{ width: '200px', height: '180px', display: 'flex', alignItems: 'center' }}>
+                            <Skeleton sx={{ borderRadius: '16px', }} width={'200px'} height={'180px'} />
+                        </Box>
+                        <Box sx={{ width: '200px', height: '180px', display: 'flex', alignItems: 'center' }}>
+                            <Skeleton sx={{ borderRadius: '16px', }} width={'200px'} height={'180px'} />
+                        </Box>
+                        <Box sx={{ width: '200px', height: '180px', display: 'flex', alignItems: 'center' }}>
+                            <Skeleton sx={{ borderRadius: '16px', }} width={'200px'} height={'180px'} />
+                        </Box>
+                        <Box sx={{ width: '200px', height: '180px', display: 'flex', alignItems: 'center' }}>
+                            <Skeleton sx={{ borderRadius: '16px', }} width={'200px'} height={'180px'} />
+                        </Box>
+                        <Box sx={{ width: '200px', height: '180px', display: 'flex', alignItems: 'center' }}>
+                            <Skeleton sx={{ borderRadius: '16px', }} width={'200px'} height={'180px'} />
+                        </Box>
+                    </>
+                }
+            </GiftsScrollWrapper>
             <Footer />
         </Box>
     );
