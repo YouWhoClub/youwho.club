@@ -130,13 +130,7 @@ const AssetsTab = () => {
                                 oncahinNfts.map((nft, index) => {
                                     return (
                                         <Fragment key={`collection_${nft.token_id}`}>
-                                            <NFTOnchainCard
-                                                setActiveTab={null}
-                                                nft={nft}
-                                                setExpandedId={setExpandedNFT}
-                                                expanded={expandedNFT == nft.token_id}
-                                                id={nft.token_id}
-                                            />
+                                            <NFTAssetCard nft={nft} />
                                         </Fragment>
                                     )
                                 })
