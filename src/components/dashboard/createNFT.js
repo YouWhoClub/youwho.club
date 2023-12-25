@@ -397,17 +397,15 @@ const CreateNFT = ({ setMainActiveTab }) => {
             if (!response.is_error) {
                 updateToast(true, response.message)
                 createNFTMetadataUri(response.data)
-                setNFTForm({
-                    caller_cid: "",
-                    amount: null,
+                setNFTForm(prev => ({
+                    ...prev,
                     contract_address: "",
-                    current_owner_screen_cid: "",
                     nft_name: "",
                     nft_description: "",
                     current_price: null,
                     extra: [],
                     attributes: [],
-                })
+                }))
             } else {
                 console.error(response.message)
                 updateToast(false, response.message)
@@ -667,7 +665,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
                                         <ButtonPurple
                                             text={'Create'}
                                             w={'100%'}
-                                            disabled={!Object.values(NFTForm).every(value => value !== null && value !== "") || !NFTForm.attributes.length}
+                                            disabled={!Object.values(NFTForm).every(value => value !== null && value !== "") || !NFTForm.attributes.length || !NFTImageFile}
                                             onClick={createNFT}
                                         />
                                     </Box>

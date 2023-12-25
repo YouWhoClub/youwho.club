@@ -11,6 +11,7 @@ import { BG_URL, PUBLIC_URL } from "../../utils/utils";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { API_CONFIG } from '../../config'
 import NFTOnchainCard from "../nft market/nftOnchainCard";
+import NFTAssetCard from "../nft market/nftAssetCard";
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -128,13 +129,7 @@ const OthersProfieAssetTab = ({ user }) => {
                     oncahinNfts.map((nft, index) => {
                         return (
                             <Fragment key={`collection_${nft.token_id}`}>
-                                <NFTOnchainCard
-                                    setActiveTab={null}
-                                    nft={nft}
-                                    setExpandedId={setExpandedNFT}
-                                    expanded={expandedNFT == nft.token_id}
-                                    id={nft.token_id}
-                                />
+                                <NFTAssetCard nft={nft} />
                             </Fragment>
                         )
                     })

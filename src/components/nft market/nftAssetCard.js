@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { Box, ClickAwayListener, MenuItem, Popper, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
 import purpleNFT from '../../assets/purple-nft.svg'
 import creamNFT from '../../assets/cream-nft.svg'
@@ -10,6 +10,7 @@ import ButtonPurple from "../buttons/buttonPurple";
 import ButtonOutline from "../buttons/buttonOutline";
 import ButtonBorder from "../buttons/buttonBorder";
 import { ShareSharp } from "@mui/icons-material";
+import { useSelector } from "react-redux";
 const YouWhoToken = styled(Box)(({ theme }) => ({
     backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)),
     backgroundRepeat: 'no-repeat',
@@ -65,8 +66,55 @@ const Line = styled(Box)(({ theme }) => ({
     backgroundColor: '#DEDEDE',
 
 }))
+const NFTPropertyTag = styled(Box)(({ theme }) => ({
+    display: 'flex', width: 'auto', padding: '4px 10px',
+    justifyContent: 'center',
+    alignItems: 'center', border: '1px solid #DEDEDE', borderRadius: '4px'
+}))
+const PropertyTagTitle = styled('span')(({ theme }) => ({
+    fontSize: '10px', color: theme.palette.primary.text,
+}))
+const PropertyTagAnswer = styled('span')(({ theme }) => ({
+    fontSize: '10px', color: theme.palette.secondary.text,
+}))
 
-const NFTAssetCard = () => {
+const NFTAssetCard = ({ nft }) => {
+    const {
+        metadata_url,
+        contract_address
+    } = nft;
+    const globalUser = useSelector(state => state.userReducer)
+    const [NFTInfo, setNFTInfo] = useState({
+        name: '',
+        description: '',
+        attributes: null,
+        imageURL: '',
+    });
+
+    useEffect(() => {
+        getMetadata()
+    }, [metadata_url])
+
+    const getMetadata = () => {
+        console.log(metadata_url);
+        fetch(metadata_url.replace("''ipfs://", "https://ipfs.io/ipfs/"))
+            .then((response) => response.json())
+            .then((data) => {
+                setNFTInfo({
+                    name: data.name,
+                    description: data.description,
+                    attributes: data.attributes,
+                    imageURL: data.image,
+                })
+                console.log(data);
+
+            })
+            .catch((error) => {
+                // Handle any fetch or parsing errors
+                console.error('Error fetching NFT image:', error);
+            })
+    }
+
     const [anchorEl, setAnchorEl] = useState(null);
     const openPopper = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -93,20 +141,20 @@ const NFTAssetCard = () => {
                         height: '280px',
                         width: '100%',
                         // height: `${document.getElementById("large-asset-image")?.offsetWidth}px`,
-                        backgroundImage: BG_URL(PUBLIC_URL(`${purpleNFT}`)),
+                        backgroundImage: BG_URL(PUBLIC_URL(`${NFTInfo.imageURL}`)),
                     }}
                 />
                 <FlexColumn sx={{
-                    gap: '16px', width: '100%'
+                    gap: '16px', width: '100%', height: '280px', justifyContent: 'space-between'
                 }}>
                     <FlexRow sx={{ width: '100%' }}>
-                        <Typography sx={{ color: 'primary.text', fontSize: '20px', fontWeight: 500 }}>NFT Name</Typography>
+                        <Typography sx={{ color: 'primary.text', fontSize: '20px', fontWeight: 500 }}>{NFTInfo.name}</Typography>
                         <FlexRow sx={{ width: 'max-content', gap: '4px' }}>
                             <YouWhoToken sx={{
                                 width: '20px !important', height: '20px !important'
                             }}
                             />
-                            <Typography sx={{ color: 'primary.text', fontSize: '20px', fontWeight: 600 }}>10</Typography>
+                            {/* <Typography sx={{ color: 'primary.text', fontSize: '20px', fontWeight: 600 }}>10</Typography> */}
                         </FlexRow>
                     </FlexRow>
                     <FlexColumn sx={{
@@ -118,7 +166,7 @@ const NFTAssetCard = () => {
                                 9
                             </Typography>
                         </FlexRow>
-                        <FlexRow sx={{ width: 'max-content', gap: '2px' }}>
+                        {/* <FlexRow sx={{ width: 'max-content', gap: '2px' }}>
                             <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
                                 Collection Name:
                             </Typography>
@@ -133,7 +181,7 @@ const NFTAssetCard = () => {
                             <Typography sx={{ color: 'secondary.text', fontSize: '12px', fontWeight: 400 }}>
                                 06.08.2023
                             </Typography>
-                        </FlexRow>
+                        </FlexRow> */}
                         <FlexColumn sx={{ width: '100%', alignItems: 'start !important' }}>
                             <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
                                 Description:
@@ -142,15 +190,27 @@ const NFTAssetCard = () => {
                                 color: 'secondary.text',
                                 fontSize: '12px', fontWeight: 400, textAlign: 'justify'
                             }}>
-                                Description Description Description Description Description Description Description Description Description Description Description Description
-                                Description Description Description Description
+                                {NFTInfo.description}
                             </Typography>
                         </FlexColumn>
-
+                        <FlexColumn sx={{ width: '100%', alignItems: 'start !important' }}>
+                            <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>NFT Properties : </Typography>
+                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                                {
+                                    NFTInfo.attributes &&
+                                    NFTInfo.attributes.map(attr => (
+                                        <NFTPropertyTag>
+                                            <PropertyTagTitle>{attr.trait_type} : </PropertyTagTitle>
+                                            <PropertyTagAnswer>{attr.value}</PropertyTagAnswer>
+                                        </NFTPropertyTag>
+                                    ))
+                                }
+                            </Box>
+                        </FlexColumn>
                     </FlexColumn>
                     <Line />
                     <FlexRow sx={{ gap: '8px', width: '100%' }}>
-                        <ButtonPurple text={'Buy'} px={'24px'} w={'100%'} />
+                        {/* <ButtonPurple text={'Buy'} px={'24px'} w={'100%'} /> */}
                         <ButtonBorder
                             br={'4px'}
                             text={<ShareSharp sx={{ color: 'secondary.text' }} />}
@@ -163,7 +223,7 @@ const NFTAssetCard = () => {
             <ClickAwayListener onClickAway={handleClickAway}>
                 <Card>
                     <AssetImageSmall sx={{
-                        backgroundImage: BG_URL(PUBLIC_URL(`${purpleNFT}`)),
+                        backgroundImage: BG_URL(PUBLIC_URL(`${NFTInfo.imageURL}`)),
                     }} />
                     <FlexColumn sx={{ width: '100%' }}>
                         <FlexRow sx={{ width: '100%', mb: '8px' }}>
@@ -185,7 +245,7 @@ const NFTAssetCard = () => {
                         </FlexRow>
                         <FlexRow sx={{ width: '100%', }}>
                             <Typography sx={{ color: 'primary.text', fontSize: '12px' }}>
-                                NFT Name
+                                {NFTInfo.name}
                             </Typography>
                         </FlexRow>
                     </FlexColumn>
