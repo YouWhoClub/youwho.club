@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
 import image from '../../assets/dayNnight.svg'
 
-const ThemeSwitcher = ({ theme, switchTheme, left, right, top, bottom, isModalOpen, m }) => {
+const ThemeSwitcher = ({ theme, switchTheme, left, right, top, bottom, isModalOpen, m, size }) => {
     return (
         <>
             <Box sx={{
@@ -16,11 +16,11 @@ const ThemeSwitcher = ({ theme, switchTheme, left, right, top, bottom, isModalOp
                 <Box sx={{
                     backgroundImage: BG_URL(PUBLIC_URL(`${image}`)),
                     backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center',
-                    width: '40px',
-                    height: '40px',
+                    width: size ? size : '40px',
+                    height: size ? size : '40px',
                 }}>
                 </Box>
-            </Box>
+            </Box >
             <Box sx={{
                 display: isModalOpen ? { xs: 'flex', sm: 'none' } : 'none', boxSizing: 'border-box', alignItems: 'center', justifyContent: 'center',
                 boxShadow: '0px 0px 5px 1px rgba(0, 0, 0, 0.25)', padding: '6px', borderRadius: '10px',

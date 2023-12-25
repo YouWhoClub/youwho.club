@@ -20,6 +20,7 @@ import yCoin from "../assets/Ycoin.svg"
 import { PUBLIC_API } from "../utils/data/public_api"
 import Crop from "./crop/Crop"
 import { getuser } from "../redux/actions"
+import ywHugCoinLogo from '../assets/youwho-hugcoin.svg'
 
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -229,7 +230,7 @@ const CommentCardProfileImg = styled(Box)(({ theme }) => ({
 
 
 //------------------------functions >> --------------------------------- //
-const shorten = (str, lngth) => {
+export const shorten = (str, lngth) => {
     if (str)
         return str.length > parseInt(lngth) ? str.substring(0, parseInt(lngth)) + '...' : str;
     return 'undefined'
@@ -1079,28 +1080,33 @@ export const MorePopper = ({ tabs, open, anchorEl, handleClose }) => {
                 'aria-labelledby': 'basic-button',
             }}
             placement='left-start'
-            sx={{
+            sx={(theme) => ({
                 marginTop: '20px !important',
                 width: '190px',
                 bgcolor: 'secondary.bg', p: '20px',
                 zIndex: 1400, borderRadius: '20px 0px 20px 20px',
                 overflow: "hidden",
+                boxShadow: theme.palette.primary.boxShadow
                 // boxShadow: theme == 'light' ? '0px 0px 10px 0px rgba(0, 0, 0, 0.45)' : '0px 0px 12px 1px rgba(227,209,231, 0.25)',
-                boxShadow: localStorage.getItem('theme') == 'dark' ? '0px 0px 12px 1px rgba(227,209,231, 0.25)' : '0px 0px 10px 0px rgba(0, 0, 0, 0.25)',
-            }}
+                // boxShadow: localStorage.getItem('theme') == 'dark' ? '0px 0px 12px 1px rgba(227,209,231, 0.25)' : '0px 0px 10px 0px rgba(0, 0, 0, 0.25)',
+            })}
         >
             {tabs ? <>
                 {tabs.map((tab, index) => (
-                    <MenuItem id={tab.id} sx={{
+                    <MenuItem id={tab.id} sx={(theme) => ({
                         display: 'flex', alignItems: 'center', p: '16px 8px',
                         color: 'primary.text',
                         borderBottom: index == tabs.length - 1 ? 'none' : '1px solid',
-                        borderColor: 'primary.gray',
+                        borderColor: 'primary.gray', gap: '10px',
                         '&:hover': {
                             bgcolor: 'secondary.bgOp',
                         }
-                    }}
-                        onClick={tab.onClick}>{tab.text}</MenuItem>
+                    })} onClick={tab.onClick}>
+                        {tab.icon ? tab.icon : undefined}
+                        <Typography sx={{ m: 0, color: 'primary.text', fontSize: { xs: '14px', sm: '16px' } }}>
+                            {tab.text}
+                        </Typography>
+                    </MenuItem>
                 ))}
             </> : undefined}
         </Popper>
@@ -1599,7 +1605,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
             <ClickAwayListener onClickAway={handleClickAway}>
                 <PVGalleryCardComp sx={{ width: { xs: '100%', md: 'calc(50% - 8px)' } }}>
                     <PVGalleryCardImage sx={{
-                        backgroundImage: () => gallery.gallery_background ? `url('${API_CONFIG.API_URL}/${gallery.gallery_background}')` : 'unset',
+                        backgroundImage: () => gallery.gallery_background ? `url('${API_CONFIG.API_URL}/${gallery.gallery_background}')` : BG_URL(PUBLIC_URL(`${ywHugCoinLogo}`)),
                     }} />
                     <FlexColumn sx={{ width: '100%' }}>
                         <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'end !important' }}>

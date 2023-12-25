@@ -36,6 +36,8 @@ import PrivacyPolicy from './pages/privacyPolicy';
 import ViewMainGalleryPage from './pages/main-gallery';
 import Weblog from './pages/weblog';
 import AboutUs from './pages/about-us';
+import GuidePage from './pages/guide';
+import ContactUs from './pages/contact-us';
 // import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
 
 
@@ -231,18 +233,25 @@ function App() {
                 <Routes>
                   <Route exact path="/" element={<Home theme={theme} switchTheme={switchTheme} />} />
                   <Route exact path="/auth" element={<Auth theme={theme} switchTheme={switchTheme} />} />
+                  <Route exact path="/blog" element={<Weblog switchTheme={switchTheme} theme={theme} />} />
+                  <Route exact path="/about-us" element={<AboutUs switchTheme={switchTheme} theme={theme} />} />
+                  <Route exact path="/contact-us" element={<ContactUs switchTheme={switchTheme} theme={theme} />} />
+                  <Route exact path="/guide" element={<GuidePage switchTheme={switchTheme} theme={theme} />} />
+
                   {/* <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} /> */}
                 </Routes>
 
                 <Box sx={{ bgcolor: 'secondary.bg' }}>
                   <Wrapper>
                     <Routes>
-                      <Route exact path="/" element={<></>} />
                       {/* <Route exact path="/landing" element={<></>} /> */}
-                      <Route exact path="/auth" element={<></>} />
-                      <Route exact path="/blog" element={<Weblog switchTheme={switchTheme} theme={theme} />} />
-                      <Route exact path="/about-us" element={<AboutUs switchTheme={switchTheme} theme={theme} />} />
                       {/* <Route path='*' element={<></>} /> */}
+                      <Route exact path="/" element={<></>} />
+                      <Route exact path="/auth" element={<></>} />
+                      <Route exact path="/blog" element={<></>} />
+                      <Route exact path="/about-us" element={<></>} />
+                      <Route exact path="/contact-us" element={<></>} />
+                      <Route exact path="/guide" element={<></>} />
 
 
                       <Route exact path="/main-gallery" element={<ViewMainGalleryPage theme={theme} switchTheme={switchTheme} />} />

@@ -37,7 +37,7 @@ const Home = ({ switchTheme, theme }) => {
             <Navbar navbarType={'radius'} theme={theme} switchTheme={switchTheme} />
             <IntroNew theme={theme} />
             <YWServices theme={theme} />
-            <Box sx={{
+            {/* <Box sx={{
                 padding: { xs: '32px 42px', sm: '56px 0px' },
                 boxSizing: 'border-box',
                 display: 'flex',
@@ -70,7 +70,7 @@ const Home = ({ switchTheme, theme }) => {
                         MetaMask
                     </Typography>
                 </Box>
-            </Box>
+            </Box> */}
             <FABSection theme={theme} />
             <DecorSection />
             <WhatsSection />

@@ -26,13 +26,13 @@ const Wrapper = styled(Box)(({ theme }) => ({
 const PrivacyPolicy = ({ switchTheme, theme }) => {
     return (
         <Box sx={{
-            width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', bgcolor: 'primary.bg'
+            width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', bgcolor: 'secondary.bg'
         }}>
             <Navbar navbarType={'radius'} theme={theme} switchTheme={switchTheme} />
             <Box sx={{
                 width: '100%',
                 boxSizing: 'border-box', padding: { xs: '12px 12px 0px 12px', md: '38px 38px 0px 38px' },
-                display: 'flex', flexDirection: 'column', justifyContent: 'center', bgcolor: 'primary.bg', gap: { xs: '50px', md: '100px' }
+                display: 'flex', flexDirection: 'column', justifyContent: 'center', bgcolor: 'secondary.bg', gap: { xs: '50px', md: '100px' }
             }}>
                 <Box sx={{
                     width: '100%',

@@ -22,35 +22,57 @@ import Crop from '../../crop/Crop'
 import { API_CONFIG } from "../../../config";
 import { getuser } from "../../../redux/actions";
 import { TickSquare } from "iconsax-react";
-// const shake = keyframes`
+const goUp = keyframes`
+  0% {
+    transform: rotateX(0deg);
+  }
+  50% {
+    transform: rotateX(-20deg);
+  }
+  100%{
+    transform: rotateX(0deg);
+  }
+`
+const goDown = keyframes`
+0% {
+    transform: rotateX(0deg);
+  }
+  50% {
+    transform: rotateX(20deg);
+  }
+  100%{
+    transform: rotateX(0deg);
+  }
+`
+// const rotateCard = keyframes`
 //   0% {
 //     transform: rotateY(0deg);
 //   }
-//   25% {
-//     transform: rotateY(45deg);
-//   }
 //   50% {
-//     transform: rotateY(0deg);
+//     transform: rotateY(180deg);
 //   }
-//    75%{
-//     transform: rotateY(-45deg);
+//   75%{
+//     filter:blur(5px);
 //   }
 //   100%{
+//     filter:blur(0px);
 //     transform: rotateY(0);
 //   }
 // `
-const shake = keyframes`
+
+const rotateCard = keyframes`
   0% {
     transform: rotateY(0deg);
   }
+//   25% {
+//     transform: rotateY(20deg);
+//     boxShadow: 20px 0px  12px 1px rgba(0, 0, 0, 0.50);
+//   }
   50% {
-    transform: rotateY(180deg);
-  }
-  75%{
-    filter:blur(5px);
+    boxShadow: 20px 2px  12px 5px rgba(0, 0, 0, 1);
+    transform: rotateY(-20deg);
   }
   100%{
-    filter:blur(0px);
     transform: rotateY(0);
   }
 `
@@ -298,11 +320,18 @@ const Wallet = ({ privateKey, switchTheme, theme }) => {
                         flexDirection: 'column', justifyContent: 'space-between', boxSizing: 'border-box',
                         color: finalCard.color,
                         '&:hover': {
-                            animation: `${shake} 2s linear`,
+                            animation: `${rotateCard} 2s linear`,
                         }
                     })}
                 >
-                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Box sx={{
+                        width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                        // '&:hover': {
+                        //     "& .walletCardBeforeScroll": {
+                        //         animation: `${goUp} 2s linear`,
+                        //     }
+                        // }
+                    }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', height: '45px', overflow: 'hidden', gap: { xs: '6px', sm: '12px' } }}>
                             <Box sx={{
                                 width: '35px', height: '45px',
@@ -331,7 +360,12 @@ const Wallet = ({ privateKey, switchTheme, theme }) => {
                     </Box>
                     <Box id="smaller-gap-after-scroll" sx={{
                         width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center',
-                        gap: '24px', px: '8px', boxSizing: 'border-box'
+                        gap: '24px', px: '8px', boxSizing: 'border-box',
+                        // '&:hover': {
+                        //     "& .walletCardBeforeScroll": {
+                        //         animation: `${goDown} 2s linear`,
+                        //     }
+                        // }
                     }}>
                         <Box id="smaller-after-scroll" sx={{ display: 'flex', alignItems: 'center', fontSize: "32px", }}>
                             <Box id="chip-after-scroll"
