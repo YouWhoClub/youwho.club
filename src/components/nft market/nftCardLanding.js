@@ -3,12 +3,15 @@ import { Box, Typography } from "@mui/material";
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
 import { Heart, More, Share } from "iconsax-react";
 import { ShareLocationSharp, ShareSharp } from "@mui/icons-material";
+import { API_CONFIG } from "../../config";
+import { useEffect, useState } from "react";
+import { YouwhoCoinIcon } from "../utils";
 
 const Outter = styled(Box)(({ theme }) => ({
     // width: '200px', height: '175px', padding: '5px',
 }))
 const Card = styled(Box)(({ theme }) => ({
-    // width: '200px', height: '175px',
+    // width: '200px', height: '180px',
     // width: '100%',
     padding: '7px 7px 14px 7px',
     borderRadius: '16px', boxSizing: 'border-box',
@@ -37,10 +40,11 @@ const NFTImage = styled(Box)(({ theme }) => ({
     '&:hover': {
     }
 }))
+
 const FlexRow = styled(Box)(({ theme }) => ({
     width: '100%',
     display: 'flex',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     alignItems: 'center',
     color: theme.palette.primary.text,
 }))
@@ -52,18 +56,46 @@ const DetailsSection = styled(Box)(({ theme }) => ({
     color: theme.palette.primary.text, marginTop: '12px'
 }))
 
-const NFTCardLanding = ({ image }) => {
+const NFTCardLanding = ({ image, nft }) => {
+    const [imageURL, setImageURL] = useState(null);
+
+    const getMetadata = () => {
+        fetch(image.replace("ipfs://", "https://ipfs.io/ipfs/"))
+            .then((response) => response.json())
+            .then((data) => (setImageURL(data.image)))
+            .catch((error) => {
+                // Handle any fetch or parsing errors
+                console.error('Error fetching NFT image:', error);
+            })
+    }
+    useEffect(() => {
+        getMetadata()
+    }, [image])
+
+    const shorten = (str, lngth) => {
+        if (str)
+            return str.length > parseInt(lngth) ? str.substring(0, parseInt(lngth)) + '...' : str;
+        return 'undefined'
+    }
+
     return (
         <Outter sx={{ py: '5px' }}>
-            <Card onClick={() => alert('WILL REDIRECT TO NFT PAGE')}>
-                <NFTImage style={{ backgroundImage: BG_URL(PUBLIC_URL(`${image}`)) }} />
+            <Card>
+                <NFTImage
+                    sx={{
+                        background: imageURL ? `url(${imageURL}) no-repeat center` : 'primary.bg',
+
+                        // background: () => image ? `url('${API_CONFIG.API_URL}/${image}') no-repeat center` : 'primary.bg',
+                        // backgroundImage: BG_URL(PUBLIC_URL(`${image}`))
+                    }} />
                 <DetailsSection>
                     <FlexRow>
-                        <Typography sx={{ margin: 0, fontWeight: 400, fontSize: '12px' }}>NFT name</Typography>
+                        <Typography sx={{ margin: 0, fontWeight: 400, fontSize: '12px' }}>{shorten(nft.nft_name, 15)}</Typography>
                         <ShareSharp sx={{ color: "secondary.text", }} fontSize="18px" />
                     </FlexRow>
-                    <FlexRow>
-                        <Typography sx={{ margin: 0, color: 'primary.text', fontWeight: 300, fontSize: '10px' }}>10$</Typography>
+                    <FlexRow sx={{ gap: '4px' }}>
+                        <Typography sx={{ margin: 0, color: 'primary.text', fontWeight: 300, fontSize: '10px' }}>{nft.current_price}</Typography>
+                        <YouwhoCoinIcon w={16} h={16} />
                     </FlexRow>
 
                 </DetailsSection>

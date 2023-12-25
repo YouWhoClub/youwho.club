@@ -505,10 +505,13 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
                         <AccordionDetails
                             sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
                         >
-                            <TextField value={bio} onChange={e => setBio(e.target.value)} placeholder={globalUser.bio ? globalUser.bio : 'please write a few lines about your self'} multiline inputProps={{ style: { fontSize: 12 } }} />
+                            <TextField sx={{ width: '100%' }} value={bio}
+                                onChange={e => setBio(e.target.value)}
+                                placeholder={globalUser.bio ? globalUser.bio : 'please write a few lines about your self'}
+                                multiline inputProps={{ style: { fontSize: 12, } }} />
                             <Box
                                 onClick={updateBio}
-                                sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', cursor: 'pointer' }}>
+                                sx={{ display: 'flex', mt: 1, justifyContent: 'end', alignItems: 'center', color: 'primary.main', cursor: 'pointer' }}>
                                 <Typography
                                     sx={{ fontSize: '10px' }}
                                 >
@@ -601,7 +604,10 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
                             sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
                         >
                             <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', }}>
-                                <Typography sx={{ fontSize: '10px' }}>Save </Typography><TickCircle cursor='pointer' size='12px' />
+                                <Typography sx={{ my: 1, width: '100%', textAlign: 'center', fontSize: '12px', color: 'primary.text' }}>
+                                    {globalUser.mail}
+                                </Typography>
+                                {/* <Typography sx={{ fontSize: '10px' }}>Save </Typography><TickCircle cursor='pointer' size='12px' /> */}
                             </Box>
                         </AccordionDetails>
                     </Accordion>
@@ -625,15 +631,21 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
                             id="panel1a-header"
                             sx={{ minHeight: '30px !important', height: '30px' }}
                         >
-                            <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Mobile Numbe</Typography>
+                            <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Mobile Number</Typography>
                         </AccordionSummary>
                         <AccordionDetails
                             sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
                         >
 
                             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'end', color: 'primary.main', gap: '20px', p: '20px 8px' }}>
-                                <Inputtt>
-                                    {/* <Phone sx={{ color: 'primary.light', fontSize: '30px' }} /> */}
+                                <MyInput label={'enter your phone number'}
+                                    icon={<Phone sx={{ color: 'primary.light', fontSize: '20px' }} />}
+                                    name={'phone'}
+                                    id={'phone'}
+                                    type={'tel'}
+                                    onChange={(e) => setPhone(e.target.value)}
+                                    width={'100%'} />
+                                {/* <Inputtt>
                                     <Inputt
                                         placeholder="enter your phone number"
                                         type="tel"
@@ -643,7 +655,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
                                         dir="ltr"
                                         onChange={(e) => setPhone(e.target.value)}
                                     />
-                                </Inputtt>
+                                </Inputtt> */}
                                 <Box
                                     onClick={updatePhoneNum}
                                     sx={{ display: 'flex', justifyContent: 'center', gap: '5px', alignItems: 'center', color: 'primary.main', cursor: 'pointer', width: '60px' }}

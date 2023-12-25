@@ -1333,6 +1333,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
                 if (gallImageFile) {
                     uploadGalleryBackground()
                 }
+                getUserPVGalleries()
             } else {
                 setDisableButton(false)
                 updateToast(false, response.message)
@@ -1361,6 +1362,8 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
         if (!response.is_error) {
             updateToast(true, response.message)
             setOpenEditModal(false)
+            getUserPVGalleries()
+
         } else {
             updateToast(false, response.message)
         }

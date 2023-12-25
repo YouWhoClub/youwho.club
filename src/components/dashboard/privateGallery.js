@@ -157,6 +157,7 @@ const PrivateGallery = () => {
                                             galleries.map((gallery, index) => (
                                                 <Fragment key={`gallery_${gallery.id}`}>
                                                     <PVGalleryCard
+                                                        getUserPVGalleries={getUserPVGalleries}
                                                         getJoinedPeople={getJoinedPeople}
                                                         joinedList={joinedList}
                                                         joinedLoading={joinedLoading}

@@ -134,13 +134,6 @@ const Dashboard = ({ switchTheme, theme }) => {
 
     return (
         <PanelLayout switchTheme={switchTheme} theme={theme} id={"scrollable-profile-panel"}>
-            {/* <Box sx={{
-                width: { xs: '100%', sm: 'calc(100% - 80px)' },
-                // pr: { xs: 'none', sm: '15px', md: '30px' },
-                pl: { xs: 'none', sm: '80px' },
-                display: 'flex',
-                // boxSizing:'border-box'
-            }}> */}
             <Box
                 id="dash"
                 sx={{
@@ -167,7 +160,6 @@ const Dashboard = ({ switchTheme, theme }) => {
                     <>you are not logged in </>}
             </Box>
             <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick pauseOnFocusLoss pauseOnHover />
-            {/* </Box> */}
             <VerifyPhoneModal openModal={openModal} setOpenModal={setOpenModal} />
 
         </PanelLayout >

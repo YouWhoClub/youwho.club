@@ -103,6 +103,8 @@ function App() {
         boxShadowInset: 'inset 0px 0px 10px 1px rgba(0, 0, 0, 0.30)',
         cardGradient: 'linear-gradient(41deg, rgba(61,0,98,1) 0%, rgba(18,0,28,1) 100%)',
         disabled: '#8888',
+        pink: '#F675A8',
+        yellow: '#FFD966',
       },
       secondary: {
         dark: '#3D0062',
@@ -126,6 +128,8 @@ function App() {
         boxShadow: '0px 0px 5px 1px rgba(227,209,231,0.7)',
         boxShadowLarge: '0px 0px 20px 0px rgba(227,209,231,0.7)',
         boxShadowInset: 'inset 0px 0px 5px 1px rgba(227,209,231,0.7)',
+        pink: '#FFADCD',
+        yellow: '#FFFDD5',
 
       },
     },
@@ -161,7 +165,9 @@ function App() {
         boxShadowLarge: '0px 0px 20px 0px rgba(0, 0, 0, 0.25)',
         boxShadowInset: 'inset 0px 0px 4px 1px rgba(0, 0, 0, 0.25)',
         cardGradient: 'linear-gradient(231deg, rgba(200,200,200,1) 0%, rgba(111,48,150,1) 100%)',
-        disabled: '#ccc',
+        pink: '#F675A8',
+        disabled: '#ccc', yellow: '#FFD966',
+
       },
       secondary: {
         dark: '#3D0062',
@@ -183,6 +189,8 @@ function App() {
         success: '#B3E4E6',
         error: '#FA8FBA',
         boxShadow: '0px 0px 5px 1px rgba(0, 0, 0, 0.25)',
+        yellow: '#FFFDD5',
+        pink: '#FFADCD',
 
 
       },
@@ -232,8 +240,8 @@ function App() {
                       <Route exact path="/" element={<></>} />
                       {/* <Route exact path="/landing" element={<></>} /> */}
                       <Route exact path="/auth" element={<></>} />
-                      <Route exact path="/blog" element={<Weblog switchTheme={switchTheme} theme={theme}/>} />
-                      <Route exact path="/about-us" element={<AboutUs switchTheme={switchTheme} theme={theme}/>} />
+                      <Route exact path="/blog" element={<Weblog switchTheme={switchTheme} theme={theme} />} />
+                      <Route exact path="/about-us" element={<AboutUs switchTheme={switchTheme} theme={theme} />} />
                       {/* <Route path='*' element={<></>} /> */}
 
 
