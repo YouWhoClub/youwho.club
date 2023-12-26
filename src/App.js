@@ -241,6 +241,7 @@ function App() {
                   <Route exact path="/about-us" element={<AboutUs switchTheme={switchTheme} theme={theme} />} />
                   <Route exact path="/contact-us" element={<ContactUs switchTheme={switchTheme} theme={theme} />} />
                   <Route exact path="/guide" element={<GuidePage switchTheme={switchTheme} theme={theme} />} />
+                  <Route exact path="/privacy-policy" element={<PrivacyPolicy theme={theme} />} />
 
                   {/* <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} /> */}
                 </Routes>
@@ -256,6 +257,7 @@ function App() {
                       <Route exact path="/about-us" element={<></>} />
                       <Route exact path="/contact-us" element={<></>} />
                       <Route exact path="/guide" element={<></>} />
+                      <Route exact path="/privacy-policy" element={<></>} />
 
 
                       <Route exact path="/main-gallery" element={<ViewMainGalleryPage theme={theme} switchTheme={switchTheme} />} />
@@ -275,7 +277,6 @@ function App() {
 
 
                       <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} />
-                      <Route exact path="/privacy-policy" element={<PrivacyPolicy theme={theme} />} />
                     </Routes>
                   </Wrapper>
                 </Box>

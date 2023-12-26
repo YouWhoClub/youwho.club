@@ -71,6 +71,14 @@ const Home = ({ switchTheme, theme }) => {
                     </Typography>
                 </Box>
             </Box> */}
+            <Box sx={{
+                padding: { xs: '32px 42px', sm: '56px 0px' },
+                boxSizing: 'border-box',
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: { xs: 'column', sm: 'row' },
+                gap: { xs: '18px', sm: '70px' },
+            }} />
             <FABSection theme={theme} />
             <DecorSection />
             <WhatsSection />
