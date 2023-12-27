@@ -57,9 +57,12 @@ const YWServices = ({ theme }) => {
                         gap: '50px',
                     }}>
                         <NavigateCardTwo
-                            link={'/transfer'} image={theme == 'light' ? transferImgDark : transferImgLight} title={'Gift NFT'} content={'gift your nft artworks to your beloved ones by minting them with in-app tokens'} />
-                        <NavigateCardTwo link={'/main-gallery'} image={theme == 'light' ? marketImgDark : marketImgLight} title={'NFT Gallery'} content={'trade and advertise on your nfts from any marketplace'} />
-                        <NavigateCardTwo link={'/wallet'} image={theme == 'light' ? walletImgDark : walletImgLight} title={'Wallet'} content={'make your YouWho wallet to use our unique features'} />
+                            link={'/transfer'} image={theme == 'light' ? transferImgDark : transferImgLight} title={'Gift NFT'}
+                            content={'Our transfer gift card service allows you to convert your gift cards to NFTs. This is a great way to turn unused gift cards into valuable digital assets.'} />
+                        <NavigateCardTwo link={'/main-gallery'} image={theme == 'light' ? marketImgDark : marketImgLight} title={'NFT Gallery'}
+                            content={'With our NFT marketplace, you can discover new NFTs and sell your existing NFTs. We offer a wide variety of NFTs from artists and creators around the world.'} />
+                        <NavigateCardTwo link={'/wallet'} image={theme == 'light' ? walletImgDark : walletImgLight} title={'Wallet'}
+                            content={'NFT wallet in YouWho, allows you to securely store your NFTs. It also allows you send and receive NFTs so easily.'} />
                     </Box>
                 </PurpleBox>
             </Box>

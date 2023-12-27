@@ -41,13 +41,14 @@ const FABSection = ({ theme }) => {
                             <Typography variant="p" sx={{
                                 color: 'primary.text', margin: 0, mb: { xs: '22px', md: '42px' },
                                 fontSize: { xs: '18px', sm: '18px', md: '22px' }, fontWeight: 400, textAlign: { xs: 'center', md: 'start' }
-                            }}>A Life Magic For You</Typography>
+                            }}>A versatile platform for managing NFTs
+                            </Typography>
                             <Typography variant="p"
                                 sx={{
                                     color: 'primary.text', margin: 0,
                                     fontSize: { xs: '14px', sm: '14px', md: '16px' }, fontFamily: 'Inter', textAlign: 'justify'
-                                }}>YouWho is a NFT market place with
-                                new unique features.
+                                }}>
+                                Access to a new world of art and entertainment
                             </Typography>
                         </Box>
 

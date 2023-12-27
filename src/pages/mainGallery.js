@@ -19,6 +19,7 @@ import ButtonPurpleLight from "../components/buttons/buttonPurpleLight";
 import { Tab, Tabs } from "../components/utils";
 import AllNFTsTab from "../components/explore/allNFTsTab";
 import TopNFTsTab from "../components/explore/topNFTsTab";
+import TopUsersTab from "../components/explore/topUsersTab";
 
 const Gallery = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -222,7 +223,7 @@ const MainGallery = ({ switchTheme, theme }) => {
                             }
                             {activeTab == 'top-nfts' && <TopNFTsTab />}
                             {activeTab == 'new-nfts' && <AllNFTsTab />}
-                            {activeTab == 'top-users' && <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>COMING SOON</Box>}
+                            {activeTab == 'top-users' && <TopUsersTab />}
                         </ScrollablePanel>
 
                     </Panel>

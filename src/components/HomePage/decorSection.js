@@ -7,6 +7,7 @@ import { ArrowRight } from "iconsax-react";
 import styled from "@emotion/styled";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { ArrowForward } from "@mui/icons-material";
 
 const Wrapper = styled(Box)(({ theme }) => ({
     maxWidth: '1440px',
@@ -49,6 +50,7 @@ const DecorSection = () => {
                             margin: 0, mb: { xs: '50px', md: '36px' },
                             fontSize: { xs: '14px', sm: '16px', }, fontWeight: 400, textTransform: 'capitalize'
                         }}>
+
                             NFTs open up a whole new world of possibilities that could change your life. With NFTs, you can:
                             <br />
                             Collect unique digital artworks that become more valuable over time.
@@ -68,9 +70,11 @@ const DecorSection = () => {
                             And that's just the tip of the iceberg.
                             <br />
                             So sign up today and take the first step to becoming a part of the future of art and entertainment.
+
                         </Typography>
                         <Box sx={{ alignSelf: { xs: 'center', md: 'end' } }}>
                             <ButtonPurple text={`Join Now`}
+                                nextIcon={<ArrowForward sx={{ fontSize: '18px' }} />}
                                 onClick={globalUser.isLoggedIn ? () => navigate('/gallery') : () => navigate('/auth#signup')} icon={<ArrowRight size='18px' />} w={'max-content'} px={'70px'} />
                         </Box>
                     </Box>

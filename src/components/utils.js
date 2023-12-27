@@ -48,6 +48,20 @@ const RelationCardComp = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.secondary.bg,
     boxSizing: 'border-box'
 }))
+const TopUserCardComp = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: '8px 12px',
+    justifyContent: 'space-between',
+    boxShadow: theme.palette.primary.boxShadow,
+    borderRadius: '16px', gap: '12px',
+    height: '74px',
+    width: '100%',
+    color: theme.palette.primary.text,
+    backgroundColor: theme.palette.secondary.bg,
+    boxSizing: 'border-box'
+}))
 const ReactionCardCompNew = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
@@ -2161,5 +2175,58 @@ export const ChargeYourWalletModal = ({ neededPrice, open, handleClose }) => {
             </Box>
         </Modal>
 
+    )
+}
+export const TopUserCard = ({
+    image, username, }) => {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        if (!open)
+            setAnchorEl(event.currentTarget);
+        else
+            setAnchorEl(null)
+    };
+    const handleClose = (e) => {
+        setAnchorEl(null);
+    };
+    const handleClickAway = () => {
+        setAnchorEl(null);
+    }
+
+    const navigate = useNavigate()
+    return (
+        <ClickAwayListener onClickAway={handleClickAway}>
+            <TopUserCardComp >
+                <Box sx={{
+                    backgroundColor: 'primary.bg',
+                    backgroundImage: () => image ? `url('${API_CONFIG.API_URL}/${image}')` : BG_URL(PUBLIC_URL(`${profileFace}`)),
+                    // backgroundImage: image ? BG_URL(PUBLIC_URL(`${API_CONFIG.API_URL}/${image}`)) : 'primary.bg',
+                    backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+                    , width: '54px', height: '54px', borderRadius: '50%',
+                }}
+                />
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%', boxSizing: 'border-box' }}>
+                    <Typography sx={{ fontWeight: 700, color: 'primary.text', fontSize: '14px' }}>
+                        {username}
+                    </Typography>
+                    <Box>
+                        salam salam
+                    </Box>
+                </Box>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'end' }}>
+                    <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} color="#787878" />
+                    <ButtonPurpleLight br='30px'
+                        px={'16px'}
+                        py={'4px'}
+                        fontSize={'10px'}
+                        w={'max-content'}
+                        text={'View Profile'}
+                        onClick={() => navigate(`/profile/${username}`)}
+                        height='20px' />
+                </Box>
+            </TopUserCardComp>
+
+        </ClickAwayListener >
     )
 }

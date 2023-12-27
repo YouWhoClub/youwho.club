@@ -16,7 +16,10 @@ const shake = keyframes`
 `
 
 const Card = styled(Box)(({ theme }) => ({
-  width: '250px', height: '280px',
+  width: '250px',
+  boxSizing: 'border-box',
+  height: '300px',
+  padding: '25px',
   display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
   backdropFilter: 'blur(20px)',
   borderRadius: '28px', backgroundColor: theme.palette.secondary.bg,
@@ -52,23 +55,19 @@ const NavigateCardTwo = ({ image, title, content, link }) => {
   return (
     <Link style={{
       textDecoration: 'none', color: 'inherit',
-      position: 'relative', zIndex: 1,cursor:'auto'
+      position: 'relative', zIndex: 1, cursor: 'auto'
     }}
-      // to={link}
+    // to={link}
     >
       <Card>
-        <Box sx={{
-          p: '25px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
-        }}>
-          <Image sx={{ backgroundImage: BG_URL(PUBLIC_URL(`${image}`)), }} />
-          <Typography sx={{ color: 'primary.text', my: '40px', fontSize: '20px', fontWeight: 400 }}>{title}</Typography>
-          <Typography sx={{
-            color: 'secondary.text',
-            textAlign: 'justify',
-            fontFamily: "Inter", textTransform: 'capitalize',
-            fontSize: '12px',
-          }}>{content}</Typography>
-        </Box>
+        <Image sx={{ backgroundImage: BG_URL(PUBLIC_URL(`${image}`)), }} />
+        <Typography sx={{ color: 'primary.text', my: '30px', fontSize: '20px', fontWeight: 400 }}>{title}</Typography>
+        <Typography sx={{
+          color: 'secondary.text',
+          textAlign: 'justify',
+          fontFamily: "Inter", textTransform: 'capitalize',
+          fontSize: '10px',
+        }}>{content}</Typography>
       </Card>
       <UnderCard />
     </Link>

@@ -86,7 +86,7 @@ const Weblog = ({ switchTheme, theme }) => {
     for (let i = 0; i < tabNums; i++) {
         pagTabs.push(i + 1)
     }
-    console.log(pagTabs)
+    console.log(tabNums)
     return (
         <Box sx={{
             width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', bgcolor: 'primary.bg'

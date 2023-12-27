@@ -50,6 +50,7 @@ const ReactionsTab = () => {
         setSortValue(e.target.id)
     }
     const [myInvitations, setMyInvitations] = useState([])
+    const [allReactions, setallReactions] = useState([])
     const [likes, setLikes] = useState([])
     const [comments, setComments] = useState([])
     const [sells, setSells] = useState([])
@@ -88,6 +89,27 @@ const ReactionsTab = () => {
             }
         }
     }
+    const getAllReactions = async () => {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/reaction/get/all/?from=0&to=10`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log('acts', response)
+
+        if (!response.is_error) {
+            setallReactions(response.data)
+        } else {
+            if (response.status == 404) {
+                setallReactions([])
+            } else {
+                setallReactions([])
+            }
+        }
+    }
     useEffect(() => {
         if (filterValue == 'invitations') {
             getInvitations()
@@ -101,7 +123,7 @@ const ReactionsTab = () => {
         else if (filterValue == 'sells') {
             console.log('get-sells')
         } else {
-            console.log('get all reactions')
+            getAllReactions()
         }
     }, [filterValue])
     const acceptGalleryInvitation = async (receiver, sender, galleryId) => {

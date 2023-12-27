@@ -14,14 +14,18 @@ const Button = styled(Box)(({ theme }) => ({
     // backgroundColor: theme.palette.secondary.main,
     // boxShadow: theme.palette.secondary.boxShadow,
 }))
-const ButtonPurpleLight = ({ onClick, text, w, px, disabled, icon, mt, height, prevIcon, nextIcon, fontSize, br }) => {
+const ButtonPurpleLight = ({ onClick, text, w, px, py, disabled, icon, mt, height, prevIcon, nextIcon, fontSize, br }) => {
     return (
         <Button onClick={onClick}
             sx={(theme) => ({
                 height: height ? height : '40px',
-                mt: mt ? mt : undefined, fontSize: fontSize ? fontSize : { xs: '12px', sm: '14px' }, borderRadius: br ? br : '12px',
+                mt: mt ? mt : undefined, fontSize: fontSize ? fontSize : { xs: '12px', sm: '14px' },
+                borderRadius: br ? br : '12px',
                 backgroundColor: disabled ? 'primary.gray' : 'secondary.middle',
-                width: w ? w : '100px', px: px ? px : 'unset', cursor: disabled ? 'auto' : 'pointer',
+                width: w ? w : '100px',
+                px: px ? px : 'unset',
+                py: py ? py : 'unset',
+                cursor: disabled ? 'auto' : 'pointer',
                 boxShadow: disabled ? theme.palette.primary.boxShadowInset : theme.palette.primary.boxShadow,
             })}>
             {prevIcon ? prevIcon : undefined}
