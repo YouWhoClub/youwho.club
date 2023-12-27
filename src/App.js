@@ -38,6 +38,7 @@ import Weblog from './pages/weblog';
 import AboutUs from './pages/about-us';
 import GuidePage from './pages/guide';
 import ContactUs from './pages/contact-us';
+import BlogSingle from './pages/blog';
 // import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
 
 
@@ -237,7 +238,8 @@ function App() {
                 <Routes>
                   <Route exact path="/" element={<Home theme={theme} switchTheme={switchTheme} />} />
                   <Route exact path="/auth" element={<Auth theme={theme} switchTheme={switchTheme} />} />
-                  <Route exact path="/blog" element={<Weblog switchTheme={switchTheme} theme={theme} />} />
+                  <Route exact path="/blogs" element={<Weblog switchTheme={switchTheme} theme={theme} />} />
+                  <Route exact path="/blogs/:title" element={<BlogSingle switchTheme={switchTheme} theme={theme} />} />
                   <Route exact path="/about-us" element={<AboutUs switchTheme={switchTheme} theme={theme} />} />
                   <Route exact path="/contact-us" element={<ContactUs switchTheme={switchTheme} theme={theme} />} />
                   <Route exact path="/guide" element={<GuidePage switchTheme={switchTheme} theme={theme} />} />
@@ -253,7 +255,8 @@ function App() {
                       {/* <Route path='*' element={<></>} /> */}
                       <Route exact path="/" element={<></>} />
                       <Route exact path="/auth" element={<></>} />
-                      <Route exact path="/blog" element={<></>} />
+                      <Route exact path="/blogs" element={<></>} />
+                      <Route exact path="/blogs/:title" element={<></>} />
                       <Route exact path="/about-us" element={<></>} />
                       <Route exact path="/contact-us" element={<></>} />
                       <Route exact path="/guide" element={<></>} />

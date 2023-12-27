@@ -5,6 +5,8 @@ import yCoin from "../../assets/Ycoin.svg"
 import twoTokens from "../../assets/twoTokens.svg"
 import { ArrowRight } from "iconsax-react";
 import styled from "@emotion/styled";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 const Wrapper = styled(Box)(({ theme }) => ({
     maxWidth: '1440px',
@@ -16,7 +18,8 @@ const Wrapper = styled(Box)(({ theme }) => ({
 
 
 const DecorSection = () => {
-
+    const globalUser = useSelector(state => state.userReducer)
+    const navigate = useNavigate()
     return (
         <Wrapper>
             <Box sx={{ px: { xs: 0, md: '60px' } }}>
@@ -40,16 +43,35 @@ const DecorSection = () => {
                         <Typography variant="h6" sx={{
                             color: 'primary.text', margin: 0, mb: { xs: '50px', md: '42px' },
                             fontWeight: 400, fontSize: { xs: '22px', md: '22px' }, textAlign: { xs: 'center', md: 'justify' }
-                        }}>this is a subtitle</Typography>
+                        }}>Have you ever thought that with NFTs, you could earn even more than you spend?</Typography>
                         <Typography variant="p" sx={{
                             color: 'primary.text', textAlign: 'justify', fontFamily: "Inter",
                             margin: 0, mb: { xs: '50px', md: '36px' },
                             fontSize: { xs: '14px', sm: '16px', }, fontWeight: 400, textTransform: 'capitalize'
                         }}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                            NFTs open up a whole new world of possibilities that could change your life. With NFTs, you can:
+                            <br />
+                            Collect unique digital artworks that become more valuable over time.
+                            <br />
+                            Access digital music and videos that are only available to NFT holders.
+                            <br />
+                            Participate in NFT-based games and earn rewards that can be exchanged for cryptocurrencies or other assets.
+                            <br />
+                            With <b>YouWho</b>, you can maximize your opportunities. you also can:
+                            <br />
+                            Invest in a wide variety of NFTs from artists and creators around the world.
+                            <br />
+                            Connect with other NFT enthusiasts in an active online community.
+                            <br />
+                            Use your NFTs to generate income and access exclusive benefits.
+                            <br />
+                            And that's just the tip of the iceberg.
+                            <br />
+                            So sign up today and take the first step to becoming a part of the future of art and entertainment.
                         </Typography>
                         <Box sx={{ alignSelf: { xs: 'center', md: 'end' } }}>
-                            <ButtonPurple text={`Join Now`} icon={<ArrowRight size='18px' />} w={'max-content'} px={'70px'} />
+                            <ButtonPurple text={`Join Now`}
+                                onClick={globalUser.isLoggedIn ? () => navigate('/gallery') : () => navigate('/auth#signup')} icon={<ArrowRight size='18px' />} w={'max-content'} px={'70px'} />
                         </Box>
                     </Box>
                     <Box

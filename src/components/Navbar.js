@@ -349,10 +349,10 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                             fontWeight: window.location.pathname == '/contact-us' ? 700 : 400,
                             color: window.location.pathname == '/contact-us' ? '#9747FF' : 'inherit'
                         }}>Contact Us</Link>
-                        <Link to={'/blog'} style={{
-                            textDecoration: window.location.pathname == '/blog' ? 'underline' : 'none', fontSize: 'inherit',
-                            fontWeight: window.location.pathname == '/blog' ? 700 : 400,
-                            color: window.location.pathname == '/blog' ? '#9747FF' : 'inherit'
+                        <Link to={'/blogs'} style={{
+                            textDecoration: window.location.pathname == '/blogs' ? 'underline' : 'none', fontSize: 'inherit',
+                            fontWeight: window.location.pathname == '/blogs' ? 700 : 400,
+                            color: window.location.pathname == '/blogs' ? '#9747FF' : 'inherit'
                         }}>Weblogs</Link>
                     </Box>
                 </Box>
