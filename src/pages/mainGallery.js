@@ -214,7 +214,8 @@ const MainGallery = ({ switchTheme, theme }) => {
                                 //     xs: 'calc(100vh - 483px)',
                                 //     md: 'calc(100vh - 541px)'
                                 // },
-                                boxSizing: 'border-box'
+                                boxSizing: 'border-box',
+                                p: 1, pb: { xs: '55px', sm: '20px' }
                             }}>
                             {activeTab == 'all-nfts' &&
                                 <AllNFTsTab />
