@@ -21,6 +21,18 @@ import { PUBLIC_API } from "../utils/data/public_api"
 import Crop from "./crop/Crop"
 import { getuser } from "../redux/actions"
 import ywHugCoinLogo from '../assets/youwho-hugcoin.svg'
+import gassFeeLight from '../assets/gassfeeLight.svg'
+import web3Light from '../assets/web3Light.svg'
+import blockchainLight from '../assets/blockchainLight.svg'
+import cryptoLight from '../assets/cryptoLight.svg'
+import xpnsvNFTLight from '../assets/xpnsvNFTLight.svg'
+import calenLight from '../assets/calenLight.svg'
+import gassFeeDark from '../assets/gassfeeDark.svg'
+import web3Dark from '../assets/web3Dark.svg'
+import blockchainDark from '../assets/blockchainDark.svg'
+import cryptoDark from '../assets/cryptoDark.svg'
+import xpnsvNFTDark from '../assets/xpnsvNFTDark.svg'
+import calenDark from '../assets/calenDark.svg'
 
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -2230,3 +2242,41 @@ export const TopUserCard = ({
         </ClickAwayListener >
     )
 }
+export const blogContents = [
+    {
+        id: 1, title: 'what is this', subtitle: 'miu miuu', content: 'content content ontent content ontent content ontent content ontent content ontent content ',
+        imageLight: gassFeeLight,
+        imageDark: gassFeeDark,
+        date: new Date().toDateString()
+    },
+    {
+        id: 2, title: 'what is that', subtitle: 'miu miu miuu', content: 'there is this and there is that and that is what and that is that',
+        imageLight: web3Light,
+        imageDark: web3Dark,
+        date: new Date().toDateString()
+    },
+    {
+        id: 3, title: 'what is this', subtitle: 'miu miuu', content: 'content content ontent content ontent content ontent content ontent content ontent content ',
+        imageLight: blockchainLight,
+        imageDark: blockchainDark,
+        date: new Date().toDateString()
+    },
+    {
+        id: 4, title: 'what is that', subtitle: 'miu miu miuu', content: 'there is this and there is that and that is what and that is that',
+        imageLight: cryptoLight,
+        imageDark: cryptoDark,
+        date: new Date().toDateString()
+    },
+    {
+        id: 5, title: 'what is this', subtitle: 'miu miuu', content: 'content content ontent content ontent content ontent content ontent content ontent content ',
+        imageLight: xpnsvNFTLight,
+        imageDark: xpnsvNFTDark,
+        date: new Date().toDateString()
+    },
+    {
+        id: 6, title: 'what is that', subtitle: 'miu miu miuu', content: 'there is this and there is that and that is what and that is that',
+        imageLight: calenLight,
+        imageDark: calenDark,
+        date: new Date().toDateString()
+    },
+]

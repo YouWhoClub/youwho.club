@@ -42,7 +42,7 @@ const TopUsersTab = () => {
     }
 
     useEffect(() => {
-        // getUsers()
+        getUsers()
         return () => {
             if (apiCall.current) {
                 apiCall.current.cancel();

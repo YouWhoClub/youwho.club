@@ -4,7 +4,7 @@ import { Box, Typography } from "@mui/material";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
-import bgimg from '../assets/bgBlg.png'
+import bgimg from '../assets/xtrPageBanner.svg'
 
 const Title = styled('h4')(({ theme }) => ({
     color: theme.palette.primary.text, textAlign: 'center'
@@ -35,7 +35,7 @@ const PrivacyPolicy = ({ switchTheme, theme }) => {
                     display: 'flex', flexDirection: 'column', justifyContent: 'center', bgcolor: 'primary.bg', gap: { xs: '50px', md: '100px' }
                 }}>
                     <Box sx={{
-                        width: '100%',
+                        width: '100%', borderRadius: '24px',
                         height: { xs: '250px', md: '452px' },
                         backgroundImage: BG_URL(PUBLIC_URL(`${bgimg}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',
                         display: 'flex', alignItems: 'end', justifyContent: 'end',

@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
-import bgimg from '../assets/bgBlg.png'
+import bgimg from '../assets/xtrPageBanner.svg'
 import styled from "@emotion/styled";
 import img from '../assets/cardBackground.png'
 import Pagination from "../components/pagination";
@@ -10,7 +10,7 @@ import { useState } from "react";
 import ButtonPurple from "../components/buttons/buttonPurple";
 import { ArrowForward } from "@mui/icons-material";
 import { useNavigate } from "react-router";
-
+import { blogContents } from "../components/utils";
 const Wrapper = styled(Box)(({ theme }) => ({
     width: '100%',
     maxWidth: '1440px',
@@ -26,8 +26,9 @@ const FlexRow = styled(Box)(({ theme }) => ({
 const BlogImage = styled(Box)(({ theme }) => ({
     // width: '50%',
     // height: '400px',
+    backgroundColor: theme.palette.secondary.bg,
     boxSizing: 'border-box',
-    backgroundImage: BG_URL(PUBLIC_URL(`${img}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',
 }))
 const BlogDetails = styled(Box)(({ theme }) => ({
     // width: '50%',
@@ -79,7 +80,6 @@ const DateOfArticle = styled(Typography)(({ theme }) => ({
 
 const Weblog = ({ switchTheme, theme }) => {
     const navigate = useNavigate()
-    const blogContents = [1, 2, 3, 4, 5, 6,]
     const [selectedTab, setSelectedTab] = useState(1)
     let pagTabs = []
     let tabNums = blogContents.length / 4
@@ -99,11 +99,11 @@ const Weblog = ({ switchTheme, theme }) => {
                     display: 'flex', flexDirection: 'column', justifyContent: 'center', bgcolor: 'primary.bg', gap: { xs: '50px', md: '100px' }
                 }}>
                     <Box sx={{
-                        width: '100%',
+                        width: '100%', borderRadius: '24px',
                         height: { xs: '250px', md: '452px' },
                         backgroundImage: BG_URL(PUBLIC_URL(`${bgimg}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',
                         display: 'flex', alignItems: 'end', justifyContent: 'end',
-                        boxSizing: 'border-box', pb: { xs: '20px', sm: '80px' }, pr: { xs: '40px', sm: '100px' }
+                        boxSizing: 'border-box', pb: { xs: '25px', sm: '50px', md: '80px' }, pr: { xs: '30px', sm: '80px', md: '100px' }
                     }}>
                         <Typography variant="h1"
                             sx={{
@@ -121,6 +121,7 @@ const Weblog = ({ switchTheme, theme }) => {
                         {blogContents.slice((selectedTab * 4) - 4, selectedTab * 4).map((cntnt, index) => (
                             <FlexRow sx={{ flexDirection: (index % 2 == 0) ? 'row' : 'row-reverse' }}>
                                 <BlogImage sx={{
+                                    backgroundImage: localStorage.getItem('theme') == 'light' ? BG_URL(PUBLIC_URL(`${cntnt.imageLight}`)) : BG_URL(PUBLIC_URL(`${cntnt.imageDark}`)),
                                     height: '415px', width: '50%',
                                     borderRadius: index == 0 ? '48px 48px 0px 48px' :
                                         (((index + 1) % 4 == 0) || (((index + 1) + (4 * (selectedTab - 1))) == blogContents.length)) ? '0px 48px 48px 48px' :
@@ -128,22 +129,21 @@ const Weblog = ({ switchTheme, theme }) => {
                                                 '0px 48px 48px 0px'
                                 }} />
                                 <BlogDetails sx={{ width: '50%', justifyContent: 'space-between', gap: '12px' }}>
-
                                     <Title >
-                                        Title  {((index + 1) + (4 * (selectedTab - 1)))}
+                                        {cntnt.title}  {((index + 1) + (4 * (selectedTab - 1)))}
                                     </Title>
                                     <Subtitle>
-                                        subtitle
+                                        {cntnt.subtitle}
                                     </Subtitle>
                                     <Description >
-                                        content content content contentcontent contentcontent contentcontent contentcontent contentcontent contentcontent content
+                                        {cntnt.content}
                                     </Description>
                                     <DateOfArticle>
-                                        {new Date().toDateString()}
+                                        {cntnt.date}
                                     </DateOfArticle>
                                     <FlexRow sx={{ justifyContent: 'end !important' }}>
                                         <ButtonPurple text={'Read More'} nextIcon={<ArrowForward />}
-                                            w={'max-content'} onClick={() => navigate('/blogs/title')}
+                                            w={'max-content'} onClick={() => navigate(`/blogs/${cntnt.id}/${cntnt.title}`)}
                                             px={'24px'} />
                                     </FlexRow>
                                 </BlogDetails>
@@ -156,8 +156,9 @@ const Weblog = ({ switchTheme, theme }) => {
                         alignItems: 'center', borderTop: '1px solid', borderColor: 'primary.gray', pt: '32px', gap: '18px'
                     }}>
                         {blogContents.slice((selectedTab * 4) - 4, selectedTab * 4).map((cntnt, index) => (
-                            <BlogCardMobile onClick={() => navigate('/blogs/title')}>
+                            <BlogCardMobile onClick={() => navigate(`/blogs/${cntnt.id}/${cntnt.title}`)}>
                                 <BlogImage sx={{
+                                    backgroundImage: localStorage.getItem('theme') == 'light' ? BG_URL(PUBLIC_URL(`${cntnt.imageLight}`)) : BG_URL(PUBLIC_URL(`${cntnt.imageDark}`)),
                                     width: '100%', height: '140px',
                                     borderRadius: '12px 12px 0px 0px'
                                 }} />
@@ -165,9 +166,9 @@ const Weblog = ({ switchTheme, theme }) => {
                                     width: '100%', gap: '12px'
                                 }}>
                                     <DateOfArticle>
-                                        {new Date().toDateString()}
+                                        {cntnt.date}
                                     </DateOfArticle>
-                                    <Title>Title   {((index + 1) + (4 * (selectedTab - 1)))}</Title>
+                                    <Title>{cntnt.title}   {((index + 1) + (4 * (selectedTab - 1)))}</Title>
 
                                 </BlogDetails>
                             </BlogCardMobile>
