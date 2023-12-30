@@ -2244,39 +2244,241 @@ export const TopUserCard = ({
 }
 export const blogContents = [
     {
-        id: 1, title: 'what is this', subtitle: 'miu miuu', content: 'content content ontent content ontent content ontent content ontent content ontent content ',
+        id: 1, title: 'What are gas fees?',
+        subtitle: 'What are gas fees?',
+        shortDes: 'In the realm of NFTs (Non-Fungible Tokens), Gas Fees stand as a vital concept, drawing intense attention during transactions and asset transfers...',
+        content: <>
+            What are gas fees?
+            <br />
+            In the realm of NFTs (Non-Fungible Tokens), Gas Fees stand as a vital concept, drawing intense attention during transactions and asset transfers.<br />
+            These fees not only manifest as a component of transaction processes but also significantly impact user experiences.
+            <br />
+            Gas fees correlate with the computational resources required to execute a specific transaction or operation within the blockchain network.For instance, when buying or selling an NFT, if several users are simultaneously engaging in transactions, gas fees might increase.
+            <br />
+            These fees are allocated to miners to incentivize them to confirm and verify transactions on the network.Therefore, gas fees act as a form of reward to miners for processing transactions.
+            <br />
+            In essence, gas fees reflect the dynamic nature of the network and user demand for transaction execution.A precise understanding of these fees is crucial, enabling users to make informed decisions regarding the timing and cost of their transactions.</>,
         imageLight: gassFeeLight,
         imageDark: gassFeeDark,
-        date: new Date().toDateString()
+        date: 'Dec2023'
     },
     {
-        id: 2, title: 'what is that', subtitle: 'miu miu miuu', content: 'there is this and there is that and that is what and that is that',
+        id: 2,
+        title: 'What is web3?',
+        subtitle: 'What is web3',
+        shortDes: 'Web 3.0, or the third phase of the Internet, is rapidly taking shape with the goal of transforming users from passive consumers into active contributors to the creation and production of web content and services...',
+        content: <>
+            What is web3?
+            <br />
+            Web 3.0, or the third phase of the Internet, is rapidly taking shape with the goal of transforming users from passive consumers into active contributors to the creation and production of web content and services. It introduces several key features:
+            <br />
+            <b>
+                Artificial Intelligence (AI) Integration:
+            </b>
+            <br />
+            Web 3.0 utilizes artificial intelligence technologies for data analysis, information processing, and providing personalized recommendations to users. This improvement in AI enhances the overall user experience.
+            <br />
+            <b>
+                Blockchain Technology Implementation:
+            </b>
+            <br />
+            To enhance security and privacy, Web 3.0 leverages blockchain technology. This allows data to be recorded in an immutable and transparent manner across the network, ensuring integrity and trust.
+            <br />
+            <b>
+                Enhanced User Interaction:
+            </b>
+            <br />
+            A primary objective of Web 3.0 is to increase interaction between users and websites. These interactions may occur through technologies such as Virtual Reality (VR) or Augmented Reality (AR), creating more immersive and engaging user experiences.
+            <br />
+            <b>
+                Decentralized Data and Content Distribution:
+            </b>
+            <br />
+            Web 3.0 empowers users to act as content creators and data custodians, shifting the power from centralized entities to individuals and ordinary users. This decentralization fosters a more democratic and inclusive digital environment.
+            <br />
+            <b>
+                New Standards and Protocols:
+            </b>
+            <br />
+            Web 3.0 employs new standards and protocols for better communication between data and devices. This aids in establishing more efficient and effective connections among various components of the Internet.
+            <br />
+            Web 3.0 is an evolving concept aimed at creating a better and more interactive web experience. It emphasizes the utilization of emerging technologies to empower users, enhance security, and redefine the relationship between individuals and the digital world. While still in its early stages of development, Web 3.0 holds the promise of shaping a more user-centric, decentralized, and intelligent Internet.
+        </>,
         imageLight: web3Light,
         imageDark: web3Dark,
-        date: new Date().toDateString()
+        date: 'Dec2023'
     },
     {
-        id: 3, title: 'what is this', subtitle: 'miu miuu', content: 'content content ontent content ontent content ontent content ontent content ontent content ',
+        id: 3,
+        title: 'What is blockchain?',
+        subtitle: 'Blockchain: A Magical Bridge to Digital Security and Revolution in Data Relations.',
+        shortDes: 'Blockchain is an emerging technology recognized as the fundamental foundation for executing digital currencies like Bitcoin. This technology harnesses a powerful ...',
+        content: <>
+            What is blockchain?
+            <br />
+            <b>
+                Blockchain: A Magical Bridge to Digital Security and Revolution in Data Relations.
+            </b>
+            <br />
+            Blockchain is an emerging technology recognized as the fundamental foundation for executing digital currencies like Bitcoin. This technology harnesses a powerful data structure that stores information in the form of blocks. Each block contains data related to a specific transaction or event and is connected to its preceding block.
+            <br />One prominent feature of blockchain is the immutability of the stored information. In other words, altering or deleting a block is highly challenging and requires validation from the entire network, providing a high level of security.
+            <br />Blockchain is acknowledged as the primary platform for secure transactions in the digital world. Its applications include facilitating fund transfers between individuals, recording asset ownership, executing smart contracts, and even creating digital currencies (cryptocurrencies).
+            <br />This technology has led to increased transparency, cost reduction, and enhanced credibility across various processes. Additionally, from a technical perspective, blockchain relies on advanced encryption algorithms to safeguard information against cyber attacks.
+            <br />Further insights into blockchain include:
+            <br />
+            <b>
+                Blockchain Structure:
+            </b>
+            <br />Blockchain is a chain-like structure where each block contains information such as date, time, and transaction data.
+            <br />Each block holds a set of data and is linked to the previous block through a unique hash.
+            <br />
+            <b>
+                Security:
+            </b>
+            <br />Security in blockchain is ensured through encryption and unique hashes.
+            <br />Altering a block requires changing not only that block but also all subsequent blocks, making it a challenging and seemingly impossible task.
+            <br />
+            <b>
+                Decentralized Technology:
+            </b>
+            <br />Blockchain is managed by a social network of computers or "nodes." Each node maintains a version of the blockchain and independently participates in decision-making and transaction verification.
+            <br />
+            <b>
+                Execution of Smart Contracts:
+            </b>
+            <br />Blockchain enables the execution of smart contracts—coded programs defining conditions and regulations for automated, intermediary-free execution.
+            <br />
+            <b>
+                Diverse Industry Applications:
+            </b>
+            <br />Initially created for digital currencies like Bitcoin, blockchain is now employed in various industries, including banking, insurance, supply chain, healthcare, legal, and even arts and entertainment.
+            <br />
+            <b>
+                Advantages of Blockchain:
+            </b>
+            <br />Cost Reduction: Due to reduced reliance on intermediaries.
+            <br />Increased Transparency: All transactions are publicly accessible.
+            <br />High Security: Utilizing advanced encryption algorithms.
+            <br />Smart Contract Applications: Enhancing automation and efficiency.
+            <br /><br />Blockchain represents a cultural shift in accessibility, security, and transaction execution in the digital realm.
+        </>,
         imageLight: blockchainLight,
         imageDark: blockchainDark,
-        date: new Date().toDateString()
+        date: 'Dec2023'
     },
     {
-        id: 4, title: 'what is that', subtitle: 'miu miu miuu', content: 'there is this and there is that and that is what and that is that',
+        id: 4,
+        title: 'What is cryptocurrency?',
+        subtitle: '"Cryptocurrency: Pioneering a New Global Realm of Digital Currencies"',
+        shortDes: 'Cryptocurrency, or digital currencies, is an emerging concept in the financial world based on blockchain technology. These currencies enable financial transactions through advanced encryption technology and operate without centralized control.',
+        content: <>
+            What is cryptocurrency?
+            <br />
+            <b>
+                "Cryptocurrency: Pioneering a New Global Realm of Digital Currencies"
+            </b>
+            <br />
+            Cryptocurrency, or digital currencies, is an emerging concept in the financial world based on blockchain technology. These currencies enable financial transactions through advanced encryption technology and operate without centralized control.
+            <br />
+            Cryptocurrencies are often recognized as a means for peer-to-peer fund transfers, eliminating the need for traditional banking intermediaries. Their reliance on blockchain technology, which operates in an immutable and transparent manner, has enhanced trust and security in financial transactions.
+            <br />
+            Each cryptocurrency is typically an independent unit, with some of the most well-known examples including Bitcoin, Ethereum, Ripple, and Litecoin. These currencies differ from one another based on their underlying features and infrastructure technologies.
+            <br />
+            Cryptocurrencies, as a novel technology, have not only impacted the financial sector but have also found applications in various industries such as technology, security, and even arts and entertainment. Their high-security features, transaction speed, and user flexibility have garnered widespread attention.
+            <br />
+            These digital currencies represent a paradigm shift not only in the financial landscape but also across diverse sectors, showcasing their potential to reshape how transactions and interactions occur in our increasingly digital world.
+        </>,
         imageLight: cryptoLight,
         imageDark: cryptoDark,
-        date: new Date().toDateString()
+        date: 'Dec2023'
     },
     {
-        id: 5, title: 'what is this', subtitle: 'miu miuu', content: 'content content ontent content ontent content ontent content ontent content ontent content ',
+        id: 5,
+        title: 'How to buy and sell NFTs?',
+        subtitle: 'Embarking on the Journey: A Guide Beyond Clichés for Buying and Selling NFTs',
+        shortDes: 'As you step into the intriguing world of NFTs, the first bridge you must cross is known as "blockchain." Much like a magical bridge, blockchain guides you to the other side of the realm of digital art and technology...',
+        content:
+            <>
+                How to buy and sell NFTs?
+                <br />
+                <b>
+                    Embarking on the Journey: A Guide Beyond Clichés for Buying and Selling NFTs
+                </b>
+                <br />
+                As you step into the intriguing world of NFTs, the first bridge you must cross is known as "blockchain." Much like a magical bridge, blockchain guides you to the other side of the realm of digital art and technology. Below, with step-by-step explanations, we make the process of unlocking this bridge for buying and selling NFTs easy for you.
+                <br />
+                <b>
+                    1. Prerequisites:
+                </b>
+                In the first step, to kickstart, you need to consider a few prerequisites. Create a digital wallet and familiarize yourself with basic NFT concepts, such as non-fungible tokens and blockchain intricacies.
+                <br />
+
+                <b>2. Choosing a Marketplace:</b>
+                Every traveler needs a destination. Here, selecting an NFT marketplace can be the beginning of your journey. Some markets function as "digital art galleries," while others are recognized as "exchange markets."
+                <br />
+                <b>3. Registration and Account Creation: </b>
+                To begin, you'll need to register in the chosen marketplace. This step involves creating a user account to store your information and facilitate interaction with other users.
+                <br />
+                <b>4. Search and Selection of NFTs: </b>
+                Similar to buying art in a gallery, here you can also enjoy works from various artists. Planning to purchase an NFT includes examining artist information, work descriptions, and the legal status of the token.
+                <br />
+                <b>5. Buying and/or Selling:</b>
+                Now that you've found your choice, you can acquire the NFT. If you opt to sell, understanding the selling process and setting prices are critical aspects to learn, allowing you to expand the influence of your artistic and digital endeavors.
+                <br />
+                With the world you are now stepping into, the experience of buying and selling NFTs will be accompanied by numerous wonders at every moment.
+            </>,
         imageLight: xpnsvNFTLight,
         imageDark: xpnsvNFTDark,
-        date: new Date().toDateString()
+        date: 'Dec2023'
     },
     {
-        id: 6, title: 'what is that', subtitle: 'miu miu miuu', content: 'there is this and there is that and that is what and that is that',
+        id: 6,
+        title: 'What are NFT drops?',
+        subtitle: 'NFT Treasury: Unveiling Jewels in the Guise of Drops',
+        shortDes: 'In the tumultuous world of digital art and blockchain technology, NFT drops stand as one of the pervasive wonders guiding art enthusiasts toward new frontiers of creativity...',
+        content: <>
+            What are NFT drops?
+            <br />
+            <b>
+                NFT Treasury: Unveiling Jewels in the Guise of Drops
+            </b>
+            <br />
+            In the tumultuous world of digital art and blockchain technology, NFT drops stand as one of the pervasive wonders guiding art enthusiasts toward new frontiers of creativity. In this virtual realm, NFT drops provide an exciting and captivating experience where art and technology seamlessly converge.
+            <br />
+            <b>
+                1. Discovery of Innovation:
+            </b>
+            <br />
+            NFT drops represent a special and unique event where digital artists showcase the extent of their creativity. This innovation elevates the digital art world to a new level of creative thinking, meticulous planning, and artistry.
+            <br />
+            <b>
+                2. Direct Connection with Artists:
+            </b>
+            <br />
+            NFT drops enable enthusiasts to get closer to their favorite artists. These events provide an opportunity for individuals to directly connect with beloved artists and acquire uniquely crafted pieces.
+            <br />
+            <b>
+                3. Excitement of Ownership:
+            </b>
+            <br />
+            Purchasing an NFT in these events carries its own unique thrill and excitement. Individuals not only become owners of a digital artwork but also experience the exclusive aspects of blockchain technology.
+            <br />
+            <b>
+                4. Social Impact:
+            </b>
+            <br />
+            These events form artistic communities and promote social interactions. Art enthusiasts and artists connect with each other in a virtual space, celebrating mutual influence and shared impact.
+            <br />
+            <b>
+                5. Economic Dynamics:
+            </b>
+            <br />
+            By transforming artworks into NFTs, a new economic dynamic emerges. Artists benefit from the sale of their works to NFT owners, balancing financial flows within the artistic community.
+            <br />
+            Thus, NFT drops are not just an artistic event but an experience that encompasses social, economic, and technological dimensions, guiding art enthusiasts and artists toward an engaging and innovative world.
+        </>,
         imageLight: calenLight,
         imageDark: calenDark,
-        date: new Date().toDateString()
+        date: 'Dec2023'
     },
 ]

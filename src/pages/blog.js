@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 import Navbar from "../components/Navbar";
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
 import imgbg from '../assets/Y-HUG-COIN.svg'
-import { blogContents } from "../components/utils";
+import { blogContents, shorten } from "../components/utils";
 import Footer from "../components/Footer";
 import { useParams } from "react-router";
 const Wrapper = styled(Box)(({ theme }) => ({
@@ -56,10 +56,8 @@ const BlogSingle = ({ theme, switchTheme }) => {
                     gap: { xs: '50px', md: '100px' }
                 }}>
                     <TopPic sx={{
+                        overflow: 'hidden',
                         backgroundImage: localStorage.getItem('theme') == 'light' ? BG_URL(PUBLIC_URL(`${blog.imageLight}`)) : BG_URL(PUBLIC_URL(`${blog.imageDark}`)),
-                        bgcolor: '#A79FAD',
-                        bgcolor: '#A6A2A8',
-                        bgcolor: '#D3D0CB',
                         bgcolor: 'primary.gray',
                         display: 'flex', alignItems: 'center',
                     }}>
@@ -67,7 +65,22 @@ const BlogSingle = ({ theme, switchTheme }) => {
                             <Typography sx={{ color: 'white', fontSize: { xs: '22px', sm: '32px', md: '64px' } }}>
                                 {blog.title}
                             </Typography>
-                            <Typography sx={{ color: 'white', fontSize: { xs: '18px', sm: '22px', md: '32px' } }}>
+                            <Typography sx={{
+                                display: { xs: 'none', md: 'block' },
+                                color: 'white', fontSize: { xs: '18px', sm: '22px', md: '32px' }
+                            }}>
+                                {shorten(blog.subtitle, 45)}
+                            </Typography>
+                            <Typography sx={{
+                                display: { xs: 'none', sm: 'block', md: 'none' },
+                                color: 'white', fontSize: { xs: '18px', sm: '22px', md: '32px' }
+                            }}>
+                                {shorten(blog.subtitle, 50)}
+                            </Typography>
+                            <Typography sx={{
+                                display: { xs: 'block', sm: 'none' },
+                                color: 'white', fontSize: { xs: '18px', sm: '22px', md: '32px' }
+                            }}>
                                 {blog.subtitle}
                             </Typography>
                         </TitleWrapper>

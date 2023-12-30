@@ -397,7 +397,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
                     </Box>
                     <Accordion
                         sx={{
-                            my: 1,
+                            my: '2px',
                             width: '100%',
                             bgcolor: 'secondary.bg',
                             color: 'primary.text',
@@ -481,7 +481,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
                         </AccordionDetails>
                     </Accordion>
                     <Accordion sx={{
-                        my: 1,
+                        my: '2px',
                         width: '100%',
                         bgcolor: 'secondary.bg',
                         color: 'primary.text',
@@ -521,7 +521,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
                         </AccordionDetails>
                     </Accordion>
                     <Accordion sx={{
-                        my: 1,
+                        my: '2px',
                         width: '100%',
                         bgcolor: 'secondary.bg',
                         color: 'primary.text',
@@ -579,7 +579,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
                         </AccordionDetails>
                     </Accordion>
                     <Accordion sx={{
-                        my: 1,
+                        my: '2px',
                         width: '100%',
                         bgcolor: 'secondary.bg',
                         color: 'primary.text',
@@ -604,7 +604,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
                             sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
                         >
                             <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', color: 'primary.main', }}>
-                                <Typography sx={{ my: 1, width: '100%', textAlign: 'center', fontSize: '12px', color: 'primary.text' }}>
+                                <Typography sx={{ my: '2px', width: '100%', textAlign: 'center', fontSize: '12px', color: 'primary.text' }}>
                                     {globalUser.mail}
                                 </Typography>
                                 {/* <Typography sx={{ fontSize: '10px' }}>Save </Typography><TickCircle cursor='pointer' size='12px' /> */}
@@ -612,7 +612,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
                         </AccordionDetails>
                     </Accordion>
                     <Accordion sx={{
-                        my: 1,
+                        my: '2px',
                         width: '100%',
                         bgcolor: 'secondary.bg',
                         color: 'primary.text',
@@ -820,7 +820,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
                                     : <Timer color="pink" size='14px' />
                                 }
                             </FlexRow>
-                            <FlexRow>
+                            {/* <FlexRow>
                                 <Typography sx={{ fontSize: '12px' }}>First Mint</Typography>
                                 {globalUser.mint ?
                                     <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
@@ -840,7 +840,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w }) => {
                                     <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
                                     : <Timer color="pink" size='14px' />
                                 }
-                            </FlexRow>
+                            </FlexRow> */}
                         </AccordionDetails>
                     </Accordion>
                 </>

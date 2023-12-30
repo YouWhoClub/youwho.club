@@ -10,7 +10,7 @@ import { useState } from "react";
 import ButtonPurple from "../components/buttons/buttonPurple";
 import { ArrowForward } from "@mui/icons-material";
 import { useNavigate } from "react-router";
-import { blogContents } from "../components/utils";
+import { blogContents, shorten } from "../components/utils";
 const Wrapper = styled(Box)(({ theme }) => ({
     width: '100%',
     maxWidth: '1440px',
@@ -51,6 +51,9 @@ const BlogCardMobile = styled(Box)(({ theme }) => ({
 const Title = styled(Typography)(({ theme }) => ({
     fontSize: '32px',
     color: theme.palette.primary.text,
+    "@media (max-width: 1000px)": {
+        fontSize: '24px'
+    },
     "@media (max-width: 768px)": {
         fontSize: '16px'
     },
@@ -58,6 +61,9 @@ const Title = styled(Typography)(({ theme }) => ({
 const Subtitle = styled(Typography)(({ theme }) => ({
     fontSize: '22px',
     color: theme.palette.secondary.text,
+    "@media (max-width: 1000px)": {
+        fontSize: '18px'
+    },
     "@media (max-width: 768px)": {
         fontSize: '14px'
     },
@@ -65,6 +71,9 @@ const Subtitle = styled(Typography)(({ theme }) => ({
 const Description = styled(Typography)(({ theme }) => ({
     fontSize: '16px', width: '100%', textAlign: 'justify',
     color: theme.palette.primary.darkGray, fontFamily: 'Inter',
+    "@media (max-width: 1000px)": {
+        fontSize: '14px'
+    },
     "@media (max-width: 768px)": {
         fontSize: '12px'
     },
@@ -129,14 +138,15 @@ const Weblog = ({ switchTheme, theme }) => {
                                                 '0px 48px 48px 0px'
                                 }} />
                                 <BlogDetails sx={{ width: '50%', justifyContent: 'space-between', gap: '12px' }}>
-                                    <Title >
-                                        {cntnt.title}  {((index + 1) + (4 * (selectedTab - 1)))}
+                                    <Title>
+                                        {cntnt.title}
+                                        {/* {((index + 1) + (4 * (selectedTab - 1)))} */}
                                     </Title>
                                     <Subtitle>
                                         {cntnt.subtitle}
                                     </Subtitle>
                                     <Description >
-                                        {cntnt.content}
+                                        {shorten(cntnt.shortDes, 100)}
                                     </Description>
                                     <DateOfArticle>
                                         {cntnt.date}
@@ -159,8 +169,9 @@ const Weblog = ({ switchTheme, theme }) => {
                             <BlogCardMobile onClick={() => navigate(`/blogs/${cntnt.id}/${cntnt.title}`)}>
                                 <BlogImage sx={{
                                     backgroundImage: localStorage.getItem('theme') == 'light' ? BG_URL(PUBLIC_URL(`${cntnt.imageLight}`)) : BG_URL(PUBLIC_URL(`${cntnt.imageDark}`)),
-                                    width: '100%', height: '140px',
-                                    borderRadius: '12px 12px 0px 0px'
+                                    width: '100%', height: '150px',
+                                    borderRadius: '12px 12px 0px 0px',
+                                    borderBottom: '1px solid', borderColor: 'primary.gray'
                                 }} />
                                 <BlogDetails sx={{
                                     width: '100%', gap: '12px'
@@ -168,7 +179,10 @@ const Weblog = ({ switchTheme, theme }) => {
                                     <DateOfArticle>
                                         {cntnt.date}
                                     </DateOfArticle>
-                                    <Title>{cntnt.title}   {((index + 1) + (4 * (selectedTab - 1)))}</Title>
+                                    <Title>
+                                        {cntnt.title}
+                                        {/* {((index + 1) + (4 * (selectedTab - 1)))} */}
+                                    </Title>
 
                                 </BlogDetails>
                             </BlogCardMobile>
