@@ -2420,10 +2420,14 @@ export const blogContents = [
     {
         id: 3,
         title: 'What is web3?',
-        subtitle: 'What is web3',
+        subtitle: 'web3: The Future of the internet,decentralized and intelligent',
         shortDes: 'Web 3.0, or the third phase of the Internet, is rapidly taking shape with the goal of transforming users from passive consumers into active contributors to the creation and production of web content and services...',
         content: <>
             What is web3?
+            <br />
+            <b>
+                "web3: The Future of the internet,decentralized and intelligent"
+            </b>
             <br />
             Web 3.0, or the third phase of the Internet, is rapidly taking shape with the goal of transforming users from passive consumers into active contributors to the creation and production of web content and services. It introduces several key features:
             <br />

@@ -1,5 +1,5 @@
-import { ArrowLeft, ArrowLeftSharp, Email, LockClock, LockOutlined, LockRounded, Password } from "@mui/icons-material";
-import { Box, CircularProgress, FormHelperText, FormLabel, Typography } from "@mui/material";
+import { ArrowLeft, ArrowLeftSharp, Check, Close, Email, LockClock, LockOutlined, LockRounded, Password } from "@mui/icons-material";
+import { Box, CircularProgress, FormHelperText, FormLabel, Modal, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import TextField from '@mui/material/TextField';
 import { FormControl, Input } from "@mui/base";
@@ -16,6 +16,7 @@ import { BG_URL, PUBLIC_URL } from "../../../utils/utils";
 import gmailLogo from '../../../assets/gmailLogo.svg'
 import microsoftLogo from '../../../assets/micosoftLogo.svg'
 import { HEALTH_API } from "../../../utils/data/health_api";
+import { toast } from "react-toastify";
 
 const LoginWithOthersBox = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -34,6 +35,12 @@ const Line = styled(Box)(({ theme }) => ({
     height: '1px',
     backgroundColor: theme.palette.primary.gray,
 }))
+const FlexRow = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    color: theme.palette.primary.text,
+}))
 
 const Login = ({ progress, setProgress, alreadyEmail }) => {
     const globalUser = useSelector(state => state.userReducer)
@@ -42,45 +49,55 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
     const [state, setState] = useState('identifier')
     const [identifier, setIdentifier] = useState(alreadyEmail ? alreadyEmail : undefined)
     const [password, setPassword] = useState(undefined)
-    const [loading, setLoading] = useState(false)
+    const [loadingg, setLoadingg] = useState(false)
+    const [forgotSending, setForgotSending] = useState(false)
     const [err, setErr] = useState(undefined)
     const [idErr, setIdErr] = useState(undefined)
     const [passErr, setPassErr] = useState(undefined)
     const [success, setSuccess] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
     const [buttonDisabled, setButtonDisabled] = useState(true)
+    const [forgotButtonDisabled, setForgotButtonDisabled] = useState(true)
+    const [newPassSent, setNewPassSent] = useState(false)
     const logOut = () => dispatch(logOutUser());
     const deleteUnclaimed = () => dispatch(deleteUnclaimedDeposit());
-
+    const [openPassModal, setOpenPassModal] = useState(false)
     const apiCall = useRef(undefined)
     const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
     const refreshUserToken = (refreshToken, tokenExpiration) => dispatch(setRefreshToken(refreshToken, tokenExpiration));
-
+    const toastId = useRef(null);
+    const loading = () => {
+        toastId.current = toast.loading("Please wait...")
+    }
+    const updateToast = (success, message) => {
+        success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
+            : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
+    }
     const submit = async () => {
         setProgress('100%')
         setErr(undefined)
         setIdErr(undefined)
         setPassErr(undefined)
-        setLoading(true)
+        setLoadingg(true)
         setButtonDisabled(true)
 
         if (!identifier) {
             setIdErr('please enter your identifier')
-            setLoading(false)
+            setLoadingg(false)
             setButtonDisabled(false)
             setProgress('0%')
             return
         }
         if (!String(identifier).includes('@')) {
             setIdErr('please enter your valid email address')
-            setLoading(false)
+            setLoadingg(false)
             setButtonDisabled(false)
             setProgress('0%')
             return
         }
         if (!password) {
             setPassErr('please enter your password')
-            setLoading(false)
+            setLoadingg(false)
             setButtonDisabled(false)
             setProgress('0%')
             return
@@ -104,7 +121,7 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
             refreshUserToken(refreshToken, tokenExpiration)
             setSuccess(response.message)
             setErr(undefined)
-            setLoading(false)
+            setLoadingg(false)
             if (response.data.data.is_mail_verified)
                 navigate('/dashboard')
             else setState('mailVerification')
@@ -116,19 +133,19 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
                 setProgress('0%')
                 setSuccess(undefined)
                 setErr(err.data.message)
-                setLoading(false)
+                setLoadingg(false)
                 setButtonDisabled(false)
             } else if (err.message) {
                 setProgress('0%')
                 setSuccess(undefined)
                 setErr(err.message)
-                setLoading(false)
+                setLoadingg(false)
                 setButtonDisabled(false)
             } else {
                 setProgress('0%')
                 setSuccess(undefined)
                 setErr('Network Error')
-                setLoading(false)
+                setLoadingg(false)
                 setButtonDisabled(false)
             }
         }
@@ -155,6 +172,11 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
             setButtonDisabled(false)
         } else setButtonDisabled(true)
     }, [identifier, password])
+    useEffect(() => {
+        if (identifier) {
+            setForgotButtonDisabled(false)
+        } else setForgotButtonDisabled(true)
+    }, [identifier])
     async function disconnect() {
 
         try {
@@ -185,7 +207,45 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
         }
 
     }
+    const sendNewPass = async () => {
+        loading()
+        setErr(undefined)
+        setIdErr(undefined)
+        setPassErr(undefined)
+        setForgotSending(true)
+        setForgotButtonDisabled(true)
+        if (!identifier) {
+            setIdErr('please enter your identifier')
+            setForgotSending(false)
+            setForgotButtonDisabled(false)
+            return
+        }
+        if (!String(identifier).includes('@')) {
+            setIdErr('please enter your valid email address')
+            setForgotSending(false)
+            setForgotButtonDisabled(false)
+            return
+        }
 
+        try {
+            apiCall.current = HEALTH_API.request({
+                path: `/profile/forgot-password`,
+                method: "post",
+                body: { mail: identifier },
+            });
+            let response = await apiCall.current.promise;
+            if (!response.isSuccess)
+                throw response
+            updateToast(true, 'new password sent')
+            // setOpenPassModal(false)
+            setNewPassSent(true)
+        }
+        catch (err) {
+            console.log(err)
+            updateToast(false, err.message)
+        }
+
+    }
     return (
         <>
             {state == 'identifier' ?
@@ -209,7 +269,6 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
                                 <LoginLogos sx={{ backgroundImage: BG_URL(PUBLIC_URL(`${microsoftLogo}`)), }} />
                                 <LoginLogos sx={{ backgroundImage: BG_URL(PUBLIC_URL(`${gmailLogo}`)), }} />
                             </Box>
-
                         </LoginWithOthersBox>
                         <Box sx={{
                             color: 'primary.text',
@@ -271,6 +330,7 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
                                     }}>
                                     {err}</Typography> :
                                 <Typography
+                                    onClick={() => setOpenPassModal(true)}
                                     sx={{
                                         color: 'primary.darkGray',
                                         fontSize: '12px', my: '12px', cursor: 'pointer'
@@ -282,13 +342,99 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
                     </Box>
                     <Box sx={{ width: '100%', justifySelf: 'end', }}>
                         <ButtonPurple disabled={buttonDisabled} w={'100%'}
-                            text={loading ? 'loading' : 'Sign In'}
+                            text={loadingg ? 'loading' : 'Sign In'}
                             onClick={buttonDisabled ? undefined : submit} />
                     </Box>
                 </Box>
                 :
                 <VerifyMail email={identifier} disconnect={disconnect} setProgress={setProgress} setState={setState} />
             }
+
+
+
+
+            <Modal
+                open={openPassModal}
+                onClose={() => {
+                    setOpenPassModal(false)
+                }}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                disableScrollLock={true}
+            >
+                <Box sx={(theme) => ({
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    backdropFilter: 'blur(10px)'
+                })}>
+                    <Box sx={(theme) => ({
+                        borderRadius: { xs: '0', sm: '24px' },
+                        width: { xs: '100%', sm: '400px' }, height: { xs: '100%', sm: 'auto' },
+                        backgroundColor: 'secondary.bg', boxShadow: theme.palette.primary.boxShadow, boxSizing: 'border-box',
+                        display: 'flex', flexDirection: 'column', gap: '64px',
+                        padding: { xs: '15px', sm: '30px' }, justifyContent: 'space-between', alignItems: 'center'
+                    })}>
+                        <FlexRow sx={{ justifyContent: 'end !important', width: '100%' }}>
+                            <Box sx={{ padding: '10px' }}>
+                                <Close onClick={() => setOpenPassModal(false)} sx={{ cursor: 'pointer', fontSize: '24px' }} />
+                            </Box>
+                        </FlexRow>
+                        {newPassSent ?
+                            <>
+                                <Box sx={(theme) => ({
+                                    width: '100%',
+                                    boxSizing: 'border-box',
+                                    display: 'flex', flexDirection: 'column', gap: '24px',
+                                    justifyContent: 'start', alignItems: 'center'
+                                })}>
+                                    <Typography
+                                        sx={{ fontWeight: 700, color: 'primary.success', textTransform: 'capitalize', fontSize: { xs: '16px', sm: '20px' } }}>
+                                        New Password Sent
+                                    </Typography>
+                                    <Typography
+                                        sx={{ color: 'primary.text', textTransform: 'capitalize', fontSize: { xs: '10px', sm: '12px' } }}>
+                                        check your email inbox
+                                    </Typography>
+                                    <Check sx={{ fontSize: '40px', color: 'primary.success', fontWeight: 700 }} />
+                                </Box>
+                                <Box />
+                            </>
+                            :
+                            <>
+                                <Box sx={(theme) => ({
+                                    width: '100%',
+                                    boxSizing: 'border-box',
+                                    display: 'flex', flexDirection: 'column', gap: '24px',
+                                    justifyContent: 'start', alignItems: 'center'
+                                })}>
+                                    <Typography
+                                        sx={{ color: 'primary.text', textTransform: 'capitalize', fontSize: { xs: '14px', sm: '16px' } }}>
+                                        Send an email to reset your password
+                                    </Typography>
+                                    <Box sx={{
+                                        display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center'
+                                    }}>
+
+                                        <ShadowInput
+                                            // mb={'12px'}
+                                            value={identifier}
+                                            icon={<Email sx={{ color: 'primary.light', }} />}
+                                            borderColor={idErr ? 'primary.error' : success ? 'primary.success' : undefined}
+                                            onChange={(e) => setIdentifier(e.target.value)}
+                                            label={'Email'} width={'99%'} id={'Email'} type="email" />
+                                        {idErr ? <Typography
+                                            sx={{ alignSelf: 'start !important', color: 'primary.error', fontSize: '9px', margin: 0 }}>{idErr}</Typography> : undefined}
+
+                                    </Box>
+                                </Box>
+                                <ButtonPurple disabled={forgotButtonDisabled} w={'100%'}
+                                    text={forgotSending ? 'sending..' : 'Send'}
+                                    onClick={forgotButtonDisabled ? undefined : sendNewPass} />
+                            </>}
+                    </Box>
+                </Box>
+            </Modal>
         </>
     );
 }

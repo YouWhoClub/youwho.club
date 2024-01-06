@@ -152,7 +152,7 @@ const Dashboard = ({ switchTheme, theme }) => {
                             flexDirection: { xs: 'column', lg: 'row' }, gap: { xs: '22px', md: '24px' }, boxSizing: 'border-box'
                         }}>
                             {progressBarOpen ?
-                                <DashBar username={globalUser.username} /> : undefined}
+                                <DashBar closeBar={() => setProgressBarOpen(false)} openBar={progressBarOpen} username={globalUser.username} /> : undefined}
                             <ProfilePanel />
                         </ShowPanel>
                     </>

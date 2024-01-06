@@ -162,7 +162,7 @@ const Footer = () => {
                             sx={{
                                 display: 'flex', flexDirection: 'column', gap: '25px',
                             }}>
-                            <Link style={{ textDecoration: 'none', color: 'white' }} to={'/blog'}>Blogs</Link>
+                            <Link style={{ textDecoration: 'none', color: 'white' }} to={'/blogs'}>Blogs</Link>
                             <Link style={{ textDecoration: 'none', color: 'white' }} to={'/about-us'}>About Us</Link>
                             <Link style={{ textDecoration: 'none', color: 'white' }} to={'/contact-us'}>Contact Us</Link>
                             <Link style={{ textDecoration: 'none', color: 'white' }} to={'/privacy-policy'}>Privacy Policy</Link>

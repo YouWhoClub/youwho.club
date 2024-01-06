@@ -8,7 +8,7 @@ import FilterSelection from "../filterSelection";
 import Selection from "../selection";
 import { Add, AddAPhotoOutlined, Close, AddBoxOutlined, BrandingWatermark, CommentOutlined, ConnectedTvRounded, Description, DescriptionOutlined, EmojiSymbols, LinkOutlined, List, Money, TitleOutlined } from "@mui/icons-material";
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
-import nftImage from '../../assets/sokhabi-nft.svg'
+import nftImage from '../../assets/icons/upload-file.svg'
 import ButtonPurple from "../buttons/buttonPurple";
 import MediaTypeIcon from '../../assets/icons/media-type.svg'
 import ButtonOutline from "../buttons/buttonOutline";
@@ -147,18 +147,15 @@ const CreateNFT = ({ setMainActiveTab }) => {
         success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
             : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
     }
-
     const savePrivateKey = (e) => {
         e.preventDefault()
         dispatch(setPrivateKey(signer))
     }
-
     const handleSelectMediaType = (e) => {
         e.preventDefault()
         setMediaType(e.target.id)
     }
     const navigate = useNavigate()
-
     const handleColFormChange = (e) => {
         if (e.target.type == 'number')
             setCollectionForm(prev => ({
@@ -171,7 +168,6 @@ const CreateNFT = ({ setMainActiveTab }) => {
                 [e.target.name]: e.target.value
             }))
     }
-
     const handleColImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -188,7 +184,6 @@ const CreateNFT = ({ setMainActiveTab }) => {
             setOpenNFTCrop(true);
         }
     };
-
     const handleMetadataChange = (e, index) => {
         const { name, value } = e.target;
         const updatedMetadata = [...collectionForm.extra];
@@ -204,7 +199,6 @@ const CreateNFT = ({ setMainActiveTab }) => {
             extra: updatedMetadata,
         }));
     };
-
     const handleAttributesChange = (e, index) => {
         const { name, value } = e.target;
         const updatedAttributes = [...NFTForm.attributes];
@@ -220,7 +214,6 @@ const CreateNFT = ({ setMainActiveTab }) => {
             attributes: updatedAttributes,
         }));
     };
-
     const handleNFTFormChange = (e) => {
         if (e.target.type == 'number')
             setNFTForm(prev => ({
@@ -233,8 +226,6 @@ const CreateNFT = ({ setMainActiveTab }) => {
                 [e.target.name]: e.target.value
             }))
     }
-
-
     const getGasFee = async () => {
         let request = await fetch(`${API_CONFIG.AUTH_API_URL}/get-gas-fee`, {
             method: 'GET',
@@ -252,7 +243,6 @@ const CreateNFT = ({ setMainActiveTab }) => {
             console.log(response.message)
         }
     }
-
     const getPrivateGallery = async () => {
         let request = await fetch(`${API_CONFIG.AUTH_API_URL}/gallery/get/all/?from=0&to=10`, {
             method: 'GET',
@@ -270,7 +260,6 @@ const CreateNFT = ({ setMainActiveTab }) => {
             console.log(response.message)
         }
     }
-
     const getPrivateCollection = async () => {
         let request = await fetch(`${API_CONFIG.AUTH_API_URL}/collection/get/all/private/in-gallery/${galleryId}/?from=0&to=10`, {
             method: 'GET',
@@ -280,6 +269,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
             }
         })
         let response = await request.json()
+        console.log(response, 'colls')
 
         if (!response.is_error) {
             setPrivateCollection(response.data)
@@ -287,7 +277,6 @@ const CreateNFT = ({ setMainActiveTab }) => {
             console.log(response.message)
         }
     }
-
     const uploadCollectionBackground = async resData => {
         loading();
 
@@ -314,7 +303,6 @@ const CreateNFT = ({ setMainActiveTab }) => {
             console.log(response.message)
         }
     }
-
     const createCollection = async () => {
         loading();
 
@@ -366,7 +354,6 @@ const CreateNFT = ({ setMainActiveTab }) => {
             updateToast(false, 'please save your private key first')
         }
     }
-
     const createNFT = async () => {
         loading();
 
@@ -414,7 +401,6 @@ const CreateNFT = ({ setMainActiveTab }) => {
             updateToast(false, 'please save your private key first')
         }
     }
-
     const createNFTMetadataUri = async NFTObject => {
         loading();
 
