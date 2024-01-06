@@ -3,9 +3,9 @@ import marketImg from '../../assets/marketLogo.svg'
 import walletImg from '../../assets/walletLogo.svg'
 import transferImgLight from '../../assets/transferLight.svg'
 import marketImgLight from '../../assets/galleryLight.svg'
-import walletImgLight from '../../assets/walletLight.svg'
 import transferImgDark from '../../assets/transferDark.svg'
 import marketImgDark from '../../assets/galleryDark.svg'
+import walletImgLight from '../../assets/walletLight.svg'
 import walletImgDark from '../../assets/walletDark.svg'
 import { Box, Typography } from "@mui/material";
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";

@@ -101,7 +101,7 @@ const Weblog = ({ switchTheme, theme }) => {
             width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', bgcolor: 'primary.bg'
         }}>
             <Navbar navbarType={'radius'} theme={theme} switchTheme={switchTheme} />
-            <Wrapper>
+            <Wrapper sx={{textTransform:'capitalize'}}>
                 <Box sx={{
                     width: '100%',
                     boxSizing: 'border-box', padding: { xs: '12px 12px 0px 12px', md: '38px 38px 0px 38px' },

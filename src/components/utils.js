@@ -33,6 +33,8 @@ import blockchainDark from '../assets/blockchainDark.svg'
 import cryptoDark from '../assets/cryptoDark.svg'
 import xpnsvNFTDark from '../assets/xpnsvNFTDark.svg'
 import calenDark from '../assets/calenDark.svg'
+import walletImgLight from '../assets/walletLight.svg'
+import walletImgDark from '../assets/walletDark.svg'
 
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -2190,9 +2192,19 @@ export const ChargeYourWalletModal = ({ neededPrice, open, handleClose }) => {
     )
 }
 export const TopUserCard = ({
-    image, username, }) => {
+    image, username, lilData, isFriend, myFollowings, ywID }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const navigate = useNavigate()
+    const toastId = useRef(null);
+    const globalUser = useSelector(state => state.userReducer)
+    const loading = () => {
+        toastId.current = toast.loading("Please wait...")
+    }
+    const updateToast = (success, message) => {
+        success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
+            : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
+    }
     const handleClick = (event) => {
         if (!open)
             setAnchorEl(event.currentTarget);
@@ -2205,46 +2217,189 @@ export const TopUserCard = ({
     const handleClickAway = () => {
         setAnchorEl(null);
     }
+    const popperTabs = [
+        { text: `${username}'s profile`, id: 'top-user-prf-vw', onClick: () => navigate(`/profile/${username}`) },
+    ]
+    const [isFollowing, setIsFollowing] = useState('false');
+    useEffect(() => {
+        if (myFollowings) {
+            if (myFollowings.length > 0) {
+                for (var i = 0; i < myFollowings.length; i++) {
+                    if (myFollowings[i].user_screen_cid == ywID) {
+                        for (var j = 0; j < myFollowings[i].friends.length; j++) {
+                            if (myFollowings[i].friends[j].screen_cid == globalUser.YouWhoID) {
+                                if (myFollowings[i].friends[j].is_accepted == true) {
+                                    setIsFollowing('true')
+                                } else {
+                                    setIsFollowing('pending')
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                setIsFollowing('false')
+            }
+        }
+        else {
+            setIsFollowing('loading')
+        }
+    }, [myFollowings])
 
-    const navigate = useNavigate()
+    const sendFriendRequest = async (receiver, sender) => {
+        loading();
+
+        let data = {
+            owner_cid: sender,
+            to_screen_cid: receiver,
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        console.log(requestData)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/send/friend-request`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+        if (response.message == "Updated Successfully") {
+            updateToast(true, 'Friend Request Sent')
+            setIsFollowing('pending')
+        } else {
+            updateToast(false, response.message)
+        }
+    }
+    const removeFriend = async (receiver, sender) => {
+        loading();
+
+        let data = {
+            owner_cid: sender,
+            friend_screen_cid: receiver,
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        console.log(requestData)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/remove/friend`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+        if (response.message == "Updated Successfully") {
+            updateToast(true, 'Friend Removed')
+            setIsFollowing('false')
+        } else {
+            updateToast(false, response.message)
+        }
+    }
+
+
+
     return (
         <ClickAwayListener onClickAway={handleClickAway}>
-            <TopUserCardComp >
+            <TopUserCardComp>
                 <Box sx={{
-                    backgroundColor: 'primary.bg',
-                    backgroundImage: () => image ? `url('${API_CONFIG.API_URL}/${image}')` : BG_URL(PUBLIC_URL(`${profileFace}`)),
-                    // backgroundImage: image ? BG_URL(PUBLIC_URL(`${API_CONFIG.API_URL}/${image}`)) : 'primary.bg',
-                    backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
-                    , width: '54px', height: '54px', borderRadius: '50%',
-                }}
-                />
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%', boxSizing: 'border-box' }}>
-                    <Typography sx={{ fontWeight: 700, color: 'primary.text', fontSize: '14px' }}>
-                        {username}
-                    </Typography>
-                    <Box>
-                        salam salam
+                    gap: '12px',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    boxSizing: 'border-box'
+                }}>
+                    <Box sx={{
+                        backgroundColor: 'primary.bg',
+                        backgroundImage: () => image ? `url('${API_CONFIG.API_URL}/${image}')` : BG_URL(PUBLIC_URL(`${profileFace}`)),
+                        // backgroundImage: image ? BG_URL(PUBLIC_URL(`${API_CONFIG.API_URL}/${image}`)) : 'primary.bg',
+                        backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+                        , width: '54px', height: '54px', borderRadius: '50%',
+                    }}
+                    />
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', boxSizing: 'border-box' }}>
+                        <Typography sx={{ fontWeight: 700, color: 'primary.text', fontSize: '14px' }}>
+                            {username}
+                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            {lilData.map((data) => (<Box sx={(theme) => ({
+                                height: '14px', padding: '2px 10px', width: 'max-content', boxSizing: 'border-box',
+                                boxShadow: theme.palette.primary.boxShadow, borderRadius: '30px', fontSize: '8px',
+                                color: theme.palette.primary.darkGray, bgcolor: theme.palette.secondary.bg, display: 'flex', alignItems: 'center', justifyContent: 'center'
+                            })}>
+                                {data.created && <><span>From</span>&nbsp;<b>{new Date(data.created).toLocaleString('default', { month: 'short' })}{new Date(data.created).getFullYear()}</b></>}
+                                <b>{data.value}</b>
+                                &nbsp;
+                                <span>{data.name}</span>
+                            </Box>))}
+                        </Box>
                     </Box>
                 </Box>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'end' }}>
-                    <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} color="#787878" />
-                    <ButtonPurpleLight br='30px'
-                        px={'16px'}
-                        py={'4px'}
-                        fontSize={'10px'}
-                        w={'max-content'}
-                        text={'View Profile'}
-                        onClick={() => navigate(`/profile/${username}`)}
-                        height='20px' />
-                </Box>
-            </TopUserCardComp>
+                {globalUser.YouWhoID !== ywID &&
+                    <Box sx={{
+                        display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'end',
+                        justifySelf: 'flex-end !important'
 
+                    }}>
+                        <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} color="#787878" />
+                        {isFollowing == 'loading' ? <CircularProgress size={'10px'} /> :
+                            isFollowing == 'false' ?
+                                <ButtonPurpleLight br='30px'
+                                    px={'16px'}
+                                    py={'4px'}
+                                    fontSize={'10px'}
+                                    w={'max-content'}
+                                    text={'Friend Request'}
+                                    onClick={() => sendFriendRequest(ywID, globalUser.cid)}
+                                    height='20px' />
+                                : isFollowing == 'pending' ?
+                                    <ButtonPurpleLight br='30px'
+                                        disabled={true}
+                                        px={'16px'}
+                                        py={'4px'}
+                                        fontSize={'10px'}
+                                        w={'max-content'}
+                                        text={'Pending Request'}
+                                        height='20px' />
+                                    :
+                                    <ButtonOutline br='30px'
+                                        px={'16px'}
+                                        py={'4px'}
+                                        fontSize={'10px'}
+                                        w={'max-content'}
+                                        text={'Remove Friend'}
+                                        onClick={() => removeFriend(ywID, globalUser.cid)}
+                                        height='20px' />
+                        }
+                    </Box>
+                }
+                <MorePopper tabs={popperTabs} handleClose={handleClose} anchorEl={anchorEl} open={open} />
+            </TopUserCardComp>
         </ClickAwayListener >
     )
 }
 export const blogContents = [
     {
-        id: 1, title: 'What are gas fees?',
+        id: 1, title: 'What is YouWho Id (Wallet)',
+        subtitle: 'Wallet: Your Digital Asset Home',
+        shortDes: 'CID or Crypto Id in general, is a Secp256k1 (same one used in EVM based blockchains) based digital signature used as a unique Id for all YouWho users which allows them to sign any in-game(app) operations like depositing, withdrawal and transferring YouWho digital assets and verifying the generated signatures inside the server signed by its private key.',
+        content: <>
+            CID or Crypto Id in general, is a Secp256k1 (same one used in EVM based blockchains) based digital signature used as a unique Id for all YouWho users which allows them to sign any in-game(app) operations like depositing, withdrawal and transferring YouWho digital assets and verifying the generated signatures inside the server signed by its private key.
+            <br />so the whole security of digital assets in YouWho depends on the whole security of the Blockchain technology!
+            <br />Structure A Crypto Id in YouWho consists of three sets of hex characters namely secp256k1_public_key , secp256k1_secret_key and secp256k1_public_address which are the public key, secret key and keccak256 of public key address respectively.
+            <br />YouWho won't store any private or secret key in server side, users must save them some where for future signing hence losing them will cause the player to lose all his digital assets in the whole blockchain network!
+            <br />How is it being used?
+            <br />In a cryptographical sense, any player that wants to call a very high secure API, MUST sign the request body with the received private key and send the signature along with those inputs that he has signed them to the related API.
+            <br />Since secp256k1 ECC curve is being used in EVM based blockchains thus the generated keypair can be imported as a new account inside EVM based wallets like Metamask.
+        </>,
+        imageLight: walletImgLight,
+        imageDark: walletImgDark,
+        date: 'Dec2023'
+    },
+    {
+        id: 2, title: 'What are gas fees?',
         subtitle: 'What are gas fees?',
         shortDes: 'In the realm of NFTs (Non-Fungible Tokens), Gas Fees stand as a vital concept, drawing intense attention during transactions and asset transfers...',
         content: <>
@@ -2263,7 +2418,7 @@ export const blogContents = [
         date: 'Dec2023'
     },
     {
-        id: 2,
+        id: 3,
         title: 'What is web3?',
         subtitle: 'What is web3',
         shortDes: 'Web 3.0, or the third phase of the Internet, is rapidly taking shape with the goal of transforming users from passive consumers into active contributors to the creation and production of web content and services...',
@@ -2309,7 +2464,7 @@ export const blogContents = [
         date: 'Dec2023'
     },
     {
-        id: 3,
+        id: 4,
         title: 'What is blockchain?',
         subtitle: 'Blockchain: A Magical Bridge to Digital Security and Revolution in Data Relations.',
         shortDes: 'Blockchain is an emerging technology recognized as the fundamental foundation for executing digital currencies like Bitcoin. This technology harnesses a powerful ...',
@@ -2367,7 +2522,7 @@ export const blogContents = [
         date: 'Dec2023'
     },
     {
-        id: 4,
+        id: 5,
         title: 'What is cryptocurrency?',
         subtitle: '"Cryptocurrency: Pioneering a New Global Realm of Digital Currencies"',
         shortDes: 'Cryptocurrency, or digital currencies, is an emerging concept in the financial world based on blockchain technology. These currencies enable financial transactions through advanced encryption technology and operate without centralized control.',
@@ -2393,7 +2548,7 @@ export const blogContents = [
         date: 'Dec2023'
     },
     {
-        id: 5,
+        id: 6,
         title: 'How to buy and sell NFTs?',
         subtitle: 'Embarking on the Journey: A Guide Beyond Clichés for Buying and Selling NFTs',
         shortDes: 'As you step into the intriguing world of NFTs, the first bridge you must cross is known as "blockchain." Much like a magical bridge, blockchain guides you to the other side of the realm of digital art and technology...',
@@ -2432,7 +2587,7 @@ export const blogContents = [
         date: 'Dec2023'
     },
     {
-        id: 6,
+        id: 7,
         title: 'What are NFT drops?',
         subtitle: 'NFT Treasury: Unveiling Jewels in the Guise of Drops',
         shortDes: 'In the tumultuous world of digital art and blockchain technology, NFT drops stand as one of the pervasive wonders guiding art enthusiasts toward new frontiers of creativity...',
@@ -2482,3 +2637,42 @@ export const blogContents = [
         date: 'Dec2023'
     },
 ]
+export const BulletFiltering = ({ selected, width, setOption, id, options, color, fontSize }) => {
+    return (<Box
+        sx={{
+            bgcolor: 'secondary.bg',
+            display: 'flex',
+            alignItems: 'center', flexWrap: 'wrap',
+            columnGap: { xs: '12px', sm: '32px' }, padding: '12px 18px', boxSizing: 'border-box', border: '1px solid #DEDEDE',
+            borderRadius: '18px',
+            rowGap: { xs: '6px', sm: '12px' }, width: width ? width : 'auto',
+            color: color ? color : 'primary.text',
+            fontSize: fontSize ? fontSize : '12px'
+        }}
+    >
+        {options && options.map((opt, index) => (
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center', textTransform: 'capitalize',
+                color: 'primary.text', gap: '8px'
+            }}>
+                <Box onClick={(e) => setOption(options[index])}
+                    sx={{
+                        cursor: 'pointer', p: '4px',
+                        borderRadius: '5px',
+                        borderColor: selected == options[index] ? 'primary.text' : 'primary.gray', border: '1px solid'
+                    }}>
+                    <Box sx={{
+                        borderRadius: '50%',
+                        bgcolor: selected == options[index] ? 'primary.text' : 'transprent', width: '8px', height: '8px'
+                    }} />
+                </Box>
+                {String(options[index]).replace('-', ' ')}
+            </Box>
+
+        ))
+        }
+    </Box >)
+}
