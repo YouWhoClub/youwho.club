@@ -69,6 +69,7 @@ const ProfilePanel = () => {
     // }, [activeTab])
     return (
         <Panel
+            id="profile-panel-dash"
         // sx={{ py: { xs: 'unset', md: 1 }, px: { xs: 'unset', md: 2 } }}
         >
             <Tabs
@@ -91,6 +92,7 @@ const ProfilePanel = () => {
                     //     lg: 'calc(100vh - 484px)',
                     // },
                     // height:'100%',
+                    display: 'flex', justifyContent: 'center', alignItems: 'start',
                     p: {
                         xs: '4px 4px 40px',
                         sm: '4px 4px 20px',

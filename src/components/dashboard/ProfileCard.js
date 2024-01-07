@@ -65,7 +65,7 @@ const ProfileCard = ({ username, YouWhoID, progressBarOpen, setProgressBarOpen }
         &nbsp;
         &nbsp;
         &nbsp;
-        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', color: 'white' }}>
+        <Box sx={{ width: `calc(100% - ${window.document.getElementById('profile-pic').offsetWidth}px)`, display: 'flex', flexDirection: 'column', justifyContent: 'center', color: 'white' }}>
             <Typography sx={{
                 fontWeight: 700, color: 'white', fontSize: { xs: '16px', md: '20px' }
             }}>

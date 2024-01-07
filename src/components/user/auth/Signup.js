@@ -5,8 +5,8 @@ import TextField from '@mui/material/TextField';
 import { FormControl, Input } from "@mui/base";
 import ButtonPurple from "../../buttons/buttonPurple";
 import styled from "@emotion/styled";
-import { useDispatch } from "react-redux";
-import { getuser, setRefreshToken } from "../../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteUnclaimedDeposit, getuser, logOutUser, setRefreshToken } from "../../../redux/actions";
 import { AUTH_API } from "../../../utils/data/auth_api";
 import { useNavigate } from "react-router";
 import { Eye, EyeSlash, Lock } from "iconsax-react";
@@ -15,6 +15,7 @@ import VerifyMail from "./verifyMail";
 import gmailLogo from '../../../assets/gmailLogo.svg'
 import microsoftLogo from '../../../assets/micosoftLogo.svg'
 import { BG_URL, PUBLIC_URL } from "../../../utils/utils";
+import { HEALTH_API } from "../../../utils/data/health_api";
 
 const LoginLogos = styled(Box)(({ theme }) => ({
     width: '49px',
@@ -35,6 +36,8 @@ const Line = styled(Box)(({ theme }) => ({
     backgroundColor: 'rgba(17, 17, 19, 0.20)',
 }))
 const Signup = ({ progress, setProgress, alreadyEmail }) => {
+    const globalUser = useSelector(state => state.userReducer)
+
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const [state, setState] = useState('identifier')
@@ -53,6 +56,8 @@ const Signup = ({ progress, setProgress, alreadyEmail }) => {
     const apiCall = useRef(undefined)
     const fetchUser = (token) => dispatch(getuser(token));
     const refreshUserToken = (refreshToken, tokenExpiration) => dispatch(setRefreshToken(refreshToken, tokenExpiration));
+    const logOut = () => dispatch(logOutUser());
+    const deleteUnclaimed = () => dispatch(deleteUnclaimedDeposit());
 
     useEffect(() => {
         if (identifier && password && repeatPassword) {
@@ -60,6 +65,36 @@ const Signup = ({ progress, setProgress, alreadyEmail }) => {
         } else setButtonDisabled(true)
     }, [identifier, password, repeatPassword])
 
+    async function disconnect() {
+
+        try {
+
+            apiCall.current = HEALTH_API.request({
+                path: `/logout`,
+                method: "post",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            });
+            let response = await apiCall.current.promise;
+
+            if (!response.isSuccess)
+                throw response
+            logOut()
+            refreshUserToken('', '')
+            deleteUnclaimed()
+        }
+        catch (err) {
+            logOut()
+            refreshUserToken('', '')
+            deleteUnclaimed()
+
+            setErr(err.statusText)
+            console.log(err.statusText)
+        }
+
+    }
 
     const submit = async (e) => {
         e.preventDefault()
@@ -110,7 +145,7 @@ const Signup = ({ progress, setProgress, alreadyEmail }) => {
 
         try {
             apiCall.current = AUTH_API.request({
-                path: `/login`,
+                path: `/signup`,
                 method: "post",
                 body: { identifier: identifier, password: password },
             });
@@ -297,7 +332,7 @@ const Signup = ({ progress, setProgress, alreadyEmail }) => {
                     </Box>
                 </Box>
                 :
-                <VerifyMail email={identifier} setProgress={setProgress} setState={setState} />
+                <VerifyMail email={identifier} setProgress={setProgress} setState={setState} disconnect={disconnect} />
             }
         </>
 

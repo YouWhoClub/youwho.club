@@ -339,6 +339,8 @@ const RelationsTab = () => {
 
     return (
         <Box sx={{
+            width: '100%', maxWidth: '1000px',
+
             display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
             //  my: '10px'
         }}>

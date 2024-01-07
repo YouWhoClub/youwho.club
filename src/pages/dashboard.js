@@ -46,7 +46,7 @@ const ShowPanel = styled(Box)(({ theme }) => ({
     // marginBottom: '20px',
     transition: '500ms ease',
     display: 'flex',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
 
 
 }))
@@ -149,6 +149,8 @@ const Dashboard = ({ switchTheme, theme }) => {
                     <>
                         <ProfileCard username={globalUser.username} YouWhoID={globalUser.YouWhoID} setProgressBarOpen={setProgressBarOpen} progressBarOpen={progressBarOpen} />
                         <ShowPanel sx={{
+                            width: '100%',
+                            // alignItems: 'center', justifyContent: 'center',
                             flexDirection: { xs: 'column', lg: 'row' }, gap: { xs: '22px', md: '24px' }, boxSizing: 'border-box'
                         }}>
                             {progressBarOpen ?

@@ -19,11 +19,36 @@ import { AUTH_API } from "../../utils/data/auth_api";
 
 
 const Bar = styled(Box)(({ theme }) => ({
-    height: 'max-content', backgroundColor: theme.palette.secondary.bg,
-    borderRadius: '24px',
+    // height: 'max-content',
+    backgroundColor: theme.palette.secondary.bg,
+    // borderRadius: '24px',
     // marginBottom: '20px',
-    boxShadow: theme.palette.primary.boxShadow, overflow: 'hidden',
-    transition: '500ms ease'
+    boxShadow: theme.palette.primary.boxShadow,
+    // overflow: 'hidden',
+    transition: '500ms ease', overflowY: 'scroll',
+    overflowX: 'hidden',
+    '&::-webkit-scrollbar': {
+        display: 'none',
+        width: '5px',
+        background: 'white',
+        border: '0.5px solid #846894',
+        borderRadius: '20px !important'
+    },
+    '&::-webkit-scrollbar-thumb': {
+        width: '5px',
+        height: '5px',
+        background: '#846894',
+        border: '0.5px solid #846894',
+        borderRadius: '20px !important'
+    },
+    '&::-webkit-scrollbar-button': {
+        width: '1px',
+        height: '1px',
+        background: '#846894',
+        border: '0.5px solid #C6BAC5',
+        borderRadius: '50% !important'
+
+    },
 }))
 const Title = styled(Box)`
 display: flex;
@@ -413,27 +438,26 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
             disableScrollLock={true}
+        // sx={{ display: { xs: 'block', lg: 'none' } }}
         >
             <Box sx={(theme) => ({
                 width: '100%',
                 height: '100%',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                backdropFilter: 'blur(10px)'
+                backdropFilter: 'blur(10px)',
+
             })}>
-                <Box sx={(theme) => ({
-                    // borderRadius: { xs: '0', sm: '24px' },
-                    borderRadius: '24px',
-                    width: { xs: '100%', sm: 'max-content' }, height: { xs: 'auto', sm: 'auto' },
-                    backgroundColor: 'secondary.bg', boxShadow: theme.palette.primary.boxShadow, boxSizing: 'border-box',
-                    display: 'flex', flexDirection: 'column', gap: '32px',
-                    padding: '15px', justifyContent: 'space-between', alignItems: 'center'
-                })}>
-                    <Bar
-                        id="dash-bar"
-                        sx={{
-                            width: { xs: '100%', sm: w ? w : '400px' }, boxSizing: 'border-box',
-                            display: 'flex', flexDirection: 'column', alignItems: 'center', p: '16px 12px'
-                        }}>
+                <Bar
+                    id="dash-bar"
+                    sx={{
+                        borderRadius: { xs: '0', sm: '24px' }, height: { xs: '100%', sm: 'max-content' }, maxHeight: { xs: '100%', sm: '90vh', md: '80vh' },
+                        width: { xs: '100%', sm: '600px', md: w ? w : '400px' }, boxSizing: 'border-box',
+                        display: 'flex', flexDirection: 'column', alignItems: 'center', p: '16px 12px', justifyContent: 'space-between'
+                    }}>
+                    <Box sx={{
+                        boxSizing: 'border-box', width: '100%',
+                        display: 'flex', flexDirection: 'column', alignItems: 'center',
+                    }}>
                         {editProfile ?
                             <>
                                 <Box
@@ -449,7 +473,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
                                 <Accordion
                                     sx={{
                                         my: '2px',
-                                        width: '100%',
+                                        width: '100%', maxWidth: '600px',
                                         bgcolor: 'secondary.bg',
                                         color: 'primary.text',
                                         border: '1px solid', borderColor: 'primary.gray',
@@ -533,7 +557,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
                                 </Accordion>
                                 <Accordion sx={{
                                     my: '2px',
-                                    width: '100%',
+                                    width: '100%', maxWidth: '600px',
                                     bgcolor: 'secondary.bg',
                                     color: 'primary.text',
                                     border: '1px solid', borderColor: 'primary.gray',
@@ -573,7 +597,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
                                 </Accordion>
                                 <Accordion sx={{
                                     my: '2px',
-                                    width: '100%',
+                                    width: '100%', maxWidth: '600px',
                                     bgcolor: 'secondary.bg',
                                     color: 'primary.text',
                                     border: '1px solid', borderColor: 'primary.gray',
@@ -631,7 +655,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
                                 </Accordion>
                                 <Accordion sx={{
                                     my: '2px',
-                                    width: '100%',
+                                    width: '100%', maxWidth: '600px',
                                     bgcolor: 'secondary.bg',
                                     color: 'primary.text',
                                     border: '1px solid', borderColor: 'primary.gray',
@@ -664,7 +688,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
                                 </Accordion>
                                 <Accordion sx={{
                                     my: '2px',
-                                    width: '100%',
+                                    width: '100%', maxWidth: '600px',
                                     bgcolor: 'secondary.bg',
                                     color: 'primary.text',
                                     border: '1px solid', borderColor: 'primary.gray',
@@ -718,7 +742,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
                                 </Accordion>
                                 <Accordion sx={{
                                     my: '2px',
-                                    width: '100%',
+                                    width: '100%', maxWidth: '600px',
                                     bgcolor: 'secondary.bg',
                                     color: 'primary.text',
                                     border: '1px solid', borderColor: 'primary.gray',
@@ -841,7 +865,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
                                     <Setting2 size='25px' cursor='pointer' onClick={() => setEditProfile(true)} />
                                 </Box>
                                 <Accordion sx={{
-                                    width: '100%',
+                                    width: '100%', maxWidth: '600px',
                                     bgcolor: 'secondary.bg',
                                     color: 'primary.text',
                                     border: '1px solid', borderColor: 'primary.gray',
@@ -945,11 +969,15 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
                                 </Accordion>
                             </>
                         }
-                    </Bar >
-                    <ButtonOutline text={'close'} onClick={closeBar} w={'100%'} />
-                </Box>
+                    </Box>
+
+                    <Box sx={{ justifySelf: 'end !important' }}>
+                        <ButtonOutline mt={'20px'} text={'close'} onClick={closeBar} w={'100%'} />
+                    </Box>
+                </Bar >
             </Box>
         </Modal>
+
     );
 }
 
