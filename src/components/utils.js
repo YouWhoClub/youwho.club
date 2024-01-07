@@ -57,7 +57,8 @@ const RelationCardComp = styled(Box)(({ theme }) => ({
     boxShadow: theme.palette.primary.boxShadow,
     borderRadius: '16px',
     height: '74px',
-    width: '100%', maxWidth: '700px',
+    width: '100%',
+    // maxWidth: '700px',
     color: theme.palette.primary.text,
     backgroundColor: theme.palette.secondary.bg,
     boxSizing: 'border-box'
@@ -71,7 +72,8 @@ const TopUserCardComp = styled(Box)(({ theme }) => ({
     boxShadow: theme.palette.primary.boxShadow,
     borderRadius: '16px', gap: '12px',
     height: '74px',
-    width: '100%', maxWidth: '700px',
+    width: '100%',
+    // maxWidth: '700px',
     color: theme.palette.primary.text,
     backgroundColor: theme.palette.secondary.bg,
     boxSizing: 'border-box'
@@ -85,7 +87,8 @@ const ReactionCardCompNew = styled(Box)(({ theme }) => ({
     boxShadow: theme.palette.primary.boxShadow,
     borderRadius: '16px',
     height: '75px',
-    width: '100%', maxWidth: '700px',
+    width: '100%',
+    //  maxWidth: '700px',
     color: theme.palette.primary.text,
     backgroundColor: theme.palette.secondary.bg,
     boxSizing: 'border-box'
@@ -99,7 +102,8 @@ const ReactionCardComp = styled(Box)(({ theme }) => ({
     boxShadow: theme.palette.primary.boxShadow,
     borderRadius: '16px',
     height: '110px',
-    width: '100%', maxWidth: '700px',
+    width: '100%',
+    //  maxWidth: '700px',
     color: theme.palette.primary.text,
     backgroundColor: theme.palette.secondary.bg,
     boxSizing: 'border-box', gap: '16px'

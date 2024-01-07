@@ -513,12 +513,12 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                                         }
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
-                                        {window.location.pathname == '/dashboard' || window.location.pathname == '/gallery' || window.location.pathname == '/wallet' ?
+                                        {/* {window.location.pathname == '/dashboard' || window.location.pathname == '/gallery' || window.location.pathname == '/wallet' ?
                                             undefined
                                             : <div style={{ display: 'flex', alignItems: 'center', }} onClick={() => navigate('/dashboard')}>
                                                 <Profile cursor='pointer' size='25px' />
                                             </div>
-                                        }
+                                        } */}
                                         {/* <div onClick={checkPVkeyCopyThenDisconnect}>
                                         <LogoutCurve style={{ display: 'flex', alignItems: 'center', }} cursor='pointer' size='25px' />
                                     </div> */}

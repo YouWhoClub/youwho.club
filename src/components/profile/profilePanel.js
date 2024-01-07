@@ -66,7 +66,7 @@ const ProfilePanel = ({ user, isFriend, sendFriendRequest, isFollowing }) => {
     //     }
     // }, [activeTab])
     return (
-        <Panel>
+        <Panel id="user-profile-panel">
             <Tabs
                 mb={'24px'}
                 jc={{ xs: 'start', md: 'center' }}
@@ -85,6 +85,7 @@ const ProfilePanel = ({ user, isFriend, sendFriendRequest, isFollowing }) => {
                     //     md: 'calc(100vh - 334px)',
                     //     // lg: 'calc(100vh - 334px)',
                     // },
+                    display: 'flex', justifyContent: 'center', alignItems: 'start',
                     p: {
                         xs: '4px 4px 40px',
                         sm: '4px 4px 20px',

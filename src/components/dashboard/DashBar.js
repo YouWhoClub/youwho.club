@@ -972,7 +972,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
                     </Box>
 
                     <Box sx={{ justifySelf: 'end !important' }}>
-                        <ButtonOutline mt={'20px'} text={'close'} onClick={closeBar} w={'100%'} />
+                        <ButtonOutline mt={'20px'} text={'close'} onClick={closeBar} w={'100%'} px={'16px'} />
                     </Box>
                 </Bar >
             </Box>

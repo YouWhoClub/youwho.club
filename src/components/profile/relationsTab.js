@@ -157,6 +157,8 @@ const RelationsTab = ({ user }) => {
     return (
         <Box sx={{
             display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
+            width: '100%',
+            maxWidth: '900px',
             //  my: '10px' 
         }}>
             <SubTabs jc={'center'}>

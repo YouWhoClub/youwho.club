@@ -489,7 +489,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                                             key={nft.id}
                                             onClick={() => setSelectedNFT(index)}
                                             sx={{
-                                                background: `url('${imageURL}') no-repeat center`,
+                                                background: `url('${API_CONFIG.API_URL}/${globalUser.banner}') no-repeat center`,
                                                 cursor: "pointer",
                                                 border: () => (selected ? 'solid 2px' : 'none'),
                                                 borderColor: 'primary.main',

@@ -143,8 +143,8 @@ const PrivateGallery = () => {
 
     return (
         <Box sx={{
-            width: '100%', 
-            // maxWidth: '1000px',
+            width: '100%',
+            maxWidth: '900px',
             display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: '24px'
         }}>
             {globalUser.cid ?

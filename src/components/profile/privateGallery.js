@@ -116,7 +116,11 @@ const PrivateGallery = ({ user, isFriend, sendFriendRequest, isFollowing }) => {
     }, [globalUser.isLoggedIn, globalUser.token, isFriend, user])
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+        <Box sx={{
+            width: '100%',
+            maxWidth: '900px',
+            display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'
+        }}>
             {err ?
                 <Typography sx={{ color: 'primary.err', textTransform: 'capitalize' }}>
                     {err}

@@ -83,6 +83,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
     const [signer, setSigner] = useState(undefined)
     const [isCollSuccses, setIsCollSuccses] = useState(false)
     const [isNFTSuccses, setIsNFTSuccses] = useState(false)
+    const [colId, setColId] = useState(undefined)
     const [collectionForm, setCollectionForm] = useState({
         gallery_id: null,
         amount: null, // gas fee of creating collection onchain
@@ -99,7 +100,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
     const [NFTForm, setNFTForm] = useState({
         caller_cid: "",
         amount: null,
-        contract_address: "",
+        contract_address: "", col_id: null,
         current_owner_screen_cid: "",
         nft_name: "",
         nft_description: "",
@@ -387,6 +388,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
                 setNFTForm(prev => ({
                     ...prev,
                     contract_address: "",
+                    col_id: null,
                     nft_name: "",
                     nft_description: "",
                     current_price: null,
@@ -416,6 +418,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
             const keyValuePairs = [
                 ['caller_cid', globalUser.cid],
                 ['amount', NFTForm.amount],
+                ['col_id', NFTForm.col_id],
                 ['nft_id', NFTObject.id],
                 ['nft_new_attributes', JSON.stringify(NFTObject.attributes)],
                 ['nft_new_extra', JSON.stringify(NFTObject.extra)],
@@ -552,7 +555,9 @@ const CreateNFT = ({ setMainActiveTab }) => {
                                                 />
                                             </FlexRow>
                                             <SelectInput tabs={privateCollection.map(col => (col.col_name))} label={'NFT Collection *'}
-                                                handleSelect={(e) => setNFTForm(prev => ({ ...prev, contract_address: privateCollection.filter(col => col.col_name == e.target.id)[0].contract_address }))}
+                                                handleSelect={
+                                                    (e) => setNFTForm(prev => ({ ...prev, contract_address: privateCollection.filter(col => col.col_name == e.target.id)[0].contract_address, col_id: privateCollection.filter(col => col.col_name == e.target.id)[0].id }))
+                                                }
                                                 value={NFTForm.contract_address ? privateCollection.filter(col => col.contract_address == NFTForm.contract_address)[0].col_name : ''}
                                                 id="nft-collection-selection"
                                                 width={'100%'} icon={<Icon url={CollIcon} w={27} h={27} />} />

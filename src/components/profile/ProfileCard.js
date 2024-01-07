@@ -64,7 +64,10 @@ const ProfileCard = ({ user, isFriend, setProgressBarOpen, progressBarOpen, send
                 height: { xs: '80px', md: '200px' },
             }}
         />
-        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', color: 'white', width: { xs: 'calc(100% - 80px)', md: 'calc(100vh - 200px)' } }}>
+        <Box sx={{
+            display: 'flex', flexDirection: 'column', justifyContent: 'center', color: 'white',
+            width: { xs: 'calc(100% - 150px)', md: `calc(100% - 200px)` },
+        }}>
             <Typography sx={{
                 fontWeight: 700, color: 'white', fontSize: { xs: '18px', md: '20px' }
             }}>

@@ -103,7 +103,7 @@ const OthersProfieAssetTab = ({ user }) => {
 
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: '24px' }}>
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: '24px' }}>
             <FlexColumn sx={{ gap: '15px' }}>
                 <Box sx={{
                     display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap',

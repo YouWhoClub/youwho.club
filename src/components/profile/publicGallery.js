@@ -116,7 +116,11 @@ const PublicGallery = ({ user }) => {
 
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: { xs: '22px', md: '26px' } }}>
+        <Box sx={{
+            width: '100%',
+            maxWidth: '900px',
+            display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: { xs: '22px', md: '26px' }
+        }}>
             {globalUser.cid ?
                 <>
                     {userPublicCollectionsLoading ? <CircularProgress /> :

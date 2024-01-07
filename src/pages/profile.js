@@ -291,7 +291,7 @@ const Profile = ({ switchTheme, theme, props }) => {
                                     flexDirection: { xs: 'column', md: 'row' }, gap: { xs: '22px', md: '24px' },
                                 }}>
                                     {progressBarOpen ?
-                                        <ProfileBar user={user} />
+                                        <ProfileBar openBar={progressBarOpen} closeBar={() => setProgressBarOpen(false)} user={user} />
                                         : undefined}
                                     <ProfilePanel sendFriendRequest={sendFriendRequest}
                                         user={user} isFriend={isFriends} isFollowing={isFollowing} />
