@@ -155,7 +155,8 @@ const ReactionsTab = () => {
     console.log(new Date(1703178189))
     return (
         <Box sx={{
-            width: '100%', maxWidth: '1000px',
+            width: '100%', maxWidth: '700px',
+            // maxWidth: '1000px',
             display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'
         }}>
             {globalUser.cid ?

@@ -459,7 +459,8 @@ const CreateNFT = ({ setMainActiveTab }) => {
 
     return (
         <Box sx={{
-            width: '100%', maxWidth: '1200px',
+            width: '100%',
+            //  maxWidth: '1200px',
             display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
         }}>
             {globalUser.cid ?
