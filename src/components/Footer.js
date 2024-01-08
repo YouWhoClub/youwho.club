@@ -166,6 +166,7 @@ const Footer = () => {
                             <Link style={{ textDecoration: 'none', color: 'white' }} to={'/about-us'}>About Us</Link>
                             <Link style={{ textDecoration: 'none', color: 'white' }} to={'/contact-us'}>Contact Us</Link>
                             <Link style={{ textDecoration: 'none', color: 'white' }} to={'/privacy-policy'}>Privacy Policy</Link>
+                            <Link style={{ textDecoration: 'none', color: 'white' }} to={'/terms-of-service'}>Terms Of Service</Link>
                         </Box>
                     </Box>
                 </Box>

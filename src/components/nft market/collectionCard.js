@@ -17,6 +17,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import generateSignature from "../../utils/signatureUtils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import ywHugIcon from '../../assets/Y-HUG-COIN.svg'
 // import { Box, CircularProgress, ClickAwayListener, MenuItem, Modal, Popper, TextField, Typography, inputBaseClasses, inputLabelClasses } from "@mui/material"
 
 
@@ -25,7 +26,7 @@ const Card = styled(Box)(({ theme }) => ({
     display: 'flex', boxSizing: 'border-box',
     padding: '8px',
     flexDirection: 'column',
-    justifyContent: '',
+    // justifyContent: '',
     alignItems: 'center',
     gap: '12px',
     borderRadius: '16px',
@@ -469,7 +470,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
         }
     }
 
-
+    console.log(nfts[selectedNFT])
     return (<>
         {expanded ?
             <Container sx={{ flexDirection: { xs: 'column-reverse', md: 'row' } }}>
@@ -481,7 +482,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                         }}>
                             {
                                 nfts.map((nft, index) => {
-                                    const imageURL = (nft.metadata && nft.metadata.image) ? nft.metadata.image : purpleNFT;
+                                    const imageURL = (nft.metadata && nft.metadata.image) ? nft.metadata.image : ywHugIcon;
                                     const selected = index == selectedNFT;
 
                                     return (
@@ -489,7 +490,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                                             key={nft.id}
                                             onClick={() => setSelectedNFT(index)}
                                             sx={{
-                                                background: `url('${API_CONFIG.API_URL}/${globalUser.banner}') no-repeat center`,
+                                                background: imageURL ? `url(${imageURL}) no-repeat center` : `url('${API_CONFIG.API_URL}/${ywHugIcon}') no-repeat center`,
                                                 cursor: "pointer",
                                                 border: () => (selected ? 'solid 2px' : 'none'),
                                                 borderColor: 'primary.main',
@@ -538,7 +539,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                                     id="nft-image-of-expanded-collection-card"
                                     className="nft-image-of-expanded-collection-card"
                                     component="img"
-                                    src={(nfts[selectedNFT].metadata && nfts[selectedNFT].metadata.image) ? nfts[selectedNFT].metadata.image : purpleNFT}
+                                    src={(nfts[selectedNFT].metadata && nfts[selectedNFT].metadata.image) ? nfts[selectedNFT].metadata.image : ywHugIcon}
                                 />
                                 {/* // details of  nft ===> */}
                                 <Box className="nft-details-of-expanded-collection-card"
@@ -728,7 +729,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
 
                     <Acc sx={(theme) => ({ boxShadow: theme.palette.primary.boxShadowInset })}
                         onClick={() => setExpandedId(undefined)}>
-                        Contract Collection &nbsp;
+                        Close Collection &nbsp;
                         <ArrowUp2 size='12px' />
                     </Acc>
 
@@ -758,13 +759,13 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                                 {
                                     nfts &&
                                     nfts.map((nft, index) => {
-                                        const imageURL = (nft.metadata && nft.metadata.image) ? nft.metadata.image : purpleNFT;
+                                        const imageURL = (nft.metadata && nft.metadata.image) ? nft.metadata.image : ywHugIcon;
 
                                         return (
                                             <Box
                                                 key={nft.id}
                                                 sx={{
-                                                    background: `url('${imageURL}') no-repeat center`,
+                                                    background: imageURL ? `url(${imageURL}) no-repeat center` : `url('${API_CONFIG.API_URL}/${ywHugIcon}') no-repeat center`,
                                                     backgroundSize: 'cover',
                                                     borderColor: 'primary.main',
                                                     boxSizing: 'border-box',

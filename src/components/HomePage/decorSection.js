@@ -10,6 +10,7 @@ import { useNavigate } from "react-router";
 import { ArrowForward } from "@mui/icons-material";
 
 const Wrapper = styled(Box)(({ theme }) => ({
+    width: '100%',
     maxWidth: '1440px',
     margin: '0 auto',
     "@media (max-width: 1440px)": {

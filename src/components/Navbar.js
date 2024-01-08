@@ -331,14 +331,30 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
             }}>
 
                 <ThemeSwitcher switchTheme={switchTheme} right={'0'} top={'calc(100vh - 140px)'} m={'15px'} />
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: '27px' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: '12px', md: '27px' } }}>
                     {theme == 'light' ?
-                        <YouWhoIconPurple onClick={() => navigate('/')} />
-                        : <YouWhoIcon onClick={() => navigate('/')} />}
+                        <Link sx={{ color: 'inherit', textDecoration: 'none' }} to={'/'} target="_blank">
+                            <YouWhoIconPurple
+                            // onClick={() => navigate('/')} 
+                            />
+                        </Link>
+                        : <Link sx={{ color: 'inherit', textDecoration: 'none' }} to={'/'} target="_blank">
+                            <YouWhoIcon
+                            // onClick={() => navigate('/')}
+                            />
+                        </Link>
+                    }
                     <Box sx={{
-                        display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: { xs: '12px', md: '25px' },
+                        display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: { xs: '8px', md: '25px' },
                         color: 'primary.text', fontSize: { xs: '14px', md: '18px' }
                     }}>
+                        {window.location.pathname !== '/' ?
+                            <Link to={'/'} style={{
+                                textDecoration: 'none', fontSize: 'inherit',
+                                fontWeight: 400,
+                                color: 'inherit'
+                            }}>Home</Link>
+                            : undefined}
                         <Link to={'/about-us'} style={{
                             textDecoration: window.location.pathname == '/about-us' ? 'underline' : 'none', fontSize: 'inherit',
                             fontWeight: window.location.pathname == '/about-us' ? 700 : 400,
@@ -477,8 +493,18 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                         {/* {window.location.pathname == '/' ? */}
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: '27px' }}>
                             {theme == 'light' ?
-                                <YouWhoIconPurple onClick={() => navigate('/')} />
-                                : <YouWhoIcon onClick={() => navigate('/')} />}
+                                <Link sx={{ color: 'inherit', textDecoration: 'none' }} to={'/'} target="_blank">
+                                    <YouWhoIconPurple
+                                    // onClick={() => navigate('/')}
+                                    />
+                                </Link>
+                                :
+                                <Link sx={{ color: 'inherit', textDecoration: 'none' }} to={'/'} target="_blank">
+                                    <YouWhoIcon
+                                    // onClick={() => navigate('/')} 
+                                    />
+                                </Link>
+                            }
                         </Box>
                         {globalUser.isLoggedIn ?
                             <>

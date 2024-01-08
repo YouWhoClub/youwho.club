@@ -2644,6 +2644,39 @@ export const blogContents = [
         imageDark: calenDark,
         date: 'Dec2023'
     },
+    {
+        id: 8,
+        title: 'Take a picture from your words?',
+        subtitle: 'A journey into the world of  AI generative NFT',
+        shortDes: 'Are you looking for a new and exciting experience in the world of NFTs?',
+        content: <>
+            <br />Take a picture from your words
+            <br /><br /><b>A journey into the world of  AI generative NFT</b>
+            <br />Are you looking for a new and exciting experience in the world of NFTs?
+            <br />Do you want to showcase your creativity and create unique NFTs?
+            <br />If you answered yes to both questions, then youwho Chatroom Launchpad is the event for you.
+            <br />We are proud to introduce youwho Chatroom Launchpad as one of our flagship features on youwho. A unique space with incredible capabilities that allows users to interact with each other instantly and easily and create their own unique NFTs only by writing.
+            <br /><br /><b>What is youwho Chatroom Launchpad?</b>
+            <br />Youwho Chatroom Launchpad is a limited-time event in which youwho users can chat with each other in an online chatroom. This chatroom is held under certain conditions and the number of participants is limited. Just keep your conversations going according to the conditions and topics set by youwho.
+            <br />At the end of the event, using artificial intelligence and based on the summarization of each user sentences exchanged between others in the chat, different NFTs are created for them. These NFTs are unique and vary depending on the personality and interests of each user.
+            <br /><br /><b>How to participate in youwho Chatroom Launchpad?</b>
+            <br />To participate in youwho Chatroom Launchpad, you must first create a wallet on the youwho platform. After that, you can sign up for youwho Chatroom Launchpad notifications through your user panel. After the announcement and payment of a specific entrance fee, wait for the relevant date to take advantage of this attractive tool for collective interactions.
+            <br />The timing of youwho Chatroom Launchpad is announced periodically. Users who have registered for the notifications are randomly selected if the capacity is full.
+            <br /><br /><b>Reward for the best conversations!</b>
+            <br />After the end of each session, using artificial intelligence, the best sentences are selected from the conversations of each user. Then, different NFTs are assigned to these impactful conversations. That NFT, is automatically determined in a completely fair manner based on the value and effectiveness of the conversations.
+            <br /><br /><b>Why should you participate in youwho Chatroom Launchpad?</b>
+            <br />Youwho Chatroom Launchpad is a great opportunity for you to:
+            <br />Meet other youwho users and network.
+            <br />Showcase your creativity and get a free and unique NFT from the artificial intelligence used in youwho.
+            <br />Stay up-to-date on the latest news and events on the youwho platform.**
+            <br />youwho invites you to join this amazing journey into the world of youwho Chatroom Launchpad, be ready to compete with artificial intelligence and challenge yourself alongside other users and experience the best moments of conversation.
+            <br /><br />Talk to earn
+            <br />Thank you, youwho team
+        </>,
+        imageLight: calenLight,
+        imageDark: calenDark,
+        date: 'Dec2023'
+    },
 ]
 export const BulletFiltering = ({ selected, width, setOption, id, options, color, fontSize }) => {
     return (<Box
