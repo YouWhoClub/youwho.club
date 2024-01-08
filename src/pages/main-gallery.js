@@ -25,8 +25,6 @@ const GiftsScrollWrapper = styled(Box)(({ theme }) => ({
     // width: '100%',
     // height: '100%',
     display: "flex",
-    // alignItems: 'center',
-    // justifyContent: 'center',
     columnGap: '10px',
     rowGap: '24px',
     flexWrap: 'wrap',
