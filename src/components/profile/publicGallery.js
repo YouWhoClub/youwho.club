@@ -98,13 +98,31 @@ const PublicGallery = ({ user }) => {
         if (response.is_error == false) {
             setPublicCollections(response.data)
 
-            const nfts = response.data.reduce((results, collection) => [...results, ...collection.nfts], []);
+
+            // function returnNFTwColId(collection) {
+            //     collection.forEach(nft => {
+            //         return { nft: nft, col_id: collection.id }
+            //     });
+            // }
+
+            // const nfts = response.data.reduce((results, collection) => [...results, ...collection.nfts], []);
+            const nfts = response.data.reduce((results, collection) => {
+                const colNNFTs = collection.nfts.map(nft => {
+                    nft.col_id = collection.id
+                    return nft
+                })
+                return [...results, ...colNNFTs]
+            }, [])
+
+
             const listed = nfts.filter((nft) => {
                 if (nft.is_listed) {
                     return true;
                 }
                 return false;
             })
+            console.log(nfts)
+            console.log(listed)
             setListedNFTs(listed)
 
             setUserPublicCollectionsLoading(false)

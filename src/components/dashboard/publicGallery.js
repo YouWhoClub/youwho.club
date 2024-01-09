@@ -105,13 +105,27 @@ const PublicGallery = () => {
         if (response.is_error == false) {
             setPublicCollections(response.data)
 
-            const nfts = response.data.reduce((results, collection) => [...results, ...collection.nfts], []);
+            const nfts = response.data.reduce((results, collection) => {
+                const colNNFTs = collection.nfts.map(nft => {
+                    nft.col_id = collection.id
+                    return nft
+                })
+                return [...results, ...colNNFTs]
+            }, [])
+
             const listed = nfts.filter((nft) => {
                 if (nft.is_listed) {
                     return true;
                 }
                 return false;
             })
+            // const minted = nfts.filter((nft) => {
+            //     if (nft.is_minted && !nft.is_listed) {
+            //         return true;
+            //     }
+            //     return false;
+            // })
+            // setPublicCollections(minted)
             setListedNFTs(listed)
 
             setLoading(false)

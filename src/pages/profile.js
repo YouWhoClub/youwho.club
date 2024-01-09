@@ -130,7 +130,6 @@ const Profile = ({ switchTheme, theme, props }) => {
                 tempIDs.push(response.data.friends[i].screen_cid)
             }
             if (tempIDs.includes(user.YouWhoID)) {
-                console.log('mage inja am miay?!')
                 setisFriend('true')
             } else {
                 setisFriend('false')
@@ -163,7 +162,8 @@ const Profile = ({ switchTheme, theme, props }) => {
                 "mail": null,
                 "YouWhoID": null,
                 "stars": null,
-                "created_at": null
+                "created_at": null,
+                "extra": null,
             }
             tempUser.username = response.data.data.username
             tempUser.banner = response.data.data.banner
@@ -173,6 +173,7 @@ const Profile = ({ switchTheme, theme, props }) => {
             tempUser.YouWhoID = response.data.data.screen_cid
             tempUser.stars = response.data.data.stars
             tempUser.created_at = response.data.data.created_at
+            tempUser.extra = response.data.data.extra
             console.log(tempUser)
             setUser(tempUser)
             setuserLoading(false)

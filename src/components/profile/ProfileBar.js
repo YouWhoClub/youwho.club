@@ -51,7 +51,7 @@ const FlexRow = styled(Box)(({ theme }) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     color: theme.palette.secondary.text,
-    margin: '3px 0'
+    // margin: '3px 0'
 }))
 
 const ProfileBar = ({ user, openBar, closeBar }) => {
@@ -77,6 +77,12 @@ const ProfileBar = ({ user, openBar, closeBar }) => {
         if (str)
             return str.length > 10 ? str.substring(0, 7) + '...' : str;
         return 'undefined'
+    }
+
+    let socials = []
+    for (let i = 0; i < user.extra.length; i++) {
+        if (user.extra[i].social)
+            socials = user.extra[i].social
     }
 
     return (
@@ -178,9 +184,26 @@ const ProfileBar = ({ user, openBar, closeBar }) => {
                                 <AccordionDetails
                                     sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
                                 >
-                                    <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text', fontSize: '12px' }}>
-                                        Social Media
-                                    </Typography>
+                                    {socials && socials.length > 0 &&
+                                        <>
+                                            {socials.map((social) => (<FlexRow>
+                                                <Typography sx={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    color: 'primary.main',
+                                                    fontSize: '12px'
+                                                }}>
+                                                    {social.name}
+                                                </Typography>
+                                                <Typography sx={{
+                                                    display: "flex", alignItems: "center",
+                                                    color: 'primary.text', fontSize: '12px'
+                                                }}>
+                                                    {social.url}
+                                                </Typography>
+                                            </FlexRow>))}
+                                        </>
+                                    }
                                 </AccordionDetails>
                             </Accordion>
                             <Accordion sx={{
@@ -215,7 +238,7 @@ const ProfileBar = ({ user, openBar, closeBar }) => {
                         </Box>
 
                         <Box sx={{ justifySelf: 'end !important' }}>
-                            <ButtonOutline mt={'20px'} text={'close'} onClick={closeBar} w={'100%'} px={'16px'}/>
+                            <ButtonOutline mt={'20px'} text={'close'} onClick={closeBar} w={'100%'} px={'16px'} />
                         </Box>
 
                     </Bar>
@@ -296,9 +319,26 @@ const ProfileBar = ({ user, openBar, closeBar }) => {
                     <AccordionDetails
                         sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
                     >
-                        <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text', fontSize: '12px' }}>
-                            Social Media
-                        </Typography>
+                        {socials && socials.length > 0 &&
+                            <>
+                                {socials.map((social) => (<FlexRow>
+                                    <Typography sx={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        color: 'primary.main',
+                                        fontSize: '12px'
+                                    }}>
+                                        {social.name}
+                                    </Typography>
+                                    <Typography sx={{
+                                        display: "flex", alignItems: "center",
+                                        color: 'primary.text', fontSize: '12px'
+                                    }}>
+                                        {social.url}
+                                    </Typography>
+                                </FlexRow>))}
+                            </>
+                        }
                     </AccordionDetails>
                 </Accordion>
                 <Accordion sx={{

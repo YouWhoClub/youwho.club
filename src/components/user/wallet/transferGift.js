@@ -154,7 +154,7 @@ const TransferGift = () => {
 
             // sending the request
 
-            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/deposit/to/0x5a298eE7B1EDA4de9fBf18905974b059221CaC2e`, {
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/deposit/to/0xae3ff2bf2d38bb4d3bea469a794feba06388dd3c`, {
                 method: 'POST',
                 body: JSON.stringify(requestData),
                 headers: {

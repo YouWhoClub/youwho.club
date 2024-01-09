@@ -18,6 +18,7 @@ import generateSignature from "../../utils/signatureUtils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import ywHugIcon from '../../assets/Y-HUG-COIN.svg'
+import { getuser } from "../../redux/actions";
 // import { Box, CircularProgress, ClickAwayListener, MenuItem, Modal, Popper, TextField, Typography, inputBaseClasses, inputLabelClasses } from "@mui/material"
 
 
@@ -159,6 +160,8 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
     const [TransferTo, setTransferTo] = useState(null)
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const dispatch = useDispatch()
+    const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
     const [editModal, setEditModal] = useState(false)
     const [collectionForm, setCollectionForm] = useState({
         collection_id: id,
@@ -256,6 +259,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
             }
         })
         let response = await request.json()
+        console.log(response)
 
         if (!response.is_error) {
             setAmount(response.data)
@@ -284,6 +288,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
             const data = {
                 caller_cid: globalUser.cid,
                 nft_id: nft.id,
+                col_id: collection.id,
                 amount: amount,
                 event_type: "mint",
                 buyer_screen_cid: null,
@@ -304,7 +309,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
             }
 
             const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
-
+            console.log(requestData)
             // sending the request
 
             let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/mint`, {
@@ -320,6 +325,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
 
             if (!response.is_error) {
                 updateToast(true, response.message)
+                fetchUser(globalUser.token)
             } else {
                 console.error(response.message)
                 updateToast(false, response.message)
@@ -338,6 +344,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
             const data = {
                 caller_cid: globalUser.cid,
                 nft_id: nft.id,
+                col_id: collection.id,
                 amount: amount,
                 event_type: "sell",
                 buyer_screen_cid: null,
@@ -375,6 +382,8 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
             if (!response.is_error) {
                 updateToast(true, response.message)
                 setActiveTab("sales-list")
+                fetchUser(globalUser.token)
+
             } else {
                 console.error(response.message)
                 updateToast(false, response.message)
@@ -392,6 +401,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
             const data = {
                 caller_cid: globalUser.cid,
                 transfer_to_screen_cid: TransferTo,
+                col_id: collection.id,
                 nft_id: nft.id,
                 amount: amount,
                 event_type: "transfer",
@@ -471,6 +481,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
     }
 
     console.log(nfts[selectedNFT])
+    console.log(collection)
     return (<>
         {expanded ?
             <Container sx={{ flexDirection: { xs: 'column-reverse', md: 'row' } }}>
@@ -549,7 +560,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                                         <Typography sx={{ color: 'secondary.text', fontSize: { xs: '10px', sm: '12px' } }}>
                                             {`${selectedNFT + 1}th of ${nfts.length} NFTs`}
                                         </Typography>
-                                        <ButtonOutline onClick={() => setSelectedNFT(prev => prev < nfts.length - 1 ? prev + 1 : prev)} fontSize='12px' text={'Next NFT'} height='28px' nextIcon={<ArrowForward fontSize="14px" />} />
+                                        <ButtonOutline w={'max-content'} onClick={() => setSelectedNFT(prev => prev < nfts.length - 1 ? prev + 1 : prev)} fontSize='12px' text={'Next NFT'} height='28px' nextIcon={<ArrowForward fontSize="14px" />} />
                                     </FlexRow>
                                     <FlexRow justifyContent={'space-between'} sx={{ mb: '20px' }}>
                                         <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: { xs: '18px', sm: '20px' } }}>

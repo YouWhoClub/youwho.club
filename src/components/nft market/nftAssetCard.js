@@ -97,7 +97,7 @@ const NFTAssetCard = ({ nft }) => {
 
     const getMetadata = () => {
         console.log(metadata_url);
-        fetch(metadata_url.replace("''ipfs://", "https://ipfs.io/ipfs/"))
+        fetch(metadata_url.replace("ipfs://", "https://ipfs.io/ipfs/"))
             .then((response) => response.json())
             .then((data) => {
                 setNFTInfo({
@@ -141,7 +141,8 @@ const NFTAssetCard = ({ nft }) => {
                         height: '280px',
                         width: '100%',
                         // height: `${document.getElementById("large-asset-image")?.offsetWidth}px`,
-                        backgroundImage: BG_URL(PUBLIC_URL(`${NFTInfo.imageURL}`)),
+                        // backgroundImage: BG_URL(PUBLIC_URL(`${NFTInfo.imageURL}`)),
+                        backgroundImage: `url(${NFTInfo.imageURL})`,
                     }}
                 />
                 <FlexColumn sx={{
@@ -160,26 +161,10 @@ const NFTAssetCard = ({ nft }) => {
                     <FlexColumn sx={{
                         gap: '6px', width: '100%', alignItems: 'start !important'
                     }}>
-                        <FlexRow sx={{ width: 'max-content', gap: '2px' }}>
+                        {/* <FlexRow sx={{ width: 'max-content', gap: '2px' }}>
                             <Heart size='15px' />
                             <Typography sx={{ color: 'primary.text', fontSize: '9px' }}>
                                 9
-                            </Typography>
-                        </FlexRow>
-                        {/* <FlexRow sx={{ width: 'max-content', gap: '2px' }}>
-                            <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
-                                Collection Name:
-                            </Typography>
-                            <Typography sx={{ color: 'secondary.text', fontSize: '12px', fontWeight: 400 }}>
-                                Collection Name
-                            </Typography>
-                        </FlexRow>
-                        <FlexRow sx={{ width: 'max-content', gap: '2px' }}>
-                            <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
-                                Creation Date:
-                            </Typography>
-                            <Typography sx={{ color: 'secondary.text', fontSize: '12px', fontWeight: 400 }}>
-                                06.08.2023
                             </Typography>
                         </FlexRow> */}
                         <FlexColumn sx={{ width: '100%', alignItems: 'start !important' }}>
@@ -211,10 +196,10 @@ const NFTAssetCard = ({ nft }) => {
                     <Line />
                     <FlexRow sx={{ gap: '8px', width: '100%' }}>
                         {/* <ButtonPurple text={'Buy'} px={'24px'} w={'100%'} /> */}
-                        <ButtonBorder
+                        {/* <ButtonBorder
                             br={'4px'}
                             text={<ShareSharp sx={{ color: 'secondary.text' }} />}
-                            w={'40px'} height={'40px'} />
+                            w={'40px'} height={'40px'} /> */}
                     </FlexRow>
                     <ButtonBorder w={'100%'} text={<ArrowUp2 />} height={'30px'} onClick={handleClose} br={'4px'} />
                 </FlexColumn>
@@ -228,21 +213,21 @@ const NFTAssetCard = ({ nft }) => {
                     <FlexColumn sx={{ width: '100%' }}>
                         <FlexRow sx={{ width: '100%', mb: '8px' }}>
                             <FlexRow sx={{ width: 'max-content', gap: '2px' }}>
-                                <Heart size='15px' />
+                                {/* <Heart size='15px' />
                                 <Typography sx={{ color: 'primary.text', fontSize: '9px' }}>
                                     9
-                                </Typography>
+                                </Typography> */}
                             </FlexRow>
                             <More size='24px' cursor='pointer' onClick={handleClick} />
                         </FlexRow>
-                        <FlexRow sx={{ width: '100%', mb: '12px' }}>
+                        {/* <FlexRow sx={{ width: '100%', mb: '12px' }}>
                             <FlexRow sx={{ width: 'max-content', gap: '4px' }}>
                                 <YouWhoToken />
                                 <Typography sx={{ color: 'primary.text', fontSize: '10px' }}>
                                     10
                                 </Typography>
                             </FlexRow>
-                        </FlexRow>
+                        </FlexRow> */}
                         <FlexRow sx={{ width: '100%', }}>
                             <Typography sx={{ color: 'primary.text', fontSize: '12px' }}>
                                 {NFTInfo.name}
@@ -278,7 +263,7 @@ const NFTAssetCard = ({ nft }) => {
                         <MenuItem id={'nft-details'} sx={{
                             display: 'flex', alignItems: 'center', p: '16px 8px',
                             color: 'primary.text',
-                            borderBottom: '1px solid',
+                            // borderBottom: '1px solid',
                             borderColor: 'primary.gray',
                             '&:hover': {
                                 bgcolor: 'secondary.bgOp',
@@ -288,7 +273,7 @@ const NFTAssetCard = ({ nft }) => {
                         >
                             NFT Details
                         </MenuItem>
-
+{/* 
                         <MenuItem id={'like'} sx={{
                             display: 'flex', alignItems: 'center', p: '16px 8px',
                             color: 'primary.text',
@@ -312,7 +297,7 @@ const NFTAssetCard = ({ nft }) => {
                         }}
                         >
                             Share
-                        </MenuItem>
+                        </MenuItem> */}
 
                     </Popper>
 

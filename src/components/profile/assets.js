@@ -104,7 +104,7 @@ const OthersProfieAssetTab = ({ user }) => {
 
     return (
         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: '24px' }}>
-            <FlexColumn sx={{ gap: '15px' }}>
+            {/* <FlexColumn sx={{ gap: '15px' }}>
                 <Box sx={{
                     display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap',
                     flexDirection: { xs: 'column', md: 'row' }, gap: '15px'
@@ -122,8 +122,10 @@ const OthersProfieAssetTab = ({ user }) => {
                         text={'Category'} id={'category-others-assets'} selectValue={categoryValue} />
                     <AscSelect asc={asc} id={'asc-others-assets'} width={'280px'} setAsc={setAsc} />
                 </Box>
-            </FlexColumn>
-            <Gallery sx={{ mt: 5 }}>
+            </FlexColumn> */}
+            <Gallery
+                sx={{ mt: { xs: 1, sm: 5 } }}
+            >
                 {
                     oncahinNfts &&
                     oncahinNfts.map((nft, index) => {

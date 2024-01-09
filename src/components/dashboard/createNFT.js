@@ -1,7 +1,7 @@
 import { Box, Modal, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPrivateKey } from "../../redux/actions";
+import { getuser, setPrivateKey } from "../../redux/actions";
 import { AscSelect, BetweenTwoSelection, ButtonInput, MyInput, SelectInput, SubTab, SubTabs } from "../utils";
 import styled from "@emotion/styled";
 import FilterSelection from "../filterSelection";
@@ -84,6 +84,8 @@ const CreateNFT = ({ setMainActiveTab }) => {
     const [isCollSuccses, setIsCollSuccses] = useState(false)
     const [isNFTSuccses, setIsNFTSuccses] = useState(false)
     const [colId, setColId] = useState(undefined)
+    const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
+
     const [collectionForm, setCollectionForm] = useState({
         gallery_id: null,
         amount: null, // gas fee of creating collection onchain
@@ -369,6 +371,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
 
             const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
 
+            console.log(requestData)
             // sending the request
 
             let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/create`, {
@@ -451,6 +454,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
             if (!response.is_error) {
                 updateToast(true, response.message)
                 setIsNFTSuccses(true)
+                fetchUser(globalUser.token)
             } else {
                 console.error(response.message)
                 updateToast(false, response.message)

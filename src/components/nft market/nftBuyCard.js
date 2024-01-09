@@ -147,6 +147,7 @@ const Icon = styled(Box)(({ theme, url, w, h }) => ({
 const NFTBuyCard = ({ nft, expanded, setExpandedId, setActiveTab }) => {
 
     const {
+        col_id,
         id,
         attributes,
         metadata_uri,
@@ -223,6 +224,7 @@ const NFTBuyCard = ({ nft, expanded, setExpandedId, setActiveTab }) => {
             const data = {
                 caller_cid: globalUser.cid,
                 nft_id: id,
+                col_id: col_id,
                 amount: amount,
                 event_type: "buy",
                 buyer_screen_cid: globalUser.YouWhoID,
