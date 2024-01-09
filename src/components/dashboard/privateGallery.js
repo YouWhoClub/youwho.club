@@ -115,7 +115,6 @@ const PrivateGallery = () => {
 
     useEffect(() => {
         window.document.getElementById("scrollable-profile-panel-inside").scrollTo(0, 0);
-
     }, [globalUser, globalUser.token])
     const getUserPVGalleries = async () => {
         let request = await fetch(`${API_CONFIG.AUTH_API_URL}/gallery/get/all/?from=0&to=10`, {
