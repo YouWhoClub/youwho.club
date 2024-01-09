@@ -69,9 +69,12 @@ const ProfileCard = ({ username, YouWhoID, progressBarOpen, setProgressBarOpen }
             // width: `calc(100% - ${window.document.getElementById('profile-pic').offsetWidth}px)`,
             width: { xs: 'calc(100% - 150px)', md: `calc(100% - 200px)` },
             display: 'flex', flexDirection: 'column', justifyContent: 'center', color: 'white'
+            // color: localStorage.getItem('profileBannerFontColor')
         }}>
             <Typography sx={{
-                fontWeight: 700, color: 'white', fontSize: { xs: '16px', md: '20px' }
+                fontWeight: 700,
+                //  color: localStorage.getItem('profileBannerFontColor')
+                fontSize: { xs: '16px', md: '20px' }
             }}>
                 {globalUser.cid ? globalUser.username : globalUser.identifier}
             </Typography>
@@ -108,7 +111,7 @@ const ProfileCard = ({ username, YouWhoID, progressBarOpen, setProgressBarOpen }
             </Box>
 
         </Box>
-    </ProBanner>);
+    </ProBanner >);
 }
 
 export default ProfileCard;

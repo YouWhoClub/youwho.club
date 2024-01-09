@@ -45,8 +45,10 @@ const PrivateGallery = ({ user, isFriend, sendFriendRequest, isFollowing }) => {
     const globalUser = useSelector(state => state.userReducer)
     const [galleries, setGalleries] = useState([])
     const [galleriesLoading, setGalleriesLoading] = useState(true)
+    const [galleryCollsLoading, setGalleryCollsLoading] = useState(true)
     const [cancelToken, setCancelToken] = useState(null);
     const [openedGallery, setOpenedGallery] = useState(undefined)
+    const [openedGalleryCollections, setOpenedGalleryCollections] = useState(undefined)
     const dispatch = useDispatch();
     const [err, setErr] = useState(undefined)
     const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
@@ -108,12 +110,38 @@ const PrivateGallery = ({ user, isFriend, sendFriendRequest, isFollowing }) => {
             updateToast(false, response.message)
         }
     }
-    console.log(isFollowing)
     useEffect(() => {
         if (globalUser.isLoggedIn && globalUser.token && isFriend && user && isFriend == 'true') {
             getUserPVGalleries()
         }
     }, [globalUser.isLoggedIn, globalUser.token, isFriend, user])
+    const getGallCollections = async () => {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/collection/firends-view/get/all/private/in-gallery/${openedGallery.id}/for/${user.YouWhoID}/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response, '97777')
+        if (response.is_error == false) {
+            let tempGall = openedGallery
+            tempGall.collections = response.data
+            setOpenedGallery(tempGall)
+            setOpenedGalleryCollections(response.data)
+            setGalleryCollsLoading(false)
+        } else {
+            setErr(response.message)
+            console.log(response)
+        }
+    }
+
+    useEffect(() => {
+        if (openedGallery && isFriend && isFriend == 'true') {
+            getGallCollections()
+        }
+    }, [openedGallery, isFriend])
 
     return (
         <Box sx={{

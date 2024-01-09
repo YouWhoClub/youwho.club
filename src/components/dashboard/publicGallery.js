@@ -147,7 +147,7 @@ const PublicGallery = () => {
                                     <SubTab id={"minted-NFTs"} onClick={(e) => setActiveTab(e.target.id)} text={'Minted NFTs'} selected={activeTab == 'minted-NFTs'} />
                                     <SubTab id={"sales-list"} onClick={(e) => setActiveTab(e.target.id)} text={'Sales List'} selected={activeTab == 'sales-list'} />
                                 </SubTabs>
-                                <FlexColumn sx={{ gap: '15px' }}>
+                                {/* <FlexColumn sx={{ gap: '15px' }}>
                                     <Box sx={{
                                         display: 'flex', justifyContent: 'center', alignItems: 'center',
                                         flexDirection: { xs: 'column', md: 'row' }, gap: '15px'
@@ -165,7 +165,7 @@ const PublicGallery = () => {
                                             text={'Category'} id={'category-public-gallery'} selectValue={categoryValue} />
                                         <AscSelect asc={asc} id={'asc-public-gallery'} width={'280px'} setAsc={setAsc} />
                                     </Box>
-                                </FlexColumn>
+                                </FlexColumn> */}
 
                                 {
                                     (activeTab == 'minted-NFTs') ?

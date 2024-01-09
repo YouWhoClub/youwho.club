@@ -579,7 +579,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                                             <Typography sx={{ color: 'primary.main', fontSize: '14px' }}>&nbsp;{nfts[selectedNFT].current_price}</Typography>
                                         </FlexRow>
                                         {
-                                            action == 'mint' ?
+                                            action == 'mint' && !nfts[selectedNFT].is_minted ?
                                                 <ButtonPurple text={'Mint This NFT'} onClick={mintNFT} w='100%' />
                                                 : <>
                                                     <ButtonPurple text={'Add To Sales List'} onClick={() => setOpenModal(true)} w='100%' />
@@ -617,16 +617,20 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                                                 Comments : </Typography>
 
                                             {
-                                                nfts.comments &&
-                                                <FlexRow sx={{ gap: '12px', width: '100%', }}>
-                                                    <NFTCommentCard username={'youzarsif'}
-                                                        profileImg={purpleNFT}
-                                                        comment={'sooooo beautiful I lovee this nft pleasee sell this to me ill buy with a lot of tokns'} />
-                                                    <FlexColumn sx={{ alignItems: 'space-between !important', color: 'primary.text' }}>
-                                                        <ArrowUp2 size='16px' cursor='pointer' />
-                                                        <ArrowDown2 size='16px' cursor='pointer' />
-                                                    </FlexColumn>
-                                                </FlexRow>
+                                                nfts[selectedNFT].comments && nfts[selectedNFT].comments.length > 0 ?
+                                                    <FlexRow sx={{ gap: '12px', width: '100%', }}>
+                                                        <NFTCommentCard username={'youzarsif'}
+                                                            profileImg={purpleNFT}
+                                                            comment={'sooooo beautiful I lovee this nft pleasee sell this to me ill buy with a lot of tokns'} />
+                                                        <FlexColumn sx={{ alignItems: 'space-between !important', color: 'primary.text' }}>
+                                                            <ArrowUp2 size='16px' cursor='pointer' />
+                                                            <ArrowDown2 size='16px' cursor='pointer' />
+                                                        </FlexColumn>
+                                                    </FlexRow>
+                                                    :
+                                                    <Typography sx={{ textTransform: 'capitalize', fontSize: { xs: '12px', md: '14px' }, color: 'secondary.text' }}>
+                                                        this nft has no comment
+                                                    </Typography>
                                             }
                                         </FlexColumn>
 
