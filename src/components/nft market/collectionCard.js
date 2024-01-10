@@ -579,7 +579,6 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                             onClick={() => setColDetExpanded(!colDetExpanded)}>Collection Details &nbsp; {colDetExpanded ? <ArrowUp2 size='12px' /> : <ArrowDown2 size='12px' />}</Acc>
                     </Box>
                     {/* // image of nft ===> */}
-
                     {
                         nfts.length ?
                             <>
