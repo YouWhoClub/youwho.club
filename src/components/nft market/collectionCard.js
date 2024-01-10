@@ -776,15 +776,12 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                                 </Typography>
 
                             </Box>
-
                     }
-
                     <Acc sx={(theme) => ({ boxShadow: theme.palette.primary.boxShadowInset })}
                         onClick={() => setExpandedId(undefined)}>
                         Close Collection &nbsp;
                         <ArrowUp2 size='12px' />
                     </Acc>
-
                 </Box>
             </Container>
             :
