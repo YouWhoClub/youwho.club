@@ -79,7 +79,6 @@ const Dashboard = ({ switchTheme, theme }) => {
     };
     const [openModal, setOpenModal] = useState(false)
 
-
     // if phone verification is necessary ===>
 
     // useEffect(() => {
@@ -91,7 +90,6 @@ const Dashboard = ({ switchTheme, theme }) => {
     // }, [globalUser.isLoggedIn, globalUser.YouWhoID, globalUser.isPhoneVerified])
 
     const [progressBarOpen, setProgressBarOpen] = useState(false)
-
     const listenScrollEvent = e => {
         let card = window.document.getElementById('profile-card')
         let line = window.document.getElementById('line-profile-user')
