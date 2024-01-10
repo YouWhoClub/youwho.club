@@ -410,6 +410,8 @@ const NFTBuyCard = ({ nft, expanded, setExpandedId, setActiveTab }) => {
                                 }
                             },
                         ]} open={open} anchorEl={anchorEl} handleClose={handleClose} />
+                        <ButtonPurpleLight
+                            br='8px' height={'30px'} text={'Expand NFT'} w={'100%'} onClick={() => setExpandedId(id)} />
                     </DetailsSection>
 
                     {/* <DetailsSection>

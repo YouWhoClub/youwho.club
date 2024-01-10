@@ -109,7 +109,7 @@ const MainGallery = ({ switchTheme, theme }) => {
     const [dollarValue, setDollarValue] = useState(undefined)
     const [irrValue, setIrrValue] = useState(undefined)
     const navigate = useNavigate()
-    const [activeTab, setActiveTab] = useState('all-nfts')
+    const [activeTab, setActiveTab] = useState(window.location.hash ? window.location.hash.replace('#', '') : 'all-nfts')
 
     return (
         <PanelLayout switchTheme={switchTheme} theme={theme}>
@@ -184,25 +184,37 @@ const MainGallery = ({ switchTheme, theme }) => {
                             <Tab
                                 text={`All NFTs`}
                                 id={"all-nfts"}
-                                onClick={(e) => setActiveTab(e.target.id)}
+                                onClick={(e) => {
+                                    setActiveTab(e.target.id)
+                                    window.location.hash = `#${e.target.id}`
+                                }}
                                 selected={activeTab == 'all-nfts'}
                             />
                             <Tab
                                 text={`Top NFTs`}
                                 id={"top-nfts"}
-                                onClick={(e) => setActiveTab(e.target.id)}
+                                onClick={(e) => {
+                                    setActiveTab(e.target.id)
+                                    window.location.hash = `#${e.target.id}`
+                                }}
                                 selected={activeTab == 'top-nfts'}
                             />
                             <Tab
                                 text={`New NFTs`}
                                 id={"new-nfts"}
-                                onClick={(e) => setActiveTab(e.target.id)}
+                                onClick={(e) => {
+                                    setActiveTab(e.target.id)
+                                    window.location.hash = `#${e.target.id}`
+                                }}
                                 selected={activeTab == 'new-nfts'}
                             />
                             <Tab
                                 text={`Top YouWho Users`}
                                 id={"top-users"}
-                                onClick={(e) => setActiveTab(e.target.id)}
+                                onClick={(e) => {
+                                    setActiveTab(e.target.id)
+                                    window.location.hash = `#${e.target.id}`
+                                }}
                                 selected={activeTab == 'top-users'}
                             />
                         </Tabs>

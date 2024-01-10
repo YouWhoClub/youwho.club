@@ -55,7 +55,7 @@ const FlexColumn = styled(Box)(({ theme }) => ({
 }))
 
 const ProfilePanel = ({ user, isFriend, sendFriendRequest, isFollowing }) => {
-    const [activeTab, setActiveTab] = useState('relations-tab')
+    const [activeTab, setActiveTab] = useState(window.location.hash ? window.location.hash.replace('#', '') : 'private-gallery-tab')
     // useEffect(() => {
     //     let dashbar = window.document.getElementById('profile-bar-user')
 
@@ -71,11 +71,24 @@ const ProfilePanel = ({ user, isFriend, sendFriendRequest, isFollowing }) => {
                 mb={'24px'}
                 jc={{ xs: 'start', md: 'center' }}
             >
-                <Tab id={"private-gallery-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Private Gallery'} selected={activeTab == 'private-gallery-tab'} />
-                <Tab id={"public-gallery-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Public Gallery'} selected={activeTab == 'public-gallery-tab'} />
-                <Tab id={"assets-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Assets'} selected={activeTab == 'assets-tab'} />
-                <Tab id={"relations-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Relations'} selected={activeTab == 'relations-tab'} />
-                {/* <Tab id={"reactions-tab"} onClick={(e) => setActiveTab(e.target.id)} text={'Reactions'} selected={activeTab == 'reactions-tab'} /> */}
+                <Tab id={"private-gallery-tab"} onClick={(e) => {
+                    setActiveTab(e.target.id)
+                    window.location.hash = `#${e.target.id}`
+                }} text={'Private Gallery'} selected={activeTab == 'private-gallery-tab'} />
+                <Tab id={"public-gallery-tab"} onClick={(e) => {
+                    setActiveTab(e.target.id)
+                    window.location.hash = `#${e.target.id}`
+                }} text={'Public Gallery'} selected={activeTab == 'public-gallery-tab'} />
+                <Tab id={"assets-tab"} onClick={(e) => {
+                    setActiveTab(e.target.id)
+                    window.location.hash = `#${e.target.id}`
+                }} text={'Assets'} selected={activeTab == 'assets-tab'} />
+                <Tab id={"relations-tab"} onClick={(e) => {
+                    setActiveTab(e.target.id)
+                    window.location.hash = `#${e.target.id}`
+                }} text={'Relations'} selected={activeTab == 'relations-tab'} />
+                {/* <Tab id={"reactions-tab"} onClick={(e) => {setActiveTab(e.target.id)
+                window.location.hash = `#${e.target.id}`}} text={'Reactions'} selected={activeTab == 'reactions-tab'} /> */}
             </Tabs>
             <ScrollablePanel id="scrollable-profile-panel-inside-user" className="insidePanelUserBeforeScroll"
                 sx={{

@@ -148,7 +148,7 @@ const Wallet = ({ privateKey, switchTheme, theme }) => {
     const fetchUser = (token) => dispatch(getuser(token));
     const [keyCopied, setKeyCopied] = useState(false)
     const [idCopied, setIdCopied] = useState(false)
-    const [state, setState] = useState('charge-wallet')
+    const [state, setState] = useState(window.location.hash ? window.location.hash.replace('#', '') : 'charge-wallet')
     const [openSetting, setOpenSetting] = useState(false)
     const [openCrop, setOpenCrop] = useState(false)
     const [cardTextColor, setCardTextColor] = useState('white')
@@ -522,34 +522,47 @@ const Wallet = ({ privateKey, switchTheme, theme }) => {
                                 icon={<ArrowDownward size="16px" sx={{ mr: '4px', pointerEvents: 'none' }} />}
                                 text={`Charge Wallet`}
                                 id={"charge-wallet"}
-                                onClick={(e) => setState(e.target.id)}
+                                onClick={(e) => {
+                                    setState(e.target.id)
+                                    window.location.hash = `#${e.target.id}`
+                                }}
                                 selected={state == 'charge-wallet'}
                             />
                             {/* <Tab
                         icon={<ArrowUpward size="16px" sx={{ mr: '4px', pointerEvents: 'none' }} />}
                         text={`Withdraw`} id={"withdraw"}
-                        onClick={(e) => setState(e.target.id)}
+                        onClick={(e) => {setState(e.target.id)
+                        window.location.hash = `#${e.target.id}`}}
                         selected={state == 'withdraw'}
                     /> */}
                             <Tab
                                 icon={<Box sx={{ width: '20px', height: '20px', mr: '7px', pointerEvents: 'none', backgroundImage: () => state == 'transfer' ? BG_URL(PUBLIC_URL(`${giftOpenWhite}`)) : BG_URL(PUBLIC_URL(`${giftOpen}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />}
                                 text={`Transfer NFT Gift`}
                                 id={"transfer"}
-                                onClick={(e) => setState(e.target.id)}
+                                onClick={(e) => {
+                                    setState(e.target.id)
+                                    window.location.hash = `#${e.target.id}`
+                                }}
                                 selected={state == 'transfer'}
                             />
                             <Tab
                                 icon={<Box sx={{ width: '20px', height: '20px', mr: '7px', pointerEvents: 'none', backgroundImage: () => state == 'claim' ? BG_URL(PUBLIC_URL(`${giftWhite}`)) : BG_URL(PUBLIC_URL(`${gift}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />}
                                 text={`Claim NFT Gift`}
                                 id={"claim"}
-                                onClick={(e) => setState(e.target.id)}
+                                onClick={(e) => {
+                                    setState(e.target.id)
+                                    window.location.hash = `#${e.target.id}`
+                                }}
                                 selected={state == 'claim'}
                             />
                             <Tab
                                 icon={<Sync size="16px" sx={{ mr: '4px', pointerEvents: 'none' }} />}
                                 text={`Turnover`}
                                 id={"turnover"}
-                                onClick={(e) => setState(e.target.id)}
+                                onClick={(e) => {
+                                    setState(e.target.id)
+                                    window.location.hash = `#${e.target.id}`
+                                }}
                                 selected={state == 'turnover'}
                             />
                         </Tabs>
