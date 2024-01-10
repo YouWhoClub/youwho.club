@@ -6,7 +6,7 @@ import { AscSelect, BetweenTwoSelection, ButtonInput, MyInput, SelectInput, SubT
 import styled from "@emotion/styled";
 import FilterSelection from "../filterSelection";
 import Selection from "../selection";
-import { Add, AddAPhotoOutlined, Close, AddBoxOutlined, BrandingWatermark, CommentOutlined, ConnectedTvRounded, Description, DescriptionOutlined, EmojiSymbols, LinkOutlined, List, Money, TitleOutlined } from "@mui/icons-material";
+import { Add, AddAPhotoOutlined, Close, AddBoxOutlined, BrandingWatermark, CommentOutlined, ConnectedTvRounded, Description, DescriptionOutlined, EmojiSymbols, LinkOutlined, List, Money, TitleOutlined, Percent, AddReaction } from "@mui/icons-material";
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
 import nftImage from '../../assets/icons/upload-file.svg'
 import ButtonPurple from "../buttons/buttonPurple";
@@ -85,6 +85,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
     const [isNFTSuccses, setIsNFTSuccses] = useState(false)
     const [colId, setColId] = useState(undefined)
     const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
+    const [royaltyShare, setRoyaltyShare] = useState(0)
 
     const [collectionForm, setCollectionForm] = useState({
         gallery_id: null,
@@ -94,7 +95,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
         symbol: "",
         owner_cid: "",
         metadata_updatable: true,
-        base_uri: "",
+        base_uri: " ",
         royalties_share: 0, // in-app token amount | 100 means 1%
         royalties_address_screen_cid: "",
         extra: [],
@@ -155,9 +156,10 @@ const CreateNFT = ({ setMainActiveTab }) => {
     const handleColFormChange = (e) => {
         if (e.target.type == 'number') {
             if (e.target.name == 'royalties_share') {
+                setRoyaltyShare(Number(Number(e.target.value) * 100))
                 setCollectionForm(prev => ({
                     ...prev,
-                    [e.target.name]: Number(e.target.value) * 100
+                    [e.target.name]: Number(e.target.value)
                 }))
             } else {
                 setCollectionForm(prev => ({
@@ -166,11 +168,12 @@ const CreateNFT = ({ setMainActiveTab }) => {
                 }))
             }
         }
-        else
+        else {
             setCollectionForm(prev => ({
                 ...prev,
                 [e.target.name]: e.target.value
             }))
+        }
     }
     const handleColImageChange = (e) => {
         const file = e.target.files[0];
@@ -313,10 +316,13 @@ const CreateNFT = ({ setMainActiveTab }) => {
         if (globalUser.privateKey) {
             let data = {}
 
-            if (collectionForm.extra.length == 0) {
-                data = { ...collectionForm, extra: null }
+            let collForm = collectionForm
+            collForm.royalties_share = royaltyShare
+
+            if (collForm.extra.length == 0) {
+                data = { ...collForm, extra: null }
             } else {
-                data = { ...collectionForm, extra: JSON.stringify(collectionForm.extra) }
+                data = { ...collForm, extra: JSON.stringify(collForm.extra) }
             }
 
             const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
@@ -768,7 +774,11 @@ const CreateNFT = ({ setMainActiveTab }) => {
                                             </FlexRow>
                                         </FlexColumn>
                                     </Container>
-                                    <Container sx={{ mt: '24px', }}>
+
+
+
+                                    {/* this commented section is for metadata addition ==>  */}
+                                    {/* <Container sx={{ mt: '24px', }}>
                                         <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
                                             The Collection Metadata
                                         </Typography>
@@ -780,7 +790,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
                                                 />
                                                 <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
                                             </FlexRow>
-                                            {/* <FlexRow sx={{ mb: '16px' }}>
+                                            <FlexRow sx={{ mb: '16px' }}>
                                                 <ButtonInput label={'Metadata Updatable *'} width={'100%'}
                                                     icon={<List sx={{ color: 'primary.light' }} />
                                                     }
@@ -795,8 +805,8 @@ const CreateNFT = ({ setMainActiveTab }) => {
                                                     }
                                                 />
                                                 <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                            </FlexRow> */}
-                                            {/* <FlexRow sx={{ mb: '16px' }}>
+                                            </FlexRow>
+                                            <FlexRow sx={{ mb: '16px' }}>
                                                 <ButtonInput label={'Metadata Addition *'} width={'100%'}
                                                     icon={<AddBoxOutlined
                                                         sx={{ color: 'primary.light' }}
@@ -807,7 +817,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
                                                     />
                                                     } />
                                                 <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                            </FlexRow> */}
+                                            </FlexRow>
                                             {
                                                 collectionForm.extra.map((object, index) => {
                                                     return (<FlexRow sx={{ mb: '16px' }}>
@@ -825,7 +835,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
                                             }
 
                                         </FlexColumn>
-                                    </Container>
+                                    </Container> */}
                                     <Container sx={{ mt: '24px', }}>
                                         <Typography sx={{ color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
                                             The Collection Finance
@@ -844,14 +854,16 @@ const CreateNFT = ({ setMainActiveTab }) => {
                                                 <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
                                             </FlexRow>
                                             <FlexRow sx={{ mb: '16px' }}>
-                                                <MyInput type='number' name={'royalties_share'} label={'Royalty Share *'} width={'100%'} icon={<Money sx={{ color: 'primary.light' }} />}
+                                                <MyInput type='number' name={'royalties_share'} label={'Royalty Share *'}
+                                                    width={'100%'} icon={<Percent sx={{ color: 'primary.light' }} />}
                                                     onChange={handleColFormChange}
                                                     value={collectionForm.royalties_share}
                                                 />
                                                 <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
                                             </FlexRow>
                                             <FlexRow sx={{ mb: '16px' }}>
-                                                <MyInput name={'royalties_address_screen_cid'} label={'Royalties Address *'} width={'100%'} icon={<AddBoxOutlined sx={{ color: 'primary.light' }} />}
+                                                <MyInput name={'royalties_address_screen_cid'} label={'Royalties Address *'}
+                                                    width={'100%'} icon={<AddReaction sx={{ color: 'primary.light' }} />}
                                                     onChange={handleColFormChange}
                                                     value={collectionForm.royalties_address_screen_cid}
                                                 />

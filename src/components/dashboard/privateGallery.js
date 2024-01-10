@@ -143,7 +143,7 @@ const PrivateGallery = () => {
     return (
         <Box sx={{
             width: '100%',
-            maxWidth: '900px',
+            maxWidth: '1000px',
             display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: '24px'
         }}>
             {globalUser.cid ?
@@ -199,13 +199,14 @@ const PrivateGallery = () => {
                                                 You & Your Friends Can Mint Any NFT You Like.
                                             </Typography>
                                         </FlexColumn>
-                                        <Gallery>
+                                        <Gallery sx={{ justifyContent: { xs: 'center', md: 'start' } }}>
                                             {openedGallery.collections.length > 0 ?
                                                 <>
                                                     {
                                                         openedGallery.collections.map(collection => (
                                                             <Fragment key={`collection_${collection.id}`}>
                                                                 <CollectionCard
+                                                                    pTab={'private'}
                                                                     getUserPVGalleries={getUserPVGalleries}
                                                                     gallId={openedGallery.id}
                                                                     action={'mint'}

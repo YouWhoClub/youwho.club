@@ -1,14 +1,14 @@
 import styled from "@emotion/styled";
 import { Box, ClickAwayListener, MenuItem, Popper, Typography, Modal, List } from "@mui/material";
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
-import { ArrowDown2, ArrowUp2, Heart, More, Coin, Money } from "iconsax-react";
+import { ArrowDown2, ArrowUp2, Heart, More, Coin, Money, HeartRemove } from "iconsax-react";
 import { useEffect, useState, useRef } from "react";
 import ButtonPurple from "../buttons/buttonPurple";
 import tempPic from '../../assets/bgDots.svg'
 import tempNFT from '../../assets/youwho-hugcoin.svg'
 import ButtonOutline from "../buttons/buttonOutline";
 import purpleNFT from '../../assets/purple-nft.svg'
-import { ArrowBack, ArrowForward, ArrowLeft, ArrowRight, ArrowUpward, Close, CommentOutlined, DescriptionOutlined, LinkOutlined, Title } from "@mui/icons-material";
+import { AddBoxOutlined, AddReaction, ArrowBack, ArrowForward, ArrowLeft, ArrowRight, ArrowUpward, Close, CommentOutlined, DescriptionOutlined, LinkOutlined, Percent, Title } from "@mui/icons-material";
 import { NFTCommentCard, MyInput, ButtonInput, BetweenTwoSelection } from "../utils";
 import ButtonPurpleLight from "../buttons/buttonPurpleLight";
 import { API_CONFIG } from "../../config";
@@ -144,12 +144,13 @@ const Button = styled('button')(({ theme, color }) => ({
     fontSize: '12px',
 }))
 
-const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collection, action, setActiveTab, getUserPVGalleries }) => {
+const CollectionCard = ({ pTab, link, gallId, expanded, setExpandedId, collection, action, setActiveTab, getUserPVGalleries }) => {
     const { id, col_name, collection_background, created_at, owner_screen_cid, royalties_address_screen_cid, col_description, extra, freeze_metadata, base_uri, royalties_share } = collection
     const [colDetExpanded, setColDetExpanded] = useState(true)
     const globalUser = useSelector(state => state.userReducer)
     const [nfts, setNFTs] = useState([]);
     const [selectedNFT, setSelectedNFT] = useState(0)
+    const [selectedNFTData, setSelectedNFTData] = useState(collection.nfts ? collection.nfts[0] : undefined)
     const [isHovered, setIsHovered] = useState(false);
     const toastId = useRef(null);
     const [amount, setAmount] = useState(0)
@@ -164,6 +165,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
     const [mintButtonDisabled, setMintButtonDisabled] = useState(false)
     const [updateCollButtonDisabled, setUpdateCollButtonDisabled] = useState(false)
     const [editModal, setEditModal] = useState(false)
+    const [royaltyShare, setRoyaltyShare] = useState(royalties_share * 100)
     const [collectionForm, setCollectionForm] = useState({
         col_name: collection.col_name,
         collection_id: id,
@@ -173,22 +175,32 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
         amount: 0,
         owner_cid: globalUser.cid,
         base_uri: base_uri, // *
-        royalties_share: royalties_share, // *
+        royalties_share: Number(royalties_share) / 100, // *
         royalties_address_screen_cid: royalties_address_screen_cid,
         extra: extra,
         col_description: col_description,
     })
     const handleColFormChange = (e) => {
-        if (e.target.type == 'number')
-            setCollectionForm(prev => ({
-                ...prev,
-                [e.target.name]: Number(e.target.value)
-            }))
-        else
+        if (e.target.type == 'number') {
+            if (e.target.name == 'royalties_share') {
+                setRoyaltyShare(Number(Number(e.target.value) * 100))
+                setCollectionForm(prev => ({
+                    ...prev,
+                    [e.target.name]: Number(e.target.value)
+                }))
+            } else {
+                setCollectionForm(prev => ({
+                    ...prev,
+                    [e.target.name]: Number(e.target.value)
+                }))
+            }
+        }
+        else {
             setCollectionForm(prev => ({
                 ...prev,
                 [e.target.name]: e.target.value
             }))
+        }
     }
     const handleClick = (event) => {
         if (!open)
@@ -251,7 +263,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
             }
         })
         let response = await request.json()
-        console.log(response)
+        // console.log(response)
 
         if (!response.is_error) {
             setAmount(response.data)
@@ -298,8 +310,6 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
             }
 
             const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
-            console.log(data)
-            console.log(requestData)
             // sending the request
 
             let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/mint`, {
@@ -311,7 +321,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                 }
             })
             let response = await request.json()
-            console.log(response);
+            // console.log(response);
 
             if (!response.is_error) {
                 updateToast(true, response.message)
@@ -371,7 +381,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                 }
             })
             let response = await request.json()
-            console.log(response);
+            // console.log(response);
 
             if (!response.is_error) {
                 updateToast(true, response.message)
@@ -446,8 +456,10 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
         loading();
         setUpdateCollButtonDisabled(true)
         if (globalUser.privateKey) {
-            const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, collectionForm);
-
+            let collForm = collectionForm
+            collForm.royalties_share = royaltyShare
+            const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, collForm);
+            console.log(collForm)
             // sending the request
 
             let request = await fetch(`${API_CONFIG.AUTH_API_URL}/collection/update`, {
@@ -479,6 +491,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
         loading();
 
         let data = {
+            col_id: collection.id,
             caller_cid: callerId,
             nft_id: nftID,
             reaction_type: reactionType,
@@ -488,7 +501,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
 
         }
         let { requestData } = generateSignature(globalUser.privateKey, data)
-        console.log(requestData)
+        // console.log(requestData)
         let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/add/reaction`, {
             method: 'POST',
             body: JSON.stringify(requestData),
@@ -501,24 +514,40 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
         console.log('nft reaction', response);
         if (!response.is_error) {
             updateToast(true, `${reactionType} updated`)
+            getUserPVGalleries()
         } else {
             updateToast(false, response.message)
         }
 
     }
-
+    const [tempLikers, setTempLikers] = useState([])
     const [collectionLikesCount, setCollectionLikesCount] = useState(undefined);
     useEffect(() => {
         let collectionLikes = 0
         if (collection.nfts && collection.nfts.length && collection.nfts.length > 0) {
             for (let l = 0; l < collection.nfts.length; l++) {
-                collectionLikes += collection.nfts[l].likes
+                if (collection.nfts[l].likes) {
+                    collectionLikes += collection.nfts[l].likes.length
+                }
             }
-            console.log(collectionLikes)
+            // console.log(collectionLikes)
         }
         setCollectionLikesCount(collectionLikes)
-
     }, [collection])
+    useEffect(() => {
+        let temp = []
+        if (selectedNFTData) {
+            console.log(selectedNFTData)
+            if (selectedNFTData.likes && selectedNFTData.likes.length > 0 && selectedNFTData.likes[0].upvoter_screen_cids) {
+                console.log(selectedNFTData.likes)
+                for (let i = 0; i < selectedNFTData.likes[0].upvoter_screen_cids.length; i++) {
+                    temp.push(selectedNFTData.likes[0].upvoter_screen_cids[i].screen_cid)
+                }
+            }
+        }
+        console.log(temp)
+        setTempLikers(temp)
+    }, [nfts, selectedNFT])
     return (<>
         {expanded ?
             <Container sx={{ flexDirection: { xs: 'column-reverse', md: 'row' } }}>
@@ -536,7 +565,10 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                                     return (
                                         <OtherNFTCard
                                             key={nft.id}
-                                            onClick={() => setSelectedNFT(index)}
+                                            onClick={() => {
+                                                setSelectedNFT(index)
+                                                setSelectedNFTData(nft)
+                                            }}
                                             sx={{
                                                 background: imageURL ? `url(${imageURL}) no-repeat center` : `url('${API_CONFIG.API_URL}/${ywHugIcon}') no-repeat center`,
                                                 cursor: "pointer",
@@ -603,10 +635,22 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                                             {nfts[selectedNFT].nft_name}
                                         </Typography>
                                         <FlexRow sx={{ width: 'auto !important', }}>
-                                            <Heart size={'24px'} cursor={'pointer'}
-                                                onClick={() => addReactionOnNFT(globalUser.cid, nfts[selectedNFT].id, 'like', '', true, false)} />&nbsp;
+                                            {(tempLikers.includes(globalUser.YouWhoID)) ?
+                                                <HeartRemove size={'24px'} cursor={'pointer'}
+                                                    onClick={() => addReactionOnNFT(
+                                                        globalUser.cid,
+                                                        nfts[selectedNFT].id,
+                                                        'like',
+                                                        '',
+                                                        false,
+                                                        true)} />
+                                                : <Heart size={'24px'} cursor={'pointer'}
+                                                    onClick={() => addReactionOnNFT(globalUser.cid,
+                                                        nfts[selectedNFT].id, 'like', '', true, false)} />
+                                            }
+                                            &nbsp;
                                             <Typography sx={{ fontSize: { xs: '16px', sm: '18px' } }}>
-                                                {nfts[selectedNFT].likes ? nfts[selectedNFT].likes : 0}
+                                                {nfts[selectedNFT].likes && nfts[selectedNFT].likes.length > 0 && nfts[selectedNFT].likes[0].upvoter_screen_cids ? nfts[selectedNFT].likes[0].upvoter_screen_cids.length : 0}
                                             </Typography>
                                         </FlexRow>
                                     </FlexRow>
@@ -772,7 +816,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                             :
                             <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
                                 <Typography sx={{ fontFamily: 'Inter', mt: 2, fontSize: '16px', color: 'primary.text', textAlign: 'center', mb: 2, fontWeight: '400' }}>
-                                    There are no nfts in this collection.
+                                    There are no {pTab} nfts in this collection.
                                 </Typography>
 
                             </Box>
@@ -953,12 +997,22 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                                     <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
                                 </FlexRow> */}
                                 <FlexRow sx={{ mb: '16px' }}>
-                                    <MyInput type='number' name={'royalties_share'} label={'Royalty Share *'} width={'100%'} icon={<Money sx={{ color: 'primary.light' }} />}
+                                    <MyInput type='number' name={'royalties_share'} label={'Royalty Share *'}
+                                        width={'100%'} icon={<Percent sx={{ color: 'primary.light' }} />}
                                         onChange={handleColFormChange}
                                         value={collectionForm.royalties_share}
                                     />
                                     <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
                                 </FlexRow>
+                                <FlexRow sx={{ mb: '16px' }}>
+                                    <MyInput name={'royalties_address_screen_cid'} label={'Royalties Address *'} width={'100%'}
+                                        icon={<AddReaction sx={{ color: 'primary.light' }} />}
+                                        onChange={handleColFormChange}
+                                        value={collectionForm.royalties_address_screen_cid}
+                                    />
+                                    <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                </FlexRow>
+
                                 <ButtonPurple disabled={updateCollButtonDisabled} text={'Update'} onClick={updateCollection} w='100%' />
                             </Box>
                         </Box>
