@@ -210,8 +210,9 @@ const PrivateGallery = ({ user, isFriend, sendFriendRequest, isFollowing }) => {
                                                         openedGallery.collections.map(collection => (
                                                             <Fragment key={`collection_${collection.id}`}>
                                                                 <CollectionCard
+                                                                    getUserPVGalleries={getUserPVGalleries}
                                                                     action={'mint'}
-                                                                    likes={0}
+                                                                    // likes={0}
                                                                     setExpandedId={setExpandedColl}
                                                                     collection={collection}
                                                                     expanded={expandedColl == collection.id}

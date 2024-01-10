@@ -93,7 +93,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
         col_description: "",
         symbol: "",
         owner_cid: "",
-        metadata_updatable: false,
+        metadata_updatable: true,
         base_uri: "",
         royalties_share: 0, // in-app token amount | 100 means 1%
         royalties_address_screen_cid: "",
@@ -110,25 +110,20 @@ const CreateNFT = ({ setMainActiveTab }) => {
         extra: [],
         attributes: [],
     })
-
     useEffect(() => {
         if (globalUser.YouWhoID) {
             getGasFee()
             getPrivateGallery()
         }
     }, [globalUser.YouWhoID])
-
-
     useEffect(() => {
         window.document.getElementById("scrollable-profile-panel-inside").scrollTo(0, 0);
     }, [])
-
     useEffect(() => {
         if (galleryId) {
             getPrivateCollection()
         }
     }, [galleryId])
-
     useEffect(() => {
         setNFTForm(prev => ({
             ...prev,
@@ -141,11 +136,9 @@ const CreateNFT = ({ setMainActiveTab }) => {
         }))
 
     }, [globalUser.cid, globalUser.YouWhoID])
-
     const loading = () => {
         toastId.current = toast.loading("Please wait...")
     }
-
     const updateToast = (success, message) => {
         success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
             : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
@@ -160,11 +153,19 @@ const CreateNFT = ({ setMainActiveTab }) => {
     }
     const navigate = useNavigate()
     const handleColFormChange = (e) => {
-        if (e.target.type == 'number')
-            setCollectionForm(prev => ({
-                ...prev,
-                [e.target.name]: Number(e.target.value)
-            }))
+        if (e.target.type == 'number') {
+            if (e.target.name == 'royalties_share') {
+                setCollectionForm(prev => ({
+                    ...prev,
+                    [e.target.name]: Number(e.target.value) * 100
+                }))
+            } else {
+                setCollectionForm(prev => ({
+                    ...prev,
+                    [e.target.name]: Number(e.target.value)
+                }))
+            }
+        }
         else
             setCollectionForm(prev => ({
                 ...prev,
@@ -319,7 +320,8 @@ const CreateNFT = ({ setMainActiveTab }) => {
             }
 
             const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
-
+            console.log(data)
+            console.log(requestData)
             // sending the request
 
             let request = await fetch(`${API_CONFIG.AUTH_API_URL}/collection/create`, {
@@ -343,7 +345,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
                     col_description: "",
                     symbol: "",
                     owner_cid: "",
-                    metadata_updatable: false,
+                    metadata_updatable: true,
                     base_uri: "",
                     royalties_share: 0, // in-app token amount | 100 means 1%
                     royalties_address_screen_cid: "",
@@ -778,7 +780,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
                                                 />
                                                 <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
                                             </FlexRow>
-                                            <FlexRow sx={{ mb: '16px' }}>
+                                            {/* <FlexRow sx={{ mb: '16px' }}>
                                                 <ButtonInput label={'Metadata Updatable *'} width={'100%'}
                                                     icon={<List sx={{ color: 'primary.light' }} />
                                                     }
@@ -793,7 +795,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
                                                     }
                                                 />
                                                 <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                            </FlexRow>
+                                            </FlexRow> */}
                                             {/* <FlexRow sx={{ mb: '16px' }}>
                                                 <ButtonInput label={'Metadata Addition *'} width={'100%'}
                                                     icon={<AddBoxOutlined

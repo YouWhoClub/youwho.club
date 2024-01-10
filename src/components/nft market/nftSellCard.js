@@ -8,8 +8,8 @@ import tempPic from '../../assets/bgDots.svg'
 import tempNFT from '../../assets/youwho-hugcoin.svg'
 import ButtonOutline from "../buttons/buttonOutline";
 import purpleNFT from '../../assets/purple-nft.svg'
-import { ArrowBack, ArrowForward, ArrowLeft, ArrowRight, ArrowUpward } from "@mui/icons-material";
-import { NFTCommentCard, MyInput } from "../utils";
+import { ArrowBack, ArrowForward, ArrowLeft, ArrowRight, ArrowUpward, Comment, CommentBankOutlined, CommentOutlined } from "@mui/icons-material";
+import { NFTCommentCard, MyInput, YouwhoCoinIcon, MorePopper } from "../utils";
 import ButtonPurpleLight from "../buttons/buttonPurpleLight";
 import { API_CONFIG } from "../../config";
 import { useDispatch, useSelector } from "react-redux";
@@ -271,6 +271,20 @@ const NFTSellCard = ({ nft, expanded, setExpandedId, setActiveTab }) => {
         }
     }
 
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        if (!open)
+            setAnchorEl(event.currentTarget);
+        else
+            setAnchorEl(null)
+    };
+    const handleClose = (e) => {
+        setAnchorEl(null);
+    };
+    const handleClickAway = () => {
+        setAnchorEl(null);
+    }
 
     return (<>
         {expanded ?
@@ -326,21 +340,25 @@ const NFTSellCard = ({ nft, expanded, setExpandedId, setActiveTab }) => {
                                 <FlexColumn sx={{ gap: '8px' }}>
                                     <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>
                                         Comments : </Typography>
-
                                     {
-                                        comments &&
-                                        <FlexRow sx={{ gap: '12px', width: '100%', }}>
-                                            <NFTCommentCard username={'youzarsif'}
-                                                profileImg={purpleNFT}
-                                                comment={'sooooo beautiful I lovee this nft pleasee sell this to me ill buy with a lot of tokns'} />
-                                            <FlexColumn sx={{ alignItems: 'space-between !important', color: 'primary.text' }}>
-                                                <ArrowUp2 size='16px' cursor='pointer' />
-                                                <ArrowDown2 size='16px' cursor='pointer' />
-                                            </FlexColumn>
-                                        </FlexRow>
+                                        comments && comments.length > 0 ?
+                                            <FlexRow sx={{ gap: '12px', width: '100%', }}>
+                                                <NFTCommentCard username={'youzarsif'}
+                                                    profileImg={purpleNFT}
+                                                    comment={'sooooo beautiful I lovee this nft pleasee sell this to me ill buy with a lot of tokns'} />
+                                                <FlexColumn sx={{ alignItems: 'space-between !important', color: 'primary.text' }}>
+                                                    <ArrowUp2 size='16px' cursor='pointer' />
+                                                    <ArrowDown2 size='16px' cursor='pointer' />
+                                                </FlexColumn>
+                                            </FlexRow>
+                                            :
+                                            <Typography sx={{ textTransform: 'capitalize', fontSize: { xs: '12px', md: '14px' }, color: 'secondary.text' }}>
+                                                this NFT has no comments
+                                            </Typography>
                                     }
+
                                 </FlexColumn>
-                                <ButtonPurple text={'Remove Frome List'} onClick={removeFromList} w='100%' />
+                                <ButtonPurple text={'Remove From List'} onClick={removeFromList} w='100%' />
 
                             </FlexColumn>
 
@@ -354,20 +372,54 @@ const NFTSellCard = ({ nft, expanded, setExpandedId, setActiveTab }) => {
                 </Box>
             </Container>
             :
-            <Card>
-                {<CollectionImage sx={{
-                    background: `url(${imageURL}) no-repeat center`,
-                }} />}
+            <ClickAwayListener onClickAway={handleClickAway}>
 
-                <DetailsSection>
+                <Card>
+                    {<CollectionImage sx={{
+                        background: `url(${imageURL}) no-repeat center`,
+                    }} />}
+                    <DetailsSection >
+                        <FlexRow sx={{ width: '100%', justifyContent: 'space-between' }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '10px', gap: '12px' }}>
+                                <Box sx={{ display: 'flex', alignItems: 'center', }}>
+                                    <Heart size={'15px'} />&nbsp;{likes.length}
+                                </Box>
+                                <Box sx={{ display: 'flex', alignItems: 'center', }}>
+                                    <CommentBankOutlined sx={{ fontSize: '15px' }} />&nbsp;{comments.length}
+                                </Box>
+                            </Box>
+                            <More onClick={handleClick} cursor='pointer' />
+                        </FlexRow>
+                        <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '10px', gap: '4px' }}>
+                            <YouwhoCoinIcon w={12} h={12} />
+                            <Typography sx={{ color: 'primary.text', fontSize: '10px' }}>
+                                {current_price}
+                            </Typography>
+                        </Box>
+                        <Typography sx={{ color: 'primary.text', fontSize: '12px' }}>
+                            {nft_name}
+                        </Typography>
+                        <MorePopper tabs={[
+                            {
+                                text: 'Expand', id: 'nft-card-details', onClick: () => {
+                                    setExpandedId(id)
+                                    handleClose()
+                                }
+                            },
+                        ]}
+                            open={open} anchorEl={anchorEl} handleClose={handleClose} />
+                    </DetailsSection>
+
+                    {/* <DetailsSection>
                     <FlexRow sx={{ mb: '4px', justifyContent: 'end' }}>
                         <div style={{ display: 'flex', alignItems: 'center', fontSize: '10px' }}><Heart size='15px' />&nbsp;{likes}</div>
                     </FlexRow>
                     <Typography sx={{ mb: '14px', fontSize: '12px' }}>{nft_name}</Typography>
                     <ButtonPurpleLight
                         br='8px' height={'30px'} text={'Expand NFT'} w={'100%'} onClick={() => setExpandedId(id)} />
-                </DetailsSection>
-            </Card>
+                </DetailsSection> */}
+                </Card>
+            </ClickAwayListener>
         }
     </>
     );

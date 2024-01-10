@@ -211,7 +211,7 @@ const PublicGallery = ({ user }) => {
                                                             <Fragment key={`collection_${collection.id}`}>
                                                                 <CollectionCard
                                                                     setActiveTab={setActiveTab}
-                                                                    likes={0}
+                                                                    // likes={0}
                                                                     setExpandedId={setExpandedColl}
                                                                     collection={collection}
                                                                     expanded={expandedColl == collection.id}

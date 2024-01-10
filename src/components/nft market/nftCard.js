@@ -7,7 +7,7 @@ import { MorePopper, YouwhoCoinIcon } from "../utils";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { Comment } from "@mui/icons-material";
+import { Comment, CommentBankOutlined } from "@mui/icons-material";
 
 const Outter = styled(Box)(({ theme }) => ({
     width: '280px', height: '280px', display: 'flex', justifyContent: 'center', alignItems: 'center'
@@ -141,7 +141,7 @@ const NFTCard = ({ nft, }) => {
                                 <Heart size={'15px'} />&nbsp;{likes.length}
                             </Box>
                             <Box sx={{ display: 'flex', alignItems: 'center', }}>
-                                <Comment sx={{ fontSize: '15px' }} />&nbsp;{comments.length}
+                                <CommentBankOutlined sx={{ fontSize: '15px' }} />&nbsp;{comments.length}
                             </Box>
                         </Box>
                         <More onClick={handleClick} cursor='pointer' />

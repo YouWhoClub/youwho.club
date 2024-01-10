@@ -8,7 +8,7 @@ import tempPic from '../../assets/bgDots.svg'
 import tempNFT from '../../assets/youwho-hugcoin.svg'
 import ButtonOutline from "../buttons/buttonOutline";
 import purpleNFT from '../../assets/purple-nft.svg'
-import { ArrowBack, ArrowForward, ArrowLeft, ArrowRight, ArrowUpward, Close, CommentOutlined, DescriptionOutlined, LinkOutlined } from "@mui/icons-material";
+import { ArrowBack, ArrowForward, ArrowLeft, ArrowRight, ArrowUpward, Close, CommentOutlined, DescriptionOutlined, LinkOutlined, Title } from "@mui/icons-material";
 import { NFTCommentCard, MyInput, ButtonInput, BetweenTwoSelection } from "../utils";
 import ButtonPurpleLight from "../buttons/buttonPurpleLight";
 import { API_CONFIG } from "../../config";
@@ -144,8 +144,7 @@ const Button = styled('button')(({ theme, color }) => ({
     fontSize: '12px',
 }))
 
-const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collection, action, setActiveTab }) => {
-
+const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collection, action, setActiveTab, getUserPVGalleries }) => {
     const { id, col_name, collection_background, created_at, owner_screen_cid, royalties_address_screen_cid, col_description, extra, freeze_metadata, base_uri, royalties_share } = collection
     const [colDetExpanded, setColDetExpanded] = useState(true)
     const globalUser = useSelector(state => state.userReducer)
@@ -162,8 +161,11 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
     const open = Boolean(anchorEl);
     const dispatch = useDispatch()
     const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
+    const [mintButtonDisabled, setMintButtonDisabled] = useState(false)
+    const [updateCollButtonDisabled, setUpdateCollButtonDisabled] = useState(false)
     const [editModal, setEditModal] = useState(false)
     const [collectionForm, setCollectionForm] = useState({
+        col_name: collection.col_name,
         collection_id: id,
         gallery_id: gallId,
         freeze_metadata: freeze_metadata, //*
@@ -176,8 +178,6 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
         extra: extra,
         col_description: col_description,
     })
-
-
     const handleColFormChange = (e) => {
         if (e.target.type == 'number')
             setCollectionForm(prev => ({
@@ -190,7 +190,6 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                 [e.target.name]: e.target.value
             }))
     }
-
     const handleClick = (event) => {
         if (!open)
             setAnchorEl(event.currentTarget);
@@ -203,23 +202,17 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
     const handleClickAway = () => {
         setAnchorEl(null);
     }
-
-
     useEffect(() => {
         getMetadata()
         getGasFee()
     }, [])
-
     const loading = () => {
         toastId.current = toast.loading("Please wait...")
     }
-
     const updateToast = (success, message) => {
         success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
             : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
     }
-
-
     const getMetadata = () => {
         if (collection.nfts) {
             const nfts = collection.nfts.filter((nft) => {
@@ -249,7 +242,6 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                 });
         }
     }
-
     const getGasFee = async () => {
         let request = await fetch(`${API_CONFIG.AUTH_API_URL}/get-gas-fee`, {
             method: 'GET',
@@ -268,7 +260,6 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
             console.log(response.message)
         }
     }
-
     const handleCancel = () => {
         setOpenModal(false)
         setNFTPrice(null)
@@ -277,11 +268,9 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
         setOpenTransferModal(false)
         setTransferTo(null)
     }
-
-
     const mintNFT = async () => {
         loading();
-
+        setMintButtonDisabled(true)
         if (globalUser.privateKey) {
             const nft = nfts[selectedNFT]
 
@@ -309,6 +298,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
             }
 
             const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
+            console.log(data)
             console.log(requestData)
             // sending the request
 
@@ -326,15 +316,19 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
             if (!response.is_error) {
                 updateToast(true, response.message)
                 fetchUser(globalUser.token)
+                setMintButtonDisabled(true)
+                getUserPVGalleries()
             } else {
                 console.error(response.message)
                 updateToast(false, response.message)
+                setMintButtonDisabled(false)
+
             }
         } else {
             updateToast(false, 'please save your private key first')
+            setMintButtonDisabled(false)
         }
     }
-
     const sellNFT = async () => {
         loading();
 
@@ -448,10 +442,9 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
             updateToast(false, 'please save your private key first')
         }
     }
-
-
     const updateCollection = async () => {
         loading();
+        setUpdateCollButtonDisabled(true)
         if (globalUser.privateKey) {
             const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, collectionForm);
 
@@ -466,22 +459,66 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                 }
             })
             let response = await request.json()
-            console.log(response);
+            console.log('response,responseeee', response);
 
             if (!response.is_error) {
                 updateToast(true, response.message)
                 setEditModal(false)
+                setUpdateCollButtonDisabled(true)
             } else {
                 console.error(response.message)
+                setUpdateCollButtonDisabled(false)
                 updateToast(false, response.message)
             }
         } else {
+            setUpdateCollButtonDisabled(false)
             updateToast(false, 'please save your private key first')
         }
     }
+    const addReactionOnNFT = async (callerId, nftID, reactionType, commentContent, like, dislike) => {
+        loading();
 
-    console.log(nfts[selectedNFT])
-    console.log(collection)
+        let data = {
+            caller_cid: callerId,
+            nft_id: nftID,
+            reaction_type: reactionType,
+            comment_content: commentContent,
+            is_like_upvote: like,
+            is_like_downvote: dislike,
+
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        console.log(requestData)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/add/reaction`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log('nft reaction', response);
+        if (!response.is_error) {
+            updateToast(true, `${reactionType} updated`)
+        } else {
+            updateToast(false, response.message)
+        }
+
+    }
+
+    const [collectionLikesCount, setCollectionLikesCount] = useState(undefined);
+    useEffect(() => {
+        let collectionLikes = 0
+        if (collection.nfts && collection.nfts.length && collection.nfts.length > 0) {
+            for (let l = 0; l < collection.nfts.length; l++) {
+                collectionLikes += collection.nfts[l].likes
+            }
+            console.log(collectionLikes)
+        }
+        setCollectionLikesCount(collectionLikes)
+
+    }, [collection])
     return (<>
         {expanded ?
             <Container sx={{ flexDirection: { xs: 'column-reverse', md: 'row' } }}>
@@ -524,7 +561,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                             <FlexRow sx={{ width: 'max-content !important', ml: '8px' }}>
                                 <Heart size={'24px'} />&nbsp;
                                 <Typography sx={{ fontSize: { xs: '16px', sm: '18px' } }}>
-                                    0
+                                    {collectionLikesCount}
                                 </Typography>
                             </FlexRow>
                         </FlexRow>
@@ -567,7 +604,8 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                                             {nfts[selectedNFT].nft_name}
                                         </Typography>
                                         <FlexRow sx={{ width: 'auto !important', }}>
-                                            <Heart size={'24px'} />&nbsp;
+                                            <Heart size={'24px'} cursor={'pointer'}
+                                                onClick={() => addReactionOnNFT(globalUser.cid, nfts[selectedNFT].id, 'like', '', true, false)} />&nbsp;
                                             <Typography sx={{ fontSize: { xs: '16px', sm: '18px' } }}>
                                                 {nfts[selectedNFT].likes ? nfts[selectedNFT].likes : 0}
                                             </Typography>
@@ -580,7 +618,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                                         </FlexRow>
                                         {
                                             action == 'mint' && !nfts[selectedNFT].is_minted ?
-                                                <ButtonPurple text={'Mint This NFT'} onClick={mintNFT} w='100%' />
+                                                <ButtonPurple disabled={mintButtonDisabled} text={'Mint This NFT'} onClick={mintNFT} w='100%' />
                                                 : <>
                                                     <ButtonPurple text={'Add To Sales List'} onClick={() => setOpenModal(true)} w='100%' />
                                                     <ButtonPurple text={'Transfer'} onClick={() => setOpenTransferModal(true)} w='100%' />
@@ -629,7 +667,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                                                     </FlexRow>
                                                     :
                                                     <Typography sx={{ textTransform: 'capitalize', fontSize: { xs: '12px', md: '14px' }, color: 'secondary.text' }}>
-                                                        this nft has no comment
+                                                        this NFT has no comments
                                                     </Typography>
                                             }
                                         </FlexColumn>
@@ -803,7 +841,10 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
 
                     <DetailsSection>
                         <FlexRow sx={{ mb: '4px', justifyContent: 'end' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', fontSize: '10px' }}><Heart size='15px' />&nbsp;{likes}</div>
+                            <div style={{ display: 'flex', alignItems: 'center', fontSize: '10px' }}>
+                                <Heart size='15px' />
+                                &nbsp;{collectionLikesCount ? collectionLikesCount : undefined}
+                            </div>
                         </FlexRow>
                         <Typography sx={{ mb: '14px', fontSize: '12px' }}>{col_name}</Typography>
                         <FlexRow sx={{ mb: '4px', alignItems: 'center', gap: '16px' }}>
@@ -878,7 +919,15 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                                     </Box>
                                 </FlexRow>
 
-                                < FlexRow sx={{ mb: '12px' }}>
+                                <FlexRow sx={{ mb: '12px' }}>
+                                    <MyInput name={'col_name'} label={'Name *'} width={'100%'}
+                                        icon={<Title sx={{ color: 'primary.light' }} />}
+                                        onChange={handleColFormChange}
+                                        value={collectionForm.col_name}
+                                    />
+                                    <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                </FlexRow >
+                                <FlexRow sx={{ mb: '12px' }}>
                                     <MyInput name={'col_description'} label={'Description *'} width={'100%'} icon={<DescriptionOutlined sx={{ color: 'primary.light' }} />}
                                         onChange={handleColFormChange}
                                         value={collectionForm.col_description}
@@ -886,14 +935,14 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                                     <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
                                 </FlexRow >
 
-                                <FlexRow sx={{ mb: '16px' }}>
+                                {/* <FlexRow sx={{ mb: '12px' }}>
                                     <MyInput name={'base_uri'} label={'Base URI *'} width={'100%'} icon={<LinkOutlined sx={{ color: 'primary.light' }} />}
                                         onChange={handleColFormChange}
                                         value={collectionForm.base_uri}
                                     />
                                     <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
                                 </FlexRow>
-                                <FlexRow sx={{ mb: '16px' }}>
+                                <FlexRow sx={{ mb: '12px' }}>
                                     <ButtonInput label={'Freeze Metadata'} width={'100%'}
                                         button={<BetweenTwoSelection
                                             color={'secondary.text'}
@@ -906,7 +955,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                                         }
                                     />
                                     <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                </FlexRow>
+                                </FlexRow> */}
                                 <FlexRow sx={{ mb: '16px' }}>
                                     <MyInput type='number' name={'royalties_share'} label={'Royalty Share *'} width={'100%'} icon={<Money sx={{ color: 'primary.light' }} />}
                                         onChange={handleColFormChange}
@@ -914,7 +963,7 @@ const CollectionCard = ({ likes, link, gallId, expanded, setExpandedId, collecti
                                     />
                                     <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
                                 </FlexRow>
-                                <ButtonPurple text={'Update'} onClick={updateCollection} w='100%' />
+                                <ButtonPurple disabled={updateCollButtonDisabled} text={'Update'} onClick={updateCollection} w='100%' />
                             </Box>
                         </Box>
 
