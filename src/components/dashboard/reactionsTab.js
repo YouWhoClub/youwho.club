@@ -102,6 +102,17 @@ const ReactionsTab = () => {
 
         if (!response.is_error) {
             setallReactions(response.data)
+            let cms = []
+            for (let i = 0; i < response.data.length; i++) {
+                for (let j = 0; j < response.data[i].comments.length; j++) {
+                    let tempObj = response.data[i].comments[j]
+                    tempObj.published_at = new Date(response.data[i].comments[j].published_at * 1000).toLocaleString()
+                    tempObj.nft_metadata = response.data[i].nft_metadata_uri
+                    cms.push(tempObj)
+                }
+            }
+            console.log('cms', cms)
+            setComments(cms)
         } else {
             if (response.status == 404) {
                 setallReactions([])
@@ -115,7 +126,7 @@ const ReactionsTab = () => {
             getInvitations()
         }
         else if (filterValue == 'comments') {
-            console.log('get-comments')
+            getAllReactions()
         }
         else if (filterValue == 'likes') {
             console.log('get-likes')
@@ -152,6 +163,8 @@ const ReactionsTab = () => {
             updateToast(false, response.message)
         }
     }
+
+
     console.log(new Date(1703178189))
     return (
         <Box sx={{
@@ -231,10 +244,11 @@ const ReactionsTab = () => {
                                 <>
                                     {comments.map((comment) => (
                                         <ReactionCardNew
-                                            image={purpleNFT}
+                                            metadata_uri={comment.nft_metadata}
+                                            image={comment.nft_img}
                                             action={'comment'}
-                                            text={`comment on nft`}
-                                            date={'10.9.2012 12:03AM'} />
+                                            text={`${comment.owner_username} commented on this nft`}
+                                            date={comment.published_at} />
                                     ))}</>
                                 :
                                 <Typography sx={{

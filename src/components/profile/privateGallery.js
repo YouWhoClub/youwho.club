@@ -214,6 +214,8 @@ const PrivateGallery = ({ user, isFriend, sendFriendRequest, isFollowing }) => {
                                                                     getUserPVGalleries={getUserPVGalleries}
                                                                     action={'mint'}
                                                                     // likes={0}
+                                                                    isMine={false}
+                                                                    gallId={openedGallery.id}
                                                                     setExpandedId={setExpandedColl}
                                                                     collection={collection}
                                                                     expanded={expandedColl == collection.id}

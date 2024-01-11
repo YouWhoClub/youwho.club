@@ -144,7 +144,7 @@ const Button = styled('button')(({ theme, color }) => ({
     fontSize: '12px',
 }))
 
-const CollectionCard = ({ pTab, link, gallId, expanded, setExpandedId, collection, action, setActiveTab, getUserPVGalleries }) => {
+const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, collection, action, setActiveTab, getUserPVGalleries }) => {
     const { id, col_name, collection_background, created_at, owner_screen_cid, royalties_address_screen_cid, col_description, extra, freeze_metadata, base_uri, royalties_share } = collection
     const [colDetExpanded, setColDetExpanded] = useState(true)
     const globalUser = useSelector(state => state.userReducer)
@@ -534,7 +534,7 @@ const CollectionCard = ({ pTab, link, gallId, expanded, setExpandedId, collectio
         if (collection.nfts && collection.nfts.length && collection.nfts.length > 0) {
             for (let l = 0; l < collection.nfts.length; l++) {
                 if (collection.nfts[l].likes) {
-                    collectionLikes += collection.nfts[l].likes.length
+                    collectionLikes += parseInt(collection.nfts[l].likes.length)
                 }
             }
             // console.log(collectionLikes)
@@ -913,17 +913,19 @@ const CollectionCard = ({ pTab, link, gallId, expanded, setExpandedId, collectio
                     }
 
                     <DetailsSection>
-                        <FlexRow sx={{ mb: '4px', justifyContent: 'end' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', fontSize: '10px' }}>
-                                <Heart size='15px' />
-                                &nbsp;{collectionLikesCount ? collectionLikesCount : undefined}
+                        <FlexRow sx={{ mb: '4px', justifyContent: 'end', gap: '4px' }}>
+                            <Heart size='15px' />
+                            <div style={{ display: 'flex', alignItems: 'center', fontSize: '10px', }}>
+                                {collectionLikesCount}
                             </div>
                         </FlexRow>
                         <Typography sx={{ mb: '14px', fontSize: '12px' }}>{col_name}</Typography>
                         <FlexRow sx={{ mb: '4px', alignItems: 'center', gap: '16px' }}>
                             <ButtonPurpleLight
                                 br='8px' height={'30px'} text={'Expand Collection'} w={'100%'} onClick={() => setExpandedId(id)} />
-                            <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} color="#787878" />
+                            {pTab == 'private' && isMine ?
+                                <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} color="#787878" />
+                                : undefined}
                         </FlexRow>
                     </DetailsSection>
                     <Popper

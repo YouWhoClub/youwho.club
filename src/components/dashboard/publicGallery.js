@@ -178,6 +178,7 @@ const PublicGallery = () => {
                                                             <Fragment key={`collection_${collection.id}`}>
                                                                 <CollectionCard
                                                                     pTab={'public'}
+                                                                    isMine={true}
                                                                     setActiveTab={setActiveTab}
                                                                     setExpandedId={setExpandedColl}
                                                                     collection={collection}
@@ -197,7 +198,7 @@ const PublicGallery = () => {
                                                 </Typography>}
                                         </Gallery>
                                         :
-                                        <Gallery sx={{ my: 5 }}>
+                                        <Gallery sx={{ my: 5, justifyContent: { xs: 'center', md: 'start' } }}>
                                             {
                                                 listedNFTs &&
                                                 listedNFTs.map(nft => {

@@ -207,6 +207,7 @@ const PrivateGallery = () => {
                                                             <Fragment key={`collection_${collection.id}`}>
                                                                 <CollectionCard
                                                                     pTab={'private'}
+                                                                    isMine={true}
                                                                     getUserPVGalleries={getUserPVGalleries}
                                                                     gallId={openedGallery.id}
                                                                     action={'mint'}

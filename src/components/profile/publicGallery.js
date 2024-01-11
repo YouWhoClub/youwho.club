@@ -213,6 +213,7 @@ const PublicGallery = ({ user }) => {
                                                                     setActiveTab={setActiveTab}
                                                                     // likes={0}
                                                                     pTab={'public'}
+                                                                    isMine={false}
                                                                     setExpandedId={setExpandedColl}
                                                                     collection={collection}
                                                                     expanded={expandedColl == collection.id}
@@ -236,7 +237,7 @@ const PublicGallery = ({ user }) => {
                                                 </Typography>}
                                         </Gallery>
                                         :
-                                        <Gallery sx={{my:5}}>
+                                        <Gallery sx={{ my: 5, justifyContent: { xs: 'center', md: 'start' } }}>
                                             {
                                                 listedNFTs &&
                                                 listedNFTs.map(nft => {

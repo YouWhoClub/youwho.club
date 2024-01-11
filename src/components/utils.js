@@ -1094,8 +1094,9 @@ export const ReactionCard = ({ active, passive, action, nftName, nftImage, usern
         </ClickAwayListener>
     )
 }
-export const ReactionCardNew = ({ text, action, image, date, popperTabs, actionButton }) => {
+export const ReactionCardNew = ({ text, action, image, date, popperTabs, actionButton, metadata_uri }) => {
     const [anchorEl, setAnchorEl] = useState(null);
+    const [imageURL, setImageURL] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         if (!open)
@@ -1109,6 +1110,19 @@ export const ReactionCardNew = ({ text, action, image, date, popperTabs, actionB
     const handleClickAway = () => {
         setAnchorEl(null);
     }
+    useEffect(() => {
+        if (metadata_uri)
+            getMetadata()
+    }, [metadata_uri])
+    const getMetadata = () => {
+        fetch(metadata_uri.replace("ipfs://", "https://ipfs.io/ipfs/"))
+            .then((response) => response.json())
+            .then((data) => (setImageURL(data.image)))
+            .catch((error) => {
+                // Handle any fetch or parsing errors
+                console.error('Error fetching NFT image:', error);
+            })
+    }
 
     const navigate = useNavigate()
     return (
@@ -1116,7 +1130,8 @@ export const ReactionCardNew = ({ text, action, image, date, popperTabs, actionB
             <ReactionCardCompNew>
                 <FlexRow sx={{ gap: '16px', width: '100%' }}>
                     <Box sx={{
-                        background: () => image ? `url('${API_CONFIG.API_URL}/${image}') no-repeat center` : 'primary.bg',
+                        // background: () => image ? `url('${API_CONFIG.API_URL}/${image}') no-repeat center` : 'primary.bg',
+                        background: imageURL ? `url(${imageURL}) no-repeat center` : 'primary.bg',
                         backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
                         , width: { xs: '50px', sm: '54px' }, height: { xs: '50px', sm: '54px' }, borderRadius: '8px'
                     }}

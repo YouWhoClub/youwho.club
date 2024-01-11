@@ -122,6 +122,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
     const [phone, setPhone] = useState(null)
     const [currentPass, setCurrentPass] = useState(null)
     const [newPass, setNewPass] = useState(null)
+    const [confirmPass, setConfirmPass] = useState(null)
     const [socialLinks, setSocialLinks] = useState([])
     // const [selectedAvatar, setSelectedAvatar] = useState(null)
     // const [selectedBanner, setSelectedBanner] = useState(null)
@@ -136,7 +137,6 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
     const bannerFileInput = useRef()
     const [bannerFile, setBannerFile] = useState(null);
     const [bannerPhotoURL, setBannerPhotoURL] = useState(null);
-
     useEffect(() => {
         if (globalUser.extra) {
             let phoneObject = globalUser.extra.find(obj => obj.hasOwnProperty('phone'))
@@ -343,23 +343,29 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
     }
     const updatePassword = async event => {
         loading()
-        if (currentPass && newPass) {
-            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/profile/update/password`, {
-                method: 'POST',
-                body: JSON.stringify({ old_password: currentPass, new_password: newPass }),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${globalUser.token}`,
-                }
-            })
-            let response = await request.json()
-            console.log(response);
+        if (currentPass && newPass && confirmPass) {
+            if (newPass == confirmPass) {
 
-            if (response.status === 200 || response.status === 201) {
-                fetchUser(globalUser.token)
-                updateToast(true, response.message)
+                let request = await fetch(`${API_CONFIG.AUTH_API_URL}/profile/update/password`, {
+                    method: 'POST',
+                    body: JSON.stringify({ old_password: currentPass, new_password: newPass }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${globalUser.token}`,
+                    }
+                })
+                let response = await request.json()
+                console.log(response);
+
+                if (response.status === 200 || response.status === 201) {
+                    fetchUser(globalUser.token)
+                    updateToast(true, response.message)
+                } else {
+                    updateToast(false, response.message)
+                }
             } else {
-                updateToast(false, response.message)
+                updateToast(false, 'confirm pass doesnt match')
+
             }
         } else {
             updateToast(false, 'enter your password')
@@ -784,20 +790,27 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
                                     <AccordionDetails
                                         sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
                                     >
-                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'end', color: 'primary.main', gap: '12px', p: '20px 8px' }}>
-                                            <MyInput label={'current password'}
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'end', color: 'primary.main', gap: '8px', p: '20px 8px' }}>
+                                            <MyInput label={'Current Password'}
                                                 icon={<PrivacyTip sx={{ color: 'primary.light', fontSize: '20px' }} />}
                                                 name={'current-pass'}
                                                 id={'current-pass'}
                                                 type={'password'}
                                                 onChange={(e) => setCurrentPass(e.target.value)}
                                                 width={'100%'} />
-                                            <MyInput label={'new password'}
+                                            <MyInput label={'New Password'}
                                                 icon={<PrivacyTip sx={{ color: 'primary.light', fontSize: '20px' }} />}
                                                 name={'new-pass'}
                                                 id={'new-pass'}
                                                 type={'password'}
                                                 onChange={(e) => setNewPass(e.target.value)}
+                                                width={'100%'} />
+                                            <MyInput label={'Confirm Password'}
+                                                icon={<PrivacyTip sx={{ color: 'primary.light', fontSize: '20px' }} />}
+                                                name={'Confirm-pass'}
+                                                id={'Confirm-pass'}
+                                                type={'password'}
+                                                onChange={(e) => setConfirmPass(e.target.value)}
                                                 width={'100%'} />
                                             <Box
                                                 onClick={updatePassword}
