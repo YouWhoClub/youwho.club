@@ -17,8 +17,9 @@ import MobileMenu from "./MobileMenu";
 import SvgIcon from '@mui/material/SvgIcon';
 import yCoin from "../assets/Ycoin.svg"
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-import { Close, Face, Face2, Face3, Face4, Face5, InfoSharp, LogoutOutlined, TheaterComedy } from "@mui/icons-material";
+import { Close, Face, Face2, Face3, Face4, Face5, InfoSharp, LogoutOutlined, Settings, TheaterComedy } from "@mui/icons-material";
 import { MorePopper, shorten } from "./utils";
+import DashBar from "./dashboard/DashBar";
 
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
@@ -101,6 +102,8 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
     const [keyCopied, setKeyCopied] = useState(false)
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const [progressBarOpen, setProgressBarOpen] = useState(false)
+
     const handleClick = (event) => {
         if (!open)
             setAnchorEl(event.currentTarget);
@@ -319,6 +322,12 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
 
     const faceClickPopperTabs = [
         { text: 'Theme', id: 'dash-nav-thm-switch', onClick: undefined, icon: <><Box sx={{ width: '24px' }} /><ThemeSwitcher size={'16px'} switchTheme={switchTheme} /></> },
+        {
+            text: 'Progressive', id: 'dash-nav-prgrss-tab', onClick: () => {
+                setProgressBarOpen(true)
+                handleClose()
+            }, icon: <Settings sx={{ fontSize: '24px', color: 'primary.main' }} />
+        },
         { text: 'Guide Page', id: 'dash-nav-guide-tab', onClick: () => navigate('/guide'), icon: <InfoSharp sx={{ fontSize: '24px', color: 'primary.main' }} /> },
         { text: 'Logout', id: 'dash-nav-logout', onClick: checkPVkeyCopyThenDisconnect, icon: <LogoutOutlined sx={{ fontSize: '24px', color: 'primary.main' }} /> },
     ]
@@ -552,7 +561,6 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                                             <Typography sx={{ fontSize: '12px', color: 'primary.text', fontFamily: 'Inter' }}>{shorten(globalUser.username, 15)}</Typography>
                                             <Face sx={{ cursor: 'pointer', fontSize: '25px' }} onClick={handleClick} />
                                         </Box>
-                                        <MorePopper tabs={faceClickPopperTabs} open={open} anchorEl={anchorEl} handleClose={handleClose} />
                                     </div>
                                 </Box>
                                 <Box sx={{
@@ -585,11 +593,14 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                                                 <></>
                                         }
                                     </div>
+                                    <Face sx={{ cursor: 'pointer', fontSize: '25px' }} onClick={handleClick} />
+                                    {/* 
                                     <IconButton aria-label="menuIcon" sx={{ padding: '10px', color: 'primary.text' }}
                                         onClick={() => setOpenMenu(true)}>
                                         <FontAwesomeIcon icon={faEllipsisV} size="24px" />
-                                    </IconButton>
+                                    </IconButton> */}
                                 </Box>
+                                <MorePopper tabs={faceClickPopperTabs} open={open} anchorEl={anchorEl} handleClose={handleClose} />
                             </>
                             :
                             <>
@@ -609,7 +620,12 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                         <MobileMenu theme={theme} switchTheme={switchTheme} openMenu={openMenu} setOpenMenu={setOpenMenu} />
 
                     </Box>
+                    {progressBarOpen ?
+                        <DashBar closeBar={() => setProgressBarOpen(false)} openBar={progressBarOpen} username={globalUser.username} /> : undefined}
+
                 </Box>
+
+
             </ClickAwayListener>
 
         }

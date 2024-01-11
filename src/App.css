@@ -55,11 +55,9 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
-
-
 
 
 
@@ -70,7 +68,7 @@ input[type=number] {
   padding: 0px 25px !important;
   justify-content: center !important;
   align-items: center !important;
-  width: 100%  !important;
+  width: 100% !important;
   gap: 9px !important;
   flex-shrink: 0 !important;
   border-radius: 14px !important;
@@ -78,7 +76,7 @@ input[type=number] {
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25) !important;
 }
 .Toastify__toast--default::after {
-  content : url('../public/youwho-hugcoin.svg') !important; 
+  content: url("../public/youwho-hugcoin.svg") !important;
   position: absolute !important;
   color: #333333 !important;
   font-size: 15px !important;
@@ -96,7 +94,7 @@ input[type=number] {
 .Toastify__toast--error {
   box-shadow: 0px 0px 10px 0px #c5221f !important;
   display: flex !important;
-  width: 100%  !important;
+  width: 100% !important;
   height: 65px !important;
   padding: 0px 25px !important;
   justify-content: center !important;
@@ -107,7 +105,7 @@ input[type=number] {
   background: #fff !important;
 }
 .Toastify__toast--error::after {
-  content : url('../public/youwho-hugcoin.svg') !important; 
+  content: url("../public/youwho-hugcoin.svg") !important;
   position: absolute !important;
   color: #333333 !important;
   font-size: 15px !important;
@@ -126,7 +124,7 @@ input[type=number] {
   display: flex !important;
   height: 65px !important;
   padding: 0px 25px !important;
-  width: 100%  !important;
+  width: 100% !important;
   justify-content: center !important;
   align-items: center !important;
   gap: 9px !important;
@@ -143,7 +141,7 @@ input[type=number] {
   top: 6px !important;
 }
 .Toastify__toast--success::after {
-  content : url('../public/youwho-hugcoin.svg') !important;
+  content: url("../public/youwho-hugcoin.svg") !important;
   position: absolute !important;
   color: #333333 !important;
   font-size: 15px !important;
@@ -154,7 +152,7 @@ input[type=number] {
 .Toastify__toast--warning {
   display: flex !important;
   height: 65px !important;
-  width: 100%  !important;
+  width: 100% !important;
   padding: 0px 25px !important;
   justify-content: center !important;
   align-items: center !important;
@@ -172,7 +170,7 @@ input[type=number] {
   top: 6px !important;
 }
 .Toastify__toast--warning::after {
-  content : url('../public/youwho-hugcoin.svg') !important; 
+  content: url("../public/youwho-hugcoin.svg") !important;
   position: absolute !important;
   color: #e78326 !important;
   font-size: 15px !important;

@@ -92,7 +92,7 @@ const Dashboard = ({ switchTheme, theme }) => {
     const [progressBarOpen, setProgressBarOpen] = useState(false)
     const listenScrollEvent = e => {
         let card = window.document.getElementById('profile-card')
-        let line = window.document.getElementById('line-profile-user')
+        // let line = window.document.getElementById('line-profile-user')
         let pic = window.document.getElementById('profile-pic')
         // let dashbar = window.document.getElementById('dash-bar')
         let insidePanel = window.document.getElementById('scrollable-profile-panel-inside')
@@ -100,7 +100,7 @@ const Dashboard = ({ switchTheme, theme }) => {
         if (window.document.getElementById("scrollable-profile-panel-inside").scrollTop > 0 || window.document.getElementById("scrollable-profile-panel").scrollTop > 0) {
             card.classList.add("profileBannerAfterScroll")
             pic.classList.add("profilePicAfterScroll")
-            line.classList.add("profileLineAfterScroll")
+            // line.classList.add("profileLineAfterScroll")
             insidePanel.classList.remove("insidePanelBeforeScroll")
             insidePanel.classList.add("insidePanelAfterScroll")
             outsidePanel.classList.add("dashAfterScroll")
@@ -116,7 +116,7 @@ const Dashboard = ({ switchTheme, theme }) => {
             insidePanel.classList.add("insidePanelBeforeScroll")
             insidePanel.classList.remove("insidePanelAfterScroll")
             outsidePanel.classList.remove("dashAfterScroll")
-            line.classList.remove("profileLineAfterScroll")
+            // line.classList.remove("profileLineAfterScroll")
         }
     }
 

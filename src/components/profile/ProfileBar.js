@@ -18,7 +18,8 @@ const Bar = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.secondary.bg,
     // borderRadius: '24px',
     // marginBottom: '20px',
-    boxShadow: theme.palette.primary.boxShadow, overflow: 'hidden',
+    boxShadow: theme.palette.primary.boxShadow,
+    overflow: 'hidden',
     transition: '500ms ease',
     overflowY: 'scroll',
     overflowX: 'hidden',
@@ -75,14 +76,16 @@ const ProfileBar = ({ user, openBar, closeBar }) => {
     }
     const shorten = (str) => {
         if (str)
-            return str.length > 10 ? str.substring(0, 7) + '...' : str;
+            return str.length > 20 ? str.substring(0, 20) + '...' : str;
         return 'undefined'
     }
 
     let socials = []
-    for (let i = 0; i < user.extra.length; i++) {
-        if (user.extra[i].social)
-            socials = user.extra[i].social
+    if (user.extra) {
+        for (let i = 0; i < user.extra.length; i++) {
+            if (user.extra[i].social)
+                socials = user.extra[i].social
+        }
     }
 
     return (
@@ -99,14 +102,21 @@ const ProfileBar = ({ user, openBar, closeBar }) => {
                 <Box sx={(theme) => ({
                     width: '100%',
                     height: '100%',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    backdropFilter: 'blur(10px)',
-
+                    display: 'flex', alignItems: 'center', justifyContent: 'start',
+                    backdropFilter: 'blur(10px)', backgroundColor: 'primary.bg',
+                    boxSizing: 'border-box', flexDirection: 'column', gap: '32px', padding: '0px 12px 10px 12px'
                 })}>
+                    <FlexRow sx={{ width: '100%', height: '50px' }}>
+                        <Box />
+                        <Close onClick={closeBar} cursor="pointer" />
+                    </FlexRow>
+                    <Typography sx={{ color: 'primary.text', fontSize: '20px' }}>
+                        {shorten(user.username)}'s Progressive
+                    </Typography>
                     <Bar
                         id="profile-bar-user"
                         sx={{
-                            borderRadius: { xs: '0', sm: '24px' },
+                            // borderRadius: { xs: '0', sm: '24px' },
                             height: { xs: '100%', sm: 'max-content' },
                             maxHeight: { xs: '100%', sm: '90vh', md: '80vh' },
                             width: { xs: '100%', sm: '400px', md: '325px' },
@@ -114,15 +124,17 @@ const ProfileBar = ({ user, openBar, closeBar }) => {
                             display: 'flex',
                             flexDirection: 'column', alignItems: 'center',
                             justifyContent: 'space-between',
-                            p: '16px 12px',
-                            gap: '15px'
+                            p: '10px',
+                            gap: '15px',
+                            backgroundColor: 'transparent !important',
+                            boxShadow: 'none !important'
                         }}>
                         <Box sx={{
                             boxSizing: 'border-box', width: '100%',
                             gap: '15px',
                             display: 'flex', flexDirection: 'column', alignItems: 'center',
                         }}>
-                            <Box sx={{
+                            {/* <Box sx={{
                                 color: 'primary.text', display: 'flex', justifyContent: 'space-between',
                                 width: '100%', alignItems: 'center',
                             }}>
@@ -130,7 +142,7 @@ const ProfileBar = ({ user, openBar, closeBar }) => {
                                     <Face sx={{ fontSize: '50px' }} /> &nbsp;
                                     {shorten(user.username)}
                                 </div>
-                            </Box>
+                            </Box> */}
                             <Accordion sx={{
                                 width: '100%',
                                 bgcolor: 'secondary.bg',
@@ -236,10 +248,10 @@ const ProfileBar = ({ user, openBar, closeBar }) => {
                                 </AccordionDetails>
                             </Accordion>
                         </Box>
-
+                        {/* 
                         <Box sx={{ justifySelf: 'end !important' }}>
                             <ButtonOutline mt={'20px'} text={'close'} onClick={closeBar} w={'100%'} px={'16px'} />
-                        </Box>
+                        </Box> */}
 
                     </Bar>
                 </Box>

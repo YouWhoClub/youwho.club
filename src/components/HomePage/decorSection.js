@@ -3,11 +3,13 @@ import { BG_URL, PUBLIC_URL } from "../../utils/utils";
 import ButtonPurple from "../buttons/buttonPurple";
 import yCoin from "../../assets/Ycoin.svg"
 import twoTokens from "../../assets/twoTokens.svg"
-import { ArrowRight } from "iconsax-react";
+import { ArrowDown, ArrowDown2, ArrowRight, ArrowUp2 } from "iconsax-react";
 import styled from "@emotion/styled";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { ArrowForward } from "@mui/icons-material";
+import { shorten } from "../utils";
+import { useState } from "react";
 
 const Wrapper = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -21,6 +23,7 @@ const Wrapper = styled(Box)(({ theme }) => ({
 
 const DecorSection = () => {
     const globalUser = useSelector(state => state.userReducer)
+    const [expandText, setExpandText] = useState(false)
     const navigate = useNavigate()
     return (
         <Wrapper>
@@ -47,31 +50,58 @@ const DecorSection = () => {
                             fontWeight: 400, fontSize: { xs: '22px', md: '22px' }, textAlign: { xs: 'center', md: 'justify' }
                         }}>Have you ever thought that with NFTs, you could earn even more than you spend?</Typography>
                         <Typography variant="p" sx={{
-                            color: 'primary.text', textAlign: 'justify', fontFamily: "Inter",
-                            margin: 0, mb: { xs: '50px', md: '36px' },
+                            color: 'primary.text', textAlign: 'justify', letterSpacing: '0.05px', fontFamily: "Inter",
+                            margin: 0, mb: { xs: '50px', md: '36px' }, lineHeight: '25px',
                             fontSize: { xs: '14px', sm: '16px', }, fontWeight: 400, textTransform: 'capitalize'
                         }}>
-
-                            NFTs open up a whole new world of possibilities that could change your life. With NFTs, you can:
-                            <br />
-                            Collect unique digital artworks that become more valuable over time.
-                            <br />
-                            Access digital music and videos that are only available to NFT holders.
-                            <br />
-                            Participate in NFT-based games and earn rewards that can be exchanged for cryptocurrencies or other assets.
-                            <br />
-                            With <b>YouWho</b>, you can maximize your opportunities. you also can:
-                            <br />
-                            Invest in a wide variety of NFTs from artists and creators around the world.
-                            <br />
-                            Connect with other NFT enthusiasts in an active online community.
-                            <br />
-                            Use your NFTs to generate income and access exclusive benefits.
-                            <br />
-                            And that's just the tip of the iceberg.
-                            <br />
-                            So sign up today and take the first step to becoming a part of the future of art and entertainment.
-
+                            {expandText ?
+                                <>
+                                    NFTs open up a whole new world of possibilities that could change your life. With NFTs, you can:
+                                    <br />
+                                    Collect unique digital artworks that become more valuable over time.
+                                    <br />
+                                    Access digital music and videos that are only available to NFT holders.
+                                    <br />
+                                    Participate in NFT-based games and earn rewards that can be exchanged for cryptocurrencies or other assets.
+                                    <br />
+                                    With <b>YouWho</b>, you can maximize your opportunities. you also can:
+                                    <br />
+                                    Invest in a wide variety of NFTs from artists and creators around the world.
+                                    <br />
+                                    Connect with other NFT enthusiasts in an active online community.
+                                    <br />
+                                    Use your NFTs to generate income and access exclusive benefits.
+                                    <br />
+                                    And that's just the tip of the iceberg.
+                                    <br />
+                                    So sign up today and take the first step to becoming a part of the future of art and entertainment.
+                                    <Box sx={{ mt: '2px', display: 'flex', alignItems: 'center', fontSize: '12px', color: 'primary.gray', width: '100%', justifyContent: 'end', cursor: 'pointer', }}
+                                        onClick={() => setExpandText(false)}>
+                                        <Typography sx={{ fontSize: '12px', color: 'primary.gray' }}>
+                                            Read Less
+                                        </Typography>
+                                        <ArrowUp2 size={'14px'} />
+                                    </Box>
+                                </>
+                                :
+                                <>
+                                    NFTs open up a whole new world of possibilities that could change your life. With NFTs, you can:
+                                    <br />
+                                    Collect unique digital artworks that become more valuable over time.
+                                    <br />
+                                    Access digital music and videos that are only available to NFT holders.
+                                    <br />
+                                    Participate in NFT-based games and earn rewards that can be exchanged for cryptocurrencies or other assets.
+                                    <br />
+                                    <Box sx={{ mt: '2px', display: 'flex', alignItems: 'center', fontSize: '12px', color: 'primary.gray', width: '100%', justifyContent: 'end', cursor: 'pointer', }}
+                                        onClick={() => setExpandText(true)}>
+                                        <Typography sx={{ fontSize: '12px', color: 'primary.gray' }}>
+                                            Read More
+                                        </Typography>
+                                        <ArrowDown2 size={'14px'} />
+                                    </Box>
+                                </>
+                            }
                         </Typography>
                         <Box sx={{ alignSelf: { xs: 'center', md: 'end' } }}>
                             <ButtonPurple text={`Join Now`}

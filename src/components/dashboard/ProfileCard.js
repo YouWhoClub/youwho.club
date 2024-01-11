@@ -92,8 +92,8 @@ const ProfileCard = ({ username, YouWhoID, progressBarOpen, setProgressBarOpen }
                     <TickSquare style={{ size: { xs: '10px', md: '16px' }, display: idCopied ? 'block' : 'none', color: '#0Cb2B1' }} />
                 </Box>
                 : undefined}
-            <Line sx={{ my: '12px' }} id='line-profile-user' />
-            <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'end' }}>
+            {/* <Line sx={{ my: '12px' }} id='line-profile-user' /> */}
+            {/* <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'end' }}>
                 <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                     <ButtonBorder onClick={() => setProgressBarOpen(!progressBarOpen)} bgcolor={'primary.main'}
                         fontColor={'white'}
@@ -108,7 +108,7 @@ const ProfileCard = ({ username, YouWhoID, progressBarOpen, setProgressBarOpen }
                         py={'4px'}
                         br={'30px'} height={'25px'} w={'max-content'} />
                 </Box>
-            </Box>
+            </Box> */}
 
         </Box>
     </ProBanner >);

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { AddBoxOutlined, CheckRounded, Close, Face, Password, Phone, PrivacyTip } from "@mui/icons-material";
+import { AddBoxOutlined, ArrowBack, CheckRounded, Close, Edit, Face, Password, Phone, PrivacyTip } from "@mui/icons-material";
 import { Typography } from "@mui/joy";
 import { Accordion, AccordionDetails, AccordionSummary, MenuItem, Popper, TextField, Modal } from "@mui/material";
 import { Box, ClickAwayListener } from "@mui/material";
@@ -14,16 +14,15 @@ import { useEffect } from "react";
 import { ButtonInput, MyInput } from "../utils";
 import ButtonOutline from "../buttons/buttonOutline";
 import { AUTH_API } from "../../utils/data/auth_api";
-
+import '../../index.css'
 
 
 
 const Bar = styled(Box)(({ theme }) => ({
+    // backgroundColor: theme.palette.secondary.bg,
+    // boxShadow: theme.palette.primary.boxShadow,
     // height: 'max-content',
-    backgroundColor: theme.palette.secondary.bg,
     // borderRadius: '24px',
-    // marginBottom: '20px',
-    boxShadow: theme.palette.primary.boxShadow,
     // overflow: 'hidden',
     transition: '500ms ease', overflowY: 'scroll',
     overflowX: 'hidden',
@@ -179,7 +178,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
     }
     const shorten = (str) => {
         if (str)
-            return str.length > 10 ? str.substring(0, 7) + '...' : str;
+            return str.length > 20 ? str.substring(0, 20) + '...' : str;
         return 'undefined'
     }
 
@@ -443,10 +442,21 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
             <Box sx={(theme) => ({
                 width: '100%',
                 height: '100%',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                backdropFilter: 'blur(10px)',
-
+                display: 'flex', alignItems: 'center', justifyContent: 'start',
+                backdropFilter: 'blur(10px)', backgroundColor: 'primary.bg',
+                boxSizing: 'border-box', flexDirection: 'column', gap: '32px', padding: '0px 12px 10px 12px'
             })}>
+                <FlexRow sx={{ width: '100%', height: '50px' }}>
+                    <Box />
+                    <Close onClick={closeBar} cursor="pointer" />
+                </FlexRow>
+                <Typography sx={{ color: 'primary.text', fontSize: { xs: '20px', md: '34px' } }}>
+                    Progressive
+                </Typography>
+                <Typography sx={{ color: 'secondary.text', fontSize: '14px', textTransform: 'capitalize', textAlign: 'center', maxWidth: '400px' }}>
+                    With the completion of each of these items, a YouWho token will be deposited into your wallet account by YouWho.
+                </Typography>
+
                 <Bar
                     id="dash-bar"
                     sx={{
@@ -465,10 +475,20 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
                                         color: 'primary.text', display: 'flex', justifyContent: 'space-between',
                                         width: '100%', alignItems: 'center', mb: '15px'
                                     }}>
-                                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                                        Edit Profile
-                                    </div>
-                                    <Close sx={{ fontSize: '25px' }} cursor='pointer' onClick={() => setEditProfile(false)} />
+                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                        <Edit sx={{ fontSize: '25px' }} />
+                                        <Typography sx={{ fontSize: '16px' }}>
+                                            Profile Edition
+                                        </Typography>
+                                    </Box>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+                                        onClick={() => setEditProfile(false)} >
+                                        <ArrowBack sx={{ fontSize: '16px', color: 'primary.gray' }}
+                                            cursor='pointer' />
+                                        <Typography sx={{ fontSize: '12px', color: 'primary.gray' }}>
+                                            Back
+                                        </Typography>
+                                    </Box>
                                 </Box>
                                 <Accordion
                                     sx={{
@@ -481,8 +501,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
                                         '&:before': {
                                             bgcolor: 'transparent',
                                         },
-                                        // boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.07)',
-                                        boxShadow: 'none !important',
+                                        boxShadow: 'none',
                                         borderRadius: '24px !important', fontSize: '14px'
                                     }}>
                                     <AccordionSummary
@@ -864,19 +883,17 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
                                     </div>
                                     <Setting2 size='25px' cursor='pointer' onClick={() => setEditProfile(true)} />
                                 </Box>
-                                <Accordion sx={{
+                                <Accordion defaultExpanded={true} sx={(theme) => ({
                                     width: '100%', maxWidth: '600px',
                                     bgcolor: 'secondary.bg',
                                     color: 'primary.text',
                                     border: '1px solid', borderColor: 'primary.gray',
-                                    // border: 'none',
                                     '&:before': {
                                         bgcolor: 'transparent',
                                     },
-                                    // boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.07)',
-                                    boxShadow: 'none !important',
+                                    boxShadow: '0px 0px 2px 2px (0,0,0,0.7)',
                                     borderRadius: '24px !important', fontSize: '14px'
-                                }}>
+                                })}>
                                     <AccordionSummary
                                         expandIcon={<ArrowDown2 size='16px' />}
                                         aria-controls="panel1a-content"
@@ -970,13 +987,9 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
                             </>
                         }
                     </Box>
-
-                    <Box sx={{ justifySelf: 'end !important' }}>
-                        <ButtonOutline mt={'20px'} text={'close'} onClick={closeBar} w={'100%'} px={'16px'} />
-                    </Box>
                 </Bar >
-            </Box>
-        </Modal>
+            </Box >
+        </Modal >
 
     );
 }

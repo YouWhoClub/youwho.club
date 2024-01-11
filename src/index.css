@@ -276,3 +276,8 @@ input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s;
   transition-delay: background-color 5000s, color 5000s;
 }
+
+
+.MuiPaper-root-MuiAccordion-root.Mui-expanded {
+  boxshadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.07);
+}
