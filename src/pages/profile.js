@@ -257,7 +257,6 @@ const Profile = ({ switchTheme, theme, props }) => {
                     height: 'calc(100vh - 55px)',
                     gap: { xs: '22px', md: '24px' },
                     boxSizing: 'border-box', padding: '20px 15px 40px'
-
                 }}>
                 {err ?
                     <Box sx={{

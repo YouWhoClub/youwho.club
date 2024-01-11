@@ -8,8 +8,8 @@ import tempPic from '../../assets/bgDots.svg'
 import tempNFT from '../../assets/youwho-hugcoin.svg'
 import ButtonOutline from "../buttons/buttonOutline";
 import purpleNFT from '../../assets/purple-nft.svg'
-import { AddBoxOutlined, AddReaction, ArrowBack, ArrowForward, ArrowLeft, ArrowRight, ArrowUpward, Close, CommentOutlined, DescriptionOutlined, LinkOutlined, Percent, Title } from "@mui/icons-material";
-import { NFTCommentCard, MyInput, ButtonInput, BetweenTwoSelection } from "../utils";
+import { AddBoxOutlined, AddComment, AddReaction, ArrowBack, ArrowForward, ArrowLeft, ArrowRight, ArrowUpward, Close, CommentOutlined, DescriptionOutlined, LinkOutlined, Percent, Title } from "@mui/icons-material";
+import { NFTCommentCard, MyInput, ButtonInput, BetweenTwoSelection, CommentInput } from "../utils";
 import ButtonPurpleLight from "../buttons/buttonPurpleLight";
 import { API_CONFIG } from "../../config";
 import { useDispatch, useSelector } from "react-redux";
@@ -150,6 +150,7 @@ const CollectionCard = ({ pTab, link, gallId, expanded, setExpandedId, collectio
     const globalUser = useSelector(state => state.userReducer)
     const [nfts, setNFTs] = useState([]);
     const [selectedNFT, setSelectedNFT] = useState(0)
+    const [selectedCommentIndex, setSelectedCommentIndex] = useState(0)
     const [selectedNFTData, setSelectedNFTData] = useState(collection.nfts ? collection.nfts[0] : undefined)
     const [isHovered, setIsHovered] = useState(false);
     const toastId = useRef(null);
@@ -165,6 +166,7 @@ const CollectionCard = ({ pTab, link, gallId, expanded, setExpandedId, collectio
     const [mintButtonDisabled, setMintButtonDisabled] = useState(false)
     const [updateCollButtonDisabled, setUpdateCollButtonDisabled] = useState(false)
     const [editModal, setEditModal] = useState(false)
+    const [commentContent, setCommentContent] = useState(undefined)
     const [royaltyShare, setRoyaltyShare] = useState(royalties_share * 100)
     const [collectionForm, setCollectionForm] = useState({
         col_name: collection.col_name,
@@ -489,36 +491,41 @@ const CollectionCard = ({ pTab, link, gallId, expanded, setExpandedId, collectio
     }
     const addReactionOnNFT = async (callerId, nftID, reactionType, commentContent, like, dislike) => {
         loading();
+        if (globalUser.privateKey) {
 
-        let data = {
-            col_id: collection.id,
-            caller_cid: callerId,
-            nft_id: nftID,
-            reaction_type: reactionType,
-            comment_content: commentContent,
-            is_like_upvote: like,
-            is_like_downvote: dislike,
+            let data = {
+                col_id: collection.id,
+                caller_cid: callerId,
+                nft_id: nftID,
+                reaction_type: reactionType,
+                comment_content: commentContent,
+                is_like_upvote: like,
+                is_like_downvote: dislike,
 
-        }
-        let { requestData } = generateSignature(globalUser.privateKey, data)
-        // console.log(requestData)
-        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/add/reaction`, {
-            method: 'POST',
-            body: JSON.stringify(requestData),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${globalUser.token}`,
             }
-        })
-        let response = await request.json()
-        console.log('nft reaction', response);
-        if (!response.is_error) {
-            updateToast(true, `${reactionType} updated`)
-            getUserPVGalleries()
+            let { requestData } = generateSignature(globalUser.privateKey, data)
+            // console.log(requestData)
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/add/reaction`, {
+                method: 'POST',
+                body: JSON.stringify(requestData),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            })
+            let response = await request.json()
+            console.log('nft reaction', response);
+            if (!response.is_error) {
+                updateToast(true, `${reactionType} updated`)
+                if (reactionType == 'comment') {
+                    setCommentContent(undefined)
+                }
+            } else {
+                updateToast(false, response.message)
+            }
         } else {
-            updateToast(false, response.message)
+            updateToast(false, 'please save your private key first')
         }
-
     }
     const [tempLikers, setTempLikers] = useState([])
     const [collectionLikesCount, setCollectionLikesCount] = useState(undefined);
@@ -695,17 +702,22 @@ const CollectionCard = ({ pTab, link, gallId, expanded, setExpandedId, collectio
                                         </FlexColumn>
                                         <FlexColumn sx={{ gap: '8px' }}>
                                             <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>
-                                                Comments : </Typography>
+                                                Comments : {nfts[selectedNFT].comments && nfts[selectedNFT].comments.length > 0 ?
+                                                    <span>(  <span style={{ color: '#5F5F5F' }}>{selectedCommentIndex + 1}th</span> / <span style={{ color: '#5F5F5F' }}>{nfts[selectedNFT].comments.length}</span> )</span>
+                                                    : undefined}</Typography>
 
                                             {
                                                 nfts[selectedNFT].comments && nfts[selectedNFT].comments.length > 0 ?
                                                     <FlexRow sx={{ gap: '12px', width: '100%', }}>
-                                                        <NFTCommentCard username={'youzarsif'}
-                                                            profileImg={purpleNFT}
-                                                            comment={'sooooo beautiful I lovee this nft pleasee sell this to me ill buy with a lot of tokns'} />
+
+                                                        <NFTCommentCard username={nfts[selectedNFT].comments[selectedCommentIndex].owner_username}
+                                                            profileImg={nfts[selectedNFT].comments[selectedCommentIndex].owner_avatar}
+                                                            comment={nfts[selectedNFT].comments[selectedCommentIndex].content} />
                                                         <FlexColumn sx={{ alignItems: 'space-between !important', color: 'primary.text' }}>
-                                                            <ArrowUp2 size='16px' cursor='pointer' />
-                                                            <ArrowDown2 size='16px' cursor='pointer' />
+                                                            <ArrowUp2 size='16px' cursor='pointer'
+                                                                onClick={() => setSelectedCommentIndex(selectedCommentIndex - 1 > 0 ? selectedCommentIndex - 1 : selectedCommentIndex)} />
+                                                            <ArrowDown2 size='16px' cursor='pointer'
+                                                                onClick={() => setSelectedCommentIndex(selectedCommentIndex + 1 >= nfts[selectedNFT].comments.length ? selectedCommentIndex : selectedCommentIndex + 1)} />
                                                         </FlexColumn>
                                                     </FlexRow>
                                                     :
@@ -713,6 +725,27 @@ const CollectionCard = ({ pTab, link, gallId, expanded, setExpandedId, collectio
                                                         this NFT has no comments
                                                     </Typography>
                                             }
+
+                                            <CommentInput
+                                                onChange={(e) => setCommentContent(e.target.value)}
+                                                value={commentContent}
+                                                h={'max-content'}
+                                                label={'Add A Comment'} width={'100%'}
+                                                icon={<AddComment sx={{ color: 'primary.light' }} />}
+                                                button={<ButtonPurple
+                                                    disabled={commentContent == undefined}
+                                                    height='20px'
+                                                    onClick={() => addReactionOnNFT(
+                                                        globalUser.cid,
+                                                        nfts[selectedNFT].id,
+                                                        'comment',
+                                                        commentContent,
+                                                        false,
+                                                        false)}
+                                                    text={'Send'}
+                                                    br={'30px'}
+                                                />
+                                                } />
                                         </FlexColumn>
 
 

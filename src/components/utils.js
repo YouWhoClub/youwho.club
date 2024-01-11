@@ -344,13 +344,14 @@ export const TabSimple = ({ text, onClick, id, selected }) => {
 }
 export const ButtonInput = ({ icon, textColor,
     labelColor, py, id, label, width, onChange,
-    borderColor, type, button, value, placeholder, mb, showable }) => {
+    borderColor, type, button, value, placeholder, mb, showable, h }) => {
     return (
         <Inputt sx={{
             width: width ? width : '200px', border: '1px solid',
             mb: mb ? mb : undefined,
             borderColor: borderColor ? borderColor : '#DEDEDE',
-            p: '12px 15px'
+            p: '12px 15px',
+            height: h ? `${h} !important` : '52px'
         }}>
             <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', }}>
                 <Box sx={{
@@ -371,6 +372,80 @@ export const ButtonInput = ({ icon, textColor,
     )
 
 }
+export const CommentInput = ({ icon, textColor,
+    labelColor, py, id, label, width, onChange, name,
+    borderColor, type, button, value, placeholder, mb, showable, h }) => {
+    return (
+        <Inputt sx={{
+            flexDirection: 'column',
+            width: width ? width : '200px', border: '1px solid',
+            mb: mb ? mb : undefined,
+            borderColor: borderColor ? borderColor : '#DEDEDE',
+            p: '12px 15px',
+            height: h ? `${h} !important` : '52px', gap: '10px'
+        }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', gap: '10px' }}>
+                <Box sx={{
+                    // mr: '10px',
+                    height: '27px', width: '27px', display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}>
+                    {icon ? icon : undefined}
+                </Box>
+                <TextField
+                    multiline
+                    TextFieldautoFocus={true}
+                    type={type}
+                    autoComplete="off"
+                    value={value}
+                    name={name}
+                    InputProps={{
+                        autoFocus: true,
+                        disableUnderline: true,
+                        autoComplete: "new-password",
+                        sx: {
+                            textAlign: 'justify', maxHeight: '54px',
+                            display: 'flex', alignItems: 'center',
+                            // my: '5px !important',
+                            color: textColor ? textColor : 'primary.gray', width: '100%', fontSize: '12px',
+                            //  margin: '0 !important',
+                            "&:-webkit-autofill": {
+                                webkitboxshadow: "none !important", backgroundColor: 'transparent !important'
+                            },
+                            [`&.${inputBaseClasses.input}`]: {
+                                padding: '0 !important', color: textColor ? textColor : 'primary.gray',
+                            }
+                            // .MuiInputBase-input-MuiInput-input
+                        }
+                    }}
+                    InputLabelProps={{
+                        sx: {
+                            top: '-7px !important',
+                            fontSize: '12px',
+                            color: labelColor ? labelColor : 'primary.text',
+                            [`&.${inputLabelClasses.shrink}`]: {
+                                top: '5px !important',
+                                // set the color of the label when shrinked (usually when the TextField is focused)
+                                color: labelColor ? labelColor : 'primary.text',
+                                fontSize: '12px',
+                            }
+                        }
+                    }}
+                    id={id}
+                    sx={{ alignItems: 'center', display: 'flex', width: '100%' }}
+                    label={label} variant="standard"
+                    onChange={onChange} />
+            </Box>
+            <Box
+                sx={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'end', width: '100%'
+                }}>
+                {button ? button : undefined}
+            </Box>
+        </Inputt>
+    )
+
+}
+
 export const SelectInput = ({ icon, textColor,
     labelColor, label, width, onChange,
     borderColor, type, button, value, placeholder, mb,
@@ -1088,7 +1163,7 @@ export const NFTCommentCard = ({ username, comment, profileImg }) => {
             <FlexRow>
                 <CommentCardProfileImg sx={{
                     mr: '8px',
-                    backgroundImage: BG_URL(PUBLIC_URL(`${profileImg}`)),
+                    background: () => profileImg ? `url('${API_CONFIG.API_URL}/${profileImg}') no-repeat center` : BG_URL(PUBLIC_URL(`${profileFace}`)),
                 }} />
                 <Typography sx={{ fontSize: '14px', fontWeight: 500, color: 'primary.text' }}>{username} :&nbsp;</Typography>
             </FlexRow>
