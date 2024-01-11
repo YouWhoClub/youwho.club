@@ -715,7 +715,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                                                             comment={nfts[selectedNFT].comments[selectedCommentIndex].content} />
                                                         <FlexColumn sx={{ alignItems: 'space-between !important', color: 'primary.text' }}>
                                                             <ArrowUp2 size='16px' cursor='pointer'
-                                                                onClick={() => setSelectedCommentIndex(selectedCommentIndex - 1 > 0 ? selectedCommentIndex - 1 : selectedCommentIndex)} />
+                                                                onClick={() => setSelectedCommentIndex(selectedCommentIndex > 0 ? selectedCommentIndex - 1 : selectedCommentIndex)} />
                                                             <ArrowDown2 size='16px' cursor='pointer'
                                                                 onClick={() => setSelectedCommentIndex(selectedCommentIndex + 1 >= nfts[selectedNFT].comments.length ? selectedCommentIndex : selectedCommentIndex + 1)} />
                                                         </FlexColumn>
