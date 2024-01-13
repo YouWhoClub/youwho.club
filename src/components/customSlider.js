@@ -21,15 +21,6 @@ function SampleNextArrow(props) {
                 justifyContent: 'center',
                 alignItems: 'center',
                 color: 'primary.text',
-                // position: 'absolute',
-                // top: '50%',
-                // right: '0',
-                // zIndex: 4,
-                // transform: 'translate(0, -50%)',
-                // boxShadow: '0px 0px 20px 3px rgba(0,0,0,0.5)',
-                // border: '1px solid',
-                // borderColor: 'primary.middle',
-                // border: '1px solid',
                 cursor: 'pointer'
             }}
             onClick={onClick}
@@ -52,15 +43,6 @@ function SamplePrevArrow(props) {
                 justifyContent: 'center',
                 alignItems: 'center',
                 color: 'primary.text',
-                // position: 'absolute',
-                // top: '50%',
-                // left: '0',
-                // zIndex: 4,
-                // transform: 'translate(0, -50%)',
-                // boxShadow: '0px 0px 20px 3px rgba(0,0,0,0.5)',
-                // border: '1px solid',
-                // borderColor: 'primary.middle',
-                // border: '1px solid',
                 cursor: 'pointer'
             }}
             onClick={onClick}

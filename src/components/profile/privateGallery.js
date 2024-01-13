@@ -79,6 +79,12 @@ const PrivateGallery = ({ user, isFriend, sendFriendRequest, isFollowing }) => {
         if (response.is_error == false) {
             setGalleries(response.data)
             setGalleriesLoading(false)
+            if (openedGallery) {
+                let opened = response.data.filter((gal => gal.id == openedGallery.id))
+                setOpenedGallery(opened[0])
+                console.log(opened, 'opened?')
+            }
+
         } else {
             setErr(response.message)
             console.log(response)

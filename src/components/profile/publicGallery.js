@@ -212,6 +212,7 @@ const PublicGallery = ({ user }) => {
                                                                 <CollectionCard
                                                                     setActiveTab={setActiveTab}
                                                                     // likes={0}
+                                                                    getUserPVGalleries={getUserPublicCollection}
                                                                     pTab={'public'}
                                                                     isMine={false}
                                                                     setExpandedId={setExpandedColl}

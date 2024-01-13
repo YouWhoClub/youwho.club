@@ -47,7 +47,7 @@ const DecorSection = () => {
                         }}>Earn, Even More Than Spend ?!</Typography>
                         <Typography variant="h6" sx={{
                             color: 'primary.text', margin: 0, mb: { xs: '50px', md: '42px' },
-                            fontWeight: 400, fontSize: { xs: '22px', md: '22px' }, textAlign: { xs: 'center', md: 'justify' }
+                            fontWeight: 400, fontSize: { xs: '22px', md: '22px' }, textAlign: { xs: 'center', md: 'left' }
                         }}>Have you ever thought that with NFTs, you could earn even more than you spend?</Typography>
                         <Typography variant="p" sx={{
                             color: 'primary.text', textAlign: 'justify', letterSpacing: '0.05px', fontFamily: "Inter",

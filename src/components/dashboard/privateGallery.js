@@ -68,6 +68,7 @@ const PrivateGallery = () => {
     const [signer, setSigner] = useState(undefined)
     const [openedGallery, setOpenedGallery] = useState(undefined)
     const [joinedList, setJoinedList] = useState([])
+    const [reloadOpenedGallColl, setReloadOpenedGallColl] = useState(false)
     const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
 
     const handleFilterSelect = (e) => {
@@ -129,6 +130,12 @@ const PrivateGallery = () => {
         if (response.is_error == false) {
             setGalleries(response.data)
             setgalleryLoading(false)
+            // setOpenedGallery(undefined)
+            if (openedGallery) {
+                let opened = response.data.filter((gal => gal.id == openedGallery.id))
+                setOpenedGallery(opened[0])
+                console.log(opened, 'opened?')
+            }
         }
     }
     const navigate = useNavigate()
@@ -138,8 +145,6 @@ const PrivateGallery = () => {
         e.preventDefault()
         dispatch(setPrivateKey(signer))
     }
-
-
     return (
         <Box sx={{
             width: '100%',
@@ -200,7 +205,7 @@ const PrivateGallery = () => {
                                             </Typography>
                                         </FlexColumn>
                                         <Gallery sx={{ justifyContent: { xs: 'center', md: 'start' } }}>
-                                            {openedGallery.collections.length > 0 ?
+                                            {openedGallery.collections && openedGallery.collections.length > 0 ?
                                                 <>
                                                     {
                                                         openedGallery.collections.map(collection => (

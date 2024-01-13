@@ -48,7 +48,15 @@
   justify-content: center;
   align-items: center;
 }
-
+.slick-slide {
+  width: max-content !important;
+  /* margin-left: 9px !important;
+  margin-right: 9px !important; */
+}
+.slick-track {
+  display: flex !important;
+  gap: 18px !important;
+}
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -58,9 +66,6 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
-
-
-
 
 .Toastify__toast--default {
   display: flex !important;

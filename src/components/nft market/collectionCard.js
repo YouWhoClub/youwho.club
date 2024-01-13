@@ -167,7 +167,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
     const [updateCollButtonDisabled, setUpdateCollButtonDisabled] = useState(false)
     const [editModal, setEditModal] = useState(false)
     const [commentContent, setCommentContent] = useState(undefined)
-    const [royaltyShare, setRoyaltyShare] = useState(royalties_share * 100)
+    const [royaltyShare, setRoyaltyShare] = useState(royalties_share)
     const [collectionForm, setCollectionForm] = useState({
         col_name: collection.col_name,
         collection_id: id,
@@ -177,7 +177,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
         amount: 0,
         owner_cid: globalUser.cid,
         base_uri: base_uri, // *
-        royalties_share: Number(royalties_share) / 100, // *
+        royalties_share: parseFloat(royalties_share) / 100, // *
         royalties_address_screen_cid: royalties_address_screen_cid,
         extra: extra,
         col_description: col_description,
@@ -461,7 +461,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
             let collForm = collectionForm
             collForm.royalties_share = royaltyShare
             const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, collForm);
-            console.log(collForm)
+            console.log(requestData)
             // sending the request
 
             let request = await fetch(`${API_CONFIG.AUTH_API_URL}/collection/update`, {
@@ -477,8 +477,9 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
 
             if (!response.is_error) {
                 updateToast(true, response.message)
+                setUpdateCollButtonDisabled(false)
                 setEditModal(false)
-                setUpdateCollButtonDisabled(true)
+                getUserPVGalleries()
             } else {
                 console.error(response.message)
                 setUpdateCollButtonDisabled(false)
@@ -520,6 +521,8 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                 if (reactionType == 'comment') {
                     setCommentContent(undefined)
                 }
+                getUserPVGalleries()
+                setExpandedId(id)
             } else {
                 updateToast(false, response.message)
             }
@@ -647,7 +650,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                                                     onClick={() => addReactionOnNFT(
                                                         globalUser.cid,
                                                         nfts[selectedNFT].id,
-                                                        'like',
+                                                        'dislike',
                                                         '',
                                                         false,
                                                         true)} />

@@ -39,7 +39,7 @@ const FlexColumn = styled(Box)(({ theme }) => ({
 const ReactionsTab = () => {
     const globalUser = useSelector(state => state.userReducer)
 
-    const [filterValue, setFilterValue] = useState('')
+    const [filterValue, setFilterValue] = useState('likes')
     const [sortValue, setSortValue] = useState('')
     const handleFilterSelect = (e) => {
         e.preventDefault()
@@ -54,6 +54,7 @@ const ReactionsTab = () => {
     const [likes, setLikes] = useState([])
     const [comments, setComments] = useState([])
     const [sells, setSells] = useState([])
+    const [lists, setLists] = useState([])
     const [allNotifs, setAllNotifs] = useState([])
     const navigate = useNavigate()
     const toastId = useRef(null);
@@ -89,7 +90,7 @@ const ReactionsTab = () => {
             }
         }
     }
-    const getAllReactions = async () => {
+    const getrctns = async () => {
         let request = await fetch(`${API_CONFIG.AUTH_API_URL}/reaction/get/all/?from=0&to=10`, {
             method: 'GET',
             headers: {
@@ -129,7 +130,10 @@ const ReactionsTab = () => {
             getAllReactions()
         }
         else if (filterValue == 'likes') {
-            console.log('get-likes')
+            getAllReactions()
+        }
+        else if (filterValue == 'lists') {
+            getAllReactions()
         }
         else if (filterValue == 'sells') {
             console.log('get-sells')
@@ -137,6 +141,9 @@ const ReactionsTab = () => {
             getAllReactions()
         }
     }, [filterValue])
+    // useEffect(() => {
+    //     getAllReactions()
+    // }, [sortValue])
     const acceptGalleryInvitation = async (receiver, sender, galleryId) => {
         loading()
         let data = {
@@ -163,8 +170,95 @@ const ReactionsTab = () => {
             updateToast(false, response.message)
         }
     }
+    const getAllReactions = async () => {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/profile/notifs/get/?from=0&to=10`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log('acts', response)
+        if (!response.is_error) {
+            setAllNotifs(response.data.notifs)
+            let cms = []
+            for (let i = 0; i < response.data.notifs.length; i++) {
+                if (response.data.notifs[i].action_type == "CommentNft") {
+                    cms.push(response.data.notifs[i])
+                }
+            }
+            let likess = []
+            for (let j = 0; j < response.data.notifs.length; j++) {
+                if (response.data.notifs[j].action_type == "LikeNft" || response.data.notifs[j].action_type == "DislikeNft") {
+                    likess.push(response.data.notifs[j])
+                }
+            }
+            let listss = []
+            for (let j = 0; j < response.data.notifs.length; j++) {
+                if (response.data.notifs[j].action_type == "ListNft" || response.data.notifs[j].action_type == "DelistNft") {
+                    listss.push(response.data.notifs[j])
+                }
+            }
+            // if (sortValue == 'date-time') {
+            //     cms.sort((a, b) => a.fired_at > b.fired_at)
+            //     likess.sort((a, b) => a.fired_at > b.fired_at)
 
+            // } else if (sortValue == 'highest-price') {
+            //     cms.sort((a, b) => a.action_data.current_price > b.action_data.current_price)
+            //     likess.sort((a, b) => a.action_data.current_price > b.action_data.current_price)
+            // } else {
+            //     console.log('nada')
+            // }
 
+            console.log(cms)
+            console.log(likess)
+
+            setLists(listss)
+            setComments(cms)
+            setLikes(likess)
+
+        } else {
+            console.log(response)
+
+        }
+    }
+    const setActionObject = (reaction) => {
+        if (reaction.action_type == 'UpdatePrivateGallery') {
+            return {
+                username: reaction.actioner_wallet_info.username,
+                action: 'updated private gallery',
+                gal_name: reaction.action_data.gal_name,
+                gal_img: reaction.gallery_background
+            }
+        }
+        else if (reaction.action_type == "LikeNft") {
+            return {
+                username: reaction.actioner_wallet_info.username,
+                action: 'liked NFT',
+                nft_name: reaction.action_data.nft_name,
+                metadata: reaction.action_data.metadata_uri
+            }
+        }
+        else if (reaction.action_type == "DislikeNft") {
+            return {
+                username: reaction.actioner_wallet_info.username,
+                action: 'disliked NFT',
+                nft_name: reaction.action_data.nft_name,
+                metadata: reaction.action_data.metadata_uri
+            }
+        }
+        else if (reaction.action_type == "CommentNft") {
+            return {
+                username: reaction.actioner_wallet_info.username,
+                action: 'commented on NFT',
+                nft_name: reaction.action_data.nft_name,
+                metadata: reaction.action_data.metadata_uri
+            }
+        }
+        else { return reaction }
+
+    }
     console.log(new Date(1703178189))
     return (
         <Box sx={{
@@ -178,12 +272,14 @@ const ReactionsTab = () => {
                         display: 'flex', justifyContent: 'center', alignItems: 'center',
                         flexDirection: { xs: 'column', lg: 'row' }, gap: '15px', mb: '24px'
                     }}>
-                        <FilterSelection width={'280px'} tabs={['likes', 'comments', 'sells', 'invitations', 'all']}
+                        <FilterSelection width={'280px'} tabs={['likes', 'comments', 'invitations', 'lists']}
                             text={'Filter'} id={'filter-reaction-tab'}
                             handleSelect={handleFilterSelect} selectValue={filterValue} />
-                        <FilterSelection width={'280px'} tabs={['date-time', 'my artworks', 'favorites']}
+                        {/* <FilterSelection width={'280px'} tabs={['date-time', 'highest-price'
+                            //  'my artworks', 'favorites'
+                        ]}
                             text={'Sort By'} id={'sort-reaction-tab'}
-                            handleSelect={handleSortSelect} selectValue={sortValue} />
+                            handleSelect={handleSortSelect} selectValue={sortValue} /> */}
                     </Box>
                     <Box sx={{ display: 'flex', width: '100%', gap: '15px', flexDirection: 'column' }}>
                         {filterValue == 'invitations' &&
@@ -226,10 +322,17 @@ const ReactionsTab = () => {
                                 <>
                                     {likes.map((like) => (
                                         <ReactionCardNew
-                                            image={purpleNFT}
-                                            action={'like'}
-                                            text={`like on nft`}
-                                            date={'10.9.2012 12:03AM'} />
+                                            popperTabs={[
+                                                {
+                                                    text: `${like.actioner_wallet_info.username}'s profile`,
+                                                    id: 'rction-user-profile',
+                                                    onClick: () => navigate(`/profile/${like.actioner_wallet_info.username}`)
+                                                },
+                                            ]}
+                                            metadata_uri={like.action_data.metadata_uri}
+                                            action={like.action_type == 'LikeNft' ? 'like' : 'dislike'}
+                                            text={`${like.actioner_wallet_info.screen_cid == globalUser.YouWhoID ? 'You' : like.actioner_wallet_info.username} ${like.action_type == 'LikeNft' ? 'liked' : 'disliked'} ${like.action_data.nft_name} NFT`}
+                                            date={(new Date(like.fired_at * 1000)).toLocaleString()} />
                                     ))}</>
                                 :
                                 <Typography sx={{
@@ -244,11 +347,17 @@ const ReactionsTab = () => {
                                 <>
                                     {comments.map((comment) => (
                                         <ReactionCardNew
-                                            metadata_uri={comment.nft_metadata}
-                                            image={comment.nft_img}
+                                            popperTabs={[
+                                                {
+                                                    text: `${comment.actioner_wallet_info.username}'s profile`,
+                                                    id: 'rction-user-profile',
+                                                    onClick: () => navigate(`/profile/${comment.actioner_wallet_info.username}`)
+                                                },
+                                            ]}
+                                            metadata_uri={comment.action_data.metadata_uri}
                                             action={'comment'}
-                                            text={`${comment.owner_username} commented on this nft`}
-                                            date={comment.published_at} />
+                                            text={`${comment.actioner_wallet_info.screen_cid == globalUser.YouWhoID ? 'You' : comment.actioner_wallet_info.username} commented on ${comment.action_data.nft_name} NFT`}
+                                            date={(new Date(comment.fired_at * 1000)).toLocaleString()} />
                                     ))}</>
                                 :
                                 <Typography sx={{
@@ -259,18 +368,40 @@ const ReactionsTab = () => {
                             }
                             </>
                         }
-                        {filterValue == 'all' || filterValue == '' ?
+                        {filterValue == 'lists' &&
+                            <>{lists && lists.length > 0 ?
+                                <>
+                                    {lists.map((list) => (
+                                        <ReactionCardNew
+                                            metadata_uri={list.action_data.metadata_uri}
+                                            action={list.action_type == 'ListNft' ? 'list' : 'unlist'}
+                                            text={`${list.actioner_wallet_info.screen_cid == globalUser.YouWhoID ? 'You' : list.actioner_wallet_info.username} ${list.action_type == 'ListNft' ? 'listed' : 'unlisted'} ${list.action_data.nft_name} NFT`}
+                                            date={(new Date(list.fired_at * 1000)).toLocaleString()} />
+                                    ))}
+                                </>
+                                :
+                                <Typography sx={{
+                                    color: 'primary.text', textTransform: 'capitalize',
+                                    fontSize: '14px', width: '100%', textAlign: 'center'
+                                }}>
+                                    You have no list notifications Yet
+                                </Typography>
+                            }
+                            </>
+                        }
+                        {filterValue == '' ?
                             <> {allNotifs && allNotifs.length > 0 ?
                                 <>
                                     {allNotifs.map((react) => (
                                         <ReactionCard
-                                            username={'Khosro'}
-                                            action={'like'}
-                                            active={'You'}
-                                            passive={'Khosro'}
-                                            nftName={'Blue NFT'}
-                                            date={'10.9.2012 12:03AM'}
+                                            username={react.actioner_wallet_info.screen_cid == globalUser.YouWhoID ? 'You' : react.actioner_wallet_info.username}
+                                            action={react.action_type}
+                                            active={react.actioner_wallet_info.screen_cid == globalUser.YouWhoID ? 'You' : react.actioner_wallet_info.username}
+                                            // passive={'Khosro'}
+                                            // nftName={'Blue NFT'}
+                                            date={(new Date(react.fired_at * 1000)).toLocaleString()}
                                         />
+
                                     ))}</>
                                 :
                                 <Typography sx={{
@@ -281,12 +412,6 @@ const ReactionsTab = () => {
                             }
                             </> : undefined
                         }
-                        {/* <ReactionCard nftImage={purpleNFT} username={'Farhad'} action={'comment'} active={'Farhad'} passive={'you'} nftName={'Purple NFT'} date={'10.9.2012 12:03AM'} />
-                        <ReactionCard nftImage={blueNft} 
-                        username={'Khosro'} action={'like'} active={'You'} passive={'Khosro'} nftName={'Blue NFT'} date={'10.9.2012 12:03AM'}
-                         />
-                        <ReactionCard nftImage={pinkNFT} username={'Shirin'} action={'like'} active={'Shirin'} passive={'you'} nftName={'Pink NFT'} date={'10.9.2012 12:03AM'} />
-                        <ReactionCard nftImage={torqNFT} username={'Tequilla__'} action={'comment'} active={'You'} passive={'Tequilla__'} nftName={'Turquoise NFT'} date={'10.9.2012 12:03AM'} /> */}
                     </Box>
                 </>
                 :
