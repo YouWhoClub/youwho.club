@@ -33,8 +33,10 @@ import blockchainDark from '../assets/blockchainDark.svg'
 import cryptoDark from '../assets/cryptoDark.svg'
 import xpnsvNFTDark from '../assets/xpnsvNFTDark.svg'
 import calenDark from '../assets/calenDark.svg'
-import walletImgLight from '../assets/walletLight.svg'
-import walletImgDark from '../assets/walletDark.svg'
+import walletImgLight from '../assets/WALLET-b.svg'
+import walletImgDark from '../assets/WALLET-WH.svg'
+import chatNFTLight from '../assets/CHATNFT-b.svg'
+import chatNFTDark from '../assets/CHATNFT-WH.svg'
 
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -2763,8 +2765,8 @@ export const blogContents = [
             <br /><br />Talk to earn
             <br />Thank you, youwho team
         </>,
-        imageLight: calenLight,
-        imageDark: calenDark,
+        imageLight: chatNFTLight,
+        imageDark: chatNFTDark,
         date: 'Dec2023'
     },
 ]

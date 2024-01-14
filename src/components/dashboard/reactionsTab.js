@@ -1,5 +1,5 @@
 import { Box, TextField, Typography } from "@mui/material";
-import { ReactionCard, ReactionCardNew, RelationCard, SubTab, SubTabs } from "../utils";
+import { BulletFiltering, ReactionCard, ReactionCardNew, RelationCard, SubTab, SubTabs } from "../utils";
 import blueNft from '../../assets/blue-nft.svg'
 import pinkNFT from '../../assets/pink-nft.svg'
 import purpleNFT from '../../assets/purple-nft.svg'
@@ -49,6 +49,8 @@ const ReactionsTab = () => {
         e.preventDefault()
         setSortValue(e.target.id)
     }
+    const filterOptions = ['likes', 'comments', 'invitations', 'lists']
+
     const [myInvitations, setMyInvitations] = useState([])
     const [allReactions, setallReactions] = useState([])
     const [likes, setLikes] = useState([])
@@ -268,20 +270,22 @@ const ReactionsTab = () => {
         }}>
             {globalUser.cid ?
                 <>
-                    <Box sx={{
+                    {/* <Box sx={{
                         display: 'flex', justifyContent: 'center', alignItems: 'center',
                         flexDirection: { xs: 'column', lg: 'row' }, gap: '15px', mb: '24px'
                     }}>
                         <FilterSelection width={'280px'} tabs={['likes', 'comments', 'invitations', 'lists']}
                             text={'Filter'} id={'filter-reaction-tab'}
                             handleSelect={handleFilterSelect} selectValue={filterValue} />
-                        {/* <FilterSelection width={'280px'} tabs={['date-time', 'highest-price'
+                        <FilterSelection width={'280px'} tabs={['date-time', 'highest-price'
                             //  'my artworks', 'favorites'
                         ]}
                             text={'Sort By'} id={'sort-reaction-tab'}
-                            handleSelect={handleSortSelect} selectValue={sortValue} /> */}
-                    </Box>
-                    <Box sx={{ display: 'flex', width: '100%', gap: '15px', flexDirection: 'column' }}>
+                            handleSelect={handleSortSelect} selectValue={sortValue} />
+                    </Box> */}
+                    <BulletFiltering setOption={setFilterValue} options={filterOptions} selected={filterValue} fontSize={'14px'} width={'100%'} />
+
+                    <Box sx={{ display: 'flex', width: '100%', gap: '15px', flexDirection: 'column', mt: '24px' }}>
                         {filterValue == 'invitations' &&
                             <>{myInvitations && myInvitations.length > 0 ?
                                 <>

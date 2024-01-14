@@ -3,6 +3,8 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from "
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { ArrowDown2 } from "iconsax-react";
+import { useNavigate } from "react-router";
+import { Close } from "@mui/icons-material";
 
 const Wrapper = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -21,15 +23,22 @@ const Container = styled(Box)(({ theme }) => ({
 }))
 
 const GuidePage = ({ switchTheme, theme }) => {
+    const navigate = useNavigate()
     return (
         <Box sx={{
-            width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', bgcolor: 'primary.bg'
+            width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', bgcolor: 'primary.bg',
+            boxSizing: 'border-box', padding: { xs: '0px 12px 10px 12px', md: '0px 12px 52px 12px' }
         }}>
-            <Navbar navbarType={'radius'} theme={theme} switchTheme={switchTheme} />
+            <Box sx={{ width: '100%', display: 'flex', height: { xs: '52px', md: '62px' }, alignItems: 'center', justifyContent: 'end' }}>
+                <Close sx={{ color: 'primary.text', fontSize: { xs: '24px', md: '32px' }, cursor: 'pointer' }}
+                    onClick={() => navigate(-1)} />
+            </Box>
+            {/* <Navbar navbarType={'radius'} theme={theme} switchTheme={switchTheme} /> */}
             <Wrapper>
                 <Box sx={{
                     width: '100%',
-                    boxSizing: 'border-box', padding: { xs: '12px 12px 0px 12px', md: '38px 38px 0px 38px' },
+                    boxSizing: 'border-box',
+                    // padding: { xs: '12px 12px 0px 12px', md: '38px 38px 0px 38px' },
                     display: 'flex', flexDirection: 'column', alignItems: 'center', bgcolor: 'primary.bg',
                     gap: { xs: '20px', md: '32px' }
                 }}>
@@ -303,7 +312,7 @@ const GuidePage = ({ switchTheme, theme }) => {
                         </Accordion>
 
                     </Container>
-                    <Footer />
+                    {/* <Footer /> */}
 
                 </Box>
             </Wrapper >
