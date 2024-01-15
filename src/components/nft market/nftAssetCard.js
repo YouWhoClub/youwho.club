@@ -1,16 +1,29 @@
 import styled from "@emotion/styled";
-import { Box, ClickAwayListener, MenuItem, Popper, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, ClickAwayListener, MenuItem, Popper, Typography, Modal } from "@mui/material";
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
 import purpleNFT from '../../assets/purple-nft.svg'
 import creamNFT from '../../assets/cream-nft.svg'
-import { ArrowUp2, Heart, More, Pointer, Setting, Share } from "iconsax-react";
+import { ArrowUp2, ArrowDown2, Heart, HeartRemove, More, Pointer, Coin, Setting, Share } from "iconsax-react";
 import yCoin from '../../assets/Ycoin.svg'
 import ButtonPurple from "../buttons/buttonPurple";
 import ButtonOutline from "../buttons/buttonOutline";
 import ButtonBorder from "../buttons/buttonBorder";
 import { ShareSharp } from "@mui/icons-material";
-import { useSelector } from "react-redux";
+import { toast, ToastContainer } from 'react-toastify';
+import { useEffect, useState, useRef } from "react";
+import tempPic from '../../assets/bgDots.svg'
+import tempNFT from '../../assets/youwho-hugcoin.svg'
+import { AddBoxOutlined, AddComment, AddReaction, ArrowBack, ArrowForward, ArrowLeft, ArrowRight, ArrowUpward, Close, CommentOutlined, DescriptionOutlined, LinkOutlined, Percent, Title } from "@mui/icons-material";
+import { NFTCommentCard, MyInput, ButtonInput, BetweenTwoSelection, CommentInput } from "../utils";
+import ButtonPurpleLight from "../buttons/buttonPurpleLight";
+import { API_CONFIG } from "../../config";
+import { useDispatch, useSelector } from "react-redux";
+import generateSignature from "../../utils/signatureUtils";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import ywHugIcon from '../../assets/Y-HUG-COIN.svg'
+import { getuser } from "../../redux/actions";
+import { useNavigate } from "react-router";
 const YouWhoToken = styled(Box)(({ theme }) => ({
     backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)),
     backgroundRepeat: 'no-repeat',
@@ -21,7 +34,7 @@ const YouWhoToken = styled(Box)(({ theme }) => ({
 
 const FlexColumn = styled(Box)(({ theme }) => ({
     display: 'flex', flexDirection: 'column',
-    alignItems: 'center',
+    // alignItems: 'center',
 }))
 const FlexRow = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -32,7 +45,7 @@ const Container = styled(Box)(({ theme }) => ({
     display: 'flex', boxSizing: 'border-box',
     padding: '12px 18px 18px 18px',
     alignItems: 'start',
-    gap: '40px',
+    gap: '40px', height: 'max-content',
     borderRadius: '18px', width: '100%',
     // alignItems: 'center',
     backgroundColor: theme.palette.secondary.bg,
@@ -77,12 +90,34 @@ const PropertyTagTitle = styled('span')(({ theme }) => ({
 const PropertyTagAnswer = styled('span')(({ theme }) => ({
     fontSize: '10px', color: theme.palette.secondary.text,
 }))
-
-const NFTAssetCard = ({ nft }) => {
+const Button = styled('button')(({ theme, color }) => ({
+    backgroundColor: 'transparent',
+    padding: '8px 24px',
+    outline: 'none',
+    color: color,
+    cursor: 'pointer',
+    border: 'none',
+    fontFamily: "Inter",
+    fontSize: '12px',
+}))
+const NFTAssetCard = ({ nft, col_data }) => {
     const {
-        metadata_url,
-        contract_address
+        metadata_uri,
+        contract_address,
+        created_at,
+        is_miinted,
+        is_listed,
+        likes,
+        comments,
+        current_price,
+        nft_description,
+        nft_name,
+        onchain_id,
+        current_owner_screen_cid,
+        attributes,
+        id,
     } = nft;
+    const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
     const globalUser = useSelector(state => state.userReducer)
     const [NFTInfo, setNFTInfo] = useState({
         name: '',
@@ -90,31 +125,25 @@ const NFTAssetCard = ({ nft }) => {
         attributes: null,
         imageURL: '',
     });
+    const dispatch = useDispatch()
+    const [selectedCommentIndex, setSelectedCommentIndex] = useState(0)
+    const [commentContent, setCommentContent] = useState(undefined)
 
-    useEffect(() => {
-        getMetadata()
-    }, [metadata_url])
-
-    const getMetadata = () => {
-        console.log(metadata_url);
-        fetch(metadata_url.replace("ipfs://", "https://ipfs.io/ipfs/"))
-            .then((response) => response.json())
-            .then((data) => {
-                setNFTInfo({
-                    name: data.name,
-                    description: data.description,
-                    attributes: data.attributes,
-                    imageURL: data.image,
-                })
-                console.log(data);
-
-            })
-            .catch((error) => {
-                // Handle any fetch or parsing errors
-                console.error('Error fetching NFT image:', error);
-            })
+    const [amount, setAmount] = useState(0)
+    const [NFTPrice, setNFTPrice] = useState(null)
+    const [openModal, setOpenModal] = useState(false)
+    const [openTransferModal, setOpenTransferModal] = useState(false)
+    const [TransferTo, setTransferTo] = useState(null)
+    const navigate = useNavigate()
+    const toastId = useRef(null);
+    const loading = () => {
+        toastId.current = toast.loading("Please wait...")
+        console.log(toastId)
     }
-
+    const updateToast = (success, message) => {
+        success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
+            : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
+    }
     const [anchorEl, setAnchorEl] = useState(null);
     const openPopper = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -131,9 +160,202 @@ const NFTAssetCard = ({ nft }) => {
         setAnchorEl(null);
     }
     const [detExpanded, setDetExpaded] = useState(false)
+    useEffect(() => {
+        getMetadata()
+    }, [metadata_uri])
+    const sellNFT = async () => {
+        loading();
+
+        if (globalUser.privateKey) {
+            const data = {
+                caller_cid: globalUser.cid,
+                nft_id: nft.id,
+                col_id: col_data.id,
+                amount: amount,
+                event_type: "sell",
+                buyer_screen_cid: null,
+                contract_address: nft.contract_address,
+                metadata_uri: nft.metadata_uri,
+                current_owner_screen_cid: nft.current_owner_screen_cid,
+                onchain_id: nft.onchain_id,
+                is_minted: nft.is_minted,
+                is_listed: nft.is_listed,
+                nft_name: nft.nft_name,
+                nft_description: nft.nft_description,
+                current_price: NFTPrice, // mint with primary price of 20 tokens, this must be the one in db
+                freeze_metadata: nft.freeze_metadata,
+                extra: nft.extra,
+                attributes: nft.attributes,
+                comments: nft.comments,
+                likes: nft.likes,
+            }
+
+            const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
+
+            // sending the request
+
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/update`, {
+                method: 'POST',
+                body: JSON.stringify(requestData),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            })
+            let response = await request.json()
+            // console.log(response);
+
+            if (!response.is_error) {
+                updateToast(true, response.message)
+                fetchUser(globalUser.token)
+                navigate('/dashboard#assets-tab')
+
+            } else {
+                console.error(response.message)
+                updateToast(false, response.message)
+            }
+        } else {
+            updateToast(false, 'please save your private key first')
+        }
+    }
+    const Transfer = async () => {
+        loading();
+
+        if (globalUser.privateKey) {
+
+            const data = {
+                caller_cid: globalUser.cid,
+                transfer_to_screen_cid: TransferTo,
+                col_id: col_data.id,
+                nft_id: nft.id,
+                amount: amount,
+                event_type: "transfer",
+                buyer_screen_cid: null,
+                contract_address: nft.contract_address,
+                metadata_uri: nft.metadata_uri,
+                current_owner_screen_cid: nft.current_owner_screen_cid,
+                onchain_id: nft.onchain_id,
+                is_minted: nft.is_minted,
+                is_listed: nft.is_listed,
+                nft_name: nft.nft_name,
+                nft_description: nft.nft_description,
+                current_price: nft.current_price,
+                freeze_metadata: nft.freeze_metadata,
+                extra: nft.extra,
+                attributes: nft.attributes,
+                comments: nft.comments,
+                likes: nft.likes,
+            }
+
+            const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
+
+            // sending the request
+
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/update`, {
+                method: 'POST',
+                body: JSON.stringify(requestData),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            })
+            let response = await request.json()
+            console.log(response);
+
+            if (!response.is_error) {
+                updateToast(true, response.message)
+                navigate('/dashboard#assets-tab')
+            } else {
+                console.error(response.message)
+                updateToast(false, response.message)
+            }
+        } else {
+            updateToast(false, 'please save your private key first')
+        }
+    }
+    const getMetadata = () => {
+        console.log(metadata_uri);
+        fetch(metadata_uri.replace("ipfs://", "https://ipfs.io/ipfs/"))
+            .then((response) => response.json())
+            .then((data) => {
+                setNFTInfo({
+                    name: data.name,
+                    description: data.description,
+                    attributes: data.attributes,
+                    imageURL: data.image,
+                })
+                console.log(data);
+
+            })
+            .catch((error) => {
+                // Handle any fetch or parsing errors
+                console.error('Error fetching NFT image:', error);
+            })
+    }
+    const handleTransferCancel = () => {
+        setOpenTransferModal(false)
+        setTransferTo(null)
+    }
+    const handleCancel = () => {
+        setOpenModal(false)
+        setNFTPrice(null)
+    }
+    const [tempLikers, setTempLikers] = useState([])
+    useEffect(() => {
+        let temp = []
+        if (nft) {
+            if (likes && likes.length > 0 && likes[0].upvoter_screen_cids) {
+                console.log(likes)
+                for (let i = 0; i < likes[0].upvoter_screen_cids.length; i++) {
+                    temp.push(likes[0].upvoter_screen_cids[i].screen_cid)
+                }
+            }
+        }
+        console.log(temp)
+        setTempLikers(temp)
+    }, [nft, likes])
+
+    const addReactionOnNFT = async (colId, callerId, nftID, reactionType, commentContent, like, dislike) => {
+        loading();
+        if (globalUser.privateKey) {
+
+            let data = {
+                col_id: colId,
+                caller_cid: callerId,
+                nft_id: nftID,
+                reaction_type: reactionType,
+                comment_content: commentContent,
+                is_like_upvote: like,
+                is_like_downvote: dislike,
+
+            }
+            let { requestData } = generateSignature(globalUser.privateKey, data)
+            // console.log(requestData)
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/add/reaction`, {
+                method: 'POST',
+                body: JSON.stringify(requestData),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            })
+            let response = await request.json()
+            console.log('nft reaction', response);
+            if (!response.is_error) {
+                updateToast(true, `${reactionType} updated`)
+                if (reactionType == 'comment') {
+                    setCommentContent(undefined)
+                }
+            } else {
+                updateToast(false, response.message)
+            }
+        } else {
+            updateToast(false, 'please save your private key first')
+        }
+    }
     return (
         <>{detExpanded ?
-            <Container sx={{ flexDirection: { xs: "column", sm: 'row' } }}>
+            <Container sx={{ flexDirection: { xs: "column", sm: 'row' }, height: 'max-content' }}>
                 <AssetImage
                     id="large-asset-image"
                     sx={{
@@ -146,44 +368,94 @@ const NFTAssetCard = ({ nft }) => {
                     }}
                 />
                 <FlexColumn sx={{
-                    gap: '16px', width: '100%', height: '280px', justifyContent: 'space-between'
+                    gap: '16px', width: '100%', justifyContent: 'space-between'
                 }}>
                     <FlexRow sx={{ width: '100%' }}>
-                        <Typography sx={{ color: 'primary.text', fontSize: '20px', fontWeight: 500 }}>{NFTInfo.name}</Typography>
+                        <Typography sx={{ color: 'primary.text', fontSize: '20px', fontWeight: 500 }}>{nft_name}</Typography>
                         <FlexRow sx={{ width: 'max-content', gap: '4px' }}>
                             <YouWhoToken sx={{
                                 width: '20px !important', height: '20px !important'
                             }}
                             />
-                            {/* <Typography sx={{ color: 'primary.text', fontSize: '20px', fontWeight: 600 }}>10</Typography> */}
+                            <Typography sx={{ color: 'primary.text', fontSize: '20px', fontWeight: 600 }}>{current_price}</Typography>
                         </FlexRow>
                     </FlexRow>
                     <FlexColumn sx={{
                         gap: '6px', width: '100%', alignItems: 'start !important'
                     }}>
-                        {/* <FlexRow sx={{ width: 'max-content', gap: '2px' }}>
-                            <Heart size='15px' />
+                        <FlexRow sx={{ width: 'max-content', gap: '2px' }}>
+                            {(tempLikers.includes(globalUser.YouWhoID)) ?
+                                <HeartRemove size={'24px'} cursor={'pointer'}
+                                    onClick={() => addReactionOnNFT(
+                                        col_data.id,
+                                        globalUser.cid,
+                                        id,
+                                        'dislike',
+                                        '',
+                                        false,
+                                        true)} />
+                                : <Heart size={'24px'} cursor={'pointer'}
+                                    onClick={() => addReactionOnNFT(col_data.id, globalUser.cid,
+                                        id, 'like', '', true, false)} />
+                            }
                             <Typography sx={{ color: 'primary.text', fontSize: '9px' }}>
-                                9
+                                {likes && likes.length > 0 && likes[0].upvoter_screen_cids ? likes[0].upvoter_screen_cids.length : 0}
                             </Typography>
-                        </FlexRow> */}
-                        <FlexColumn sx={{ width: '100%', alignItems: 'start !important' }}>
+                        </FlexRow>
+                        <FlexRow sx={{ justifyContent: 'start !important' }}>
                             <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
-                                Description:
+                                Creation Time:
                             </Typography>
                             <Typography sx={{
                                 color: 'secondary.text',
                                 fontSize: '12px', fontWeight: 400, textAlign: 'justify'
                             }}>
-                                {NFTInfo.description}
+                                {created_at}
+                            </Typography>
+
+                        </FlexRow>
+
+                        <FlexColumn sx={{ width: '100%', alignItems: 'start !important' }}>
+                            <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
+                                NFT Description:
+                            </Typography>
+                            <Typography sx={{
+                                color: 'secondary.text',
+                                fontSize: '12px', fontWeight: 400, textAlign: 'justify'
+                            }}>
+                                {nft_description}
                             </Typography>
                         </FlexColumn>
+                        <FlexRow sx={{ justifyContent: 'start !important' }}>
+                            <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
+                                Collection Name:
+                            </Typography>
+                            <Typography sx={{
+                                color: 'secondary.text',
+                                fontSize: '12px', fontWeight: 400, textAlign: 'justify'
+                            }}>
+                                {col_data.col_name}
+                            </Typography>
+
+                        </FlexRow>
                         <FlexColumn sx={{ width: '100%', alignItems: 'start !important' }}>
+                            <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
+                                Collection Description:
+                            </Typography>
+                            <Typography sx={{
+                                color: 'secondary.text',
+                                fontSize: '12px', fontWeight: 400, textAlign: 'justify'
+                            }}>
+                                {col_data.col_description}
+                            </Typography>
+                        </FlexColumn>
+                        <Line />
+                        <FlexColumn sx={{ width: '100%', alignItems: 'start !important', my: { xs: '8px', md: '10px' } }}>
                             <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>NFT Properties : </Typography>
                             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                                 {
-                                    NFTInfo.attributes &&
-                                    NFTInfo.attributes.map(attr => (
+                                    attributes &&
+                                    attributes.map(attr => (
                                         <NFTPropertyTag>
                                             <PropertyTagTitle>{attr.trait_type} : </PropertyTagTitle>
                                             <PropertyTagAnswer>{attr.value}</PropertyTagAnswer>
@@ -192,10 +464,70 @@ const NFTAssetCard = ({ nft }) => {
                                 }
                             </Box>
                         </FlexColumn>
+                        <Line />
+
+                        <FlexColumn sx={{ width: '100%', gap: '8px', my: { xs: '8px', md: '10px' }, alignItems: 'start !important' }}>
+                            <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>
+                                Comments : {comments && comments.length > 0 ?
+                                    <span>(  <span style={{ color: '#5F5F5F' }}>{selectedCommentIndex + 1}th</span> / <span style={{ color: '#5F5F5F' }}>{comments.length}</span> )</span>
+                                    : undefined}</Typography>
+
+                            {
+                                comments && comments.length > 0 ?
+                                    <FlexRow sx={{ gap: '12px', width: '100%', }}>
+
+                                        <NFTCommentCard username={comments[selectedCommentIndex].owner_username}
+                                            profileImg={comments[selectedCommentIndex].owner_avatar}
+                                            comment={comments[selectedCommentIndex].content} />
+                                        <FlexColumn sx={{ alignItems: 'space-between !important', color: 'primary.text' }}>
+                                            <ArrowUp2 size='16px' cursor='pointer'
+                                                onClick={() => setSelectedCommentIndex(selectedCommentIndex - 1 > 0 ? selectedCommentIndex - 1 : selectedCommentIndex)} />
+                                            <ArrowDown2 size='16px' cursor='pointer'
+                                                onClick={() => setSelectedCommentIndex(selectedCommentIndex + 1 >= comments.length ? selectedCommentIndex : selectedCommentIndex + 1)} />
+                                        </FlexColumn>
+                                    </FlexRow>
+                                    :
+                                    <Typography sx={{ textTransform: 'capitalize', fontSize: { xs: '12px', md: '14px' }, color: 'secondary.text' }}>
+                                        this NFT has no comments
+                                    </Typography>
+                            }
+
+                            <CommentInput
+                                onChange={(e) => setCommentContent(e.target.value)}
+                                value={commentContent}
+                                h={'max-content'}
+                                label={'Add A Comment'} width={'100%'}
+                                icon={<AddComment sx={{ color: 'primary.light' }} />}
+                                button={<ButtonPurple
+                                    disabled={commentContent == undefined}
+                                    height='20px'
+                                    onClick={commentContent == undefined ? undefined : () => addReactionOnNFT(
+                                        col_data.id,
+                                        globalUser.cid,
+                                        id,
+                                        'comment',
+                                        commentContent,
+                                        false,
+                                        false)}
+                                    text={'Send'}
+                                    br={'30px'}
+                                />
+                                } />
+                        </FlexColumn>
+                        <Line />
                     </FlexColumn>
-                    <Line />
-                    <FlexRow sx={{ gap: '8px', width: '100%' }}>
-                        {/* <ButtonPurple text={'Buy'} px={'24px'} w={'100%'} /> */}
+                    <FlexRow sx={{ gap: '8px', width: '100%', my: { xs: '8px', md: '10px' }, }}>
+                        {is_listed && globalUser.YouWhoID !== current_owner_screen_cid
+                            ?
+                            <ButtonPurple text={'Buy'} px={'24px'} w={'100%'} /> : undefined
+                        }
+                        {!is_listed && globalUser.YouWhoID == current_owner_screen_cid
+                            ?
+                            <>
+                                <ButtonPurple text={'Add To Sales List'} onClick={() => setOpenModal(true)} w='100%' />
+                                <ButtonPurple text={'Transfer'} onClick={() => setOpenTransferModal(true)} w='100%' />
+                            </> : undefined
+                        }
                         {/* <ButtonBorder
                             br={'4px'}
                             text={<ShareSharp sx={{ color: 'secondary.text' }} />}
@@ -213,24 +545,24 @@ const NFTAssetCard = ({ nft }) => {
                     <FlexColumn sx={{ width: '100%' }}>
                         <FlexRow sx={{ width: '100%', mb: '8px' }}>
                             <FlexRow sx={{ width: 'max-content', gap: '2px' }}>
-                                {/* <Heart size='15px' />
+                                <Heart size='15px' />
                                 <Typography sx={{ color: 'primary.text', fontSize: '9px' }}>
-                                    9
-                                </Typography> */}
+                                    {likes && likes.length > 0 && likes[0].upvoter_screen_cids ? likes[0].upvoter_screen_cids.length : 0}
+                                </Typography>
                             </FlexRow>
                             <More size='24px' cursor='pointer' onClick={handleClick} />
                         </FlexRow>
-                        {/* <FlexRow sx={{ width: '100%', mb: '12px' }}>
+                        <FlexRow sx={{ width: '100%', mb: '12px' }}>
                             <FlexRow sx={{ width: 'max-content', gap: '4px' }}>
                                 <YouWhoToken />
                                 <Typography sx={{ color: 'primary.text', fontSize: '10px' }}>
-                                    10
+                                    {current_price}
                                 </Typography>
                             </FlexRow>
-                        </FlexRow> */}
+                        </FlexRow>
                         <FlexRow sx={{ width: '100%', }}>
                             <Typography sx={{ color: 'primary.text', fontSize: '12px' }}>
-                                {NFTInfo.name}
+                                {nft_name}
                             </Typography>
                         </FlexRow>
                     </FlexColumn>
@@ -273,7 +605,7 @@ const NFTAssetCard = ({ nft }) => {
                         >
                             NFT Details
                         </MenuItem>
-{/* 
+                        {/* 
                         <MenuItem id={'like'} sx={{
                             display: 'flex', alignItems: 'center', p: '16px 8px',
                             color: 'primary.text',
@@ -305,6 +637,98 @@ const NFTAssetCard = ({ nft }) => {
             </ClickAwayListener>
         }
 
+            <Modal
+                open={openModal}
+                onClose={() => setOpenModal(false)}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                sx={{ '& .MuiBackdrop-root': { backgroundColor: 'rgba(255, 255, 255, 0.50)', backdropFilter: "blur(16.5px)", } }}
+            >
+                <Box sx={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                    <Box sx={{
+                        borderRadius: '24px',
+                        width: { xs: '100%', sm: '400px' }, height: { xs: '100%', sm: '450px' },
+                        backgroundColor: 'secondary.bg', color: 'primary.text', boxSizing: 'border-box',
+                        display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between',
+                        boxShadow: '0px 0px 20px 0px rgba(0, 0, 0, 0.50)',
+                    }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '30px', padding: '40px' }}>
+                            <Typography sx={{ textAlign: 'center', fontSize: '16px' }}>
+                                Enter Your NFT Value
+                            </Typography>
+                            <Typography sx={{ textAlign: 'center', fontSize: '12px', fontFamily: 'inter', color: 'primary.darkGray' }}>
+                                This NFT New Value Is The Price You Want To Sell It.                                                </Typography>
+                            <FlexRow>
+                                <MyInput
+                                    value={NFTPrice}
+                                    name={"current_price"}
+                                    onChange={(e) => setNFTPrice(Number(e.target.value))}
+                                    label={'NFT Price'} width={'100%'}
+                                    icon={<Coin color="#BEA2C5" />} type={'number'} id={'nft-price'}
+                                />
+                            </FlexRow>
+                        </Box>
+                        <Box>
+                            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                                <Button style={{ borderRight: '1px solid #DEDEDE' }} color="primary.darkGray" onClick={handleCancel}>cancel</Button>
+                                <ButtonPurple disabled={(NFTPrice == 0 || NFTPrice == null)} text={'Add To Sales List'} onClick={sellNFT} w='100%' />
+                            </Box>
+
+                        </Box>
+                    </Box>
+                </Box>
+
+            </Modal >
+            <Modal
+                open={openTransferModal}
+                onClose={() => setOpenTransferModal(false)}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                sx={{ '& .MuiBackdrop-root': { backgroundColor: 'rgba(255, 255, 255, 0.50)', backdropFilter: "blur(16.5px)", } }}
+            >
+                <Box sx={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                    <Box sx={{
+                        borderRadius: '24px',
+                        width: { xs: '100%', sm: '400px' }, height: { xs: '100%', sm: '450px' },
+                        backgroundColor: 'secondary.bg', color: 'primary.text', boxSizing: 'border-box',
+                        display: 'flex', flexDirection: 'column', padding: '30px', justifyContent: 'space-between',
+                        boxShadow: '0px 0px 20px 0px rgba(0, 0, 0, 0.50)',
+                    }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '30px', padding: '40px' }}>
+                            <Typography sx={{ textAlign: 'center', fontSize: '16px' }}>
+                                Enter YouWhoID
+                            </Typography>
+                            <Typography sx={{ textAlign: 'center', fontSize: '12px', fontFamily: 'inter', color: 'primary.darkGray' }}>
+                                Enter the YouWhoID of the person you'd like to transfer your NFT to                                           </Typography>
+                            <FlexRow>
+                                <MyInput
+                                    value={TransferTo}
+                                    name={"recipent_screen_cid"}
+                                    onChange={(e) => setTransferTo(e.target.value)}
+                                    label={'YouWho ID'} width={'100%'}
+                                    icon={<Coin color="#BEA2C5" />} type={'text'} id={'recipent_screen_cid'}
+                                />
+                            </FlexRow>
+                        </Box>
+                        <Box>
+                            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                                <Button style={{ borderRight: '1px solid #DEDEDE' }} color="primary.darkGray" onClick={handleTransferCancel}>cancel</Button>
+                                <ButtonPurple disabled={(TransferTo == null)} text={'Transfer'} onClick={Transfer} w='100%' />
+                            </Box>
+
+                        </Box>
+                    </Box>
+                </Box>
+
+            </Modal >
 
         </>
     );

@@ -194,7 +194,10 @@ const PublicGallery = () => {
                                             {publicCollections && publicCollections.length > 0 ?
                                                 undefined :
                                                 <Typography
-                                                    sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
+                                                    sx={{
+                                                        color: 'primary.text', width: '100%', textAlign: 'center',
+                                                        fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize'
+                                                    }}>
                                                     No Collection Found
                                                 </Typography>}
                                         </Gallery>
@@ -218,7 +221,10 @@ const PublicGallery = () => {
                                             {listedNFTs && listedNFTs.length > 0 ?
                                                 undefined :
                                                 <Typography
-                                                    sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
+                                                    sx={{
+                                                        color: 'primary.text', width: '100%', textAlign: 'center',
+                                                        fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize'
+                                                    }}>
                                                     No NFTs Listed
                                                 </Typography>}
 

@@ -428,7 +428,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
 
             const keyValuePairs = [
                 ['caller_cid', globalUser.cid],
-                ['amount', NFTForm.amount],
+                ['amount', 0],
                 ['col_id', NFTForm.col_id],
                 ['nft_id', NFTObject.id],
                 ['nft_new_attributes', JSON.stringify(NFTObject.attributes)],

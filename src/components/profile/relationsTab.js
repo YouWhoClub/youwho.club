@@ -18,6 +18,7 @@ import API from "../../utils/api";
 import TheirAllies from "./TheirAllies";
 import TheirFriends from "./TheirFriends";
 import { PUBLIC_API } from "../../utils/data/public_api";
+import { toast } from "react-toastify";
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex', boxSizing: 'border-box',
     flexDirection: 'row',
@@ -46,6 +47,16 @@ const RelationsTab = ({ user }) => {
     const [searchResults, setSearchResults] = useState(undefined)
     const [relationsLoading, setRelationsLoading] = useState(true)
     const navigate = useNavigate()
+    const toastId = useRef(null);
+    const loading = () => {
+        toastId.current = toast.loading("Please wait...")
+        console.log(toastId)
+    }
+    const updateToast = (success, message) => {
+        success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
+            : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
+    }
+
     const getRelations = async () => {
         console.log(user)
         let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/relations/for/${user.YouWhoID}/?from=0&to=10`, {
@@ -153,6 +164,111 @@ const RelationsTab = ({ user }) => {
         }
 
     }
+    const sendFriendRequest = async (receiver, sender) => {
+        loading();
+
+        let data = {
+            owner_cid: sender,
+            to_screen_cid: receiver,
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        console.log(requestData)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/send/friend-request`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+        if (response.message == "Updated Successfully") {
+            updateToast(true, 'Friend Request Sent')
+            getRelations()
+        } else {
+            updateToast(false, response.message)
+        }
+    }
+    const sendAllieRequest = async (receiver, sender,) => {
+        loading();
+
+        let data = {
+            owner_cid: sender,
+            to_screen_cid: receiver,
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        console.log(requestData)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/send/friend-request`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+        if (response.message == "Updated Successfully") {
+            updateToast(true, 'Friend Request Sent')
+        } else {
+            updateToast(false, response.message)
+        }
+
+    }
+    const removeFriend = async (receiver, sender) => {
+        loading();
+
+        let data = {
+            owner_cid: sender,
+            friend_screen_cid: receiver,
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        console.log(requestData)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/remove/friend`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+        if (response.message == "Updated Successfully") {
+            updateToast(true, 'Friend Removed')
+            getRelations()
+        } else {
+            updateToast(false, response.message)
+        }
+    }
+    const removeAllie = async (receiver, sender) => {
+        loading();
+
+        let data = {
+            owner_cid: sender,
+            follower_screen_cid: receiver,
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        console.log(requestData)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/remove/follower`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+        if (response.message == "Updated Successfully") {
+            updateToast(true, 'Follower Removed')
+            getRelations()
+        } else {
+            updateToast(false, response.message)
+        }
+
+    }
 
     return (
         <Box sx={{
@@ -183,11 +299,17 @@ const RelationsTab = ({ user }) => {
             </FilterSelectionBox>
             {activeTab == 'their-allies' &&
                 <TheirAllies
+                    sendAllieRequest={sendAllieRequest}
+                    sendFriendRequest={sendFriendRequest}
+                    removeAllie={removeAllie} removeFriend={removeFriend}
                     fans={followers}
                     fansLoading={relationsLoading}
                     user={user} searchResults={searchResults} />}
             {activeTab == 'their-friends' &&
                 <TheirFriends
+                    sendAllieRequest={sendAllieRequest}
+                    sendFriendRequest={sendFriendRequest}
+                    removeAllie={removeAllie} removeFriend={removeFriend}
                     friends={friends} friendsLoading={relationsLoading}
                     user={user} searchResults={searchResults} />}
         </Box>

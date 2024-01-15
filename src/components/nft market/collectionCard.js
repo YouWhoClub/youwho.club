@@ -613,8 +613,8 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                                 <FlexRow>Creation Date:&nbsp;<Typography sx={{ fontFamily: 'inter', fontWeight: '500', fontSize: '14px', color: 'primary.darkGray' }}>{created_at.slice(0, 10)}</Typography></FlexRow>
                                 <FlexRow>Owner Address:&nbsp;<Typography sx={{ fontFamily: 'inter', fontWeight: '500', fontSize: '14px', color: 'primary.darkGray' }}>{owner_screen_cid}</Typography></FlexRow>
                                 <FlexRow>Royalties:&nbsp;<Typography sx={{ fontFamily: 'inter', fontWeight: '500', fontSize: '14px', color: 'primary.darkGray' }}>{royalties_address_screen_cid}</Typography></FlexRow>
+                                <FlexRow>Royalty Amount:&nbsp;<Typography sx={{ fontFamily: 'inter', fontWeight: '500', fontSize: '14px', color: 'primary.darkGray' }}>{Number(royalties_share) / 100}</Typography></FlexRow>
                                 <FlexColumn>Collection Description:&nbsp;<Typography sx={{ fontFamily: 'inter', fontWeight: '500', fontSize: '14px', color: 'primary.darkGray' }}>{col_description}</Typography></FlexColumn>
-                                <FlexColumn>Metadata:&nbsp;</FlexColumn>
                             </CollectionDetails>
                             : undefined}
                         <Acc sx={(theme) => ({ boxShadow: theme.palette.primary.boxShadow })}
@@ -672,14 +672,23 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                                         {
                                             action == 'mint' && !nfts[selectedNFT].is_minted ?
                                                 <ButtonPurple disabled={mintButtonDisabled} text={'Mint This NFT'} onClick={mintNFT} w='100%' />
-                                                : <>
-                                                    <ButtonPurple text={'Add To Sales List'} onClick={() => setOpenModal(true)} w='100%' />
-                                                    <ButtonPurple text={'Transfer'} onClick={() => setOpenTransferModal(true)} w='100%' />
+                                                :
+                                                <>
+                                                    {nfts[selectedNFT].current_owner_screen_cid == globalUser.YouWhoID ?
+                                                        <>
+                                                            <ButtonPurple text={'Add To Sales List'} onClick={() => setOpenModal(true)} w='100%' />
+                                                            <ButtonPurple text={'Transfer'} onClick={() => setOpenTransferModal(true)} w='100%' />
+                                                        </> : undefined
+                                                    }
                                                 </>
                                         }
                                         <FlexRow>
                                             <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>Creation Date : </Typography>
                                             <Typography sx={{ color: 'primary.gray', fontSize: '14px' }}>&nbsp;{nfts[selectedNFT].created_at.slice(0, 10)}</Typography>
+                                        </FlexRow>
+                                        <FlexRow>
+                                            <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: { xs: '10px', sm: '14px' } }}>Current Owner : </Typography>
+                                            <Typography sx={{ color: 'primary.gray', fontSize: { xs: '8px', sm: '12px' } }}>&nbsp;{nfts[selectedNFT].current_owner_screen_cid}</Typography>
                                         </FlexRow>
                                         <FlexColumn>
                                             <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>NFT Description : </Typography>
@@ -738,7 +747,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                                                 button={<ButtonPurple
                                                     disabled={commentContent == undefined}
                                                     height='20px'
-                                                    onClick={() => addReactionOnNFT(
+                                                    onClick={commentContent == undefined ? undefined : () => addReactionOnNFT(
                                                         globalUser.cid,
                                                         nfts[selectedNFT].id,
                                                         'comment',
@@ -1060,6 +1069,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
             </ClickAwayListener >
 
         }
+        
     </>
     );
 }

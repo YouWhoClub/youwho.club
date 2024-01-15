@@ -46,7 +46,7 @@ const FlexColumn = styled(Box)(({ theme }) => ({
 const Gallery = styled(Box)(({ theme }) => ({
     width: '100%', boxSizing: "border-box", gap: '16px',
     display: 'flex', alignItems: 'center',
-    flexWrap: 'wrap', justifyContent: 'center'
+    flexWrap: 'wrap',
 }))
 
 const OthersProfieAssetTab = ({ user }) => {
@@ -92,7 +92,7 @@ const OthersProfieAssetTab = ({ user }) => {
         let response = await request.json()
         console.log(response)
         if (response.is_error == false) {
-            setOncahinNfts(response.data.onchain_nfts.nfts)
+            setOncahinNfts(response.data.onchain_nfts)
 
             setLoading(false)
         }
@@ -124,14 +124,14 @@ const OthersProfieAssetTab = ({ user }) => {
                 </Box>
             </FlexColumn> */}
             <Gallery
-                sx={{ mt: { xs: 1, sm: 5 } }}
+                sx={{ mt: { xs: 1, sm: 5 }, justifyContent: { xs: 'center', sm: 'start' } }}
             >
                 {
                     oncahinNfts &&
                     oncahinNfts.map((nft, index) => {
                         return (
-                            <Fragment key={`collection_${nft.token_id}`}>
-                                <NFTAssetCard nft={nft} />
+                            <Fragment key={`collection_${nft.nfts_data.onchain_id}`}>
+                                <NFTAssetCard nft={nft.nfts_data} col_data={nft.col_data} />
                             </Fragment>
                         )
                     })
@@ -139,8 +139,8 @@ const OthersProfieAssetTab = ({ user }) => {
                 {oncahinNfts && oncahinNfts.length > 0 ?
                     undefined :
                     <Typography
-                        sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
-                        No NFTs Listed
+                        sx={{ color: 'primary.text', width: '100%', textAlign: 'center', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
+                        No NFTs Found
                     </Typography>}
 
             </Gallery>

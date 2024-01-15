@@ -417,7 +417,7 @@ const NFTBuyCard = ({ nft, expanded, setExpandedId, setActiveTab }) => {
                                         button={<ButtonPurple
                                             disabled={commentContent == undefined}
                                             height='20px'
-                                            onClick={() => addReactionOnNFT(
+                                            onClick={commentContent == undefined ? undefined : () => addReactionOnNFT(
                                                 col_id,
                                                 globalUser.cid,
                                                 id,
