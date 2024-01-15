@@ -100,7 +100,7 @@ const Button = styled('button')(({ theme, color }) => ({
     fontFamily: "Inter",
     fontSize: '12px',
 }))
-const NFTAssetCard = ({ nft, col_data }) => {
+const NFTAssetCard = ({ nft, col_data, getAssets }) => {
     const {
         metadata_uri,
         contract_address,
@@ -210,7 +210,10 @@ const NFTAssetCard = ({ nft, col_data }) => {
             if (!response.is_error) {
                 updateToast(true, response.message)
                 fetchUser(globalUser.token)
-                navigate('/dashboard#assets-tab')
+                getAssets()
+                setDetExpaded(false)
+
+                // navigate('/dashboard#assets-tab')
 
             } else {
                 console.error(response.message)
@@ -264,6 +267,8 @@ const NFTAssetCard = ({ nft, col_data }) => {
 
             if (!response.is_error) {
                 updateToast(true, response.message)
+                getAssets()
+                setDetExpaded(false)
             } else {
                 console.error(response.message)
                 updateToast(false, response.message)
@@ -510,8 +515,20 @@ const NFTAssetCard = ({ nft, col_data }) => {
                             }}>
                                 {col_data.col_name}
                             </Typography>
+                        </FlexRow>
+                        <FlexRow sx={{ justifyContent: 'start !important' }}>
+                            <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
+                                Collection Owner:
+                            </Typography>
+                            <Typography sx={{
+                                color: 'secondary.text',
+                                fontSize: { xs: '8px', sm: '10px' }, fontWeight: 400, textAlign: 'justify'
+                            }}>
+                                {col_data.owner_screen_cid}
+                            </Typography>
 
                         </FlexRow>
+
                         <FlexColumn sx={{ width: '100%', alignItems: 'start !important' }}>
                             <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
                                 Collection Description:

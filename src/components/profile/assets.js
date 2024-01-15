@@ -131,7 +131,7 @@ const OthersProfieAssetTab = ({ user }) => {
                     oncahinNfts.map((nft, index) => {
                         return (
                             <Fragment key={`collection_${nft.nfts_data.onchain_id}`}>
-                                <NFTAssetCard nft={nft.nfts_data} col_data={nft.col_data} />
+                                <NFTAssetCard getAssets={getUserOncahinNfts} nft={nft.nfts_data} col_data={nft.col_data} />
                             </Fragment>
                         )
                     })
