@@ -105,7 +105,7 @@ const NFTAssetCard = ({ nft, col_data }) => {
         metadata_uri,
         contract_address,
         created_at,
-        is_miinted,
+        is_minted,
         is_listed,
         likes,
         comments,
@@ -116,6 +116,8 @@ const NFTAssetCard = ({ nft, col_data }) => {
         current_owner_screen_cid,
         attributes,
         id,
+        extra,
+        freeze_metadata
     } = nft;
     const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
     const globalUser = useSelector(state => state.userReducer)
@@ -218,6 +220,59 @@ const NFTAssetCard = ({ nft, col_data }) => {
             updateToast(false, 'please save your private key first')
         }
     }
+    const buyNFt = async () => {
+        loading();
+
+        if (globalUser.privateKey) {
+            const data = {
+                caller_cid: globalUser.cid,
+                nft_id: id,
+                col_id: col_data.id,
+                amount: amount,
+                event_type: "buy",
+                buyer_screen_cid: globalUser.YouWhoID,
+                contract_address: contract_address,
+                metadata_uri: metadata_uri,
+                current_owner_screen_cid: current_owner_screen_cid,
+                onchain_id: onchain_id,
+                is_minted: is_minted,
+                is_listed: is_listed,
+                nft_name: nft_name,
+                nft_description: nft_description,
+                current_price: current_price, // mint with primary price of 20 tokens, this must be the one in db
+                freeze_metadata: freeze_metadata,
+                extra: extra,
+                attributes: attributes,
+                comments: comments,
+                likes: likes,
+            }
+
+            const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
+
+            // sending the request
+
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/buy`, {
+                method: 'POST',
+                body: JSON.stringify(requestData),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            })
+            let response = await request.json()
+            console.log(response);
+
+            if (!response.is_error) {
+                updateToast(true, response.message)
+            } else {
+                console.error(response.message)
+                updateToast(false, response.message)
+            }
+        } else {
+            updateToast(false, 'please save your private key first')
+        }
+    }
+
     const Transfer = async () => {
         loading();
 
@@ -314,6 +369,25 @@ const NFTAssetCard = ({ nft, col_data }) => {
         console.log(temp)
         setTempLikers(temp)
     }, [nft, likes])
+    const getGasFee = async () => {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/get-gas-fee`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+
+        if (!response.is_error) {
+            setAmount(response.data)
+        } else {
+            console.log(response.message)
+        }
+    }
+    useEffect(() => {
+        getGasFee()
+    }, [])
 
     const addReactionOnNFT = async (colId, callerId, nftID, reactionType, commentContent, like, dislike) => {
         loading();
@@ -519,7 +593,7 @@ const NFTAssetCard = ({ nft, col_data }) => {
                     <FlexRow sx={{ gap: '8px', width: '100%', my: { xs: '8px', md: '10px' }, }}>
                         {is_listed && globalUser.YouWhoID !== current_owner_screen_cid
                             ?
-                            <ButtonPurple text={'Buy'} px={'24px'} w={'100%'} /> : undefined
+                            <ButtonPurple text={'Buy'} px={'24px'} w={'100%'} onClick={buyNFt} /> : undefined
                         }
                         {!is_listed && globalUser.YouWhoID == current_owner_screen_cid
                             ?
