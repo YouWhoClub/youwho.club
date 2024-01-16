@@ -58,7 +58,7 @@ const NFTsColumn = styled(Box)(({ theme }) => ({
     // display: 'flex',
     gridTemplateColumns: '1fr 1fr',
     flexWrap: 'wrap',
-    height: 'auto',
+    height: 'auto',maxHeight:'100%',
     boxSizing: 'border-box',
     alignItems: 'center', padding: '8px', gap: '14px',
     borderRadius: '9px',
@@ -536,8 +536,8 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
         let collectionLikes = 0
         if (collection.nfts && collection.nfts.length && collection.nfts.length > 0) {
             for (let l = 0; l < collection.nfts.length; l++) {
-                if (collection.nfts[l].likes) {
-                    collectionLikes += parseInt(collection.nfts[l].likes.length)
+                if (collection.nfts[l].likes && collection.nfts[l].likes.length > 0 && collection.nfts[l].likes[0].upvoter_screen_cids) {
+                    collectionLikes += parseInt(collection.nfts[l].likes[0].upvoter_screen_cids.length)
                 }
             }
             // console.log(collectionLikes)
@@ -565,6 +565,11 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                     nfts.length ?
                         <NFTsColumn sx={{
                             // width: { xs: '100%', md: '170px' },
+                            // overflowY: 'scroll',
+                            // overflowX: 'scroll',
+                            // '&::-webkit-scrollbar': {
+                            //     display: 'none',
+                            // },
                             display: { xs: 'flex', md: 'grid' }
                         }}>
                             {
@@ -877,6 +882,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
             :
             <ClickAwayListener onClickAway={handleClickAway}>
                 <Card
+                    sx={{ transition: '500ms ease' }}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                 >
@@ -893,7 +899,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                                 borderRadius: '9px',
                                 alignItems: 'center',
                                 backgroundColor: 'primary.gray',
-                                boxShadow: 'primary.boxShadow',
+                                boxShadow: 'inset 0px 0px 10px 1px rgba(0, 0, 0, 0.30)', transition: '500ms ease'
                             }}>
                                 {
                                     nfts &&
@@ -909,7 +915,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                                                     borderColor: 'primary.main',
                                                     boxSizing: 'border-box',
                                                     aspectRatio: '1',
-                                                    borderRadius: '8px',
+                                                    borderRadius: '8px', transition: '500ms ease'
                                                 }} >
                                             </Box>
                                         )
@@ -918,6 +924,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                             </Box>
                             :
                             <CollectionImage sx={{
+                                transition: '500ms ease',
                                 background: `${BG_URL(PUBLIC_URL(`${API_CONFIG.API_URL}/${collection_background}`))} no-repeat center`,
                                 '&:hover': {
                                     background: `${BG_URL(PUBLIC_URL(`${collection_background}`))} no-repeat center`,

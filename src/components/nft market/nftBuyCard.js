@@ -391,6 +391,10 @@ const NFTBuyCard = ({ nft, expanded, setExpandedId, setActiveTab, getUserGalleri
                                     </Typography>
                                 </FlexRow>
                                 <FlexRow>
+                                    <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>Current Owner : </Typography>
+                                    <Typography sx={{ color: 'primary.gray', fontSize: '14px' }}>&nbsp;{current_owner_screen_cid}</Typography>
+                                </FlexRow>
+                                <FlexRow>
                                     <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>Creation Date : </Typography>
                                     <Typography sx={{ color: 'primary.gray', fontSize: '14px' }}>&nbsp;{created_at.slice(0, 10)}</Typography>
                                 </FlexRow>
