@@ -65,7 +65,7 @@ const GalleySlide = () => {
                 <>
                     {NFTs.length > 0 ?
                         <CustomSlider slidesCount={6}>
-                            {NFTs.map((nft) => (<NFTCardLanding nft={nft} image={nft.metadata_uri} />))}
+                            {NFTs.map((nft) => (<NFTCardLanding nft={nft.nfts_data}  image={nft.nfts_data.metadata_uri} />))}
                             <ViewMoreOrLogin link={globalUser.isLoggedIn ? '/gallery' : '/main-gallery'} />
                         </CustomSlider>
                         :
