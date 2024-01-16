@@ -1176,7 +1176,10 @@ export const ReactionCardNew = ({ text, action, image, date, popperTabs, actionB
 }
 export const NFTCommentCard = ({ username, comment, profileImg }) => {
     return (
-        <CommentCard sx={{ flexDirection: { xs: 'column', sm: 'row' }, alignItems: { xs: 'start', sm: 'center' }, }}>
+        <CommentCard sx={{
+            flexDirection: { xs: 'column', sm: 'row' }, flexWrap: 'wrap',
+            alignItems: { xs: 'start', sm: 'center' }, gap: '6px'
+        }}>
             <FlexRow>
                 <CommentCardProfileImg sx={{
                     mr: '8px',

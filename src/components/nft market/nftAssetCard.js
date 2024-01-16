@@ -24,6 +24,7 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import ywHugIcon from '../../assets/Y-HUG-COIN.svg'
 import { getuser } from "../../redux/actions";
 import { useNavigate } from "react-router";
+import ButtonOutlineInset from "../buttons/buttonOutlineInset";
 const YouWhoToken = styled(Box)(({ theme }) => ({
     backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)),
     backgroundRepeat: 'no-repeat',
@@ -130,7 +131,6 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
     const dispatch = useDispatch()
     const [selectedCommentIndex, setSelectedCommentIndex] = useState(0)
     const [commentContent, setCommentContent] = useState(undefined)
-
     const [amount, setAmount] = useState(0)
     const [NFTPrice, setNFTPrice] = useState(null)
     const [openModal, setOpenModal] = useState(false)
@@ -255,6 +255,60 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
             // sending the request
 
             let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/buy`, {
+                method: 'POST',
+                body: JSON.stringify(requestData),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            })
+            let response = await request.json()
+            console.log(response);
+
+            if (!response.is_error) {
+                updateToast(true, response.message)
+                getAssets()
+                setDetExpaded(false)
+            } else {
+                console.error(response.message)
+                updateToast(false, response.message)
+            }
+        } else {
+            updateToast(false, 'please save your private key first')
+        }
+    }
+    const removeFromList = async () => {
+        loading();
+
+        if (globalUser.privateKey) {
+            const data = {
+                caller_cid: globalUser.cid,
+                nft_id: id,
+                col_id: col_data.id,
+                amount: amount,
+                event_type: "delist",
+                buyer_screen_cid: null,
+                contract_address: contract_address,
+                metadata_uri: metadata_uri,
+                current_owner_screen_cid: current_owner_screen_cid,
+                onchain_id: onchain_id,
+                is_minted: is_minted,
+                is_listed: is_listed,
+                nft_name: nft_name,
+                nft_description: nft_description,
+                current_price: current_price, // mint with primary price of 20 tokens, this must be the one in db
+                freeze_metadata: freeze_metadata,
+                extra: extra,
+                attributes: attributes,
+                comments: comments,
+                likes: likes,
+            }
+
+            const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
+
+            // sending the request
+
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/update`, {
                 method: 'POST',
                 body: JSON.stringify(requestData),
                 headers: {
@@ -425,6 +479,8 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
                 if (reactionType == 'comment') {
                     setCommentContent(undefined)
                 }
+                getAssets()
+                setDetExpaded(false)
             } else {
                 updateToast(false, response.message)
             }
@@ -493,7 +549,6 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
                             </Typography>
 
                         </FlexRow>
-
                         <FlexColumn sx={{ width: '100%', alignItems: 'start !important' }}>
                             <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
                                 NFT Description:
@@ -528,7 +583,6 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
                             </Typography>
 
                         </FlexRow>
-
                         <FlexColumn sx={{ width: '100%', alignItems: 'start !important' }}>
                             <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
                                 Collection Description:
@@ -572,7 +626,7 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
                                             comment={comments[selectedCommentIndex].content} />
                                         <FlexColumn sx={{ alignItems: 'space-between !important', color: 'primary.text' }}>
                                             <ArrowUp2 size='16px' cursor='pointer'
-                                                onClick={() => setSelectedCommentIndex(selectedCommentIndex - 1 > 0 ? selectedCommentIndex - 1 : selectedCommentIndex)} />
+                                                onClick={() => setSelectedCommentIndex(selectedCommentIndex - 1 >= 0 ? selectedCommentIndex - 1 : selectedCommentIndex)} />
                                             <ArrowDown2 size='16px' cursor='pointer'
                                                 onClick={() => setSelectedCommentIndex(selectedCommentIndex + 1 >= comments.length ? selectedCommentIndex : selectedCommentIndex + 1)} />
                                         </FlexColumn>
@@ -607,22 +661,29 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
                         </FlexColumn>
                         <Line />
                     </FlexColumn>
-                    <FlexRow sx={{ gap: '8px', width: '100%', my: { xs: '8px', md: '10px' }, }}>
+                    <FlexRow sx={{
+                        gap: '8px',
+                        // flexWrap: 'wrap',
+                        width: '100%', my: { xs: '8px', md: '10px' },
+                    }}>
                         {is_listed && globalUser.YouWhoID !== current_owner_screen_cid
                             ?
-                            <ButtonPurple text={'Buy'} px={'24px'} w={'100%'} onClick={buyNFt} /> : undefined
+                            <ButtonPurple text={'Buy'} px={'24px'} w={'calc(100% - 40px)'} onClick={buyNFt} /> : undefined
                         }
                         {!is_listed && globalUser.YouWhoID == current_owner_screen_cid
                             ?
                             <>
-                                <ButtonPurple text={'Add To Sales List'} onClick={() => setOpenModal(true)} w='100%' />
-                                <ButtonPurple text={'Transfer'} onClick={() => setOpenTransferModal(true)} w='100%' />
+                                <ButtonPurple text={'Add To Sales List'} fontSize={'14px'} onClick={() => setOpenModal(true)} w='calc(100% - 150px)' px={'24px'} />
+                                <ButtonOutlineInset text={'Transfer'} fontSize={'14px'} onClick={() => setOpenTransferModal(true)} w='max-content' px={'16px'} />
                             </> : undefined
                         }
-                        {/* <ButtonBorder
+                        {is_listed && globalUser.YouWhoID == current_owner_screen_cid ?
+                            <ButtonPurple text={'Remove From Sales List'} onClick={removeFromList} w='calc(100% - 40px)' />
+                            : undefined}
+                        <ButtonBorder
                             br={'4px'}
                             text={<ShareSharp sx={{ color: 'secondary.text' }} />}
-                            w={'40px'} height={'40px'} /> */}
+                            w={'40px'} height={'40px'} />
                     </FlexRow>
                     <ButtonBorder w={'100%'} text={<ArrowUp2 />} height={'30px'} onClick={handleClose} br={'4px'} />
                 </FlexColumn>
@@ -692,7 +753,10 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
                                 bgcolor: 'secondary.bgOp',
                             }
                         }}
-                            onClick={() => setDetExpaded(true)}
+                            onClick={() => {
+                                setDetExpaded(true)
+                                setAnchorEl(null)
+                            }}
                         >
                             NFT Details
                         </MenuItem>

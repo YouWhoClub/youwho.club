@@ -272,6 +272,59 @@ const NFTSellCard = ({ nft, expanded, setExpandedId, setActiveTab }) => {
             updateToast(false, 'please save your private key first')
         }
     }
+    const buyNFt = async () => {
+        loading();
+
+        if (globalUser.privateKey) {
+            const data = {
+                caller_cid: globalUser.cid,
+                nft_id: id,
+                col_id: col_id,
+                amount: amount,
+                event_type: "buy",
+                buyer_screen_cid: globalUser.YouWhoID,
+                contract_address: contract_address,
+                metadata_uri: metadata_uri,
+                current_owner_screen_cid: current_owner_screen_cid,
+                onchain_id: onchain_id,
+                is_minted: is_minted,
+                is_listed: is_listed,
+                nft_name: nft_name,
+                nft_description: nft_description,
+                current_price: current_price, // mint with primary price of 20 tokens, this must be the one in db
+                freeze_metadata: freeze_metadata,
+                extra: extra,
+                attributes: attributes,
+                comments: comments,
+                likes: likes,
+            }
+
+            const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
+
+            // sending the request
+
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/buy`, {
+                method: 'POST',
+                body: JSON.stringify(requestData),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            })
+            let response = await request.json()
+            console.log(response);
+
+            if (!response.is_error) {
+                updateToast(true, response.message)
+                setActiveTab("assets")
+            } else {
+                console.error(response.message)
+                updateToast(false, response.message)
+            }
+        } else {
+            updateToast(false, 'please save your private key first')
+        }
+    }
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -318,6 +371,7 @@ const NFTSellCard = ({ nft, expanded, setExpandedId, setActiveTab }) => {
                 if (reactionType == 'comment') {
                     setCommentContent(undefined)
                 }
+                setExpandedId(undefined)
             } else {
                 updateToast(false, response.message)
             }
@@ -393,7 +447,7 @@ const NFTSellCard = ({ nft, expanded, setExpandedId, setActiveTab }) => {
                                                     comment={comments[selectedCommentIndex].content} />
                                                 <FlexColumn sx={{ alignItems: 'space-between !important', color: 'primary.text' }}>
                                                     <ArrowUp2 size='16px' cursor='pointer'
-                                                        onClick={() => setSelectedCommentIndex(selectedCommentIndex - 1 > 0 ? selectedCommentIndex - 1 : selectedCommentIndex)} />
+                                                        onClick={() => setSelectedCommentIndex(selectedCommentIndex - 1 >= 0 ? selectedCommentIndex - 1 : selectedCommentIndex)} />
                                                     <ArrowDown2 size='16px' cursor='pointer'
                                                         onClick={() => setSelectedCommentIndex(selectedCommentIndex + 1 >= comments.length ? selectedCommentIndex : selectedCommentIndex + 1)} />
                                                 </FlexColumn>
@@ -426,8 +480,13 @@ const NFTSellCard = ({ nft, expanded, setExpandedId, setActiveTab }) => {
                                         />
                                         } />
                                 </FlexColumn>
-                                <ButtonPurple text={'Remove From List'} onClick={removeFromList} w='100%' />
-
+                                {is_listed && globalUser.YouWhoID == current_owner_screen_cid ?
+                                    <ButtonPurple text={'Remove From List'} onClick={removeFromList} w='100%' />
+                                    : undefined}
+                                {is_listed && globalUser.YouWhoID !== current_owner_screen_cid
+                                    ?
+                                    <ButtonPurple text={'Buy'} px={'24px'} w={'100%'} onClick={buyNFt} /> : undefined
+                                }
                             </FlexColumn>
 
                         </Box>
