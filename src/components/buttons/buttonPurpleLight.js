@@ -16,7 +16,7 @@ const Button = styled(Box)(({ theme }) => ({
 }))
 const ButtonPurpleLight = ({ onClick, text, w, px, py, disabled, icon, mt, height, prevIcon, nextIcon, fontSize, br }) => {
     return (
-        <Button onClick={onClick}
+        <Button onClick={disabled ? undefined : onClick}
             sx={(theme) => ({
                 height: height ? height : '40px',
                 mt: mt ? mt : undefined, fontSize: fontSize ? fontSize : { xs: '12px', sm: '14px' },

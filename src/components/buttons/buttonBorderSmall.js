@@ -16,7 +16,7 @@ const Button = styled(Box)(({ theme }) => ({
 const ButtonBorderSmall = ({ onClick, text, w, px, py, disabled, icon, mt, height, prevIcon, nextIcon, fontSize, br, bgcolor, fontColor }) => {
     return (
         <Button
-            onClick={onClick}
+            onClick={disabled ? undefined : onClick}
             sx={(theme) => ({
                 height: height ? height : '20px',
                 mt: mt ? mt : undefined, fontSize: fontSize ? fontSize : '10px',

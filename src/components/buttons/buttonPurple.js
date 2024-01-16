@@ -15,10 +15,10 @@ const Button = styled(Box)(({ theme }) => ({
     // backgroundColor: theme.palette.secondary.main,
     // boxShadow: theme.palette.secondary.boxShadow,
 }))
-const ButtonPurple = ({ onClick, text, w, px, disabled, icon, mt, height, prevIcon, nextIcon, fontSize , br}) => {
+const ButtonPurple = ({ onClick, text, w, px, disabled, icon, mt, height, prevIcon, nextIcon, fontSize, br }) => {
     return (
         <Button
-            onClick={onClick}
+            onClick={disabled ? undefined : onClick}
             sx={(theme) => ({
                 height: height ? height : '40px',
                 mt: mt ? mt : undefined, fontSize: fontSize ? fontSize : '14px', borderRadius: br ? br : '12px',
