@@ -673,7 +673,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
                                             text={'Create'}
                                             w={'100%'}
                                             disabled={!Object.values(NFTForm).every(value => value !== null && value !== "") || !NFTForm.attributes.length || !NFTImageFile}
-                                            onClick={createNFT}
+                                            onClick={!Object.values(NFTForm).every(value => value !== null && value !== "") || !NFTForm.attributes.length || !NFTImageFile ? undefined : createNFT}
                                         />
                                     </Box>
                                 </>
@@ -935,7 +935,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
                                         <ButtonPurple
                                             text={'Create'}
                                             w={'100%'}
-                                            onClick={createCollection}
+                                            onClick={!Object.values(collectionForm).every(value => value !== null && value !== "") || !colImageFile ? undefined : createCollection}
                                             disabled={!Object.values(collectionForm).every(value => value !== null && value !== "") || !colImageFile}
                                         />
                                     </Box>
