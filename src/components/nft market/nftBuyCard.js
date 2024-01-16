@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Box, ClickAwayListener, MenuItem, Popper, Typography, Modal } from "@mui/material";
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
-import { ArrowDown2, ArrowUp2, Heart, More, Coin } from "iconsax-react";
+import { ArrowDown2, ArrowUp2, Heart, More, Coin, HeartRemove } from "iconsax-react";
 import { useEffect, useState, useRef } from "react";
 import ButtonPurple from "../buttons/buttonPurple";
 import tempPic from '../../assets/bgDots.svg'
@@ -145,7 +145,7 @@ const Icon = styled(Box)(({ theme, url, w, h }) => ({
     pointerEvents: 'none'
 }))
 
-const NFTBuyCard = ({ nft, expanded, setExpandedId, setActiveTab }) => {
+const NFTBuyCard = ({ nft, expanded, setExpandedId, setActiveTab, getUserGalleries }) => {
 
     const {
         col_id,
@@ -320,6 +320,9 @@ const NFTBuyCard = ({ nft, expanded, setExpandedId, setActiveTab }) => {
                 if (reactionType == 'comment') {
                     setCommentContent(undefined)
                 }
+
+                getUserGalleries()
+                setExpandedId(undefined)
             } else {
                 updateToast(false, response.message)
             }
@@ -328,6 +331,20 @@ const NFTBuyCard = ({ nft, expanded, setExpandedId, setActiveTab }) => {
         }
     }
 
+    const [tempLikers, setTempLikers] = useState([])
+    useEffect(() => {
+        let temp = []
+        if (nft) {
+            if (likes && likes.length > 0 && likes[0].upvoter_screen_cids) {
+                console.log(likes)
+                for (let i = 0; i < likes[0].upvoter_screen_cids.length; i++) {
+                    temp.push(likes[0].upvoter_screen_cids[i].screen_cid)
+                }
+            }
+        }
+        console.log(temp)
+        setTempLikers(temp)
+    }, [nft, likes])
 
     return (<>
         {expanded ?
@@ -353,6 +370,25 @@ const NFTBuyCard = ({ nft, expanded, setExpandedId, setActiveTab }) => {
                                             {current_price}
                                         </Typography>
                                     </FlexRow>
+                                </FlexRow>
+                                <FlexRow sx={{ width: 'max-content', gap: '2px' }}>
+                                    {(tempLikers.includes(globalUser.YouWhoID)) ?
+                                        <HeartRemove variant="Bulk" size={'24px'} cursor={'pointer'}
+                                            onClick={() => addReactionOnNFT(
+                                                col_id,
+                                                globalUser.cid,
+                                                id,
+                                                'dislike',
+                                                '',
+                                                false,
+                                                true)} />
+                                        : <Heart size={'24px'} cursor={'pointer'}
+                                            onClick={() => addReactionOnNFT(col_id, globalUser.cid,
+                                                id, 'like', '', true, false)} />
+                                    }
+                                    <Typography sx={{ color: 'primary.text', fontSize: '9px' }}>
+                                        {likes && likes.length > 0 && likes[0].upvoter_screen_cids ? likes[0].upvoter_screen_cids.length : 0}
+                                    </Typography>
                                 </FlexRow>
                                 <FlexRow>
                                     <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>Creation Date : </Typography>
@@ -455,7 +491,12 @@ const NFTBuyCard = ({ nft, expanded, setExpandedId, setActiveTab }) => {
                         <FlexRow sx={{ justifyContent: 'space-between' }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '10px', gap: '12px' }}>
                                 <Box sx={{ display: 'flex', alignItems: 'center', }}>
-                                    <Heart size={'15px'} />&nbsp;{likes.length}
+                                    {(tempLikers.includes(globalUser.YouWhoID)) ?
+                                        <Heart variant="Bold" size={'15px'} />
+                                        : <Heart size={'15px'} />
+                                    }
+                                    &nbsp;
+                                    {likes && likes.length > 0 && likes[0].upvoter_screen_cids ? likes[0].upvoter_screen_cids.length : 0}
                                 </Box>
                                 <Box sx={{ display: 'flex', alignItems: 'center', }}>
                                     <CommentBankOutlined sx={{ fontSize: '15px' }} />&nbsp;{comments.length}

@@ -48,7 +48,7 @@ const TopNFTsTab = () => {
 
     return (
         <Gallery sx={{
-            boxSizing: 'border-box', justifyContent: { xs: 'center', md: 'start' }
+            boxSizing: 'border-box', justifyContent: { xs: 'center', lg: 'start' }
         }}>
             {NFTs ?
                 <>

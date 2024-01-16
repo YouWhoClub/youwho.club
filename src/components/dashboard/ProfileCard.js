@@ -72,9 +72,7 @@ const ProfileCard = ({ username, YouWhoID, progressBarOpen, setProgressBarOpen }
             // color: localStorage.getItem('profileBannerFontColor')
         }}>
             <Typography sx={{
-                fontWeight: 700,
-                //  color: localStorage.getItem('profileBannerFontColor')
-                fontSize: { xs: '16px', md: '20px' }
+                fontWeight: 700, color: 'white', fontSize: { xs: '12px', sm: '20px', md: '32px' }
             }}>
                 {globalUser.cid ? globalUser.username : globalUser.identifier}
             </Typography>
@@ -82,14 +80,21 @@ const ProfileCard = ({ username, YouWhoID, progressBarOpen, setProgressBarOpen }
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
                     <Typography sx={{ fontWeight: 500, fontSize: { xs: '12px', md: '16px' } }}>YouWho ID :</Typography>
                     <Typography onClick={() => copyIdToClipBoard(YouWhoID)}
-                        sx={{ cursor: 'pointer', fontSize: { xs: '12px', md: '14px' }, display: { xs: 'none', md: 'block' } }}>
+                        sx={{
+                            cursor: 'pointer', fontSize: { xs: '8px', sm: '12px', md: '18px' },
+                            display: { xs: 'none', sm: 'block' }
+                        }}>
                         {YouWhoID}
                     </Typography>
                     <Typography onClick={() => copyIdToClipBoard(YouWhoID)}
-                        sx={{ cursor: 'pointer', fontSize: { xs: '10px', md: '14px' }, display: { xs: 'block', md: 'none' } }}>
+                        sx={{
+                            cursor: 'pointer',
+                            fontSize: { xs: '8px', sm: '12px', md: '18px' },
+                            display: { xs: 'block', sm: 'none' }
+                        }}>
                         {shorten(YouWhoID)}
                     </Typography>
-                    <TickSquare style={{ size: { xs: '10px', md: '16px' }, display: idCopied ? 'block' : 'none', color: '#0Cb2B1' }} />
+                    <TickSquare style={{ size: { xs: '8px', sm: '12px', md: '18px' }, display: idCopied ? 'block' : 'none', color: '#0Cb2B1' }} />
                 </Box>
                 : undefined}
             {/* <Line sx={{ my: '12px' }} id='line-profile-user' /> */}

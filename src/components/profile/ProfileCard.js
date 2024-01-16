@@ -21,7 +21,7 @@ const ProBanner = styled(Box)(({ theme }) => ({
 }))
 const Line = styled(Box)(({ theme }) => ({
     borderRadius: '24px',
-    width: '100%', boxSizing: 'border-box',
+    boxSizing: 'border-box',
     backgroundColor: 'white', transition: '500ms ease', height: '1px'
 }))
 const ProfileCard = ({ user, isFriend, setProgressBarOpen, progressBarOpen, sendFriendRequest, isFollowing }) => {
@@ -66,45 +66,71 @@ const ProfileCard = ({ user, isFriend, setProgressBarOpen, progressBarOpen, send
         />
         <Box sx={{
             display: 'flex', flexDirection: 'column', justifyContent: 'center', color: 'white',
-            width: { xs: 'calc(100% - 150px)', md: `calc(100% - 200px)` },
+            width: { xs: 'calc(100% - 100px)', md: `calc(100% - 200px)` },
         }}>
             <Typography sx={{
-                fontWeight: 700, color: 'white', fontSize: { xs: '18px', md: '20px' }
+                fontWeight: 700, color: 'white', fontSize: { xs: '12px', sm: '20px', md: '32px' }
             }}>
                 {user && user.YouWhoID ? user.username : user && user.identifier}
             </Typography>
             {user.YouWhoID ?
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                    <Typography sx={{ fontWeight: 500, fontSize: { xs: '14px', md: '16px' } }}>YouWho ID :</Typography>
+                    <Typography sx={{ fontWeight: 500, fontSize: { xs: '10px', md: '16px' } }}>YouWho ID :</Typography>
                     <Typography onClick={() => copyIdToClipBoard(user.YouWhoID)}
-                        sx={{ cursor: 'pointer', fontSize: { xs: '12px', md: '14px' }, display: { xs: 'none', md: 'block' } }}>
+                        sx={{
+                            cursor: 'pointer', fontSize: { xs: '8px', sm: '12px', md: '18px' },
+                            display: { xs: 'none', sm: 'block' }
+                        }}>
                         {user.YouWhoID}
                     </Typography>
                     <Typography onClick={() => copyIdToClipBoard(user.YouWhoID)}
-                        sx={{ cursor: 'pointer', fontSize: { xs: '12px', md: '14px' }, display: { xs: 'block', md: 'none' } }}>
+                        sx={{
+                            cursor: 'pointer',
+                            fontSize: { xs: '8px', sm: '12px', md: '18px' },
+                            display: { xs: 'block', sm: 'none' }
+                        }}>
                         {shorten(user.YouWhoID)}
                     </Typography>
-                    <TickSquare style={{ size: { xs: '10px', md: '16px' }, display: idCopied ? 'block' : 'none', color: '#0Cb2B1' }} />
+                    <TickSquare style={{
+                        size: { xs: '8px', sm: '12px', md: '18px' }
+                        , display: idCopied ? 'block' : 'none', color: '#0Cb2B1'
+                    }} />
                 </Box>
                 : undefined}
             <Line sx={{ my: '12px' }} id='line-profile-user' />
-            <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'space-between' }}>
-                <ButtonBorder bgcolor={'secondary.bg'} w={'max-content'} text={`From ${month + year}`} px={'26px'} br={'30px'} height={'25px'} />
+            <Box sx={{
+                display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'space-between',
+            }}>
+                <ButtonBorder bgcolor={'secondary.bg'}
+                    fontSize={{ xs: '8px', sm: '10px', md: '12px' }}
+                    w={'max-content'}
+                    text={`From ${month + year}`}
+                    px={{ xs: '8px', sm: '12px', md: '26px' }} br={'30px'} height={{ xs: '12px', sm: '20px', md: '25px' }} />
                 {isFriend && isFriend == 'true' ?
                     <>
                         <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                             <ButtonBorder onClick={() => setProgressBarOpen(!progressBarOpen)} bgcolor={'primary.main'}
                                 fontColor={'white'}
                                 prevIcon={<Setting2 size='16px' />}
-                                text={'Progressive'} px={'26px'} br={'30px'} height={'25px'} w={'max-content'} />
+                                text={'Progressive'}
+                                px={'26px'} br={'30px'}
+                                height={'25px'} w={'max-content'} />
                         </Box>
-                        <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+                        <Box sx={{ display: { xs: 'none', sm: 'block', md: 'none' } }}>
                             <ButtonBorder onClick={() => setProgressBarOpen(!progressBarOpen)} bgcolor={'primary.main'}
                                 prevIcon={<Setting2 size='16px' />}
                                 fontColor={'white'}
                                 px={'4px'}
                                 py={'4px'}
                                 br={'30px'} height={'25px'} w={'max-content'} />
+                        </Box>
+                        <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
+                            <ButtonBorder onClick={() => setProgressBarOpen(!progressBarOpen)} bgcolor={'primary.main'}
+                                prevIcon={<Setting2 size='10px' />}
+                                fontColor={'white'}
+                                px={'4px'}
+                                py={'4px'}
+                                br={'30px'} height={'18px'} w={'max-content'} />
                         </Box>
                     </>
                     : isFriend && isFriend == 'false' ?

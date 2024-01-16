@@ -522,7 +522,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                     setCommentContent(undefined)
                 }
                 getUserPVGalleries()
-                setExpandedId(id)
+                setExpandedId(undefined)
             } else {
                 updateToast(false, response.message)
             }
@@ -646,7 +646,8 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                                         </Typography>
                                         <FlexRow sx={{ width: 'auto !important', }}>
                                             {(tempLikers.includes(globalUser.YouWhoID)) ?
-                                                <HeartRemove size={'24px'} cursor={'pointer'}
+                                                <HeartRemove variant="Bulk"
+                                                    size={'24px'} cursor={'pointer'}
                                                     onClick={() => addReactionOnNFT(
                                                         globalUser.cid,
                                                         nfts[selectedNFT].id,
@@ -1069,7 +1070,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
             </ClickAwayListener >
 
         }
-        
+
     </>
     );
 }

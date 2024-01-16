@@ -1,13 +1,15 @@
 import styled from "@emotion/styled";
 import { Box, ClickAwayListener, MenuItem, Popper, Typography } from "@mui/material";
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
-import { Heart, More } from "iconsax-react";
+import { BuyCrypto, Heart, More, Profile } from "iconsax-react";
 import { useEffect, useRef, useState } from "react";
 import { MorePopper, YouwhoCoinIcon } from "../utils";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { Comment, CommentBankOutlined } from "@mui/icons-material";
+import { Comment, CommentBankOutlined, Details, DetailsRounded, DetailsTwoTone, Login, ShoppingBasket, SportsBasketball } from "@mui/icons-material";
+import generateSignature from "../../utils/signatureUtils";
+import { API_CONFIG } from "../../config";
 
 const Outter = styled(Box)(({ theme }) => ({
     width: '280px', height: '280px', display: 'flex', justifyContent: 'center', alignItems: 'center'
@@ -59,13 +61,13 @@ const FlexRow = styled(Box)(({ theme }) => ({
 const DetailsSection = styled(Box)(({ theme }) => ({
     width: '100%',
     // height: '100px',
-    gap:'6px',
+    gap: '6px',
     display: 'flex', flexDirection: 'column',
     justifyContent: 'space-between',
     color: theme.palette.primary.text,
 }))
 
-const NFTCard = ({ nft, }) => {
+const NFTCard = ({ nft, col_data }) => {
 
     const {
         id,
@@ -89,7 +91,25 @@ const NFTCard = ({ nft, }) => {
     const toastId = useRef(null);
     const [amount, setAmount] = useState(0)
     const [imageURL, setImageURL] = useState(null);
+    const getGasFee = async () => {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/get-gas-fee`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
 
+        if (!response.is_error) {
+            setAmount(response.data)
+        } else {
+            console.log(response.message)
+        }
+    }
+    useEffect(() => {
+        getGasFee()
+    }, [])
     useEffect(() => {
         getMetadata()
     }, [metadata_uri])
@@ -109,6 +129,58 @@ const NFTCard = ({ nft, }) => {
                 console.error('Error fetching NFT image:', error);
             })
     }
+    const buyNFt = async () => {
+        loading();
+
+        if (globalUser.privateKey) {
+            const data = {
+                caller_cid: globalUser.cid,
+                nft_id: id,
+                col_id: col_data.id,
+                amount: amount,
+                event_type: "buy",
+                buyer_screen_cid: globalUser.YouWhoID,
+                contract_address: contract_address,
+                metadata_uri: metadata_uri,
+                current_owner_screen_cid: current_owner_screen_cid,
+                onchain_id: onchain_id,
+                is_minted: is_minted,
+                is_listed: is_listed,
+                nft_name: nft_name,
+                nft_description: nft_description,
+                current_price: current_price, // mint with primary price of 20 tokens, this must be the one in db
+                freeze_metadata: freeze_metadata,
+                extra: extra,
+                attributes: attributes,
+                comments: comments,
+                likes: likes,
+            }
+
+            const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
+
+            // sending the request
+
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/buy`, {
+                method: 'POST',
+                body: JSON.stringify(requestData),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            })
+            let response = await request.json()
+            console.log(response);
+
+            if (!response.is_error) {
+                updateToast(true, response.message)
+            } else {
+                console.error(response.message)
+                updateToast(false, response.message)
+            }
+        } else {
+            updateToast(false, 'please save your private key first')
+        }
+    }
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const navigate = useNavigate()
@@ -124,9 +196,32 @@ const NFTCard = ({ nft, }) => {
     const handleClickAway = () => {
         setAnchorEl(null);
     }
+
     const moretabs = [
-        { text: 'Details', id: 'nft-card-details', onClick: () => console.log('test1') },
-        { text: 'Details', id: 'nft-card-details', onClick: () => console.log('test2') },
+        is_listed && globalUser.YouWhoID !== current_owner_screen_cid ? {
+            text: 'Buy',
+            id: 'nft-buy-p', fColor: 'primary.main',
+            onClick: () => navigate(`/profile/${current_owner_screen_cid}`),
+            icon: <ShoppingBasket sx={{ fontSize: '16px', color: 'primary.main' }} />
+        } : {},
+        {
+            text: 'Owners Profile',
+            id: 'nft-owner-profile',
+            onClick: () => navigate(`/profile/${current_owner_screen_cid}`)
+            , icon: <Profile size={'16px'} />
+        },
+        {
+            text: 'Details', id: 'nft-card-details',
+            onClick: () => console.log('test2'),
+            icon: <DetailsRounded sx={{ fontSize: '16px' }} />
+        },
+    ]
+
+    const moretabsNotLoggedIn = [
+        {
+            text: 'Login/SignUp First', id: 'nft-card-auth-go', onClick: () => navigate('/auth'),
+            fColor: 'primary.main', icon: <Login sx={{ fontSize: '16px', color: 'primary.main' }} />
+        },
     ]
 
     return (
@@ -138,7 +233,9 @@ const NFTCard = ({ nft, }) => {
                     <FlexRow>
                         <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '10px', gap: '12px' }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', }}>
-                                <Heart size={'15px'} />&nbsp;{likes.length}
+                                <Heart size={'15px'} />&nbsp;
+                                {likes && likes.length > 0 && likes[0].upvoter_screen_cids ? likes[0].upvoter_screen_cids.length : 0}
+
                             </Box>
                             <Box sx={{ display: 'flex', alignItems: 'center', }}>
                                 <CommentBankOutlined sx={{ fontSize: '15px' }} />&nbsp;{comments.length}
@@ -155,7 +252,7 @@ const NFTCard = ({ nft, }) => {
                     <Typography sx={{ color: 'primary.text', fontSize: '12px' }}>
                         {nft_name}
                     </Typography>
-                    <MorePopper tabs={moretabs} open={open} anchorEl={anchorEl} handleClose={handleClose} />
+                    <MorePopper tabs={globalUser.isLoggedIn ? moretabs : moretabsNotLoggedIn} open={open} anchorEl={anchorEl} handleClose={handleClose} />
                 </DetailsSection>
             </Card>
             {/* </Outter> */}

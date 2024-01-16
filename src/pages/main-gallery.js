@@ -107,6 +107,7 @@ const ViewMainGalleryPage = ({ theme, switchTheme }) => {
                 color: 'primary.text', textTransform: 'capitalize'
             }}>explore YouWho main Gallery</Typography>
             <GiftsScrollWrapper sx={{
+                justifyContent: { xs: 'center', lg: 'start' },
                 boxSizing: 'border-box', px: '30px'
             }}>
                 {NFTs ?

@@ -1220,20 +1220,26 @@ export const MorePopper = ({ tabs, open, anchorEl, handleClose }) => {
         >
             {tabs ? <>
                 {tabs.map((tab, index) => (
-                    <MenuItem id={tab.id} sx={(theme) => ({
-                        display: 'flex', alignItems: 'center', p: '16px 8px',
-                        color: 'primary.text',
-                        borderBottom: index == tabs.length - 1 ? 'none' : '1px solid',
-                        borderColor: 'primary.gray', gap: '10px',
-                        '&:hover': {
-                            bgcolor: 'secondary.bgOp',
+                    <>
+                        {
+                            tab.text ?
+
+                                <MenuItem id={tab.id} sx={(theme) => ({
+                                    display: 'flex', alignItems: 'center', p: '16px 8px',
+                                    color: 'primary.text',
+                                    borderBottom: index == tabs.length - 1 ? 'none' : '1px solid',
+                                    borderColor: 'primary.gray', gap: '10px',
+                                    '&:hover': {
+                                        bgcolor: 'secondary.bgOp',
+                                    }
+                                })} onClick={tab.onClick}>
+                                    {tab.icon ? tab.icon : undefined}
+                                    <Typography sx={{ m: 0, color: tab.fColor ? tab.fColor : 'primary.text', fontSize: { xs: '14px', sm: '16px' } }}>
+                                        {tab.text}
+                                    </Typography>
+                                </MenuItem> : undefined
                         }
-                    })} onClick={tab.onClick}>
-                        {tab.icon ? tab.icon : undefined}
-                        <Typography sx={{ m: 0, color: 'primary.text', fontSize: { xs: '14px', sm: '16px' } }}>
-                            {tab.text}
-                        </Typography>
-                    </MenuItem>
+                    </>
                 ))}
             </> : undefined}
         </Popper>

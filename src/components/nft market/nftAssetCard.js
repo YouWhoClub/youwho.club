@@ -331,7 +331,6 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
             updateToast(false, 'please save your private key first')
         }
     }
-
     const Transfer = async () => {
         loading();
 
@@ -520,7 +519,7 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
                     }}>
                         <FlexRow sx={{ width: 'max-content', gap: '2px' }}>
                             {(tempLikers.includes(globalUser.YouWhoID)) ?
-                                <HeartRemove size={'24px'} cursor={'pointer'}
+                                <HeartRemove variant="Bulk" size={'24px'} cursor={'pointer'}
                                     onClick={() => addReactionOnNFT(
                                         col_data.id,
                                         globalUser.cid,

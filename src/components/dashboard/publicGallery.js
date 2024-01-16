@@ -209,6 +209,7 @@ const PublicGallery = () => {
                                                     return (
                                                         <Fragment key={`collection_${nft.id}`}>
                                                             <NFTSellCard
+                                                                getUserGalleries={getUserPublicCollection}
                                                                 setActiveTab={setActiveTab}
                                                                 nft={nft}
                                                                 setExpandedId={setExpandedNFT}
