@@ -114,7 +114,7 @@ const ViewMainGalleryPage = ({ theme, switchTheme }) => {
                     <>
                         {NFTs.length > 0 ?
                             <>
-                                {NFTs.map((nft) => (<NFTCard nft={nft} />
+                                {NFTs.map((nft) => (<NFTCard getNFTs={getMainNFTs} nft={nft.nfts_data} col_data={nft.col_data} />
                                 ))}
                             </>
                             :

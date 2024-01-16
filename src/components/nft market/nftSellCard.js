@@ -185,27 +185,19 @@ const NFTSellCard = ({ nft, expanded, setExpandedId, setActiveTab, getUserGaller
         console.log(temp)
         setTempLikers(temp)
     }, [nft, likes])
-
-
-
     useEffect(() => {
         getGasFee()
     }, [])
-
     useEffect(() => {
         getMetadata()
     }, [metadata_uri])
-
     const loading = () => {
         toastId.current = toast.loading("Please wait...")
     }
-
     const updateToast = (success, message) => {
         success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
             : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
     }
-
-
     const getMetadata = () => {
         fetch(metadata_uri.replace("ipfs://", "https://ipfs.io/ipfs/"))
             .then((response) => response.json())
@@ -215,7 +207,6 @@ const NFTSellCard = ({ nft, expanded, setExpandedId, setActiveTab, getUserGaller
                 console.error('Error fetching NFT image:', error);
             })
     }
-
     const getGasFee = async () => {
         let request = await fetch(`${API_CONFIG.AUTH_API_URL}/get-gas-fee`, {
             method: 'GET',
@@ -232,7 +223,6 @@ const NFTSellCard = ({ nft, expanded, setExpandedId, setActiveTab, getUserGaller
             console.log(response.message)
         }
     }
-
     const removeFromList = async () => {
         loading();
 
