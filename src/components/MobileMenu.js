@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { HEALTH_API } from "../utils/data/health_api";
 import { useRef, useState } from "react";
 import { deleteUnclaimedDeposit, logOutUser } from "../redux/actions";
+import ThemeToggler from "./HomePage/themeToggler";
 
 const FlexColumn = styled(Box)(({ theme }) => ({
     display: 'flex', flexDirection: 'column',
@@ -200,7 +201,8 @@ const MobileMenu = ({ openMenu, setOpenMenu, theme, switchTheme }) => {
                     </Box>
 
                     <FlexRow sx={{ mt: '24px', padding: "0px 14px 20px" }}>
-                        <ThemeSwitcher switchTheme={switchTheme} isModalOpen={openMenu} />
+                        <ThemeToggler theme={theme} switchTheme={switchTheme} />
+                        {/* <ThemeSwitcher switchTheme={switchTheme} isModalOpen={openMenu} /> */}
                         {globalUser.isLoggedIn ?
                             <ButtonPurple height={'35px'} text={'Logout'} onClick={checkPVkeyCopyThenDisconnect} nextIcon={<LogoutOutlined sx={{ fontSize: '14px', color: 'white' }} />} />
                             :

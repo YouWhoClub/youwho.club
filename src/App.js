@@ -99,7 +99,7 @@ function App() {
         themeSwitch: '#140920',
         landBG: 'linear-gradient(180deg, rgba(30,20,36,1) 0%, rgba(44,36,48,1) 100%)',
         footer: '#1E003A',
-        grad: 'linear-gradient(251deg, rgba(111,48,150,1) 33%, rgba(210,166,242,1) 100%)',
+        grad: 'linear-gradient(96deg, rgba(111,48,150,1) 0%, rgba(61,0,98,1) 46%, rgba(31,0,49,1) 91%)',
         success: '#0Cb2B1',
         error: '#F675A8',
         boxShadow: '0px 0px  12px 1px rgba(0, 0, 0, 0.30)',

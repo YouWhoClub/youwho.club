@@ -8,7 +8,7 @@ import { HEALTH_API } from "../utils/data/health_api";
 import ThemeSwitcher from "./HomePage/themeSwitchComp";
 import { Box, ClickAwayListener, IconButton, Modal, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { LogoutCurve, Notification, Profile, TickSquare, Wallet2 } from "iconsax-react";
+import { ArrowDown2, ArrowUp2, LogoutCurve, Notification, Profile, TickSquare, Wallet2 } from "iconsax-react";
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ButtonOutline from "./buttons/buttonOutline";
@@ -20,6 +20,7 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { Close, Face, Face2, Face3, Face4, Face5, InfoSharp, LogoutOutlined, Settings, TheaterComedy } from "@mui/icons-material";
 import { MorePopper, shorten } from "./utils";
 import DashBar from "./dashboard/DashBar";
+import ThemeToggler from "./HomePage/themeToggler";
 
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
@@ -105,8 +106,9 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
     const [progressBarOpen, setProgressBarOpen] = useState(false)
 
     const handleClick = (event) => {
-        if (!open)
+        if (!open) {
             setAnchorEl(event.currentTarget);
+        }
         else
             setAnchorEl(null)
     };
@@ -295,6 +297,7 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
             logOut()
             refreshUserToken('', '')
             deleteUnclaimed()
+            setOpenPVKeyModal(false)
             setTimeout(() => {
                 navigate('/')
             }, 1000);
@@ -304,6 +307,7 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
         catch (err) {
             logOut()
             refreshUserToken('', '')
+            setOpenPVKeyModal(false)
 
             setErr(err.statusText)
             console.log(err.statusText)
@@ -321,15 +325,24 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
     };
 
     const faceClickPopperTabs = [
-        { text: 'Theme', id: 'dash-nav-thm-switch', onClick: undefined, icon: <><Box sx={{ width: '24px' }} /><ThemeSwitcher size={'16px'} switchTheme={switchTheme} /></> },
+        {
+            text: 'Theme', id: 'dash-nav-thm-switch',
+            onClick: undefined, icon: <ThemeToggler theme={theme} switchTheme={switchTheme} />
+        },
         {
             text: 'Progressive', id: 'dash-nav-prgrss-tab', onClick: () => {
                 setProgressBarOpen(true)
                 handleClose()
-            }, icon: <Settings sx={{ fontSize: '24px', color: 'primary.main' }} />
+            }, icon: <Settings sx={{ fontSize: '24px', color: theme == 'dark' ? 'primary.middle' : 'primary.main' }} />
         },
-        { text: 'Guide Page', id: 'dash-nav-guide-tab', onClick: () => navigate('/guide'), icon: <InfoSharp sx={{ fontSize: '24px', color: 'primary.main' }} /> },
-        { text: 'Logout', id: 'dash-nav-logout', onClick: checkPVkeyCopyThenDisconnect, icon: <LogoutOutlined sx={{ fontSize: '24px', color: 'primary.main' }} /> },
+        {
+            text: 'Guide Page', id: 'dash-nav-guide-tab', onClick: () => navigate('/guide'),
+            icon: <InfoSharp sx={{ fontSize: '24px', color: theme == 'dark' ? 'primary.middle' : 'primary.main' }} />
+        },
+        {
+            text: 'Logout', id: 'dash-nav-logout', onClick: checkPVkeyCopyThenDisconnect,
+            icon: <LogoutOutlined sx={{ fontSize: '24px', color: theme == 'dark' ? 'primary.middle' : 'primary.main' }} />
+        },
     ]
 
 
@@ -557,9 +570,14 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                                         {/* <div onClick={checkPVkeyCopyThenDisconnect}>
                                         <LogoutCurve style={{ display: 'flex', alignItems: 'center', }} cursor='pointer' size='25px' />
                                     </div> */}
-                                        <Box sx={{ display: 'flex', alignItems: "center", gap: '3px' }}>
+                                        <Box sx={{ display: 'flex', alignItems: "center", gap: '3px', }}>
                                             <Typography sx={{ fontSize: '12px', color: 'primary.text', fontFamily: 'Inter' }}>{shorten(globalUser.username, 15)}</Typography>
-                                            <Face sx={{ cursor: 'pointer', fontSize: '25px' }} onClick={handleClick} />
+                                            <Box sx={{ display: 'flex', alignItems: "center", gap: '1px', cursor: 'pointer', }}
+                                                onClick={handleClick}>
+                                                <Face sx={{ cursor: 'pointer', fontSize: '25px' }} />
+                                                {!open ?
+                                                    <ArrowDown2 size={'15px'} /> : <ArrowUp2 size={'15px'} />}
+                                            </Box>
                                         </Box>
                                     </div>
                                 </Box>
@@ -593,7 +611,11 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                                                 <></>
                                         }
                                     </div>
-                                    <Face sx={{ cursor: 'pointer', fontSize: '25px' }} onClick={handleClick} />
+                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '1px', cursor: 'pointer', }} onClick={handleClick} >
+                                        <Face sx={{ cursor: 'pointer', fontSize: '25px' }} />
+                                        {!open ?
+                                            <ArrowDown2 size={'15px'} /> : <ArrowUp2 size={'15px'} />}
+                                    </Box>
                                     {/* 
                                     <IconButton aria-label="menuIcon" sx={{ padding: '10px', color: 'primary.text' }}
                                         onClick={() => setOpenMenu(true)}>

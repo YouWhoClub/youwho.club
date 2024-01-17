@@ -26,7 +26,10 @@ const GuidePage = ({ switchTheme, theme }) => {
     const navigate = useNavigate()
     return (
         <Box sx={{
-            width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', bgcolor: 'primary.bg',
+            height: '100vh',
+            width: '100%', display: 'flex', flexDirection: 'column',
+            // justifyContent: 'center',
+            bgcolor: 'primary.bg',
             boxSizing: 'border-box', padding: { xs: '0px 12px 10px 12px', md: '0px 12px 52px 12px' }
         }}>
             <Box sx={{ width: '100%', display: 'flex', height: { xs: '52px', md: '62px' }, alignItems: 'center', justifyContent: 'end' }}>
@@ -43,7 +46,14 @@ const GuidePage = ({ switchTheme, theme }) => {
                     gap: { xs: '20px', md: '32px' }
                 }}>
                     <Typography sx={{ color: 'primary.text', fontSize: { xs: '20px', md: '32px' } }}>Guide Page</Typography>
-                    <Container>
+                    <Container sx={{
+                        overflowY: 'scroll',
+                        overflowX: 'hidden',
+                        '&::-webkit-scrollbar': {
+                            display: 'none',
+                        },
+                        height: 'auto', maxHeight: '80vh',
+                    }}>
                         <Accordion
                             sx={{
                                 bgcolor: 'secondary.bg',
