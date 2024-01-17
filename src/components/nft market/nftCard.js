@@ -21,7 +21,8 @@ const Outter = styled(Box)(({ theme }) => ({
     padding: '12px 18px 18px 18px',
     alignItems: 'start',
     gap: '22px',
-    borderRadius: '18px', width: '100%',
+    // borderRadius: '18px',
+    width: '100%',
     // alignItems: 'center',
     backgroundColor: theme.palette.secondary.bg,
     boxShadow: theme.palette.primary.boxShadow,
@@ -56,6 +57,11 @@ const NFTOpenImage = styled(Box)(({ theme }) => ({
     backgroundSize: 'cover',
     width: '100%', height: '250px',
     borderRadius: '15px',
+    boxShadow: '0px 0px 5px 1px rgba(227,209,231,0.4)',
+    '&:hover': {
+        boxShadow: theme.palette.secondary.boxShadow,
+    },
+
 }))
 const FlexRow = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -565,31 +571,59 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
                 disableScrollLock={true}
             >
                 <Box sx={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    width: '100%', height: '100%',
+                    display: 'flex', alignItems: 'center', flexDirection: 'column',
+                    width: '100%', height: '100%', backdropFilter: 'blur(10px)', boxSizing: 'border-box',
+                    gap: '40px'
                 }}>
+                    <FlexRow sx={{
+                        width: '100%', height: 'auto',
+                        // justifySelf: 'start !important',
+                        pr: '30px', pt: '15px',
+                        display: { xs: 'none !important', sm: 'flex !important' }
+                    }}>
+                        <Box />
+                        <Close sx={{
+                            boxShadow: '0px 0px 5px 1px rgba(227,209,231,0.7)', padding: { xs: '0', md: '4px' },
+                            borderRadius: '50%', color: 'white'
+                        }}
+                            onClick={() => setExpanded(false)} cursor="pointer" />
+                    </FlexRow>
 
                     <Box sx={(theme) => ({
                         width: { xs: '100%', sm: '600px', md: '900px' },
                         height: { xs: '100%', sm: 'max-content' },
                         // width: '100%', height: '100%',
-
+                        // justifySelf: 'center !important',
                         borderRadius: { xs: '0', sm: '24px' },
                         display: 'flex', alignItems: 'center', justifyContent: 'start',
-                        backdropFilter: 'blur(10px)', backgroundColor: 'primary.bg',
-                        boxSizing: 'border-box', flexDirection: 'column', gap: '32px', padding: '10px 12px 10px 12px'
+                        backdropFilter: 'blur(10px)', backgroundColor: 'transparent',
+                        boxSizing: 'border-box', flexDirection: 'column',
+                        gap: '20px', padding: { xs: '0', sm: '10px 12px 10px 12px' }
                     })}>
-                        <FlexRow sx={{ width: '100%', height: '50px' }}>
-                            <Box />
-                            <Close onClick={() => setExpanded(false)} cursor="pointer" />
-                        </FlexRow>
                         <Outter sx={{
-                            flexDirection: { xs: "column", md: 'row' }, height: 'max-content',
+                            flexDirection: { xs: "column", md: 'row' }
+                            , height: 'max-content',
                             maxHeight: { xs: '100%', sm: '80vh', md: '70vh' },
                             overflowY: 'scroll',
                             overflowX: 'hidden',
                             '&::-webkit-scrollbar': { display: 'none', },
+                            borderRadius: { xs: '0', sm: '18px' }
                         }}>
+                            <FlexRow sx={{
+                                position: 'sticky', top: 0,
+                                width: '100%', height: 'auto', justifySelf: 'start !important',
+                                display: { xs: 'flex', sm: 'none !important' }
+                            }}>
+                                <Box />
+                                <Close sx={{
+                                    backgroundColor: 'secondary.bg',
+                                    boxShadow: '0px 0px 5px 1px rgba(227,209,231,0.7)', padding: { xs: '2px', md: '4px' },
+                                    borderRadius: '50%', color: { xs: 'primary.color', md: 'white' }
+                                }}
+                                    onClick={() => setExpanded(false)} cursor="pointer" />
+                            </FlexRow>
+
+
                             <NFTOpenImage
                                 id="nft-image-of-expanded-nft-card"
                                 className="nft-image-of-expanded-nft-card"
@@ -784,7 +818,7 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
                     </Box>
 
                 </Box>
-            </Modal>
+            </Modal >
 
 
 

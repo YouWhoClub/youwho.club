@@ -246,6 +246,13 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
         }
 
     }
+
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            submit()
+        }
+    }
+
     return (
         <>
             {state == 'identifier' ?
@@ -298,6 +305,7 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
                                 {idErr ? <Typography
                                     sx={{ alignSelf: 'start !important', color: 'primary.error', fontSize: '9px', margin: 0 }}>{idErr}</Typography> : undefined}
                                 <ShadowInput
+                                    onKeyDown={buttonDisabled ? undefined : handleKeyDown}
                                     mt={'12px'}
                                     icon={<LockRounded color="primary.light" sx={{ color: 'primary.light', }} />}
                                     borderColor={passErr ? 'primary.error' : success ? 'primary.success' : undefined}

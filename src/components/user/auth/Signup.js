@@ -213,6 +213,13 @@ const Signup = ({ progress, setProgress, alreadyEmail }) => {
 
         }
     }
+
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            submit()
+        }
+    }
+
     return (
         <>
             {state == 'identifier' || state == 'password' || state == 'repeatPassword' ?
@@ -288,6 +295,7 @@ const Signup = ({ progress, setProgress, alreadyEmail }) => {
                                 {passErr ? <Typography
                                     sx={{ alignSelf: 'start !important', color: 'primary.error', fontSize: '9px', margin: 0 }}>{passErr}</Typography> : undefined}
                                 <ShadowInput
+                                    onKeyDown={buttonDisabled ? undefined : handleKeyDown}
                                     mt={'12px'}
                                     icon={<LockRounded color="primary.light" sx={{ color: 'primary.light', }} />}
                                     borderColor={repeatPassErr ? 'primary.error' : success ? 'primary.success' : undefined}

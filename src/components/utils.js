@@ -626,7 +626,7 @@ export const MyInput = ({ icon, textColor, name,
     )
 
 }
-export const ShadowInput = ({ icon, text, id, label, width, onChange, borderColor, type, extraIcon, value, mb, mt }) => {
+export const ShadowInput = ({ onKeyDown, icon, text, id, label, width, onChange, borderColor, type, extraIcon, value, mb, mt }) => {
     return (<AuthInput sx={(theme) => ({
         width: width ? width : '272px',
         border: borderColor ? '1px solid' : 'none',
@@ -641,6 +641,7 @@ export const ShadowInput = ({ icon, text, id, label, width, onChange, borderColo
                 {icon ? icon : undefined}
             </Box>
             <TextField
+                onKeyDown={onKeyDown ? onKeyDown : undefined}
                 autoFocus={true}
                 type={type}
                 autoComplete="off"
