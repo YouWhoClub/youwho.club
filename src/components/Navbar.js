@@ -8,7 +8,7 @@ import { HEALTH_API } from "../utils/data/health_api";
 import ThemeSwitcher from "./HomePage/themeSwitchComp";
 import { Box, ClickAwayListener, IconButton, Modal, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { ArrowDown2, ArrowUp2, LogoutCurve, Notification, Profile, TickSquare, Wallet2 } from "iconsax-react";
+import { ArrowDown2, ArrowUp2, LogoutCurve, Notification, Profile, SearchNormal, SearchNormal1, TickSquare, Wallet2 } from "iconsax-react";
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ButtonOutline from "./buttons/buttonOutline";
@@ -367,7 +367,8 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                         </Link>
                     }
                     <Box sx={{
-                        display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: { xs: '8px', md: '25px' },
+                        display: { xs: 'none', sm: 'flex' }, alignItems: 'center',
+                        gap: { xs: '15px', md: '25px' },
                         color: 'primary.text', fontSize: { xs: '14px', md: '18px' }
                     }}>
                         {window.location.pathname !== '/' ?
@@ -400,9 +401,11 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                         <Box sx={{
                             display: { xs: 'none', sm: 'flex' },
                             alignItems: 'center', justifyContent: 'space-between',
-                            color: 'primary.text', gap: '50px'
+                            color: 'primary.text', gap: { xs: '25px', md: '30px' }
                         }}>
-                            <Search />
+                            <Link style={{ textDecoration: 'none', color: 'inherit' }} to={'/search'} target="_blank">
+                                <SearchNormal1 size='25px' cursor={'pointer'} />
+                            </Link>
                             <div style={{ display: 'flex', gap: '3px', alignItems: 'center', }}>
                                 <span style={{ display: 'flex', alignItems: 'center', fontSize: '12px' }}>
                                     {globalUser.balance}
@@ -443,21 +446,24 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                         <Box sx={{
                             display: { xs: 'flex', sm: 'none' },
                             alignItems: 'center', justifyContent: 'space-between',
-                            color: 'primary.text', gap: '8px'
+                            color: 'primary.text', gap: '12px'
                         }}>
+                            <Link style={{ textDecoration: 'none', color: 'inherit' }} to={'/search'} target="_blank">
+                                <SearchNormal1 size='22px' cursor={'pointer'} />
+                            </Link>
                             <div style={{ display: 'flex', gap: '3px', alignItems: 'center', }}>
                                 <span style={{ display: 'flex', alignItems: 'center', fontSize: '12px' }}>
                                     {globalUser.balance}
                                     &nbsp;<Box sx={{
                                         backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)),
                                         backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
-                                        , width: '20px', height: '20px'
+                                        , width: '15px', height: '15px'
                                     }} />
                                 </span>
-                                <Wallet2 size='24px' />
+                                <Wallet2 size='22px' />
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
-                                <Notification size="24px" cursor='pointer' />
+                                <Notification size="22px" cursor='pointer' />
                                 {
                                     unclaimedDeposits.length ?
                                         <Box
@@ -470,9 +476,9 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                                         <></>
                                 }
                             </div>
-                            <IconButton aria-label="menuIcon" sx={{ padding: '10px', color: 'primary.text' }}
+                            <IconButton aria-label="menuIcon" sx={{ color: 'primary.text', fontSize: "22px", padding: '0 !important' }}
                                 onClick={() => setOpenMenu(true)}>
-                                <FontAwesomeIcon icon={faEllipsisV} size="24px" />
+                                <FontAwesomeIcon icon={faEllipsisV} size="22px" />
                             </IconButton>
                         </Box>
                     </>
@@ -585,7 +591,7 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                                 <Box sx={{
                                     display: { xs: 'flex', sm: 'none' },
                                     alignItems: 'center', justifyContent: 'space-between',
-                                    color: 'primary.text', gap: '8px'
+                                    color: 'primary.text', gap: '12px'
                                 }}>
                                     <div style={{ display: 'flex', gap: '3px', alignItems: 'center', }}>
                                         <span style={{ display: 'flex', alignItems: 'center', fontSize: '12px' }}>

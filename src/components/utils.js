@@ -2486,6 +2486,167 @@ export const TopUserCard = ({
         </ClickAwayListener >
     )
 }
+export const SearchUserCard = ({
+    image, username, myFollowings, ywID }) => {
+    const navigate = useNavigate()
+    const toastId = useRef(null);
+    const globalUser = useSelector(state => state.userReducer)
+    const loading = () => {
+        toastId.current = toast.loading("Please wait...")
+    }
+    const updateToast = (success, message) => {
+        success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
+            : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
+    }
+    const [isFollowing, setIsFollowing] = useState('false');
+    useEffect(() => {
+        if (myFollowings) {
+            if (myFollowings.length > 0) {
+                for (var i = 0; i < myFollowings.length; i++) {
+                    if (myFollowings[i].user_screen_cid == ywID) {
+                        for (var j = 0; j < myFollowings[i].friends.length; j++) {
+                            if (myFollowings[i].friends[j].screen_cid == globalUser.YouWhoID) {
+                                if (myFollowings[i].friends[j].is_accepted == true) {
+                                    setIsFollowing('true')
+                                } else {
+                                    setIsFollowing('pending')
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                setIsFollowing('false')
+            }
+        }
+        else {
+            setIsFollowing('loading')
+        }
+    }, [myFollowings])
+
+    const sendFriendRequest = async (receiver, sender) => {
+        loading();
+
+        let data = {
+            owner_cid: sender,
+            to_screen_cid: receiver,
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        console.log(requestData)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/send/friend-request`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+        if (response.message == "Updated Successfully") {
+            updateToast(true, 'Friend Request Sent')
+            setIsFollowing('pending')
+        } else {
+            updateToast(false, response.message)
+        }
+    }
+    const removeFriend = async (receiver, sender) => {
+        loading();
+
+        let data = {
+            owner_cid: sender,
+            friend_screen_cid: receiver,
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        console.log(requestData)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/remove/friend`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+        if (response.message == "Updated Successfully") {
+            updateToast(true, 'Friend Removed')
+            setIsFollowing('false')
+        } else {
+            updateToast(false, response.message)
+        }
+    }
+
+
+
+    return (
+        <TopUserCardComp>
+            <Box sx={{
+                gap: '12px',
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                boxSizing: 'border-box'
+            }}>
+                <Box sx={{
+                    backgroundColor: 'primary.bg',
+                    backgroundImage: () => image ? `url('${API_CONFIG.API_URL}/${image}')` : BG_URL(PUBLIC_URL(`${profileFace}`)),
+                    // backgroundImage: image ? BG_URL(PUBLIC_URL(`${API_CONFIG.API_URL}/${image}`)) : 'primary.bg',
+                    backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+                    , width: '54px', height: '54px', borderRadius: '50%',
+                }}
+                />
+                <Typography sx={{ display: { xs: 'block', sm: 'none' }, fontWeight: 700, color: 'primary.text', fontSize: '12px' }}>
+                    {shorten(username, 10)}
+                </Typography>
+                <Typography sx={{ display: { xs: 'none', sm: 'block' }, fontWeight: 700, color: 'primary.text', fontSize: '14px' }}>
+                    {username}
+                </Typography>
+            </Box>
+            {globalUser.YouWhoID !== ywID &&
+                <Box sx={{
+                    display: 'flex', gap: '12px', alignItems: 'center',
+                    justifySelf: 'flex-end !important'
+
+                }}>
+                    <ButtonOutlineInset height='30px'
+                        fontSize={'10px'}
+                        br={'20px'}
+                        text={'View Profile'} onClick={() => navigate(`/profile/${username}`)} />
+                    {isFollowing == 'loading' ? <CircularProgress size={'10px'} /> :
+                        isFollowing == 'false' ?
+                            <ButtonPurpleLight br='20px'
+                                px={'16px'}
+                                py={'4px'}
+                                fontSize={'10px'}
+                                w={'max-content'}
+                                text={'Friend Request'}
+                                onClick={() => sendFriendRequest(ywID, globalUser.cid)}
+                                height='30px' />
+                            : isFollowing == 'pending' ?
+                                <ButtonPurpleLight br='20px'
+                                    disabled={true}
+                                    px={'16px'}
+                                    py={'4px'}
+                                    fontSize={'10px'}
+                                    w={'max-content'}
+                                    text={'Pending Request'}
+                                    height='30px' />
+                                :
+                                <ButtonOutline br='20px'
+                                    px={'16px'}
+                                    py={'4px'}
+                                    fontSize={'10px'}
+                                    w={'max-content'}
+                                    text={'Remove Friend'}
+                                    onClick={() => removeFriend(ywID, globalUser.cid)}
+                                    height='30px' />
+                    }
+                </Box>
+            }
+        </TopUserCardComp>
+    )
+}
 export const blogContents = [
     {
         id: 1, title: 'What is YouWho Id (Wallet)',

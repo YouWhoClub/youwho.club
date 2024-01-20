@@ -40,6 +40,7 @@ import GuidePage from './pages/guide';
 import ContactUs from './pages/contact-us';
 import BlogSingle from './pages/blog';
 import TermsOfService from './pages/termsOfService';
+import SearchPage from './pages/searchPage';
 // import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
 
 
@@ -264,6 +265,7 @@ function App() {
                       <Route exact path="/guide" element={<></>} />
                       <Route exact path="/privacy-policy" element={<></>} />
                       <Route exact path="/terms-of-service" element={<></>} />
+                      <Route exact path="/search" element={<SearchPage theme={theme} switchTheme={switchTheme} />} />
 
 
                       <Route exact path="/main-gallery" element={<ViewMainGalleryPage theme={theme} switchTheme={switchTheme} />} />
