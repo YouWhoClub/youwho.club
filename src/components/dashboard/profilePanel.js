@@ -19,9 +19,9 @@ const Panel = styled(Box)(({ theme }) => ({
 }))
 const ScrollablePanel = styled(Box)(({ theme }) => ({
     color: theme.palette.primary.text,
-    width: '100%',
+    width: '100%', transition: '500ms ease',
     overflowX: 'hidden',
-    overflowY: 'scroll',
+    // overflowY: 'scroll',
     '&::-webkit-scrollbar': {
         // display: 'none',
         width: '5px',
@@ -101,15 +101,10 @@ const ProfilePanel = () => {
                     window.location.hash = `#${e.target.id}`
                 }} text={'Reactions'} selected={activeTab == 'reactions-tab'} />
             </Tabs>
-            <ScrollablePanel id="scrollable-profile-panel-inside" className="insidePanelBeforeScroll"
+            <ScrollablePanel
+                id="scrollable-profile-panel-inside"
+                className="insidePanelBeforeScroll"
                 sx={{
-                    // height: {
-                    //     xs: activeTab == 'private-gallery-tab' || activeTab == 'public-gallery-tab' ? 'calc(100vh - 351px)' : 'calc(100vh - 486px)',
-                    //     sm: activeTab == 'private-gallery-tab' || activeTab == 'public-gallery-tab' ? 'calc(100vh - 366px)' : 'calc(100vh - 481px)',
-                    //     // md: 'calc(100vh - 378px)',
-                    //     lg: 'calc(100vh - 484px)',
-                    // },
-                    // height:'100%',
                     display: 'flex', justifyContent: 'center', alignItems: 'start',
                     p: {
                         xs: '4px 4px 40px',

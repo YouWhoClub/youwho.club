@@ -95,7 +95,7 @@ const Bar = () => {
     // }
     // const handleProfileClick = () => {
     //     if (globalUser.isPhoneVerified) {
-    //         navigate('/dashboard')
+    //         navigate('/profile')
     //     } else {
     //         setOpenModal(true)
     //     }
@@ -105,7 +105,7 @@ const Bar = () => {
         navigate('/wallet')
     }
     const handleProfileClick = () => {
-        navigate('/dashboard')
+        navigate('/profile')
     }
     function disconnect() {
         logOut()
@@ -124,9 +124,9 @@ const Bar = () => {
         >
             <IconHolder onClick={handleProfileClick}
                 sx={{
-                    bgcolor: window.location.pathname == '/dashboard' ? 'primary.main' : 'transparent',
-                    color: window.location.pathname == '/dashboard' ? 'white' : 'primary.text',
-                    boxShadow: window.location.pathname == '/dashboard' && (localStorage.getItem('theme') == 'light' ? '0px 0px 6px 1px rgba(0, 0, 0, 0.25) !important' : '0px 0px 4px 1px rgba(0, 0, 0, 0.30) !important'),
+                    bgcolor: window.location.pathname == '/profile' ? 'primary.main' : 'transparent',
+                    color: window.location.pathname == '/profile' ? 'white' : 'primary.text',
+                    boxShadow: window.location.pathname == '/profile' && (localStorage.getItem('theme') == 'light' ? '0px 0px 6px 1px rgba(0, 0, 0, 0.25) !important' : '0px 0px 4px 1px rgba(0, 0, 0, 0.30) !important'),
                 }}>
                 <Profile cursor='pointer' size='20px' />
             </IconHolder>

@@ -85,7 +85,7 @@ function App() {
       primary: {
         slider: '#1F0031',
         dark: '#1F0031',
-        ultra: '#6F3096',
+        ultra: '#1F0031',
         main: '#6A2ABE',
         middle: '#9F72C0',
         light: '#BEA2C5',
@@ -270,7 +270,7 @@ function App() {
                       {/* <Route exact path="/transfer" element={<TransferPage theme={theme} switchTheme={switchTheme} />} /> */}
 
                       <Route exact path="/gallery" element={<MainGallery switchTheme={switchTheme} theme={theme} />} />
-                      <Route exact path="/dashboard" element={<Dashboard switchTheme={switchTheme} theme={theme} />} />
+                      <Route exact path="/profile" element={<Dashboard switchTheme={switchTheme} theme={theme} />} />
                       <Route exact path="/wallet" element={<WalletPage theme={theme} switchTheme={switchTheme} />} />
 
                       <Route exact path="/profile/:name" element={<Profile theme={theme} switchTheme={switchTheme} />} />

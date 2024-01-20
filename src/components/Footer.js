@@ -151,7 +151,7 @@ const Footer = () => {
                             }}>
                             <Link style={{ textDecoration: 'none', color: 'white' }} to={'/'}>Home</Link>
                             {globalUser.isLoggedIn ?
-                                <Link style={{ textDecoration: 'none', color: 'white' }} to={'/dashboard'}>Panel</Link>
+                                <Link style={{ textDecoration: 'none', color: 'white' }} to={'/profile'}>Panel</Link>
                                 :
                                 <>
                                     <Link style={{ textDecoration: 'none', color: 'white' }} to={'/auth#signin'}>Sign In</Link>

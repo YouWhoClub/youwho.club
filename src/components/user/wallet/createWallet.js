@@ -168,7 +168,7 @@ const CreateWallet = ({ switchTheme, setPvKey }) => {
                             <Box sx={{ color: 'primary.text' }}>
                                 please save this information
                             </Box>
-                            <Link to={'/dashboard'} style={{ color: '#392F5A', textAlign: 'center', marginTop: '30px' }}>
+                            <Link to={'/profile'} style={{ color: '#392F5A', textAlign: 'center', marginTop: '30px' }}>
                                 go back to your profile
                             </Link>
 

@@ -213,7 +213,7 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
                 getAssets()
                 setDetExpaded(false)
 
-                // navigate('/dashboard#assets-tab')
+                // navigate('/profile#assets-tab')
 
             } else {
                 console.error(response.message)
@@ -377,7 +377,7 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
 
             if (!response.is_error) {
                 updateToast(true, response.message)
-                navigate('/dashboard#assets-tab')
+                navigate('/profile#assets-tab')
             } else {
                 console.error(response.message)
                 updateToast(false, response.message)

@@ -81,7 +81,7 @@ const ScrollablePanel = styled(Box)(({ theme }) => ({
     color: theme.palette.primary.text,
     width: '100%',
     overflowX: 'hidden',
-    overflowY: 'scroll',
+    // overflowY: 'scroll',
     '&::-webkit-scrollbar': {
         // display: 'none',
         width: '5px',
@@ -251,7 +251,7 @@ const Wallet = ({ privateKey, switchTheme, theme }) => {
         let shouldHideComp1 = window.document.getElementById('hidden-after-scroll-one')
         let shouldHideComp2 = window.document.getElementById('hidden-after-scroll-two')
         let insidePanel = window.document.getElementById('scrollable-wallet-panel-inside')
-        if (window.document.getElementById("scrollable-wallet-panel-inside").scrollTop > 0) {
+        if (window.document.getElementById("scrollable-wallet-panel-inside").scrollTop > 0 || window.document.getElementById("scrollable-wallet-panel").scrollTop > 0) {
             card.classList.remove("walletCardBeforeScroll")
             insidePanel.classList.remove("insidePanelWalletBeforeScroll")
             card.classList.add("walletCardAfterScroll")

@@ -4,6 +4,7 @@ import { PUBLIC_API } from "../../utils/data/public_api"
 import styled from "@emotion/styled"
 import { Box, Skeleton, Typography } from "@mui/material"
 import NFTCard from "../nft market/nftCard"
+import Pagination from "../pagination"
 
 const Gallery = styled(Box)(({ theme }) => ({
     width: '100%', boxSizing: 'border-box',
@@ -13,15 +14,19 @@ const Gallery = styled(Box)(({ theme }) => ({
 }))
 
 const AllNFTsTab = () => {
+    const [from, setFrom] = useState(0)
+    const [to, setTo] = useState(30)
+    const [pgTabs, setPgTabs] = useState([])
     const globalUser = useSelector(state => state.userReducer)
     const [err, setErr] = useState(undefined)
     const apiCall = useRef(undefined)
+    const [selectedTab, setSelectedTab] = useState(1)
     const [NFTs, setNFTs] = useState(undefined)
     const getMainNFTs = async () => {
         setErr(undefined)
         try {
             apiCall.current = PUBLIC_API.request({
-                path: `/get-all-minted-nfts/?from=0&to=30`,
+                path: `/get-all-minted-nfts/?from=${from}&to=${to}`,
                 method: "get",
             });
             let response = await apiCall.current.promise;
@@ -29,12 +34,34 @@ const AllNFTsTab = () => {
             if (!response.isSuccess)
                 throw response
             setNFTs(response.data.data)
+
+
+            // let nftsArr = response.data.data.slice(from, (to - 4))
+            // setNFTs(nftsArr)
+            // if (response.data.data.length >= (to - 4)) {
+            //     let pagTabs = []
+            //     let tabNums = response.data.data.length / 4
+            //     for (let i = 0; i < tabNums; i++) {
+            //         pagTabs.push(i + 1)
+            //     }
+            //     setPgTabs(pagTabs)
+            //     console.log(tabNums)
+            //     console.log(pagTabs)
+            // } else {
+            //     setPgTabs([1])
+            // }
         }
         catch (err) {
             setErr(err.statusText)
         }
     }
-
+    // useEffect(() => {
+    //     setFrom((selectedTab - 1) * 4)
+    //     setTo(((selectedTab - 1) * 4) + 4)
+    // }, [selectedTab])
+    // useEffect(() => {
+    //     getMainNFTs()
+    // }, [to])
     useEffect(() => {
         getMainNFTs()
         return () => {
@@ -46,7 +73,10 @@ const AllNFTsTab = () => {
 
 
 
-    return (
+    return (<Box sx={{
+        display: 'flex', flexDirection: 'column', alignItems: 'center',
+        boxSizing: 'border-box', gap: '24px'
+    }}>
         <Gallery sx={{
             boxSizing: 'border-box', justifyContent: { xs: 'center', lg: 'start' }
         }}>
@@ -82,6 +112,10 @@ const AllNFTsTab = () => {
                 </>
             }
         </Gallery>
+        {NFTs && NFTs.length > 0 ?
+            <Pagination tabs={pgTabs} selected={selectedTab} setSelectedTab={setSelectedTab} />
+            : undefined}
+    </Box>
 
     );
 }

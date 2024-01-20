@@ -80,7 +80,7 @@ const TopUsersTab = () => {
         // }
     }
     const getFriends = async () => {
-        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/friends/?from=0&to=10`, {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/friends/?from=0&to=30`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

@@ -10,7 +10,7 @@ import torqNFT from '../assets/torqua-nft.svg'
 import styled from "@emotion/styled";
 import NFTCard from "../components/nft market/nftCard";
 import GiftCard from "../components/nft market/giftCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import { Title } from "../components/utils";
 import ButtonOutline from "../components/buttons/buttonOutline";
 import { useNavigate } from "react-router";
@@ -20,6 +20,7 @@ import { Tab, Tabs } from "../components/utils";
 import AllNFTsTab from "../components/explore/allNFTsTab";
 import TopNFTsTab from "../components/explore/topNFTsTab";
 import TopUsersTab from "../components/explore/topUsersTab";
+import { useSelector } from "react-redux";
 
 const Gallery = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -104,15 +105,46 @@ const TeachingBox = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     gap: '30px'
 }))
+const EventBox = styled(Box)(({ theme }) => ({
+    padding: '24px', boxSizing: 'border-box', height: '250px', width: '100%',
+    display: 'flex', borderRadius: '24px', boxShadow: theme.palette.primary.boxShadow,
+    color: theme.palette.primary.text,
+    justifyContent: 'center',
+    alignItems: 'center',
 
+}))
 const MainGallery = ({ switchTheme, theme }) => {
     const [dollarValue, setDollarValue] = useState(undefined)
     const [irrValue, setIrrValue] = useState(undefined)
     const navigate = useNavigate()
     const [activeTab, setActiveTab] = useState(window.location.hash ? window.location.hash.replace('#', '') : 'all-nfts')
+    const globalUser = useSelector(state => state.userReducer)
+    const listenScrollEvent = e => {
+        let card = window.document.getElementById('commercials-box')
+        let insidePanel = window.document.getElementById('scrollable-explore-panel-inside')
+        let outsidePanel = window.document.getElementById('explore')
+        if (window.document.getElementById("scrollable-explore-panel-inside").scrollTop > 0 || window.document.getElementById("scrollable-gallery-panel").scrollTop > 0) {
+            card.classList.add("profileBannerAfterScroll")
+            insidePanel.classList.remove("insidePanelExploreBeforeScroll")
+            insidePanel.classList.add("insidePanelExploreAfterScroll")
+        }
+        else {
+            card.classList.remove("profileBannerAfterScroll")
+            insidePanel.classList.add("insidePanelExploreBeforeScroll")
+            insidePanel.classList.remove("insidePanelExploreAfterScroll")
+        }
+    }
+
+    useEffect(() => {
+        if (window.document.getElementById("scrollable-gallery-panel") && window.document.getElementById("scrollable-explore-panel-inside")) {
+
+            window.document.getElementById("scrollable-gallery-panel").addEventListener('scroll', listenScrollEvent)
+            window.document.getElementById("scrollable-explore-panel-inside").addEventListener('scroll', listenScrollEvent)
+        }
+    }, [window.document.getElementById("scrollable-gallery-panel"), window.document.getElementById("scrollable-explore-panel-inside")])
 
     return (
-        <PanelLayout switchTheme={switchTheme} theme={theme}>
+        <PanelLayout switchTheme={switchTheme} theme={theme} id={"scrollable-gallery-panel"}>
             <Box
                 id="explore"
                 sx={{
@@ -131,47 +163,65 @@ const MainGallery = ({ switchTheme, theme }) => {
                         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                         gap: { xs: '10px', md: '30px' }
                     }}>
-                    <TeachingBox sx={{ bgcolor: 'primary.yellow' }} >
-                        <Profile size={'150px'} />
-                        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
-                            <Box sx={{ display: 'flex', flexDirection: 'column', }}>
-                                <Typography sx={{ color: 'black', fontSize: { xs: '20px', md: '32px' }, mb: '18px' }}>
-                                    1st Step
-                                </Typography>
-                                <Typography sx={{ color: 'black', fontSize: { xs: '16px', md: '20px' }, mb: '14px' }}>
-                                    Complete Your Profile
-                                </Typography>
-                                <Typography sx={{
-                                    textTransform: 'capitalize',
-                                    color: '#616265', fontSize: { xs: '12px', md: '14px' }, fontFamily: 'Inter'
-                                }}>
-                                    & get one YouWho token as a gift
-                                </Typography>
+                    {globalUser.bio && globalUser.avatar ? undefined :
+                        <TeachingBox sx={{ bgcolor: 'primary.yellow' }} >
+                            <Profile size={'150px'} />
+                            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', }}>
+                                    <Typography sx={{ color: 'black', fontSize: { xs: '20px', md: '32px' }, mb: '18px' }}>
+                                        1st Step
+                                    </Typography>
+                                    <Typography sx={{ color: 'black', fontSize: { xs: '16px', md: '20px' }, mb: '14px' }}>
+                                        Complete Your Profile
+                                    </Typography>
+                                    <Typography sx={{
+                                        textTransform: 'capitalize',
+                                        color: '#616265', fontSize: { xs: '12px', md: '14px' }, fontFamily: 'Inter'
+                                    }}>
+                                        & get one YouWho token as a gift
+                                    </Typography>
+                                </Box>
+                                <ButtonPurpleLight onClick={() => navigate('/profile')} text={'Lets go'} w={'max-content'} px={'20px'} />
                             </Box>
-                            <ButtonPurpleLight onClick={() => navigate('/dashboard')} text={'Lets go'} w={'max-content'} px={'20px'} />
-                        </Box>
-                    </TeachingBox>
-                    <TeachingBox sx={{ bgcolor: 'primary.pink' }}>
-                        <Wallet2 size={'150px'} />
-                        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
-                            <Box sx={{ display: 'flex', flexDirection: 'column', }}>
-                                <Typography sx={{ color: 'black', fontSize: { xs: '20px', md: '32px' }, mb: '18px' }}>
-                                    2nd Step
-                                </Typography>
-                                <Typography sx={{ color: 'black', fontSize: { xs: '16px', md: '20px' }, mb: '14px' }}>
-                                    Create YouWho Wallet
-                                </Typography>
-                                <Typography sx={{
-                                    textTransform: 'capitalize',
-                                    color: '#616265', fontSize: { xs: '12px', md: '14px' }, fontFamily: 'Inter'
-                                }}>
-                                    & get one YouWho token as a gift
-                                </Typography>
+                        </TeachingBox>}
+                    {globalUser.cid ? undefined :
+                        <TeachingBox sx={{ bgcolor: 'primary.pink' }}>
+                            <Wallet2 size={'150px'} />
+                            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', }}>
+                                    <Typography sx={{ color: 'black', fontSize: { xs: '20px', md: '32px' }, mb: '18px' }}>
+                                        2nd Step
+                                    </Typography>
+                                    <Typography sx={{ color: 'black', fontSize: { xs: '16px', md: '20px' }, mb: '14px' }}>
+                                        Create YouWho Wallet
+                                    </Typography>
+                                    <Typography sx={{
+                                        textTransform: 'capitalize',
+                                        color: '#616265', fontSize: { xs: '12px', md: '14px' }, fontFamily: 'Inter'
+                                    }}>
+                                        & get one YouWho token as a gift
+                                    </Typography>
+                                </Box>
+                                <ButtonPurpleLight onClick={() => navigate('/wallet')} text={'Lets go'} w={'max-content'} px={'20px'} />
                             </Box>
-                            <ButtonPurpleLight onClick={() => navigate('/wallet')} text={'Lets go'} w={'max-content'} px={'20px'} />
-                        </Box>
 
-                    </TeachingBox>
+                        </TeachingBox>}
+                    {globalUser.cid && globalUser.avatar && globalUser.bio ?
+                        <EventBox sx={{ bgcolor: 'primary.slider', gap: { xs: '20px', sm: '30px' } }}>
+                            <Box sx={{
+                                backgroundImage: theme == 'light' ? "url('/p-outline.svg')" : "url('/w-outline.svg')",
+                                backgroundRepeat: 'no-repeat',
+                                backgroundPosition: 'center', width: '150px', height: '150px'
+                            }} />
+                            <FlexColumn>
+                                <Typography sx={{ fontSize: { xs: '16px', sm: '20px', md: '32px' } }}>
+                                    Chatroom Launchpad
+                                </Typography>
+                                <Typography sx={{ fontSize: { xs: '12px', sm: '16px', md: '18px' } }}>
+                                    Coming Soon...
+                                </Typography>
+                            </FlexColumn>
+                        </EventBox> : undefined}
                 </Box>
                 <ShowPanel sx={{
                     flexDirection: 'column', gap: { xs: '22px', md: '24px' }, boxSizing: 'border-box', width: '100%'

@@ -5,8 +5,9 @@ const ThemeToggler = ({ theme, switchTheme }) => {
     return (<Box
         sx={{
             width: '65px', height: '28px', borderRadius: '60px',
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '0.1px solid',
-            borderColor: 'secondary.middle',
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            //  border: '0.1px solid',
+            // borderColor: 'secondary.middle',
             boxSizing: 'border-box', bgcolor: theme == 'light' ? '#EFF6FB' : '#001423', position: 'relative'
         }}>
         <Box sx={{

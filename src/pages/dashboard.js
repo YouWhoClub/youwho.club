@@ -92,31 +92,28 @@ const Dashboard = ({ switchTheme, theme }) => {
     const [progressBarOpen, setProgressBarOpen] = useState(false)
     const listenScrollEvent = e => {
         let card = window.document.getElementById('profile-card')
-        // let line = window.document.getElementById('line-profile-user')
+        let hiddenBox = window.document.getElementById('hidden-box')
         let pic = window.document.getElementById('profile-pic')
-        // let dashbar = window.document.getElementById('dash-bar')
         let insidePanel = window.document.getElementById('scrollable-profile-panel-inside')
         let outsidePanel = window.document.getElementById('dash')
         if (window.document.getElementById("scrollable-profile-panel-inside").scrollTop > 0 || window.document.getElementById("scrollable-profile-panel").scrollTop > 0) {
             card.classList.add("profileBannerAfterScroll")
             pic.classList.add("profilePicAfterScroll")
-            // line.classList.add("profileLineAfterScroll")
             insidePanel.classList.remove("insidePanelBeforeScroll")
             insidePanel.classList.add("insidePanelAfterScroll")
-            outsidePanel.classList.add("dashAfterScroll")
-            if (progressBarOpen) {
-                setProgressBarOpen(false)
-            }
+            // hiddenBox.classList.remove("hiddenBoxBeforeScroll")
+            // hiddenBox.classList.add("hiddenBoxAfterScroll")
+
 
         }
         else if (window.document.getElementById("scrollable-profile-panel").scrollTop >= 0 && window.document.getElementById("scrollable-profile-panel-inside").scrollTop == 0) {
             card.classList.remove("profileBannerAfterScroll")
             pic.classList.remove("profilePicAfterScroll")
-            // dashbar.classList.remove("dashbarAfterScroll")
             insidePanel.classList.add("insidePanelBeforeScroll")
             insidePanel.classList.remove("insidePanelAfterScroll")
-            outsidePanel.classList.remove("dashAfterScroll")
-            // line.classList.remove("profileLineAfterScroll")
+            // hiddenBox.classList.add("hiddenBoxBeforeScroll")
+            // hiddenBox.classList.remove("hiddenBoxAfterScroll")
+
         }
     }
 

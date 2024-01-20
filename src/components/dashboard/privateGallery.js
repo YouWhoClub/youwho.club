@@ -187,10 +187,13 @@ const PrivateGallery = () => {
                                     <>
                                         <FlexColumn sx={{ gap: { xs: '10px', sm: '16px' }, mb: '32px', width: '100%' }}>
                                             <FlexRow
-                                                sx={{ width: '100%', justifyContent: 'start !important', cursor: 'pointer' }}
-                                                onClick={() => setOpenedGallery(undefined)}>
-                                                <ArrowBack sx={{ color: 'primary.gray', fontSize: '15px' }} />
-                                                <Typography sx={{ color: 'primary.gray', fontSize: '12px' }}>Back</Typography>
+                                                sx={{ width: '100%', justifyContent: 'start !important',}}>
+                                                <FlexRow
+                                                    sx={{ width: 'max-content', justifyContent: 'start !important', cursor: 'pointer' }}
+                                                    onClick={() => setOpenedGallery(undefined)}>
+                                                    <ArrowBack sx={{ color: 'primary.gray', fontSize: '15px' }} />
+                                                    <Typography sx={{ color: 'primary.gray', fontSize: '12px' }}>Back</Typography>
+                                                </FlexRow>
                                             </FlexRow>
                                             <Typography sx={{ width: '100%', textAlign: 'center', color: 'primary.text', fontSize: { xs: '18px', sm: '22px' } }}>
                                                 {openedGallery.gal_name}

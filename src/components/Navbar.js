@@ -17,7 +17,7 @@ import MobileMenu from "./MobileMenu";
 import SvgIcon from '@mui/material/SvgIcon';
 import yCoin from "../assets/Ycoin.svg"
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-import { Close, Face, Face2, Face3, Face4, Face5, InfoSharp, LogoutOutlined, Settings, TheaterComedy } from "@mui/icons-material";
+import { Close, Face, Face2, Face3, Face4, Face5, InfoSharp, LogoutOutlined, Search, Settings, TheaterComedy } from "@mui/icons-material";
 import { MorePopper, shorten } from "./utils";
 import DashBar from "./dashboard/DashBar";
 import ThemeToggler from "./HomePage/themeToggler";
@@ -402,6 +402,7 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                             alignItems: 'center', justifyContent: 'space-between',
                             color: 'primary.text', gap: '50px'
                         }}>
+                            <Search />
                             <div style={{ display: 'flex', gap: '3px', alignItems: 'center', }}>
                                 <span style={{ display: 'flex', alignItems: 'center', fontSize: '12px' }}>
                                     {globalUser.balance}
@@ -428,9 +429,9 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                                 }
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
-                                {window.location.pathname == '/dashboard' || window.location.pathname == '/gallery' || window.location.pathname == '/wallet' ?
+                                {window.location.pathname == '/profile' || window.location.pathname == '/gallery' || window.location.pathname == '/wallet' ?
                                     undefined
-                                    : <div style={{ display: 'flex', alignItems: 'center', }} onClick={() => navigate('/dashboard')}>
+                                    : <div style={{ display: 'flex', alignItems: 'center', }} onClick={() => navigate('/profile')}>
                                         <Profile cursor='pointer' size='25px' />
                                     </div>
                                 }

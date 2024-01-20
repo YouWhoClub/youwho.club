@@ -428,7 +428,7 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
                 fetchUser(globalUser.token)
                 getNFTs()
                 setExpanded(false)
-                // navigate('/dashboard#assets-tab')
+                // navigate('/profile#assets-tab')
 
             } else {
                 console.error(response.message)

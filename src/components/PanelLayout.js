@@ -64,6 +64,10 @@ const PanelLayout = ({ switchTheme, theme, children, id }) => {
                 // flexDirection: 'column',
             }}>
             <Navbar navbarType={'dashboard'} theme={theme} switchTheme={switchTheme} />
+            <Box sx={{ height: '1px', opacity: 0 }}
+                //  className="hiddenBoxBeforeScroll" 
+                id="hidden-box" />
+
             {!globalUser.isLoggedIn ?
                 <Box sx={{
                     display: 'flex', marginTop: '20%', height: '50%',
