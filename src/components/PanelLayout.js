@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 import styled from "@emotion/styled";
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
 import Navbar from "./Navbar";
+import React, { useState } from "react";
 const Title = styled('h4')(({ theme }) => ({
     color: theme.palette.primary.text,
 }))
@@ -20,9 +21,18 @@ const Wrapper = styled(Box)(({ theme }) => ({
 }))
 
 
-const PanelLayout = ({ switchTheme, theme, children, id }) => {
+const PanelLayout = ({ switchTheme, theme, children, id, progressBarOpen, setProgressBarOpen }) => {
     const globalUser = useSelector(state => state.userReducer)
     const navigate = useNavigate()
+
+    // const renderChildren = () => {
+    //     return React.Children.map(children, (child) => {
+    //         return React.cloneElement(child, {
+    //             barOpen: progressBarOpen,
+    //             setBarOpen: setProgressBarOpen
+    //         });
+    //     });
+    // }
     return (
         // <Box sx={{ bgcolor: 'secondary.bg' }}>
         //     <Wrapper>
@@ -63,7 +73,8 @@ const PanelLayout = ({ switchTheme, theme, children, id }) => {
                 // alignItems: 'center',
                 // flexDirection: 'column',
             }}>
-            <Navbar navbarType={'dashboard'} theme={theme} switchTheme={switchTheme} />
+            <Navbar navbarType={'dashboard'} theme={theme} switchTheme={switchTheme}
+                openedBar={progressBarOpen} setOpenedBar={setProgressBarOpen} />
             <Box sx={{ height: '1px', opacity: 0 }}
                 //  className="hiddenBoxBeforeScroll" 
                 id="hidden-box" />

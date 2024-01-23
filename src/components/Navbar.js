@@ -21,6 +21,8 @@ import { Close, Face, Face2, Face3, Face4, Face5, InfoSharp, LogoutOutlined, Sea
 import { MorePopper, shorten } from "./utils";
 import DashBar from "./dashboard/DashBar";
 import ThemeToggler from "./HomePage/themeToggler";
+import profileFace from '../assets/face-pro.svg'
+import { API_CONFIG } from "../config";
 
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
@@ -79,7 +81,7 @@ function HomeIcon(props) {
         </SvgIcon>
     );
 }
-const Navbar = ({ navbarType, switchTheme, theme }) => {
+const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => {
     const globalUser = useSelector(state => state.userReducer)
     const unclaimedDeposits = useSelector(state => state.unclaimedDepositReducer)
     const navigate = useNavigate();
@@ -242,36 +244,9 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
 
     }, [loginInitialRender])
 
-    // testing useEffect intervals ==>
-    // useEffect(() => {
-
-    //     if (!loginInitialRender && globalUser.tokenExpiration && globalUser.isLoggedIn) {
-    //         // checkTokenExpiration()
-    //         const interval = setInterval(checkTokenExpiration, 60000);
-    //         setTokenIntervalRef(interval);
-    //     }
-
-    //     if (loginInitialRender) {
-    //         setLoginInitialRender(false);
-    //     }
-
-    //     return () => {
-    //         if (tokenIntervalRef) {
-    //             clearInterval(tokenIntervalRef);
-    //             setTokenIntervalRef(null);
-    //         }
-    //     };
-    // }, [loginInitialRender, globalUser.tokenExpiration, globalUser.isLoggedIn]);
-
     const checkPVkeyCopyThenDisconnect = () => {
         if (globalUser.privateKey) {
             setOpenPVKeyModal(true)
-            // setInterval(() => {
-            //     setLogoutTimer(logoutTimer - 1)
-            // }, 1000);
-            // setTimeout(() => {
-            //     disconnect()
-            // }, 10000);
         } else {
             disconnect()
         }
@@ -323,7 +298,6 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
             setKeyCopied(undefined);
         }
     };
-
     const faceClickPopperTabs = [
         {
             text: 'Theme', id: 'dash-nav-thm-switch',
@@ -332,6 +306,7 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
         {
             text: 'Progressive', id: 'dash-nav-prgrss-tab', onClick: () => {
                 setProgressBarOpen(true)
+                localStorage.setItem('openPrg', true)
                 handleClose()
             }, icon: <Settings sx={{ fontSize: '24px', color: theme == 'dark' ? 'primary.middle' : 'primary.main' }} />
         },
@@ -406,17 +381,19 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                             <Link style={{ textDecoration: 'none', color: 'inherit' }} to={'/search'} target="_blank">
                                 <SearchNormal1 size='25px' cursor={'pointer'} />
                             </Link>
-                            <div style={{ display: 'flex', gap: '3px', alignItems: 'center', }}>
-                                <span style={{ display: 'flex', alignItems: 'center', fontSize: '12px' }}>
+                            <Box sx={{ display: 'flex', gap: '3px', alignItems: 'center', }}>
+                                <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '12px', gap: '1px' }}>
                                     {globalUser.balance}
-                                    &nbsp;<Box sx={{
-                                        backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)),
-                                        backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
-                                        , width: '20px', height: '20px'
-                                    }} />
-                                </span>
+                                    <Box sx={{ display: 'flex', height: '24px', }}>
+                                        <Box sx={{
+                                            backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)),
+                                            backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+                                            , width: '12px', height: '12px'
+                                        }} />
+                                    </Box>
+                                </Box>
                                 <Wallet2 size='25px' />
-                            </div>
+                            </Box>
                             <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
                                 <Notification size="25px" cursor='pointer' />
                                 {
@@ -451,17 +428,19 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                             <Link style={{ textDecoration: 'none', color: 'inherit' }} to={'/search'} target="_blank">
                                 <SearchNormal1 size='22px' cursor={'pointer'} />
                             </Link>
-                            <div style={{ display: 'flex', gap: '3px', alignItems: 'center', }}>
-                                <span style={{ display: 'flex', alignItems: 'center', fontSize: '12px' }}>
+                            <Box sx={{ display: 'flex', gap: '3px', alignItems: 'center', }}>
+                                <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '12px', gap: '1px' }}>
                                     {globalUser.balance}
-                                    &nbsp;<Box sx={{
-                                        backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)),
-                                        backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
-                                        , width: '15px', height: '15px'
-                                    }} />
-                                </span>
+                                    <Box sx={{ display: 'flex', height: '21px', }}>
+                                        <Box sx={{
+                                            backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)),
+                                            backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+                                            , width: '12px', height: '12px'
+                                        }} />
+                                    </Box>
+                                </Box>
                                 <Wallet2 size='22px' />
-                            </div>
+                            </Box>
                             <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
                                 <Notification size="22px" cursor='pointer' />
                                 {
@@ -518,20 +497,14 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                     alignItems: 'center',
                     px: { xs: '15px', md: '30px' }
                 }}>
-                        {/* <ThemeSwitcher left={{ xs: '15px', md: '30px' }} top={'75px'} switchTheme={switchTheme} /> */}
-                        {/* {window.location.pathname == '/' ? */}
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: '27px' }}>
                             {theme == 'light' ?
                                 <Link sx={{ color: 'inherit', textDecoration: 'none' }} to={'/'} target="_blank">
-                                    <YouWhoIconPurple
-                                    // onClick={() => navigate('/')}
-                                    />
+                                    <YouWhoIconPurple />
                                 </Link>
                                 :
                                 <Link sx={{ color: 'inherit', textDecoration: 'none' }} to={'/'} target="_blank">
-                                    <YouWhoIcon
-                                    // onClick={() => navigate('/')} 
-                                    />
+                                    <YouWhoIcon />
                                 </Link>
                             }
                         </Box>
@@ -542,17 +515,19 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                                     alignItems: 'center', justifyContent: 'space-between',
                                     color: 'primary.text', gap: '50px'
                                 }}>
-                                    <div style={{ display: 'flex', gap: '3px', alignItems: 'center', }}>
-                                        <span style={{ display: 'flex', alignItems: 'center', fontSize: '12px' }}>
+                                    <Box sx={{ display: 'flex', gap: '3px', alignItems: 'center', }}>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '12px', gap: '1px' }}>
                                             {globalUser.balance}
-                                            &nbsp;<Box sx={{
-                                                backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)),
-                                                backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
-                                                , width: '20px', height: '20px'
-                                            }} />
-                                        </span>
+                                            <Box sx={{ display: 'flex', height: '24px', }}>
+                                                <Box sx={{
+                                                    backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)),
+                                                    backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+                                                    , width: '12px', height: '12px'
+                                                }} />
+                                            </Box>
+                                        </Box>
                                         <Wallet2 size='25px' />
-                                    </div>
+                                    </Box>
                                     <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
                                         <Notification size="25px" cursor='pointer' />
                                         {
@@ -577,13 +552,19 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                                         {/* <div onClick={checkPVkeyCopyThenDisconnect}>
                                         <LogoutCurve style={{ display: 'flex', alignItems: 'center', }} cursor='pointer' size='25px' />
                                     </div> */}
-                                        <Box sx={{ display: 'flex', alignItems: "center", gap: '3px', }}>
-                                            <Typography sx={{ fontSize: '12px', color: 'primary.text', fontFamily: 'Inter' }}>{shorten(globalUser.username, 15)}</Typography>
-                                            <Box sx={{ display: 'flex', alignItems: "center", gap: '1px', cursor: 'pointer', }}
-                                                onClick={handleClick}>
-                                                <Face sx={{ cursor: 'pointer', fontSize: '25px' }} />
-                                                {!open ?
-                                                    <ArrowDown2 size={'15px'} /> : <ArrowUp2 size={'15px'} />}
+                                        <Box sx={{ display: 'flex', alignItems: "center", gap: '3px', cursor: 'pointer' }} onClick={handleClick}>
+                                            {!open ?
+                                                <ArrowDown2 size={'10px'} /> : <ArrowUp2 size={'10px'} />}
+                                            <Typography sx={{ fontSize: '12px', color: 'primary.text', fontFamily: 'Inter' }}>
+                                                {shorten(globalUser.username, 15)}
+                                            </Typography>
+                                            <Box sx={{ display: 'flex', alignItems: "center", gap: '1px', cursor: 'pointer', }}>
+                                                {/* <Face sx={{ cursor: 'pointer', fontSize: '25px' }} /> */}
+                                                <Box sx={{
+                                                    width: '25px', height: '25px', borderRadius: '50%',
+                                                    backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover',
+                                                    backgroundImage: () => globalUser.avatar ? `url('${API_CONFIG.API_URL}/${globalUser.avatar}')` : BG_URL(PUBLIC_URL(`${profileFace}`)),
+                                                }} />
                                             </Box>
                                         </Box>
                                     </div>
@@ -593,17 +574,20 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                                     alignItems: 'center', justifyContent: 'space-between',
                                     color: 'primary.text', gap: '12px'
                                 }}>
-                                    <div style={{ display: 'flex', gap: '3px', alignItems: 'center', }}>
-                                        <span style={{ display: 'flex', alignItems: 'center', fontSize: '12px' }}>
+                                    <Box sx={{ display: 'flex', gap: '3px', alignItems: 'center', }}>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '12px', gap: '1px' }}>
                                             {globalUser.balance}
-                                            &nbsp;<Box sx={{
-                                                backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)),
-                                                backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
-                                                , width: '20px', height: '20px'
-                                            }} />
-                                        </span>
+                                            <Box sx={{ display: 'flex', height: '23px', }}>
+                                                <Box sx={{
+                                                    backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)),
+                                                    backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
+                                                    backgroundPosition: 'center'
+                                                    , width: '12px', height: '12px'
+                                                }} />
+                                            </Box>
+                                        </Box>
                                         <Wallet2 size='24px' />
-                                    </div>
+                                    </Box>
                                     <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
                                         <Notification size="24px" cursor='pointer' />
                                         {
@@ -618,16 +602,16 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                                                 <></>
                                         }
                                     </div>
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '1px', cursor: 'pointer', }} onClick={handleClick} >
-                                        <Face sx={{ cursor: 'pointer', fontSize: '25px' }} />
+                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '1px', cursor: 'pointer', }}
+                                        onClick={handleClick} >
                                         {!open ?
-                                            <ArrowDown2 size={'15px'} /> : <ArrowUp2 size={'15px'} />}
+                                            <ArrowDown2 size={'10px'} /> : <ArrowUp2 size={'10px'} />}
+                                        <Box sx={{
+                                            width: '25px', height: '25px', borderRadius: '50%',
+                                            backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover',
+                                            backgroundImage: () => globalUser.avatar ? `url('${API_CONFIG.API_URL}/${globalUser.avatar}')` : BG_URL(PUBLIC_URL(`${profileFace}`)),
+                                        }} />
                                     </Box>
-                                    {/* 
-                                    <IconButton aria-label="menuIcon" sx={{ padding: '10px', color: 'primary.text' }}
-                                        onClick={() => setOpenMenu(true)}>
-                                        <FontAwesomeIcon icon={faEllipsisV} size="24px" />
-                                    </IconButton> */}
                                 </Box>
                                 <MorePopper tabs={faceClickPopperTabs} open={open} anchorEl={anchorEl} handleClose={handleClose} />
                             </>
@@ -649,8 +633,14 @@ const Navbar = ({ navbarType, switchTheme, theme }) => {
                         <MobileMenu theme={theme} switchTheme={switchTheme} openMenu={openMenu} setOpenMenu={setOpenMenu} />
 
                     </Box>
-                    {progressBarOpen ?
-                        <DashBar closeBar={() => setProgressBarOpen(false)} openBar={progressBarOpen} username={globalUser.username} /> : undefined}
+                    {progressBarOpen || openedBar ?
+                        <DashBar closeBar={() => {
+                            setProgressBarOpen(false)
+                            localStorage.setItem('openPrg', false)
+                            if (openedBar) {
+                                setOpenedBar(false)
+                            }
+                        }} openBar={progressBarOpen || openedBar} username={globalUser.username} /> : undefined}
 
                 </Box>
 

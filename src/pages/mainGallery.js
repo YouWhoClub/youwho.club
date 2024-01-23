@@ -134,6 +134,7 @@ const MainGallery = ({ switchTheme, theme }) => {
             insidePanel.classList.remove("insidePanelExploreAfterScroll")
         }
     }
+    const [progressBarOpen, setProgressBarOpen] = useState(false)
 
     useEffect(() => {
         if (window.document.getElementById("scrollable-gallery-panel") && window.document.getElementById("scrollable-explore-panel-inside")) {
@@ -144,7 +145,9 @@ const MainGallery = ({ switchTheme, theme }) => {
     }, [window.document.getElementById("scrollable-gallery-panel"), window.document.getElementById("scrollable-explore-panel-inside")])
 
     return (
-        <PanelLayout switchTheme={switchTheme} theme={theme} id={"scrollable-gallery-panel"}>
+        <PanelLayout progressBarOpen={progressBarOpen}
+            setProgressBarOpen={setProgressBarOpen}
+            switchTheme={switchTheme} theme={theme} id={"scrollable-gallery-panel"}>
             <Box
                 id="explore"
                 sx={{
@@ -181,7 +184,10 @@ const MainGallery = ({ switchTheme, theme }) => {
                                         & get one YouWho token as a gift
                                     </Typography>
                                 </Box>
-                                <ButtonPurpleLight onClick={() => navigate('/profile')} text={'Lets go'} w={'max-content'} px={'20px'} />
+                                <ButtonPurpleLight
+                                    onClick={() => setProgressBarOpen(true)}
+                                    text={'Lets go'}
+                                    w={'max-content'} px={'20px'} />
                             </Box>
                         </TeachingBox>}
                     {globalUser.cid ? undefined :

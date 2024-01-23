@@ -160,7 +160,7 @@ const MobileMenu = ({ openMenu, setOpenMenu, theme, switchTheme }) => {
                             <ArrowRight2 size='24px' />
                         </MenuItem>
                         {globalUser.isLoggedIn ?
-                            <MenuItem onClick={() => navigate('/dashboard')}>
+                            <MenuItem onClick={() => navigate('/profile')}>
                                 <Typography sx={{ fontSize: '14px' }}>
                                     Dashboard
                                 </Typography>
