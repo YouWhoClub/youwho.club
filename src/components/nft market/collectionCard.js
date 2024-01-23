@@ -216,6 +216,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
         setAnchorEl(null);
     }
     useEffect(() => {
+        getNFTimgs()
         getMetadata()
         getGasFee()
     }, [])
@@ -236,7 +237,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
             })
             Promise.all(
                 nfts.sort((a, b) => new Date(a.created_at) - new Date(b.created_at)).map((nft) =>
-                    fetch(nft.metadata_uri.replace("ipfs://", "https://ipfs.io/ipfs/"))
+                    fetch(nft.metadata_uri.includes('::') ? nft.metadata_uri.split("::")[0].replace("ipfs://", "https://ipfs.io/ipfs/") : nft.metadata_uri.replace("ipfs://", "https://ipfs.io/ipfs/"))
                         .then((response) => response.json())
                         .then((data) => ({ ...nft, metadata: data }))
                         .catch((error) => {
@@ -247,12 +248,29 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                 )
             )
                 .then((nftsWithMetadata) => {
+                    console.log(nftsWithMetadata)
                     setNFTs(nftsWithMetadata);
                 })
                 .catch((error) => {
                     // Handle any Promise.all errors
                     console.error('Error fetching NFT images:', error);
                 });
+        }
+    }
+    const getNFTimgs = () => {
+        if (collection.nfts) {
+            const nfts = collection.nfts.filter((nft) => {
+                if (nft.is_listed) {
+                    return false;
+                }
+                return true;
+            })
+            collection.nfts.forEach(nft => {
+                if (nft.metadata_uri.includes('::')) {
+                    nft.serverImg = nft.metadata_uri.split("::")[1]
+                    console.log('-----', nft.serverImg)
+                }
+            });
         }
     }
     const getGasFee = async () => {

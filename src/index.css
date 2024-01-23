@@ -25,19 +25,29 @@ h6 {
   font-family: "Josefin Sans", sans-serif;
 }
 @keyframes fadeaway {
-  from {
+  0% {
     display: flex;
     opacity: 1;
   }
-  to {
-    height: 0;
-    opacity: 0;
-    display: none;
+  5% {
+    height: 0px !important;
+    width: 0px !important;
+  }
+  100% {
+    height: 0px !important;
+    width: 0px !important;
+    display: none !important;
   }
 }
 .profileBannerAfterScroll {
-  height: 100px !important;
+  transition: 500ms ease !important;
+  height: 0px !important;
+  width: 0px !important;
   display: none !important;
+  animation-duration: 2s;
+  animation-name: fadeaway;
+
+  /* height: 100px !important; */
 }
 .profilePicAfterScroll {
   height: 50px !important;

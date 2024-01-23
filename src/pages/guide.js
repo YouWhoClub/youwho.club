@@ -5,7 +5,18 @@ import Footer from "../components/Footer";
 import { ArrowDown2 } from "iconsax-react";
 import { useNavigate } from "react-router";
 import { Close } from "@mui/icons-material";
-
+import { BG_URL, PUBLIC_URL } from "../utils/utils";
+import profileBar from '../assets/profileBar.png'
+import walletBar from '../assets/walletBar.png'
+import exploreBar from '../assets/exploreBar.png'
+import createColGuide from '../assets/createColGuide.png'
+import walletGuide from '../assets/walletGuide.png'
+import pvGallGuide from '../assets/pvgallGuide.png'
+import pbGallGuide from '../assets/pbgallGuide.png'
+import sendReqGuide from '../assets/sendReqGuide.png'
+import accReqGuide from '../assets/accReqGuide.png'
+import resendReqGuide from '../assets/resendReqGuide.png'
+import reactionGuide from '../assets/reactionGuide.png'
 const Wrapper = styled(Box)(({ theme }) => ({
     width: '100%',
     maxWidth: '1440px',
@@ -21,6 +32,15 @@ const Container = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.secondary.bg,
     boxShadow: theme.palette.primary.boxShadow,
 }))
+const Image = styled(Box)(({ theme }) => ({
+    backgroundColor: theme.palette.primary.bgOp,
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    // backgroundSize: 'contain',
+    // height: '250px',
+    borderRadius: '15px',
+}))
+
 
 const GuidePage = ({ switchTheme, theme }) => {
     const navigate = useNavigate()
@@ -71,7 +91,7 @@ const GuidePage = ({ switchTheme, theme }) => {
                                     height: { xs: '40px', md: '60px' }
                                 }}
                             >
-                                <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text', fontSize: { xs: '12px', sm: '14px', md: '18px' }, }}>Dashboard Tab</Typography>
+                                <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text', fontSize: { xs: '12px', sm: '14px', md: '18px' }, }}>Explore Tab</Typography>
                             </AccordionSummary>
                             <AccordionDetails
                                 sx={{
@@ -82,12 +102,16 @@ const GuidePage = ({ switchTheme, theme }) => {
                                 <Box sx={{
                                     width: '100%', gap: { xs: '14px', md: '22px' }, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center'
                                 }}>
-                                    <Typography>Image</Typography>
-                                    <Typography>Content Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content Content</Typography>
-                                    <Typography>Image</Typography>
-                                    <Typography>Content Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content Content</Typography>
-                                    <Typography>Image</Typography>
-                                    <Typography>Content Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content Content</Typography>
+                                    <Image sx={{
+                                        width: { xs: '100%', md: '280px' },
+                                        height: { xs: '250px', md: '280px' },
+                                        backgroundImage: BG_URL(PUBLIC_URL(`${exploreBar}`)),
+                                        backgroundSize: 'contain'
+                                    }} />
+
+                                    <Typography sx={{ fontFamily: 'Inter' }}>
+                                        In this section, you can view active users and top-selling NFTs on YouWho, connect with them, and explore the most valuable world of NFTs. This section includes All NFTs, Top NFTs, New NFTs and Top YouWho Users.
+                                    </Typography>
                                 </Box>
 
                             </AccordionDetails>
@@ -120,16 +144,28 @@ const GuidePage = ({ switchTheme, theme }) => {
                                 <Box sx={{
                                     width: '100%', gap: { xs: '14px', md: '22px' }, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center'
                                 }}>
-                                    <Typography>Image</Typography>
-                                    <Typography>Content Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content Content</Typography>
-                                    <Typography>Image</Typography>
-                                    <Typography>Content Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content Content</Typography>
-                                    <Typography>Image</Typography>
-                                    <Typography>Content Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content Content</Typography>
+                                    <Image sx={{
+                                        width: { xs: '100%', md: '280px' },
+                                        height: { xs: '250px', md: '280px' },
+                                        backgroundImage: BG_URL(PUBLIC_URL(`${walletBar}`)),
+                                        backgroundSize: 'contain'
+                                    }} />
+
+                                    <Typography sx={{ fontFamily: 'Inter' }}>
+                                        The process of creating a wallet has only one step: choose a username for yourself, and your wallet will be created.
+                                    </Typography>
+                                    <Image sx={{
+                                        width: { xs: '100%', md: '300px' },
+                                        height: { xs: '250px', md: '300px' },
+                                        backgroundImage: BG_URL(PUBLIC_URL(`${walletGuide}`)),
+                                        backgroundSize: 'cover'
+                                    }} />
                                 </Box>
 
                             </AccordionDetails>
                         </Accordion>
+
+
                         <Accordion
                             sx={{
                                 bgcolor: 'secondary.bg',
@@ -147,7 +183,10 @@ const GuidePage = ({ switchTheme, theme }) => {
                                     height: { xs: '40px', md: '60px' }
                                 }}
                             >
-                                <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text', fontSize: { xs: '12px', sm: '14px', md: '18px' }, }}>Explore Tab</Typography>
+                                <Typography
+                                    sx={{ display: "flex", alignItems: "center", color: 'primary.text', fontSize: { xs: '12px', sm: '14px', md: '18px' }, }}>
+                                    Profile Tab
+                                </Typography>
                             </AccordionSummary>
                             <AccordionDetails
                                 sx={{
@@ -158,16 +197,36 @@ const GuidePage = ({ switchTheme, theme }) => {
                                 <Box sx={{
                                     width: '100%', gap: { xs: '14px', md: '22px' }, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center'
                                 }}>
-                                    <Typography>Image</Typography>
-                                    <Typography>Content Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content Content</Typography>
-                                    <Typography>Image</Typography>
-                                    <Typography>Content Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content Content</Typography>
-                                    <Typography>Image</Typography>
-                                    <Typography>Content Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content Content</Typography>
+                                    <Image sx={{
+                                        width: { xs: '100%', md: '280px' },
+                                        height: { xs: '250px', md: '280px' },
+                                        backgroundImage: BG_URL(PUBLIC_URL(`${profileBar}`)),
+                                        backgroundSize: 'contain'
+                                    }} />
+                                    <Typography sx={{ fontFamily: 'Inter' }}>
+                                        Create artwork tab has two main sections: creating a collection and creating an NFT. In any case, you should start with creating a collection. To create a collection, you need to fill out the following fields:
+                                        <br />Name:
+                                        <br />Name of the NFT contract. Cannot be changed later.
+                                        <br />symbol
+                                        <br />Symbol of the NFT contract. Cannot be changed later.
+                                        <br />owner_address
+                                        <br />The contract owner address. If you wish to own the contract, then set it as your wallet address
+                                        <br />Royalty share:
+                                        <br />Enter the perpetual royalty percentage you want to receive from each NFT sale. It is advisable to consider a percentage between 1% up to 5%.
+                                        <br />Royalties Address:
+                                        <br />Enter your or the collection creator public key in this section.
+                                    </Typography>
+                                    <Image sx={{
+                                        width: { xs: '100%', md: '300px' },
+                                        height: { xs: '250px', md: '300px' },
+                                        backgroundImage: BG_URL(PUBLIC_URL(`${createColGuide}`)),
+                                        backgroundSize: 'cover'
+                                    }} />
                                 </Box>
 
                             </AccordionDetails>
                         </Accordion>
+
                         <Accordion
                             sx={{
                                 bgcolor: 'secondary.bg',
@@ -196,12 +255,21 @@ const GuidePage = ({ switchTheme, theme }) => {
                                 <Box sx={{
                                     width: '100%', gap: { xs: '14px', md: '22px' }, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center'
                                 }}>
-                                    <Typography>Image</Typography>
-                                    <Typography>Content Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content Content</Typography>
-                                    <Typography>Image</Typography>
-                                    <Typography>Content Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content Content</Typography>
-                                    <Typography>Image</Typography>
-                                    <Typography>Content Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content Content</Typography>
+                                    <Image sx={{
+                                        width: { xs: '100%', md: '280px' },
+                                        height: { xs: '250px', md: '280px' },
+                                        backgroundImage: BG_URL(PUBLIC_URL(`${profileBar}`)),
+                                        backgroundSize: 'contain'
+                                    }} />
+                                    <Typography sx={{ fontFamily: 'Inter' }}>
+                                        only friends joined by invitation link or by paying entrance fee will be able to view the desired gallery.
+                                    </Typography>
+                                    <Image sx={{
+                                        width: { xs: '100%', md: '300px' },
+                                        height: { xs: '250px', md: '300px' },
+                                        backgroundImage: BG_URL(PUBLIC_URL(`${pvGallGuide}`)),
+                                        backgroundSize: 'contain'
+                                    }} />
                                 </Box>
 
                             </AccordionDetails>
@@ -234,12 +302,15 @@ const GuidePage = ({ switchTheme, theme }) => {
                                 <Box sx={{
                                     width: '100%', gap: { xs: '14px', md: '22px' }, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center'
                                 }}>
-                                    <Typography>Image</Typography>
-                                    <Typography>Content Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content Content</Typography>
-                                    <Typography>Image</Typography>
-                                    <Typography>Content Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content Content</Typography>
-                                    <Typography>Image</Typography>
-                                    <Typography>Content Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content Content</Typography>
+
+                                    <Typography sx={{ fontFamily: 'Inter' }}>Collections whose NFTs have been minted by the owner or others are displayed here.
+                                    </Typography>
+                                    <Image sx={{
+                                        width: { xs: '100%', md: '300px' },
+                                        height: { xs: '250px', md: '300px' },
+                                        backgroundImage: BG_URL(PUBLIC_URL(`${pbGallGuide}`)),
+                                        backgroundSize: 'contain'
+                                    }} />
                                 </Box>
 
                             </AccordionDetails>
@@ -272,12 +343,28 @@ const GuidePage = ({ switchTheme, theme }) => {
                                 <Box sx={{
                                     width: '100%', gap: { xs: '14px', md: '22px' }, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center'
                                 }}>
-                                    <Typography>Image</Typography>
-                                    <Typography>Content Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content Content</Typography>
-                                    <Typography>Image</Typography>
-                                    <Typography>Content Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content Content</Typography>
-                                    <Typography>Image</Typography>
-                                    <Typography>Content Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content Content</Typography>
+
+                                    <Typography sx={{ fontFamily: 'Inter' }}>
+                                        This section is a prerequisite for entering the NFT minting world and can only be done by you and your friends. In YoWho, you become friends with someone only when both of you have gone through these three stages. By sending and accepting a mutual friend request, you become friends, allowing you to enter each other's private galleries and subsequently view and respond to each other's NFTs. This process can be done like so:
+                                    </Typography>
+                                    <Image sx={{
+                                        width: { xs: '100%', md: '300px' },
+                                        height: { xs: '250px', md: '300px' },
+                                        backgroundImage: BG_URL(PUBLIC_URL(`${sendReqGuide}`)),
+                                        backgroundSize: 'contain'
+                                    }} />
+                                    <Image sx={{
+                                        width: { xs: '100%', md: '300px' },
+                                        height: { xs: '250px', md: '300px' },
+                                        backgroundImage: BG_URL(PUBLIC_URL(`${accReqGuide}`)),
+                                        backgroundSize: 'contain'
+                                    }} />
+                                    <Image sx={{
+                                        width: { xs: '100%', md: '300px' },
+                                        height: { xs: '250px', md: '300px' },
+                                        backgroundImage: BG_URL(PUBLIC_URL(`${resendReqGuide}`)),
+                                        backgroundSize: 'contain'
+                                    }} />
                                 </Box>
 
                             </AccordionDetails>
@@ -310,12 +397,15 @@ const GuidePage = ({ switchTheme, theme }) => {
                                 <Box sx={{
                                     width: '100%', gap: { xs: '14px', md: '22px' }, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center'
                                 }}>
-                                    <Typography>Image</Typography>
-                                    <Typography>Content Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content Content</Typography>
-                                    <Typography>Image</Typography>
-                                    <Typography>Content Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content Content</Typography>
-                                    <Typography>Image</Typography>
-                                    <Typography>Content Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content ContentContent Content Content</Typography>
+
+                                    <Typography sx={{ fontFamily: 'Inter' }}>
+                                        All your interactions with your friends and also their reactions are displayed in this section. Actions include likes, comments, requests, invitations, and other engagements between you and your friends.                                    </Typography>
+                                    <Image sx={{
+                                        width: { xs: '100%', md: '300px' },
+                                        height: { xs: '250px', md: '300px' },
+                                        backgroundImage: BG_URL(PUBLIC_URL(`${reactionGuide}`)),
+                                        backgroundSize: 'contain'
+                                    }} />
                                 </Box>
 
                             </AccordionDetails>

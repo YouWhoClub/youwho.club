@@ -16,7 +16,7 @@ const MyFriendSuggestions = ({ sendAllieRequest, sendFriendRequest, shareClick, 
     const [err, setErr] = useState(undefined)
     const getUsers = async () => {
         try {
-            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/suggestions/for/?from=0&to=10`, {
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/suggestions/for/?from=0&to=100`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

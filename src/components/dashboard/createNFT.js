@@ -86,6 +86,8 @@ const CreateNFT = ({ setMainActiveTab }) => {
     const [colId, setColId] = useState(undefined)
     const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
     const [royaltyShare, setRoyaltyShare] = useState(0)
+    const [NFTReqSent, setNFTReqSent] = useState(false)
+    const [ColReqSent, setColReqSent] = useState(false)
 
     const [collectionForm, setCollectionForm] = useState({
         gallery_id: null,
@@ -97,7 +99,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
         metadata_updatable: true,
         base_uri: " ",
         royalties_share: 0, // in-app token amount | 100 means 1%
-        royalties_address_screen_cid: "",
+        royalties_address_screen_cid: globalUser.YouWhoID,
         extra: [],
     })
     const [NFTForm, setNFTForm] = useState({
@@ -312,7 +314,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
     }
     const createCollection = async () => {
         loading();
-
+        setColReqSent(true)
         if (globalUser.privateKey) {
             let data = {}
 
@@ -354,20 +356,24 @@ const CreateNFT = ({ setMainActiveTab }) => {
                     metadata_updatable: true,
                     base_uri: "",
                     royalties_share: 0, // in-app token amount | 100 means 1%
-                    royalties_address_screen_cid: "",
+                    royalties_address_screen_cid: globalUser.YouWhoID,
                     extra: [],
                 })
+                setColReqSent(false)
+
             } else {
                 console.error(response.message)
                 updateToast(false, response.message)
+                setColReqSent(false)
             }
         } else {
+            setColReqSent(false)
             updateToast(false, 'please save your private key first')
         }
     }
     const createNFT = async () => {
         loading();
-
+        setNFTReqSent(true)
         if (globalUser.privateKey) {
             let data = {}
 
@@ -406,11 +412,15 @@ const CreateNFT = ({ setMainActiveTab }) => {
                     extra: [],
                     attributes: [],
                 }))
+                setNFTReqSent(false)
             } else {
                 console.error(response.message)
                 updateToast(false, response.message)
+                setNFTReqSent(false)
+
             }
         } else {
+            setNFTReqSent(false)
             updateToast(false, 'please save your private key first')
         }
     }
@@ -471,7 +481,6 @@ const CreateNFT = ({ setMainActiveTab }) => {
             updateToast(false, 'please save your private key first')
         }
     }
-
     return (
         <Box sx={{
             width: '100%',
@@ -672,8 +681,8 @@ const CreateNFT = ({ setMainActiveTab }) => {
                                         <ButtonPurple
                                             text={'Create'}
                                             w={'100%'}
-                                            disabled={!Object.values(NFTForm).every(value => value !== null && value !== "") || !NFTForm.attributes.length || !NFTImageFile}
-                                            onClick={!Object.values(NFTForm).every(value => value !== null && value !== "") || !NFTForm.attributes.length || !NFTImageFile ? undefined : createNFT}
+                                            disabled={!Object.values(NFTForm).every(value => value !== null && value !== "") || !NFTForm.attributes.length || !NFTImageFile || NFTReqSent}
+                                            onClick={!Object.values(NFTForm).every(value => value !== null && value !== "") || !NFTForm.attributes.length || !NFTImageFile || NFTReqSent ? undefined : createNFT}
                                         />
                                     </Box>
                                 </>
@@ -935,8 +944,8 @@ const CreateNFT = ({ setMainActiveTab }) => {
                                         <ButtonPurple
                                             text={'Create'}
                                             w={'100%'}
-                                            onClick={!Object.values(collectionForm).every(value => value !== null && value !== "") || !colImageFile ? undefined : createCollection}
-                                            disabled={!Object.values(collectionForm).every(value => value !== null && value !== "") || !colImageFile}
+                                            onClick={!Object.values(collectionForm).every(value => value !== null && value !== "") || !colImageFile || ColReqSent ? undefined : createCollection}
+                                            disabled={!Object.values(collectionForm).every(value => value !== null && value !== "") || !colImageFile || ColReqSent}
                                         />
                                     </Box>
                                 </>

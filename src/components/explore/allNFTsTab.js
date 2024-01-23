@@ -16,7 +16,7 @@ const Gallery = styled(Box)(({ theme }) => ({
 const AllNFTsTab = () => {
     const [from, setFrom] = useState(0)
     const [to, setTo] = useState(30)
-    const [pgTabs, setPgTabs] = useState([])
+    const [pgTabs, setPgTabs] = useState([1])
     const globalUser = useSelector(state => state.userReducer)
     const [err, setErr] = useState(undefined)
     const apiCall = useRef(undefined)
@@ -33,35 +33,35 @@ const AllNFTsTab = () => {
             console.log(response)
             if (!response.isSuccess)
                 throw response
-            setNFTs(response.data.data)
+            // setNFTs(response.data.data)
 
 
-            // let nftsArr = response.data.data.slice(from, (to - 4))
-            // setNFTs(nftsArr)
-            // if (response.data.data.length >= (to - 4)) {
-            //     let pagTabs = []
-            //     let tabNums = response.data.data.length / 4
-            //     for (let i = 0; i < tabNums; i++) {
-            //         pagTabs.push(i + 1)
-            //     }
-            //     setPgTabs(pagTabs)
-            //     console.log(tabNums)
-            //     console.log(pagTabs)
-            // } else {
-            //     setPgTabs([1])
-            // }
+            let nftsArr = response.data.data.slice((selectedTab - 1) * 15, ((selectedTab - 1) * 15) + 15)
+            setNFTs(nftsArr)
+            if (response.data.data.length >= 15) {
+                let pagTabs = []
+                let tabNums = response.data.data.length / 15
+                for (let i = 0; i < tabNums; i++) {
+                    pagTabs.push(i + 1)
+                }
+                setPgTabs(pagTabs)
+                console.log(tabNums)
+                console.log(pagTabs)
+            } else {
+                console.log('getting nfts !')
+            }
         }
         catch (err) {
             setErr(err.statusText)
         }
     }
-    // useEffect(() => {
-    //     setFrom((selectedTab - 1) * 4)
-    //     setTo(((selectedTab - 1) * 4) + 4)
-    // }, [selectedTab])
-    // useEffect(() => {
-    //     getMainNFTs()
-    // }, [to])
+    useEffect(() => {
+        // setFrom((selectedTab - 1) * 15)
+        setTo((((selectedTab - 1) * 15) + 15) + 15)
+    }, [selectedTab])
+    useEffect(() => {
+        getMainNFTs()
+    }, [to])
     useEffect(() => {
         getMainNFTs()
         return () => {

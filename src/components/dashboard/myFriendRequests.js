@@ -25,7 +25,7 @@ const MyFriendequests = ({ setAllRequests, searchResults, getFollowings }) => {
     }
 
     const getRequests = async () => {
-        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/unaccepted/friend-requests/?from=0&to=10`, {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/unaccepted/friend-requests/?from=0&to=50`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

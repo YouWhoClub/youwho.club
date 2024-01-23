@@ -171,6 +171,7 @@ const TabsComp = styled(Box)(({ theme }) => ({
 }))
 const TabComp = styled(Box)(({ theme }) => ({
     display: 'flex',
+    transition: '500ms ease',
     alignItems: 'center',
     justifyContent: 'center',
     cursor: 'pointer',
@@ -208,6 +209,7 @@ const SubTabComp = styled(Box)(({ theme }) => ({
     cursor: 'pointer',
     borderRadius: '30px', fontSize: '12px', border: '1px solid', borderColor: theme.palette.primary.light,
     padding: '6px 22px',
+    transition: '500ms ease',
     width: 'max-content',
     textAlign: 'center',
     display: 'flex', alignItems: 'center', backgroundColor: theme.palette.secondary.bg,
@@ -1118,7 +1120,7 @@ export const ReactionCardNew = ({ text, action, image, date, popperTabs, actionB
             getMetadata()
     }, [metadata_uri])
     const getMetadata = () => {
-        fetch(metadata_uri.replace("ipfs://", "https://ipfs.io/ipfs/"))
+        fetch(metadata_uri.includes('::') ? metadata_uri.split("::")[0].replace("ipfs://", "https://ipfs.io/ipfs/") : metadata_uri.replace("ipfs://", "https://ipfs.io/ipfs/"))
             .then((response) => response.json())
             .then((data) => (setImageURL(data.image)))
             .catch((error) => {

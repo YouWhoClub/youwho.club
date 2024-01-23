@@ -388,7 +388,7 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
     }
     const getMetadata = () => {
         console.log(metadata_uri);
-        fetch(metadata_uri.replace("ipfs://", "https://ipfs.io/ipfs/"))
+        fetch(metadata_uri.includes('::') ? metadata_uri.split("::")[0].replace("ipfs://", "https://ipfs.io/ipfs/") : metadata_uri.replace("ipfs://", "https://ipfs.io/ipfs/"))
             .then((response) => response.json())
             .then((data) => {
                 setNFTInfo({

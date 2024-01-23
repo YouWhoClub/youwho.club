@@ -60,7 +60,7 @@ const NFTCardLanding = ({ image, nft }) => {
     const [imageURL, setImageURL] = useState(null);
 
     const getMetadata = () => {
-        fetch(image.replace("ipfs://", "https://ipfs.io/ipfs/"))
+        fetch(image.includes('::') ? image.split("::")[0].replace("ipfs://", "https://ipfs.io/ipfs/") : image.replace("ipfs://", "https://ipfs.io/ipfs/"))
             .then((response) => response.json())
             .then((data) => (setImageURL(data.image)))
             .catch((error) => {

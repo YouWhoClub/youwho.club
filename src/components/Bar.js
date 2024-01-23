@@ -2,7 +2,7 @@ import { Box, Modal, SvgIcon } from "@mui/material";
 import ButtonOutline from "./buttons/buttonOutline";
 import ButtonPurple from "./buttons/buttonPurple";
 import { HambergerMenu, Location, Mobile, Profile, Wallet, Wallet2, WalletMoney } from "iconsax-react";
-import { CenterFocusStrong, Close, LogoutOutlined, WalletOutlined } from "@mui/icons-material";
+import { CenterFocusStrong, Close, EastRounded, LogoutOutlined, WalletOutlined } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { logOutUser } from "../redux/actions";
@@ -18,7 +18,7 @@ const IconHolder = styled(Box)(({ theme }) => ({
     display: 'flex', justifyContent: 'center', alignItems: 'center',
     borderColor: theme.palette.secondary.text,
     // border: '0.2px solid',
-    borderRadius: '50%', cursor: 'pointer',
+    borderRadius: '50%', cursor: 'pointer',transition:'500ms ease',
     width: '50px', height: '50px',
     boxShadow: theme.palette.primary.boxShadowInset,
     '&:hover': {
@@ -64,7 +64,7 @@ const BarStyle = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     backgroundColor: theme.palette.secondary.bg,
     backdropFilter: 'blur(10px)',
-    boxShadow: theme.palette.primary.boxShadow,
+    boxShadow: '2px 0px 5px 1px rgba(0, 0, 0, 0.25)',
     position: "absolute",
     zIndex: 999,
     color: theme.palette.primary.text
@@ -113,7 +113,7 @@ const Bar = () => {
     return (
         <BarStyle sx={{
             flexDirection: { xs: 'row', sm: 'column' },
-            height: { xs: '50px', sm: 'calc(100vh - 300px)', md: 'calc(100vh - 300px)' },
+            height: { xs: '50px', sm: 'calc(100vh - 200px)', md: '450px' },
             width: {
                 xs: '100%', sm: '75px'
             },

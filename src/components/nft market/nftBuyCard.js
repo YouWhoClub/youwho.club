@@ -193,7 +193,7 @@ const NFTBuyCard = ({ nft, expanded, setExpandedId, setActiveTab, getUserGalleri
 
 
     const getMetadata = () => {
-        fetch(metadata_uri.replace("ipfs://", "https://ipfs.io/ipfs/"))
+        fetch(metadata_uri.includes('::') ? metadata_uri.split("::")[0].replace("ipfs://", "https://ipfs.io/ipfs/") : metadata_uri.replace("ipfs://", "https://ipfs.io/ipfs/"))
             .then((response) => response.json())
             .then((data) => (setImageURL(data.image)))
             .catch((error) => {

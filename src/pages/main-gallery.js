@@ -20,6 +20,7 @@ import Navbar from "../components/Navbar";
 import { useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import { PUBLIC_API } from "../utils/data/public_api";
+import Pagination from "../components/pagination";
 
 const GiftsScrollWrapper = styled(Box)(({ theme }) => ({
     // width: '100%',
@@ -65,24 +66,51 @@ const ViewMainGalleryPage = ({ theme, switchTheme }) => {
     const globalUser = useSelector(state => state.userReducer)
     const [err, setErr] = useState(undefined)
     const apiCall = useRef(undefined)
+    const [from, setFrom] = useState(0)
+    const [to, setTo] = useState(60)
+    const [pgTabs, setPgTabs] = useState([1])
+    const [selectedTab, setSelectedTab] = useState(1)
+
     const [NFTs, setNFTs] = useState(undefined)
     const getMainNFTs = async () => {
         setErr(undefined)
         try {
             apiCall.current = PUBLIC_API.request({
-                path: `/get-all-minted-nfts/?from=0&to=11`,
+                path: `/get-all-minted-nfts/?from=${from}&to=${to}`,
                 method: "get",
             });
             let response = await apiCall.current.promise;
             console.log(response)
             if (!response.isSuccess)
                 throw response
-            setNFTs(response.data.data)
+
+
+            let nftsArr = response.data.data.slice((selectedTab - 1) * 30, ((selectedTab - 1) * 30) + 30)
+            setNFTs(nftsArr)
+            if (response.data.data.length >= 30) {
+                let pagTabs = []
+                let tabNums = response.data.data.length / 30
+                for (let i = 0; i < tabNums; i++) {
+                    pagTabs.push(i + 1)
+                }
+                setPgTabs(pagTabs)
+                console.log(tabNums)
+                console.log(pagTabs)
+            } else {
+                console.log('getting nfts !')
+            }
         }
         catch (err) {
             setErr(err.statusText)
         }
     }
+    useEffect(() => {
+        // setFrom((selectedTab - 1) * 30)
+        setTo((((selectedTab - 1) * 30) + 30) + 30)
+    }, [selectedTab])
+    useEffect(() => {
+        getMainNFTs()
+    }, [to])
 
     useEffect(() => {
         getMainNFTs()
@@ -97,7 +125,7 @@ const ViewMainGalleryPage = ({ theme, switchTheme }) => {
     return (
         <Box sx={{
             bgcolor: 'secondary.bg', display: "flex",
-            flexDirection: 'column',
+            flexDirection: 'column', alignItems: 'center',
             color: 'primary.text', gap: '32px'
 
         }}>
@@ -107,7 +135,7 @@ const ViewMainGalleryPage = ({ theme, switchTheme }) => {
                 color: 'primary.text', textTransform: 'capitalize'
             }}>explore YouWho main Gallery</Typography>
             <GiftsScrollWrapper sx={{
-                justifyContent: { xs: 'center', lg: 'start' },
+                justifyContent: { xs: 'center', lg: 'center' },
                 boxSizing: 'border-box', px: '30px'
             }}>
                 {NFTs ?
@@ -147,7 +175,13 @@ const ViewMainGalleryPage = ({ theme, switchTheme }) => {
                         </Box>
                     </>
                 }
+
+
             </GiftsScrollWrapper>
+            {NFTs && NFTs.length > 0 ?
+                <Pagination tabs={pgTabs} selected={selectedTab} setSelectedTab={setSelectedTab} />
+                : undefined}
+
             <Footer />
         </Box>
     );
