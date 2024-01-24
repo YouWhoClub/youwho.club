@@ -94,7 +94,7 @@ const WithdrawPanel = () => {
             const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
 
             // sending the request
-            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/withdraw/from/0x35e81902dd457f44bae08112c386d9104f1e1ad4`, {
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/withdraw/from/0xae3ff2bf2d38bb4d3bea469a794feba06388dd3c`, {
                 method: 'POST',
                 body: JSON.stringify(requestData),
                 headers: {
