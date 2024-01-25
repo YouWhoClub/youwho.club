@@ -7,7 +7,9 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import { toast } from 'react-toastify';
 import blueNft from '../../assets/blue-nft.svg'
 
-const MyFriendequests = ({ setAllRequests, searchResults, getFollowings }) => {
+const MyFriendequests = ({
+    //  setAllRequests, 
+    searchResults, getFollowings }) => {
     const globalUser = useSelector(state => state.userReducer)
     const [reqsLoading, setReqsLoading] = useState(true)
     const [err, setErr] = useState(undefined)
@@ -36,12 +38,12 @@ const MyFriendequests = ({ setAllRequests, searchResults, getFollowings }) => {
         console.log('requests', response)
 
         if (!response.is_error) {
-            setAllRequests(response.data)
+            // setAllRequests(response.data)
             setRequests(response.data)
             setReqsLoading(false)
         } else {
             if (response.status == 404) {
-                setAllRequests([])
+                // setAllRequests([])
                 setRequests([])
                 setReqsLoading(false)
 

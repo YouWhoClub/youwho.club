@@ -73,6 +73,12 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
         success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
             : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
     }
+    function addMonths(date, months) {
+        date.setMonth(date.getMonth() + months);
+
+        return date;
+    }
+
     const submit = async () => {
         setProgress('100%')
         setErr(undefined)
@@ -114,9 +120,15 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
             localStorage.setItem('lastActive', true)
             let dt = new Date();
             dt = new Date(dt.getTime() + 30 * 60 * 1000)
+
+        let dtt = new Date();
+        let mm = addMonths(dtt, 1)
+        let tmstmp = new Date(mm).getTime()
+
             let accesstoken = response.headers.cookie.match(/\/accesstoken=([^&]+)/)[1]
             let refreshToken = response.headers.cookie.match(/refrestoken=([^&]+)/)[1]
-            let tokenExpiration = dt.getTime()
+            // let tokenExpiration = dt.getTime()
+            let tokenExpiration = tmstmp
             fetchUser(accesstoken)
             refreshUserToken(refreshToken, tokenExpiration)
             setSuccess(response.message)

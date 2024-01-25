@@ -16,6 +16,7 @@ import { API_CONFIG } from "../../config";
 import ButtonOutline from "../buttons/buttonOutline";
 import { toast } from "react-toastify";
 import generateSignature from "../../utils/signatureUtils";
+import MyFriendequests from "./myFriendRequests";
 
 
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
@@ -49,7 +50,7 @@ const ReactionsTab = () => {
         e.preventDefault()
         setSortValue(e.target.id)
     }
-    const filterOptions = ['likes', 'comments', 'invitations', 'lists']
+    const filterOptions = ['likes', 'comments', 'invitations', 'lists', 'friend-requests']
 
     const [myInvitations, setMyInvitations] = useState([])
     const [allReactions, setallReactions] = useState([])
@@ -136,6 +137,9 @@ const ReactionsTab = () => {
         }
         else if (filterValue == 'lists') {
             getAllReactions()
+        }
+        else if (filterValue == 'friend-requests') {
+            console.log('my friend requests to accept')
         }
         else if (filterValue == 'sells') {
             console.log('get-sells')
@@ -283,7 +287,9 @@ const ReactionsTab = () => {
                             text={'Sort By'} id={'sort-reaction-tab'}
                             handleSelect={handleSortSelect} selectValue={sortValue} />
                     </Box> */}
-                    <BulletFiltering setOption={setFilterValue} options={filterOptions} selected={filterValue} fontSize={'14px'} width={'100%'} />
+                    <BulletFiltering setOption={setFilterValue}
+                        options={filterOptions} selected={filterValue}
+                        fontSize={'14px'} width={'100%'} />
 
                     <Box sx={{ display: 'flex', width: '100%', gap: '15px', flexDirection: 'column', mt: '24px' }}>
                         {filterValue == 'invitations' &&
@@ -393,6 +399,10 @@ const ReactionsTab = () => {
                             }
                             </>
                         }
+                        {filterValue == 'friend-requests' &&
+                            <MyFriendequests />
+                        }
+
                         {filterValue == '' ?
                             <> {allNotifs && allNotifs.length > 0 ?
                                 <>

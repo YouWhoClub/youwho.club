@@ -6,7 +6,7 @@ import { Box, CircularProgress, Typography } from "@mui/material"
 import { RelationCard } from "../utils"
 
 const TheirFriends = ({ user, sendAllieRequest, sendFriendRequest,
-    shareClick, removeAllie, removeFriend, friends, friendsLoading ,searchResults}) => {
+    shareClick, removeAllie, removeFriend, friends, friendsLoading, searchResults }) => {
     const globalUser = useSelector(state => state.userReducer)
     const apiCall = useRef(undefined)
     const [err, setErr] = useState(undefined)
@@ -25,7 +25,7 @@ const TheirFriends = ({ user, sendAllieRequest, sendFriendRequest,
                                     image={friend.avatar} username={friend.username}
                                     sendAllieRequest={() => sendAllieRequest(friend.Screen_cid, globalUser.cid)}
                                     sendFriendRequest={() => sendFriendRequest(friend.Screen_cid, globalUser.cid)}
-                                    shareClick={shareClick}
+                                    shareClick={shareClick} 
                                 />
                             ))}
                         </Box>
@@ -46,7 +46,8 @@ const TheirFriends = ({ user, sendAllieRequest, sendFriendRequest,
                             image={friend.user_avatar} username={friend.username}
                             sendAllieRequest={() => sendAllieRequest(friend.screen_cid, globalUser.cid)}
                             sendFriendRequest={() => sendFriendRequest(friend.screen_cid, globalUser.cid)}
-                            shareClick={shareClick} />
+                            shareClick={shareClick}
+                             />
                     ))}
                 </Box>
                 : <Typography

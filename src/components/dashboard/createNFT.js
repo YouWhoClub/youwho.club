@@ -484,7 +484,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
     return (
         <Box sx={{
             width: '100%',
-            //  maxWidth: '1200px',
+            maxWidth: '1000px',
             display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
         }}>
             {globalUser.cid ?
@@ -492,8 +492,19 @@ const CreateNFT = ({ setMainActiveTab }) => {
                     {globalUser.privateKey ?
                         <>
                             <SubTabs jc={'center'} mb={'24px'}>
-                                <SubTab id={"create-collection"} onClick={(e) => setActiveTab(e.target.id)} text={'Create Collection'} selected={activeTab == 'create-collection'} />
-                                <SubTab id={"create-NFT"} onClick={(e) => setActiveTab(e.target.id)} text={'Create NFT'} selected={activeTab == 'create-NFT'} />
+                                <SubTab id={"create-collection"}
+                                    onClick={(e) => {
+                                        setActiveTab(e.target.id)
+                                        window.document.getElementById("scrollable-profile-panel-inside").scrollTo(0, 0);
+                                    }}
+                                    text={'Create Collection'}
+                                    selected={activeTab == 'create-collection'} />
+                                <SubTab id={"create-NFT"}
+                                    onClick={(e) => {
+                                        setActiveTab(e.target.id)
+                                        window.document.getElementById("scrollable-profile-panel-inside").scrollTo(0, 0);
+                                    }}
+                                    text={'Create NFT'} selected={activeTab == 'create-NFT'} />
                             </SubTabs>
                             {activeTab == 'create-NFT' ?
                                 <>

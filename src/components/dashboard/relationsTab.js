@@ -24,6 +24,7 @@ import ButtonPurple from "../buttons/buttonPurple";
 import MyFriendSuggestions from "./myFriendSuggestions";
 import { PUBLIC_API } from "../../utils/data/public_api";
 import { Close } from "@mui/icons-material";
+import MyFollowings from "./myFollowings";
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex', boxSizing: 'border-box',
     flexDirection: 'row',
@@ -253,7 +254,7 @@ const RelationsTab = () => {
             let response = await apiCall.current.promise;
             if (!response.isSuccess)
                 throw response
-            if (activeTab == 'expansion-of-communication') {
+            if (activeTab == 'explore-users') {
                 let tempSuggs = []
                 for (var d = 0; d < suggestions.length; d++) {
                     tempSuggs.push(suggestions[d].screen_cid)
@@ -266,7 +267,7 @@ const RelationsTab = () => {
                 }
                 setSearchResults(tempArr)
             }
-            else if (activeTab == 'my-allies') {
+            else if (activeTab == 'my-followers') {
                 let tempFans = []
                 for (var d = 0; d < followers.length; d++) {
                     tempFans.push(followers[d].screen_cid)
@@ -289,6 +290,20 @@ const RelationsTab = () => {
                 let tempArr = []
                 for (var j = 0; j < response.data.data.users.length; j++) {
                     if (tempFriends.includes(response.data.data.users[j].screen_cid)) {
+                        tempArr.push(response.data.data.users[j])
+                    }
+                }
+                setSearchResults(tempArr)
+            }
+            else if (activeTab == 'my-followings') {
+                let tempFollowings = []
+                for (var d = 0; d < followings.length; d++) {
+                    tempFollowings.push(followings[d].screen_cid)
+                }
+                console.log(tempFollowings)
+                let tempArr = []
+                for (var j = 0; j < response.data.data.users.length; j++) {
+                    if (tempFollowings.includes(response.data.data.users[j].screen_cid)) {
                         tempArr.push(response.data.data.users[j])
                     }
                 }
@@ -350,10 +365,12 @@ const RelationsTab = () => {
                     {globalUser.privateKey ?
                         <>
                             <SubTabs jc={'center'}>
-                                <SubTab id={"my-requests"} onClick={changeTab} text={'My Requests'} selected={activeTab == 'my-requests'} />
-                                <SubTab id={"my-allies"} onClick={changeTab} text={'My Allies'} selected={activeTab == 'my-allies'} />
+                                {/* <SubTab id={"my-requests"} onClick={changeTab} text={'My Requests'} selected={activeTab == 'my-requests'} /> */}
+                                <SubTab id={"my-fans"} onClick={changeTab} text={'My Fans'} selected={activeTab == 'my-fans'} />
+                                <SubTab id={"my-followings"} onClick={changeTab} text={'My Followings'} selected={activeTab == 'my-followings'} />
                                 <SubTab id={"my-friends"} onClick={changeTab} text={'My Friends'} selected={activeTab == 'my-friends'} />
-                                <SubTab id={"expansion-of-communication"} onClick={changeTab} text={'Expansion of communication '} selected={activeTab == 'expansion-of-communication'} />
+                                <SubTab id={"explore-users"} onClick={changeTab} text={'Explore Users'}
+                                    selected={activeTab == 'explore-users'} />
                             </SubTabs>
                             <FilterSelectionBox sx={{ padding: '8px 16px', my: '24px' }}>
                                 <span style={{ width: '180px', fontSize: '14px' }}>
@@ -369,7 +386,7 @@ const RelationsTab = () => {
                             {activeTab == 'my-requests' &&
                                 <MyFriendequests setAllRequests={setAllRequests} searchResults={searchResults} getFollowings={getFollowings} />
                             }
-                            {activeTab == 'my-allies' &&
+                            {activeTab == 'my-fans' &&
                                 <MyFans sendAllieRequest={sendAllieRequest}
                                     sendFriendRequest={sendFriendRequest} shareClick={shareClick}
                                     removeAllie={removeAllie} removeFriend={removeFriend}
@@ -382,7 +399,13 @@ const RelationsTab = () => {
                                     removeAllie={removeAllie} removeFriend={removeFriend}
                                     searchResults={searchResults} setAllFriends={setFriends} />
                             }
-                            {activeTab == 'expansion-of-communication' &&
+                            {activeTab == 'my-followings' &&
+                                <MyFollowings sendAllieRequest={sendAllieRequest}
+                                    sendFriendRequest={sendFriendRequest} shareClick={shareClick}
+                                    removeAllie={removeAllie} removeFriend={removeFriend}
+                                    searchResults={searchResults} setAllFriends={setFriends} />
+                            }
+                            {activeTab == 'explore-users' &&
                                 <MyFriendSuggestions sendAllieRequest={sendAllieRequest}
                                     sendFriendRequest={sendFriendRequest} shareClick={shareClick}
                                     removeAllie={removeAllie} removeFriend={removeFriend}

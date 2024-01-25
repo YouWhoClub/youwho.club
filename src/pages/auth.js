@@ -1,10 +1,20 @@
 import styled from "@emotion/styled";
-import { Box } from "@mui/material";
+import { Box, keyframes } from "@mui/material";
 import { useState } from "react";
 import Login from "../components/user/auth/Login";
 import SignUp from "../components/user/auth/Signup";
 import AuthLayout from "../components/user/auth/authLayout";
-
+const changeBG = keyframes`
+  0% {
+    width:50%;
+  }
+  50%{
+    width:100%;
+  }
+  100%{
+    width:50%;
+  }
+`
 const AuthBox = styled(Box)(({ theme }) => ({
 
     backgroundColor: theme.palette.secondary.bg,
@@ -31,6 +41,7 @@ const Slider = styled(Box)(({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    transition: '500ms ease',
     width: '100%',
 }))
 const ChangeSlide = styled(Box)(({ theme }) => ({
@@ -42,7 +53,11 @@ const ChangeSlide = styled(Box)(({ theme }) => ({
     width: '50%',
     padding: '8px 16px',
     alignItems: "center",
-    transition: '500ms ease'
+    transition: '500ms ease',
+    '&:hover': {
+        // animation: `${changeBG} 1s linear `,
+        width:'100%'
+    }
 }))
 const ProgressBar = styled(Box)(({ theme }) => ({
     position: 'absolute',
@@ -68,6 +83,7 @@ const Progress = styled(Box)(({ theme }) => ({
 }))
 
 const Auth = () => {
+
     const [progress, setProgress] = useState('0%')
     const [authState, setAuthState] = useState(window.location.hash ? window.location.hash.replace('#', '') : 'signin')
     const [alreadyEmail, setAlreadyEmail] = useState(window.location.search ? window.location.search.replace('?', '') : undefined)
@@ -97,9 +113,9 @@ const Auth = () => {
                         Sign Up</ChangeSlide>
                 </Slider>
                 {authState == 'signin' ?
-                    <Login setProgress={setProgress} alreadyEmail={alreadyEmail}/>
+                    <Login setProgress={setProgress} alreadyEmail={alreadyEmail} />
                     :
-                    <SignUp setProgress={setProgress} alreadyEmail={alreadyEmail}/>
+                    <SignUp setProgress={setProgress} alreadyEmail={alreadyEmail} />
                 }
                 <ProgressBar>
                     <Progress sx={{ width: progress }} />

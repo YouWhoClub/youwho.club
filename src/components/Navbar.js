@@ -128,10 +128,10 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
     }, [globalUser.isLoggedIn, globalUser.isMailVerified])
 
     useEffect(() => {
-        tokenRef.current = globalUser.token;
         if (globalUser.token) {
             fetchUser(globalUser.token)
         }
+        tokenRef.current = globalUser.token;
     }, [globalUser.token]);
 
     useEffect(() => {
@@ -646,7 +646,6 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
 
 
             </ClickAwayListener>
-
         }
 
             <Modal

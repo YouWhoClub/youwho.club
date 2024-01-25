@@ -38,7 +38,7 @@ const Image = styled(Box)(({ theme }) => ({
     backgroundRepeat: 'no-repeat',
     // backgroundSize: 'contain',
     // height: '250px',
-    borderRadius: '15px',
+    borderRadius: '15px', transition: '500ms ease',
 }))
 
 
@@ -106,7 +106,11 @@ const GuidePage = ({ switchTheme, theme }) => {
                                         width: { xs: '100%', md: '280px' },
                                         height: { xs: '250px', md: '280px' },
                                         backgroundImage: BG_URL(PUBLIC_URL(`${exploreBar}`)),
-                                        backgroundSize: 'contain'
+                                        backgroundSize: 'contain',
+                                        '&:hover': {
+                                            width: { xs: '100%', md: '400px' }, height: { xs: '100%', md: '400px' }
+                                        }
+
                                     }} />
 
                                     <Typography sx={{ fontFamily: 'Inter' }}>
@@ -158,7 +162,9 @@ const GuidePage = ({ switchTheme, theme }) => {
                                         width: { xs: '100%', md: '300px' },
                                         height: { xs: '250px', md: '300px' },
                                         backgroundImage: BG_URL(PUBLIC_URL(`${walletGuide}`)),
-                                        backgroundSize: 'cover'
+                                        backgroundSize: 'cover', '&:hover': {
+                                            width: { xs: '100%', md: '400px' }, height: { xs: '100%', md: '400px' }
+                                        }
                                     }} />
                                 </Box>
 
@@ -201,7 +207,9 @@ const GuidePage = ({ switchTheme, theme }) => {
                                         width: { xs: '100%', md: '280px' },
                                         height: { xs: '250px', md: '280px' },
                                         backgroundImage: BG_URL(PUBLIC_URL(`${profileBar}`)),
-                                        backgroundSize: 'contain'
+                                        backgroundSize: 'contain', '&:hover': {
+                                            width: { xs: '100%', md: '400px' }, height: { xs: '100%', md: '400px' }
+                                        }
                                     }} />
                                     <Typography sx={{ fontFamily: 'Inter' }}>
                                         Create artwork tab has two main sections: creating a collection and creating an NFT. In any case, you should start with creating a collection. To create a collection, you need to fill out the following fields:
@@ -220,7 +228,9 @@ const GuidePage = ({ switchTheme, theme }) => {
                                         width: { xs: '100%', md: '300px' },
                                         height: { xs: '250px', md: '300px' },
                                         backgroundImage: BG_URL(PUBLIC_URL(`${createColGuide}`)),
-                                        backgroundSize: 'cover'
+                                        backgroundSize: 'cover', '&:hover': {
+                                            width: { xs: '100%', md: '400px' }, height: { xs: '100%', md: '400px' }
+                                        }
                                     }} />
                                 </Box>
 
@@ -259,7 +269,9 @@ const GuidePage = ({ switchTheme, theme }) => {
                                         width: { xs: '100%', md: '280px' },
                                         height: { xs: '250px', md: '280px' },
                                         backgroundImage: BG_URL(PUBLIC_URL(`${profileBar}`)),
-                                        backgroundSize: 'contain'
+                                        backgroundSize: 'contain', '&:hover': {
+                                            width: { xs: '100%', md: '400px' }, height: { xs: '100%', md: '400px' }
+                                        }
                                     }} />
                                     <Typography sx={{ fontFamily: 'Inter' }}>
                                         only friends joined by invitation link or by paying entrance fee will be able to view the desired gallery.
@@ -268,7 +280,9 @@ const GuidePage = ({ switchTheme, theme }) => {
                                         width: { xs: '100%', md: '300px' },
                                         height: { xs: '250px', md: '300px' },
                                         backgroundImage: BG_URL(PUBLIC_URL(`${pvGallGuide}`)),
-                                        backgroundSize: 'contain'
+                                        backgroundSize: 'contain', '&:hover': {
+                                            width: { xs: '100%', md: '400px' }, height: { xs: '100%', md: '400px' }
+                                        }
                                     }} />
                                 </Box>
 
@@ -309,7 +323,9 @@ const GuidePage = ({ switchTheme, theme }) => {
                                         width: { xs: '100%', md: '300px' },
                                         height: { xs: '250px', md: '300px' },
                                         backgroundImage: BG_URL(PUBLIC_URL(`${pbGallGuide}`)),
-                                        backgroundSize: 'contain'
+                                        backgroundSize: 'contain', '&:hover': {
+                                            width: { xs: '100%', md: '400px' }, height: { xs: '100%', md: '400px' }
+                                        }
                                     }} />
                                 </Box>
 
@@ -351,19 +367,25 @@ const GuidePage = ({ switchTheme, theme }) => {
                                         width: { xs: '100%', md: '300px' },
                                         height: { xs: '250px', md: '300px' },
                                         backgroundImage: BG_URL(PUBLIC_URL(`${sendReqGuide}`)),
-                                        backgroundSize: 'contain'
+                                        backgroundSize: 'contain', '&:hover': {
+                                            width: { xs: '100%', md: '400px' }, height: { xs: '100%', md: '400px' }
+                                        }
                                     }} />
                                     <Image sx={{
                                         width: { xs: '100%', md: '300px' },
                                         height: { xs: '250px', md: '300px' },
                                         backgroundImage: BG_URL(PUBLIC_URL(`${accReqGuide}`)),
-                                        backgroundSize: 'contain'
+                                        backgroundSize: 'contain', '&:hover': {
+                                            width: { xs: '100%', md: '400px' }, height: { xs: '100%', md: '400px' }
+                                        }
                                     }} />
                                     <Image sx={{
                                         width: { xs: '100%', md: '300px' },
                                         height: { xs: '250px', md: '300px' },
                                         backgroundImage: BG_URL(PUBLIC_URL(`${resendReqGuide}`)),
-                                        backgroundSize: 'contain'
+                                        backgroundSize: 'contain', '&:hover': {
+                                            width: { xs: '100%', md: '400px' }, height: { xs: '100%', md: '400px' }
+                                        }
                                     }} />
                                 </Box>
 
@@ -404,7 +426,9 @@ const GuidePage = ({ switchTheme, theme }) => {
                                         width: { xs: '100%', md: '300px' },
                                         height: { xs: '250px', md: '300px' },
                                         backgroundImage: BG_URL(PUBLIC_URL(`${reactionGuide}`)),
-                                        backgroundSize: 'contain'
+                                        backgroundSize: 'contain',  '&:hover': {
+                                            width: { xs: '100%', md: '400px' }, height: { xs: '100%', md: '400px' }
+                                        }
                                     }} />
                                 </Box>
 

@@ -40,7 +40,7 @@ const FlexColumn = styled(Box)(({ theme }) => ({
 const RelationsTab = ({ user }) => {
     const globalUser = useSelector(state => state.userReducer)
     const apiCall = useRef(undefined)
-    const [activeTab, setActiveTab] = useState('their-allies')
+    const [activeTab, setActiveTab] = useState('their-fans')
     const [followers, setFollowers] = useState([])
     const [friends, setFriends] = useState([])
     const [err, setErr] = useState(undefined)
@@ -125,7 +125,7 @@ const RelationsTab = ({ user }) => {
             let response = await apiCall.current.promise;
             if (!response.isSuccess)
                 throw response
-            else if (activeTab == 'their-allies') {
+            else if (activeTab == 'their-fans') {
                 let tempFans = []
                 for (var d = 0; d < followers.length; d++) {
                     tempFans.push(followers[d].screen_cid)
@@ -278,9 +278,9 @@ const RelationsTab = ({ user }) => {
             //  my: '10px' 
         }}>
             <SubTabs jc={'center'}>
-                <SubTab id={"their-allies"}
+                <SubTab id={"their-fans"}
                     onClick={changeTab}
-                    text={`${user.username}'s Allies`} selected={activeTab == 'their-allies'} />
+                    text={`${user.username}'s Fans`} selected={activeTab == 'their-fans'} />
                 <SubTab id={"their-friends"}
                     onClick={changeTab}
                     text={`${user.username}'s Friends`} selected={activeTab == 'their-friends'} />
@@ -297,7 +297,7 @@ const RelationsTab = ({ user }) => {
                     onChange={(e) => search(e.target.value, 0, 20)}
                 />
             </FilterSelectionBox>
-            {activeTab == 'their-allies' &&
+            {activeTab == 'their-fans' &&
                 <TheirAllies
                     sendAllieRequest={sendAllieRequest}
                     sendFriendRequest={sendFriendRequest}

@@ -577,13 +577,13 @@ export const MyInput = ({ icon, textColor, name,
                     {icon}
                 </Box> : undefined}
                 <TextField
-                    autoFocus={true}
+                    // autoFocus={true}
                     type={type}
                     autoComplete="off"
                     value={value}
                     name={name}
                     InputProps={{
-                        autoFocus: true,
+                        // autoFocus: true,
                         disableUnderline: true,
                         autoComplete: "new-password",
                         sx: {
@@ -874,7 +874,7 @@ export const RelationCard = ({
                                 handleClose()
                             }}
                         >
-                            Remove Friend
+                            Unfollow
                         </MenuItem>
                         : <MenuItem id={'notisfiends'} sx={{
                             display: 'flex', alignItems: 'center', p: '16px 8px',
@@ -887,7 +887,7 @@ export const RelationCard = ({
                         }}
                             onClick={sendFriendRequest}
                         >
-                            Be {username}'s Ally
+                            Be {username}'s Fan
                         </MenuItem>
                     }
                     {allies ?
@@ -900,7 +900,7 @@ export const RelationCard = ({
                         }}
                             onClick={removeAllie}
                         >
-                            Remove From Allies
+                            Remove From Fans
                         </MenuItem>
                         : undefined}
                 </Popper>
