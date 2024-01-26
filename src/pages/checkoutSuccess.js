@@ -27,7 +27,7 @@ const CheckoutSuccess = ({ switchTheme, theme }) => {
         <Box sx={{ width: '100%', height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '30px' }}>
             <CheckCircle sx={{ fontSize: '64px', color: '#4BB543' }} />
             <Typography sx={{ fontSize: '20px', fontWeight: 'bold', textAlign: 'center' }}>Your wallet has been successfully charged!</Typography>
-            <ButtonPurple text={'Return to Main Page'} w={'200px'} onClick={() => navigate('/')} />
+            <ButtonPurple text={'Return to Main Page'} w={'200px'} onClick={() => navigate('/wallet')} />
         </Box>
     )
 }
