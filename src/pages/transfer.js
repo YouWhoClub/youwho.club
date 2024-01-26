@@ -62,8 +62,8 @@ const TransferPage = ({ theme, switchTheme }) => {
             let response = await apiCall.current.promise;
             if (!response.isSuccess)
                 throw response
-            setDollarValue(response.data.data.usd / 1000000)
-            setIrrValue(response.data.data.irr / 1000000)
+            setDollarValue(response.data.data.usd / 100)
+            setIrrValue(response.data.data.irr / 100)
         }
         catch (err) {
             setErr(err.statusText)

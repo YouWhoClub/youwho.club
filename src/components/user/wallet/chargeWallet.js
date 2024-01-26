@@ -79,8 +79,8 @@ const ChargeWallet = () => {
 
         const response = await request.json();
 
-        setUSDValue(response.data.usd / 10000000)
-        setIRRValue(response.data.irr / 10000000)
+        setUSDValue(response.data.usd / 100)
+        setIRRValue(response.data.irr / 100)
     }
 
     const USDollar = new Intl.NumberFormat('en-US', {
