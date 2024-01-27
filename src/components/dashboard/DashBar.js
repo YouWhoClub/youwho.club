@@ -15,6 +15,7 @@ import { ButtonInput, MyInput } from "../utils";
 import ButtonOutline from "../buttons/buttonOutline";
 import { AUTH_API } from "../../utils/data/auth_api";
 import '../../index.css'
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -113,13 +114,15 @@ const Inputtt = styled('div')(({ theme }) => ({
     }
 }))
 
-const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeBar }) => {
+const DashBar = ({ selectValue, tabs, handleSelect, w, openBar, closeBar }) => {
     const [expanded, setExpanded] = useState(false)
     const [anchorEl, setAnchorEl] = useState(null);
     const [editProfile, setEditProfile] = useState(false)
     const globalUser = useSelector(state => state.userReducer)
     const [bio, setBio] = useState('')
     const [phone, setPhone] = useState(null)
+    const [usernameError, setUsernameError] = useState(undefined)
+    const [username, setUsername] = useState(globalUser.username)
     const [currentPass, setCurrentPass] = useState(null)
     const [newPass, setNewPass] = useState(null)
     const [confirmPass, setConfirmPass] = useState(null)
@@ -373,7 +376,10 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
         }
 
     }
-
+    const apiCall = useRef(null)
+    const getDeviceId = () => {
+        return `${window.navigator.userAgent} ${uuidv4()}`
+    }
     const handleSocialLinksChange = (e, index) => {
         const { name, value } = e.target;
         const updatedObj = [...socialLinks];
@@ -434,8 +440,52 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
             }
         }
     }
+    let mobileNumber;
+    if (globalUser.extra) {
+        for (let i = 0; i < globalUser.extra.length; i++) {
+            if (globalUser.extra[i].phone)
+                mobileNumber = globalUser.extra[i].phone
+        }
+    }
+
+    const updateUsername = async () => {
+        loading()
+        setUsernameError(undefined)
+        if (!username) {
+            setUsernameError('please enter a username')
+            updateToast(false, 'please enter a username')
+            return
+        }
+        console.log(globalUser.token)
+        try {
+            apiCall.current = AUTH_API.request({
+                path: `/cid/build`,
+                method: "post",
+                body: {
+                    username: username,
+                    device_id: getDeviceId(),
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
+            });
+            let response = await apiCall.current.promise;
+            console.log('generate wallet response', response)
+            if (!response.isSuccess)
+                throw response
+            fetchUser(globalUser.token)
+            setUsernameError(undefined)
+            updateToast(true, response.message)
 
 
+        }
+        catch (err) {
+            setUsernameError(err.data.message)
+            updateToast(false, err.data.message)
+
+        }
+    }
     return (
         <Modal
             open={openBar}
@@ -738,26 +788,66 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
                                     >
 
                                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'end', color: 'primary.main', gap: '20px', p: '20px 8px' }}>
+                                            {globalUser.phoneNumber ?
+                                                <Typography sx={{ my: '2px', width: '100%', textAlign: 'center', fontSize: '12px', color: 'primary.text' }}>{globalUser.phoneNumber}</Typography> : undefined}
                                             <MyInput label={'enter your phone number'}
                                                 icon={<Phone sx={{ color: 'primary.light', fontSize: '20px' }} />}
                                                 name={'phone'}
+                                                value={mobileNumber}
                                                 id={'phone'}
                                                 type={'tel'}
                                                 onChange={(e) => setPhone(e.target.value)}
                                                 width={'100%'} />
-                                            {/* <Inputtt>
-                                    <Inputt
-                                        placeholder="enter your phone number"
-                                        type="tel"
-                                        value={phone}
-                                        id="phone"
-                                        name="phone"
-                                        dir="ltr"
-                                        onChange={(e) => setPhone(e.target.value)}
-                                    />
-                                </Inputtt> */}
                                             <Box
                                                 onClick={updatePhoneNum}
+                                                sx={{ display: 'flex', justifyContent: 'center', gap: '5px', alignItems: 'center', color: 'primary.main', cursor: 'pointer', width: '60px' }}
+                                            >
+                                                <Typography sx={{ fontSize: '10px' }}>Save </Typography><TickCircle cursor='pointer' size='12px' />
+                                            </Box>
+                                        </Box>
+                                    </AccordionDetails>
+                                </Accordion>
+                                <Accordion sx={{
+                                    my: '2px',
+                                    width: '100%', maxWidth: '600px',
+                                    bgcolor: 'secondary.bg',
+                                    color: 'primary.text',
+                                    border: '1px solid', borderColor: 'primary.gray',
+                                    // border: 'none',
+                                    '&:before': {
+                                        bgcolor: 'transparent',
+                                    },
+                                    // boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.07)',
+                                    boxShadow: 'none !important',
+                                    borderRadius: '24px !important', fontSize: '14px'
+                                }}>
+                                    <AccordionSummary
+                                        expandIcon={<ArrowDown2 size='16px' />}
+                                        aria-controls="panel1a-content"
+                                        id="panel1a-header"
+                                        sx={{ minHeight: '30px !important', height: '30px' }}
+                                    >
+                                        <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Username</Typography>
+                                    </AccordionSummary>
+                                    <AccordionDetails
+                                        sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
+                                    >
+
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'end', color: 'primary.main', gap: '20px', p: '20px 8px' }}>
+                                            <MyInput label={'enter your new username'}
+                                                icon={<Profile sx={{ color: 'primary.light', fontSize: '20px' }} />}
+                                                name={'username'}
+                                                value={username}
+                                                id={'username'}
+                                                type={'string'}
+                                                onChange={(e) => setUsername(e.target.value)}
+                                                width={'100%'} />
+                                            {usernameError ?
+                                                <Typography sx={{ color: 'primary.error', fontSize: '10px' }}>
+                                                    {usernameError}
+                                                </Typography> : undefined}
+                                            <Box
+                                                onClick={updateUsername}
                                                 sx={{ display: 'flex', justifyContent: 'center', gap: '5px', alignItems: 'center', color: 'primary.main', cursor: 'pointer', width: '60px' }}
                                             >
                                                 <Typography sx={{ fontSize: '10px' }}>Save </Typography><TickCircle cursor='pointer' size='12px' />
@@ -892,7 +982,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, username, w, openBar, closeB
                                 }}>
                                     <div style={{ display: 'flex', alignItems: 'center', }}>
                                         <Face sx={{ fontSize: '50px' }} /> &nbsp;
-                                        {shorten(username)}
+                                        {shorten(globalUser.username)}
                                     </div>
                                     <Setting2 size='25px' cursor='pointer' onClick={() => setEditProfile(true)} />
                                 </Box>
