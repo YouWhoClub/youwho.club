@@ -374,7 +374,6 @@ export const ButtonInput = ({ icon, textColor,
             </Box>
         </Inputt>
     )
-
 }
 export const CommentInput = ({ icon, textColor,
     labelColor, py, id, label, width, onChange, name,
@@ -397,13 +396,13 @@ export const CommentInput = ({ icon, textColor,
                 </Box>
                 <TextField
                     multiline
-                    TextFieldautoFocus={true}
+                    // TextFieldautoFocus={true}
                     type={type}
                     autoComplete="off"
                     value={value}
                     name={name}
                     InputProps={{
-                        autoFocus: true,
+                        // autoFocus: true,
                         disableUnderline: true,
                         autoComplete: "new-password",
                         sx: {
@@ -449,7 +448,6 @@ export const CommentInput = ({ icon, textColor,
     )
 
 }
-
 export const SelectInput = ({ icon, textColor,
     labelColor, label, width, onChange,
     borderColor, type, button, value, placeholder, mb,

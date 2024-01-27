@@ -291,7 +291,7 @@ const ReactionsTab = () => {
                         options={filterOptions} selected={filterValue}
                         fontSize={'14px'} width={'100%'} />
 
-                    <Box sx={{ display: 'flex', width: '100%', gap: '15px', flexDirection: 'column', mt: '24px' }}>
+                    <Box sx={{ display: 'flex', width: '100%', gap: '15px', flexDirection: 'column', mt: '24px', alignItems: 'center' }}>
                         {filterValue == 'invitations' &&
                             <>{myInvitations && myInvitations.length > 0 ?
                                 <>

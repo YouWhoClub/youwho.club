@@ -227,7 +227,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
         success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
             : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
     }
-    const getMetadata = () => {
+    const getMetadata = async () => {
         if (collection.nfts) {
             const nfts = collection.nfts.filter((nft) => {
                 if (nft.is_listed) {
@@ -564,7 +564,6 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
     useEffect(() => {
         let temp = []
         if (selectedNFTData) {
-            console.log(selectedNFTData)
             if (selectedNFTData.likes && selectedNFTData.likes.length > 0 && selectedNFTData.likes[0].upvoter_screen_cids) {
                 console.log(selectedNFTData.likes)
                 for (let i = 0; i < selectedNFTData.likes[0].upvoter_screen_cids.length; i++) {
@@ -572,9 +571,12 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                 }
             }
         }
-        console.log(temp)
         setTempLikers(temp)
     }, [nfts, selectedNFT])
+    useEffect(() => {
+        if (window.document.getElementById("scrollable-col-card-expanded"))
+            window.document.getElementById("scrollable-col-card-expanded").scrollTo(0, 0);
+    }, [expanded])
     return (<>
         {expanded ?
             <Modal
@@ -616,7 +618,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                         gap: '20px', padding: { xs: '0', sm: '10px 12px 10px 12px' }
                     })}>
 
-                        <Container sx={{
+                        <Container id="scrollable-col-card-expanded" sx={{
                             height: 'max-content',
                             maxHeight: { xs: '100%', sm: '75vh', md: '70vh' },
                             overflowY: 'scroll',
@@ -689,7 +691,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                                                 nfts.map((nft, index) => {
                                                     const imageURL = (nft.metadata && nft.metadata.image) ? nft.metadata.image : ywHugIcon;
                                                     const selected = index == selectedNFT;
-
+                                                    const srvrImgURL = nft.serverImg ? nft.serverImg : undefined
                                                     return (
                                                         <OtherNFTCard
                                                             key={nft.id}
@@ -698,7 +700,8 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                                                                 setSelectedNFTData(nft)
                                                             }}
                                                             sx={{
-                                                                background: imageURL ? `url(${imageURL}) no-repeat center` : `url('${API_CONFIG.API_URL}/${ywHugIcon}') no-repeat center`,
+                                                                // background: imageURL ? `url(${imageURL}) no-repeat center` : `url('${API_CONFIG.API_URL}/${ywHugIcon}') no-repeat center`,
+                                                                background: srvrImgURL ? `url('${API_CONFIG.API_URL}/${srvrImgURL}') no-repeat center` : `url(${imageURL}) no-repeat center`,
                                                                 cursor: "pointer",
                                                                 border: () => (selected ? 'solid 2px' : 'none'),
                                                                 borderColor: 'primary.main',
@@ -716,11 +719,15 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                                     nfts.length ?
                                         <>
                                             <NFTImage
-                                                sx={{ height: { xs: '300px', md: '500px' } }}
+                                                sx={{
+                                                    height: { xs: '300px', md: '500px' },
+                                                    background: nfts[selectedNFT].serverImg ? `url('${API_CONFIG.API_URL}/${nfts[selectedNFT].serverImg}') no-repeat center` : '',
+                                                }}
                                                 id="nft-image-of-expanded-collection-card"
                                                 className="nft-image-of-expanded-collection-card"
                                                 component="img"
-                                                src={(nfts[selectedNFT].metadata && nfts[selectedNFT].metadata.image) ? nfts[selectedNFT].metadata.image : ywHugIcon}
+                                                src={(nfts[selectedNFT].metadata && nfts[selectedNFT].metadata.image) ? nfts[selectedNFT].metadata.image : nfts[selectedNFT].serverImg ? nfts[selectedNFT].serverImg : ywHugIcon}
+
                                             />
                                             {/* // details of  nft ===> */}
                                             <Box className="nft-details-of-expanded-collection-card"
@@ -1002,12 +1009,15 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                                     nfts &&
                                     nfts.map((nft, index) => {
                                         const imageURL = (nft.metadata && nft.metadata.image) ? nft.metadata.image : ywHugIcon;
+                                        const srvrImgURL = nft.serverImg ? nft.serverImg : undefined
 
                                         return (
                                             <Box
                                                 key={nft.id}
                                                 sx={{
-                                                    background: imageURL ? `url(${imageURL}) no-repeat center` : `url('${API_CONFIG.API_URL}/${ywHugIcon}') no-repeat center`,
+                                                    background: srvrImgURL ? `url('${API_CONFIG.API_URL}/${srvrImgURL}') no-repeat center` : `url(${imageURL}) no-repeat center`,
+
+                                                    // background: imageURL ? `url(${imageURL}) no-repeat center` : `url('${API_CONFIG.API_URL}/${ywHugIcon}') no-repeat center`,
                                                     backgroundSize: 'cover',
                                                     borderColor: 'primary.main',
                                                     boxSizing: 'border-box',
