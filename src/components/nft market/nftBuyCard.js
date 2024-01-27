@@ -263,7 +263,7 @@ const NFTBuyCard = ({ nft, expanded, setExpandedId, setActiveTab, getUserGalleri
 
             if (!response.is_error) {
                 updateToast(true, response.message)
-                setActiveTab("minted-NFTs")
+                navigate("/profile/#assets-tab")
             } else {
                 console.error(response.message)
                 updateToast(false, response.message)

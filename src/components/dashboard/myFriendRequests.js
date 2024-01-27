@@ -78,7 +78,7 @@ const MyFriendequests = ({
             setIsAccepted(tempAccepted)
             console.log(tempAccepted)
             updateToast(true, 'Friend Request Accepted')
-            getFollowings()
+            getRequests()
         } else {
             updateToast(false, response.message)
         }
