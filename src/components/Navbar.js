@@ -8,7 +8,7 @@ import { HEALTH_API } from "../utils/data/health_api";
 import ThemeSwitcher from "./HomePage/themeSwitchComp";
 import { Box, ClickAwayListener, IconButton, Modal, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { ArrowDown2, ArrowUp2, LogoutCurve, Notification, Profile, SearchNormal, SearchNormal1, TickSquare, Wallet2 } from "iconsax-react";
+import { ArrowDown2, ArrowUp2, LogoutCurve, Menu, Notification, Profile, SearchNormal, SearchNormal1, TickSquare, Wallet2 } from "iconsax-react";
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ButtonOutline from "./buttons/buttonOutline";
@@ -373,96 +373,6 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
                 </Box>
 
                 {globalUser.isLoggedIn ?
-                    // <>
-                    //     <Box sx={{
-                    //         display: { xs: 'none', sm: 'flex' },
-                    //         alignItems: 'center', justifyContent: 'space-between',
-                    //         color: 'primary.text', gap: { xs: '25px', md: '30px' }
-                    //     }}>
-                    //         <Link style={{ textDecoration: 'none', color: 'inherit' }} to={'/search'} target="_blank">
-                    //             <SearchNormal1 size='25px' cursor={'pointer'} />
-                    //         </Link>
-                    //         <Box sx={{ display: 'flex', gap: '3px', alignItems: 'center', }}>
-                    //             <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '12px', gap: '1px' }}>
-                    //                 {globalUser.balance}
-                    //                 <Box sx={{ display: 'flex', height: '24px', }}>
-                    //                     <Box sx={{
-                    //                         backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)),
-                    //                         backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
-                    //                         , width: '12px', height: '12px'
-                    //                     }} />
-                    //                 </Box>
-                    //             </Box>
-                    //             <Wallet2 size='25px' />
-                    //         </Box>
-                    //         <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
-                    //             <Notification size="25px" cursor='pointer' />
-                    //             {
-                    //                 unclaimedDeposits.length ?
-                    //                     <Box
-                    //                         sx={{
-                    //                             backgroundColor: "#C5221F", color: "white",
-                    //                             position: 'absolute', top: 0, right: 0,
-                    //                             width: '10px', height: '10px', borderRadius: '50%',
-                    //                         }} />
-                    //                     :
-                    //                     <></>
-                    //             }
-                    //         </div>
-                    //         <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
-                    //             {window.location.pathname == '/profile' || window.location.pathname == '/gallery' || window.location.pathname == '/wallet' ?
-                    //                 undefined
-                    //                 : <div style={{ display: 'flex', alignItems: 'center', }} onClick={() => navigate('/profile')}>
-                    //                     <Profile cursor='pointer' size='25px' />
-                    //                 </div>
-                    //             }
-                    //             <div onClick={checkPVkeyCopyThenDisconnect}>
-                    //                 <LogoutCurve style={{ display: 'flex', alignItems: 'center', }} cursor='pointer' size='25px' />
-                    //             </div>
-                    //         </div>
-                    //     </Box>
-                    //     <Box sx={{
-                    //         display: { xs: 'flex', sm: 'none' },
-                    //         alignItems: 'center', justifyContent: 'space-between',
-                    //         color: 'primary.text', gap: '12px'
-                    //     }}>
-                    //         <Link style={{ textDecoration: 'none', color: 'inherit' }} to={'/search'} target="_blank">
-                    //             <SearchNormal1 size='22px' cursor={'pointer'} />
-                    //         </Link>
-                    //         <Box sx={{ display: 'flex', gap: '3px', alignItems: 'center', }}>
-                    //             <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '12px', gap: '1px' }}>
-                    //                 {globalUser.balance}
-                    //                 <Box sx={{ display: 'flex', height: '21px', }}>
-                    //                     <Box sx={{
-                    //                         backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)),
-                    //                         backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
-                    //                         , width: '12px', height: '12px'
-                    //                     }} />
-                    //                 </Box>
-                    //             </Box>
-                    //             <Wallet2 size='22px' />
-                    //         </Box>
-                    //         <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
-                    //             <Notification size="22px" cursor='pointer' />
-                    //             {
-                    //                 unclaimedDeposits.length ?
-                    //                     <Box
-                    //                         sx={{
-                    //                             backgroundColor: "#C5221F", color: "white",
-                    //                             position: 'absolute', top: 0, right: 0,
-                    //                             width: '10px', height: '10px', borderRadius: '50%',
-                    //                         }} />
-                    //                     :
-                    //                     <></>
-                    //             }
-                    //         </div>
-                    //         <IconButton aria-label="menuIcon" sx={{ color: 'primary.text', fontSize: "22px", padding: '0 !important' }}
-                    //             onClick={() => setOpenMenu(true)}>
-                    //             <FontAwesomeIcon icon={faEllipsisV} size="22px" />
-                    //         </IconButton>
-                    //     </Box>
-                    // </>
-
                     <>
                         <Box sx={{
                             display: 'flex',
@@ -533,7 +443,7 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
                                 <Box sx={{
                                     display: { xs: 'none', sm: 'flex' },
                                     alignItems: 'center', justifyContent: 'space-between',
-                                    color: 'primary.text', gap: '50px'
+                                    color: 'primary.text', gap: '30px'
                                 }}>
                                     <Box sx={{ display: 'flex', gap: '3px', alignItems: 'center', }}>
                                         <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '12px', gap: '1px' }}>
@@ -583,46 +493,9 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
                                 <Box sx={{
                                     display: { xs: 'flex', sm: 'none' },
                                     alignItems: 'center', justifyContent: 'space-between',
-                                    color: 'primary.text', gap: '12px'
+                                    color: 'primary.text', gap: '12px',
                                 }}>
-                                    <Box sx={{ display: 'flex', gap: '3px', alignItems: 'center', }}>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '12px', gap: '1px' }}>
-                                            {globalUser.balance}
-                                            <Box sx={{ display: 'flex', height: '23px', }}>
-                                                <Box sx={{
-                                                    backgroundImage: BG_URL(PUBLIC_URL(`${yCoin}`)),
-                                                    backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
-                                                    backgroundPosition: 'center'
-                                                    , width: '12px', height: '12px'
-                                                }} />
-                                            </Box>
-                                        </Box>
-                                        <Wallet2 size='24px' />
-                                    </Box>
-                                    <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
-                                        <Notification size="24px" cursor='pointer' />
-                                        {
-                                            unclaimedDeposits.length ?
-                                                <Box
-                                                    sx={{
-                                                        backgroundColor: "#C5221F", color: "white",
-                                                        position: 'absolute', top: 0, right: 0,
-                                                        width: '10px', height: '10px', borderRadius: '50%',
-                                                    }} />
-                                                :
-                                                <></>
-                                        }
-                                    </div>
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '1px', cursor: 'pointer', }}
-                                        onClick={() => setOpenMenu(true)} >
-                                        {!open ?
-                                            <ArrowDown2 size={'10px'} /> : <ArrowUp2 size={'10px'} />}
-                                        <Box sx={{
-                                            width: '25px', height: '25px', borderRadius: '50%',
-                                            backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover',
-                                            backgroundImage: () => globalUser.avatar ? `url('${API_CONFIG.API_URL}/${globalUser.avatar}')` : BG_URL(PUBLIC_URL(`${profileFace}`)),
-                                        }} />
-                                    </Box>
+                                    <Menu cursor={'pointer'} onClick={() => setOpenMenu(true)} />
                                 </Box>
                                 <MorePopper tabs={faceClickPopperTabs} open={open} anchorEl={anchorEl} handleClose={handleClose} />
                             </>

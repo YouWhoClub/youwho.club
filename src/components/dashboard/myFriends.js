@@ -54,6 +54,9 @@ const MyFriends = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAlli
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                             {searchResults.map((friend, index) => (
                                 <RelationCard
+                                    amFollowing={true}
+                                    ywid={friend.screen_cid}
+
                                     removeFriend={() => {
                                         removeFriend(friend.screen_cid, globalUser.cid)
                                         getFriends()
@@ -81,6 +84,9 @@ const MyFriends = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAlli
                                 removeFriend(friend.screen_cid, globalUser.cid)
                                 getFriends()
                             }}
+                            amFollowing={true}
+                            ywid={friend.screen_cid}
+
                             image={friend.user_avatar} username={friend.username} friend={true}
                             sendAllieRequest={() => sendAllieRequest(friend.screen_cid, globalUser.cid)}
                             sendFriendRequest={() => sendFriendRequest(friend.screen_cid, globalUser.cid)}

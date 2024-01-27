@@ -756,10 +756,11 @@ export const BetweenTwoSelection = ({ selected, width, setOption, id, options, c
     </Box>)
 }
 export const RelationCard = ({
-    image, username, date,
-    friend, allies, menuItems,
+    image, username, date, amFollowing,
+    friend, allies, menuItems, ywid,
     shareClick, sendAllieRequest, removeAllie, sendFriendRequest, removeFriend }) => {
     const [anchorEl, setAnchorEl] = useState(null);
+    const globalUser = useSelector(state => state.userReducer)
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         if (!open)
@@ -793,10 +794,14 @@ export const RelationCard = ({
                     </Typography>
                 </FlexRow>
                 <FlexRow sx={{ gap: '16px' }}>
-                    <ButtonPurpleLight br='4px'
-                        text={'View Profile'}
-                        onClick={() => navigate(`/profile/${username}`)}
-                        height='30px' />
+                    {amFollowing || ywid == globalUser.YouWhoID ?
+                        undefined :
+                        <ButtonPurpleLight br='4px'
+                            text={'Follow'}
+                            onClick={sendFriendRequest}
+
+                            height='30px' />
+                    }
                     <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} color="#787878" />
                 </FlexRow>
                 <Popper
@@ -823,28 +828,7 @@ export const RelationCard = ({
                         boxShadow: localStorage.getItem('theme') == 'dark' ? '0px 0px 12px 1px rgba(227,209,231, 0.25)' : '0px 0px 10px 0px rgba(0, 0, 0, 0.25)',
                     }}
                 >
-                    {/* // if we wanter to give an array for meu items logic ==> */}
-                    {/* {menuItems.length > 0 ?
-                        <>
-                            {menuItems.map((mI, index) => (
-                                <MenuItem id={mI.id} sx={{
-                                    display: 'flex', alignItems: 'center', p: '16px 8px',
-                                    color: 'primary.text',
-                                    borderBottom: index == menuItems.length - 1 ? '1px solid' : 'none',
-                                    borderColor: 'primary.gray',
-                                    '&:hover': {
-                                        bgcolor: 'secondary.bgOp',
-                                    }
-                                }}
-                                    onClick={mI.onClick}
-                                >
-                                    {mI.text}
-                                </MenuItem>
-                            ))}
-                        </>
-                        :
-                        <></>
-                    } */}
+
                     <MenuItem id={'share'} sx={{
                         display: 'flex', alignItems: 'center', p: '16px 8px',
                         color: 'primary.text',
@@ -857,7 +841,21 @@ export const RelationCard = ({
                         onClick={shareClick}>
                         Share
                     </MenuItem>
-                    {friend ?
+                    <MenuItem id={'isfiends'} sx={{
+                        display: 'flex', alignItems: 'center', p: '16px 8px',
+                        color: 'primary.text',
+                        borderBottom: allies ? '1px solid' : 'none',
+                        borderColor: 'primary.gray',
+                        '&:hover': {
+                            bgcolor: 'secondary.bgOp',
+                        }
+                    }}
+                        onClick={() => navigate(`/profile/${username}`)}
+                    >
+                        View Profile
+                    </MenuItem>
+
+                    {/* {friend ?
                         <MenuItem id={'isfiends'} sx={{
                             display: 'flex', alignItems: 'center', p: '16px 8px',
                             color: 'primary.text',
@@ -887,7 +885,7 @@ export const RelationCard = ({
                         >
                             Be {username}'s Fan
                         </MenuItem>
-                    }
+                    } */}
                     {allies ?
                         <MenuItem id={'isallies'} sx={{
                             display: 'flex', alignItems: 'center', p: '16px 8px',

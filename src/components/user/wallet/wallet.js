@@ -571,10 +571,7 @@ const Wallet = ({ privateKey, switchTheme, theme }) => {
                         <ScrollablePanel id="scrollable-wallet-panel-inside" className="insidePanelWalletBeforeScroll"
                             sx={{
                                 transition: '500ms ease',
-                                // height: {
-                                //     xs: 'calc(100vh - 483px)',
-                                //     md: 'calc(100vh - 541px)'
-                                // },
+                                display: 'flex', justifyContent: 'center', alignItems: 'start',
                                 p: {
                                     xs: '4px 4px 40px',
                                     sm: '4px 4px 20px',

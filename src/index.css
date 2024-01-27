@@ -68,7 +68,7 @@ h6 {
 }
 .insidePanelBeforeScroll {
   overflow-y: hidden;
-  height: calc(100vh - 484px);
+  height: calc(100vh - 434px);
 }
 /* ------ */
 .insidePanelUserAfterScroll {
@@ -77,7 +77,7 @@ h6 {
 }
 .insidePanelUserBeforeScroll {
   overflow-y: hidden;
-  height: calc(100vh - 484px);
+  height: calc(100vh - 434px);
 }
 /* ------ */
 .insidePanelWalletAfterScroll {

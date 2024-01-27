@@ -5,12 +5,13 @@ import { API_CONFIG } from "../../config"
 import { Box, CircularProgress, Typography } from "@mui/material"
 import { RelationCard } from "../utils"
 
-const TheirAllies = ({ user, sendAllieRequest, sendFriendRequest,
+const TheirAllies = ({ user, sendAllieRequest, sendFriendRequest, myFollowings,
     shareClick, removeAllie, removeFriend, fans, fansLoading, searchResults }) => {
     const globalUser = useSelector(state => state.userReducer)
     const apiCall = useRef(undefined)
     const [err, setErr] = useState(undefined)
     const navigate = useNavigate()
+    console.log(myFollowings)
 
     return (<>{fansLoading ? <CircularProgress /> :
         <>{searchResults ?
@@ -23,6 +24,8 @@ const TheirAllies = ({ user, sendAllieRequest, sendFriendRequest,
                                     removeAllie={() => removeAllie(fan.screen_cid, globalUser.cid)}
                                     removeFriend={() => removeFriend(fan.screen_cid, globalUser.cid)}
                                     image={fan.avatar} username={fan.username}
+                                    amFollowing={myFollowings && myFollowings.includes(fan.screen_cid)}
+                                    ywid={fan.screen_cid}
 
                                     sendAllieRequest={() => sendAllieRequest(fan.screen_cid, globalUser.cid)}
 
@@ -45,8 +48,9 @@ const TheirAllies = ({ user, sendAllieRequest, sendFriendRequest,
                             removeAllie={() => removeAllie(fan.screen_cid, globalUser.cid)}
                             removeFriend={() => removeFriend(fan.screen_cid, globalUser.cid)}
                             image={fan.user_avatar} username={fan.username}
-
+                            amFollowing={myFollowings && myFollowings.includes(fan.screen_cid)}
                             sendAllieRequest={() => sendAllieRequest(fan.screen_cid, globalUser.cid)}
+                            ywid={fan.screen_cid}
 
                             sendFriendRequest={() => sendFriendRequest(fan.screen_cid, globalUser.cid)}
                             shareClick={shareClick} />

@@ -120,7 +120,11 @@ const WithdrawPanel = () => {
 
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '40px', p: '0', mb: '20px' }}>
+        <Box sx={{
+            width: '100%',
+            maxWidth: '900px',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '40px', p: '0', mb: '20px'
+        }}>
             {
                 (globalUser.privateKey) ?
                     <>
@@ -139,8 +143,8 @@ const WithdrawPanel = () => {
                                                     component="img"
                                                     src={nft_img_url}
                                                     sx={{
-                                                        width: { xs: '100%', sm: '50%' },
-                                                        borderRadius: '12px',
+                                                        // width: { xs: '100%', sm: '50%' },
+                                                        borderRadius: '12px', height: '100%', width: '100%',
                                                         backgroundColor: 'primary.gray',
                                                     }}
                                                 >

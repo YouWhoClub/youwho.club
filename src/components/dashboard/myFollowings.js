@@ -70,6 +70,8 @@ const MyFollowings = ({ sendAllieRequest, sendFriendRequest, shareClick, removeA
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                             {searchResults.map((friend, index) => (
                                 <RelationCard
+                                    ywid={friend.screen_cid}
+                                    amFollowing={true}
                                     removeFriend={() => {
                                         removeFriend(friend.screen_cid, globalUser.cid)
                                         getFollowings()
@@ -92,6 +94,8 @@ const MyFollowings = ({ sendAllieRequest, sendFriendRequest, shareClick, removeA
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                     {followings.map((friend, index) => (
                         <RelationCard
+                            amFollowing={true}
+                            ywid={friend.screen_cid}
                             // removeAllie={() => removeAllie(friend.screen_cid, globalUser.cid)}
                             removeFriend={() => {
                                 removeFriend(friend.screen_cid, globalUser.cid)

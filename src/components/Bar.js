@@ -18,15 +18,16 @@ const IconHolder = styled(Box)(({ theme }) => ({
     display: 'flex', justifyContent: 'center', alignItems: 'center',
     borderColor: theme.palette.secondary.text,
     // border: '0.2px solid',
-    borderRadius: '50%', cursor: 'pointer',transition:'500ms ease',
-    width: '50px', height: '50px',
+    borderRadius: '50%', cursor: 'pointer', transition: '500ms ease',
+    width: '40px', height: '40px',
     boxShadow: theme.palette.primary.boxShadowInset,
     '&:hover': {
-        backgroundColor: theme.palette.primary.middle, color: 'whitesmoke',
+        // backgroundColor: theme.palette.primary.middle,
+        //  color: 'whitesmoke',
         boxShadow: theme.palette.primary.boxShadow,
     },
     "@media (max-width: 600px)": {
-        width: '35px', height: '35px',
+        width: '40px', height: '40px',
     }
 
 }))
@@ -113,13 +114,15 @@ const Bar = () => {
     return (
         <BarStyle sx={{
             flexDirection: { xs: 'row', sm: 'column' },
-            height: { xs: '50px', sm: 'calc(100vh - 200px)', md: '450px' },
+            height: { xs: '50px', sm: '300px', md: '350px' },
             width: {
-                xs: '100%', sm: '75px'
+                xs: '100%', sm: '50px'
             },
             left: { xs: 'unset', sm: 0 },
-            bottom: { xs: 0, sm: '10%' },
+            transform: { xs: 'unset', sm: 'translateY(50%)' },
+            bottom: { xs: 0, sm: '50%' },
             borderRadius: { xs: '30px 30px 0 0', sm: '0 30px 30px 0' },
+            boxSizing: 'border-box', padding: '10px'
         }}
         >
             <IconHolder onClick={handleProfileClick}

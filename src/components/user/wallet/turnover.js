@@ -143,7 +143,9 @@ const Turnover = () => {
 
     return (
         <Box sx={{
-            width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
+            width: '100%',
+            maxWidth: '900px',
+            display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
             gap: '40px', mb: '20px'
         }}>
             <Box>

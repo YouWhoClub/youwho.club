@@ -124,7 +124,7 @@ const OthersProfieAssetTab = ({ user }) => {
                 </Box>
             </FlexColumn> */}
             <Gallery
-                sx={{ mt: { xs: 1, sm: 5 }, justifyContent: { xs: 'center', sm: 'start' } }}
+                sx={{ justifyContent: { xs: 'center', sm: 'center' } }}
             >
                 {
                     oncahinNfts &&

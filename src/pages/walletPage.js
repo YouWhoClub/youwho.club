@@ -31,7 +31,7 @@ const WalletPage = ({ switchTheme, theme }) => {
             {!globalUser.isLoggedIn ?
                 <Box
                     sx={{
-                        ml: { xs: 'none', sm: '80px' },
+                        ml: { xs: 'none', sm: '50px' },
                         display: 'flex',
                         flexDirection: 'column',
                         width: '100%',

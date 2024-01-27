@@ -250,10 +250,10 @@ const Profile = ({ switchTheme, theme, props }) => {
             <Box
                 id="profile"
                 sx={{
-                    ml: { xs: 'none', sm: '80px' },
+                    ml: { xs: 'none', sm: '50px' },
                     display: 'flex',
                     flexDirection: 'column',
-                    width: { xs: '100%', sm: 'calc(100% - 80px)' },
+                    width: { xs: '100%', sm: 'calc(100% - 50px)' },
                     height: 'calc(100vh - 55px)',
                     gap: { xs: '22px', md: '24px' },
                     boxSizing: 'border-box', padding: '20px 15px 40px'

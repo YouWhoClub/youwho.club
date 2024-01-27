@@ -83,9 +83,8 @@ const MyFans = ({ sendAllieRequest, sendFriendRequest,
                                             getFans()
                                         }}
                                         image={fan.avatar} username={fan.username} allies={true}
-
                                         sendAllieRequest={() => sendAllieRequest(fan.screen_cid, globalUser.cid)}
-
+                                        ywid={fan.screen_cid}
                                         sendFriendRequest={() => sendFriendRequest(fan.screen_cid, globalUser.cid)}
                                         shareClick={shareClick} />
                                 ))}
@@ -106,6 +105,7 @@ const MyFans = ({ sendAllieRequest, sendFriendRequest,
                                     getFans()
                                 }}
                                 image={fan.user_avatar} username={fan.username} allies={true}
+                                ywid={fan.screen_cid}
 
                                 sendAllieRequest={() => sendAllieRequest(fan.screen_cid, globalUser.cid)}
 

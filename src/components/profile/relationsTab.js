@@ -105,6 +105,7 @@ const RelationsTab = ({ user }) => {
     }
     useEffect(() => {
         if (globalUser.token && user && user.YouWhoID) {
+            getMyFollowings()
             getRelations()
         }
     }, [globalUser.token, user, user.YouWhoID])
@@ -269,7 +270,48 @@ const RelationsTab = ({ user }) => {
         }
 
     }
+    const [followings, setFollowings] = useState([])
 
+    const getMyFollowings = async () => {
+
+
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/followings/?from=0&to=100`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log('followings', response)
+
+        if (!response.is_error) {
+
+            if (response.data.length > 0) {
+                let tempFolls = []
+                for (var i = 0; i < response.data.length; i++) {
+                    for (var j = 0; j < response.data[i].friends.length; j++) {
+                        if (response.data[i].friends[j].screen_cid == globalUser.YouWhoID && response.data[i].friends[j].is_accepted == true) {
+                            tempFolls.push(response.data[i].user_screen_cid)
+
+                        }
+                    }
+                }
+                setFollowings(tempFolls)
+                console.log(tempFolls)
+            } else {
+                setFollowings([])
+            }
+        } else {
+            if (response.status == 404) {
+                setFollowings([])
+
+            } else {
+                setErr(response.message)
+                console.log(response.message)
+            }
+        }
+    }
     return (
         <Box sx={{
             display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
@@ -302,11 +344,12 @@ const RelationsTab = ({ user }) => {
                     sendAllieRequest={sendAllieRequest}
                     sendFriendRequest={sendFriendRequest}
                     removeAllie={removeAllie} removeFriend={removeFriend}
-                    fans={followers}
+                    fans={followers} myFollowing={followings}
                     fansLoading={relationsLoading}
                     user={user} searchResults={searchResults} />}
             {activeTab == 'their-friends' &&
                 <TheirFriends
+                    myFollowing={followings}
                     sendAllieRequest={sendAllieRequest}
                     sendFriendRequest={sendFriendRequest}
                     removeAllie={removeAllie} removeFriend={removeFriend}

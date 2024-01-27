@@ -49,7 +49,7 @@ const ProfileCard = ({ user, isFriend, setProgressBarOpen, progressBarOpen, send
         sx={{
             // width: '100%',
             gap: '20px',
-            height: { xs: '150px', md: '250px' },
+            height: { xs: '150px', md: '200px' },
             // px: 3, py: { xs: 2, md: 0 },
             padding: '20px',
             flexDirection: { xs: 'row' },
@@ -60,8 +60,8 @@ const ProfileCard = ({ user, isFriend, setProgressBarOpen, progressBarOpen, send
             id='profile-pic-user'
             sx={{
                 background: () => user && user.avatar ? `url('${API_CONFIG.API_URL}/${user.avatar}') no-repeat center` : BG_URL(PUBLIC_URL(`${profileFace}`)),
-                backgroundSize: 'cover', width: { xs: '80px', md: '200px' },
-                height: { xs: '80px', md: '200px' },
+                backgroundSize: 'cover', width: { xs: '80px', md: '170px' },
+                height: { xs: '80px', md: '170px' },
             }}
         />
         <Box sx={{
