@@ -120,28 +120,32 @@ const WithdrawPanel = () => {
 
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '40px', p: '0' , mb: '20px'}}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '40px', p: '0', mb: '20px' }}>
             {
                 (globalUser.privateKey) ?
                     <>
                         {
                             unclaimedDeposits.length ?
                                 unclaimedDeposits.map(item => {
-                                    const { amount, id, iat, nft_img_url } = item;
+                                    const { amount, id, iat, nft_img_url, from_wallet_info } = item;
                                     return (
                                         <Card>
-                                            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            <Box sx={{
+                                                width: '100%', boxSizing: 'border-box', gap: { xs: '20px', sm: '40px' },
+                                                display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between',
+                                                alignItems: 'center'
+                                            }}>
                                                 <Box
                                                     component="img"
                                                     src={nft_img_url}
                                                     sx={{
-                                                        width: '435px',
+                                                        width: { xs: '100%', sm: '50%' },
                                                         borderRadius: '12px',
                                                         backgroundColor: 'primary.gray',
                                                     }}
                                                 >
                                                 </Box>
-                                                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', py: '12px', gap: '12px', width: '327px', alignSelf: 'stretch' }}>
+                                                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', py: '12px', gap: '12px', width: '100%', alignSelf: 'stretch' }}>
                                                     <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
                                                         <Typography sx={{ color: 'primary.text', textAlign: 'center', fontSize: '20px', fontWeight: '500' }}>NFT Name</Typography>
                                                         <Box sx={{ display: 'flex', alignItems: 'center', fontSize: "20px", color: 'primary.main', px: 2, gap: '5px' }}>
@@ -154,7 +158,7 @@ const WithdrawPanel = () => {
                                                     <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
                                                         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-start', gap: '10px', alignItems: 'center' }}>
                                                             <Typography sx={{ color: 'primary.text', fontWeight: '600', fontFamily: 'inter', fontSize: '12px' }}>Form: </Typography>
-                                                            <Typography sx={{ color: 'primary.darkGray', fontWeight: '400', fontFamily: 'inter', fontSize: '12px' }}>Username</Typography>
+                                                            <Typography sx={{ color: 'primary.darkGray', fontWeight: '400', fontFamily: 'inter', fontSize: '12px' }}>{from_wallet_info.username}</Typography>
                                                         </Box>
                                                         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-start', gap: '10px', alignItems: 'center' }}>
                                                             <Typography sx={{ color: 'primary.text', fontWeight: '600', fontFamily: 'inter', fontSize: '12px' }}>Transfer Date: </Typography>
