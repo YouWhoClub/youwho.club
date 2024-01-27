@@ -132,7 +132,8 @@ const MobileMenu = ({ openMenu, setOpenMenu, theme, switchTheme }) => {
                     display: { xs: 'flex', sm: 'none' }, boxSizing: 'border-box',
                     // padding: '0 15px 20px',
                     flexDirection: 'column',
-                    alignItems: 'center', justifyContent: 'space-between', backdropFilter: 'blur(10px)', bgcolor: 'secondary.bg'
+                    alignItems: 'center', justifyContent: 'space-between',
+                    backdropFilter: 'blur(10px)', bgcolor: 'secondary.bg'
                 }}>
                     <FlexRow sx={{ padding: "9px 14px" }}>
                         {theme == 'light' ?
