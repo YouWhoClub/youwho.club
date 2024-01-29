@@ -56,7 +56,7 @@ const Button = styled('button')(({ theme }) => ({
 const ChargeWallet = () => {
     const globalUser = useSelector(state => state.userReducer)
     const dispatch = useDispatch();
-    const [currency, setCurrency] = useState('Dollar, USA')
+    const [currency, setCurrency] = useState('Pound, £')
     const [tokenAmount, setTokenAmount] = useState(1)
     const [IRRValue, setIRRValue] = useState(5000)
     const [USDValue, setUSDValue] = useState(0.01)
@@ -164,7 +164,7 @@ const ChargeWallet = () => {
                                 width: '100%', display: 'flex', flexDirection: 'row',
                                 alignItems: 'center', justifyContent: 'flex-start', gap: '12px'
                             }}>
-                                <SelectInput tabs={['Dollar, USA']} label={'Currency'}
+                                <SelectInput tabs={['Pound, £']} label={'Currency'}
                                     handleSelect={handleCurrencyChange} value={currency} id="currency-selection"
                                     width={'100%'} icon={<Icon url={PinIcon} w={27} h={27} />} />
                             </Box>
@@ -173,8 +173,8 @@ const ChargeWallet = () => {
                                 alignItems: 'center', justifyContent: 'center', gap: '10px'
                             }}>
                                 <MyInput
-                                    value={currency == 'Dollar, USA' ? USDollar.format(USDValue.toFixed(2)) : IRRial.format(IRRValue).split(".")[0]}
-                                    label={`${currency == 'Dollar, USA' ? 'Dollars' : 'Rials'}`}
+                                    value={currency == 'Pound, £' ? parseFloat(tokenAmount / 100) : currency == 'Dollar, USD' ? USDollar.format(USDValue.toFixed(2)) : IRRial.format(IRRValue).split(".")[0]}
+                                    label={`${currency == 'Pound, £' ? 'Pounds' : 'Rials'}`}
                                     width={'100%'}
                                     icon={<Icon url={MoneyIcon} w={27} h={27} />}
                                 />
