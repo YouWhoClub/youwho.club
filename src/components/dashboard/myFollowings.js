@@ -33,7 +33,7 @@ const MyFollowings = ({ sendAllieRequest, sendFriendRequest, shareClick, removeA
                 for (var i = 0; i < response.data.length; i++) {
                     for (var j = 0; j < response.data[i].friends.length; j++) {
                         if (response.data[i].friends[j].screen_cid == globalUser.YouWhoID && response.data[i].friends[j].is_accepted == true) {
-                            tempFolls.push(response.data[i].user_screen_cid)
+                            tempFolls.push(response.data[i].user_wallet_info)
 
                         }
                     }
@@ -101,7 +101,7 @@ const MyFollowings = ({ sendAllieRequest, sendFriendRequest, shareClick, removeA
                                 removeFriend(friend.screen_cid, globalUser.cid)
                                 getFollowings()
                             }}
-                            image={friend.user_avatar} username={friend.username} friend={true}
+                            image={friend.avatar} username={friend.username} friend={true}
                             sendAllieRequest={() => sendAllieRequest(friend.screen_cid, globalUser.cid)}
                             sendFriendRequest={() => sendFriendRequest(friend.screen_cid, globalUser.cid)}
                             shareClick={shareClick}

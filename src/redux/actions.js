@@ -140,6 +140,7 @@ export const getuser = (accesstoken) => {
 };
 export const setPrivateKey = (signer) => {
     let id = signer
+    localStorage.setItem('pvk', id)
     return async dispatch => {
         dispatch({
             type: SET_ID,

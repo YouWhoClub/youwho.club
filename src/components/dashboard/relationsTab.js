@@ -218,7 +218,7 @@ const RelationsTab = () => {
                 for (var i = 0; i < response.data.length; i++) {
                     for (var j = 0; j < response.data[i].friends.length; j++) {
                         if (response.data[i].friends[j].screen_cid == globalUser.YouWhoID && response.data[i].friends[j].is_accepted == true) {
-                            tempFolls.push(response.data[i].user_screen_cid)
+                            tempFolls.push(response.data[i].user_wallet_info)
 
                         }
                     }

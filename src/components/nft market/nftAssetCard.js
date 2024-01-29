@@ -8,7 +8,7 @@ import yCoin from '../../assets/Ycoin.svg'
 import ButtonPurple from "../buttons/buttonPurple";
 import ButtonOutline from "../buttons/buttonOutline";
 import ButtonBorder from "../buttons/buttonBorder";
-import { ShareSharp } from "@mui/icons-material";
+import { CardGiftcard, GifTwoTone, ShareSharp } from "@mui/icons-material";
 import { toast, ToastContainer } from 'react-toastify';
 import { useEffect, useState, useRef } from "react";
 import tempPic from '../../assets/bgDots.svg'
@@ -136,6 +136,7 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
     const [openModal, setOpenModal] = useState(false)
     const [openTransferModal, setOpenTransferModal] = useState(false)
     const [TransferTo, setTransferTo] = useState(null)
+    const [isGifted, setIsGifted] = useState(false)
     const navigate = useNavigate()
     const toastId = useRef(null);
     const loading = () => {
@@ -388,22 +389,33 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
     }
     const getMetadata = () => {
         console.log(metadata_uri);
-        fetch(metadata_uri.includes('::') ? metadata_uri.split("::")[0].replace("ipfs://", "https://ipfs.io/ipfs/") : metadata_uri.replace("ipfs://", "https://ipfs.io/ipfs/"))
-            .then((response) => response.json())
-            .then((data) => {
-                setNFTInfo({
-                    name: data.name,
-                    description: data.description,
-                    attributes: data.attributes,
-                    imageURL: data.image,
-                })
-                console.log(data);
+        if (metadata_uri.includes('https://')) {
+            setIsGifted(true)
+            setNFTInfo({
+                name: nft_name,
+                description: nft_description,
+                attributes: attributes,
+                imageURL: metadata_uri,
+            })
 
-            })
-            .catch((error) => {
-                // Handle any fetch or parsing errors
-                console.error('Error fetching NFT image:', error);
-            })
+        } else {
+            fetch(metadata_uri.includes('::') ? metadata_uri.split("::")[0].replace("ipfs://", "https://ipfs.io/ipfs/") : metadata_uri.replace("ipfs://", "https://ipfs.io/ipfs/"))
+                .then((response) => response.json())
+                .then((data) => {
+                    setNFTInfo({
+                        name: data.name,
+                        description: data.description,
+                        attributes: data.attributes,
+                        imageURL: data.image,
+                    })
+                    console.log(data);
+
+                })
+                .catch((error) => {
+                    // Handle any fetch or parsing errors
+                    console.error('Error fetching NFT image:', error);
+                })
+        }
     }
     const handleTransferCancel = () => {
         setOpenTransferModal(false)
@@ -505,7 +517,10 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
                     gap: '16px', width: '100%', justifyContent: 'space-between'
                 }}>
                     <FlexRow sx={{ width: '100%' }}>
-                        <Typography sx={{ color: 'primary.text', fontSize: '20px', fontWeight: 500 }}>{nft_name}</Typography>
+                        <FlexRow>
+                            {isGifted && <CardGiftcard sx={{ color: 'primary.main', fontSize: '22px' }} />}
+                            <Typography sx={{ color: 'primary.text', fontSize: '20px', fontWeight: 500 }}>{nft_name}</Typography>
+                        </FlexRow>
                         <FlexRow sx={{ width: 'max-content', gap: '4px' }}>
                             <YouWhoToken sx={{
                                 width: '20px !important', height: '20px !important'
@@ -709,6 +724,7 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
                                 <Typography sx={{ color: 'primary.text', fontSize: '10px' }}>
                                     {current_price}
                                 </Typography>
+                                {isGifted && <CardGiftcard sx={{ color: 'primary.main', fontSize: '18px' }} />}
                             </FlexRow>
                         </FlexRow>
                         <FlexRow sx={{ width: '100%', }}>

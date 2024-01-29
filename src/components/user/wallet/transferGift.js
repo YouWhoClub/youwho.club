@@ -275,7 +275,6 @@ const TransferGift = () => {
                                     </Box>
                                 </Box>
                             </FlexRow>
-
                             <Modal
                                 open={openCrop}
                                 onClose={() => setOpenCrop(false)}
@@ -301,7 +300,7 @@ const TransferGift = () => {
                                                 <Close sx={{ cursor: 'pointer' }} />
                                             </div>
                                         </FlexRow>
-                                        <Crop imageURL={photoURL} aspectRatio={aspectRatio} setOpenCrop={setOpenCrop} setFile={setFile} setPhotoURL={setPhotoURL} />
+                                        <Crop imageURL={photoURL} aspectRatio={aspectRatio == '16 : 9' ? 16 / 9 : 1} setOpenCrop={setOpenCrop} setFile={setFile} setPhotoURL={setPhotoURL} />
                                     </Box>
                                 </Box>
                             </Modal>

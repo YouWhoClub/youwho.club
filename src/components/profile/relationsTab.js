@@ -19,6 +19,7 @@ import TheirAllies from "./TheirAllies";
 import TheirFriends from "./TheirFriends";
 import { PUBLIC_API } from "../../utils/data/public_api";
 import { toast } from "react-toastify";
+import TheirFollowings from "./TheirFollowings";
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex', boxSizing: 'border-box',
     flexDirection: 'row',
@@ -43,6 +44,7 @@ const RelationsTab = ({ user }) => {
     const [activeTab, setActiveTab] = useState('their-fans')
     const [followers, setFollowers] = useState([])
     const [friends, setFriends] = useState([])
+    const [followings, setFollowings] = useState([])
     const [err, setErr] = useState(undefined)
     const [searchResults, setSearchResults] = useState(undefined)
     const [relationsLoading, setRelationsLoading] = useState(true)
@@ -73,7 +75,7 @@ const RelationsTab = ({ user }) => {
             let tempFolls = []
             if (response.data.followings.length > 0) {
                 for (var i = 0; i < response.data.followings.length; i++) {
-                    tempFolls.push(response.data.followings[i].user_screen_cid)
+                    tempFolls.push(response.data.followings[i].user_wallet_info)
                 }
             } else {
                 tempFolls = []
@@ -87,6 +89,7 @@ const RelationsTab = ({ user }) => {
             let tempFriends = response.data.friends.friends
             setFriends(tempFriends)
             setFollowers(tempFans)
+            setFollowings(tempFolls)
             setRelationsLoading(false)
 
             console.log('frnds', tempFriends)
@@ -270,7 +273,7 @@ const RelationsTab = ({ user }) => {
         }
 
     }
-    const [followings, setFollowings] = useState([])
+    const [myFollowings, setMyFollowings] = useState([])
 
     const getMyFollowings = async () => {
 
@@ -290,21 +293,21 @@ const RelationsTab = ({ user }) => {
             if (response.data.length > 0) {
                 let tempFolls = []
                 for (var i = 0; i < response.data.length; i++) {
-                    for (var j = 0; j < response.data[i].friends.length; j++) {
-                        if (response.data[i].friends[j].screen_cid == globalUser.YouWhoID && response.data[i].friends[j].is_accepted == true) {
-                            tempFolls.push(response.data[i].user_screen_cid)
-
-                        }
-                    }
+                    // for (var j = 0; j < response.data[i].friends.length; j++) {
+                    // if (response.data[i].friends[j].screen_cid == globalUser.YouWhoID && response.data[i].friends[j].is_accepted == true) {
+                    tempFolls.push(response.data[i].user_wallet_info.screen_cid)
+                    console.log(response.data[i].user_wallet_info.screen_cid)
+                    // }
+                    // }
                 }
-                setFollowings(tempFolls)
+                setMyFollowings(tempFolls)
                 console.log(tempFolls)
             } else {
-                setFollowings([])
+                setMyFollowings([])
             }
         } else {
             if (response.status == 404) {
-                setFollowings([])
+                setMyFollowings([])
 
             } else {
                 setErr(response.message)
@@ -326,6 +329,9 @@ const RelationsTab = ({ user }) => {
                 <SubTab id={"their-friends"}
                     onClick={changeTab}
                     text={`${user.username}'s Friends`} selected={activeTab == 'their-friends'} />
+                <SubTab id={"their-followings"}
+                    onClick={changeTab}
+                    text={`${user.username}'s Followings`} selected={activeTab == 'their-followings'} />
             </SubTabs>
             <FilterSelectionBox sx={{ padding: '8px 16px', my: '24px' }}>
                 <span style={{ width: '180px', fontSize: '14px' }}>
@@ -344,16 +350,24 @@ const RelationsTab = ({ user }) => {
                     sendAllieRequest={sendAllieRequest}
                     sendFriendRequest={sendFriendRequest}
                     removeAllie={removeAllie} removeFriend={removeFriend}
-                    fans={followers} myFollowing={followings}
+                    fans={followers} myFollowing={myFollowings}
                     fansLoading={relationsLoading}
                     user={user} searchResults={searchResults} />}
             {activeTab == 'their-friends' &&
                 <TheirFriends
-                    myFollowing={followings}
+                    myFollowing={myFollowings}
                     sendAllieRequest={sendAllieRequest}
                     sendFriendRequest={sendFriendRequest}
                     removeAllie={removeAllie} removeFriend={removeFriend}
                     friends={friends} friendsLoading={relationsLoading}
+                    user={user} searchResults={searchResults} />}
+            {activeTab == 'their-followings' &&
+                <TheirFollowings
+                    myFollowing={myFollowings}
+                    sendAllieRequest={sendAllieRequest}
+                    sendFriendRequest={sendFriendRequest}
+                    removeAllie={removeAllie} removeFriend={removeFriend}
+                    followings={followings} followingsLoading={relationsLoading}
                     user={user} searchResults={searchResults} />}
         </Box>
     );
