@@ -501,207 +501,259 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
     }
     return (
         <>{detExpanded ?
-            <Container sx={{ flexDirection: { xs: "column", sm: 'row' }, height: 'max-content' }}>
-                <AssetImage
-                    id="large-asset-image"
-                    sx={{
-                        // width: '280px',
-                        height: '280px',
-                        width: '100%',
-                        // height: `${document.getElementById("large-asset-image")?.offsetWidth}px`,
-                        // backgroundImage: BG_URL(PUBLIC_URL(`${NFTInfo.imageURL}`)),
-                        backgroundImage: `url(${NFTInfo.imageURL})`,
-                    }}
-                />
-                <FlexColumn sx={{
-                    gap: '16px', width: '100%', justifyContent: 'space-between'
+            <Modal
+                open={detExpanded}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                disableScrollLock={true}
+            >
+                <Box sx={{
+                    display: 'flex', alignItems: 'center', flexDirection: 'column',
+                    width: '100%', height: '100%', backdropFilter: 'blur(10px)', boxSizing: 'border-box',
+                    gap: '40px'
                 }}>
-                    <FlexRow sx={{ width: '100%' }}>
-                        <FlexRow>
-                            {isGifted && <CardGiftcard sx={{ color: 'primary.main', fontSize: '22px' }} />}
-                            <Typography sx={{ color: 'primary.text', fontSize: '20px', fontWeight: 500 }}>{nft_name}</Typography>
-                        </FlexRow>
-                        <FlexRow sx={{ width: 'max-content', gap: '4px' }}>
-                            <YouWhoToken sx={{
-                                width: '20px !important', height: '20px !important'
-                            }}
-                            />
-                            <Typography sx={{ color: 'primary.text', fontSize: '20px', fontWeight: 600 }}>{current_price}</Typography>
-                        </FlexRow>
-                    </FlexRow>
-                    <FlexColumn sx={{
-                        gap: '6px', width: '100%', alignItems: 'start !important'
-                    }}>
-                        <FlexRow sx={{ width: 'max-content', gap: '2px' }}>
-                            {(tempLikers.includes(globalUser.YouWhoID)) ?
-                                <HeartRemove variant="Bulk" size={'24px'} cursor={'pointer'}
-                                    onClick={() => addReactionOnNFT(
-                                        col_data.id,
-                                        globalUser.cid,
-                                        id,
-                                        'dislike',
-                                        '',
-                                        false,
-                                        true)} />
-                                : <Heart size={'24px'} cursor={'pointer'}
-                                    onClick={() => addReactionOnNFT(col_data.id, globalUser.cid,
-                                        id, 'like', '', true, false)} />
-                            }
-                            <Typography sx={{ color: 'primary.text', fontSize: '9px' }}>
-                                {likes && likes.length > 0 && likes[0].upvoter_screen_cids ? likes[0].upvoter_screen_cids.length : 0}
-                            </Typography>
-                        </FlexRow>
-                        <FlexRow sx={{ justifyContent: 'start !important' }}>
-                            <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
-                                Creation Time:
-                            </Typography>
-                            <Typography sx={{
-                                color: 'secondary.text',
-                                fontSize: '12px', fontWeight: 400, textAlign: 'justify'
-                            }}>
-                                {created_at}
-                            </Typography>
-
-                        </FlexRow>
-                        <FlexColumn sx={{ width: '100%', alignItems: 'start !important' }}>
-                            <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
-                                NFT Description:
-                            </Typography>
-                            <Typography sx={{
-                                color: 'secondary.text',
-                                fontSize: '12px', fontWeight: 400, textAlign: 'justify'
-                            }}>
-                                {nft_description}
-                            </Typography>
-                        </FlexColumn>
-                        <FlexRow sx={{ justifyContent: 'start !important' }}>
-                            <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
-                                Collection Name:
-                            </Typography>
-                            <Typography sx={{
-                                color: 'secondary.text',
-                                fontSize: '12px', fontWeight: 400, textAlign: 'justify'
-                            }}>
-                                {col_data.col_name}
-                            </Typography>
-                        </FlexRow>
-                        <FlexRow sx={{ justifyContent: 'start !important' }}>
-                            <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
-                                Collection Owner:
-                            </Typography>
-                            <Typography sx={{
-                                color: 'secondary.text',
-                                fontSize: { xs: '8px', sm: '10px' }, fontWeight: 400, textAlign: 'justify'
-                            }}>
-                                {col_data.owner_screen_cid}
-                            </Typography>
-
-                        </FlexRow>
-                        <FlexColumn sx={{ width: '100%', alignItems: 'start !important' }}>
-                            <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
-                                Collection Description:
-                            </Typography>
-                            <Typography sx={{
-                                color: 'secondary.text',
-                                fontSize: '12px', fontWeight: 400, textAlign: 'justify'
-                            }}>
-                                {col_data.col_description}
-                            </Typography>
-                        </FlexColumn>
-                        <Line />
-                        <FlexColumn sx={{ width: '100%', alignItems: 'start !important', my: { xs: '8px', md: '10px' } }}>
-                            <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>NFT Properties : </Typography>
-                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                                {
-                                    attributes &&
-                                    attributes.map(attr => (
-                                        <NFTPropertyTag>
-                                            <PropertyTagTitle>{attr.trait_type} : </PropertyTagTitle>
-                                            <PropertyTagAnswer>{attr.value}</PropertyTagAnswer>
-                                        </NFTPropertyTag>
-                                    ))
-                                }
-                            </Box>
-                        </FlexColumn>
-                        <Line />
-
-                        <FlexColumn sx={{ width: '100%', gap: '8px', my: { xs: '8px', md: '10px' }, alignItems: 'start !important' }}>
-                            <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>
-                                Comments : {comments && comments.length > 0 ?
-                                    <span>(  <span style={{ color: '#5F5F5F' }}>{selectedCommentIndex + 1}th</span> / <span style={{ color: '#5F5F5F' }}>{comments.length}</span> )</span>
-                                    : undefined}</Typography>
-
-                            {
-                                comments && comments.length > 0 ?
-                                    <FlexRow sx={{ gap: '12px', width: '100%', }}>
-
-                                        <NFTCommentCard username={comments[selectedCommentIndex].owner_username}
-                                            profileImg={comments[selectedCommentIndex].owner_avatar}
-                                            comment={comments[selectedCommentIndex].content} />
-                                        <FlexColumn sx={{ alignItems: 'space-between !important', color: 'primary.text' }}>
-                                            <ArrowUp2 size='16px' cursor='pointer'
-                                                onClick={() => setSelectedCommentIndex(selectedCommentIndex - 1 >= 0 ? selectedCommentIndex - 1 : selectedCommentIndex)} />
-                                            <ArrowDown2 size='16px' cursor='pointer'
-                                                onClick={() => setSelectedCommentIndex(selectedCommentIndex + 1 >= comments.length ? selectedCommentIndex : selectedCommentIndex + 1)} />
-                                        </FlexColumn>
-                                    </FlexRow>
-                                    :
-                                    <Typography sx={{ textTransform: 'capitalize', fontSize: { xs: '12px', md: '14px' }, color: 'secondary.text' }}>
-                                        this NFT has no comments
-                                    </Typography>
-                            }
-
-                            <CommentInput
-                                onChange={(e) => setCommentContent(e.target.value)}
-                                value={commentContent}
-                                h={'max-content'}
-                                label={'Add A Comment'} width={'100%'}
-                                icon={<AddComment sx={{ color: 'primary.light' }} />}
-                                button={<ButtonPurple
-                                    disabled={commentContent == undefined}
-                                    height='20px'
-                                    onClick={commentContent == undefined ? undefined : () => addReactionOnNFT(
-                                        col_data.id,
-                                        globalUser.cid,
-                                        id,
-                                        'comment',
-                                        commentContent,
-                                        false,
-                                        false)}
-                                    text={'Send'}
-                                    br={'30px'}
-                                />
-                                } />
-                        </FlexColumn>
-                        <Line />
-                    </FlexColumn>
                     <FlexRow sx={{
-                        gap: '8px',
-                        // flexWrap: 'wrap',
-                        width: '100%', my: { xs: '8px', md: '10px' },
+                        width: '100%', height: 'auto',
+                        justifyContent: 'space-between !important',
+                        // justifySelf: 'start !important',
+                        pr: '30px', pt: '15px',
+                        display: { xs: 'none !important', sm: 'flex !important' }
                     }}>
-                        {is_listed && globalUser.YouWhoID !== current_owner_screen_cid
-                            ?
-                            <ButtonPurple text={'Buy'} px={'24px'} w={'calc(100% - 40px)'} onClick={buyNFt} /> : undefined
-                        }
-                        {!is_listed && globalUser.YouWhoID == current_owner_screen_cid
-                            ?
-                            <>
-                                <ButtonPurple text={'Add To Sales List'} fontSize={'14px'} onClick={() => setOpenModal(true)} w='calc(100% - 150px)' px={'24px'} />
-                                <ButtonOutlineInset text={'Transfer'} fontSize={'14px'} onClick={() => setOpenTransferModal(true)} w='max-content' px={'16px'} />
-                            </> : undefined
-                        }
-                        {is_listed && globalUser.YouWhoID == current_owner_screen_cid ?
-                            <ButtonPurple text={'Remove From Sales List'} onClick={removeFromList} w='calc(100% - 40px)' />
-                            : undefined}
-                        <ButtonBorder
+                        <Box />
+                        <Close sx={{
+                            boxShadow: '0px 0px 5px 1px rgba(227,209,231,0.7)', padding: { xs: '0', md: '4px' },
+                            borderRadius: '50%', color: 'white'
+                        }}
+                            onClick={handleClose} cursor="pointer" />
+                    </FlexRow>
+
+                    <Box sx={(theme) => ({
+                        width: { xs: '100%', sm: '600px', md: '900px' },
+                        height: { xs: '100%', sm: 'max-content' },
+                        // width: '100%', height: '100%',
+                        // justifySelf: 'center !important',
+                        borderRadius: { xs: '0', sm: '24px' },
+                        display: 'flex', alignItems: 'center', justifyContent: 'start',
+                        backdropFilter: 'blur(10px)', backgroundColor: 'transparent',
+                        boxSizing: 'border-box', flexDirection: 'column',
+                        gap: '20px', padding: { xs: '0', sm: '10px 12px 10px 12px' }
+                    })}>
+
+
+                        <Container sx={{
+                            flexDirection: { xs: "column", sm: 'row' }, height: 'max-content',
+                            maxHeight: { xs: '100%', sm: '75vh', md: '80vh' },
+                            overflowY: 'scroll',
+                            overflowX: 'hidden',
+                            '&::-webkit-scrollbar': { display: 'none', },
+                        }}>
+                            <AssetImage
+                                id="large-asset-image"
+                                sx={{
+                                    // width: '280px',
+                                    height: '280px',
+                                    width: '100%',
+                                    // height: `${document.getElementById("large-asset-image")?.offsetWidth}px`,
+                                    // backgroundImage: BG_URL(PUBLIC_URL(`${NFTInfo.imageURL}`)),
+                                    backgroundImage: `url(${NFTInfo.imageURL})`,
+                                }}
+                            />
+                            <FlexColumn sx={{
+                                gap: '16px', width: '100%', justifyContent: 'space-between'
+                            }}>
+                                <FlexRow sx={{ width: '100%' }}>
+                                    <FlexRow>
+                                        {isGifted && <CardGiftcard sx={{ color: 'primary.main', fontSize: '22px' }} />}
+                                        <Typography sx={{ color: 'primary.text', fontSize: '20px', fontWeight: 500 }}>{nft_name}</Typography>
+                                    </FlexRow>
+                                    <FlexRow sx={{ width: 'max-content', gap: '4px' }}>
+                                        <YouWhoToken sx={{
+                                            width: '20px !important', height: '20px !important'
+                                        }}
+                                        />
+                                        <Typography sx={{ color: 'primary.text', fontSize: '20px', fontWeight: 600 }}>{current_price}</Typography>
+                                    </FlexRow>
+                                </FlexRow>
+                                <FlexColumn sx={{
+                                    gap: '6px', width: '100%', alignItems: 'start !important'
+                                }}>
+                                    <FlexRow sx={{ width: 'max-content', gap: '2px' }}>
+                                        {(tempLikers.includes(globalUser.YouWhoID)) ?
+                                            <HeartRemove variant="Bulk" size={'24px'} cursor={'pointer'}
+                                                onClick={() => addReactionOnNFT(
+                                                    col_data.id,
+                                                    globalUser.cid,
+                                                    id,
+                                                    'dislike',
+                                                    '',
+                                                    false,
+                                                    true)} />
+                                            : <Heart size={'24px'} cursor={'pointer'}
+                                                onClick={() => addReactionOnNFT(col_data.id, globalUser.cid,
+                                                    id, 'like', '', true, false)} />
+                                        }
+                                        <Typography sx={{ color: 'primary.text', fontSize: '9px' }}>
+                                            {likes && likes.length > 0 && likes[0].upvoter_screen_cids ? likes[0].upvoter_screen_cids.length : 0}
+                                        </Typography>
+                                    </FlexRow>
+                                    <FlexRow sx={{ justifyContent: 'start !important' }}>
+                                        <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
+                                            Creation Time:
+                                        </Typography>
+                                        <Typography sx={{
+                                            color: 'secondary.text',
+                                            fontSize: '12px', fontWeight: 400, textAlign: 'justify'
+                                        }}>
+                                            {created_at}
+                                        </Typography>
+
+                                    </FlexRow>
+                                    <FlexColumn sx={{ width: '100%', alignItems: 'start !important' }}>
+                                        <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
+                                            NFT Description:
+                                        </Typography>
+                                        <Typography sx={{
+                                            color: 'secondary.text',
+                                            fontSize: '12px', fontWeight: 400, textAlign: 'justify'
+                                        }}>
+                                            {nft_description}
+                                        </Typography>
+                                    </FlexColumn>
+                                    <FlexRow sx={{ justifyContent: 'start !important' }}>
+                                        <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
+                                            Collection Name:
+                                        </Typography>
+                                        <Typography sx={{
+                                            color: 'secondary.text',
+                                            fontSize: '12px', fontWeight: 400, textAlign: 'justify'
+                                        }}>
+                                            {col_data.col_name}
+                                        </Typography>
+                                    </FlexRow>
+                                    <FlexRow sx={{ justifyContent: 'start !important' }}>
+                                        <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
+                                            Collection Owner:
+                                        </Typography>
+                                        <Typography sx={{
+                                            color: 'secondary.text',
+                                            fontSize: { xs: '8px', sm: '10px' }, fontWeight: 400, textAlign: 'justify'
+                                        }}>
+                                            {col_data.owner_screen_cid}
+                                        </Typography>
+
+                                    </FlexRow>
+                                    <FlexColumn sx={{ width: '100%', alignItems: 'start !important' }}>
+                                        <Typography sx={{ color: 'primary.text', fontSize: '12px', fontWeight: 600 }}>
+                                            Collection Description:
+                                        </Typography>
+                                        <Typography sx={{
+                                            color: 'secondary.text',
+                                            fontSize: '12px', fontWeight: 400, textAlign: 'justify'
+                                        }}>
+                                            {col_data.col_description}
+                                        </Typography>
+                                    </FlexColumn>
+                                    <Line />
+                                    <FlexColumn sx={{ width: '100%', alignItems: 'start !important', my: { xs: '8px', md: '10px' } }}>
+                                        <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>NFT Properties : </Typography>
+                                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                                            {
+                                                attributes &&
+                                                attributes.map(attr => (
+                                                    <NFTPropertyTag>
+                                                        <PropertyTagTitle>{attr.trait_type} : </PropertyTagTitle>
+                                                        <PropertyTagAnswer>{attr.value}</PropertyTagAnswer>
+                                                    </NFTPropertyTag>
+                                                ))
+                                            }
+                                        </Box>
+                                    </FlexColumn>
+                                    <Line />
+
+                                    <FlexColumn sx={{ width: '100%', gap: '8px', my: { xs: '8px', md: '10px' }, alignItems: 'start !important' }}>
+                                        <Typography sx={{ color: 'primary.text', fontWeight: 500, fontSize: '14px' }}>
+                                            Comments : {comments && comments.length > 0 ?
+                                                <span>(  <span style={{ color: '#5F5F5F' }}>{selectedCommentIndex + 1}th</span> / <span style={{ color: '#5F5F5F' }}>{comments.length}</span> )</span>
+                                                : undefined}</Typography>
+
+                                        {
+                                            comments && comments.length > 0 ?
+                                                <FlexRow sx={{ gap: '12px', width: '100%', }}>
+
+                                                    <NFTCommentCard username={comments[selectedCommentIndex].owner_username}
+                                                        profileImg={comments[selectedCommentIndex].owner_avatar}
+                                                        comment={comments[selectedCommentIndex].content} />
+                                                    <FlexColumn sx={{ alignItems: 'space-between !important', color: 'primary.text' }}>
+                                                        <ArrowUp2 size='16px' cursor='pointer'
+                                                            onClick={() => setSelectedCommentIndex(selectedCommentIndex - 1 >= 0 ? selectedCommentIndex - 1 : selectedCommentIndex)} />
+                                                        <ArrowDown2 size='16px' cursor='pointer'
+                                                            onClick={() => setSelectedCommentIndex(selectedCommentIndex + 1 >= comments.length ? selectedCommentIndex : selectedCommentIndex + 1)} />
+                                                    </FlexColumn>
+                                                </FlexRow>
+                                                :
+                                                <Typography sx={{ textTransform: 'capitalize', fontSize: { xs: '12px', md: '14px' }, color: 'secondary.text' }}>
+                                                    this NFT has no comments
+                                                </Typography>
+                                        }
+
+                                        <CommentInput
+                                            onChange={(e) => setCommentContent(e.target.value)}
+                                            value={commentContent}
+                                            h={'max-content'}
+                                            label={'Add A Comment'} width={'100%'}
+                                            icon={<AddComment sx={{ color: 'primary.light' }} />}
+                                            button={<ButtonPurple
+                                                disabled={commentContent == undefined}
+                                                height='20px'
+                                                onClick={commentContent == undefined ? undefined : () => addReactionOnNFT(
+                                                    col_data.id,
+                                                    globalUser.cid,
+                                                    id,
+                                                    'comment',
+                                                    commentContent,
+                                                    false,
+                                                    false)}
+                                                text={'Send'}
+                                                br={'30px'}
+                                            />
+                                            } />
+                                    </FlexColumn>
+                                    <Line />
+                                </FlexColumn>
+                                <FlexRow sx={{
+                                    gap: '8px',
+                                    // flexWrap: 'wrap',
+                                    width: '100%', my: { xs: '8px', md: '10px' },
+                                }}>
+                                    {!isGifted && is_listed && globalUser.YouWhoID !== current_owner_screen_cid
+                                        ?
+                                        <ButtonPurple text={'Buy'} px={'24px'} w={'calc(100% - 40px)'} onClick={buyNFt} /> : undefined
+                                    }
+                                    {!isGifted && !is_listed && globalUser.YouWhoID == current_owner_screen_cid
+                                        ?
+                                        <>
+                                            <ButtonPurple text={'Add To Sales List'} fontSize={'14px'} onClick={() => setOpenModal(true)} w='calc(100% - 150px)' px={'24px'} />
+                                            <ButtonOutlineInset text={'Transfer'} fontSize={'14px'} onClick={() => setOpenTransferModal(true)} w='max-content' px={'16px'} />
+                                        </> : undefined
+                                    }
+                                    {!isGifted && is_listed && globalUser.YouWhoID == current_owner_screen_cid ?
+                                        <ButtonPurple text={'Remove From Sales List'} onClick={removeFromList} w='calc(100% - 40px)' />
+                                        : undefined}
+                                    {/* <ButtonBorder
                             br={'4px'}
                             text={<ShareSharp sx={{ color: 'secondary.text' }} />}
-                            w={'40px'} height={'40px'} />
-                    </FlexRow>
-                    <ButtonBorder w={'100%'} text={<ArrowUp2 />} height={'30px'} onClick={handleClose} br={'4px'} />
-                </FlexColumn>
-            </Container>
+                            w={'40px'} height={'40px'} /> */}
+                                </FlexRow>
+                                {/* <ButtonBorder w={'100%'} text={<ArrowUp2 />} height={'30px'} onClick={handleClose} br={'4px'} /> */}
+                            </FlexColumn>
+                        </Container>
+
+
+                    </Box>
+                </Box>
+            </Modal >
+
             :
             <ClickAwayListener onClickAway={handleClickAway}>
                 <Card>

@@ -208,14 +208,20 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
             : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
     }
     const getMetadata = () => {
-        let mtdata = metadata_uri.includes('::') ? metadata_uri.split("::")[0].replace("ipfs://", "https://ipfs.io/ipfs/") : metadata_uri.replace("ipfs://", "https://ipfs.io/ipfs/")
-        fetch(mtdata)
-            .then((response) => response.json())
-            .then((data) => (setImageURL(data.image)))
-            .catch((error) => {
-                // Handle any fetch or parsing errors
-                console.error('Error fetching NFT image:', error);
-            })
+        if (metadata_uri.includes('https://')) {
+            setImageURL(metadata_uri)
+
+        } else {
+
+            let mtdata = metadata_uri.includes('::') ? metadata_uri.split("::")[0].replace("ipfs://", "https://ipfs.io/ipfs/") : metadata_uri.replace("ipfs://", "https://ipfs.io/ipfs/")
+            fetch(mtdata)
+                .then((response) => response.json())
+                .then((data) => (setImageURL(data.image)))
+                .catch((error) => {
+                    // Handle any fetch or parsing errors
+                    console.error('Error fetching NFT image:', error);
+                })
+        }
     }
     const buyNFt = async () => {
         loading();

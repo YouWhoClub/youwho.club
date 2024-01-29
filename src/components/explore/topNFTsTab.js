@@ -112,6 +112,30 @@ const TopNFTsTab = () => {
                         <Box sx={{ width: '280px', height: '220px', display: 'flex', alignItems: 'center' }}>
                             <Skeleton sx={{ borderRadius: '16px', }} width={'280px'} height={'220px'} />
                         </Box>
+                        <Box sx={{ width: '280px', height: '220px', display: 'flex', alignItems: 'center' }}>
+                            <Skeleton sx={{ borderRadius: '16px', }} width={'280px'} height={'220px'} />
+                        </Box>
+                        <Box sx={{ width: '280px', height: '220px', display: 'flex', alignItems: 'center' }}>
+                            <Skeleton sx={{ borderRadius: '16px', }} width={'280px'} height={'220px'} />
+                        </Box>
+                        <Box sx={{ width: '280px', height: '220px', display: 'flex', alignItems: 'center' }}>
+                            <Skeleton sx={{ borderRadius: '16px', }} width={'280px'} height={'220px'} />
+                        </Box>
+                        <Box sx={{ width: '280px', height: '220px', display: 'flex', alignItems: 'center' }}>
+                            <Skeleton sx={{ borderRadius: '16px', }} width={'280px'} height={'220px'} />
+                        </Box>
+                        <Box sx={{ width: '280px', height: '220px', display: 'flex', alignItems: 'center' }}>
+                            <Skeleton sx={{ borderRadius: '16px', }} width={'280px'} height={'220px'} />
+                        </Box>
+                        <Box sx={{ width: '280px', height: '220px', display: 'flex', alignItems: 'center' }}>
+                            <Skeleton sx={{ borderRadius: '16px', }} width={'280px'} height={'220px'} />
+                        </Box>
+                        <Box sx={{ width: '280px', height: '220px', display: 'flex', alignItems: 'center' }}>
+                            <Skeleton sx={{ borderRadius: '16px', }} width={'280px'} height={'220px'} />
+                        </Box>
+                        <Box sx={{ width: '280px', height: '220px', display: 'flex', alignItems: 'center' }}>
+                            <Skeleton sx={{ borderRadius: '16px', }} width={'280px'} height={'220px'} />
+                        </Box>
                     </>
                 }
             </Gallery>
