@@ -89,6 +89,7 @@ const TransferGift = () => {
     const [signer, setSigner] = useState(undefined)
     const [IpfsURL, setIpfsURL] = useState(undefined)
     const [txHash, setTxHash] = useState(null)
+    const [isTransfering, setIsTransfering] = useState(false)
     useEffect(() => {
         window.document.getElementById("scrollable-wallet-panel-inside").scrollTo(0, 0);
     }, [])
@@ -139,7 +140,7 @@ const TransferGift = () => {
 
     const transfer = async (IpfsURL) => {
         loading();
-
+        setIsTransfering(true)
         if (globalUser.privateKey) {
             const data = {
                 recipient: recipientID,
@@ -169,9 +170,11 @@ const TransferGift = () => {
                 setTxHash(response.data.mint_tx_hash)
                 updateToast(true, response.message)
                 getBalance(globalUser.token)
+                setIsTransfering(false)
             } else {
                 console.error(response.message)
                 updateToast(false, response.message)
+                setIsTransfering(false)
             }
         } else {
             updateToast(false, 'please save your private key first')
@@ -179,16 +182,20 @@ const TransferGift = () => {
     }
 
     const handleUpload = async () => {
+        setIsTransfering(true)
         try {
             if (file) {
                 const response = await uploadImageToIPFS();
                 console.log(response)
                 if (response.ok) {
                     transfer(`https://${response.value.cid}.ipfs.nftstorage.link/${response.value.files[0].name}`)
+                    setIsTransfering(false)
                 }
             }
         } catch (error) {
             console.error("Error uploading image:", error);
+            setIsTransfering(false)
+
             // Handle errors (e.g., display error message)
         }
     };
@@ -367,8 +374,8 @@ const TransferGift = () => {
                         </Card >
                         <ButtonPurple
                             onClick={handleUpload}
-                            disabled={(!file || !mediaType || !aspectRatio || !tokenAmount || !NFTName || !NFTDescription || !recipientID || !checked)}
-                            text={'transfer'} px={'24px'} w={{ xs: '100%', sm: '350px' }} />
+                            disabled={(!file || !mediaType || !aspectRatio || !tokenAmount || !NFTName || !NFTDescription || !recipientID || !checked || isTransfering)}
+                            text={isTransfering ? 'transfering' : 'transfer'} px={'24px'} w={{ xs: '100%', sm: '350px' }} />
                     </>
                     :
                     <Card>

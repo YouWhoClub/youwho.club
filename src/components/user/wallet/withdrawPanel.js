@@ -144,9 +144,11 @@ const WithdrawPanel = () => {
                                                     component="img"
                                                     src={nft_img_url}
                                                     sx={{
-                                                        // width: { xs: '100%', sm: '50%' },
-                                                        borderRadius: '12px', height: '100%', width: '100%',
-                                                        backgroundColor: 'primary.gray',
+                                                        width: { xs: '100%', sm: '50%' },
+                                                        borderRadius: '12px', height: { xs: '280px', sm: '100%' },
+                                                        // width:'100%',
+                                                        backgroundColor: 'primary.gray', backgroundImage: 'cover',
+                                                        backgroundImage: `url(${nft_img_url})`, backgroundRepeat: 'no-repeat'
                                                     }}
                                                 >
                                                 </Box>
