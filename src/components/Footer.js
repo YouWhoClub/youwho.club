@@ -6,7 +6,7 @@ import { MyInput } from "./utils";
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ButtonPurple from "./buttons/buttonPurple";
-import { deleteUnclaimedDeposit, logOutUser, setRefreshToken } from "../redux/actions";
+import { deleteUnclaimedDeposit, logOutUser, setPrivateKey, setRefreshToken } from "../redux/actions";
 import { HEALTH_API } from "../utils/data/health_api";
 import { Close } from "@mui/icons-material";
 import { TickSquare } from "iconsax-react";
@@ -58,6 +58,7 @@ const FlexColumn = styled(Box)(({ theme }) => ({
 const Footer = () => {
     const dispatch = useDispatch();
     const logOut = () => dispatch(logOutUser());
+    const setpvkey = () => dispatch(setPrivateKey());
     const [openPVKeyModal, setOpenPVKeyModal] = useState(false)
     const [logoutTimer, setLogoutTimer] = useState(10)
     const deleteUnclaimed = () => dispatch(deleteUnclaimedDeposit());
@@ -92,6 +93,7 @@ const Footer = () => {
     }
 
     async function disconnect() {
+        let pvkey = globalUser.privateKey
 
         try {
 
@@ -108,14 +110,20 @@ const Footer = () => {
             if (!response.isSuccess)
                 throw response
             // else {
-            logOut()
+            localStorage.setItem('pvk', globalUser.privateKey)
+            logOut(globalUser.privateKey)
+            setOpenPVKeyModal(false)
+            // setpvkey(pvkey)
             refreshUserToken('', '')
             deleteUnclaimed()
             // }
 
         }
         catch (err) {
-            logOut()
+            logOut(globalUser.privateKey)
+            setOpenPVKeyModal(false)
+            localStorage.setItem('pvk', globalUser.privateKey)
+            // setpvkey(pvkey)
             refreshUserToken('', '')
             deleteUnclaimed()
 

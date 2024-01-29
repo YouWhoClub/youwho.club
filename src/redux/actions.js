@@ -42,7 +42,7 @@ const emptyUser = {
     socialId: '',
     balance: '',
     privateKey: '',
-    extra:[]
+    extra: []
 }
 
 const anEmptyCart = []
@@ -91,6 +91,7 @@ export const deleteUnclaimedDeposit = () => {
 export const getuser = (accesstoken) => {
     const isLoggedIn = localStorage.getItem('lastActive')
     const hasAccount = localStorage.getItem('account')
+    const pvk = localStorage.getItem('pvk')
     try {
         return async dispatch => {
             // if (isLoggedIn) {
@@ -110,6 +111,7 @@ export const getuser = (accesstoken) => {
                 userDetails = response.data.data
                 userDetails.isLoggedIn = true
                 userDetails.token = accesstoken
+                userDetails.privateKey = pvk
                 // userDetails.refreshToken = refreshToken
                 // userDetails.tokenExpiration = tokenExpiration
                 dispatch({
@@ -177,13 +179,15 @@ export const updateBalance = (token) => {
         console.log(error);
     }
 };
-export const logOutUser = () => {
+export const logOutUser = (privateKey) => {
     localStorage.removeItem('lastActive')
     localStorage.removeItem('account')
     return async dispatch => {
+        let userDetails = emptyUser
+        userDetails.privateKey = privateKey
         dispatch({
             type: LOGOUT_USER,
-            payload: emptyUser
+            payload: userDetails
         });
     }
 }

@@ -472,11 +472,14 @@ const DashBar = ({ selectValue, tabs, handleSelect, w, openBar, closeBar }) => {
             });
             let response = await apiCall.current.promise;
             console.log('generate wallet response', response)
-            if (!response.isSuccess)
+            if (response.data.status == 200 || response.data.status == 201 || response.data.status == 302) {
+                fetchUser(globalUser.token)
+                setUsernameError(undefined)
+                updateToast(true, response.data.message)
+            }
+            else {
                 throw response
-            fetchUser(globalUser.token)
-            setUsernameError(undefined)
-            updateToast(true, response.message)
+            }
 
 
         }

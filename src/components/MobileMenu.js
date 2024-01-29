@@ -88,7 +88,8 @@ const MobileMenu = ({ openMenu, setOpenMenu, theme, switchTheme }) => {
             if (!response.isSuccess)
                 throw response
             // else {
-            logOut()
+            localStorage.setItem('pvk', globalUser.privateKey)
+            logOut(globalUser.privateKey)
             deleteUnclaimed()
             setTimeout(() => {
                 navigate('/')
@@ -97,7 +98,9 @@ const MobileMenu = ({ openMenu, setOpenMenu, theme, switchTheme }) => {
 
         }
         catch (err) {
-            logOut()
+            localStorage.setItem('pvk', globalUser.privateKey)
+
+            logOut(globalUser.privateKey)
             deleteUnclaimed()
 
             setErr(err.statusText)

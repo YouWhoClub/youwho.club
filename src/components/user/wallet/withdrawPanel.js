@@ -9,8 +9,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import { API_CONFIG } from "../../../config";
 import yCoin from '../../../assets/Ycoin.svg'
 import { MyInput } from '../../utils'
-import { EmptyWallet } from "iconsax-react";
+import { ArrowDown2, ArrowUp2, EmptyWallet } from "iconsax-react";
 import generateSignature from "../../../utils/signatureUtils";
+import ButtonBorder from "../../buttons/buttonBorder";
 
 
 
@@ -19,7 +20,7 @@ const Card = styled(Box)(({ theme }) => ({
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'center', transition: '500ms ease',
     backgroundColor: theme.palette.secondary.bg,
     padding: '12px 18px 18px 18px',
     gap: '40px',
@@ -37,7 +38,7 @@ const Icon = styled(Box)(({ theme, url, w, h }) => ({
     pointerEvents: 'none'
 }))
 const Button = styled('button')(({ theme }) => ({
-    width: '100%',
+    width: 'calc(100% - 48px)',
     backgroundColor: '#7C42C7',
     padding: '12px 36px',
     borderRadius: '12px',
@@ -62,7 +63,7 @@ const WithdrawPanel = () => {
     const [err, setErr] = useState(undefined)
     const toastId = useRef(null);
     const [signer, setSigner] = useState(undefined)
-
+    const [expandedDesc, setExpandedDesc] = useState(false)
 
     useEffect(() => {
         window.document.getElementById("scrollable-wallet-panel-inside").scrollTo(0, 0);
@@ -131,7 +132,7 @@ const WithdrawPanel = () => {
                         {
                             unclaimedDeposits.length ?
                                 unclaimedDeposits.map(item => {
-                                    const { amount, id, iat, nft_img_url, from_wallet_info } = item;
+                                    const { amount, id, iat, nft_img_url, from_wallet_info, nft_data } = item;
                                     return (
                                         <Card>
                                             <Box sx={{
@@ -151,7 +152,7 @@ const WithdrawPanel = () => {
                                                 </Box>
                                                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', py: '12px', gap: '12px', width: '100%', alignSelf: 'stretch' }}>
                                                     <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
-                                                        <Typography sx={{ color: 'primary.text', textAlign: 'center', fontSize: '20px', fontWeight: '500' }}>NFT Name</Typography>
+                                                        <Typography sx={{ color: 'primary.text', textAlign: 'center', fontSize: '20px', fontWeight: '500' }}>{nft_data.nft_name}</Typography>
                                                         <Box sx={{ display: 'flex', alignItems: 'center', fontSize: "20px", color: 'primary.main', px: 2, gap: '5px' }}>
                                                             <Icon url={yCoin} w={20} h={20} />
                                                             <span>
@@ -159,7 +160,7 @@ const WithdrawPanel = () => {
                                                             </span>
                                                         </Box>
                                                     </Box>
-                                                    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+                                                    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', transition: '500ms ease', }}>
                                                         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-start', gap: '10px', alignItems: 'center' }}>
                                                             <Typography sx={{ color: 'primary.text', fontWeight: '600', fontFamily: 'inter', fontSize: '12px' }}>Form: </Typography>
                                                             <Typography sx={{ color: 'primary.darkGray', fontWeight: '400', fontFamily: 'inter', fontSize: '12px' }}>{from_wallet_info.username}</Typography>
@@ -172,13 +173,19 @@ const WithdrawPanel = () => {
                                                             <Typography sx={{ color: 'primary.text', fontWeight: '600', fontFamily: 'inter', fontSize: '12px' }}>Transfer Time: </Typography>
                                                             <Typography sx={{ color: 'primary.darkGray', fontWeight: '400', fontFamily: 'inter', fontSize: '12px' }}>{iat.substring(10, 16)}</Typography>
                                                         </Box>
+                                                        {expandedDesc ? <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-start', gap: '10px', alignItems: 'center' }}>
+                                                            <Typography sx={{ color: 'primary.text', fontWeight: '600', fontFamily: 'inter', fontSize: '12px' }}>Description: </Typography>
+                                                            <Typography sx={{ color: 'primary.darkGray', fontWeight: '400', fontFamily: 'inter', fontSize: '12px' }}>{nft_data.nft_description}</Typography>
+                                                        </Box> : undefined
+                                                        }
                                                     </Box>
-                                                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
+                                                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px' }}>
                                                         <Button
                                                             onClick={() => withdraw(id)}
                                                         >Claim
                                                         </Button>
-
+                                                        <ButtonBorder text={expandedDesc ? <ArrowUp2 size={'12px'} />
+                                                            : <ArrowDown2 size={'12px'} />} w={'40px'} height={'40px'} onClick={() => setExpandedDesc(!expandedDesc)} />
                                                     </Box>
                                                 </Box>
                                             </Box>

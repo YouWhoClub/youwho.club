@@ -121,9 +121,9 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
             let dt = new Date();
             dt = new Date(dt.getTime() + 30 * 60 * 1000)
 
-        let dtt = new Date();
-        let mm = addMonths(dtt, 1)
-        let tmstmp = new Date(mm).getTime()
+            let dtt = new Date();
+            let mm = addMonths(dtt, 1)
+            let tmstmp = new Date(mm).getTime()
 
             let accesstoken = response.headers.cookie.match(/\/accesstoken=([^&]+)/)[1]
             let refreshToken = response.headers.cookie.match(/refrestoken=([^&]+)/)[1]
@@ -205,12 +205,16 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
 
             if (!response.isSuccess)
                 throw response
-            logOut()
+            localStorage.setItem('pvk', globalUser.privateKey)
+
+            logOut(globalUser.privateKey)
             refreshUserToken('', '')
             deleteUnclaimed()
         }
         catch (err) {
-            logOut()
+            localStorage.setItem('pvk', globalUser.privateKey)
+
+            logOut(globalUser.privateKey)
             refreshUserToken('', '')
             deleteUnclaimed()
 

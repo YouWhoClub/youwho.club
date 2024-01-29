@@ -270,7 +270,9 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
             if (!response.isSuccess)
                 throw response
             // else {
-            logOut()
+            localStorage.setItem('pvk', globalUser.privateKey)
+
+            logOut(globalUser.privateKey)
             refreshUserToken('', '')
             deleteUnclaimed()
             setOpenPVKeyModal(false)
@@ -281,7 +283,9 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
 
         }
         catch (err) {
-            logOut()
+            localStorage.setItem('pvk', globalUser.privateKey)
+
+            logOut(globalUser.privateKey)
             refreshUserToken('', '')
             setOpenPVKeyModal(false)
 

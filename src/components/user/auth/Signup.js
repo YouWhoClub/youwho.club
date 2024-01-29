@@ -81,12 +81,16 @@ const Signup = ({ progress, setProgress, alreadyEmail }) => {
 
             if (!response.isSuccess)
                 throw response
-            logOut()
+            localStorage.setItem('pvk', globalUser.privateKey)
+
+            logOut(globalUser.privateKey)
             refreshUserToken('', '')
             deleteUnclaimed()
         }
         catch (err) {
-            logOut()
+            localStorage.setItem('pvk', globalUser.privateKey)
+
+            logOut(globalUser.privateKey)
             refreshUserToken('', '')
             deleteUnclaimed()
 

@@ -93,7 +93,9 @@ export default function MobileMenuTwo({ openMenu, setOpenMenu, theme, switchThem
             if (!response.isSuccess)
                 throw response
             // else {
-            logOut()
+            localStorage.setItem('pvk', globalUser.privateKey)
+
+            logOut(globalUser.privateKey)
             refreshUserToken('', '')
             deleteUnclaimed()
             setOpenPVKeyModal(false)
@@ -104,7 +106,9 @@ export default function MobileMenuTwo({ openMenu, setOpenMenu, theme, switchThem
 
         }
         catch (err) {
-            logOut()
+            localStorage.setItem('pvk', globalUser.privateKey)
+
+            logOut(globalUser.privateKey)
             refreshUserToken('', '')
             setOpenPVKeyModal(false)
 
