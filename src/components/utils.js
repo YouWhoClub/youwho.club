@@ -2329,7 +2329,7 @@ export const TopUserCard = ({
         if (myFollowings) {
             if (myFollowings.length > 0) {
                 for (var i = 0; i < myFollowings.length; i++) {
-                    if (myFollowings[i].user_screen_cid == ywID) {
+                    if (myFollowings[i].user_wallet_info.screen_cid == ywID) {
                         for (var j = 0; j < myFollowings[i].friends.length; j++) {
                             if (myFollowings[i].friends[j].screen_cid == globalUser.YouWhoID) {
                                 if (myFollowings[i].friends[j].is_accepted == true) {
@@ -2939,7 +2939,7 @@ export const blogContents = [
         date: 'Dec2023'
     },
 ]
-export const BulletFiltering = ({ selected, width, setOption, id, options, color, fontSize }) => {
+export const BulletFiltering = ({ reState, selected, width, setOption, id, options, color, fontSize }) => {
     return (<Box
         sx={{
             bgcolor: 'secondary.bg',
@@ -2960,7 +2960,10 @@ export const BulletFiltering = ({ selected, width, setOption, id, options, color
                 justifyContent: 'center', textTransform: 'capitalize',
                 color: 'primary.text', gap: '8px'
             }}>
-                <Box onClick={(e) => setOption(options[index])}
+                <Box onClick={(e) => {
+                    setOption(options[index])
+                    reState && reState()
+                }}
                     sx={{
                         cursor: 'pointer', p: '4px',
                         borderRadius: '5px',

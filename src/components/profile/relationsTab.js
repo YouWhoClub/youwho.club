@@ -293,12 +293,12 @@ const RelationsTab = ({ user }) => {
             if (response.data.length > 0) {
                 let tempFolls = []
                 for (var i = 0; i < response.data.length; i++) {
-                    // for (var j = 0; j < response.data[i].friends.length; j++) {
-                    // if (response.data[i].friends[j].screen_cid == globalUser.YouWhoID && response.data[i].friends[j].is_accepted == true) {
-                    tempFolls.push(response.data[i].user_wallet_info.screen_cid)
-                    console.log(response.data[i].user_wallet_info.screen_cid)
-                    // }
-                    // }
+                    for (var j = 0; j < response.data[i].friends.length; j++) {
+                        if (response.data[i].friends[j].screen_cid == globalUser.YouWhoID && response.data[i].friends[j].is_accepted == true) {
+                            tempFolls.push(response.data[i].user_wallet_info.screen_cid)
+                            console.log(response.data[i].user_wallet_info.screen_cid)
+                        }
+                    }
                 }
                 setMyFollowings(tempFolls)
                 console.log(tempFolls)
