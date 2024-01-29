@@ -46,7 +46,8 @@ const Container = styled(Box)(({ theme }) => ({
     display: 'flex', boxSizing: 'border-box',
     padding: '12px 18px 18px 18px',
     alignItems: 'start',
-    gap: '40px', height: 'max-content',
+    // gap: '40px',
+    height: 'max-content',
     borderRadius: '18px', width: '100%',
     // alignItems: 'center',
     backgroundColor: theme.palette.secondary.bg,
@@ -56,7 +57,8 @@ const AssetImage = styled(Box)(({ theme }) => ({
     // height: '280px', width: '280px',
     borderRadius: '12px',
     backgroundColor: theme.palette.primary.bg,
-    backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover'
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center', backgroundSize: 'cover'
 }))
 const AssetImageSmall = styled(Box)(({ theme }) => ({
     height: '124px', width: '220px',
@@ -530,7 +532,7 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
 
                     <Box sx={(theme) => ({
                         width: { xs: '100%', sm: '600px', md: '900px' },
-                        height: { xs: '100%', sm: 'max-content' },
+                        height: { xs: '100%', md: 'max-content' },
                         // width: '100%', height: '100%',
                         // justifySelf: 'center !important',
                         borderRadius: { xs: '0', sm: '24px' },
@@ -542,17 +544,31 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
 
 
                         <Container sx={{
-                            flexDirection: { xs: "column", sm: 'row' }, height: 'max-content',
+                            gap: { xs: '20px', md: '40px' },
+                            flexDirection: { xs: "column", sm: 'row' },
                             maxHeight: { xs: '100%', sm: '75vh', md: '80vh' },
                             overflowY: 'scroll',
                             overflowX: 'hidden',
                             '&::-webkit-scrollbar': { display: 'none', },
                         }}>
+                            <FlexRow sx={{
+                                position: 'sticky', top: 0, justifyContent: 'end !important',
+                                width: '100%', height: 'auto', justifySelf: 'start !important',
+                                display: { xs: 'flex', sm: 'none !important' }
+                            }}>
+                                <Close sx={{
+                                    backgroundColor: 'secondary.bg',
+                                    boxShadow: '0px 0px 5px 1px rgba(227,209,231,0.7)', padding: { xs: '2px', md: '4px' },
+                                    borderRadius: '50%', color: { xs: 'primary.color', md: 'white' }
+                                }}
+                                    onClick={handleClose} cursor="pointer" />
+                            </FlexRow>
+
                             <AssetImage
                                 id="large-asset-image"
                                 sx={{
                                     // width: '280px',
-                                    height: '280px',
+                                    height: '300px',
                                     width: '100%',
                                     // height: `${document.getElementById("large-asset-image")?.offsetWidth}px`,
                                     // backgroundImage: BG_URL(PUBLIC_URL(`${NFTInfo.imageURL}`)),
