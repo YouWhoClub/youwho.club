@@ -2981,3 +2981,13 @@ export const BulletFiltering = ({ reState, selected, width, setOption, id, optio
         }
     </Box >)
 }
+export const LilDescription = ({ id, width, children }) => {
+    return (<Box sx={{
+        padding: '8px 12px', borderRadius: '12px 0px 12px 12px', boxSizing: 'border-box', transition: '500ms ease',
+        // height: '60px',
+        bgcolor: 'primary.bg', border: '1px solid #dedede', width: width ? width : '100%',
+        display: 'flex', alignItems: 'center', mb: { xs: '8px', sm: '16px' }
+    }}>
+        {children}
+    </Box>)
+}

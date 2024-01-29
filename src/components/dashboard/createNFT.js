@@ -2,7 +2,7 @@ import { Box, Modal, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getuser, setPrivateKey } from "../../redux/actions";
-import { AscSelect, BetweenTwoSelection, ButtonInput, MyInput, SelectInput, SubTab, SubTabs } from "../utils";
+import { AscSelect, BetweenTwoSelection, ButtonInput, LilDescription, MyInput, SelectInput, SubTab, SubTabs } from "../utils";
 import styled from "@emotion/styled";
 import FilterSelection from "../filterSelection";
 import Selection from "../selection";
@@ -32,7 +32,7 @@ const Container = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.secondary.bg,
     padding: '12px 18px 18px 18px',
     gap: '40px',
-    borderRadius: '18px',
+    borderRadius: '18px', transition: '500ms ease',
     boxShadow: theme.palette.primary.boxShadow
 }))
 const FlexRow = styled(Box)(({ theme }) => ({
@@ -481,6 +481,19 @@ const CreateNFT = ({ setMainActiveTab }) => {
             updateToast(false, 'please save your private key first')
         }
     }
+    const [descColDesc, setDescColDesc] = useState(false)
+    const [descColName, setDescColName] = useState(false)
+    const [descColSymbol, setDescColSymbol] = useState(false)
+    const [descColCover, setDescColCover] = useState(false)
+    const [descColType, setDescColType] = useState(false)
+    const [descownerAdd, setDescOwnerAdd] = useState(false)
+    const [descRoyaltyShare, setDescRoyaltyShare] = useState(false)
+    const [descRoyaltyAdd, setDescRoyaltyAdd] = useState(false)
+    const [descNFTmetadata, setDescNFTmetadata] = useState(false)
+    const [descNFTPrice, setDescNFTPrice] = useState(false)
+    const [descNFTName, setDescNFTName] = useState(false)
+    const [descNFTCol, setDescNFTCol] = useState(false)
+    const [descNFTDesc, setDescNFTDesc] = useState(false)
     return (
         <Box sx={{
             width: '100%',
@@ -570,47 +583,151 @@ const CreateNFT = ({ setMainActiveTab }) => {
                                             </Typography>
                                         </FlexColumn>
                                         <FlexColumn sx={{ gap: '16px' }}>
-                                            <FlexRow sx={{ flexDirection: { xs: 'column', sm: 'row' }, gap: '12px' }}>
-                                                <MyInput
-                                                    value={NFTForm.current_price}
-                                                    name={"current_price"}
-                                                    onChange={handleNFTFormChange}
-                                                    label={'NFT Price'} width={'100%'}
-                                                    icon={<Coin color="#BEA2C5" />} type={'number'} id={'nft-price'}
-                                                />
-                                                <MyInput
-                                                    value={NFTForm.nft_name}
-                                                    name={"nft_name"}
-                                                    onChange={handleNFTFormChange}
-                                                    label={'NFT Name*'} width={'100%'}
-                                                    icon={<BrandingWatermark sx={{ color: "#BEA2C5" }} />} type={'string'} id={'nft-name'}
-                                                />
+                                            <FlexRow sx={{ flexDirection: { xs: 'column', sm: 'row' }, gap: '12px', alignItems: 'start !important' }}>
+                                                <FlexColumn sx={{ gap: '8px' }}>
+                                                    <FlexRow>
+                                                        <MyInput
+                                                            value={NFTForm.current_price}
+                                                            name={"current_price"}
+                                                            onChange={handleNFTFormChange}
+                                                            label={'NFT Price'} width={'100%'}
+                                                            icon={<Coin color="#BEA2C5" />} type={'number'} id={'nft-price'}
+                                                        />
+                                                        <CommentOutlined
+                                                            onClick={() => setDescNFTPrice(!descNFTPrice)}
+                                                            sx={{ color: 'primary.light', ml: '4px', cursor: 'pointer' }} />
+                                                    </FlexRow>
+                                                    {descNFTPrice &&
+                                                        <LilDescription id={'nft-mtdt-desc'} width={'100%'}>
+                                                            <Box sx={{
+                                                                display: 'flex', alignItems: 'center'
+                                                            }}>
+                                                                <Typography sx={{
+                                                                    fontSize: '12px',
+                                                                    color: 'primary.text', textTransform: 'capitalize'
+                                                                }}>
+                                                                    price for minting the nft
+                                                                </Typography>
+                                                            </Box>
+                                                        </LilDescription>}
+
+                                                </FlexColumn>
+                                                <FlexColumn sx={{ gap: '8px' }}>
+                                                    <FlexRow>
+                                                        <MyInput
+                                                            value={NFTForm.nft_name}
+                                                            name={"nft_name"}
+                                                            onChange={handleNFTFormChange}
+                                                            label={'NFT Name*'} width={'100%'}
+                                                            icon={<BrandingWatermark sx={{ color: "#BEA2C5" }} />} type={'string'} id={'nft-name'}
+                                                        />
+                                                        <CommentOutlined
+                                                            onClick={() => setDescNFTName(!descNFTName)}
+                                                            sx={{ color: 'primary.light', ml: '4px', cursor: 'pointer' }} />
+                                                    </FlexRow>
+                                                    {descNFTName &&
+                                                        <LilDescription id={'nft-mtdt-desc'} width={'100%'}>
+                                                            <Box sx={{
+                                                                display: 'flex', alignItems: 'center'
+                                                            }}>
+                                                                <Typography sx={{
+                                                                    fontSize: '12px',
+                                                                    color: 'primary.text', textTransform: 'capitalize'
+                                                                }}>
+                                                                    Name of your nft
+                                                                </Typography>
+                                                            </Box>
+                                                        </LilDescription>}
+
+                                                </FlexColumn>
                                             </FlexRow>
-                                            <SelectInput tabs={privateCollection.map(col => (col.col_name))} label={'NFT Collection *'}
-                                                handleSelect={
-                                                    (e) => setNFTForm(prev => ({ ...prev, contract_address: privateCollection.filter(col => col.col_name == e.target.id)[0].contract_address, col_id: privateCollection.filter(col => col.col_name == e.target.id)[0].id }))
-                                                }
-                                                value={NFTForm.contract_address ? privateCollection.filter(col => col.contract_address == NFTForm.contract_address)[0].col_name : ''}
-                                                id="nft-collection-selection"
-                                                width={'100%'} icon={<Icon url={CollIcon} w={27} h={27} />} />
-                                            <MyInput
-                                                value={NFTForm.nft_description}
-                                                name={"nft_description"}
-                                                onChange={handleNFTFormChange}
-                                                label={'NFT Description*'} width={'100%'}
-                                                icon={<Description sx={{ color: "#BEA2C5" }} />} type={'string'} id={'nft-decription'}
-                                            />
-                                            <FlexRow sx={{ mb: '16px' }}>
-                                                <ButtonInput label={'Metadata Addition *'} width={'100%'}
-                                                    icon={<AddBoxOutlined
-                                                        sx={{ color: 'primary.light' }}
+                                            <FlexColumn sx={{ gap: '12px' }}>
+                                                <FlexRow>
+                                                    <SelectInput tabs={privateCollection.map(col => (col.col_name))} label={'NFT Collection *'}
+                                                        handleSelect={
+                                                            (e) => setNFTForm(prev => ({ ...prev, contract_address: privateCollection.filter(col => col.col_name == e.target.id)[0].contract_address, col_id: privateCollection.filter(col => col.col_name == e.target.id)[0].id }))
+                                                        }
+                                                        value={NFTForm.contract_address ? privateCollection.filter(col => col.contract_address == NFTForm.contract_address)[0].col_name : ''}
+                                                        id="nft-collection-selection"
+                                                        width={'100%'} icon={<Icon url={CollIcon} w={27} h={27} />} />
+                                                    <CommentOutlined
+                                                        onClick={() => setDescNFTCol(!descNFTCol)}
+                                                        sx={{ color: 'primary.light', ml: '4px', cursor: 'pointer' }} />
+                                                </FlexRow>
+                                                {descNFTCol &&
+                                                    <LilDescription id={'nft-col-desc'} width={'100%'}>
+                                                        <Box sx={{
+                                                            display: 'flex', alignItems: 'center'
+                                                        }}>
+                                                            <Typography sx={{
+                                                                fontSize: '12px',
+                                                                color: 'primary.text', textTransform: 'capitalize'
+                                                            }}>
+                                                                Choose your nft collection from your created collections
+                                                            </Typography>
+                                                        </Box>
+                                                    </LilDescription>}
+                                            </FlexColumn>
+                                            <FlexColumn sx={{ gap: '12px' }}>
+                                                <FlexRow>
+                                                    <MyInput
+                                                        value={NFTForm.nft_description}
+                                                        name={"nft_description"}
+                                                        onChange={handleNFTFormChange}
+                                                        label={'NFT Description*'} width={'100%'}
+                                                        icon={<Description sx={{ color: "#BEA2C5" }} />} type={'string'} id={'nft-decription'}
                                                     />
-                                                    }
-                                                    button={<Add sx={{ color: 'primary.gray' }}
-                                                        onClick={() => setNFTForm((prev) => ({ ...prev, attributes: [...prev.attributes, { trait_type: "", value: "" }] }))}
-                                                    />
-                                                    } />
-                                            </FlexRow>
+                                                    <CommentOutlined
+                                                        onClick={() => setDescNFTDesc(!descNFTDesc)}
+                                                        sx={{ color: 'primary.light', ml: '4px', cursor: 'pointer' }} />
+                                                </FlexRow>
+                                                {descNFTDesc &&
+                                                    <LilDescription id={'nft-desc-desc'} width={'100%'}>
+                                                        <Box sx={{
+                                                            display: 'flex', alignItems: 'center'
+                                                        }}>
+                                                            <Typography sx={{
+                                                                fontSize: '12px',
+                                                                color: 'primary.text', textTransform: 'capitalize'
+                                                            }}>
+                                                                Description of your nft
+                                                            </Typography>
+                                                        </Box>
+                                                    </LilDescription>}
+                                            </FlexColumn>
+
+                                            <FlexColumn sx={{ mb: '16px', gap: '12px' }}>
+                                                <FlexRow >
+                                                    <ButtonInput label={'Metadata Addition *'} width={'100%'}
+                                                        icon={<AddBoxOutlined
+                                                            sx={{ color: 'primary.light' }}
+                                                        />
+                                                        }
+                                                        button={<Add sx={{ color: 'primary.gray' }}
+                                                            onClick={() => setNFTForm((prev) => ({ ...prev, attributes: [...prev.attributes, { trait_type: "", value: "" }] }))}
+                                                        />
+                                                        } />
+                                                    <CommentOutlined
+                                                        onClick={() => setDescNFTmetadata(!descNFTmetadata)}
+                                                        sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                                </FlexRow>
+                                                {descNFTmetadata &&
+                                                    <LilDescription id={'nft-mtdt-desc'} width={'100%'}>
+                                                        <Box sx={{
+                                                            display: 'flex', alignItems: 'center'
+                                                        }}>
+                                                            <Typography sx={{
+                                                                fontSize: '12px',
+                                                                color: 'primary.text', textTransform: 'capitalize'
+                                                            }}>
+                                                                NFT metadata is the sum of all data that describes an NFT,
+                                                                typically including its name, traits, trait rarity, link to
+                                                                the hosted image, total supply, transaction history,
+                                                                and other essential data
+                                                            </Typography>
+                                                        </Box>
+                                                    </LilDescription>}
+                                            </FlexColumn>
                                             {
                                                 NFTForm.attributes.map((object, index) => {
                                                     return (<FlexRow key={index} sx={{ mb: '16px' }}>
@@ -711,87 +828,177 @@ const CreateNFT = ({ setMainActiveTab }) => {
                                             New Collection Introduction
                                         </Typography>
                                         <FlexColumn>
-                                            <FlexRow sx={{ mb: '16px' }}>
-                                                <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', padding: '12px 15px' }}>
-                                                    <Typography sx={{ fontSize: '12px' }}>
-                                                        Type : &nbsp;
-                                                    </Typography>
-                                                    <Typography sx={{ fontSize: '12px', fontFamily: 'inter' }}>
-                                                        erc721
-                                                    </Typography>
-                                                </Box>
-                                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                            </FlexRow>
-                                            <FlexRow sx={{ mb: '12px' }}>
-                                                <MyInput name={'col_name'} label={'Name *'} width={'100%'} icon={<TitleOutlined sx={{ color: 'primary.light' }} />}
-                                                    onChange={handleColFormChange}
-                                                    value={collectionForm.col_name}
-                                                />
-                                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                            </FlexRow>
-                                            <FlexRow sx={{ mb: '12px' }}>
-                                                <MyInput name={'symbol'} label={'Symbol *'} width={'100%'} icon={<EmojiSymbols sx={{ color: 'primary.light' }} />}
-                                                    onChange={handleColFormChange}
-                                                    value={collectionForm.symbol}
-                                                />
-                                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                            </FlexRow>
-                                            <FlexRow sx={{ mb: '12px', position: 'relative' }}>
-                                                <ButtonInput label={'Cover Image *'} width={'100%'}
-                                                    icon={<ConnectedTvRounded sx={{ color: 'primary.light' }} />}
-                                                    button={<ButtonOutline
-                                                        height='35px'
+                                            <FlexColumn sx={{ mb: '16px', }}>
+                                                <FlexRow>
+                                                    <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', padding: '12px 15px' }}>
+                                                        <Typography sx={{ fontSize: '12px' }}>
+                                                            Type : &nbsp;
+                                                        </Typography>
+                                                        <Typography sx={{ fontSize: '12px', fontFamily: 'inter' }}>
+                                                            ERC721
+                                                        </Typography>
+                                                    </Box>
+                                                    <CommentOutlined
+                                                        onClick={() => setDescColType(!descColType)}
+                                                        sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                                </FlexRow>
+                                                {descColType &&
+                                                    <LilDescription id={'col-type-desc'} width={'100%'}>
+                                                        <Box sx={{
+                                                            display: 'flex', alignItems: 'center'
+                                                        }}>
+                                                            <Typography sx={{
+                                                                fontSize: '12px',
+                                                                color: 'primary.text', textTransform: 'capitalize'
+                                                            }}>
+                                                                Type of deployed contract
+                                                            </Typography>
+                                                        </Box>
+                                                    </LilDescription>}
+
+                                            </FlexColumn>
+                                            <FlexColumn sx={{ mb: '12px', gap: '12px' }}>
+                                                <FlexRow sx={{}}>
+                                                    <MyInput name={'col_name'} label={'Name *'} width={'100%'} icon={<TitleOutlined sx={{ color: 'primary.light' }} />}
+                                                        onChange={handleColFormChange}
+                                                        value={collectionForm.col_name}
+                                                    />
+                                                    <CommentOutlined
+                                                        onClick={() => setDescColName(!descColName)}
+                                                        sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                                </FlexRow>
+                                                {descColName &&
+                                                    <LilDescription id={'col-name-desc'} width={'100%'}>
+                                                        <Box sx={{
+                                                            display: 'flex', alignItems: 'center'
+                                                        }}>
+                                                            <Typography sx={{
+                                                                fontSize: '12px',
+                                                                color: 'primary.text', textTransform: 'capitalize'
+                                                            }}>
+                                                                Name of your collection
+                                                            </Typography>
+                                                        </Box>
+                                                    </LilDescription>}
+
+                                            </FlexColumn>
+                                            <FlexColumn sx={{ mb: '12px', gap: '12px' }}>
+                                                <FlexRow >
+                                                    <MyInput name={'symbol'} label={'Symbol *'} width={'100%'} icon={<EmojiSymbols sx={{ color: 'primary.light' }} />}
+                                                        onChange={handleColFormChange}
+                                                        value={collectionForm.symbol}
+                                                    />
+                                                    <CommentOutlined
+                                                        onClick={() => setDescColSymbol(!descColSymbol)}
+                                                        sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                                </FlexRow>
+                                                {descColSymbol &&
+                                                    <LilDescription id={'col-symb-desc'} width={'100%'}>
+                                                        <Box sx={{
+                                                            display: 'flex', alignItems: 'center'
+                                                        }}>
+                                                            <Typography sx={{
+                                                                fontSize: '12px',
+                                                                color: 'primary.text', textTransform: 'capitalize'
+                                                            }}>
+                                                                Symbol of the collection contract  (somehow it's nickname)!
+                                                            </Typography>
+                                                        </Box>
+                                                    </LilDescription>}
+
+
+                                            </FlexColumn>
+                                            <FlexColumn sx={{ mb: '12px', gap: '12px' }}>
+                                                <FlexRow sx={{ position: 'relative' }}>
+                                                    <ButtonInput label={'Cover Image *'} width={'100%'}
+                                                        icon={<ConnectedTvRounded sx={{ color: 'primary.light' }} />}
+                                                        button={<ButtonOutline
+                                                            height='35px'
+                                                            onClick={() => colImageInput.current.click()}
+                                                            text={'Browse'}
+                                                            br={'30px'} />
+                                                        } />
+
+                                                    <input
+                                                        accept="image/*"
+                                                        id="nftPhoto"
+                                                        type="file"
+                                                        style={{ display: 'none' }}
+                                                        onChange={handleColImageChange}
+                                                        ref={colImageInput}
+                                                    />
+
+                                                    <Box
+                                                        sx={{
+                                                            width: '68px',
+                                                            aspectRatio: 16 / 9,
+                                                            borderRadius: '12px',
+                                                            backgroundColor: 'primary.gray',
+                                                            cursor: 'pointer',
+                                                            position: 'absolute',
+                                                            left: '150px', right: 0,
+                                                            display: () => {
+                                                                return (
+                                                                    colPhotoURL
+                                                                        ? 'block'
+                                                                        : 'none'
+                                                                )
+                                                            },
+                                                            background: () => {
+                                                                return (
+                                                                    colPhotoURL
+                                                                        ? `url('${colPhotoURL}') no-repeat center`
+                                                                        : 'primary.gray'
+                                                                )
+                                                            },
+                                                            backgroundSize: 'cover'
+                                                        }}
                                                         onClick={() => colImageInput.current.click()}
-                                                        text={'Browse'}
-                                                        br={'30px'} />
-                                                    } />
+                                                    ></Box>
 
-                                                <input
-                                                    accept="image/*"
-                                                    id="nftPhoto"
-                                                    type="file"
-                                                    style={{ display: 'none' }}
-                                                    onChange={handleColImageChange}
-                                                    ref={colImageInput}
-                                                />
+                                                    <CommentOutlined
+                                                        onClick={() => setDescColCover(!descColCover)}
+                                                        sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                                </FlexRow>
+                                                {descColCover &&
+                                                    <LilDescription id={'col-cov-desc'} width={'100%'}>
+                                                        <Box sx={{
+                                                            display: 'flex', alignItems: 'center'
+                                                        }}>
+                                                            <Typography sx={{
+                                                                fontSize: '12px',
+                                                                color: 'primary.text', textTransform: 'capitalize'
+                                                            }}>
+                                                                Cover Image of your nft collection
+                                                            </Typography>
+                                                        </Box>
+                                                    </LilDescription>}
+                                            </FlexColumn>
 
-                                                <Box
-                                                    sx={{
-                                                        width: '68px',
-                                                        aspectRatio: 16 / 9,
-                                                        borderRadius: '12px',
-                                                        backgroundColor: 'primary.gray',
-                                                        cursor: 'pointer',
-                                                        position: 'absolute',
-                                                        left: '150px', right: 0,
-                                                        display: () => {
-                                                            return (
-                                                                colPhotoURL
-                                                                    ? 'block'
-                                                                    : 'none'
-                                                            )
-                                                        },
-                                                        background: () => {
-                                                            return (
-                                                                colPhotoURL
-                                                                    ? `url('${colPhotoURL}') no-repeat center`
-                                                                    : 'primary.gray'
-                                                            )
-                                                        },
-                                                        backgroundSize: 'cover'
-                                                    }}
-                                                    onClick={() => colImageInput.current.click()}
-                                                ></Box>
+                                            <FlexColumn sx={{ mb: '12px', gap: '12px' }}>
 
-                                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                            </FlexRow>
-                                            <FlexRow sx={{ mb: '12px' }}>
-                                                <MyInput name={'col_description'} label={'Description *'} width={'100%'} icon={<DescriptionOutlined sx={{ color: 'primary.light' }} />}
-                                                    onChange={handleColFormChange}
-                                                    value={collectionForm.col_description}
-                                                />
-                                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                            </FlexRow>
+                                                <FlexRow >
+                                                    <MyInput name={'col_description'} label={'Description *'} width={'100%'} icon={<DescriptionOutlined sx={{ color: 'primary.light' }} />}
+                                                        onChange={handleColFormChange}
+                                                        value={collectionForm.col_description}
+                                                    />
+                                                    <CommentOutlined onClick={() => setDescColDesc(!descColDesc)}
+                                                        sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                                </FlexRow>
+                                                {descColDesc &&
+                                                    <LilDescription id={'col-desc-desc'} width={'100%'}>
+                                                        <Box sx={{
+                                                            display: 'flex', alignItems: 'center'
+                                                        }}>
+                                                            <Typography sx={{
+                                                                fontSize: '12px',
+                                                                color: 'primary.text', textTransform: 'capitalize'
+                                                            }}>
+                                                                Description of your collection contract
+                                                            </Typography>
+                                                        </Box>
+                                                    </LilDescription>}
+                                            </FlexColumn>
                                         </FlexColumn>
                                     </Container>
 
@@ -861,34 +1068,86 @@ const CreateNFT = ({ setMainActiveTab }) => {
                                             The Collection Finance
                                         </Typography>
                                         <FlexColumn>
-                                            <FlexRow sx={{ mb: '16px' }}>
-                                                <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', padding: '12px 15px' }}>
-                                                    <Typography sx={{ fontSize: '12px' }}>
-                                                        Owner Address : &nbsp;
-                                                    </Typography>
-                                                    <Input name="owner_cid" color="primary.gray" style={{ outline: "none", fontSize: '12px' }}
-                                                        value={globalUser.YouWhoID}
-                                                        disabled={true}
+                                            <FlexColumn sx={{ mb: '16px' }}>
+                                                <FlexRow >
+                                                    <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', padding: '12px 15px' }}>
+                                                        <Typography sx={{ fontSize: '12px' }}>
+                                                            Owner Address : &nbsp;
+                                                        </Typography>
+                                                        <Input name="owner_cid" color="primary.gray" style={{ outline: "none", fontSize: '12px' }}
+                                                            value={globalUser.YouWhoID}
+                                                            disabled={true}
+                                                        />
+                                                    </Box>
+                                                    <CommentOutlined
+                                                        onClick={() => setDescOwnerAdd(!descownerAdd)}
+                                                        sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                                </FlexRow>
+                                                {descownerAdd &&
+                                                    <LilDescription id={'col-owner-desc'} width={'100%'}>
+                                                        <Box sx={{
+                                                            display: 'flex', alignItems: 'center'
+                                                        }}>
+                                                            <Typography sx={{
+                                                                fontSize: '12px',
+                                                                color: 'primary.text', textTransform: 'capitalize'
+                                                            }}>
+                                                                Your Collection Contract Address Which will be your youWho ID
+                                                            </Typography>
+                                                        </Box>
+                                                    </LilDescription>}
+                                            </FlexColumn>
+                                            <FlexColumn sx={{ mb: '16px', gap: '12px' }}>
+                                                <FlexRow>
+                                                    <MyInput type='number' name={'royalties_share'} label={'Royalty Share *'}
+                                                        width={'100%'} icon={<Percent sx={{ color: 'primary.light' }} />}
+                                                        onChange={handleColFormChange}
+                                                        value={collectionForm.royalties_share}
                                                     />
-                                                </Box>
-                                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                            </FlexRow>
-                                            <FlexRow sx={{ mb: '16px' }}>
-                                                <MyInput type='number' name={'royalties_share'} label={'Royalty Share *'}
-                                                    width={'100%'} icon={<Percent sx={{ color: 'primary.light' }} />}
-                                                    onChange={handleColFormChange}
-                                                    value={collectionForm.royalties_share}
-                                                />
-                                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                            </FlexRow>
-                                            <FlexRow sx={{ mb: '16px' }}>
-                                                <MyInput name={'royalties_address_screen_cid'} label={'Royalties Address *'}
-                                                    width={'100%'} icon={<AddReaction sx={{ color: 'primary.light' }} />}
-                                                    onChange={handleColFormChange}
-                                                    value={collectionForm.royalties_address_screen_cid}
-                                                />
-                                                <CommentOutlined sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
-                                            </FlexRow>
+                                                    <CommentOutlined
+                                                        onClick={() => setDescRoyaltyShare(!descRoyaltyShare)}
+                                                        sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                                </FlexRow>
+                                                {descRoyaltyShare &&
+                                                    <LilDescription id={'col-royal-desc'} width={'100%'}>
+                                                        <Box sx={{
+                                                            display: 'flex', alignItems: 'center'
+                                                        }}>
+                                                            <Typography sx={{
+                                                                fontSize: '12px',
+                                                                color: 'primary.text', textTransform: 'capitalize'
+                                                            }}>
+                                                                Percentage of royalty transferred to specified youwho id , cannot be more than 5%!
+                                                            </Typography>
+                                                        </Box>
+                                                    </LilDescription>}
+
+                                            </FlexColumn>
+                                            <FlexColumn sx={{ mb: '16px', gap: '12px' }}>
+                                                <FlexRow>
+                                                    <MyInput name={'royalties_address_screen_cid'} label={'Royalties Address *'}
+                                                        width={'100%'} icon={<AddReaction sx={{ color: 'primary.light' }} />}
+                                                        onChange={handleColFormChange}
+                                                        value={collectionForm.royalties_address_screen_cid}
+                                                    />
+                                                    <CommentOutlined
+                                                        onClick={() => setDescRoyaltyAdd(!descRoyaltyAdd)}
+                                                        sx={{ color: 'primary.light', ml: '8px', cursor: 'pointer' }} />
+                                                </FlexRow>
+                                                {descRoyaltyAdd &&
+                                                    <LilDescription id={'col-royal-add-desc'} width={'100%'}>
+                                                        <Box sx={{
+                                                            display: 'flex', alignItems: 'center'
+                                                        }}>
+                                                            <Typography sx={{
+                                                                fontSize: '12px',
+                                                                color: 'primary.text', textTransform: 'capitalize'
+                                                            }}>
+                                                                YouWho ID you want your artwork royalty to be transferred to
+                                                            </Typography>
+                                                        </Box>
+                                                    </LilDescription>}
+                                            </FlexColumn>
                                         </FlexColumn>
                                     </Container>
                                     {

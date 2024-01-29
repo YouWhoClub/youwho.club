@@ -117,7 +117,7 @@ const Bar = () => {
             height: { xs: '50px', sm: '300px', md: '350px' },
             width: {
                 xs: '100%', sm: '50px'
-            },
+            }, zIndex: 999,
             left: { xs: 'unset', sm: 0 },
             transform: { xs: 'unset', sm: 'translateY(50%)' },
             bottom: { xs: 0, sm: '50%' },

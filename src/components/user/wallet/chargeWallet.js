@@ -13,6 +13,7 @@ import { setPrivateKey } from "../../../redux/actions";
 import { API_CONFIG } from "../../../config";
 import { ButtonInput, MyInput, SelectInput } from '../../utils'
 import generateSignature from './../../../utils/signatureUtils';
+import { ArrowRight } from "iconsax-react";
 
 
 
@@ -177,7 +178,7 @@ const ChargeWallet = () => {
                                     width={'100%'}
                                     icon={<Icon url={MoneyIcon} w={27} h={27} />}
                                 />
-                                <West size='20px' />
+                                <ArrowRight size='20px' />
                                 <MyInput
                                     value={tokenAmount}
                                     onChange={(e) => setTokenAmount(Number(e.target.value))}
