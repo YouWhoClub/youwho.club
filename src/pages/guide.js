@@ -8,7 +8,7 @@ import { Close } from "@mui/icons-material";
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
 import profileBar from '../assets/profileBar.png'
 import walletBar from '../assets/walletBar.png'
-import exploreBar from '../assets/exploreBar.png'
+import exploreBarImg from '../assets/exploreBar.png'
 import createColGuide from '../assets/createColGuide.png'
 import walletGuide from '../assets/walletGuide.png'
 import pvGallGuide from '../assets/pvgallGuide.png'
@@ -105,7 +105,7 @@ const GuidePage = ({ switchTheme, theme }) => {
                                     <Image sx={{
                                         width: { xs: '100%', md: '280px' },
                                         height: { xs: '250px', md: '280px' },
-                                        backgroundImage: BG_URL(PUBLIC_URL(`${exploreBar}`)),
+                                        backgroundImage: BG_URL(PUBLIC_URL(`${exploreBarImg}`)),
                                         backgroundSize: 'contain',
                                         '&:hover': {
                                             width: { xs: '100%', md: '400px' }, height: { xs: '100%', md: '400px' }
@@ -426,7 +426,7 @@ const GuidePage = ({ switchTheme, theme }) => {
                                         width: { xs: '100%', md: '300px' },
                                         height: { xs: '250px', md: '300px' },
                                         backgroundImage: BG_URL(PUBLIC_URL(`${reactionGuide}`)),
-                                        backgroundSize: 'contain',  '&:hover': {
+                                        backgroundSize: 'contain', '&:hover': {
                                             width: { xs: '100%', md: '400px' }, height: { xs: '100%', md: '400px' }
                                         }
                                     }} />

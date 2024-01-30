@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { CommentInput, MorePopper, MyInput, NFTCommentCard, YouwhoCoinIcon } from "../utils";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { AddComment, Close, Comment, CommentBankOutlined, Details, DetailsRounded, DetailsTwoTone, Login, ShareSharp, ShoppingBasket, SportsBasketball } from "@mui/icons-material";
 import generateSignature from "../../utils/signatureUtils";
 import { API_CONFIG } from "../../config";
@@ -87,6 +87,12 @@ const FlexColumn = styled(Box)(({ theme }) => ({
     justifyContent: 'center',
     // alignItems: 'center',
 }))
+const ForSaleLabel = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'center', backgroundColor: theme.palette.primary.yellow, color: 'black', border: '1px solid black',
+    alignItems: 'center', width: '60px', height: '20px',
+    position: 'absolute', top: '9px', right: '9px'
+}))
 const Button = styled('button')(({ theme, color }) => ({
     backgroundColor: 'transparent',
     padding: '8px 24px',
@@ -164,7 +170,7 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
         setOpenModal(false)
         setNFTPrice(null)
     }
-
+    console.log(nft)
     useEffect(() => {
         let temp = []
         if (nft) {
@@ -225,7 +231,20 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
     }
     const buyNFt = async () => {
         loading();
+        let nftextra = extra
+        if (nftextra) {
+            for (let i = 0; i < nftextra.length; i++) {
+                if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
 
+                } else {
+                    nftextra.push({ is_transferred: true })
+                }
+            }
+        } else {
+            nftextra = []
+            nftextra.push({ is_transferred: true })
+        }
+        console.log(extra)
         if (globalUser.privateKey) {
             const data = {
                 caller_cid: globalUser.cid,
@@ -244,7 +263,7 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
                 nft_description: nft_description,
                 current_price: current_price, // mint with primary price of 20 tokens, this must be the one in db
                 freeze_metadata: freeze_metadata,
-                extra: extra,
+                extra: nftextra,
                 attributes: attributes,
                 comments: comments,
                 likes: likes,
@@ -270,6 +289,7 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
                 fetchUser(globalUser.token)
                 getNFTs()
                 setExpanded(false)
+                navigate('/profile/#assets-tab')
             } else {
                 console.error(response.message)
                 updateToast(false, response.message)
@@ -507,7 +527,7 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
         is_listed && globalUser.YouWhoID !== current_owner_screen_cid ? {
             text: 'Buy',
             id: 'nft-buy-p', fColor: 'primary.main',
-            onClick: () => navigate(`/profile/${current_owner_screen_cid}`),
+            onClick: () => buyNFt,
             icon: <ShoppingBasket sx={{ fontSize: '16px', color: 'primary.main' }} />
         } : {},
         {
@@ -537,7 +557,15 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
         <>
             <ClickAwayListener onClickAway={handleClickAway}>
                 <Card>
-                    <NFTImage sx={{ background: imageURL ? `url(${imageURL}) no-repeat center` : 'primary.bg', }} />
+                    <NFTImage sx={{
+                        background: imageURL ? `url(${imageURL}) no-repeat center` : 'primary.bg',
+                        position: 'relative'
+                        //  display: 'flex',
+                        // alignItems: 'end'
+                    }}>
+                        {is_listed && <ForSaleLabel sx={{ zIndex: 99, fontSize: '10px' }}>For Sale</ForSaleLabel>
+                        }
+                    </NFTImage>
                     <DetailsSection >
                         <FlexRow>
                             <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '10px', gap: '12px' }}>

@@ -330,7 +330,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
 
             const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
             // sending the request
-
+            console.log(requestData)
             let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/mint`, {
                 method: 'POST',
                 body: JSON.stringify(requestData),

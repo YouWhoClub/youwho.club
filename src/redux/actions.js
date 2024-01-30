@@ -111,7 +111,8 @@ export const getuser = (accesstoken) => {
                 userDetails = response.data.data
                 userDetails.isLoggedIn = true
                 userDetails.token = accesstoken
-                userDetails.privateKey = pvk
+                if (pvk)
+                    userDetails.privateKey = pvk
                 // userDetails.refreshToken = refreshToken
                 // userDetails.tokenExpiration = tokenExpiration
                 dispatch({

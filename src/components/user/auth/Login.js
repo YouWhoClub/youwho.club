@@ -124,7 +124,7 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
             let dtt = new Date();
             let mm = addMonths(dtt, 1)
             let tmstmp = new Date(mm).getTime()
-
+            console.log(response)
             let accesstoken = response.headers.cookie.match(/\/accesstoken=([^&]+)/)[1]
             let refreshToken = response.headers.cookie.match(/refrestoken=([^&]+)/)[1]
             // let tokenExpiration = dt.getTime()

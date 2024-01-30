@@ -110,6 +110,7 @@ const CreateWallet = ({ switchTheme, setPvKey }) => {
                 throw response
             fetchUser(globalUser.token)
             setPrivateKeyy(response.data.data.signer)
+            localStorage.setItem('pvk', response.data.data.signer)
             setYouWhoID(response.data.data.screen_cid)
             setPrivateKeey(response.data.data.signer)
             setPvKey(response.data.data.signer)
