@@ -151,7 +151,6 @@ export const setPrivateKey = (signer) => {
         });
     }
 };
-
 export const setRefreshToken = (refreshToken, tokenExpiration) => {
     return async dispatch => {
         dispatch({
@@ -160,7 +159,6 @@ export const setRefreshToken = (refreshToken, tokenExpiration) => {
         });
     }
 };
-
 export const updateBalance = (token) => {
     try {
         return async dispatch => {

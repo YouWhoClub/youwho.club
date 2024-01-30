@@ -203,7 +203,7 @@ const TransferGift = () => {
                 console.log(response)
                 if (response.ok) {
                     transfer(`https://${response.value.cid}.ipfs.nftstorage.link/${response.value.files[0].name}`)
-                    setIsTransfering(false)
+                    // setIsTransfering(false)
                 }
             }
         } catch (error) {
