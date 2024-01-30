@@ -87,7 +87,7 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
     const unclaimedDeposits = useSelector(state => state.unclaimedDepositReducer)
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
+    const fetchUser = (accesstoken, pvkey) => dispatch(getuser(accesstoken, pvkey));
     const refreshUserToken = (refreshToken, tokenExpiration) => dispatch(setRefreshToken(refreshToken, tokenExpiration));
     const logOut = () => dispatch(logOutUser());
     const tokenRef = useRef(null);
@@ -130,7 +130,14 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
 
     useEffect(() => {
         if (globalUser.token) {
-            fetchUser(globalUser.token)
+            if (globalUser.privateKey) {
+                fetchUser(globalUser.token, globalUser.privateKey)
+            }
+            else {
+                fetchUser(globalUser.token)
+
+            }
+
         }
         tokenRef.current = globalUser.token;
     }, [globalUser.token]);
@@ -190,7 +197,7 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
                     let accesstoken = response.headers.cookie.match(/\/accesstoken=([^&]+)/)[1]
                     let refreshToken = response.headers.cookie.match(/refrestoken=([^&]+)/)[1]
                     let tokenExpiration = dt.getTime()
-                    fetchUser(accesstoken)
+                    fetchUser(accesstoken, globalUser.privateKey)
                     refreshUserToken(refreshToken, tokenExpiration)
                     setUnclaimedInitialRender(true);
                     let tempTokensObj = {}
@@ -270,7 +277,7 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
             if (!response.isSuccess)
                 throw response
             // else {
-            localStorage.setItem('pvk', globalUser.privateKey)
+            // localStorage.setItem('pvk', globalUser.privateKey)
 
             logOut(globalUser.privateKey)
             refreshUserToken('', '')
@@ -283,7 +290,7 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
 
         }
         catch (err) {
-            localStorage.setItem('pvk', globalUser.privateKey)
+            // localStorage.setItem('pvk', globalUser.privateKey)
 
             logOut(globalUser.privateKey)
             refreshUserToken('', '')

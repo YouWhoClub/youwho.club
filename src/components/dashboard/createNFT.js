@@ -84,7 +84,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
     const [isCollSuccses, setIsCollSuccses] = useState(false)
     const [isNFTSuccses, setIsNFTSuccses] = useState(false)
     const [colId, setColId] = useState(undefined)
-    const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
+    const fetchUser = (accesstoken, pvkey) => dispatch(getuser(accesstoken, pvkey));
     const [royaltyShare, setRoyaltyShare] = useState(0)
     const [NFTReqSent, setNFTReqSent] = useState(false)
     const [ColReqSent, setColReqSent] = useState(false)
@@ -472,7 +472,7 @@ const CreateNFT = ({ setMainActiveTab }) => {
             if (!response.is_error) {
                 updateToast(true, response.message)
                 setIsNFTSuccses(true)
-                fetchUser(globalUser.token)
+                fetchUser(globalUser.token, globalUser.privateKey)
             } else {
                 console.error(response.message)
                 updateToast(false, response.message)

@@ -136,7 +136,7 @@ const TransferGift = () => {
         const data = await response.json();
         return data;
     }
-
+    const refresh = () => window.location.reload()
 
     const transfer = async (IpfsURL) => {
         loading();
@@ -171,6 +171,20 @@ const TransferGift = () => {
                 updateToast(true, response.message)
                 getBalance(globalUser.token)
                 setIsTransfering(false)
+                setMediaType(undefined)
+                setAspectRatio('16 / 9')
+                setOpenCrop(false)
+                setTokenAmount(0)
+                setNFTName(null)
+                setNFTDescription(null)
+                setRecipientID(null)
+                setChecked(false)
+                setFile(null);
+                setPhotoURL(null);
+                setIpfsURL(undefined)
+                // setTxHash(null)
+
+
             } else {
                 console.error(response.message)
                 updateToast(false, response.message)

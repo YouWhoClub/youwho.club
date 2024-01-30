@@ -124,11 +124,15 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
             let dtt = new Date();
             let mm = addMonths(dtt, 1)
             let tmstmp = new Date(mm).getTime()
+
+            let ytmstmp = new Date();
+            ytmstmp.setFullYear(ytmstmp.getFullYear() + 3);
+
             console.log(response)
             let accesstoken = response.headers.cookie.match(/\/accesstoken=([^&]+)/)[1]
             let refreshToken = response.headers.cookie.match(/refrestoken=([^&]+)/)[1]
             // let tokenExpiration = dt.getTime()
-            let tokenExpiration = tmstmp
+            let tokenExpiration = new Date(ytmstmp).getTime()
             fetchUser(accesstoken)
             refreshUserToken(refreshToken, tokenExpiration)
             setSuccess(response.message)
@@ -205,14 +209,14 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
 
             if (!response.isSuccess)
                 throw response
-            localStorage.setItem('pvk', globalUser.privateKey)
+            // localStorage.setItem('pvk', globalUser.privateKey)
 
             logOut(globalUser.privateKey)
             refreshUserToken('', '')
             deleteUnclaimed()
         }
         catch (err) {
-            localStorage.setItem('pvk', globalUser.privateKey)
+            // localStorage.setItem('pvk', globalUser.privateKey)
 
             logOut(globalUser.privateKey)
             refreshUserToken('', '')

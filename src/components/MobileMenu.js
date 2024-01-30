@@ -88,7 +88,7 @@ const MobileMenu = ({ openMenu, setOpenMenu, theme, switchTheme }) => {
             if (!response.isSuccess)
                 throw response
             // else {
-            localStorage.setItem('pvk', globalUser.privateKey)
+            // localStorage.setItem('pvk', globalUser.privateKey)
             logOut(globalUser.privateKey)
             deleteUnclaimed()
             setTimeout(() => {
@@ -98,7 +98,7 @@ const MobileMenu = ({ openMenu, setOpenMenu, theme, switchTheme }) => {
 
         }
         catch (err) {
-            localStorage.setItem('pvk', globalUser.privateKey)
+            // localStorage.setItem('pvk', globalUser.privateKey)
 
             logOut(globalUser.privateKey)
             deleteUnclaimed()

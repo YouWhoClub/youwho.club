@@ -110,7 +110,7 @@ const Footer = () => {
             if (!response.isSuccess)
                 throw response
             // else {
-            localStorage.setItem('pvk', globalUser.privateKey)
+            // localStorage.setItem('pvk', globalUser.privateKey)
             logOut(globalUser.privateKey)
             setOpenPVKeyModal(false)
             // setpvkey(pvkey)
@@ -122,7 +122,7 @@ const Footer = () => {
         catch (err) {
             logOut(globalUser.privateKey)
             setOpenPVKeyModal(false)
-            localStorage.setItem('pvk', globalUser.privateKey)
+            // localStorage.setItem('pvk', globalUser.privateKey)
             // setpvkey(pvkey)
             refreshUserToken('', '')
             deleteUnclaimed()

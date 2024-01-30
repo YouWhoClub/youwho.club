@@ -278,6 +278,19 @@ const NFTSellCard = ({ nft, expanded, setExpandedId, setActiveTab, getUserGaller
     }
     const buyNFt = async () => {
         loading();
+        let nftextra = extra
+        if (nftextra) {
+            for (let i = 0; i < nftextra.length; i++) {
+                if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
+
+                } else {
+                    nftextra.push({ is_transferred: true })
+                }
+            }
+        } else {
+            nftextra = []
+            nftextra.push({ is_transferred: true })
+        }
 
         if (globalUser.privateKey) {
             const data = {
@@ -297,7 +310,7 @@ const NFTSellCard = ({ nft, expanded, setExpandedId, setActiveTab, getUserGaller
                 nft_description: nft_description,
                 current_price: current_price, // mint with primary price of 20 tokens, this must be the one in db
                 freeze_metadata: freeze_metadata,
-                extra: extra,
+                extra: nftextra,
                 attributes: attributes,
                 comments: comments,
                 likes: likes,
@@ -329,6 +342,21 @@ const NFTSellCard = ({ nft, expanded, setExpandedId, setActiveTab, getUserGaller
             updateToast(false, 'please save your private key first')
         }
     }
+    const [isTransferred, setIsTransferred] = useState(false)
+    useEffect(() => {
+        if (extra) {
+            for (let i = 0; i < extra.length; i++) {
+                if (extra[i].is_transferred && extra[i].is_transferred == true) {
+                    setIsTransferred(true)
+                } else {
+                    setIsTransferred(false)
+                }
+            }
+        } else {
+            setIsTransferred(false)
+        }
+
+    }, [nft, extra])
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -508,10 +536,10 @@ const NFTSellCard = ({ nft, expanded, setExpandedId, setActiveTab, getUserGaller
                                         />
                                         } />
                                 </FlexColumn>
-                                {is_listed && globalUser.YouWhoID == current_owner_screen_cid ?
+                                {is_listed && globalUser.YouWhoID == current_owner_screen_cid && !isTransferred ?
                                     <ButtonPurple text={'Remove From List'} onClick={removeFromList} w='100%' />
                                     : undefined}
-                                {is_listed && globalUser.YouWhoID !== current_owner_screen_cid
+                                {is_listed && globalUser.YouWhoID !== current_owner_screen_cid && !isTransferred
                                     ?
                                     <ButtonPurple text={'Buy'} px={'24px'} w={'100%'} onClick={buyNFt} /> : undefined
                                 }

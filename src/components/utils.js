@@ -1386,7 +1386,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
     const [isJoined, setIsJoined] = useState(false)
     const apiCall = useRef(null)
     const dispatch = useDispatch();
-    const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
+    const fetchUser = (accesstoken, pvkey) => dispatch(getuser(accesstoken, pvkey));
     const addToInvitedList = (youwhoID) => {
         let tempList = inviteList
         tempList.push(youwhoID)
@@ -1526,7 +1526,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
         console.log('enter resp?', response);
         if (!response.is_error) {
             updateToast(true, 'joined')
-            fetchUser(globalUser.token)
+            fetchUser(globalUser.token, globalUser.privateKey)
             getUserPVGalleries()
             setIsJoined(true)
         } else {
@@ -1584,7 +1584,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
         if (!response.is_error) {
             updateToast(true, 'removed')
             getJoinedPeople()
-            fetchUser(globalUser.token)
+            fetchUser(globalUser.token, globalUser.privateKey)
         } else {
             updateToast(false, response.message)
         }

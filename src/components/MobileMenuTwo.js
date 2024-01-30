@@ -50,7 +50,7 @@ export default function MobileMenuTwo({ openMenu, setOpenMenu, theme, switchThem
     const deleteUnclaimed = () => dispatch(deleteUnclaimedDeposit());
     const apiCall = React.useRef(undefined)
     const [err, setErr] = React.useState(false)
-    const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
+    const fetchUser = (accesstoken, pvkey) => dispatch(getuser(accesstoken, pvkey));
     const refreshUserToken = (refreshToken, tokenExpiration) => dispatch(setRefreshToken(refreshToken, tokenExpiration));
     const logOut = () => dispatch(logOutUser());
     const [openPVKeyModal, setOpenPVKeyModal] = React.useState(false)
@@ -93,7 +93,7 @@ export default function MobileMenuTwo({ openMenu, setOpenMenu, theme, switchThem
             if (!response.isSuccess)
                 throw response
             // else {
-            localStorage.setItem('pvk', globalUser.privateKey)
+            // localStorage.setItem('pvk', globalUser.privateKey)
 
             logOut(globalUser.privateKey)
             refreshUserToken('', '')
@@ -106,7 +106,7 @@ export default function MobileMenuTwo({ openMenu, setOpenMenu, theme, switchThem
 
         }
         catch (err) {
-            localStorage.setItem('pvk', globalUser.privateKey)
+            // localStorage.setItem('pvk', globalUser.privateKey)
 
             logOut(globalUser.privateKey)
             refreshUserToken('', '')

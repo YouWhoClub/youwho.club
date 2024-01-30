@@ -228,6 +228,19 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
     }
     const buyNFt = async () => {
         loading();
+        let nftextra = extra
+        if (nftextra) {
+            for (let i = 0; i < nftextra.length; i++) {
+                if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
+
+                } else {
+                    nftextra.push({ is_transferred: true })
+                }
+            }
+        } else {
+            nftextra = []
+            nftextra.push({ is_transferred: true })
+        }
 
         if (globalUser.privateKey) {
             const data = {
@@ -247,7 +260,7 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
                 nft_description: nft_description,
                 current_price: current_price, // mint with primary price of 20 tokens, this must be the one in db
                 freeze_metadata: freeze_metadata,
-                extra: extra,
+                extra: nftextra,
                 attributes: attributes,
                 comments: comments,
                 likes: likes,
@@ -338,6 +351,19 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
         loading();
 
         if (globalUser.privateKey) {
+            let nftextra = nft.extra
+            if (nftextra) {
+                for (let i = 0; i < nftextra.length; i++) {
+                    if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
+
+                    } else {
+                        nftextra.push({ is_transferred: true })
+                    }
+                }
+            } else {
+                nftextra = []
+                nftextra.push({ is_transferred: true })
+            }
 
             const data = {
                 caller_cid: globalUser.cid,
@@ -357,7 +383,7 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
                 nft_description: nft.nft_description,
                 current_price: nft.current_price,
                 freeze_metadata: nft.freeze_metadata,
-                extra: nft.extra,
+                extra: nftextra,
                 attributes: nft.attributes,
                 comments: nft.comments,
                 likes: nft.likes,
@@ -460,7 +486,22 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
     useEffect(() => {
         getGasFee()
     }, [])
+    const [isTransferred, setIsTransferred] = useState(false)
+    useEffect(() => {
+        if (extra) {
+            for (let i = 0; i < extra.length; i++) {
+                if (extra[i].is_transferred && extra[i].is_transferred == true) {
+                    setIsTransferred(true)
+                } else {
+                    setIsTransferred(false)
+                }
+            }
+        } else {
+            setIsTransferred(false)
+        }
 
+    }, [nft, extra])
+    console.log(nft)
     const addReactionOnNFT = async (colId, callerId, nftID, reactionType, commentContent, like, dislike) => {
         loading();
         if (globalUser.privateKey) {
@@ -742,18 +783,18 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
                                     // flexWrap: 'wrap',
                                     width: '100%', my: { xs: '8px', md: '10px' },
                                 }}>
-                                    {!isGifted && is_listed && globalUser.YouWhoID !== current_owner_screen_cid
+                                    {!isGifted && is_listed && globalUser.YouWhoID !== current_owner_screen_cid && !isTransferred
                                         ?
                                         <ButtonPurple text={'Buy'} px={'24px'} w={'calc(100% - 40px)'} onClick={buyNFt} /> : undefined
                                     }
-                                    {!isGifted && !is_listed && globalUser.YouWhoID == current_owner_screen_cid
+                                    {!isGifted && !is_listed && globalUser.YouWhoID == current_owner_screen_cid && !isTransferred
                                         ?
                                         <>
                                             <ButtonPurple text={'Add To Sales List'} fontSize={'14px'} onClick={() => setOpenModal(true)} w='calc(100% - 150px)' px={'24px'} />
                                             <ButtonOutlineInset text={'Transfer'} fontSize={'14px'} onClick={() => setOpenTransferModal(true)} w='max-content' px={'16px'} />
                                         </> : undefined
                                     }
-                                    {!isGifted && is_listed && globalUser.YouWhoID == current_owner_screen_cid ?
+                                    {!isGifted && is_listed && globalUser.YouWhoID == current_owner_screen_cid && !isTransferred ?
                                         <ButtonPurple text={'Remove From Sales List'} onClick={removeFromList} w='calc(100% - 40px)' />
                                         : undefined}
                                     {/* <ButtonBorder

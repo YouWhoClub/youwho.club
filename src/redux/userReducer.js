@@ -37,7 +37,7 @@ function userReducer(state = initialState, action) {
                 banner: action.payload.banner,
                 walletBackground: action.payload.wallet_background,
                 extra: action.payload.extra,
-                privateKey: action.payload.privateKey,
+                // privateKey: action.payload.privateKey,
 
             };
         case LOGOUT_USER:

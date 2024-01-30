@@ -170,7 +170,21 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
         setOpenModal(false)
         setNFTPrice(null)
     }
-    console.log(nft)
+    const [isTransferred, setIsTransferred] = useState(false)
+    useEffect(() => {
+        if (extra) {
+            for (let i = 0; i < extra.length; i++) {
+                if (extra[i].is_transferred && extra[i].is_transferred == true) {
+                    setIsTransferred(true)
+                } else {
+                    setIsTransferred(false)
+                }
+            }
+        } else {
+            setIsTransferred(false)
+        }
+
+    }, [nft, extra])
     useEffect(() => {
         let temp = []
         if (nft) {
@@ -524,10 +538,10 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
     }
 
     const moretabs = [
-        is_listed && globalUser.YouWhoID !== current_owner_screen_cid ? {
+        is_listed && globalUser.YouWhoID !== current_owner_screen_cid && !isTransferred ? {
             text: 'Buy',
             id: 'nft-buy-p', fColor: 'primary.main',
-            onClick: () => buyNFt,
+            onClick: buyNFt,
             icon: <ShoppingBasket sx={{ fontSize: '16px', color: 'primary.main' }} />
         } : {},
         {
@@ -829,7 +843,7 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
                                     // flexWrap: 'wrap',
                                     width: '100%', my: { xs: '8px', md: '10px' },
                                 }}>
-                                    {is_listed && globalUser.YouWhoID !== current_owner_screen_cid
+                                    {is_listed && globalUser.YouWhoID !== current_owner_screen_cid && !isTransferred
                                         ?
                                         <ButtonPurple text={'Buy'} px={'24px'} w={'calc(100% - 40px)'} onClick={buyNFt} /> : undefined
                                     }

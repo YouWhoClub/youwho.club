@@ -221,7 +221,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
         getGasFee()
     }, [])
     const loading = () => {
-        toastId.current = toast.loading("Please wait...")
+        toastId.current = toast.loading("This may take a while , Please wait...")
     }
     const updateToast = (success, message) => {
         success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
@@ -304,6 +304,28 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
         setMintButtonDisabled(true)
         if (globalUser.privateKey) {
             const nft = nfts[selectedNFT]
+            let nftextra = nft.extra
+            if (nftextra) {
+                for (let i = 0; i < nftextra.length; i++) {
+                    if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
+
+                    } else {
+                        if (owner_screen_cid == globalUser.YouWhoID) {
+
+                        } else {
+                            nftextra.push({ is_transferred: true })
+                        }
+                    }
+                }
+            } else {
+                nftextra = []
+                if (owner_screen_cid == globalUser.YouWhoID) {
+
+                } else {
+                    nftextra.push({ is_transferred: true })
+                }
+            }
+
 
             const data = {
                 caller_cid: globalUser.cid,
@@ -322,7 +344,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                 nft_description: nft.nft_description,
                 current_price: nft.current_price, // mint with primary price of 20 tokens, this must be the one in db
                 freeze_metadata: nft.freeze_metadata,
-                extra: nft.extra,
+                extra: nftextra,
                 attributes: nft.attributes,
                 comments: nft.comments,
                 likes: nft.likes,
@@ -420,6 +442,19 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
 
         if (globalUser.privateKey) {
             const nft = nfts[selectedNFT]
+            let nftextra = nft.extra
+            if (nftextra) {
+                for (let i = 0; i < nftextra.length; i++) {
+                    if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
+
+                    } else {
+                        nftextra.push({ is_transferred: true })
+                    }
+                }
+            } else {
+                nftextra = []
+                nftextra.push({ is_transferred: true })
+            }
 
             const data = {
                 caller_cid: globalUser.cid,
@@ -439,7 +474,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                 nft_description: nft.nft_description,
                 current_price: nft.current_price,
                 freeze_metadata: nft.freeze_metadata,
-                extra: nft.extra,
+                extra: nftextra,
                 attributes: nft.attributes,
                 comments: nft.comments,
                 likes: nft.likes,
@@ -463,6 +498,8 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
             if (!response.is_error) {
                 updateToast(true, response.message)
                 setActiveTab("sales-list")
+                setExpandedId(undefined)
+                getUserPVGalleries()
             } else {
                 console.error(response.message)
                 updateToast(false, response.message)
