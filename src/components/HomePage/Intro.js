@@ -85,8 +85,8 @@ const IntroNew = ({ theme }) => {
                         nextIcon={<ArrowDown size='12px' />} px={'20px'} />
                 </Box>
                 <YouWhoPic sx={{
-                    width: { xs: '100%', sm: '560px' },
-                    height: { xs: '290px', sm: '560px' },
+                    width: { xs: '100%', sm: '550px' },
+                    height: { xs: '290px', sm: '550px' },
                 }}>
                 </YouWhoPic>
             </WrapperIn >

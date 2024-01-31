@@ -33,6 +33,7 @@ const WhatsSection = () => {
                             fontSize: { xs: '30px', md: '32px' }
                         }}>What Is NFT ?</Typography>
                         <Typography variant="p" sx={{
+                            lineHeight:'35px',
                             color: 'primary.text', margin: 0, my: { xs: '54px', md: '45px' }, px: { xs: '20px', sm: '30px', md: 10 },
                             fontSize: { xs: '16px', sm: '16px', }, fontWeight: 400, fontFamily: "Inter", textTransform: 'capitalize'
                         }}>

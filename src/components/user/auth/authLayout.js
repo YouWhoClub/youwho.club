@@ -7,8 +7,8 @@ const YouWhoIcon = styled(Box)(({ theme }) => ({
   backgroundImage: "url('/w-outline-animated.svg')",
   backgroundRepeat: 'no-repeat',
   backgroundPosition: 'center',
-  width: '60px',
-  height: '60px',
+  width: '90px',
+  height: '90px',
 }))
 
 const heightChange = keyframes`
@@ -49,7 +49,7 @@ const NavAuth = styled(Box)(({ theme }) => ({
 }))
 const AuthLayout = ({ children }) => {
   const navigate = useNavigate()
-  return (<>
+  return (
     <Box sx={{
       textTransform: 'capitalize',
       height: '100vh',
@@ -75,13 +75,13 @@ const AuthLayout = ({ children }) => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: { xs: 'calc(100vh - 108px)', sm: 'auto' },
+        height: { xs: 'calc(100vh - 138px)', sm: 'auto' },
         width: '100%',
       }}>
         {children}
       </Box>
     </Box >
-  </>);
+  );
 }
 
 export default AuthLayout;

@@ -24,6 +24,7 @@ import ThemeToggler from "./HomePage/themeToggler";
 import profileFace from '../assets/face-pro.svg'
 import { API_CONFIG } from "../config";
 import MobileMenuTwo from "./MobileMenuTwo";
+import SearchInput from "./searchInput";
 
 const YouWhoIcon = styled('div')(({ theme }) => ({
     cursor: 'pointer',
@@ -339,18 +340,16 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
                 padding: { xs: '9px 20px', sm: '9px 30px' }
             }}>
 
-                <ThemeSwitcher switchTheme={switchTheme} right={'0'} top={'calc(100vh - 140px)'} m={'15px'} />
+                {/* <ThemeSwitcher switchTheme={switchTheme} right={'0'} top={'calc(100vh - 140px)'} m={'15px'} /> */}
+                {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: '12px', md: '27px' } }}> */}
+
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: '12px', md: '27px' } }}>
                     {theme == 'light' ?
                         <Link sx={{ color: 'inherit', textDecoration: 'none' }} to={'/'} target="_blank">
-                            <YouWhoIconPurple
-                            // onClick={() => navigate('/')} 
-                            />
+                            <YouWhoIconPurple />
                         </Link>
                         : <Link sx={{ color: 'inherit', textDecoration: 'none' }} to={'/'} target="_blank">
-                            <YouWhoIcon
-                            // onClick={() => navigate('/')}
-                            />
+                            <YouWhoIcon />
                         </Link>
                     }
                     <Box sx={{
@@ -381,7 +380,9 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
                             color: window.location.pathname == '/blogs' ? '#9747FF' : 'inherit'
                         }}>Weblogs</Link>
                     </Box>
+                    <SearchInput />
                 </Box>
+                {/* </Box> */}
 
                 {globalUser.isLoggedIn ?
                     <>
