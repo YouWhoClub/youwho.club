@@ -54,10 +54,12 @@ const ChangeSlide = styled(Box)(({ theme }) => ({
     padding: '8px 16px',
     alignItems: "center",
     transition: '500ms ease',
-    '&:hover': {
-        // animation: `${changeBG} 1s linear `,
-        width:'100%'
-    }
+    "@media (min-width: 900px)": {
+        '&:hover': {
+            // animation: `${changeBG} 1s linear `,
+            width: '100%'
+        }
+    },
 }))
 const ProgressBar = styled(Box)(({ theme }) => ({
     position: 'absolute',
