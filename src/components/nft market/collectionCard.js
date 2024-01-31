@@ -614,6 +614,22 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
         if (window.document.getElementById("scrollable-col-card-expanded"))
             window.document.getElementById("scrollable-col-card-expanded").scrollTo(0, 0);
     }, [expanded])
+    const [isTransferred, setIsTransferred] = useState(false)
+    useEffect(() => {
+        if (nfts[selectedNFT]) {
+            for (let i = 0; i < nfts[selectedNFT].length; i++) {
+                if (nfts[selectedNFT][i].is_transferred && nfts[selectedNFT][i].is_transferred == true) {
+                    setIsTransferred(true)
+                } else {
+                    setIsTransferred(false)
+                }
+            }
+        } else {
+            setIsTransferred(false)
+        }
+
+    }, [nfts[selectedNFT]])
+
     return (<>
         {expanded ?
             <Modal
@@ -812,7 +828,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                                                                 <ButtonPurple disabled={mintButtonDisabled} text={'Mint This NFT'} onClick={mintNFT} w='100%' />
                                                                 :
                                                                 <>
-                                                                    {nfts[selectedNFT].current_owner_screen_cid == globalUser.YouWhoID ?
+                                                                    {nfts[selectedNFT].current_owner_screen_cid == globalUser.YouWhoID && !isTransferred ?
                                                                         <>
                                                                             <ButtonPurple text={'Add To Sales List'} onClick={() => setOpenModal(true)} w='100%' />
                                                                             <ButtonPurple text={'Transfer'} onClick={() => setOpenTransferModal(true)} w='100%' />

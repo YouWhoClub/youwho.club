@@ -245,21 +245,22 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
     }
     const buyNFt = async () => {
         loading();
-        let nftextra = extra
-        if (nftextra) {
-            for (let i = 0; i < nftextra.length; i++) {
-                if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
-
-                } else {
-                    nftextra.push({ is_transferred: true })
-                }
-            }
-        } else {
-            nftextra = []
-            nftextra.push({ is_transferred: true })
-        }
         console.log(extra)
         if (globalUser.privateKey) {
+            let nftextra = extra
+            if (nftextra) {
+                for (let i = 0; i < nftextra.length; i++) {
+                    if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
+    
+                    } else {
+                        nftextra.push({ is_transferred: true })
+                    }
+                }
+            } else {
+                nftextra = []
+                nftextra.push({ is_transferred: true })
+            }
+    
             const data = {
                 caller_cid: globalUser.cid,
                 nft_id: id,
