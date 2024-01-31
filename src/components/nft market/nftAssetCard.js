@@ -231,7 +231,7 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
 
         if (globalUser.privateKey) {
             let nftextra = extra
-            if (nftextra) {
+            if (nftextra != null) {
                 for (let i = 0; i < nftextra.length; i++) {
                     if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
 
@@ -240,9 +240,9 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
                     }
                 }
             } else {
-                nftextra = []
-                nftextra.push({ is_transferred: true })
+                nftextra = [{ is_transferred: true }]
             }
+            console.log(nftextra)
 
             const data = {
                 caller_cid: globalUser.cid,
@@ -353,7 +353,7 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
 
         if (globalUser.privateKey) {
             let nftextra = nft.extra
-            if (nftextra) {
+            if (nftextra != null) {
                 for (let i = 0; i < nftextra.length; i++) {
                     if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
 
@@ -362,8 +362,10 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
                     }
                 }
             } else {
-                nftextra = []
-                nftextra.push({ is_transferred: true })
+                // nftextra = []
+                // nftextra.push({ is_transferred: true })
+                nftextra = [{ is_transferred: true }]
+
             }
 
             const data = {
@@ -779,9 +781,8 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
                                     </FlexColumn>
                                     <Line />
                                 </FlexColumn>
-                                <FlexRow sx={{
+                                {/* <FlexRow sx={{
                                     gap: '8px',
-                                    // flexWrap: 'wrap',
                                     width: '100%', my: { xs: '8px', md: '10px' },
                                 }}>
                                     {!isGifted && is_listed && globalUser.YouWhoID !== current_owner_screen_cid && !isTransferred
@@ -798,11 +799,11 @@ const NFTAssetCard = ({ nft, col_data, getAssets }) => {
                                     {!isGifted && is_listed && globalUser.YouWhoID == current_owner_screen_cid && !isTransferred ?
                                         <ButtonPurple text={'Remove From Sales List'} onClick={removeFromList} w='calc(100% - 40px)' />
                                         : undefined}
-                                    {/* <ButtonBorder
-                            br={'4px'}
-                            text={<ShareSharp sx={{ color: 'secondary.text' }} />}
-                            w={'40px'} height={'40px'} /> */}
-                                </FlexRow>
+                                    <ButtonBorder
+                                        br={'4px'}
+                                        text={<ShareSharp sx={{ color: 'secondary.text' }} />}
+                                        w={'40px'} height={'40px'} />
+                                </FlexRow> */}
                                 {/* <ButtonBorder w={'100%'} text={<ArrowUp2 />} height={'30px'} onClick={handleClose} br={'4px'} /> */}
                             </FlexColumn>
                         </Container>

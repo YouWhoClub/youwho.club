@@ -12,6 +12,7 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import { API_CONFIG } from '../../config'
 import NFTOnchainCard from "../nft market/nftOnchainCard";
 import NFTAssetCard from "../nft market/nftAssetCard";
+import Pagination from "../pagination";
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -60,6 +61,10 @@ const OthersProfieAssetTab = ({ user }) => {
     const [loading, setLoading] = useState(true)
     const [expandedColl, setExpandedColl] = useState(undefined)
     const [expandedNFT, setExpandedNFT] = useState(undefined)
+    const [from, setFrom] = useState(0)
+    const [to, setTo] = useState(30)
+    const [pgTabs, setPgTabs] = useState([1])
+    const [selectedTab, setSelectedTab] = useState(1)
 
 
     const handleFilterSelect = (e) => {
@@ -82,7 +87,7 @@ const OthersProfieAssetTab = ({ user }) => {
     }, [user.YouWhoID, globalUser.token])
 
     const getUserOncahinNfts = async () => {
-        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/get/all/onchain/for/${user.YouWhoID}/?from=0&to=10`, {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/get/all/onchain/for/${user.YouWhoID}/?from=${from}&to=${to}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -92,14 +97,33 @@ const OthersProfieAssetTab = ({ user }) => {
         let response = await request.json()
         console.log(response)
         if (response.is_error == false) {
-            setOncahinNfts(response.data.onchain_nfts)
+            let nftsArr = response.data.onchain_nfts.slice((selectedTab - 1) * 15, ((selectedTab - 1) * 15) + 15)
+            setOncahinNfts(nftsArr)
+            if (response.data.onchain_nfts.length >= 15) {
+                let pagTabs = []
+                let tabNums = response.data.onchain_nfts.length / 15
+                for (let i = 0; i < tabNums; i++) {
+                    pagTabs.push(i + 1)
+                }
+                setPgTabs(pagTabs)
+                console.log(tabNums)
+                console.log(pagTabs)
+            } else {
+                console.log('getting nfts !')
+            }
 
             setLoading(false)
         }
     }
 
 
-
+    useEffect(() => {
+        // setFrom((selectedTab - 1) * 15)
+        setTo((((selectedTab - 1) * 15) + 15) + 15)
+    }, [selectedTab])
+    useEffect(() => {
+        getUserOncahinNfts()
+    }, [to])
 
 
     return (
@@ -144,6 +168,9 @@ const OthersProfieAssetTab = ({ user }) => {
                     </Typography>}
 
             </Gallery>
+            {oncahinNfts && oncahinNfts.length > 0 ?
+                <Pagination tabs={pgTabs} selected={selectedTab} setSelectedTab={setSelectedTab} />
+                : undefined}
         </Box>
     );
 }

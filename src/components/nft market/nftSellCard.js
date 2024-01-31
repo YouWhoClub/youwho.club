@@ -88,7 +88,7 @@ const NFTImage = styled(Box)(({ theme }) => ({
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    width: '50%',
+    // width: '50%',
     // height: '420px',
     borderRadius: '9px',
 }))
@@ -281,10 +281,10 @@ const NFTSellCard = ({ nft, expanded, setExpandedId, setActiveTab, getUserGaller
 
         if (globalUser.privateKey) {
             let nftextra = extra
-            if (nftextra) {
+            if (nftextra != null) {
                 for (let i = 0; i < nftextra.length; i++) {
                     if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
-    
+
                     } else {
                         nftextra.push({ is_transferred: true })
                     }
@@ -293,7 +293,8 @@ const NFTSellCard = ({ nft, expanded, setExpandedId, setActiveTab, getUserGaller
                 nftextra = []
                 nftextra.push({ is_transferred: true })
             }
-    
+            console.log(nftextra)
+
             const data = {
                 caller_cid: globalUser.cid,
                 nft_id: id,
@@ -416,15 +417,19 @@ const NFTSellCard = ({ nft, expanded, setExpandedId, setActiveTab, getUserGaller
 
     return (<>
         {expanded ?
-            <Container sx={{ flexDirection: { xs: 'column-reverse', md: 'row' } }}>
-                <Box sx={{ display: 'flex', width: '100%', gap: '22px' }}>
+            <Container sx={{}}>
+                <Box sx={{ display: 'flex', width: '100%', gap: '22px', flexDirection: { xs: 'column', md: 'row' } }}>
                     <NFTImage
+                        sx={{
+                            width: { xs: '100%', md: '50%' }
+                        }}
                         id="nft-image-of-expanded-collection-card"
                         className="nft-image-of-expanded-collection-card"
                         component="img"
                         src={imageURL}
                     />
-                    <Box className="collection-details-of-expanded-collection-card" sx={{ display: 'flex', flexDirection: 'column', width: '50%', gap: '16px' }}>
+                    <Box className="collection-details-of-expanded-collection-card"
+                        sx={{ display: 'flex', flexDirection: 'column', width: { xs: '100%', md: '50%' }, gap: '16px' }}>
                         <Box className="nft-details-of-expanded-collection-card"
                             sx={{ display: 'flex', flexDirection: 'column', width: '100%', }}>
                             <FlexColumn sx={{ gap: '8px' }}>

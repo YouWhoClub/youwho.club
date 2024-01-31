@@ -443,7 +443,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
         if (globalUser.privateKey) {
             const nft = nfts[selectedNFT]
             let nftextra = nft.extra
-            if (nftextra) {
+            if (nftextra != null) {
                 for (let i = 0; i < nftextra.length; i++) {
                     if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
 
@@ -452,8 +452,10 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                     }
                 }
             } else {
-                nftextra = []
-                nftextra.push({ is_transferred: true })
+                // nftextra = []
+                // nftextra.push({ is_transferred: true })
+                nftextra = [{ is_transferred: true }]
+
             }
 
             const data = {

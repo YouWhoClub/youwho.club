@@ -245,13 +245,12 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
     }
     const buyNFt = async () => {
         loading();
-        console.log(extra)
         if (globalUser.privateKey) {
             let nftextra = extra
-            if (nftextra) {
+            if (nftextra != null) {
                 for (let i = 0; i < nftextra.length; i++) {
                     if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
-    
+
                     } else {
                         nftextra.push({ is_transferred: true })
                     }
@@ -260,7 +259,7 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
                 nftextra = []
                 nftextra.push({ is_transferred: true })
             }
-    
+            console.log(nftextra, 'xtra')
             const data = {
                 caller_cid: globalUser.cid,
                 nft_id: id,
@@ -285,7 +284,7 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
             }
 
             const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
-
+            console.log(requestData)
             // sending the request
 
             let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/buy`, {
@@ -371,8 +370,22 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
         loading();
 
         if (globalUser.privateKey) {
+            let nftextra = nft.extra
+            if (nftextra != null) {
+                for (let i = 0; i < nftextra.length; i++) {
+                    if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
+
+                    } else {
+                        nftextra.push({ is_transferred: true })
+                    }
+                }
+            } else {
+                nftextra = [{ is_transferred: true }]
+            }
+
 
             const data = {
+
                 caller_cid: globalUser.cid,
                 transfer_to_screen_cid: TransferTo,
                 col_id: col_data.id,
@@ -390,7 +403,7 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
                 nft_description: nft.nft_description,
                 current_price: nft.current_price,
                 freeze_metadata: nft.freeze_metadata,
-                extra: nft.extra,
+                extra: nftextra,
                 attributes: nft.attributes,
                 comments: nft.comments,
                 likes: nft.likes,

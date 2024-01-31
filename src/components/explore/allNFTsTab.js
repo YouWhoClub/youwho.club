@@ -17,10 +17,10 @@ const AllNFTsTab = () => {
     const [from, setFrom] = useState(0)
     const [to, setTo] = useState(30)
     const [pgTabs, setPgTabs] = useState([1])
+    const [selectedTab, setSelectedTab] = useState(1)
     const globalUser = useSelector(state => state.userReducer)
     const [err, setErr] = useState(undefined)
     const apiCall = useRef(undefined)
-    const [selectedTab, setSelectedTab] = useState(1)
     const [NFTs, setNFTs] = useState(undefined)
     const getMainNFTs = async () => {
         setErr(undefined)

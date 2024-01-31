@@ -202,7 +202,7 @@ const PublicGallery = ({ user }) => {
 
                                 {
                                     (activeTab == 'minted-NFTs') ?
-                                        <Gallery sx={{ my: 5, justifyContent: { xs: 'center', md: 'start' } }}>
+                                        <Gallery sx={{ my: 5, justifyContent: { xs: 'center', lg: 'start' } }}>
                                             {
                                                 publicCollections &&
                                                 publicCollections.map(collection => {
@@ -238,7 +238,7 @@ const PublicGallery = ({ user }) => {
                                                 </Typography>}
                                         </Gallery>
                                         :
-                                        <Gallery sx={{ my: 5, justifyContent: { xs: 'center', md: 'start' } }}>
+                                        <Gallery sx={{ my: 5, justifyContent: { xs: 'center', lg: 'start' } }}>
                                             {
                                                 listedNFTs &&
                                                 listedNFTs.map(nft => {

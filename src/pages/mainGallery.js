@@ -21,6 +21,7 @@ import AllNFTsTab from "../components/explore/allNFTsTab";
 import TopNFTsTab from "../components/explore/topNFTsTab";
 import TopUsersTab from "../components/explore/topUsersTab";
 import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
 
 const Gallery = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -166,7 +167,34 @@ const MainGallery = ({ switchTheme, theme }) => {
                         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                         gap: { xs: '10px', md: '30px' }
                     }}>
-                    {globalUser.bio && globalUser.avatar ? undefined :
+                    {globalUser.bio && globalUser.avatar ?
+                        <TeachingBox sx={{ bgcolor: 'primary.success' }} >
+                            <Profile size={'150px'} />
+                            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', }}>
+                                    <Typography sx={{ color: 'black', fontSize: { xs: '20px', md: '32px' }, mb: '18px' }}>
+                                        1st Step
+                                    </Typography>
+                                    <Typography sx={{ color: 'black', fontSize: { xs: '16px', md: '20px' }, mb: '14px' }}>
+                                        Complete Your Profile
+                                    </Typography>
+                                    <Typography sx={{
+                                        color: 'black',
+                                        fontWeight: 600,
+                                        fontSize: { xs: '16px', md: '20px' }, mb: '14px'
+                                    }}>
+                                        Completed
+                                    </Typography>
+
+                                    <Typography sx={{
+                                        textTransform: 'capitalize',
+                                        color: '#616265', fontSize: { xs: '12px', md: '14px' }, fontFamily: 'Inter'
+                                    }}>
+                                        & got one YouWho token as a gift
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </TeachingBox> :
                         <TeachingBox sx={{ bgcolor: 'primary.yellow' }} >
                             <Profile size={'150px'} />
                             <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
@@ -190,7 +218,34 @@ const MainGallery = ({ switchTheme, theme }) => {
                                     w={'max-content'} px={'20px'} />
                             </Box>
                         </TeachingBox>}
-                    {globalUser.cid ? undefined :
+                    {globalUser.cid ?
+                        <TeachingBox sx={{ bgcolor: 'secondary.success' }}>
+                            <Wallet2 size={'150px'} />
+                            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', }}>
+                                    <Typography sx={{ color: 'black', fontSize: { xs: '20px', md: '32px' }, mb: '18px' }}>
+                                        2nd Step
+                                    </Typography>
+                                    <Typography sx={{ color: 'black', fontSize: { xs: '16px', md: '20px' }, mb: '14px' }}>
+                                        Create YouWho Wallet
+                                    </Typography>
+                                    <Typography sx={{
+                                        color: 'black',
+                                        fontWeight: 600,
+                                        fontSize: { xs: '16px', md: '20px' }, mb: '14px'
+                                    }}>
+                                        Completed
+                                    </Typography>
+                                    <Typography sx={{
+                                        textTransform: 'capitalize',
+                                        color: '#616265', fontSize: { xs: '12px', md: '14px' }, fontFamily: 'Inter'
+                                    }}>
+                                        & got one YouWho token as a gift
+                                    </Typography>
+                                </Box>
+                            </Box>
+
+                        </TeachingBox> :
                         <TeachingBox sx={{ bgcolor: 'primary.pink' }}>
                             <Wallet2 size={'150px'} />
                             <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
@@ -212,7 +267,7 @@ const MainGallery = ({ switchTheme, theme }) => {
                             </Box>
 
                         </TeachingBox>}
-                    {globalUser.cid && globalUser.avatar && globalUser.bio ?
+                    {/* {globalUser.cid && globalUser.avatar && globalUser.bio ?
                         <EventBox sx={{ bgcolor: 'primary.slider', gap: { xs: '20px', sm: '30px' } }}>
                             <Box sx={{
                                 backgroundImage: theme == 'light' ? "url('/p-outline.svg')" : "url('/w-outline.svg')",
@@ -227,7 +282,7 @@ const MainGallery = ({ switchTheme, theme }) => {
                                     Coming Soon...
                                 </Typography>
                             </FlexColumn>
-                        </EventBox> : undefined}
+                        </EventBox> : undefined} */}
                 </Box>
                 <ShowPanel sx={{
                     flexDirection: 'column', gap: { xs: '22px', md: '24px' }, boxSizing: 'border-box', width: '100%'
@@ -297,6 +352,9 @@ const MainGallery = ({ switchTheme, theme }) => {
                     </Panel>
                 </ShowPanel>
             </Box>
+
+            <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick pauseOnFocusLoss pauseOnHover />
+
         </PanelLayout>
 
     );
