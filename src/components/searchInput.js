@@ -2,15 +2,16 @@ import { Close, Search } from "@mui/icons-material";
 import { Box, Input, TextField, Typography, inputBaseClasses } from "@mui/material";
 import { SearchNormal1 } from "iconsax-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SearchInput = () => {
-    const [searchQ, setSearchQ] = useState(undefined)
+    const [searchQ, setSearchQ] = useState('')
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
-            console.log(searchQ)
+            navigate(`/search?q=${searchQ}`)
         }
     }
+    const navigate = useNavigate()
     return (<>
         <Box sx={{
             display: { xs: 'none', md: 'flex' }, alignItems: 'center',
@@ -38,7 +39,7 @@ const SearchInput = () => {
                     }
                 }} />
             {searchQ == undefined || searchQ == '' ?
-                <SearchNormal1 cursor={'pointer'} size={'20px'} />
+                <SearchNormal1 cursor={'pointer'} size={'20px'} onClick={() => navigate(`/search?q=${searchQ}`)} />
                 : <Close sx={{ cursor: 'pointer', fontSize: '20px' }} onClick={() => setSearchQ('')} />}
         </Box>
         <Box sx={{ display: { xs: 'block', md: 'none' }, color: 'primary.text' }}>

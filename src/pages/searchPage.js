@@ -21,7 +21,7 @@ const FilterSelectionBox = styled(Box)(({ theme }) => ({
     width: '100%'
 }))
 const SearchPage = ({ theme, switchTheme }) => {
-    const [searchQ, setSearchQ] = useState(undefined)
+    const [searchQ, setSearchQ] = useState(window.location.search ? window.location.search.replace('?q=', '') : '')
     const [activeTab, setActiveTab] = useState('users')
     const [userResults, setUserResults] = useState([])
     const [collectionResults, setCollectionResults] = useState([])
@@ -31,7 +31,7 @@ const SearchPage = ({ theme, switchTheme }) => {
     const [myFollowings, setMyFollowings] = useState([])
     const [err, setErr] = useState(undefined)
     const globalUser = useSelector(state => state.userReducer)
-
+    console.log(window.location.search)
     const search = async (q, from, to) => {
         if (searchQ == '') {
             setNFTResults([])
@@ -90,6 +90,10 @@ const SearchPage = ({ theme, switchTheme }) => {
     }
 
     useEffect(() => {
+        if (searchQ)
+            search(searchQ, 0, 30)
+    }, [searchQ])
+    useEffect(() => {
         return () => {
             if (apiCall.current) {
                 apiCall.current.cancel();
@@ -122,6 +126,7 @@ const SearchPage = ({ theme, switchTheme }) => {
                     backgroundColor: 'transparent', border: 'none', outline: 'none',
                     color: '#c2c2c2', width: '100%'
                 }}
+                    value={searchQ}
                     onChange={(e) => {
                         search(e.target.value, 0, 50)
                         setSearchQ(e.target.value)
