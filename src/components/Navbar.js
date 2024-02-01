@@ -333,7 +333,13 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
         },
     ]
 
-
+    // useEffect(() => {
+    //     if (globalUser.isLoggedIn) {
+    //         navigate('/profile')
+    //     } else {
+    //         navigate('/')
+    //     }
+    // }, [globalUser, globalUser.isLoggedIn])
     return (
         <>{navbarType == 'radius' ?
             <NavStyle sx={{

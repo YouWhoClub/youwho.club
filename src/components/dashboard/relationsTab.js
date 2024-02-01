@@ -25,6 +25,7 @@ import MyFriendSuggestions from "./myFriendSuggestions";
 import { PUBLIC_API } from "../../utils/data/public_api";
 import { Close } from "@mui/icons-material";
 import MyFollowings from "./myFollowings";
+import MySentRequests from "./mySentRequests";
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex', boxSizing: 'border-box',
     flexDirection: 'row',
@@ -309,7 +310,7 @@ const RelationsTab = () => {
                 }
                 setSearchResults(tempArr)
             }
-            else if (activeTab == 'my-requests') {
+            else if (activeTab == 'friend-requests') {
                 let tempRequests = []
                 for (var d = 0; d < allRequests.length; d++) {
                     tempRequests.push(allRequests[d].screen_cid)
@@ -365,7 +366,8 @@ const RelationsTab = () => {
                     {globalUser.privateKey ?
                         <>
                             <SubTabs jc={'center'}>
-                                {/* <SubTab id={"my-requests"} onClick={changeTab} text={'My Requests'} selected={activeTab == 'my-requests'} /> */}
+                                <SubTab id={"friend-requests"} onClick={changeTab} text={'Friend Requests'} selected={activeTab == 'friend-requests'} />
+                                <SubTab id={"my-requests"} onClick={changeTab} text={'My Requests'} selected={activeTab == 'my-requests'} />
                                 <SubTab id={"my-fans"} onClick={changeTab} text={'My Fans'} selected={activeTab == 'my-fans'} />
                                 <SubTab id={"my-followings"} onClick={changeTab} text={'My Followings'} selected={activeTab == 'my-followings'} />
                                 <SubTab id={"my-friends"} onClick={changeTab} text={'My Friends'} selected={activeTab == 'my-friends'} />
@@ -383,8 +385,10 @@ const RelationsTab = () => {
                                 }}
                                     onChange={(e) => search(e.target.value, 0, 20)} />
                             </FilterSelectionBox>
-                            {activeTab == 'my-requests' &&
+                            {activeTab == 'friend-requests' &&
                                 <MyFriendequests setAllRequests={setAllRequests} searchResults={searchResults} getFollowings={getFollowings} />
+                            }  {activeTab == 'my-requests' &&
+                                <MySentRequests searchResults={searchResults} />
                             }
                             {activeTab == 'my-fans' &&
                                 <MyFans sendAllieRequest={sendAllieRequest}

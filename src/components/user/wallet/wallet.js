@@ -528,13 +528,15 @@ const Wallet = ({ privateKey, switchTheme, theme }) => {
                                 }}
                                 selected={state == 'charge-wallet'}
                             />
-                            {/* <Tab
-                        icon={<ArrowUpward size="16px" sx={{ mr: '4px', pointerEvents: 'none' }} />}
-                        text={`Withdraw`} id={"withdraw"}
-                        onClick={(e) => {setState(e.target.id)
-                        window.location.hash = `#${e.target.id}`}}
-                        selected={state == 'withdraw'}
-                    /> */}
+                            <Tab
+                                icon={<ArrowUpward size="16px" sx={{ mr: '4px', pointerEvents: 'none' }} />}
+                                text={`Withdraw`} id={"withdraw"}
+                                onClick={(e) => {
+                                    setState(e.target.id)
+                                    window.location.hash = `#${e.target.id}`
+                                }}
+                                selected={state == 'withdraw'}
+                            />
                             <Tab
                                 icon={<Box sx={{ width: '20px', height: '20px', mr: '7px', pointerEvents: 'none', backgroundImage: () => state == 'transfer' ? BG_URL(PUBLIC_URL(`${giftOpenWhite}`)) : BG_URL(PUBLIC_URL(`${giftOpen}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />}
                                 text={`Transfer NFT Gift`}
@@ -580,6 +582,11 @@ const Wallet = ({ privateKey, switchTheme, theme }) => {
                             }}>
                             {state == 'charge-wallet' && <ChargeWallet />}
                             {/* {state == 'withdraw' && <WithdrawPanel />} */}
+                            {state == 'withdraw' && <Box sx={{
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            }}>
+                                Coming Soon...
+                            </Box>}
                             {state == 'transfer' && <TransferGift />}
                             {state == 'claim' && <WithdrawPanel />}
                             {state == 'turnover' && <Turnover />}

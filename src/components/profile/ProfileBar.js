@@ -218,7 +218,7 @@ const ProfileBar = ({ user, openBar, closeBar }) => {
                                     }
                                 </AccordionDetails>
                             </Accordion>
-                            <Accordion sx={{
+                            {/* <Accordion sx={{
                                 width: '100%',
                                 bgcolor: 'secondary.bg',
                                 color: 'primary.text',
@@ -246,7 +246,7 @@ const ProfileBar = ({ user, openBar, closeBar }) => {
                                         Youwho Wallet account circulation
                                     </Typography>
                                 </AccordionDetails>
-                            </Accordion>
+                            </Accordion> */}
                         </Box>
                         {/* 
                         <Box sx={{ justifySelf: 'end !important' }}>

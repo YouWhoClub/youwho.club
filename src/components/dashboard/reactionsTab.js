@@ -50,7 +50,9 @@ const ReactionsTab = () => {
         e.preventDefault()
         setSortValue(e.target.id)
     }
-    const filterOptions = ['likes', 'comments', 'invitations', 'lists', 'friend-requests']
+    const filterOptions = ['likes', 'comments', 'gallery-invitations', 'lists',
+        // 'friend-requests'
+    ]
 
     const [myInvitations, setMyInvitations] = useState([])
     const [allReactions, setallReactions] = useState([])
@@ -126,7 +128,7 @@ const ReactionsTab = () => {
         }
     }
     useEffect(() => {
-        if (filterValue == 'invitations') {
+        if (filterValue == 'gallery-invitations') {
             getInvitations()
         }
         else if (filterValue == 'comments') {
@@ -138,9 +140,9 @@ const ReactionsTab = () => {
         else if (filterValue == 'lists') {
             getAllReactions()
         }
-        else if (filterValue == 'friend-requests') {
-            console.log('my friend requests to accept')
-        }
+        // else if (filterValue == 'friend-requests') {
+        //     console.log('my friend requests to accept')
+        // }
         else if (filterValue == 'sells') {
             console.log('get-sells')
         } else {
@@ -278,7 +280,7 @@ const ReactionsTab = () => {
                         display: 'flex', justifyContent: 'center', alignItems: 'center',
                         flexDirection: { xs: 'column', lg: 'row' }, gap: '15px', mb: '24px'
                     }}>
-                        <FilterSelection width={'280px'} tabs={['likes', 'comments', 'invitations', 'lists']}
+                        <FilterSelection width={'280px'} tabs={['likes', 'comments', 'gallery-invitations', 'lists']}
                             text={'Filter'} id={'filter-reaction-tab'}
                             handleSelect={handleFilterSelect} selectValue={filterValue} />
                         <FilterSelection width={'280px'} tabs={['date-time', 'highest-price'
@@ -292,7 +294,7 @@ const ReactionsTab = () => {
                         fontSize={'14px'} width={'100%'} />
 
                     <Box sx={{ display: 'flex', width: '100%', gap: '15px', flexDirection: 'column', mt: '24px', alignItems: 'center' }}>
-                        {filterValue == 'invitations' &&
+                        {filterValue == 'gallery-invitations' &&
                             <>{myInvitations && myInvitations.length > 0 ?
                                 <>
                                     {myInvitations.map((invitation) => (
@@ -399,9 +401,9 @@ const ReactionsTab = () => {
                             }
                             </>
                         }
-                        {filterValue == 'friend-requests' &&
+                        {/* {filterValue == 'friend-requests' &&
                             <MyFriendequests />
-                        }
+                        } */}
 
                         {filterValue == '' ?
                             <> {allNotifs && allNotifs.length > 0 ?
