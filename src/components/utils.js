@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
 import { AccountCircle, AddAPhotoOutlined, Close, Description, PriceChange, Search, Subject, Title, Token } from "@mui/icons-material"
-import { Box, CircularProgress, ClickAwayListener, MenuItem, Modal, Popper, TextField, Typography, inputBaseClasses, inputLabelClasses } from "@mui/material"
+import { Box, CircularProgress, ClickAwayListener, MenuItem, Modal, Popper, TextField, Typography, inputBaseClasses, inputLabelClasses, keyframes } from "@mui/material"
 import { BG_URL, PUBLIC_URL } from "../utils/utils"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons"
@@ -2326,6 +2326,7 @@ export const TopUserCard = ({
     ]
     const [isFollowing, setIsFollowing] = useState('false');
     useEffect(() => {
+        console.log(myFollowings, 'lajdhdsjjdjkkkdk')
         if (myFollowings) {
             if (myFollowings.length > 0) {
                 for (var i = 0; i < myFollowings.length; i++) {
@@ -2601,47 +2602,53 @@ export const SearchUserCard = ({
                     {username}
                 </Typography>
             </Box>
-            {globalUser.YouWhoID !== ywID &&
-                <Box sx={{
-                    display: 'flex', gap: '12px', alignItems: 'center',
-                    justifySelf: 'flex-end !important'
+            {!globalUser.isLoggedIn ?
+                undefined
+                :
+                <>
+                    {globalUser.YouWhoID !== ywID &&
+                        <Box sx={{
+                            display: 'flex', gap: '12px', alignItems: 'center',
+                            justifySelf: 'flex-end !important'
 
-                }}>
-                    <ButtonOutlineInset height='30px'
-                        fontSize={'10px'}
-                        br={'20px'}
-                        text={'View Profile'} onClick={() => navigate(`/profile/${username}`)} />
-                    {isFollowing == 'loading' ? <CircularProgress size={'10px'} /> :
-                        isFollowing == 'false' ?
-                            <ButtonPurpleLight br='20px'
-                                px={'16px'}
-                                py={'4px'}
+                        }}>
+                            <ButtonOutlineInset height='30px'
                                 fontSize={'10px'}
-                                w={'max-content'}
-                                text={'Friend Request'}
-                                onClick={() => sendFriendRequest(ywID, globalUser.cid)}
-                                height='30px' />
-                            : isFollowing == 'pending' ?
-                                <ButtonPurpleLight br='20px'
-                                    disabled={true}
-                                    px={'16px'}
-                                    py={'4px'}
-                                    fontSize={'10px'}
-                                    w={'max-content'}
-                                    text={'Pending Request'}
-                                    height='30px' />
-                                :
-                                <ButtonOutline br='20px'
-                                    px={'16px'}
-                                    py={'4px'}
-                                    fontSize={'10px'}
-                                    w={'max-content'}
-                                    text={'Remove Friend'}
-                                    onClick={() => removeFriend(ywID, globalUser.cid)}
-                                    height='30px' />
+                                br={'20px'}
+                                text={'View Profile'} onClick={() => navigate(`/profile/${username}`)} />
+                            {isFollowing == 'loading' ? <CircularProgress size={'10px'} /> :
+                                isFollowing == 'false' ?
+                                    <ButtonPurpleLight br='20px'
+                                        px={'16px'}
+                                        py={'4px'}
+                                        fontSize={'10px'}
+                                        w={'max-content'}
+                                        text={'Friend Request'}
+                                        onClick={() => sendFriendRequest(ywID, globalUser.cid)}
+                                        height='30px' />
+                                    : isFollowing == 'pending' ?
+                                        <ButtonPurpleLight br='20px'
+                                            disabled={true}
+                                            px={'16px'}
+                                            py={'4px'}
+                                            fontSize={'10px'}
+                                            w={'max-content'}
+                                            text={'Pending Request'}
+                                            height='30px' />
+                                        :
+                                        <ButtonOutline br='20px'
+                                            px={'16px'}
+                                            py={'4px'}
+                                            fontSize={'10px'}
+                                            w={'max-content'}
+                                            text={'Remove Friend'}
+                                            onClick={() => removeFriend(ywID, globalUser.cid)}
+                                            height='30px' />
+                            }
+                        </Box>
                     }
-                </Box>
-            }
+                </>}
+
         </TopUserCardComp>
     )
 }
@@ -2990,4 +2997,62 @@ export const LilDescription = ({ id, width, children }) => {
     }}>
         {children}
     </Box>)
+}
+const showName = keyframes`
+  0% {
+    height:0px;
+  }
+  50%{
+    height:25px;
+  }
+  100%{
+    height:50px;
+  }
+`
+
+export const SearchNFTCard = ({ nft }) => {
+    const navigate = useNavigate()
+    const toastId = useRef(null);
+    const globalUser = useSelector(state => state.userReducer)
+    const [imageURL, setImageURL] = useState(null);
+
+    const getMetadata = () => {
+        if (nft.metadata_uri.includes('https://')) {
+            setImageURL(nft.metadata_uri)
+
+        } else {
+
+            let mtdata = nft.metadata_uri.includes('::') ? nft.metadata_uri.split("::")[0].replace("ipfs://", "https://ipfs.io/ipfs/") : nft.metadata_uri.replace("ipfs://", "https://ipfs.io/ipfs/")
+            fetch(mtdata)
+                .then((response) => response.json())
+                .then((data) => (setImageURL(data.image)))
+                .catch((error) => {
+                    // Handle any fetch or parsing errors
+                    console.error('Error fetching NFT image:', error);
+                })
+        }
+    }
+    useEffect(() => {
+        getMetadata()
+    }, [nft.metadata_uri])
+    return (
+        <Box sx={{
+            width: '230px', height: '230px',
+            boxSizing: 'border-box',
+            display: 'flex', flexDirection: 'column', position: 'relative'
+        }}>
+            <Box sx={{
+                background: imageURL ? `url(${imageURL}) no-repeat center` : 'primary.bg',
+                width: '100%', height: '100%',
+                backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat'
+            }} />
+
+            <Box sx={{
+                position: 'absolute', bottom: 0, width: '100%',
+                backgroundColor: 'primary.bgOp', display: 'flex', alignItems: 'center'
+            }}>
+                <Typography sx={{ textAlign: 'center', width: '100%', color: 'primary.text' }}>{nft.nft_name}</Typography>
+            </Box>
+        </Box>
+    )
 }

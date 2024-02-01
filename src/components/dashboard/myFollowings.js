@@ -10,12 +10,43 @@ const MyFollowings = ({ sendAllieRequest, sendFriendRequest, shareClick, removeA
     const globalUser = useSelector(state => state.userReducer)
     const apiCall = useRef(undefined)
     const [followings, setFollowings] = useState([])
+    const [friends, setFriends] = useState(undefined)
     const [err, setErr] = useState(undefined)
     const navigate = useNavigate()
     const [followingsLoading, setFollowingsLoading] = useState(true)
+    const getFriends = async () => {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/friends/?from=0&to=100`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log('friennnds', response)
+
+        if (!response.is_error) {
+            if (response.data.friends.length > 0) {
+                let tempfrnds = []
+                for (let a = 0; a < response.data.friends.length; a++) {
+                    tempfrnds.push(response.data.friends[a].screen_cid)
+                }
+                setFriends(tempfrnds)
+            }
+            else {
+                setFriends([])
+
+            }
+        } else {
+            if (response.status == 404) {
+                setFriends([])
+
+            } else {
+                console.log(response.message)
+            }
+        }
+    }
     const getFollowings = async () => {
-
-
         let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/followings/?from=0&to=100`, {
             method: 'GET',
             headers: {
@@ -27,12 +58,12 @@ const MyFollowings = ({ sendAllieRequest, sendFriendRequest, shareClick, removeA
         console.log('followings', response)
 
         if (!response.is_error) {
-
+            console.log(response)
             if (response.data.length > 0) {
                 let tempFolls = []
                 for (var i = 0; i < response.data.length; i++) {
                     for (var j = 0; j < response.data[i].friends.length; j++) {
-                        if (response.data[i].friends[j].screen_cid == globalUser.YouWhoID && response.data[i].friends[j].is_accepted == true) {
+                        if (response.data[i].friends[j].screen_cid == globalUser.YouWhoID && response.data[i].friends[j].is_accepted == true && !friends.includes(response.data[i].user_wallet_info.screen_cid)) {
                             tempFolls.push(response.data[i].user_wallet_info)
 
                         }
@@ -58,9 +89,15 @@ const MyFollowings = ({ sendAllieRequest, sendFriendRequest, shareClick, removeA
     }
     useEffect(() => {
         if (globalUser.token) {
-            getFollowings()
+            getFriends()
         }
     }, [globalUser.token])
+    useEffect(() => {
+        if (friends) {
+            console.log(friends, 'my friends')
+            getFollowings()
+        }
+    }, [friends])
 
     return (<>{followingsLoading ? <CircularProgress /> :
         <>{searchResults ?

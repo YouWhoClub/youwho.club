@@ -109,6 +109,9 @@ const TopUsersTab = () => {
     }
     useEffect(() => {
         getUsers()
+        getFriends()
+        getMyFollowings()
+
     }, [filterValue])
     useEffect(() => {
         if (searchResults && searchQ) {

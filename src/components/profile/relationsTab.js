@@ -72,10 +72,18 @@ const RelationsTab = ({ user }) => {
         console.log('relations', response)
 
         if (!response.is_error) {
+            let tempFriends = response.data.friends.friends
+            let tempFriendsWallets = []
+            for (let a = 0; a < response.data.friends.friends.length; a++) {
+                tempFriendsWallets.push(response.data.friends.friends[a].screen_cid)
+            }
+
             let tempFolls = []
             if (response.data.followings.length > 0) {
                 for (var i = 0; i < response.data.followings.length; i++) {
-                    tempFolls.push(response.data.followings[i].user_wallet_info)
+                    if (!tempFriendsWallets.includes(response.data.followings[i].user_wallet_info.screen_cid)) {
+                        tempFolls.push(response.data.followings[i].user_wallet_info)
+                    }
                 }
             } else {
                 tempFolls = []
@@ -86,7 +94,6 @@ const RelationsTab = ({ user }) => {
                     tempFans.push(response.data.followers.friends[i])
                 }
             }
-            let tempFriends = response.data.friends.friends
             setFriends(tempFriends)
             setFollowers(tempFans)
             setFollowings(tempFolls)

@@ -59,7 +59,10 @@ const MyFriendSuggestions = ({ sendAllieRequest, sendFriendRequest, shareClick, 
                                         removeFriend={() => removeFriend(suggestion.screen_cid, globalUser.cid)}
                                         image={suggestion.avatar} username={suggestion.username}
                                         sendAllieRequest={() => sendAllieRequest(suggestion.screen_cid, globalUser.cid)}
-                                        sendFriendRequest={() => sendFriendRequest(suggestion.screen_cid, globalUser.cid)}
+                                        sendFriendRequest={() => {
+                                            sendFriendRequest(suggestion.screen_cid, globalUser.cid)
+                                            getUsers()
+                                        }}
                                         shareClick={shareClick}
                                     />
                                 ))}
@@ -79,7 +82,10 @@ const MyFriendSuggestions = ({ sendAllieRequest, sendFriendRequest, shareClick, 
                                 removeFriend={() => removeFriend(suggestion.screen_cid, globalUser.cid)}
                                 image={suggestion.avatar} username={suggestion.username}
                                 sendAllieRequest={() => sendAllieRequest(suggestion.screen_cid, globalUser.cid)}
-                                sendFriendRequest={() => sendFriendRequest(suggestion.screen_cid, globalUser.cid)}
+                                sendFriendRequest={() => {
+                                    sendFriendRequest(suggestion.screen_cid, globalUser.cid)
+                                    getUsers()
+                                }}
                                 shareClick={shareClick}
                             />
                         ))}

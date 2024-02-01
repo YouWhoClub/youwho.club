@@ -2,7 +2,7 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import Navbar from "../components/Navbar";
 import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
-import { SearchUserCard, Tab, Tabs } from "../components/utils";
+import { SearchNFTCard, SearchUserCard, Tab, Tabs } from "../components/utils";
 import { PUBLIC_API } from "../utils/data/public_api";
 import { API_CONFIG } from "../config";
 import { useSelector } from "react-redux";
@@ -111,7 +111,7 @@ const SearchPage = ({ theme, switchTheme }) => {
         color: 'primary.text', gap: '32px',
         height: '100vh', alignItems: 'center'
     }}>
-        <Navbar navbarType={'dashboard'} theme={theme} switchTheme={switchTheme} />
+        <Navbar navbarType={'radius'} theme={theme} switchTheme={switchTheme} />
         <Box sx={{
             display: "flex",
             flexDirection: 'column', width: '100%',
@@ -212,14 +212,29 @@ const SearchPage = ({ theme, switchTheme }) => {
                             }
                         </>}
                         {activeTab == 'collections' && <>
-                            {collectionResults && collectionResults.length > 0 ? <></> :
+                            {collectionResults && collectionResults.length > 0 ? <Box
+                                sx={{
+                                    display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '2px'
+                                }}>
+
+
+                            </Box> :
                                 <Typography sx={{ color: 'primary.text', fontSize: { xs: '16px', sm: '18px' } }}>
                                     No Result Found !
                                 </Typography>
                             }
                         </>}
                         {activeTab == 'nfts' && <>
-                            {NFTResults && NFTResults.length > 0 ? <></> :
+                            {NFTResults && NFTResults.length > 0 ? <Box
+                                sx={{
+                                    boxSizing: 'border-box', width: '100%',
+                                    display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '2px', borderRadius: '24px'
+                                }}>
+
+                                {NFTResults.map((nft) => (<SearchNFTCard
+                                    nft={nft} />))}
+
+                            </Box> :
                                 <Typography sx={{ color: 'primary.text', fontSize: { xs: '16px', sm: '18px' } }}>
                                     No Result Found !
                                 </Typography>

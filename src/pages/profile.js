@@ -88,7 +88,7 @@ const Profile = ({ switchTheme, theme, props }) => {
         if (!response.is_error) {
             if (response.data.length > 0) {
                 for (var i = 0; i < response.data.length; i++) {
-                    if (response.data[i].user_screen_cid == user.YouWhoID) {
+                    if (response.data[i].user_wallet_info.screen_cid == user.YouWhoID) {
                         for (var j = 0; j < response.data[i].friends.length; j++) {
                             if (response.data[i].friends[j].screen_cid == globalUser.YouWhoID) {
                                 if (response.data[i].friends[j].is_accepted == true) {

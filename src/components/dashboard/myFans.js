@@ -11,9 +11,42 @@ const MyFans = ({ sendAllieRequest, sendFriendRequest,
     const globalUser = useSelector(state => state.userReducer)
     const apiCall = useRef(undefined)
     const [fans, setFans] = useState([])
+    const [friends, setFriends] = useState(undefined)
     const [err, setErr] = useState(undefined)
     const navigate = useNavigate()
     const [fansLoading, setFansLoading] = useState(true)
+    const getFriends = async () => {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/friends/?from=0&to=100`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log('friennnds', response)
+
+        if (!response.is_error) {
+            if (response.data.friends.length > 0) {
+                let tempfrnds = []
+                for (let a = 0; a < response.data.friends.length; a++) {
+                    tempfrnds.push(response.data.friends[a].screen_cid)
+                }
+                setFriends(tempfrnds)
+            }
+            else {
+                setFriends([])
+
+            }
+        } else {
+            if (response.status == 404) {
+                setFriends([])
+
+            } else {
+                console.log(response.message)
+            }
+        }
+    }
     const getFans = async () => {
         let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/followers/?from=0&to=100`, {
             method: 'GET',
@@ -27,16 +60,13 @@ const MyFans = ({ sendAllieRequest, sendFriendRequest,
 
         if (!response.is_error) {
             if (response.data.friends.length > 0) {
-                if (followings && followings.length > 0) {
+                if (friends && friends.length > 0) {
                     let tempFans = []
-                    // for (let j = 0; j < followings.length; j++) {
                     for (let i = 0; i < response.data.friends.length; i++) {
-                        // console.log(followings.includes(response.data.friends[i].screen_cid))
-                        if (!followings.includes(response.data.friends[i].screen_cid)) {
+                        if (!friends.includes(response.data.friends[i].screen_cid)) {
                             tempFans.push(response.data.friends[i])
                         }
                     }
-                    // }
                     setFans(tempFans)
                     setAllFollowers(tempFans)
                     setFansLoading(false)
@@ -65,10 +95,15 @@ const MyFans = ({ sendAllieRequest, sendFriendRequest,
     }
     useEffect(() => {
         if (globalUser.token) {
-            getFans()
+            getFriends()
         }
     }, [globalUser.token])
-
+    useEffect(() => {
+        if (friends) {
+            console.log(friends, 'my friends')
+            getFans()
+        }
+    }, [friends])
     return (
         <>{fansLoading ? <CircularProgress /> :
             <>{searchResults ?
