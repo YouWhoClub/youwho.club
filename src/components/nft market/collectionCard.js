@@ -306,17 +306,23 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
             const nft = nfts[selectedNFT]
             let nftextra = nft.extra
             if (nftextra) {
-                for (let i = 0; i < nftextra.length; i++) {
-                    if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
-
-                    } else {
-                        if (owner_screen_cid == globalUser.YouWhoID) {
+                if (nftextra.length > 0) {
+                    for (let i = 0; i < nftextra.length; i++) {
+                        if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
 
                         } else {
-                            nftextra.push({ is_transferred: true })
+                            if (owner_screen_cid == globalUser.YouWhoID) {
+
+                            } else {
+                                nftextra.push({ is_transferred: true })
+                            }
                         }
                     }
+                } else {
+                    nftextra.push({ is_transferred: true })
+
                 }
+
             } else {
                 nftextra = []
                 if (owner_screen_cid == globalUser.YouWhoID) {
@@ -363,7 +369,11 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
             })
             let response = await request.json()
             // console.log(response);
-
+            setTimeout(() => {
+                updateToast(true, 'minted !')
+                getUserPVGalleries()
+                fetchUser(globalUser.token)
+            }, 60000);
             if (!response.is_error) {
                 updateToast(true, response.message)
                 fetchUser(globalUser.token)
@@ -443,19 +453,21 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
         if (globalUser.privateKey) {
             const nft = nfts[selectedNFT]
             let nftextra = nft.extra
-            if (nftextra != null) {
-                for (let i = 0; i < nftextra.length; i++) {
-                    if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
+            if (nftextra) {
+                if (nftextra.length > 0) {
+                    for (let i = 0; i < nftextra.length; i++) {
+                        if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
 
-                    } else {
-                        nftextra.push({ is_transferred: true })
+                        } else {
+                            nftextra.push({ is_transferred: true })
+                        }
                     }
+                } else {
+                    nftextra.push({ is_transferred: true })
                 }
             } else {
-                // nftextra = []
-                // nftextra.push({ is_transferred: true })
-                nftextra = [{ is_transferred: true }]
-
+                nftextra = []
+                nftextra.push({ is_transferred: true })
             }
 
             const data = {
@@ -830,11 +842,11 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                                                                 <ButtonPurple disabled={mintButtonDisabled} text={'Mint This NFT'} onClick={mintNFT} w='100%' />
                                                                 :
                                                                 <>
-                                                                    {nfts[selectedNFT].current_owner_screen_cid == globalUser.YouWhoID && !isTransferred ?
-                                                                        <>
+                                                                    {nfts[selectedNFT].current_owner_screen_cid !== globalUser.YouWhoID || (nfts[selectedNFT].extra && nfts[selectedNFT].extra.length > 0) ?
+                                                                        undefined : <>
                                                                             <ButtonPurple text={'Add To Sales List'} onClick={() => setOpenModal(true)} w='100%' />
                                                                             <ButtonPurple text={'Transfer'} onClick={() => setOpenTransferModal(true)} w='100%' />
-                                                                        </> : undefined
+                                                                        </>
                                                                     }
                                                                 </>
                                                         }

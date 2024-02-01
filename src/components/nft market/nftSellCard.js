@@ -281,13 +281,17 @@ const NFTSellCard = ({ nft, expanded, setExpandedId, setActiveTab, getUserGaller
 
         if (globalUser.privateKey) {
             let nftextra = extra
-            if (nftextra != null) {
-                for (let i = 0; i < nftextra.length; i++) {
-                    if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
+            if (nftextra) {
+                if (nftextra.length > 0) {
+                    for (let i = 0; i < nftextra.length; i++) {
+                        if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
 
-                    } else {
-                        nftextra.push({ is_transferred: true })
+                        } else {
+                            nftextra.push({ is_transferred: true })
+                        }
                     }
+                } else {
+                    nftextra.push({ is_transferred: true })
                 }
             } else {
                 nftextra = []
@@ -579,7 +583,7 @@ const NFTSellCard = ({ nft, expanded, setExpandedId, setActiveTab, getUserGaller
                                     {likes && likes.length > 0 && likes[0].upvoter_screen_cids ? likes[0].upvoter_screen_cids.length : 0}
                                 </Box>
                                 <Box sx={{ display: 'flex', alignItems: 'center', }}>
-                                    <CommentBankOutlined sx={{ fontSize: '15px' }} />&nbsp;{comments.length}
+                                    <CommentBankOutlined sx={{ fontSize: '15px' }} />&nbsp;{comments && comments.length}
                                 </Box>
                             </Box>
                             <More onClick={handleClick} cursor='pointer' />

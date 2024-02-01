@@ -247,13 +247,17 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
         loading();
         if (globalUser.privateKey) {
             let nftextra = extra
-            if (nftextra != null) {
-                for (let i = 0; i < nftextra.length; i++) {
-                    if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
+            if (nftextra) {
+                if (nftextra.length > 0) {
+                    for (let i = 0; i < nftextra.length; i++) {
+                        if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
 
-                    } else {
-                        nftextra.push({ is_transferred: true })
+                        } else {
+                            nftextra.push({ is_transferred: true })
+                        }
                     }
+                } else {
+                    nftextra.push({ is_transferred: true })
                 }
             } else {
                 nftextra = []
@@ -371,18 +375,22 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
 
         if (globalUser.privateKey) {
             let nftextra = nft.extra
-            if (nftextra != null) {
-                for (let i = 0; i < nftextra.length; i++) {
-                    if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
+            if (nftextra) {
+                if (nftextra.length > 0) {
+                    for (let i = 0; i < nftextra.length; i++) {
+                        if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
 
-                    } else {
-                        nftextra.push({ is_transferred: true })
+                        } else {
+                            nftextra.push({ is_transferred: true })
+                        }
                     }
+                } else {
+                    nftextra.push({ is_transferred: true })
                 }
             } else {
-                nftextra = [{ is_transferred: true }]
+                nftextra = []
+                nftextra.push({ is_transferred: true })
             }
-
 
             const data = {
 

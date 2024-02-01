@@ -233,19 +233,23 @@ const NFTBuyCard = ({ nft, expanded, setExpandedId, setActiveTab, getUserGalleri
             console.log(response.message)
         }
     }
-
+    console.log(extra)
     const buyNFt = async () => {
         loading();
 
         if (globalUser.privateKey) {
             let nftextra = extra
-            if (nftextra != null) {
-                for (let i = 0; i < nftextra.length; i++) {
-                    if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
+            if (nftextra) {
+                if (nftextra.length > 0) {
+                    for (let i = 0; i < nftextra.length; i++) {
+                        if (nftextra[i].is_transferred && nftextra[i].is_transferred == true) {
 
-                    } else {
-                        nftextra.push({ is_transferred: true })
+                        } else {
+                            nftextra.push({ is_transferred: true })
+                        }
                     }
+                } else {
+                    nftextra.push({ is_transferred: true })
                 }
             } else {
                 nftextra = []
@@ -277,7 +281,7 @@ const NFTBuyCard = ({ nft, expanded, setExpandedId, setActiveTab, getUserGalleri
             }
 
             const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
-
+            console.log(requestData)
             // sending the request
 
             let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/buy`, {
