@@ -81,28 +81,30 @@ const ScrollablePanel = styled(Box)(({ theme }) => ({
     color: theme.palette.primary.text,
     width: '100%',
     overflowX: 'hidden',
-    // overflowY: 'scroll',
     '&::-webkit-scrollbar': {
-        // display: 'none',
-        width: '5px',
-        background: 'white',
-        border: '0.5px solid #846894',
+        width: '3px',
+        background: 'transparent',
+        border: 'none',
         borderRadius: '20px !important'
     },
     '&::-webkit-scrollbar-thumb': {
-        width: '5px',
-        height: '5px',
-        background: '#846894',
-        border: '0.5px solid #846894',
+        width: '3px',
+        height: '3px',
+        background: '#9747ff',
+        border: '0.5px solid #9747ff',
         borderRadius: '20px !important'
     },
     '&::-webkit-scrollbar-button': {
         width: '1px',
         height: '1px',
-        background: '#846894',
+        background: '#9747ff',
         border: '0.5px solid #C6BAC5',
         borderRadius: '50% !important'
-
+    },
+    "@media (max-width: 600px)": {
+        '&::-webkit-scrollbar': {
+            display: 'none',
+        },
     },
 }))
 const ShowPanel = styled(Box)(({ theme }) => ({

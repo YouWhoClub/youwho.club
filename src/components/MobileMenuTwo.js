@@ -120,7 +120,7 @@ export default function MobileMenuTwo({ openMenu, setOpenMenu, theme, switchThem
     const list = (anchor) => (
         <Box
             sx={{
-                width: 180, height: '100%', padding: '10px 10px 24px 10px', boxSizing: 'border-box',
+                width: 250, height: '100%', padding: '10px 10px 24px 10px', boxSizing: 'border-box',
                 display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between'
             }}
             role="presentation"

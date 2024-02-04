@@ -36,7 +36,10 @@ const Container = styled(Box)(({ theme }) => ({
     borderRadius: '18px', width: '100%',
     // alignItems: 'center',
     backgroundColor: theme.palette.secondary.bg,
-    boxShadow: theme.palette.primary.boxShadow,
+    boxShadow: theme.palette.primary.boxShadow, "@media (max-width: 600px)": {
+        padding: '8px',
+        gap: '20px',
+    },
 }))
 const Acc = styled(Box)(({ theme }) => ({
     display: 'flex', boxSizing: 'border-box',

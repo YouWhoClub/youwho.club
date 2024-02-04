@@ -33,7 +33,11 @@ const Container = styled(Box)(({ theme }) => ({
     padding: '12px 18px 18px 18px',
     gap: '40px',
     borderRadius: '18px', transition: '500ms ease',
-    boxShadow: theme.palette.primary.boxShadow
+    boxShadow: theme.palette.primary.boxShadow,
+    "@media (max-width: 600px)": {
+        padding: '8px',
+        gap: '20px',
+    },
 }))
 const FlexRow = styled(Box)(({ theme }) => ({
     display: 'flex', width: '100%',

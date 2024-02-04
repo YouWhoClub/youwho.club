@@ -20,7 +20,10 @@ const Container = styled(Box)(({ theme }) => ({
     borderRadius: '18px', width: '100%',
     // alignItems: 'center',
     backgroundColor: theme.palette.secondary.bg,
-    boxShadow: theme.palette.primary.boxShadow,
+    boxShadow: theme.palette.primary.boxShadow, "@media (max-width: 600px)": {
+        padding: '8px',
+        gap: '20px',
+    },
 }))
 const AssetImage = styled(Box)(({ theme }) => ({
     height: '320px', flex: '1 0 0',

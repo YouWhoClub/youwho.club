@@ -100,11 +100,16 @@ const FlexColumn = styled(Box)(({ theme }) => ({
 }))
 
 const TeachingBox = styled(Box)(({ theme }) => ({
-    padding: '24px', boxSizing: 'border-box', height: '250px', width: '100%',
+    padding: '24px', boxSizing: 'border-box',
+    height: '250px', width: 'calc(50% - 15px)',
     display: 'flex', borderRadius: '24px', boxShadow: theme.palette.primary.boxShadow,
     justifyContent: 'center',
     alignItems: 'center',
-    gap: '30px'
+    gap: '30px',
+    "@media (max-width: 600px)": {
+        gap: '15px',
+        height: '200px', width: 'calc(50% - 5px)', padding: '12px',
+    },
 }))
 const EventBox = styled(Box)(({ theme }) => ({
     padding: '24px', boxSizing: 'border-box', height: '250px', width: '100%',
@@ -163,51 +168,51 @@ const MainGallery = ({ switchTheme, theme }) => {
                 <Box id="commercials-box"
                     sx={{
                         width: '100%',
-                        flexDirection: { xs: 'column', md: 'row' },
+                        // flexDirection: { xs: 'column', md: 'row' },
                         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                         gap: { xs: '10px', md: '30px' }
                     }}>
                     {globalUser.bio && globalUser.avatar ?
                         <TeachingBox sx={{ bgcolor: 'primary.success' }} >
                             <Profile size={'150px'} />
-                            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
-                                <Box sx={{ display: 'flex', flexDirection: 'column', }}>
-                                    <Typography sx={{ color: 'black', fontSize: { xs: '20px', md: '32px' }, mb: '18px' }}>
-                                        1st Step
-                                    </Typography>
-                                    <Typography sx={{ color: 'black', fontSize: { xs: '16px', md: '20px' }, mb: '14px' }}>
-                                        Complete Your Profile
-                                    </Typography>
-                                    <Typography sx={{
-                                        color: 'black',
-                                        fontWeight: 600,
-                                        fontSize: { xs: '16px', md: '20px' }, mb: '14px'
-                                    }}>
-                                        Completed
-                                    </Typography>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', }}>
+                                {/* <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}> */}
+                                <Typography sx={{ color: 'black', fontSize: { xs: '14px', sm: '20px', md: '32px' }, mb: { xs: '8px', md: '18px' } }}>
+                                    1st Step
+                                </Typography>
+                                <Typography sx={{ color: 'black', fontSize: { xs: '12px', sm: '16px', md: '20px' }, mb: { xs: '4px', md: '14px' } }}>
+                                    Complete Your Profile
+                                </Typography>
+                                <Typography sx={{
+                                    color: 'black',
+                                    fontWeight: 600,
+                                    fontSize: { xs: '12px', sm: '16px', md: '20px' }, mb: { xs: '4px', md: '14px' }
+                                }}>
+                                    Completed
+                                </Typography>
 
-                                    <Typography sx={{
-                                        textTransform: 'capitalize',
-                                        color: '#616265', fontSize: { xs: '12px', md: '14px' }, fontFamily: 'Inter'
-                                    }}>
-                                        & got one YouWho token as a gift
-                                    </Typography>
-                                </Box>
+                                <Typography sx={{
+                                    textTransform: 'capitalize',
+                                    color: '#616265', fontSize: { xs: '8px', sm: '10px', md: '14px' }, fontFamily: 'Inter'
+                                }}>
+                                    & got one YouWho token as a gift
+                                </Typography>
+                                {/* </Box> */}
                             </Box>
                         </TeachingBox> :
                         <TeachingBox sx={{ bgcolor: 'primary.yellow' }} >
                             <Profile size={'150px'} />
                             <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
-                                <Box sx={{ display: 'flex', flexDirection: 'column', }}>
-                                    <Typography sx={{ color: 'black', fontSize: { xs: '20px', md: '32px' }, mb: '18px' }}>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                    <Typography sx={{ color: 'black', fontSize: { xs: '14px', sm: '20px', md: '32px' }, mb: { xs: '8px', md: '18px' } }}>
                                         1st Step
                                     </Typography>
-                                    <Typography sx={{ color: 'black', fontSize: { xs: '16px', md: '20px' }, mb: '14px' }}>
+                                    <Typography sx={{ color: 'black', fontSize: { xs: '12px', sm: '16px', md: '20px' }, mb: { xs: '4px', md: '14px' } }}>
                                         Complete Your Profile
                                     </Typography>
                                     <Typography sx={{
                                         textTransform: 'capitalize',
-                                        color: '#616265', fontSize: { xs: '12px', md: '14px' }, fontFamily: 'Inter'
+                                        color: '#616265', fontSize: { xs: '8px', sm: '10px', md: '14px' }, fontFamily: 'Inter'
                                     }}>
                                         & get one YouWho token as a gift
                                     </Typography>
@@ -221,44 +226,44 @@ const MainGallery = ({ switchTheme, theme }) => {
                     {globalUser.cid ?
                         <TeachingBox sx={{ bgcolor: 'secondary.success' }}>
                             <Wallet2 size={'150px'} />
-                            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
-                                <Box sx={{ display: 'flex', flexDirection: 'column', }}>
-                                    <Typography sx={{ color: 'black', fontSize: { xs: '20px', md: '32px' }, mb: '18px' }}>
-                                        2nd Step
-                                    </Typography>
-                                    <Typography sx={{ color: 'black', fontSize: { xs: '16px', md: '20px' }, mb: '14px' }}>
-                                        Create YouWho Wallet
-                                    </Typography>
-                                    <Typography sx={{
-                                        color: 'black',
-                                        fontWeight: 600,
-                                        fontSize: { xs: '16px', md: '20px' }, mb: '14px'
-                                    }}>
-                                        Completed
-                                    </Typography>
-                                    <Typography sx={{
-                                        textTransform: 'capitalize',
-                                        color: '#616265', fontSize: { xs: '12px', md: '14px' }, fontFamily: 'Inter'
-                                    }}>
-                                        & got one YouWho token as a gift
-                                    </Typography>
-                                </Box>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', }}>
+                                {/* <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}> */}
+                                <Typography sx={{ color: 'black', fontSize: { xs: '14px', sm: '20px', md: '32px' }, mb: { xs: '8px', md: '18px' } }}>
+                                    2nd Step
+                                </Typography>
+                                <Typography sx={{ color: 'black', fontSize: { xs: '12px', sm: '16px', md: '20px' }, mb: { xs: '4px', md: '14px' } }}>
+                                    Create YouWho Wallet
+                                </Typography>
+                                <Typography sx={{
+                                    color: 'black',
+                                    fontWeight: 600,
+                                    fontSize: { xs: '12px', sm: '16px', md: '20px' }, mb: { xs: '4px', md: '14px' }
+                                }}>
+                                    Completed
+                                </Typography>
+                                <Typography sx={{
+                                    textTransform: 'capitalize',
+                                    color: '#616265', fontSize: { xs: '8px', sm: '10px', md: '14px' }, fontFamily: 'Inter'
+                                }}>
+                                    & got one YouWho token as a gift
+                                </Typography>
+                                {/* </Box> */}
                             </Box>
 
                         </TeachingBox> :
                         <TeachingBox sx={{ bgcolor: 'primary.pink' }}>
                             <Wallet2 size={'150px'} />
                             <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
-                                <Box sx={{ display: 'flex', flexDirection: 'column', }}>
-                                    <Typography sx={{ color: 'black', fontSize: { xs: '20px', md: '32px' }, mb: '18px' }}>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                    <Typography sx={{ color: 'black', fontSize: { xs: '14px', sm: '20px', md: '32px' }, mb: { xs: '8px', md: '18px' } }}>
                                         2nd Step
                                     </Typography>
-                                    <Typography sx={{ color: 'black', fontSize: { xs: '16px', md: '20px' }, mb: '14px' }}>
+                                    <Typography sx={{ color: 'black', fontSize: { xs: '12px', sm: '16px', md: '20px' }, mb: { xs: '4px', md: '14px' } }}>
                                         Create YouWho Wallet
                                     </Typography>
                                     <Typography sx={{
                                         textTransform: 'capitalize',
-                                        color: '#616265', fontSize: { xs: '12px', md: '14px' }, fontFamily: 'Inter'
+                                        color: '#616265', fontSize: { xs: '8px', sm: '10px', md: '14px' }, fontFamily: 'Inter'
                                     }}>
                                         & get one YouWho token as a gift
                                     </Typography>

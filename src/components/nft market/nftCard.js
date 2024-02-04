@@ -28,7 +28,7 @@ const Outter = styled(Box)(({ theme }) => ({
     boxShadow: theme.palette.primary.boxShadow,
 }))
 const Card = styled(Box)(({ theme }) => ({
-    boxSizing: 'border-box', width: '250px',
+    boxSizing: 'border-box', width: '240px',
     borderRadius: '15px',
     display: 'flex',
     justifyContent: 'space-between', gap: '6px',
@@ -615,15 +615,15 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
                                 <Box sx={{ display: 'flex', alignItems: 'center', }}>
                                     <CommentBankOutlined sx={{ fontSize: '15px' }} />&nbsp;{comments.length}
                                 </Box>
+                                <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '10px', gap: '4px' }}>
+                                    <YouwhoCoinIcon w={12} h={12} />
+                                    <Typography sx={{ color: 'primary.text', fontSize: '10px' }}>
+                                        {current_price}
+                                    </Typography>
+                                </Box>
                             </Box>
                             <More onClick={handleClick} cursor='pointer' />
                         </FlexRow>
-                        <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '10px', gap: '4px' }}>
-                            <YouwhoCoinIcon w={12} h={12} />
-                            <Typography sx={{ color: 'primary.text', fontSize: '10px' }}>
-                                {current_price}
-                            </Typography>
-                        </Box>
                         <Typography sx={{ color: 'primary.text', fontSize: '12px' }}>
                             {nft_name}
                         </Typography>

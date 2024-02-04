@@ -1009,7 +1009,10 @@ const DashBar = ({ selectValue, tabs, handleSelect, w, openBar, closeBar }) => {
                                         <Typography sx={{ display: "flex", alignItems: "center", color: 'primary.text' }}>Progressive</Typography>
                                     </AccordionSummary>
                                     <AccordionDetails
-                                        sx={{ borderTop: '1px solid', borderColor: 'primary.gray', transition: '500ms ease' }}
+                                        sx={{
+                                            borderTop: '1px solid',
+                                            gap: '10px', borderColor: 'primary.gray', transition: '500ms ease'
+                                        }}
                                     >
                                         <FlexRow>
                                             <Typography sx={{ fontSize: '12px' }}>Bio</Typography>
@@ -1067,27 +1070,6 @@ const DashBar = ({ selectValue, tabs, handleSelect, w, openBar, closeBar }) => {
                                                 : <Timer color="pink" size='14px' />
                                             }
                                         </FlexRow>
-                                        {/* <FlexRow>
-                                <Typography sx={{ fontSize: '12px' }}>First Mint</Typography>
-                                {globalUser.mint ?
-                                    <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
-                                    : <Timer color="pink" size='14px' />
-                                }
-                            </FlexRow>
-                            <FlexRow>
-                                <Typography sx={{ fontSize: '12px' }}>First Buy</Typography>
-                                {globalUser.buy ?
-                                    <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
-                                    : <Timer color="pink" size='14px' />
-                                }
-                            </FlexRow>
-                            <FlexRow>
-                                <Typography sx={{ fontSize: '12px' }}>First Sell</Typography>
-                                {globalUser.sell ?
-                                    <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
-                                    : <Timer color="pink" size='14px' />
-                                }
-                            </FlexRow> */}
                                     </AccordionDetails>
                                 </Accordion>
                             </>

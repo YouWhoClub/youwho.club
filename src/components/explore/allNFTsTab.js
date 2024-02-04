@@ -78,7 +78,7 @@ const AllNFTsTab = () => {
         boxSizing: 'border-box', gap: '24px'
     }}>
         <Gallery sx={{
-            boxSizing: 'border-box', justifyContent: { xs: 'center', lg: 'start' }
+            boxSizing: 'border-box', justifyContent: { xs: 'center', lg: 'center' }
         }}>
             {NFTs ?
                 <>

@@ -52,6 +52,10 @@ const Container = styled(Box)(({ theme }) => ({
     // alignItems: 'center',
     backgroundColor: theme.palette.secondary.bg,
     boxShadow: theme.palette.primary.boxShadow,
+    "@media (max-width: 600px)": {
+        padding: '8px',
+        gap: '20px',
+    },
 }))
 const AssetImage = styled(Box)(({ theme }) => ({
     // height: '280px', width: '280px',

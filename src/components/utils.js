@@ -33,10 +33,10 @@ import blockchainDark from '../assets/blockchainDark.svg'
 import cryptoDark from '../assets/cryptoDark.svg'
 import xpnsvNFTDark from '../assets/xpnsvNFTDark.svg'
 import calenDark from '../assets/calenDark.svg'
-import walletImgLight from '../assets/WALLET-b.svg'
-import walletImgDark from '../assets/WALLET-WH.svg'
-import chatNFTLight from '../assets/CHATNFT-b.svg'
-import chatNFTDark from '../assets/CHATNFT-WH.svg'
+import walletImgLight from '../assets/walletImgLight.svg'
+import walletImgDark from '../assets/walletImgDark.svg'
+import chatNFTLight from '../assets/chatNFTLight.svg'
+import chatNFTDark from '../assets/chatNFTDark.svg'
 
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -587,13 +587,13 @@ export const MyInput = ({ icon, textColor, name,
                         sx: {
                             display: 'flex', alignItems: 'center',
                             // my: '5px !important',
-                            color: textColor ? textColor : 'primary.gray', width: '100%', fontSize: '12px',
+                            color: textColor ? textColor : 'primary.darkGray', width: '100%', fontSize: '12px',
                             //  margin: '0 !important',
                             "&:-webkit-autofill": {
                                 webkitboxshadow: "none !important", backgroundColor: 'transparent !important'
                             },
                             [`&.${inputBaseClasses.input}`]: {
-                                padding: '0 !important', color: textColor ? textColor : 'primary.gray',
+                                padding: '0 !important', color: textColor ? textColor : 'primary.darkGray',
                             }
                             // .MuiInputBase-input-MuiInput-input
                         }
@@ -653,13 +653,13 @@ export const ShadowInput = ({ onKeyDown, icon, text, id, label, width, onChange,
                     sx: {
                         display: 'flex', alignItems: 'center',
                         // my: '5px !important',
-                        color: 'primary.gray', width: '100%', fontSize: '12px',
+                        color: 'primary.darkGray', width: '100%', fontSize: '12px',
                         //  margin: '0 !important',
                         "&:-webkit-autofill": {
                             webkitboxshadow: "none !important", backgroundColor: 'transparent !important'
                         },
                         [`&.${inputBaseClasses.input}`]: {
-                            padding: '0 !important', color: 'primary.gray'
+                            padding: '0 !important', color: 'primary.darkGray'
                         }
                         // .MuiInputBase-input-MuiInput-input
                     }
@@ -3039,7 +3039,7 @@ export const SearchNFTCard = ({ nft }) => {
         <Box sx={{
             width: '230px', height: '230px',
             boxSizing: 'border-box',
-            display: 'flex', flexDirection: 'column', position: 'relative'
+            display: 'flex', flexDirection: 'column', position: 'relative', borderRadius: '4px',
         }}>
             <Box sx={{
                 background: imageURL ? `url(${imageURL}) no-repeat center` : 'primary.bg',
