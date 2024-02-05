@@ -310,6 +310,7 @@ const Wallet = ({ privateKey, switchTheme, theme }) => {
                     sx={(theme) => ({
                         // width: { xs: '100%', md: 'max-content' },
                         // height: { xs: '250px', md: '300px' },
+                        width: '100%', maxWidth: '540px',
                         transition: '500ms ease',
                         boxSizing: 'border-box',
                         backgroundImage: () => (globalUser.walletBackground && finalCard.background == 'custom') ? BG_URL(PUBLIC_URL(`${API_CONFIG.API_URL}/${globalUser.walletBackground}`)) : BG_URL(PUBLIC_URL(`${cardBackgroundImage}`)),

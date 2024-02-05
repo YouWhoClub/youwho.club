@@ -138,7 +138,7 @@ const ProfileCard = ({ user, isFriend, setProgressBarOpen, progressBarOpen, send
                             {isFollowing == 'false' &&
                                 <ButtonBorder bgcolor={'primary.main'}
                                     fontColor={'white'} onClick={() => sendFriendRequest(user.YouWhoID, globalUser.cid)}
-                                    text={'Friend Request'} px={'26px'} br={'30px'} height={'25px'} w={'max-content'} />}
+                                    text={'Follow Request'} px={'26px'} br={'30px'} height={'25px'} w={'max-content'} />}
                             {isFollowing == 'pending' &&
                                 <ButtonBorder bgcolor={'primary.main'}
                                     fontColor={'white'} disabled={true}

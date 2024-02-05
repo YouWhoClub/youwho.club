@@ -150,7 +150,7 @@ const ChargeWallet = () => {
     return (
         <Box sx={{
             width: '100%',
-            maxWidth: '900px',
+            maxWidth: '600px',
             display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '40px', p: '0', mb: '10px', mt: '10px'
         }}>
             <Container>

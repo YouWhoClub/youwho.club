@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Modal, TextField, Typography } from "@mui/material";
+import { Box, CircularProgress, Modal, Skeleton, TextField, Typography } from "@mui/material";
 import { MyInput, RelationCard, SubTab, SubTabs } from "../utils";
 import blueNft from '../../assets/blue-nft.svg'
 import pinkNFT from '../../assets/pink-nft.svg'
@@ -93,7 +93,8 @@ const RelationsTab = () => {
     }
     const sendFriendRequest = async (receiver, sender) => {
         loading();
-
+        let current_tab = activeTab
+        setActiveTab('loading')
         let data = {
             owner_cid: sender,
             to_screen_cid: receiver,
@@ -111,14 +112,16 @@ const RelationsTab = () => {
         let response = await request.json()
         console.log(response);
         if (response.message == "Updated Successfully") {
-            updateToast(true, 'Friend Request Sent')
-            setActiveTab(activeTab)
+            updateToast(true, 'Follow Request Sent')
+            setActiveTab(current_tab)
         } else {
             updateToast(false, response.message)
         }
     }
     const sendAllieRequest = async (receiver, sender,) => {
         loading();
+        let current_tab = activeTab
+        setActiveTab('loading')
 
         let data = {
             owner_cid: sender,
@@ -137,7 +140,8 @@ const RelationsTab = () => {
         let response = await request.json()
         console.log(response);
         if (response.message == "Updated Successfully") {
-            updateToast(true, 'Friend Request Sent')
+            setActiveTab(current_tab)
+            updateToast(true, 'Follow Request Sent')
         } else {
             updateToast(false, response.message)
         }
@@ -145,6 +149,8 @@ const RelationsTab = () => {
     }
     const removeFriend = async (receiver, sender) => {
         loading();
+        let current_tab = activeTab
+        setActiveTab('loading')
 
         let data = {
             owner_cid: sender,
@@ -164,6 +170,7 @@ const RelationsTab = () => {
         console.log(response);
         if (response.message == "Updated Successfully") {
             updateToast(true, 'Friend Removed')
+            setActiveTab(current_tab)
             getFollowings()
         } else {
             updateToast(false, response.message)
@@ -171,6 +178,8 @@ const RelationsTab = () => {
     }
     const removeAllie = async (receiver, sender) => {
         loading();
+        let current_tab = activeTab
+        setActiveTab('loading')
 
         let data = {
             owner_cid: sender,
@@ -191,6 +200,8 @@ const RelationsTab = () => {
         if (response.message == "Updated Successfully") {
             updateToast(true, 'Follower Removed')
             getFollowings()
+            setActiveTab(current_tab)
+
         } else {
             updateToast(false, response.message)
         }
@@ -370,13 +381,14 @@ const RelationsTab = () => {
                     {globalUser.privateKey ?
                         <>
                             <SubTabs jc={'center'}>
-                                <SubTab id={"friend-requests"} onClick={changeTab} text={'Friend Requests'} selected={activeTab == 'friend-requests'} />
-                                <SubTab id={"my-requests"} onClick={changeTab} text={'My Requests'} selected={activeTab == 'my-requests'} />
                                 <SubTab id={"my-fans"} onClick={changeTab} text={'My Fans'} selected={activeTab == 'my-fans'} />
                                 <SubTab id={"my-followings"} onClick={changeTab} text={'My Followings'} selected={activeTab == 'my-followings'} />
                                 <SubTab id={"my-friends"} onClick={changeTab} text={'My Friends'} selected={activeTab == 'my-friends'} />
-                                <SubTab id={"explore-users"} onClick={changeTab} text={'Explore Users'}
-                                    selected={activeTab == 'explore-users'} />
+                            </SubTabs>
+                            <SubTabs jc={'center'}>
+                                <SubTab id={"follow-requests"} onClick={changeTab} text={'Follow Requests'} selected={activeTab == 'follow-requests'} />
+                                <SubTab id={"my-requests"} onClick={changeTab} text={'My Requests'} selected={activeTab == 'my-requests'} />
+                                <SubTab id={"explore-users"} onClick={changeTab} text={'Explore Users'} selected={activeTab == 'explore-users'} />
                             </SubTabs>
                             <FilterSelectionBox sx={{ padding: '8px 16px', my: '24px' }}>
                                 <span style={{ width: '180px', fontSize: '14px' }}>
@@ -389,13 +401,17 @@ const RelationsTab = () => {
                                 }}
                                     onChange={(e) => search(e.target.value, 0, 20)} />
                             </FilterSelectionBox>
-                            {activeTab == 'friend-requests' &&
+                            {activeTab == 'follow-requests' &&
                                 <MyFriendequests setAllRequests={setAllRequests} searchResults={searchResults} getFollowings={getFollowings} />
                             }  {activeTab == 'my-requests' &&
-                                <MySentRequests searchResults={searchResults} />
+                                <MySentRequests sendAllieRequest={sendAllieRequest}
+                                    sendFriendRequest={sendFriendRequest} shareClick={shareClick}
+                                    removeAllie={removeAllie} removeFriend={removeFriend}
+                                    searchResults={searchResults} setAllFriends={setFriends} />
                             }
                             {activeTab == 'my-fans' &&
-                                <MyFans sendAllieRequest={sendAllieRequest}
+                                <MyFans
+                                    activeTab={activeTab} sendAllieRequest={sendAllieRequest}
                                     sendFriendRequest={sendFriendRequest} shareClick={shareClick}
                                     removeAllie={removeAllie} removeFriend={removeFriend}
                                     followings={followings} searchResults={searchResults} setAllFollowers={setFollowers}
@@ -414,11 +430,17 @@ const RelationsTab = () => {
                                     searchResults={searchResults} setAllFriends={setFriends} />
                             }
                             {activeTab == 'explore-users' &&
-                                <MyFriendSuggestions sendAllieRequest={sendAllieRequest}
+                                <MyFriendSuggestions
+                                    activeTab={activeTab} sendAllieRequest={sendAllieRequest}
                                     sendFriendRequest={sendFriendRequest} shareClick={shareClick}
                                     removeAllie={removeAllie} removeFriend={removeFriend}
                                     searchResults={searchResults} setAllSuggestions={setSuggestions}
                                 />
+                            }
+                            {activeTab == 'loading' &&
+                                <Box sx={{ width: '100%', height: '100%', borderRadius: '24px', bgcolor: 'bgOp' }}>
+                                    <Skeleton sx={{ borderRadius: '16px', }} width={'100%'} height={'400px'} />
+                                </Box>
                             }
                         </>
                         :

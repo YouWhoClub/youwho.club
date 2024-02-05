@@ -262,7 +262,7 @@ const PrivateGallery = ({ user, isFriend, sendFriendRequest, isFollowing }) => {
                                     <>
                                         {isFollowing && isFollowing == 'false' &&
                                             <ButtonPurpleLight
-                                                text={'Request Friendship'} onClick={() => sendFriendRequest(user.YouWhoID, globalUser.cid)}
+                                                text={'Follow Request'} onClick={() => sendFriendRequest(user.YouWhoID, globalUser.cid)}
                                                 w={'max-content'}
                                                 px={'12px'}
                                                 height='35px' />}

@@ -8,7 +8,7 @@ import { AUTH_API } from "../../utils/data/auth_api";
 import { API_CONFIG } from "../../config";
 
 const MyFriendSuggestions = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAllie, removeFriend,
-    search, searchResults, setAllSuggestions }) => {
+    search, searchResults, setAllSuggestions, activeTab }) => {
     const globalUser = useSelector(state => state.userReducer)
     const [loading, setLoading] = useState(true)
     const [suggestions, setSuggestions] = useState([])
@@ -55,14 +55,15 @@ const MyFriendSuggestions = ({ sendAllieRequest, sendFriendRequest, shareClick, 
                             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                                 {searchResults.map((suggestion, index) => (
                                     <RelationCard
+                                        activeTab={activeTab}
+                                        getSuggestions={getUsers}
                                         removeAllie={() => removeAllie(suggestion.screen_cid, globalUser.cid)}
                                         removeFriend={() => removeFriend(suggestion.screen_cid, globalUser.cid)}
                                         image={suggestion.avatar} username={suggestion.username}
                                         sendAllieRequest={() => sendAllieRequest(suggestion.screen_cid, globalUser.cid)}
-                                        sendFriendRequest={() => {
+                                        sendFriendRequest={() =>
                                             sendFriendRequest(suggestion.screen_cid, globalUser.cid)
-                                            getUsers()
-                                        }}
+                                        }
                                         shareClick={shareClick}
                                     />
                                 ))}
@@ -78,14 +79,15 @@ const MyFriendSuggestions = ({ sendAllieRequest, sendFriendRequest, shareClick, 
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                         {suggestions.map((suggestion, index) => (
                             <RelationCard
+                                activeTab={activeTab}
+                                getSuggestions={getUsers}
                                 removeAllie={() => removeAllie(suggestion.screen_cid, globalUser.cid)}
                                 removeFriend={() => removeFriend(suggestion.screen_cid, globalUser.cid)}
                                 image={suggestion.avatar} username={suggestion.username}
                                 sendAllieRequest={() => sendAllieRequest(suggestion.screen_cid, globalUser.cid)}
-                                sendFriendRequest={() => {
+                                sendFriendRequest={() =>
                                     sendFriendRequest(suggestion.screen_cid, globalUser.cid)
-                                    getUsers()
-                                }}
+                                }
                                 shareClick={shareClick}
                             />
                         ))}

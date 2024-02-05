@@ -756,8 +756,8 @@ export const BetweenTwoSelection = ({ selected, width, setOption, id, options, c
     </Box>)
 }
 export const RelationCard = ({
-    image, username, date, amFollowing,
-    friend, allies, menuItems, ywid,
+    image, username, date, amFollowing, getSuggestions,
+    friend, allies, menuItems, ywid, activeTab, isAccepted,
     shareClick, sendAllieRequest, removeAllie, sendFriendRequest, removeFriend }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const globalUser = useSelector(state => state.userReducer)
@@ -798,8 +798,19 @@ export const RelationCard = ({
                         undefined :
                         <ButtonPurpleLight br='4px'
                             text={'Follow'}
-                            onClick={sendFriendRequest}
+                            onClick={() => {
+                                sendFriendRequest()
+                                activeTab && getSuggestions()
+                            }}
 
+                            height='30px' />
+                    }
+                    {isAccepted ?
+                        undefined :
+                        <ButtonPurpleLight br='4px'
+                            text={'Cancel Request'}
+                            w={'max-content'}
+                            onClick={removeFriend}
                             height='30px' />
                     }
                     <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} color="#787878" />

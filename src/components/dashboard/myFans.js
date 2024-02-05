@@ -7,12 +7,13 @@ import purpleNFT from '../../assets/purple-nft.svg'
 import { API_CONFIG } from "../../config"
 
 const MyFans = ({ sendAllieRequest, sendFriendRequest,
-    shareClick, removeAllie, removeFriend, followings, search, searchResults, setAllFollowers }) => {
+    shareClick, removeAllie, searchResults, setAllFollowers }) => {
     const globalUser = useSelector(state => state.userReducer)
     const apiCall = useRef(undefined)
     const [fans, setFans] = useState([])
     const [friends, setFriends] = useState(undefined)
     const [err, setErr] = useState(undefined)
+    const [followings, setFollowings] = useState([])
     const navigate = useNavigate()
     const [fansLoading, setFansLoading] = useState(true)
     const getFriends = async () => {
@@ -43,6 +44,44 @@ const MyFans = ({ sendAllieRequest, sendFriendRequest,
                 setFriends([])
 
             } else {
+                console.log(response.message)
+            }
+        }
+    }
+    const getFollowings = async () => {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/followings/?from=0&to=100`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log('followings', response)
+
+        if (!response.is_error) {
+            console.log(response)
+            if (response.data.length > 0) {
+                let tempFolls = []
+                for (var i = 0; i < response.data.length; i++) {
+                    for (var j = 0; j < response.data[i].friends.length; j++) {
+                        if (response.data[i].friends[j].screen_cid == globalUser.YouWhoID) {
+                            tempFolls.push(response.data[i].user_wallet_info.screen_cid)
+
+                        }
+                    }
+                }
+                setFollowings(tempFolls)
+                console.log(tempFolls)
+            } else {
+                setFollowings([])
+            }
+        } else {
+            if (response.status == 404) {
+                setFollowings([])
+
+            } else {
+                setErr(response.message)
                 console.log(response.message)
             }
         }
@@ -95,15 +134,15 @@ const MyFans = ({ sendAllieRequest, sendFriendRequest,
     }
     useEffect(() => {
         if (globalUser.token) {
-            getFriends()
+            getFollowings()
         }
     }, [globalUser.token])
     useEffect(() => {
-        if (friends) {
-            console.log(friends, 'my friends')
+        if (followings) {
+            console.log(followings, 'my followings')
             getFans()
         }
-    }, [friends])
+    }, [followings])
     return (
         <>{fansLoading ? <CircularProgress /> :
             <>{searchResults ?
@@ -113,6 +152,7 @@ const MyFans = ({ sendAllieRequest, sendFriendRequest,
                             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                                 {searchResults.map((fan, index) => (
                                     <RelationCard
+                                        getSuggestions={getFollowings}
                                         removeAllie={() => {
                                             removeAllie(fan.screen_cid, globalUser.cid)
                                             getFans()
@@ -135,6 +175,7 @@ const MyFans = ({ sendAllieRequest, sendFriendRequest,
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                         {fans.map((fan, index) => (
                             <RelationCard
+                                getSuggestions={getFriends}
                                 removeAllie={() => {
                                     removeAllie(fan.screen_cid, globalUser.cid)
                                     getFans()

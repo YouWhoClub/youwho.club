@@ -157,7 +157,7 @@ function App() {
         light: '#BEA2C5',
         gray: '#ccc',
         darkGray: '#787878',
-        bg: '#F5F5F5',
+        bg: '#F8F8F8',
         bgOp: 'rgba(245,245,245,0.49)',
         bgGradient: 'linear-gradient(180deg, rgba(159,114,192,1) 0%, rgba(245,245,245,1) 100%)',
         bgGradientDown: 'linear-gradient(180deg, rgba(245,245,245,1) 0%, rgba(159,114,192,1) 100%)',

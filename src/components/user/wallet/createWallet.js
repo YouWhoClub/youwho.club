@@ -145,7 +145,7 @@ const CreateWallet = ({ switchTheme, setPvKey }) => {
                 <>{YouWhoID ?
                     <>{privateKeey ?
                         <AuthBox sx={{
-                            width: 'max-content !important', bgcolor: { xs: 'primary.bg', sm: 'secondary.bgOp' }, gap: '10px'
+                            width: 'max-content !important', bgcolor: { xs: 'primary.bg', sm: 'secondary.bg' }, gap: '10px'
                         }}>
                             {/* <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', color: "primary.darkGray" }}> */}
                             <Box sx={{
@@ -177,7 +177,7 @@ const CreateWallet = ({ switchTheme, setPvKey }) => {
                         </AuthBox>
                         :
                         <AuthBox sx={{
-                            bgcolor: { xs: 'primary.bg', sm: 'secondary.bgOp' },
+                            bgcolor: { xs: 'primary.bg', sm: 'secondary.bg' },
                         }}>
                             <div> your YouWho id :<span style={{ color: '#BEA2C5', cursor: 'pointer' }}
                                 onClick={() => { navigator.clipboard.writeText(YouWhoID) }}>
@@ -188,7 +188,7 @@ const CreateWallet = ({ switchTheme, setPvKey }) => {
                     </>
                     :
                     <AuthBox sx={{
-                        bgcolor: { xs: 'primary.bg', sm: 'secondary.bgOp' },
+                        bgcolor: { xs: 'primary.bg', sm: 'secondary.bg' },
                     }}>
                         <Box sx={{
                             // px: { xs: '20px', sm: 0 },
