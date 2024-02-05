@@ -404,7 +404,7 @@ const RelationsTab = () => {
                             {activeTab == 'follow-requests' &&
                                 <MyFriendequests setAllRequests={setAllRequests} searchResults={searchResults} getFollowings={getFollowings} />
                             }  {activeTab == 'my-requests' &&
-                                <MySentRequests sendAllieRequest={sendAllieRequest}
+                                <MySentRequests activeTab={activeTab} sendAllieRequest={sendAllieRequest}
                                     sendFriendRequest={sendFriendRequest} shareClick={shareClick}
                                     removeAllie={removeAllie} removeFriend={removeFriend}
                                     searchResults={searchResults} setAllFriends={setFriends} />
@@ -418,7 +418,7 @@ const RelationsTab = () => {
                                 />
                             }
                             {activeTab == 'my-friends' &&
-                                <MyFriends sendAllieRequest={sendAllieRequest}
+                                <MyFriends activeTab={activeTab} sendAllieRequest={sendAllieRequest}
                                     sendFriendRequest={sendFriendRequest} shareClick={shareClick}
                                     removeAllie={removeAllie} removeFriend={removeFriend}
                                     searchResults={searchResults} setAllFriends={setFriends} />

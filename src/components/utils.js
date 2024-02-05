@@ -805,13 +805,12 @@ export const RelationCard = ({
 
                             height='30px' />
                     }
-                    {isAccepted ?
-                        undefined :
+                    {isAccepted && isAccepted == 'false' && activeTab == 'my-requests' ?
                         <ButtonPurpleLight br='4px'
                             text={'Cancel Request'}
                             w={'max-content'}
                             onClick={removeFriend}
-                            height='30px' />
+                            height='30px' /> : undefined
                     }
                     <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} color="#787878" />
                 </FlexRow>
