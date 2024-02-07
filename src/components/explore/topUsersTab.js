@@ -41,6 +41,7 @@ const TopUsersTab = () => {
     const [myFollowings, setMyFollowings] = useState([])
     const getUsers = async () => {
         setErr(undefined)
+        setUsers(undefined)
         // try {
         let request = await fetch(`${API_CONFIG.AUTH_API_URL}/get/all/top/?from=0&to=30`, {
             method: 'GET',
@@ -216,6 +217,7 @@ const TopUsersTab = () => {
                             <TopUserCard
                                 ywID={user.owner_wallet_info.screen_cid}
                                 myFollowings={myFollowings}
+                                getMyFollowings={getMyFollowings}
                                 isFriend={myFriends.includes(user.owner_wallet_info.screen_cid)}
                                 username={user.owner_wallet_info.username}
                                 image={user.owner_wallet_info.avatar}
@@ -259,6 +261,7 @@ const TopUsersTab = () => {
                                     <TopUserCard
                                         ywID={user.owner_wallet_info.screen_cid}
                                         myFollowings={myFollowings}
+                                        getMyFollowings={getMyFollowings}
                                         isFriend={myFriends.includes(user.owner_wallet_info.screen_cid)}
                                         username={user.owner_wallet_info.username}
                                         image={user.owner_wallet_info.avatar}

@@ -1,0 +1,280 @@
+Date : 2024-02-07 15:33:14
+Directory : c:\Users\User\Desktop\work\youwho.club
+Total : 223 files,  62876 codes, 2101 comments, 1887 blanks, all 66864 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JSON       |          3 |     34,112 |          0 |          3 |     34,115 |
+| JavaScript |        131 |     25,736 |      1,818 |      1,801 |     29,355 |
+| XML        |         84 |      2,506 |        242 |         55 |      2,803 |
+| CSS        |          2 |        472 |         16 |         19 |        507 |
+| HTML       |          1 |         32 |         25 |          6 |         63 |
+| Groovy     |          1 |         15 |          0 |          1 |         16 |
+| Markdown   |          1 |          3 |          0 |          2 |          5 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                   | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                      |        223 |     62,876 |      2,101 |      1,887 |     66,864 |
+| . (Files)                                                                              |          4 |     34,105 |          0 |          5 |     34,110 |
+| public                                                                                 |         15 |      1,404 |        265 |         26 |      1,695 |
+| src                                                                                    |        204 |     27,367 |      1,836 |      1,856 |     31,059 |
+| src (Files)                                                                            |          9 |        795 |         35 |         70 |        900 |
+| src\assets                                                                             |         70 |      1,158 |          2 |         36 |      1,196 |
+| src\assets (Files)                                                                     |         55 |      1,059 |          2 |         21 |      1,082 |
+| src\assets\icons                                                                       |         15 |         99 |          0 |         15 |        114 |
+| src\components                                                                         |         91 |     21,540 |      1,530 |      1,460 |     24,530 |
+| src\components (Files)                                                                 |         14 |      4,982 |        201 |        261 |      5,444 |
+| src\components\HomePage                                                                |         12 |        842 |         27 |         59 |        928 |
+| src\components\buttons                                                                 |          7 |        218 |         28 |         24 |        270 |
+| src\components\crop                                                                    |          2 |        172 |         20 |         25 |        217 |
+| src\components\crop (Files)                                                            |          1 |        102 |          5 |          7 |        114 |
+| src\components\crop\utils                                                              |          1 |         70 |         15 |         18 |        103 |
+| src\components\dashboard                                                               |         16 |      4,813 |        218 |        289 |      5,320 |
+| src\components\explore                                                                 |          3 |        542 |         10 |         37 |        589 |
+| src\components\nft market                                                              |          9 |      4,404 |        747 |        322 |      5,473 |
+| src\components\profile                                                                 |         11 |      1,880 |        125 |        110 |      2,115 |
+| src\components\transfer                                                                |          2 |         16 |          0 |          6 |         22 |
+| src\components\user                                                                    |         15 |      3,671 |        154 |        327 |      4,152 |
+| src\components\user\auth                                                               |          6 |      1,702 |         88 |        156 |      1,946 |
+| src\components\user\wallet                                                             |          9 |      1,969 |         66 |        171 |      2,206 |
+| src\pages                                                                              |         21 |      3,115 |        160 |        218 |      3,493 |
+| src\redux                                                                              |          5 |        519 |         99 |         51 |        669 |
+| src\utils                                                                              |          8 |        240 |         10 |         21 |        271 |
+| src\utils (Files)                                                                      |          4 |        208 |         10 |         17 |        235 |
+| src\utils\data                                                                         |          4 |         32 |          0 |          4 |         36 |
++----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                               | language   | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\Users\User\Desktop\work\youwho.club\Jenkinsfile                                     | Groovy     |         15 |          0 |          1 |         16 |
+| c:\Users\User\Desktop\work\youwho.club\README.md                                       | Markdown   |          3 |          0 |          2 |          5 |
+| c:\Users\User\Desktop\work\youwho.club\package-lock.json                               | JSON       |     34,018 |          0 |          1 |     34,019 |
+| c:\Users\User\Desktop\work\youwho.club\package.json                                    | JSON       |         69 |          0 |          1 |         70 |
+| c:\Users\User\Desktop\work\youwho.club\public\Y-HUG-COIN.svg                           | XML        |         76 |          0 |          2 |         78 |
+| c:\Users\User\Desktop\work\youwho.club\public\YouwhoHugCoin.svg                        | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\public\index.html                               | HTML       |         32 |         25 |          6 |         63 |
+| c:\Users\User\Desktop\work\youwho.club\public\introGroup.svg                           | XML        |        104 |          0 |          2 |        106 |
+| c:\Users\User\Desktop\work\youwho.club\public\manifest.json                            | JSON       |         25 |          0 |          1 |         26 |
+| c:\Users\User\Desktop\work\youwho.club\public\p-outline-animated.svg                   | XML        |        225 |          1 |          2 |        228 |
+| c:\Users\User\Desktop\work\youwho.club\public\p-outline.svg                            | XML        |         62 |        154 |          4 |        220 |
+| c:\Users\User\Desktop\work\youwho.club\public\w-outline-animated.svg                   | XML        |        187 |          5 |          1 |        193 |
+| c:\Users\User\Desktop\work\youwho.club\public\w-outline.svg                            | XML        |         70 |         72 |          1 |        143 |
+| c:\Users\User\Desktop\work\youwho.club\public\w-typography.svg                         | XML        |         89 |          0 |          1 |         90 |
+| c:\Users\User\Desktop\work\youwho.club\public\youwho-hugcoin copy.svg                  | XML        |        194 |          1 |          1 |        196 |
+| c:\Users\User\Desktop\work\youwho.club\public\youwho-hugcoin.svg                       | XML        |        215 |          6 |          4 |        225 |
+| c:\Users\User\Desktop\work\youwho.club\public\youwho-purple.svg                        | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\public\youwho-w-outline.svg                     | XML        |        122 |          1 |          1 |        124 |
+| c:\Users\User\Desktop\work\youwho.club\public\youwho-white.svg                         | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\App.css                                     | CSS        |        182 |          6 |          9 |        197 |
+| c:\Users\User\Desktop\work\youwho.club\src\App.js                                      | JavaScript |        280 |         10 |         37 |        327 |
+| c:\Users\User\Desktop\work\youwho.club\src\App.test.js                                 | JavaScript |          7 |          0 |          2 |          9 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\CHATNFT-WH.svg                       | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\CHATNFT-b.svg                        | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\FEATURESDRK-.svg                     | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\FEATURESDRK.svg                      | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\FEATURESWH-.svg                      | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\FEATURESWH.svg                       | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\WALLET-WH.svg                        | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\WALLET-b.svg                         | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\Wallet.svg                           | XML        |          9 |          0 |          1 |         10 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\Y-HUG-COIN.svg                       | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\Ycoin.svg                            | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\bgDots.svg                           | XML        |        180 |          0 |          1 |        181 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\blockchainDark.svg                   | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\blockchainLight.svg                  | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\blue-nft.svg                         | XML        |          9 |          0 |          1 |         10 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\calenDark.svg                        | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\calenLight.svg                       | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\chatNFTDark.svg                      | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\chatNFTLight.svg                     | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\complimentPhotos.svg                 | XML        |         99 |          0 |          1 |        100 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\cream-nft.svg                        | XML        |          9 |          0 |          1 |         10 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\cryptoDark.svg                       | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\cryptoLight.svg                      | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\dayNnight.svg                        | XML        |          9 |          0 |          1 |         10 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\exchangeLogo.svg                     | XML        |          9 |          0 |          1 |         10 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\face-pro.svg                         | XML        |          3 |          0 |          1 |          4 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\galleryDark.svg                      | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\galleryLight.svg                     | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\gassfeeDark.svg                      | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\gassfeeLight.svg                     | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\gmailLogo.svg                        | XML        |         14 |          0 |          1 |         15 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\icons\Chip.svg                       | XML        |         19 |          0 |          1 |         20 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\icons\coins.svg                      | XML        |          3 |          0 |          1 |          4 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\icons\collectionIcon.svg             | XML        |          5 |          0 |          1 |          6 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\icons\frame.svg                      | XML        |         11 |          0 |          1 |         12 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\icons\gift-open-outline-white.svg    | XML        |          5 |          0 |          1 |          6 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\icons\gift-open-outline.svg          | XML        |          5 |          0 |          1 |          6 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\icons\gift-outline-white.svg         | XML        |          5 |          0 |          1 |          6 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\icons\gift-outline.svg               | XML        |          5 |          0 |          1 |          6 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\icons\id.svg                         | XML        |          6 |          0 |          1 |          7 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\icons\media-type.svg                 | XML        |          3 |          0 |          1 |          4 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\icons\money.svg                      | XML        |          3 |          0 |          1 |          4 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\icons\name.svg                       | XML        |         16 |          0 |          1 |         17 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\icons\pin.svg                        | XML        |          3 |          0 |          1 |          4 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\icons\text.svg                       | XML        |          5 |          0 |          1 |          6 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\icons\upload-file.svg                | XML        |          5 |          0 |          1 |          6 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\introGroup.svg                       | XML        |        174 |          0 |          1 |        175 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\marketLogo.svg                       | XML        |          9 |          0 |          1 |         10 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\micosoftLogo.svg                     | XML        |         13 |          0 |          1 |         14 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\p-outline.svg                        | XML        |        225 |          1 |          2 |        228 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\pink-nft.svg                         | XML        |          9 |          0 |          1 |         10 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\purple-nft.svg                       | XML        |          9 |          0 |          1 |         10 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\sokhabi-nft.svg                      | XML        |          9 |          0 |          1 |         10 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\torqua-nft.svg                       | XML        |          9 |          0 |          1 |         10 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\transferDark.svg                     | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\transferLight.svg                    | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\twoTokens.svg                        | XML        |         23 |          0 |          1 |         24 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\walletDark.svg                       | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\walletImgDark.svg                    | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\walletImgLight.svg                   | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\walletLight.svg                      | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\walletLogo.svg                       | XML        |          9 |          0 |          1 |         10 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\web3Dark.svg                         | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\web3Light.svg                        | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\xpnsvNFTDark.svg                     | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\xpnsvNFTLight.svg                    | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\xtrPageBanner.svg                    | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\youwho-hugcoin.svg                   | XML        |        194 |          1 |          1 |        196 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\youwho-purple.svg                    | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\assets\youwho-white.svg                     | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\Bar.js                           | JavaScript |        132 |         19 |         13 |        164 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\Footer.js                        | JavaScript |        241 |         14 |         19 |        274 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\FooterPrev.js                    | JavaScript |         20 |          1 |          1 |         22 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\HomePage\Intro.js                | JavaScript |         88 |          4 |          5 |         97 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\HomePage\decorSection.js         | JavaScript |        126 |          1 |          4 |        131 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\HomePage\features&benefits.js    | JavaScript |         68 |          0 |          6 |         74 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\HomePage\gallerySlide.js         | JavaScript |        100 |          0 |          5 |        105 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\HomePage\giftSlides.js           | JavaScript |         52 |         12 |          5 |         69 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\HomePage\navigateCardTwo.js      | JavaScript |         72 |          2 |          5 |         79 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\HomePage\newestSlide.js          | JavaScript |        101 |          0 |          6 |        107 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\HomePage\nftSlides.js            | JavaScript |         55 |          1 |          8 |         64 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\HomePage\themeSwitchComp.js      | JavaScript |         39 |          0 |          2 |         41 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\HomePage\themeToggler.js         | JavaScript |         30 |          4 |          4 |         38 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\HomePage\whatsNFT.js             | JavaScript |         43 |          2 |          5 |         50 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\HomePage\yServices.js            | JavaScript |         68 |          1 |          4 |         73 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\MobileMenu.js                    | JavaScript |        256 |         11 |         19 |        286 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\MobileMenuTwo.js                 | JavaScript |        328 |          6 |         20 |        354 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\Navbar.js                        | JavaScript |        553 |         22 |         48 |        623 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\PanelLayout.js                   | JavaScript |         80 |         21 |          7 |        108 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\Timer.js                         | JavaScript |         14 |          0 |          1 |         15 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\buttons\buttonBorder.js          | JavaScript |         31 |          3 |          3 |         37 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\buttons\buttonBorderSmall.js     | JavaScript |         31 |          3 |          3 |         37 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\buttons\buttonDisabledActive.js  | JavaScript |         32 |          3 |          4 |         39 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\buttons\buttonOutline.js         | JavaScript |         31 |          7 |          4 |         42 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\buttons\buttonOutlineInset.js    | JavaScript |         32 |          5 |          3 |         40 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\buttons\buttonPurple.js          | JavaScript |         29 |          4 |          3 |         36 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\buttons\buttonPurpleLight.js     | JavaScript |         32 |          3 |          4 |         39 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\crop\Crop.js                     | JavaScript |        102 |          5 |          7 |        114 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\crop\utils\cropImage.js          | JavaScript |         70 |         15 |         18 |        103 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\customSlider.js                  | JavaScript |        108 |          6 |          5 |        119 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\dashboard\DashBar.js             | JavaScript |      1,002 |         27 |         57 |      1,086 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\dashboard\ProfileCard.js         | JavaScript |         97 |         18 |          7 |        122 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\dashboard\assets.js              | JavaScript |        176 |         24 |         14 |        214 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\dashboard\createNFT.js           | JavaScript |      1,146 |         60 |         61 |      1,267 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\dashboard\myFans.js              | JavaScript |        189 |          0 |         14 |        203 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\dashboard\myFollowings.js        | JavaScript |        151 |          1 |         12 |        164 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\dashboard\myFriendRequests.js    | JavaScript |        133 |          3 |          9 |        145 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\dashboard\myFriendSuggestions.js | JavaScript |        111 |          0 |          4 |        115 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\dashboard\myFriends.js           | JavaScript |         99 |          1 |         11 |        111 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\dashboard\mySentRequests.js      | JavaScript |        162 |          0 |         16 |        178 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\dashboard\privateGallery.js      | JavaScript |        263 |          5 |         17 |        285 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\dashboard\profilePanel.js        | JavaScript |        115 |         10 |          5 |        130 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\dashboard\progressSettingTab.js  | JavaScript |         27 |          0 |          5 |         32 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\dashboard\publicGallery.js       | JavaScript |        234 |         27 |         15 |        276 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\dashboard\reactionsTab.js        | JavaScript |        404 |         33 |         18 |        455 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\dashboard\relationsTab.js        | JavaScript |        504 |          9 |         24 |        537 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\explore\allNFTsTab.js            | JavaScript |        124 |          2 |          9 |        135 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\explore\topNFTsTab.js            | JavaScript |        137 |          2 |         10 |        149 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\explore\topUsersTab.js           | JavaScript |        281 |          6 |         18 |        305 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\filterSelection.js               | JavaScript |        111 |          4 |         10 |        125 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\nft market\collectionCard.js     | JavaScript |        663 |        566 |         33 |      1,262 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\nft market\giftCard.js           | JavaScript |        413 |         39 |         52 |        504 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\nft market\nftAssetCard.js       | JavaScript |        905 |         63 |         61 |      1,029 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\nft market\nftBuyCard.js         | JavaScript |        536 |         17 |         40 |        593 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\nft market\nftCard.js            | JavaScript |        914 |         18 |         64 |        996 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\nft market\nftCardLanding.js     | JavaScript |         89 |          9 |          9 |        107 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\nft market\nftOnchainCard.js     | JavaScript |        260 |          8 |         26 |        294 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\nft market\nftSellCard.js        | JavaScript |        581 |         18 |         32 |        631 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\nft market\viewMoreCard.js       | JavaScript |         43 |          9 |          5 |         57 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\pagination.js                    | JavaScript |         66 |          2 |          4 |         72 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\profile\ProfileBar.js            | JavaScript |        325 |         51 |         16 |        392 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\profile\ProfileCard.js           | JavaScript |        150 |          2 |          5 |        157 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\profile\TheirAllies.js           | JavaScript |         63 |          0 |          7 |         70 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\profile\TheirFollowings.js       | JavaScript |         65 |          0 |          3 |         68 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\profile\TheirFriends.js          | JavaScript |         65 |          0 |          3 |         68 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\profile\assets.js                | JavaScript |        143 |         22 |         16 |        181 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\profile\privateGallery.js        | JavaScript |        279 |          4 |         11 |        294 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\profile\profilePanel.js          | JavaScript |        110 |         15 |          5 |        130 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\profile\publicGallery.js         | JavaScript |        268 |         28 |         18 |        314 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\profile\reactionsTab.js          | JavaScript |         50 |          1 |          7 |         58 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\profile\relationsTab.js          | JavaScript |        362 |          2 |         19 |        383 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\searchInput.js                   | JavaScript |         51 |          0 |          3 |         54 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\selection.js                     | JavaScript |        103 |          4 |         10 |        117 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\transfer\depositModal.js         | JavaScript |          8 |          0 |          3 |         11 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\transfer\withdrawModal.js        | JavaScript |          8 |          0 |          3 |         11 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\user\auth\Login.js               | JavaScript |        427 |         15 |         28 |        470 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\user\auth\Signup.js              | JavaScript |        332 |          6 |         29 |        367 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\user\auth\authLayout.js          | JavaScript |         79 |          2 |          6 |         87 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\user\auth\verifyMail.js          | JavaScript |        306 |         17 |         32 |        355 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\user\auth\verifyPhone.js         | JavaScript |        259 |         30 |         33 |        322 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\user\auth\verifyPhoneModal.js    | JavaScript |        299 |         18 |         28 |        345 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\user\wallet\chargeWallet.js      | JavaScript |        197 |          1 |         24 |        222 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\user\wallet\createWallet.js      | JavaScript |        210 |         16 |         17 |        243 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\user\wallet\depositPanel.js      | JavaScript |          9 |          0 |          2 |         11 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\user\wallet\paidCheckouts.js     | JavaScript |         75 |          0 |         14 |         89 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\user\wallet\transferGift.js      | JavaScript |        386 |          5 |         26 |        417 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\user\wallet\turnover.js          | JavaScript |        270 |          1 |         28 |        299 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\user\wallet\unpaidCheckouts.js   | JavaScript |         71 |          5 |         13 |         89 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\user\wallet\wallet.js            | JavaScript |        541 |         36 |         30 |        607 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\user\wallet\withdrawPanel.js     | JavaScript |        210 |          2 |         17 |        229 |
+| c:\Users\User\Desktop\work\youwho.club\src\components\utils.js                         | JavaScript |      2,919 |         91 |        101 |      3,111 |
+| c:\Users\User\Desktop\work\youwho.club\src\config.js                                   | JavaScript |         12 |          0 |          6 |         18 |
+| c:\Users\User\Desktop\work\youwho.club\src\index.css                                   | CSS        |        290 |         10 |         10 |        310 |
+| c:\Users\User\Desktop\work\youwho.club\src\index.js                                    | JavaScript |         10 |          5 |          3 |         18 |
+| c:\Users\User\Desktop\work\youwho.club\src\logo.svg                                    | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\User\Desktop\work\youwho.club\src\pages\404.js                                | JavaScript |         38 |          1 |          4 |         43 |
+| c:\Users\User\Desktop\work\youwho.club\src\pages\about-us.js                           | JavaScript |         86 |          0 |          2 |         88 |
+| c:\Users\User\Desktop\work\youwho.club\src\pages\auth.js                               | JavaScript |        123 |          1 |          7 |        131 |
+| c:\Users\User\Desktop\work\youwho.club\src\pages\blog.js                               | JavaScript |         94 |          1 |          6 |        101 |
+| c:\Users\User\Desktop\work\youwho.club\src\pages\checkoutCancel.js                     | JavaScript |         18 |          0 |          3 |         21 |
+| c:\Users\User\Desktop\work\youwho.club\src\pages\checkoutSuccess.js                    | JavaScript |         25 |          0 |         10 |         35 |
+| c:\Users\User\Desktop\work\youwho.club\src\pages\contact-us.js                         | JavaScript |        258 |          2 |          9 |        269 |
+| c:\Users\User\Desktop\work\youwho.club\src\pages\dashboard.js                          | JavaScript |        132 |         18 |         17 |        167 |
+| c:\Users\User\Desktop\work\youwho.club\src\pages\display.js                            | JavaScript |          7 |          0 |          1 |          8 |
+| c:\Users\User\Desktop\work\youwho.club\src\pages\guide.js                              | JavaScript |        422 |          4 |         21 |        447 |
+| c:\Users\User\Desktop\work\youwho.club\src\pages\home.js                               | JavaScript |         53 |         34 |          6 |         93 |
+| c:\Users\User\Desktop\work\youwho.club\src\pages\main-gallery.js                       | JavaScript |        171 |          4 |         15 |        190 |
+| c:\Users\User\Desktop\work\youwho.club\src\pages\mainGallery.js                        | JavaScript |        345 |         27 |         23 |        395 |
+| c:\Users\User\Desktop\work\youwho.club\src\pages\privacyPolicy.js                      | JavaScript |        137 |          0 |          7 |        144 |
+| c:\Users\User\Desktop\work\youwho.club\src\pages\profile.js                            | JavaScript |        289 |          7 |         16 |        312 |
+| c:\Users\User\Desktop\work\youwho.club\src\pages\searchPage.js                         | JavaScript |        245 |          2 |         12 |        259 |
+| c:\Users\User\Desktop\work\youwho.club\src\pages\termsOfService.js                     | JavaScript |         89 |          0 |          6 |         95 |
+| c:\Users\User\Desktop\work\youwho.club\src\pages\transfer.js                           | JavaScript |         83 |         14 |          5 |        102 |
+| c:\Users\User\Desktop\work\youwho.club\src\pages\verifyMail.js                         | JavaScript |        259 |         16 |         31 |        306 |
+| c:\Users\User\Desktop\work\youwho.club\src\pages\walletPage.js                         | JavaScript |         48 |         25 |          8 |         81 |
+| c:\Users\User\Desktop\work\youwho.club\src\pages\weblog.js                             | JavaScript |        193 |          4 |          9 |        206 |
+| c:\Users\User\Desktop\work\youwho.club\src\redux\actions.js                            | JavaScript |        322 |         31 |         21 |        374 |
+| c:\Users\User\Desktop\work\youwho.club\src\redux\cartReducer.js                        | JavaScript |         64 |         56 |         13 |        133 |
+| c:\Users\User\Desktop\work\youwho.club\src\redux\store.js                              | JavaScript |         40 |          3 |          6 |         49 |
+| c:\Users\User\Desktop\work\youwho.club\src\redux\unclaimedDepositReducer.js            | JavaScript |         20 |          2 |          6 |         28 |
+| c:\Users\User\Desktop\work\youwho.club\src\redux\userReducer.js                        | JavaScript |         73 |          7 |          5 |         85 |
+| c:\Users\User\Desktop\work\youwho.club\src\reportWebVitals.js                          | JavaScript |         12 |          0 |          2 |         14 |
+| c:\Users\User\Desktop\work\youwho.club\src\setupTests.js                               | JavaScript |          1 |          4 |          1 |          6 |
+| c:\Users\User\Desktop\work\youwho.club\src\utils\api.js                                | JavaScript |         42 |          0 |          2 |         44 |
+| c:\Users\User\Desktop\work\youwho.club\src\utils\api_wrapper.js                        | JavaScript |         76 |          2 |          2 |         80 |
+| c:\Users\User\Desktop\work\youwho.club\src\utils\data\auth_api.js                      | JavaScript |          8 |          0 |          1 |          9 |
+| c:\Users\User\Desktop\work\youwho.club\src\utils\data\health_api.js                    | JavaScript |          8 |          0 |          1 |          9 |
+| c:\Users\User\Desktop\work\youwho.club\src\utils\data\market_api.js                    | JavaScript |          8 |          0 |          1 |          9 |
+| c:\Users\User\Desktop\work\youwho.club\src\utils\data\public_api.js                    | JavaScript |          8 |          0 |          1 |          9 |
+| c:\Users\User\Desktop\work\youwho.club\src\utils\signatureUtils.js                     | JavaScript |         21 |          7 |         10 |         38 |
+| c:\Users\User\Desktop\work\youwho.club\src\utils\utils.js                              | JavaScript |         69 |          1 |          3 |         73 |
+| Total                                                                                  |            |     62,876 |      2,101 |      1,887 |     66,864 |
++----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

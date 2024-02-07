@@ -152,6 +152,7 @@ const MyFans = ({ sendAllieRequest, sendFriendRequest,
                             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                                 {searchResults.map((fan, index) => (
                                     <RelationCard
+                                        amFollowing={false}
                                         getSuggestions={getFollowings}
                                         removeAllie={() => {
                                             removeAllie(fan.screen_cid, globalUser.cid)
@@ -175,6 +176,7 @@ const MyFans = ({ sendAllieRequest, sendFriendRequest,
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                         {fans.map((fan, index) => (
                             <RelationCard
+                                amFollowing={false}
                                 getSuggestions={getFriends}
                                 removeAllie={() => {
                                     removeAllie(fan.screen_cid, globalUser.cid)

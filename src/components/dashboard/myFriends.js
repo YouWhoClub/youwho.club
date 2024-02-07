@@ -54,6 +54,7 @@ const MyFriends = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAlli
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                             {searchResults.map((friend, index) => (
                                 <RelationCard
+                                    isAccepted={true}
                                     amFollowing={true}
                                     ywid={friend.screen_cid}
 
@@ -79,6 +80,7 @@ const MyFriends = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAlli
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                     {friends.map((friend, index) => (
                         <RelationCard
+                            isAccepted={true}
                             // removeAllie={() => removeAllie(friend.screen_cid, globalUser.cid)}
                             removeFriend={() => {
                                 removeFriend(friend.screen_cid, globalUser.cid)

@@ -91,7 +91,7 @@ const SearchPage = ({ theme, switchTheme }) => {
 
     useEffect(() => {
         if (searchQ)
-            search(searchQ, 0, 30)
+            search(searchQ, 0, 60)
     }, [searchQ])
     useEffect(() => {
         return () => {
@@ -168,32 +168,39 @@ const SearchPage = ({ theme, switchTheme }) => {
                 </Tabs>
             </Box>
             <Box sx={{
-                width: '100%', boxSizing: 'border-box', gap: '10px 8px', p: 1,
+                width: '100%', maxWidth: '900px', boxSizing: 'border-box', gap: '10px 8px', p: 1,
                 height: 'auto', maxHeight: { xs: 'calc(100vh - 294px)', sm: 'calc(100vh - 302px)', },
                 overflowX: 'hidden',
                 overflowY: 'scroll',
                 '&::-webkit-scrollbar': {
-                    width: '5px',
-                    background: 'white',
-                    border: '0.5px solid #846894',
+                    width: '3px',
+                    background: 'transparent',
+                    border: 'none',
                     borderRadius: '20px !important'
                 },
                 '&::-webkit-scrollbar-thumb': {
-                    width: '5px',
-                    height: '5px',
-                    background: '#846894',
-                    border: '0.5px solid #846894',
+                    width: '3px',
+                    height: '3px',
+                    background: '#9747ff',
+                    border: '0.5px solid #9747ff',
                     borderRadius: '20px !important'
                 },
                 '&::-webkit-scrollbar-button': {
                     width: '1px',
                     height: '1px',
-                    background: '#846894',
+                    background: '#9747ff',
                     border: '0.5px solid #C6BAC5',
                     borderRadius: '50% !important'
                 },
+                "@media (max-width: 600px)": {
+                    '&::-webkit-scrollbar': {
+                        display: 'none',
+                    },
+                },
+
                 display: 'flex', justifyContent: 'center', flexWrap: 'wrap'
-            }}>
+            }
+            } >
                 {!searchQ || searchQ == '' ? undefined :
                     <>
                         {activeTab == 'users' && <>
@@ -202,6 +209,8 @@ const SearchPage = ({ theme, switchTheme }) => {
                                     key={user.screen_cid}
                                     username={user.username}
                                     image={user.avatar}
+                                    getMyFollowings={getMyFollowings}
+                                    search={() => search(searchQ, 0, 60)}
                                     ywID={user.screen_cid}
                                     myFollowings={myFollowings} />))}
                             </> :
@@ -244,7 +253,7 @@ const SearchPage = ({ theme, switchTheme }) => {
                 }
             </Box>
         </Box>
-    </Box>);
+    </Box >);
 }
 
 export default SearchPage;

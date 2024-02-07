@@ -37,6 +37,7 @@ import walletImgLight from '../assets/walletImgLight.svg'
 import walletImgDark from '../assets/walletImgDark.svg'
 import chatNFTLight from '../assets/chatNFTLight.svg'
 import chatNFTDark from '../assets/chatNFTDark.svg'
+import ButtonDisabledActive from "./buttons/buttonDisabledActive"
 
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -800,8 +801,10 @@ export const RelationCard = ({
                 <FlexRow sx={{ gap: '16px' }}>
                     {amFollowing || ywid == globalUser.YouWhoID ?
                         undefined :
-                        <ButtonPurpleLight br='4px'
+                        <ButtonPurple br='4px'
                             text={'Follow'}
+                            w={'max-content'}
+                            px={'4px'}
                             onClick={() => {
                                 sendFriendRequest()
                                 activeTab && getSuggestions()
@@ -810,9 +813,10 @@ export const RelationCard = ({
                             height='30px' />
                     }
                     {amFollowing && !isAccepted ?
-                        <ButtonPurpleLight br='4px'
+                        <ButtonDisabledActive br='4px'
                             text={'Cancel Request'}
                             w={'max-content'}
+                            px={'4px'}
                             onClick={removeFollowing}
                             height='30px' /> : undefined
                     }
@@ -820,6 +824,7 @@ export const RelationCard = ({
                         <ButtonPurpleLight br='4px'
                             text={'Unfollow'}
                             w={'max-content'}
+                            px={'4px'}
                             onClick={removeFriend}
                             height='30px' /> : undefined
                     }
@@ -2317,7 +2322,7 @@ export const ChargeYourWalletModal = ({ neededPrice, open, handleClose }) => {
     )
 }
 export const TopUserCard = ({
-    image, username, lilData, isFriend, myFollowings, ywID }) => {
+    image, username, lilData, isFriend, myFollowings, ywID, getMyFollowings }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const navigate = useNavigate()
@@ -2345,9 +2350,11 @@ export const TopUserCard = ({
     const popperTabs = [
         { text: `${username}'s profile`, id: 'top-user-prf-vw', onClick: () => navigate(`/profile/${username}`) },
     ]
+    useEffect(() => {
+        getMyFollowings()
+    }, [])
     const [isFollowing, setIsFollowing] = useState('false');
     useEffect(() => {
-        console.log(myFollowings, 'lajdhdsjjdjkkkdk')
         if (myFollowings) {
             if (myFollowings.length > 0) {
                 for (var i = 0; i < myFollowings.length; i++) {
@@ -2424,6 +2431,34 @@ export const TopUserCard = ({
             updateToast(false, response.message)
         }
     }
+    const removeFollowing = async (receiver, sender) => {
+        loading();
+
+        let data = {
+            owner_cid: sender,
+            friend_screen_cid: receiver,
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        console.log(requestData)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/remove/following`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+        if (response.message == "Updated Successfully") {
+            updateToast(true, 'Request Removed')
+            setIsFollowing('false')
+            getMyFollowings()
+
+        } else {
+            updateToast(false, response.message)
+        }
+    }
 
 
 
@@ -2477,17 +2512,18 @@ export const TopUserCard = ({
                                     py={'4px'}
                                     fontSize={'10px'}
                                     w={'max-content'}
-                                    text={'Friend Request'}
+                                    text={'Follow'}
                                     onClick={() => sendFriendRequest(ywID, globalUser.cid)}
                                     height='20px' />
                                 : isFollowing == 'pending' ?
-                                    <ButtonPurpleLight br='30px'
-                                        disabled={true}
+                                    <ButtonDisabledActive br='30px'
+                                        // disabled={true}
                                         px={'16px'}
+                                        onClick={() => removeFollowing(ywID, globalUser.cid)}
                                         py={'4px'}
                                         fontSize={'10px'}
                                         w={'max-content'}
-                                        text={'Pending Request'}
+                                        text={'Pending'}
                                         height='20px' />
                                     :
                                     <ButtonOutline br='30px'
@@ -2495,7 +2531,7 @@ export const TopUserCard = ({
                                         py={'4px'}
                                         fontSize={'10px'}
                                         w={'max-content'}
-                                        text={'Remove Friend'}
+                                        text={'Unfollow'}
                                         onClick={() => removeFriend(ywID, globalUser.cid)}
                                         height='20px' />
                         }
@@ -2507,7 +2543,7 @@ export const TopUserCard = ({
     )
 }
 export const SearchUserCard = ({
-    image, username, myFollowings, ywID }) => {
+    image, username, myFollowings, ywID, search, getMyFollowings }) => {
     const navigate = useNavigate()
     const toastId = useRef(null);
     const globalUser = useSelector(state => state.userReducer)
@@ -2566,6 +2602,7 @@ export const SearchUserCard = ({
         if (response.message == "Updated Successfully") {
             updateToast(true, 'Friend Request Sent')
             setIsFollowing('pending')
+            getMyFollowings()
         } else {
             updateToast(false, response.message)
         }
@@ -2590,14 +2627,41 @@ export const SearchUserCard = ({
         let response = await request.json()
         console.log(response);
         if (response.message == "Updated Successfully") {
-            updateToast(true, 'Friend Removed')
+            updateToast(true, 'Unfollowed')
             setIsFollowing('false')
+            getMyFollowings()
         } else {
             updateToast(false, response.message)
         }
     }
+    const removeFollowing = async (receiver, sender) => {
+        loading();
 
+        let data = {
+            owner_cid: sender,
+            friend_screen_cid: receiver,
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        console.log(requestData)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/remove/following`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+        if (response.message == "Updated Successfully") {
+            updateToast(true, 'Request Canceled')
+            setIsFollowing('false')
+            getMyFollowings()
 
+        } else {
+            updateToast(false, response.message)
+        }
+    }
 
     return (
         <TopUserCardComp>
@@ -2644,17 +2708,18 @@ export const SearchUserCard = ({
                                         py={'4px'}
                                         fontSize={'10px'}
                                         w={'max-content'}
-                                        text={'Friend Request'}
+                                        text={'Follow'}
                                         onClick={() => sendFriendRequest(ywID, globalUser.cid)}
                                         height='30px' />
                                     : isFollowing == 'pending' ?
-                                        <ButtonPurpleLight br='20px'
-                                            disabled={true}
+                                        <ButtonDisabledActive br='20px'
+                                            // disabled={true}
                                             px={'16px'}
                                             py={'4px'}
                                             fontSize={'10px'}
                                             w={'max-content'}
                                             text={'Pending Request'}
+                                            onClick={() => removeFollowing(ywID, globalUser.cid)}
                                             height='30px' />
                                         :
                                         <ButtonOutline br='20px'
@@ -2662,7 +2727,7 @@ export const SearchUserCard = ({
                                             py={'4px'}
                                             fontSize={'10px'}
                                             w={'max-content'}
-                                            text={'Remove Friend'}
+                                            text={'Unfollow'}
                                             onClick={() => removeFriend(ywID, globalUser.cid)}
                                             height='30px' />
                             }
