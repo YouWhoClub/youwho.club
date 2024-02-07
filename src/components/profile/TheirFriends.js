@@ -5,13 +5,17 @@ import { API_CONFIG } from "../../config"
 import { Box, CircularProgress, Typography } from "@mui/material"
 import { RelationCard } from "../utils"
 
-const TheirFriends = ({ user, sendAllieRequest, sendFriendRequest, myFollowings,
+const TheirFriends = ({ user, sendAllieRequest, sendFriendRequest, myFollowings, myReqs,
     shareClick, removeAllie, removeFriend, friends, friendsLoading, searchResults }) => {
     const globalUser = useSelector(state => state.userReducer)
     const apiCall = useRef(undefined)
     const [err, setErr] = useState(undefined)
     const navigate = useNavigate()
     console.log('my flwngs', myFollowings)
+    console.log('my reqs', myReqs)
+    useEffect(() => {
+        console.log(myReqs)
+    }, [myReqs])
     return (<>{friendsLoading ? <CircularProgress /> :
         <>{searchResults ?
             <>
@@ -20,7 +24,8 @@ const TheirFriends = ({ user, sendAllieRequest, sendFriendRequest, myFollowings,
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                             {searchResults.map((friend, index) => (
                                 <RelationCard
-                                    amFollowing={myFollowings && myFollowings.includes(friend.screen_cid)}
+                                    amFollowing={myFollowings.includes(friend.screen_cid) || myReqs.includes(friend.screen_cid)}
+                                    isAccepted={myReqs.includes(friend.screen_cid) ? false : myFollowings.includes(friend.screen_cid) ? true : false}
                                     removeAllie={() => removeAllie(friend.Screen_cid, globalUser.cid)}
                                     removeFriend={() => removeFriend(friend.Screen_cid, globalUser.cid)}
                                     image={friend.avatar} username={friend.username}
@@ -43,7 +48,8 @@ const TheirFriends = ({ user, sendAllieRequest, sendFriendRequest, myFollowings,
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                     {friends.map((friend, index) => (
                         <RelationCard
-                            amFollowing={myFollowings && myFollowings.includes(friend.screen_cid)}
+                            amFollowing={myFollowings.includes(friend.screen_cid) || myReqs.includes(friend.screen_cid)}
+                            isAccepted={myReqs.includes(friend.screen_cid) ? false : myFollowings.includes(friend.screen_cid) ? true : false}
                             removeAllie={() => removeAllie(friend.screen_cid, globalUser.cid)}
                             removeFriend={() => removeFriend(friend.screen_cid, globalUser.cid)}
                             image={friend.user_avatar} username={friend.username}

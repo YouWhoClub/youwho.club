@@ -5,7 +5,7 @@ import { API_CONFIG } from "../../config"
 import { Box, CircularProgress, Typography } from "@mui/material"
 import { RelationCard } from "../utils"
 
-const TheirFollowings = ({ user, sendAllieRequest, sendFriendRequest, myFollowings,
+const TheirFollowings = ({ user, sendAllieRequest, sendFriendRequest, myFollowings, myReqs,
     shareClick, removeAllie, removeFriend, followings, followingsLoading, searchResults }) => {
     const globalUser = useSelector(state => state.userReducer)
     const apiCall = useRef(undefined)
@@ -20,7 +20,8 @@ const TheirFollowings = ({ user, sendAllieRequest, sendFriendRequest, myFollowin
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                             {searchResults.map((friend, index) => (
                                 <RelationCard
-                                    amFollowing={myFollowings && myFollowings.includes(friend.screen_cid)}
+                                    amFollowing={myFollowings.includes(friend.screen_cid) || myReqs.includes(friend.screen_cid)}
+                                    isAccepted={myReqs.includes(friend.screen_cid) ? false : myFollowings.includes(friend.screen_cid) ? true : false}
                                     removeAllie={() => removeAllie(friend.Screen_cid, globalUser.cid)}
                                     removeFriend={() => removeFriend(friend.Screen_cid, globalUser.cid)}
                                     image={friend.avatar} username={friend.username}
@@ -43,7 +44,8 @@ const TheirFollowings = ({ user, sendAllieRequest, sendFriendRequest, myFollowin
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                     {followings.map((friend, index) => (
                         <RelationCard
-                            amFollowing={myFollowings && myFollowings.includes(friend.screen_cid)}
+                            amFollowing={myFollowings.includes(friend.screen_cid) || myReqs.includes(friend.screen_cid)}
+                            isAccepted={myReqs.includes(friend.screen_cid) ? false : myFollowings.includes(friend.screen_cid) ? true : false}
                             removeAllie={() => removeAllie(friend.screen_cid, globalUser.cid)}
                             removeFriend={() => removeFriend(friend.screen_cid, globalUser.cid)}
                             image={friend.avatar} username={friend.username}

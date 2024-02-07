@@ -45,6 +45,7 @@ const RelationsTab = ({ user }) => {
     const [followers, setFollowers] = useState([])
     const [friends, setFriends] = useState([])
     const [followings, setFollowings] = useState([])
+    const [myReqs, setMyReqs] = useState([])
     const [err, setErr] = useState(undefined)
     const [searchResults, setSearchResults] = useState(undefined)
     const [relationsLoading, setRelationsLoading] = useState(true)
@@ -283,8 +284,6 @@ const RelationsTab = ({ user }) => {
     const [myFollowings, setMyFollowings] = useState([])
 
     const getMyFollowings = async () => {
-
-
         let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/followings/?from=0&to=100`, {
             method: 'GET',
             headers: {
@@ -299,21 +298,28 @@ const RelationsTab = ({ user }) => {
 
             if (response.data.length > 0) {
                 let tempFolls = []
+                let tempReqs = []
                 for (var i = 0; i < response.data.length; i++) {
                     for (var j = 0; j < response.data[i].friends.length; j++) {
                         if (response.data[i].friends[j].screen_cid == globalUser.YouWhoID && response.data[i].friends[j].is_accepted == true) {
                             tempFolls.push(response.data[i].user_wallet_info.screen_cid)
-                            console.log(response.data[i].user_wallet_info.screen_cid)
                         }
+                        if (response.data[i].friends[j].screen_cid == globalUser.YouWhoID && response.data[i].friends[j].is_accepted == false) {
+                            tempReqs.push(response.data[i].user_wallet_info.screen_cid)
+                        }
+
                     }
                 }
                 setMyFollowings(tempFolls)
+                setMyReqs(tempReqs)
                 console.log(tempFolls)
             } else {
                 setMyFollowings([])
+                setMyReqs([])
             }
         } else {
             if (response.status == 404) {
+                setMyReqs([])
                 setMyFollowings([])
 
             } else {
@@ -357,12 +363,14 @@ const RelationsTab = ({ user }) => {
                     sendAllieRequest={sendAllieRequest}
                     sendFriendRequest={sendFriendRequest}
                     removeAllie={removeAllie} removeFriend={removeFriend}
-                    fans={followers} myFollowing={myFollowings}
+                    fans={followers} myFollowings={myFollowings}
+                    myReqs={myReqs}
                     fansLoading={relationsLoading}
                     user={user} searchResults={searchResults} />}
             {activeTab == 'their-friends' &&
                 <TheirFriends
-                    myFollowing={myFollowings}
+                    myReqs={myReqs}
+                    myFollowings={myFollowings}
                     sendAllieRequest={sendAllieRequest}
                     sendFriendRequest={sendFriendRequest}
                     removeAllie={removeAllie} removeFriend={removeFriend}
@@ -370,7 +378,8 @@ const RelationsTab = ({ user }) => {
                     user={user} searchResults={searchResults} />}
             {activeTab == 'their-followings' &&
                 <TheirFollowings
-                    myFollowing={myFollowings}
+                    myReqs={myReqs}
+                    myFollowings={myFollowings}
                     sendAllieRequest={sendAllieRequest}
                     sendFriendRequest={sendFriendRequest}
                     removeAllie={removeAllie} removeFriend={removeFriend}
