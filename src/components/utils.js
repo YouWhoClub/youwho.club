@@ -758,7 +758,7 @@ export const BetweenTwoSelection = ({ selected, width, setOption, id, options, c
 export const RelationCard = ({
     image, username, date, amFollowing, getSuggestions,
     friend, allies, menuItems, ywid, activeTab, isAccepted,
-    shareClick, sendAllieRequest, removeAllie, sendFriendRequest, removeFriend }) => {
+    shareClick, sendAllieRequest, removeAllie, sendFriendRequest, removeFriend, removeFollowing }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const globalUser = useSelector(state => state.userReducer)
     const open = Boolean(anchorEl);
@@ -777,6 +777,7 @@ export const RelationCard = ({
     const [alertModal, setAlertModal] = useState(false)
 
     const navigate = useNavigate()
+    console.log(amFollowing, isAccepted, 'hello')
     return (
         <ClickAwayListener onClickAway={handleClickAway}>
             <RelationCardComp sx={{ gap: '16px' }}>
@@ -789,7 +790,10 @@ export const RelationCard = ({
                         , width: '40px', height: '40px', borderRadius: '50%',
                     }}
                     />
-                    <Typography sx={{ fontWeight: 500, color: 'primary.text' }}>
+                    <Typography sx={{ display: { xs: 'block', sm: 'none' }, fontWeight: 500, color: 'primary.text' }}>
+                        {shorten(username, 7)}
+                    </Typography>
+                    <Typography sx={{ display: { xs: 'none', sm: 'block' }, fontWeight: 500, color: 'primary.text' }}>
                         {username}
                     </Typography>
                 </FlexRow>
@@ -805,9 +809,16 @@ export const RelationCard = ({
 
                             height='30px' />
                     }
-                    {isAccepted && isAccepted == 'false' && activeTab == 'my-requests' ?
+                    {amFollowing && !isAccepted ?
                         <ButtonPurpleLight br='4px'
                             text={'Cancel Request'}
+                            w={'max-content'}
+                            onClick={removeFollowing}
+                            height='30px' /> : undefined
+                    }
+                    {amFollowing && isAccepted ?
+                        <ButtonPurpleLight br='4px'
+                            text={'Unfollow'}
                             w={'max-content'}
                             onClick={removeFriend}
                             height='30px' /> : undefined
@@ -860,7 +871,7 @@ export const RelationCard = ({
                             bgcolor: 'secondary.bgOp',
                         }
                     }}
-                        onClick={() => navigate(`/profile/${username}`)}
+                        onClick={() => navigate(`/profile/${username}`, { replace: true })}
                     >
                         View Profile
                     </MenuItem>

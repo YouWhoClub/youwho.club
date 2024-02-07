@@ -7,7 +7,7 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import { toast } from 'react-toastify';
 
 const MySentRequests = ({
-    sendAllieRequest, sendFriendRequest, shareClick, removeFriend, searchResults, activeTab }) => {
+    sendAllieRequest, sendFriendRequest, shareClick, removeFriend, searchResults, activeTab, removeFollowing }) => {
     const globalUser = useSelector(state => state.userReducer)
     const [reqsLoading, setReqsLoading] = useState(true)
     const [requests, setRequests] = useState([])
@@ -123,8 +123,9 @@ const MySentRequests = ({
                                 <RelationCard
                                     ywid={friend.screen_cid}
                                     amFollowing={true}
-                                    isAccepted={'false'}
+                                    isAccepted={false}
                                     activeTab={activeTab}
+                                    removeFollowing={() => removeFollowing(friend.screen_cid, globalUser.cid)}
                                     removeFriend={() => {
                                         removeFriend(friend.screen_cid, globalUser.cid)
                                         getRequests()
@@ -147,8 +148,9 @@ const MySentRequests = ({
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
                     {requests.map((friend, index) => (
                         <RelationCard
-                            isAccepted={'false'}
+                            isAccepted={false}
                             activeTab={activeTab}
+                            removeFollowing={() => removeFollowing(friend.screen_cid, globalUser.cid)}
                             amFollowing={true}
                             ywid={friend.screen_cid}
                             removeFriend={() => removeFriend(friend.screen_cid, globalUser.cid)}

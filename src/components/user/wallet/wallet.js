@@ -283,7 +283,7 @@ const Wallet = ({ privateKey, switchTheme, theme }) => {
     }
 
     useEffect(() => {
-        if (window.document.getElementById("scrollable-wallet-panel-inside")) {
+        if (window.document.getElementById("scrollable-profile-panel") && window.document.getElementById("scrollable-profile-panel-inside")) {
 
             window.document.getElementById("scrollable-wallet-panel").addEventListener('scroll', listenScrollEvent)
             window.document.getElementById("scrollable-wallet-panel-inside").addEventListener('scroll', listenScrollEvent)

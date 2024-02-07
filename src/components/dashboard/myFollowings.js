@@ -109,6 +109,7 @@ const MyFollowings = ({ sendAllieRequest, sendFriendRequest, shareClick, removeA
                                 <RelationCard
                                     ywid={friend.screen_cid}
                                     amFollowing={true}
+                                    isAccepted={true}
                                     removeFriend={() => {
                                         removeFriend(friend.screen_cid, globalUser.cid)
                                         getFollowings()
@@ -132,6 +133,7 @@ const MyFollowings = ({ sendAllieRequest, sendFriendRequest, shareClick, removeA
                     {followings.map((friend, index) => (
                         <RelationCard
                             amFollowing={true}
+                            isAccepted={true}
                             ywid={friend.screen_cid}
                             // removeAllie={() => removeAllie(friend.screen_cid, globalUser.cid)}
                             removeFriend={() => {

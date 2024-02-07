@@ -10,7 +10,7 @@ import torqNFT from '../assets/torqua-nft.svg'
 import styled from "@emotion/styled";
 import NFTCard from "../components/nft market/nftCard";
 import GiftCard from "../components/nft market/giftCard";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 // import { Title } from "../components/utils";
 import ButtonOutline from "../components/buttons/buttonOutline";
 import { useNavigate } from "react-router";
@@ -22,6 +22,7 @@ import TopNFTsTab from "../components/explore/topNFTsTab";
 import TopUsersTab from "../components/explore/topUsersTab";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
+import { PUBLIC_API } from "../utils/data/public_api";
 
 const Gallery = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -141,7 +142,33 @@ const MainGallery = ({ switchTheme, theme }) => {
         }
     }
     const [progressBarOpen, setProgressBarOpen] = useState(false)
+    const [searchResults, setSearchResults] = useState(undefined)
+    const apiCall = useRef(undefined)
 
+    const search = async (q, from, to) => {
+        if (q == '') {
+            setSearchResults(undefined)
+            return
+        }
+        try {
+            apiCall.current = PUBLIC_API.request({
+                path: `/search/?q=${q}&from=${from}&to=${to}`,
+                method: 'get',
+            });
+            let response = await apiCall.current.promise;
+            if (!response.isSuccess)
+                throw response
+
+        }
+        catch (err) {
+            if (err.status == 404) {
+                setSearchResults([])
+            } else {
+                setSearchResults([])
+            }
+        }
+
+    }
     useEffect(() => {
         if (window.document.getElementById("scrollable-gallery-panel") && window.document.getElementById("scrollable-explore-panel-inside")) {
 
@@ -185,7 +212,7 @@ const MainGallery = ({ switchTheme, theme }) => {
                                 </Typography>
                                 <Typography sx={{
                                     color: 'black',
-                                    fontWeight: 600,
+                                    fontWeight: 700,
                                     fontSize: { xs: '12px', sm: '16px', md: '20px' }, mb: { xs: '4px', md: '14px' }
                                 }}>
                                     Completed
@@ -236,7 +263,7 @@ const MainGallery = ({ switchTheme, theme }) => {
                                 </Typography>
                                 <Typography sx={{
                                     color: 'black',
-                                    fontWeight: 600,
+                                    fontWeight: 700,
                                     fontSize: { xs: '12px', sm: '16px', md: '20px' }, mb: { xs: '4px', md: '14px' }
                                 }}>
                                     Completed

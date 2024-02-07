@@ -19,7 +19,7 @@ const ButtonPurpleLight = ({ onClick, text, w, px, py, disabled, icon, mt, heigh
         <Button onClick={disabled ? undefined : onClick}
             sx={(theme) => ({
                 height: height ? height : '40px',
-                mt: mt ? mt : undefined, fontSize: fontSize ? fontSize : { xs: '12px', sm: '14px' },
+                mt: mt ? mt : undefined, fontSize: fontSize ? fontSize : { xs: '10px', sm: '14px' },
                 borderRadius: br ? br : '12px',
                 backgroundColor: disabled ? 'primary.gray' : 'secondary.middle',
                 width: w ? w : '100px',

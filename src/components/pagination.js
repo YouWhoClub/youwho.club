@@ -30,16 +30,34 @@ const Pagination = ({ tabs, selected, setSelectedTab }) => {
                 })}>
                 Previous
             </PagTabs>
-            {tabs.map((tab) => (
-                <PagTabs
-                    onClick={() => setSelectedTab(tab)}
-                    sx={(theme) => ({
-                        bgcolor: selected == tab ? theme.palette.secondary.bg : 'transparent !important',
-                        boxShadow: selected == tab ? theme.palette.primary.boxShadow : theme.palette.primary.boxShadowInset
-                    })}>
-                    {tab}
-                </PagTabs>
-            ))}
+            {tabs.length > 4 ?
+                <>
+                    {tabs.slice(selected - 1, selected + 3).map((tab) => (
+                        <PagTabs
+                            onClick={() => setSelectedTab(tab)}
+                            sx={(theme) => ({
+                                bgcolor: selected == tab ? theme.palette.secondary.bg : 'transparent !important',
+                                boxShadow: selected == tab ? theme.palette.primary.boxShadow : theme.palette.primary.boxShadowInset
+                            })}>
+                            {tab}
+                        </PagTabs>
+                    ))}
+                </>
+
+                :
+                <>
+                    {tabs.map((tab) => (
+                        <PagTabs
+                            onClick={() => setSelectedTab(tab)}
+                            sx={(theme) => ({
+                                bgcolor: selected == tab ? theme.palette.secondary.bg : 'transparent !important',
+                                boxShadow: selected == tab ? theme.palette.primary.boxShadow : theme.palette.primary.boxShadowInset
+                            })}>
+                            {tab}
+                        </PagTabs>
+                    ))}
+                </>
+            }
             <PagTabs
                 onClick={() => setSelectedTab(selected + 1 > tabs.length ? selected : selected + 1)} sx={(theme) => ({
                     bgcolor: theme.palette.secondary.bg,

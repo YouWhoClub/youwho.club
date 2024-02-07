@@ -8,7 +8,7 @@ import { AUTH_API } from "../../utils/data/auth_api";
 import { API_CONFIG } from "../../config";
 
 const MyFriendSuggestions = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAllie, removeFriend,
-    search, searchResults, setAllSuggestions, activeTab }) => {
+    search, searchResults, setAllSuggestions, activeTab, removeFollowing }) => {
     const globalUser = useSelector(state => state.userReducer)
     const [loading, setLoading] = useState(true)
     const [suggestions, setSuggestions] = useState([])
@@ -24,6 +24,7 @@ const MyFriendSuggestions = ({ sendAllieRequest, sendFriendRequest, shareClick, 
                 }
             })
             let response = await request.json()
+            console.log(response, 'suggs')
             if (!response.is_error) {
                 setSuggestions(response.data)
                 setAllSuggestions(response.data)
@@ -59,12 +60,15 @@ const MyFriendSuggestions = ({ sendAllieRequest, sendFriendRequest, shareClick, 
                                         getSuggestions={getUsers}
                                         removeAllie={() => removeAllie(suggestion.screen_cid, globalUser.cid)}
                                         removeFriend={() => removeFriend(suggestion.screen_cid, globalUser.cid)}
+                                        removeFollowing={() => removeFollowing(suggestion.screen_cid, globalUser.cid)}
                                         image={suggestion.avatar} username={suggestion.username}
                                         sendAllieRequest={() => sendAllieRequest(suggestion.screen_cid, globalUser.cid)}
                                         sendFriendRequest={() =>
                                             sendFriendRequest(suggestion.screen_cid, globalUser.cid)
                                         }
                                         shareClick={shareClick}
+                                        amFollowing={suggestion.requested_at}
+                                        isAccepted={suggestion.is_accepted}
                                     />
                                 ))}
                             </Box>
@@ -88,7 +92,10 @@ const MyFriendSuggestions = ({ sendAllieRequest, sendFriendRequest, shareClick, 
                                 sendFriendRequest={() =>
                                     sendFriendRequest(suggestion.screen_cid, globalUser.cid)
                                 }
+                                removeFollowing={() => removeFollowing(suggestion.screen_cid, globalUser.cid)}
                                 shareClick={shareClick}
+                                amFollowing={suggestion.requested_at}
+                                isAccepted={suggestion.is_accepted}
                             />
                         ))}
                     </Box>

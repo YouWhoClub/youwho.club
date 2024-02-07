@@ -79,6 +79,7 @@ const RelationsTab = () => {
     const [followers, setFollowers] = useState([])
     const [friends, setFriends] = useState([])
     const [allRequests, setAllRequests] = useState([])
+    const [myReqs, setMyReqs] = useState([])
     const [suggestions, setSuggestions] = useState([])
     const [searchResults, setSearchResults] = useState(undefined)
     const dispatch = useDispatch();
@@ -176,6 +177,35 @@ const RelationsTab = () => {
             updateToast(false, response.message)
         }
     }
+    const removeFollowing = async (receiver, sender) => {
+        loading();
+        let current_tab = activeTab
+        setActiveTab('loading')
+
+        let data = {
+            owner_cid: sender,
+            friend_screen_cid: receiver,
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        console.log(requestData)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/remove/following`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+        if (response.message == "Updated Successfully") {
+            updateToast(true, 'Request Removed')
+            setActiveTab(current_tab)
+            getFollowings()
+        } else {
+            updateToast(false, response.message)
+        }
+    }
     const removeAllie = async (receiver, sender) => {
         loading();
         let current_tab = activeTab
@@ -231,15 +261,20 @@ const RelationsTab = () => {
 
             if (response.data.length > 0) {
                 let tempFolls = []
+                let tempRequests = []
                 for (var i = 0; i < response.data.length; i++) {
                     for (var j = 0; j < response.data[i].friends.length; j++) {
                         if (response.data[i].friends[j].screen_cid == globalUser.YouWhoID && response.data[i].friends[j].is_accepted == true) {
                             tempFolls.push(response.data[i].user_wallet_info)
 
+                        } if (response.data[i].friends[j].screen_cid == globalUser.YouWhoID && response.data[i].friends[j].is_accepted == false) {
+                            tempRequests.push(response.data[i].user_wallet_info)
+
                         }
                     }
                 }
                 setFollowings(tempFolls)
+                setMyReqs(tempRequests)
                 console.log(tempFolls)
                 setFollowingsLoading(false)
             } else {
@@ -283,7 +318,7 @@ const RelationsTab = () => {
                 }
                 setSearchResults(tempArr)
             }
-            else if (activeTab == 'my-followers') {
+            else if (activeTab == 'my-fans') {
                 let tempFans = []
                 for (var d = 0; d < followers.length; d++) {
                     tempFans.push(followers[d].screen_cid)
@@ -325,7 +360,7 @@ const RelationsTab = () => {
                 }
                 setSearchResults(tempArr)
             }
-            else if (activeTab == 'friend-requests') {
+            else if (activeTab == 'follow-requests') {
                 let tempRequests = []
                 for (var d = 0; d < allRequests.length; d++) {
                     tempRequests.push(allRequests[d].screen_cid)
@@ -339,6 +374,21 @@ const RelationsTab = () => {
                 }
                 setSearchResults(tempArr)
             }
+            else if (activeTab == 'my-requests') {
+                let tempFollowings = []
+                for (var d = 0; d < myReqs.length; d++) {
+                    tempFollowings.push(myReqs[d].screen_cid)
+                }
+                console.log(tempFollowings)
+                let tempArr = []
+                for (var j = 0; j < response.data.data.users.length; j++) {
+                    if (tempFollowings.includes(response.data.data.users[j].screen_cid)) {
+                        tempArr.push(response.data.data.users[j])
+                    }
+                }
+                setSearchResults(tempArr)
+            }
+
             else setSearchResults(undefined)
         }
         catch (err) {
@@ -386,10 +436,11 @@ const RelationsTab = () => {
                                 <SubTab id={"my-friends"} onClick={changeTab} text={'My Friends'} selected={activeTab == 'my-friends'} />
                             </SubTabs>
                             <SubTabs jc={'center'}>
-                                <SubTab id={"follow-requests"} onClick={changeTab} text={'Follow Requests'} selected={activeTab == 'follow-requests'} />
-                                <SubTab id={"my-requests"} onClick={changeTab} text={'My Requests'} selected={activeTab == 'my-requests'} />
+                                <SubTab id={"follow-requests"} onClick={changeTab} text={'Received Requests'} selected={activeTab == 'follow-requests'} />
+                                <SubTab id={"my-requests"} onClick={changeTab} text={'Sent Requests'} selected={activeTab == 'my-requests'} />
                                 <SubTab id={"explore-users"} onClick={changeTab} text={'Explore Users'} selected={activeTab == 'explore-users'} />
                             </SubTabs>
+
                             <FilterSelectionBox sx={{ padding: '8px 16px', my: '24px' }}>
                                 <span style={{ width: '180px', fontSize: '14px' }}>
                                     Search Username:
@@ -407,6 +458,7 @@ const RelationsTab = () => {
                                 <MySentRequests activeTab={activeTab} sendAllieRequest={sendAllieRequest}
                                     sendFriendRequest={sendFriendRequest} shareClick={shareClick}
                                     removeAllie={removeAllie} removeFriend={removeFriend}
+                                    removeFollowing={removeFollowing}
                                     searchResults={searchResults} setAllFriends={setFriends} />
                             }
                             {activeTab == 'my-fans' &&
@@ -431,6 +483,7 @@ const RelationsTab = () => {
                             }
                             {activeTab == 'explore-users' &&
                                 <MyFriendSuggestions
+                                    removeFollowing={removeFollowing}
                                     activeTab={activeTab} sendAllieRequest={sendAllieRequest}
                                     sendFriendRequest={sendFriendRequest} shareClick={shareClick}
                                     removeAllie={removeAllie} removeFriend={removeFriend}
