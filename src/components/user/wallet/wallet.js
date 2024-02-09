@@ -540,7 +540,7 @@ const Wallet = ({ privateKey, switchTheme, theme }) => {
                                 }}
                                 selected={state == 'withdraw'}
                             />
-                            <Tab
+                            {/* <Tab
                                 icon={<Box sx={{ width: '20px', height: '20px', mr: '7px', pointerEvents: 'none', backgroundImage: () => state == 'transfer' ? BG_URL(PUBLIC_URL(`${giftOpenWhite}`)) : BG_URL(PUBLIC_URL(`${giftOpen}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />}
                                 text={`Transfer NFT Gift`}
                                 id={"transfer"}
@@ -549,7 +549,7 @@ const Wallet = ({ privateKey, switchTheme, theme }) => {
                                     window.location.hash = `#${e.target.id}`
                                 }}
                                 selected={state == 'transfer'}
-                            />
+                            /> */}
                             <Tab
                                 icon={<Box sx={{ width: '20px', height: '20px', mr: '7px', pointerEvents: 'none', backgroundImage: () => state == 'claim' ? BG_URL(PUBLIC_URL(`${giftWhite}`)) : BG_URL(PUBLIC_URL(`${gift}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />}
                                 text={`Claim NFT Gift`}
