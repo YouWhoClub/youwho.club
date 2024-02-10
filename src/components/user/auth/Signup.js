@@ -251,7 +251,7 @@ const Signup = ({ progress, setProgress, alreadyEmail }) => {
                         width: '100%', boxSizing: 'border-box',
                         display: 'flex', flexDirection: 'column', alignItems: 'center'
                     }}>
-                        <LoginWithOthersBox sx={{ mb: { xs: '12px', sm: '24px', md: '32px' }, gap: '8px' }}>
+                        {/* <LoginWithOthersBox sx={{ mb: { xs: '12px', sm: '24px', md: '32px' }, gap: '8px' }}>
                             <Typography
                                 sx={{
                                     color: 'primary.darkGray',
@@ -272,7 +272,9 @@ const Signup = ({ progress, setProgress, alreadyEmail }) => {
                             <Line sx={{ mr: '4px' }} />
                             or
                             <Line sx={{ ml: '4px' }} />
-                        </Box>
+                        </Box> */}
+                        <Box sx={{ my: { xs: '12px', sm: '24px', md: '32px' }, }} />
+
                         <form
                             style={{
                                 width: '100%',

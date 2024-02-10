@@ -287,7 +287,7 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
                         width: '100%', boxSizing: 'border-box',
                         display: 'flex', flexDirection: 'column',
                     }}>
-                        <LoginWithOthersBox sx={{ mb: { xs: '12px', sm: '24px', md: '32px' }, gap: '8px' }}>
+                        {/* <LoginWithOthersBox sx={{ mb: { xs: '12px', sm: '24px', md: '32px' }, gap: '8px' }}>
                             <Typography
                                 sx={{
                                     color: 'primary.darkGray',
@@ -299,15 +299,16 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
                                 <LoginLogos sx={{ backgroundImage: BG_URL(PUBLIC_URL(`${microsoftLogo}`)), }} />
                                 <LoginLogos sx={{ backgroundImage: BG_URL(PUBLIC_URL(`${gmailLogo}`)), }} />
                             </Box>
-                        </LoginWithOthersBox>
-                        <Box sx={{
+                        </LoginWithOthersBox> */}
+                        {/* <Box sx={{
                             color: 'primary.text',
                             display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', mb: { xs: '12px', sm: '24px', md: '32px' }, textTransform: 'lowercase'
                         }}>
                             <Line sx={{ mr: '4px' }} />
                             or
                             <Line sx={{ ml: '4px' }} />
-                        </Box>
+                        </Box> */}
+                        <Box sx={{my: { xs: '12px', sm: '24px', md: '32px' },}}/>
                         <form
                             style={{
                                 width: '100%',
