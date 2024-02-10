@@ -26,6 +26,9 @@ const AuthBox = styled(Box)(({ theme }) => ({
     display: "flex",
     flexDirection: "column", justifyContent: 'space-between', alignItems: 'center',
     padding: '25px 22px',
+    "@media (max-width: 900px)": {
+        height: '450px',
+    },
     "@media (max-width: 600px)": {
         width: '100%',
         margin: '0 auto',
@@ -98,7 +101,7 @@ const Auth = () => {
     return (
         <AuthLayout>
             <AuthBox>
-                <Slider sx={{ mb: '32px', }}>
+                <Slider sx={{ mb: { xs: '12px', sm: '24px', md: '32px' }, }}>
                     <ChangeSlide
                         id="signin"
                         sx={{

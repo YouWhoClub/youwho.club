@@ -242,13 +242,16 @@ const Signup = ({ progress, setProgress, alreadyEmail }) => {
             {state == 'identifier' || state == 'password' || state == 'repeatPassword' ?
                 <Box sx={{
                     width: '100%', height: '100%', boxSizing: 'border-box',
-                    display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
+                    display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+                    overflowY: 'scroll',
+                    overflowX: 'hidden',
+                    '&::-webkit-scrollbar': { display: 'none', },
                 }}>
                     <Box sx={{
-                        width: '100%', height: '100%', boxSizing: 'border-box',
+                        width: '100%', boxSizing: 'border-box',
                         display: 'flex', flexDirection: 'column', alignItems: 'center'
                     }}>
-                        <LoginWithOthersBox sx={{ mb: '32px', gap: '8px' }}>
+                        <LoginWithOthersBox sx={{ mb: { xs: '12px', sm: '24px', md: '32px' }, gap: '8px' }}>
                             <Typography
                                 sx={{
                                     color: 'primary.darkGray',
@@ -264,7 +267,7 @@ const Signup = ({ progress, setProgress, alreadyEmail }) => {
                         </LoginWithOthersBox>
                         <Box sx={{
                             color: 'primary.text',
-                            display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', mb: '32px', textTransform: 'lowercase'
+                            display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', mb: { xs: '12px', sm: '24px', md: '32px' }, textTransform: 'lowercase'
                         }}>
                             <Line sx={{ mr: '4px' }} />
                             or
@@ -350,7 +353,7 @@ const Signup = ({ progress, setProgress, alreadyEmail }) => {
                             undefined
                         }
                     </Box>
-                    <Box sx={{ width: '100%', justifySelf: 'end', }}>
+                    <Box sx={{ width: '100%', justifySelf: 'end', mt: '10px' }}>
                         <ButtonPurple disabled={buttonDisabled} w={'100%'}
                             text={loading ? 'loading' : 'Sign Up'}
                             onClick={buttonDisabled ? undefined : submit} />

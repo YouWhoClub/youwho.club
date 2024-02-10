@@ -59,7 +59,9 @@ const AuthLayout = ({ children }) => {
       bgcolor: 'primary.ultra',
       display: "flex", justifyContent: 'center',
       alignItems: 'center',
-      flexDirection: 'column'
+      flexDirection: 'column', overflowY: 'scroll',
+      overflowX: 'hidden',
+      '&::-webkit-scrollbar': { display: 'none', },
     }}>
       {/* <NavAuth sx={{ pt: { xs: 'none', sm: 5 } }}> */}
       <Box sx={{
@@ -79,7 +81,8 @@ const AuthLayout = ({ children }) => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          height: { xs: 'calc(100vh - 138px)', sm: 'auto' },
+          // height: { xs: 'calc(100vh - 138px)', sm: 'auto' },
+          height: 'calc(100vh - 138px)',
           width: '100%',
         }}>
           {children}
