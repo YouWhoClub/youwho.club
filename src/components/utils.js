@@ -3323,6 +3323,12 @@ export const WelcomeUserCard = ({
                     </Box>
                 </Box>
             </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Typography sx={{ fontWeight: 400, color: 'primary.text', fontSize: { xs: '10px', sm: '12px' } }}>
+                    {user.balance}
+                </Typography>
+                <YouwhoCoinIcon w={20} h={20} />
+            </Box>
         </Box>
     )
 }
