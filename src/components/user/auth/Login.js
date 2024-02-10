@@ -139,7 +139,7 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
             setErr(undefined)
             setLoadingg(false)
             if (response.data.data.is_mail_verified)
-                navigate('/profile')
+                navigate('/welcome')
             else setState('mailVerification')
 
         }
