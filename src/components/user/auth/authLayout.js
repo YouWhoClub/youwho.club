@@ -75,7 +75,7 @@ const AuthLayout = ({ children }) => {
         <YouWhoIcon onClick={() => navigate('/')} sx={{}} />
       </Box>
       {/* </NavAuth> */}
-      {!globalUser.isLoggedIn ?
+      {!globalUser.isLoggedIn || !globalUser.isMailVerified ?
 
         <Box sx={{
           display: 'flex',

@@ -174,8 +174,8 @@ const VerifyMail = ({ email, code, setProgress, setState, disconnect }) => {
                 fetchUser(globalUser.token)
 
                 setTimeout(() => {
-                    navigate('/gallery')
-                }, 2000);
+                    navigate('/welcome')
+                }, 1000);
             } else {
                 // Show message
                 if (response.status === 404)

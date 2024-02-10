@@ -22,7 +22,6 @@ const Welcome = ({ theme, switchTheme }) => {
             let response = await apiCall.current.promise;
             if (!response.isSuccess)
                 throw response
-            console.log(response)
             // setUsers(response)
 
 
@@ -35,8 +34,6 @@ const Welcome = ({ theme, switchTheme }) => {
                     pagTabs.push(i + 1)
                 }
                 setPgTabs(pagTabs)
-                console.log(tabNums)
-                console.log(pagTabs)
             } else {
                 console.log('getting users !')
             }
