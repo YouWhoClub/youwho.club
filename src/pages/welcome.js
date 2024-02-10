@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { PUBLIC_API } from "../utils/data/public_api";
 import { SearchUserCard, WelcomeUserCard } from "../components/utils";
 import Pagination from "../components/pagination";
+import { ToastContainer } from "react-toastify";
 
 const Welcome = ({ theme, switchTheme }) => {
     const [users, setUsers] = useState(undefined)
@@ -119,6 +120,7 @@ const Welcome = ({ theme, switchTheme }) => {
 
                 </Box>
             </Box>
+            <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick pauseOnFocusLoss pauseOnHover />
 
         </Box>);
 }

@@ -258,7 +258,7 @@ const MobileMenu = ({ openMenu, setOpenMenu, theme, switchTheme }) => {
                                     color: 'secondary.text', fontSize: '12px', width: '100%', textAlign: 'center',
                                     textTransform: 'capitalize'
                                 }}>
-                                Please Save Your Private Key Before Logging out.it will be needed for future uses
+                                Please Save Your Private Key Somewhere safe Before Logging out.it will be needed for future uses
                             </Typography>
                             <FlexRow>
                                 <Typography

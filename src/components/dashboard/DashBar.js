@@ -8,7 +8,7 @@ import { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { API_CONFIG } from "../../config";
 import { toast } from 'react-toastify';
-import { getuser } from "../../redux/actions";
+import { getuser, setPrivateKey } from "../../redux/actions";
 import Crop from "../crop/Crop";
 import { useEffect } from "react";
 import { ButtonInput, MyInput } from "../utils";
@@ -447,6 +447,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, w, openBar, closeBar }) => {
                 mobileNumber = globalUser.extra[i].phone
         }
     }
+    const setPrivateKeyy = (id) => dispatch(setPrivateKey(id));
 
     const updateUsername = async () => {
         loading()
@@ -475,6 +476,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, w, openBar, closeBar }) => {
             if (response.data.status == 200 || response.data.status == 201 || response.data.status == 302) {
                 fetchUser(globalUser.token)
                 setUsernameError(undefined)
+                setPrivateKeyy(response.data.data.signer)
                 updateToast(true, response.data.message)
             }
             else {
