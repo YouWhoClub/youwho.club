@@ -436,7 +436,7 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
                     bgcolor: 'primary.bg',
                     width: '100%',
                     position: "sticky",
-                    top: 0,
+                    top: 0, boxSizing: 'border-box', py: '5px',
                     zIndex: 999,
                     borderRadius: '0 0 12px 12px', display: 'flex', alignItems: 'center'
                     // boxShadow: '0px 0px 9px -2px rgba(227,209,231,0.9)'
