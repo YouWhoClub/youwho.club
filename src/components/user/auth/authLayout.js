@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Box, keyframes } from "@mui/material";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 const YouWhoIcon = styled(Box)(({ theme }) => ({
@@ -48,6 +49,7 @@ const NavAuth = styled(Box)(({ theme }) => ({
 
 }))
 const AuthLayout = ({ children }) => {
+  const globalUser = useSelector(state => state.userReducer)
   const navigate = useNavigate()
   return (
     <Box sx={{
@@ -71,15 +73,18 @@ const AuthLayout = ({ children }) => {
         <YouWhoIcon onClick={() => navigate('/')} sx={{}} />
       </Box>
       {/* </NavAuth> */}
-      <Box sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: { xs: 'calc(100vh - 138px)', sm: 'auto' },
-        width: '100%',
-      }}>
-        {children}
-      </Box>
+      {!globalUser.isLoggedIn ?
+
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: { xs: 'calc(100vh - 138px)', sm: 'auto' },
+          width: '100%',
+        }}>
+          {children}
+        </Box>
+        : undefined}
     </Box >
   );
 }

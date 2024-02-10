@@ -5,7 +5,8 @@ const PagBox = styled(Box)(({ theme }) => ({
     boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center',
     borderRadius: '18px',
     "@media (max-width: 600px)": {
-        padding: '10px 8px', gap: '8px', width: '100%'
+        padding: '10px 8px', gap: '8px', width: '100%',
+        justifyContent: 'space-between'
     },
 
 }))

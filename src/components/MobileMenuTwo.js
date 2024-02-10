@@ -101,7 +101,7 @@ export default function MobileMenuTwo({ openMenu, setOpenMenu, theme, switchThem
             setOpenPVKeyModal(false)
             setTimeout(() => {
                 navigate('/')
-            }, 1000);
+            }, 500);
             // }
 
         }

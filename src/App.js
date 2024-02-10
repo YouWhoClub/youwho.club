@@ -41,6 +41,7 @@ import ContactUs from './pages/contact-us';
 import BlogSingle from './pages/blog';
 import TermsOfService from './pages/termsOfService';
 import SearchPage from './pages/searchPage';
+import Welcome from './pages/welcome';
 // import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
 
 
@@ -110,7 +111,7 @@ function App() {
         disabled: '#8888',
         pink: '#F675A8',
         yellow: '#FFD966',
-        
+
       },
       secondary: {
         dark: '#3D0062',
@@ -236,8 +237,6 @@ function App() {
           <BrowserRouter>
             <ScrollToTop>
               <>
-                {/* <Box sx={{ bgcolor: 'secondary.bg' }}>
-                  <Wrapper> */}
                 <Routes>
                   <Route exact path="/" element={<Home theme={theme} switchTheme={switchTheme} />} />
                   <Route exact path="/auth" element={<Auth theme={theme} switchTheme={switchTheme} />} />
@@ -249,14 +248,14 @@ function App() {
                   <Route exact path="/privacy-policy" element={<PrivacyPolicy theme={theme} />} />
                   <Route exact path="/terms-of-service" element={<TermsOfService theme={theme} />} />
 
-                  {/* <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} /> */}
+                  {/*--- <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} /> */}
                 </Routes>
 
                 <Box sx={{ bgcolor: 'secondary.bg' }}>
                   <Wrapper>
                     <Routes>
-                      {/* <Route exact path="/landing" element={<></>} /> */}
-                      {/* <Route path='*' element={<></>} /> */}
+                      {/*--- <Route exact path="/landing" element={<></>} /> */}
+                      {/*--- <Route path='*' element={<></>} /> */}
                       <Route exact path="/" element={<></>} />
                       <Route exact path="/auth" element={<></>} />
                       <Route exact path="/blogs" element={<></>} />
@@ -266,33 +265,30 @@ function App() {
                       <Route exact path="/guide" element={<></>} />
                       <Route exact path="/privacy-policy" element={<></>} />
                       <Route exact path="/terms-of-service" element={<></>} />
-                      <Route exact path="/search" element={<SearchPage theme={theme} switchTheme={switchTheme} />} />
+                      <Route exact path="/welcome" element={<Welcome theme={theme} switchTheme={switchTheme} />} />
+                      {/* <Route exact path="/search" element={<SearchPage theme={theme} switchTheme={switchTheme} />} /> */}
 
 
-                      <Route exact path="/main-gallery" element={<ViewMainGalleryPage theme={theme} switchTheme={switchTheme} />} />
-                      {/* <Route exact path="/transfer" element={<TransferPage theme={theme} switchTheme={switchTheme} />} /> */}
+                      {/* <Route exact path="/main-gallery" element={<ViewMainGalleryPage theme={theme} switchTheme={switchTheme} />} /> */}
+                      {/*--- <Route exact path="/transfer" element={<TransferPage theme={theme} switchTheme={switchTheme} />} /> */}
 
-                      <Route exact path="/gallery" element={<MainGallery switchTheme={switchTheme} theme={theme} />} />
+                      {/* <Route exact path="/gallery" element={<MainGallery switchTheme={switchTheme} theme={theme} />} />
                       <Route exact path="/profile" element={<Dashboard switchTheme={switchTheme} theme={theme} />} />
                       <Route exact path="/wallet" element={<WalletPage theme={theme} switchTheme={switchTheme} />} />
 
-                      <Route exact path="/profile/:name" element={<Profile theme={theme} switchTheme={switchTheme} />} />
+                      <Route exact path="/profile/:name" element={<Profile theme={theme} switchTheme={switchTheme} />} /> */}
 
 
-                      {/* <Route exact path="/verify-mail" element={<VerifyMail theme={theme} />} /> */}
-                      {/* <Route exact path="/verify-phone" element={<VerifyPhone theme={theme} />} /> */}
-                      <Route exact path="/checkout/success" element={<CheckoutSuccess switchTheme={switchTheme} theme={theme} />} />
-                      <Route exact path="/checkout/cancel" element={<CheckoutCancel switchTheme={switchTheme} theme={theme} />} />
+                      {/*--- <Route exact path="/verify-mail" element={<VerifyMail theme={theme} />} /> */}
+                      {/*--- <Route exact path="/verify-phone" element={<VerifyPhone theme={theme} />} /> */}
+                      {/* <Route exact path="/checkout/success" element={<CheckoutSuccess switchTheme={switchTheme} theme={theme} />} />
+                      <Route exact path="/checkout/cancel" element={<CheckoutCancel switchTheme={switchTheme} theme={theme} />} /> */}
 
 
                       <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} />
                     </Routes>
                   </Wrapper>
                 </Box>
-
-
-                {/* </Wrapper>
-                </Box> */}
               </>
             </ScrollToTop>
           </BrowserRouter>

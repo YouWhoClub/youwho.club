@@ -3142,3 +3142,187 @@ export const SearchNFTCard = ({ nft }) => {
         </Box>
     )
 }
+
+
+export const WelcomeUserCard = ({
+    image, username, myFollowings, ywID, search, getMyFollowings, user }) => {
+    const navigate = useNavigate()
+    const toastId = useRef(null);
+    const globalUser = useSelector(state => state.userReducer)
+    const loading = () => {
+        toastId.current = toast.loading("Please wait...")
+    }
+    const updateToast = (success, message) => {
+        success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
+            : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
+    }
+    const [isFollowing, setIsFollowing] = useState('false');
+    useEffect(() => {
+        if (myFollowings) {
+            if (myFollowings.length > 0) {
+                for (var i = 0; i < myFollowings.length; i++) {
+                    if (myFollowings[i].user_screen_cid == ywID) {
+                        for (var j = 0; j < myFollowings[i].friends.length; j++) {
+                            if (myFollowings[i].friends[j].screen_cid == globalUser.YouWhoID) {
+                                if (myFollowings[i].friends[j].is_accepted == true) {
+                                    setIsFollowing('true')
+                                } else {
+                                    setIsFollowing('pending')
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                setIsFollowing('false')
+            }
+        }
+        else {
+            setIsFollowing('loading')
+        }
+    }, [myFollowings])
+
+    const sendFriendRequest = async (receiver, sender) => {
+        loading();
+
+        let data = {
+            owner_cid: sender,
+            to_screen_cid: receiver,
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        console.log(requestData)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/send/friend-request`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+        if (response.message == "Updated Successfully") {
+            updateToast(true, 'Friend Request Sent')
+            setIsFollowing('pending')
+            getMyFollowings()
+        } else {
+            updateToast(false, response.message)
+        }
+    }
+    const removeFriend = async (receiver, sender) => {
+        loading();
+
+        let data = {
+            owner_cid: sender,
+            friend_screen_cid: receiver,
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        console.log(requestData)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/remove/friend`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+        if (response.message == "Updated Successfully") {
+            updateToast(true, 'Unfollowed')
+            setIsFollowing('false')
+            getMyFollowings()
+        } else {
+            updateToast(false, response.message)
+        }
+    }
+    const removeFollowing = async (receiver, sender) => {
+        loading();
+
+        let data = {
+            owner_cid: sender,
+            friend_screen_cid: receiver,
+        }
+        let { requestData } = generateSignature(globalUser.privateKey, data)
+        console.log(requestData)
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/remove/following`, {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log(response);
+        if (response.message == "Updated Successfully") {
+            updateToast(true, 'Request Canceled')
+            setIsFollowing('false')
+            getMyFollowings()
+
+        } else {
+            updateToast(false, response.message)
+        }
+    }
+
+    return (
+        <Box sx={(theme) => ({
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            padding: '8px 12px',
+            justifyContent: 'space-between',
+            boxShadow: theme.palette.primary.boxShadow,
+            borderRadius: '16px', gap: '12px',
+            height: '74px',
+            width: '100%',
+            color: theme.palette.primary.text,
+            backgroundColor: theme.palette.secondary.bg,
+            boxSizing: 'border-box'
+        })}>
+            <Box sx={{
+                gap: '12px',
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                boxSizing: 'border-box'
+            }}>
+                <Box sx={{
+                    backgroundColor: 'primary.bg',
+                    backgroundImage: () => image ? `url('${API_CONFIG.API_URL}/${image}')` : BG_URL(PUBLIC_URL(`${profileFace}`)),
+                    // backgroundImage: image ? BG_URL(PUBLIC_URL(`${API_CONFIG.API_URL}/${image}`)) : 'primary.bg',
+                    backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+                    , width: '54px', height: '54px', borderRadius: '50%',
+                }}
+                />
+                <Box sx={{
+                    flexDirection: 'column',
+                    // justifyContent: 'center',
+                    // flexDirection: { xs: 'column', sm: 'row' },
+                    display: 'flex',
+                    // gap: { xs: 'none', sm: '40px', md: '80px' }
+                }}>
+
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Typography sx={{ display: { xs: 'block', sm: 'none' }, fontWeight: 700, color: 'primary.text', fontSize: '12px' }}>
+                            {shorten(user.mail ? user.mail : username, 15)}
+                        </Typography>
+                        <Typography sx={{ display: { xs: 'none', sm: 'block' }, fontWeight: 700, color: 'primary.text', fontSize: '14px' }}>
+                            {user.mail ? user.mail : username}
+                        </Typography>
+                    </Box>
+
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Typography sx={{ fontWeight: 400, color: 'primary.text', fontSize: { xs: '10px', sm: '12px' } }}>
+                            joined: &nbsp;
+                        </Typography>
+                        <Typography sx={{ fontWeight: 400, color: 'secondary.text', fontSize: { xs: '10px', sm: '12px' } }}>
+                            {shorten(user.created_at, 19)}
+                        </Typography>
+
+                    </Box>
+                </Box>
+            </Box>
+        </Box>
+    )
+}

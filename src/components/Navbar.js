@@ -286,7 +286,7 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
             setOpenPVKeyModal(false)
             setTimeout(() => {
                 navigate('/')
-            }, 1000);
+            }, 500);
             // }
 
         }
@@ -404,7 +404,7 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
                                 <SearchNormal1 size='25px' cursor={'pointer'} />
                             </Link> */}
                             <ThemeToggler theme={theme} switchTheme={switchTheme} />
-                            <ButtonPurple onClick={() => navigate('/profile')}
+                            <ButtonPurple onClick={() => navigate('/welcome')}
                                 text={'Go To Panel'} height={'35px'} />
                         </Box>
                     </>
@@ -503,7 +503,7 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
                                             <Box sx={{ display: 'flex', alignItems: "center", gap: '1px', cursor: 'pointer', }}>
                                                 {/* <Face sx={{ cursor: 'pointer', fontSize: '25px' }} /> */}
                                                 <Box id="avatar-nav" sx={{
-                                                    width: '25px', height: '25px', borderRadius: '50%',
+                                                    width: '25px', height: '25px', borderRadius: '50%', bgcolor: 'secondary.bg',
                                                     backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover',
                                                     backgroundImage: () => globalUser.avatar ? `url('${API_CONFIG.API_URL}/${globalUser.avatar}')` : BG_URL(PUBLIC_URL(`${profileFace}`)),
                                                 }} />

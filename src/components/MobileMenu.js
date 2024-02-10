@@ -93,7 +93,7 @@ const MobileMenu = ({ openMenu, setOpenMenu, theme, switchTheme }) => {
             deleteUnclaimed()
             setTimeout(() => {
                 navigate('/')
-            }, 1000);
+            }, 500);
             // }
 
         }

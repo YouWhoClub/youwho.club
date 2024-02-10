@@ -8,7 +8,7 @@ import { useState } from "react";
 import { MyInput } from "../components/utils";
 import { Description, Email, Instagram, Phone, Subject, Tag, Telegram, WhatsApp } from "@mui/icons-material";
 import ButtonPurple from "../components/buttons/buttonPurple";
-import { Location } from "iconsax-react";
+import { Facebook, Location } from "iconsax-react";
 import mapBG from '../assets/map.png'
 
 const Wrapper = styled(Box)(({ theme }) => ({
@@ -160,27 +160,31 @@ const ContactUs = ({ switchTheme, theme }) => {
                             <Box sx={{ color: 'white', width: { xs: '100%', md: '30%' }, boxSizing: 'border-box', padding: '15px', gap: '25px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                 <FlexRow sx={{ gap: '8px' }}>
                                     <Phone />
-                                    <Typography sx={{ textTransform: 'capitalize' }}>+441234567890</Typography>
+                                    <Typography sx={{ textTransform: 'capitalize' }}>+443333390905</Typography>
                                 </FlexRow>
                                 <FlexRow sx={{ gap: '8px' }}>
                                     <Email />
-                                    <Typography sx={{ textTransform: 'capitalize' }}>Email Address</Typography>
+                                    <Typography sx={{ textTransform: 'capitalize' }}>support@youwho.club</Typography>
                                 </FlexRow>
                                 <FlexRow sx={{ gap: '8px' }}>
                                     <Instagram />
                                     <Typography sx={{ textTransform: 'capitalize' }}>Instagram</Typography>
                                 </FlexRow>
                                 <FlexRow sx={{ gap: '8px' }}>
+                                    <Facebook />
+                                    <Typography sx={{ textTransform: 'capitalize' }}>youwho.club</Typography>
+                                </FlexRow>
+                                <FlexRow sx={{ gap: '8px' }}>
                                     <Telegram />
-                                    <Typography sx={{ textTransform: 'capitalize' }}>Telegram</Typography>
+                                    <Typography sx={{ textTransform: 'capitalize' }}>@YouWho_club</Typography>
                                 </FlexRow>
                                 <FlexRow sx={{ gap: '8px' }}>
                                     <WhatsApp />
-                                    <Typography sx={{ textTransform: 'capitalize' }}>WhatsApp</Typography>
+                                    <Typography sx={{ textTransform: 'capitalize' }}>+447506391847</Typography>
                                 </FlexRow>
                                 <FlexRow sx={{ gap: '8px' }}>
                                     <Location />
-                                    <Typography sx={{ textTransform: 'capitalize' }}>Address</Typography>
+                                    <Typography sx={{ textTransform: 'capitalize' }}>20 Wenlock road , london , N1 7GU,England</Typography>
                                 </FlexRow>
                             </Box>
                         </ContactFormWrapper>
@@ -194,16 +198,20 @@ const ContactUs = ({ switchTheme, theme }) => {
                             </BoxDetailsTitle>
                             <BoxDetailsDetails>
                                 <FlexRow sx={{ gap: '8px' }}>
+                                    <Facebook />
+                                    <Typography sx={{ textTransform: 'capitalize' }}>youwho.club</Typography>
+                                </FlexRow>
+                                <FlexRow sx={{ gap: '8px' }}>
                                     <Instagram />
                                     <Typography sx={{ textTransform: 'capitalize' }}>Instagram</Typography>
                                 </FlexRow>
                                 <FlexRow sx={{ gap: '8px' }}>
                                     <Telegram />
-                                    <Typography sx={{ textTransform: 'capitalize' }}>Telegram</Typography>
+                                    <Typography sx={{ textTransform: 'capitalize' }}>@YouWho_club</Typography>
                                 </FlexRow>
                                 <FlexRow sx={{ gap: '8px' }}>
                                     <WhatsApp />
-                                    <Typography sx={{ textTransform: 'capitalize' }}>WhatsApp</Typography>
+                                    <Typography sx={{ textTransform: 'capitalize' }}>+447506391847</Typography>
                                 </FlexRow>
                             </BoxDetailsDetails>
                         </BoxDetails>
@@ -216,15 +224,15 @@ const ContactUs = ({ switchTheme, theme }) => {
                             <BoxDetailsDetails>
                                 <FlexRow sx={{ gap: '8px' }}>
                                     <Phone />
-                                    <Typography sx={{ textTransform: 'capitalize' }}>+441234567890</Typography>
+                                    <Typography sx={{ textTransform: 'capitalize' }}>+443333390905</Typography>
                                 </FlexRow>
                                 <FlexRow sx={{ gap: '8px' }}>
                                     <Email />
-                                    <Typography sx={{ textTransform: 'capitalize' }}>Email Address</Typography>
+                                    <Typography sx={{ textTransform: 'capitalize' }}>support@youwho.club</Typography>
                                 </FlexRow>
                                 <FlexRow sx={{ gap: '8px' }}>
                                     <Location />
-                                    <Typography sx={{ textTransform: 'capitalize' }}>Address</Typography>
+                                    <Typography sx={{ textTransform: 'capitalize' }}>20 Wenlock road , london , N1 7GU,England</Typography>
                                 </FlexRow>
                             </BoxDetailsDetails>
                         </BoxDetails>
