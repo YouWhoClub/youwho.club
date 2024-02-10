@@ -3305,7 +3305,7 @@ export const WelcomeUserCard = ({
 
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Typography sx={{ display: { xs: 'block', sm: 'none' }, fontWeight: 700, color: 'primary.text', fontSize: '12px' }}>
-                            {shorten(user.mail ? user.mail : username, 15)}
+                            {shorten(user.mail ? user.mail : username, 10)}
                         </Typography>
                         <Typography sx={{ display: { xs: 'none', sm: 'block' }, fontWeight: 700, color: 'primary.text', fontSize: '14px' }}>
                             {user.mail ? user.mail : username}
@@ -3316,18 +3316,27 @@ export const WelcomeUserCard = ({
                         <Typography sx={{ fontWeight: 400, color: 'primary.text', fontSize: { xs: '10px', sm: '12px' } }}>
                             joined: &nbsp;
                         </Typography>
-                        <Typography sx={{ fontWeight: 400, color: 'secondary.text', fontSize: { xs: '10px', sm: '12px' } }}>
+                        <Typography sx={{ display: { xs: 'none', sm: 'block' }, fontWeight: 400, color: 'secondary.text', fontSize: { xs: '10px', sm: '12px' } }}>
                             {shorten(user.created_at, 19)}
+                        </Typography>
+                        <Typography sx={{ display: { xs: 'block', sm: 'none' }, fontWeight: 400, color: 'secondary.text', fontSize: { xs: '10px', sm: '12px' } }}>
+                            {shorten(user.created_at, 10)}
                         </Typography>
 
                     </Box>
                 </Box>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: '3px', }}>
+                <Typography sx={{ fontWeight: 400, color: 'primary.text', fontSize: { xs: '10px', sm: '12px' } }}>
+                    {user.balance ? user.balance : '0'}
+                </Typography>
+                <YouwhoCoinIcon w={20} h={20} />
+            </Box>
+            <Box sx={{ display: { xs: 'flex', sm: 'none' }, alignItems: 'center', gap: '2px', }}>
                 <Typography sx={{ fontWeight: 400, color: 'primary.text', fontSize: { xs: '10px', sm: '12px' } }}>
                     {user.balance}
                 </Typography>
-                <YouwhoCoinIcon w={20} h={20} />
+                <YouwhoCoinIcon w={15} h={15} />
             </Box>
         </Box>
     )
