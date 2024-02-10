@@ -3305,10 +3305,10 @@ export const WelcomeUserCard = ({
 
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Typography sx={{ display: { xs: 'block', sm: 'none' }, fontWeight: 700, color: 'primary.text', fontSize: '12px' }}>
-                            {shorten(user.mail ? user.mail : username, 10)}
+                            {shorten(username, 10)}
                         </Typography>
                         <Typography sx={{ display: { xs: 'none', sm: 'block' }, fontWeight: 700, color: 'primary.text', fontSize: '14px' }}>
-                            {user.mail ? user.mail : username}
+                            {username}
                         </Typography>
                     </Box>
 
