@@ -79,10 +79,10 @@ const ProfilePanel = () => {
                 mb={'24px'}
                 jc={{ xs: 'start', md: 'center' }}
             >
-                <Tab id={"create-tab"} onClick={(e) => {
+                {/* <Tab id={"create-tab"} onClick={(e) => {
                     setActiveTab(e.target.id)
                     window.location.hash = `#${e.target.id}`
-                }} text={'Create Artwork'} selected={activeTab == 'create-tab'} />
+                }} text={'Create Artwork'} selected={activeTab == 'create-tab'} /> */}
                 <Tab id={"private-gallery-tab"} onClick={(e) => {
                     setActiveTab(e.target.id)
                     window.location.hash = `#${e.target.id}`
