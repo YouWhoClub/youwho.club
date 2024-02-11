@@ -2687,7 +2687,7 @@ export const SearchUserCard = ({
                     {username}
                 </Typography>
             </Box>
-            {!globalUser.isLoggedIn ?
+            {/* {!globalUser.isLoggedIn ?
                 undefined
                 :
                 <>
@@ -2733,7 +2733,7 @@ export const SearchUserCard = ({
                             }
                         </Box>
                     }
-                </>}
+                </>} */}
 
         </TopUserCardComp>
     )
@@ -3125,12 +3125,12 @@ export const SearchNFTCard = ({ nft }) => {
         <Box sx={{
             width: '230px', height: '230px',
             boxSizing: 'border-box',
-            display: 'flex', flexDirection: 'column', position: 'relative', borderRadius: '4px',
+            display: 'flex', flexDirection: 'column', position: 'relative', borderRadius: '8px',
         }}>
             <Box sx={{
                 background: imageURL ? `url(${imageURL}) no-repeat center` : 'primary.bg',
                 width: '100%', height: '100%',
-                backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat'
+                backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', borderRadius: '8px',
             }} />
 
             <Box sx={{
