@@ -7,6 +7,8 @@ import { PUBLIC_API } from "../utils/data/public_api";
 import { API_CONFIG } from "../config";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { SearchNormal1 } from "iconsax-react";
+import { Close } from "@mui/icons-material";
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex', boxSizing: 'border-box',
     flexDirection: 'row',
@@ -131,6 +133,7 @@ const SearchPage = ({ theme, switchTheme }) => {
                     Search:
                 </span>
                 <input style={{
+                    marginLeft: '5px',
                     height: '20px',
                     backgroundColor: 'transparent', border: 'none', outline: 'none',
                     color: '#c2c2c2', width: '100%'
@@ -140,6 +143,9 @@ const SearchPage = ({ theme, switchTheme }) => {
                         search(e.target.value, 0, 50)
                         setSearchQ(e.target.value)
                     }} />
+                {searchQ == undefined || searchQ == '' ?
+                    <SearchNormal1 cursor={'pointer'} size={'20px'} />
+                    : <Close sx={{ cursor: 'pointer', fontSize: '20px' }} onClick={() => setSearchQ('')} />}
             </FilterSelectionBox>
             <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: '680px' }}>
                 <Tabs
