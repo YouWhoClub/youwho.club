@@ -108,7 +108,7 @@ const GuidePage = ({ switchTheme, theme }) => {
                                         backgroundImage: BG_URL(PUBLIC_URL(`${exploreBarImg}`)),
                                         backgroundSize: 'contain',
                                         '&:hover': {
-                                            width: { xs: '100%', md: '400px' }, height: { xs: '100%', md: '400px' }
+                                            width: { xs: '100%', md: '400px' }, height: { xs: '300px', md: '400px' }
                                         }
 
                                     }} />

@@ -3319,14 +3319,14 @@ export const WelcomeUserCard = ({
                     </Box>
 
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Typography sx={{ fontWeight: 400, color: 'primary.text', fontSize: { xs: '10px', sm: '12px' } }}>
+                        <Typography sx={{ display: { xs: 'none', sm: 'block' }, fontWeight: 400, color: 'primary.text', fontSize: { xs: '10px', sm: '12px' } }}>
                             joined: &nbsp;
                         </Typography>
-                        <Typography sx={{ display: { xs: 'none', sm: 'block' }, fontWeight: 400, color: 'secondary.text', fontSize: { xs: '10px', sm: '12px' } }}>
+                        <Typography sx={{ display: { xs: 'none', sm: 'block' }, fontWeight: 400, color: 'secondary.text', fontSize: '12px' }}>
                             {shorten(user.created_at, 19)}
                         </Typography>
-                        <Typography sx={{ display: { xs: 'block', sm: 'none' }, fontWeight: 400, color: 'secondary.text', fontSize: { xs: '10px', sm: '12px' } }}>
-                            {shorten(user.created_at, 10)}
+                        <Typography sx={{ display: { xs: 'block', sm: 'none' }, fontWeight: 400, color: 'secondary.text', fontSize: '8px' }}>
+                            {shorten(user.created_at, 19)}
                         </Typography>
 
                     </Box>

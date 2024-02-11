@@ -22,7 +22,7 @@ const Welcome = ({ theme, switchTheme }) => {
             let response = await apiCall.current.promise;
             if (!response.isSuccess)
                 throw response
-            let usrs = response.data.data.sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+            let usrs = response.data.data.sort((a, b) => new Date(a.created_at) > new Date(b.created_at))
             setUsers(usrs)
             let pagTabs = []
             let tabNums = usrs.length / 15

@@ -62,7 +62,7 @@ const YWServices = ({ theme }) => {
                         <NavigateCardTwo link={'/main-gallery'} image={theme == 'light' ? marketImgDark : marketImgLight} title={'NFT Gallery'}
                             content={'With our NFT marketplace, you can discover new NFTs and sell your existing NFTs. We offer a wide variety of NFTs from artists and creators around the world.'} />
                         <NavigateCardTwo link={'/wallet'} image={theme == 'light' ? walletImgDark : walletImgLight} title={'Wallet'}
-                            content={'NFT wallet in YouWho, allows you to securely store your NFTs. It also allows you send and receive NFTs so easily.'} />
+                            content={'NFT wallet in YouWho, allows you to securely store your NFTs. It also allows you to send and receive NFTs so easily.'} />
                     </Box>
                 </PurpleBox>
             </Box>

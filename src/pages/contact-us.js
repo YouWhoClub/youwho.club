@@ -157,7 +157,7 @@ const ContactUs = ({ switchTheme, theme }) => {
                                 </Box>
                                 <ButtonPurple text={'Send Email'} px={'24px'} w={'max-content'} />
                             </ContactForm>
-                            <Box sx={{ color: 'white', width: { xs: '100%', md: '30%' }, boxSizing: 'border-box', padding: '15px', gap: '25px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                            <Box sx={{ color: 'white', width: { xs: '100%', md: '32%' }, boxSizing: 'border-box', padding: '15px', gap: '25px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                 <FlexRow sx={{ gap: '8px' }}>
                                     <Phone />
                                     <Typography sx={{ textTransform: 'capitalize' }}>+443333390905</Typography>
@@ -168,7 +168,7 @@ const ContactUs = ({ switchTheme, theme }) => {
                                 </FlexRow>
                                 <FlexRow sx={{ gap: '8px' }}>
                                     <Instagram />
-                                    <Typography sx={{ textTransform: 'capitalize' }}>Instagram</Typography>
+                                    <Typography sx={{ textTransform: 'capitalize' }}>youwho.club</Typography>
                                 </FlexRow>
                                 <FlexRow sx={{ gap: '8px' }}>
                                     <Facebook />
@@ -184,7 +184,7 @@ const ContactUs = ({ switchTheme, theme }) => {
                                 </FlexRow>
                                 <FlexRow sx={{ gap: '8px' }}>
                                     <Location />
-                                    <Typography sx={{ textTransform: 'capitalize' }}>20 Wenlock road , london , N1 7GU,England</Typography>
+                                    <Typography sx={{ textTransform: 'capitalize' }}>20 Wenlock road , london ,England</Typography>
                                 </FlexRow>
                             </Box>
                         </ContactFormWrapper>
@@ -203,7 +203,7 @@ const ContactUs = ({ switchTheme, theme }) => {
                                 </FlexRow>
                                 <FlexRow sx={{ gap: '8px' }}>
                                     <Instagram />
-                                    <Typography sx={{ textTransform: 'capitalize' }}>Instagram</Typography>
+                                    <Typography sx={{ textTransform: 'capitalize' }}>youwho.club</Typography>
                                 </FlexRow>
                                 <FlexRow sx={{ gap: '8px' }}>
                                     <Telegram />
@@ -232,7 +232,7 @@ const ContactUs = ({ switchTheme, theme }) => {
                                 </FlexRow>
                                 <FlexRow sx={{ gap: '8px' }}>
                                     <Location />
-                                    <Typography sx={{ textTransform: 'capitalize' }}>20 Wenlock road , london , N1 7GU,England</Typography>
+                                    <Typography sx={{ textTransform: 'capitalize' }}>20 Wenlock road , london ,England</Typography>
                                 </FlexRow>
                             </BoxDetailsDetails>
                         </BoxDetails>
