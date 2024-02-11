@@ -23,7 +23,7 @@ const Welcome = ({ theme, switchTheme }) => {
             if (!response.isSuccess)
                 throw response
             let usrs = response.data.data.sort((a, b) => new Date(a.created_at) > new Date(b.created_at))
-            setUsers(usrs)
+            setUsers(response.data.data)
             let pagTabs = []
             let tabNums = usrs.length / 15
             for (let i = 0; i < tabNums; i++) {

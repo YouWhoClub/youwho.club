@@ -3265,7 +3265,7 @@ export const WelcomeUserCard = ({
             updateToast(false, response.message)
         }
     }
-    // console.log(key)
+    console.log(new Date(user.created_at).toString())
     return (
         <Box sx={(theme) => ({
             display: 'flex',
@@ -3323,10 +3323,10 @@ export const WelcomeUserCard = ({
                             joined: &nbsp;
                         </Typography>
                         <Typography sx={{ display: { xs: 'none', sm: 'block' }, fontWeight: 400, color: 'secondary.text', fontSize: '12px' }}>
-                            {shorten(user.created_at, 19)}
+                            {shorten(new Date(user.created_at).toLocaleDateString(), 19)}
                         </Typography>
                         <Typography sx={{ display: { xs: 'block', sm: 'none' }, fontWeight: 400, color: 'secondary.text', fontSize: '8px' }}>
-                            {shorten(user.created_at, 19)}
+                            {shorten(new Date(user.created_at).toLocaleDateString(), 19)}
                         </Typography>
 
                     </Box>
