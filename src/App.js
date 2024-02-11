@@ -234,7 +234,7 @@ function App() {
         //   <MetamaskProvider>
         //     <NFTMarketplaceProvider> */}
 
-          <BrowserRouter>
+          <BrowserRouter forceRefresh={true} >
             <ScrollToTop>
               <>
                 <Routes>

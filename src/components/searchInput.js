@@ -2,7 +2,7 @@ import { Close, Search } from "@mui/icons-material";
 import { Box, Input, TextField, Typography, inputBaseClasses } from "@mui/material";
 import { SearchNormal1 } from "iconsax-react";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 
 const SearchInput = () => {
     const [searchQ, setSearchQ] = useState('')
@@ -11,11 +11,12 @@ const SearchInput = () => {
     //     navigate(`/search?q=${searchQ}`)
     //     // }
     // }
+    const navigate = useNavigate()
+
     useEffect(() => {
         if (searchQ)
             navigate(`/search?q=${searchQ}`)
     }, [searchQ])
-    const navigate = useNavigate()
     return (<>
         <Box sx={{
             display: { xs: 'none', md: 'flex' }, alignItems: 'center',

@@ -6,6 +6,7 @@ import { SearchNFTCard, SearchUserCard, Tab, Tabs } from "../components/utils";
 import { PUBLIC_API } from "../utils/data/public_api";
 import { API_CONFIG } from "../config";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex', boxSizing: 'border-box',
     flexDirection: 'row',
@@ -88,15 +89,19 @@ const SearchPage = ({ theme, switchTheme }) => {
             }
         }
     }
+    const navigate = useNavigate()
+
     // let searchQ = window.location.search ? window.location.search.replace('?q=', '') : ''
     useEffect(() => {
-        if (searchQ)
+        if (searchQ) {
+            navigate(`/search?q=${searchQ}`)
             search(searchQ, 0, 60)
+        }
     }, [searchQ])
-    useEffect(() => {
-        if (window.location.search)
-            setSearchQ(window.location.search)
-    }, [window.location.search])
+    // useEffect(() => {
+    //     if (window.location.search)
+    //         setSearchQ(window.location.search.replace('?q=', ''))
+    // }, [window.location.search])
     useEffect(() => {
         return () => {
             if (apiCall.current) {
@@ -121,7 +126,7 @@ const SearchPage = ({ theme, switchTheme }) => {
             flexDirection: 'column', width: '100%',
             gap: '32px', alignItems: 'center', boxSizing: 'border-box', padding: '20px 22px'
         }}>
-            {/* <FilterSelectionBox sx={{ padding: '8px 16px', maxWidth: '480px' }}>
+            <FilterSelectionBox sx={{ padding: '8px 16px', maxWidth: '480px' }}>
                 <span style={{ width: 'max-content', fontSize: '14px' }}>
                     Search:
                 </span>
@@ -135,7 +140,7 @@ const SearchPage = ({ theme, switchTheme }) => {
                         search(e.target.value, 0, 50)
                         setSearchQ(e.target.value)
                     }} />
-            </FilterSelectionBox> */}
+            </FilterSelectionBox>
             <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: '680px' }}>
                 <Tabs
                     // mb={'24px'}
@@ -210,7 +215,7 @@ const SearchPage = ({ theme, switchTheme }) => {
                         {activeTab == 'users' && <>
                             {userResults && userResults.length > 0 ? <>
                                 {userResults.map((user) => (<SearchUserCard
-                                    key={user.screen_cid}
+                                    key={user.username}
                                     username={user.username}
                                     image={user.avatar}
                                     getMyFollowings={getMyFollowings}
