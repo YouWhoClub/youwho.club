@@ -1,11 +1,5 @@
 import { Box, CircularProgress, LinearProgress, Typography } from "@mui/material";
 import NFTCard from "../nft market/nftCard";
-import blueNft from '../../assets/blue-nft.svg'
-import pinkNFT from '../../assets/pink-nft.svg'
-import purpleNFT from '../../assets/purple-nft.svg'
-import creamNFT from '../../assets/cream-nft.svg'
-import sorkhabiNFT from '../../assets/sokhabi-nft.svg'
-import torqNFT from '../../assets/torqua-nft.svg'
 import styled from "@emotion/styled";
 import FilterSelection from "../filterSelection";
 import { Fragment, useEffect, useState } from "react";

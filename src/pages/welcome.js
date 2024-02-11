@@ -9,35 +9,40 @@ import { ToastContainer } from "react-toastify";
 const Welcome = ({ theme, switchTheme }) => {
     const [users, setUsers] = useState(undefined)
     const [from, setFrom] = useState(0)
-    const [to, setTo] = useState(30)
+    const [to, setTo] = useState(4)
     const apiCall = useRef(undefined)
     const [selectedTab, setSelectedTab] = useState(1)
-    const [pgTabs, setPgTabs] = useState([1])
-
+    const [pgTabs, setPgTabs] = useState([])
     const getUsers = async () => {
         try {
             apiCall.current = PUBLIC_API.request({
-                path: `/get-users-wallet-info/?from=${from}&to=${to}`,
+                path: `/get-users-wallet-info/?from=${0}&to=${500}`,
                 method: 'get',
             });
             let response = await apiCall.current.promise;
             if (!response.isSuccess)
                 throw response
-            // setUsers(response)
-
-
-            let usesrsArr = response.data.data.slice((selectedTab - 1) * 15, ((selectedTab - 1) * 15) + 15)
-            setUsers(usesrsArr)
-            if (response.data.data.length >= 15) {
-                let pagTabs = []
-                let tabNums = response.data.data.length / 15
-                for (let i = 0; i < tabNums; i++) {
-                    pagTabs.push(i + 1)
-                }
-                setPgTabs(pagTabs)
-            } else {
-                console.log('getting users !')
+            let usrs = response.data.data.sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+            setUsers(usrs)
+            let pagTabs = []
+            let tabNums = usrs.length / 15
+            for (let i = 0; i < tabNums; i++) {
+                pagTabs.push(i + 1)
             }
+            setPgTabs(pagTabs)
+
+            // let usesrsArr = response.data.data.slice((selectedTab - 1) * 15, ((selectedTab - 1) * 15) + 15)
+            // setUsers(usesrsArr)
+            // if (response.data.data.length >= 15) {
+            //     let pagTabs = []
+            //     let tabNums = response.data.data.length / 15
+            //     for (let i = 0; i < tabNums; i++) {
+            //         pagTabs.push(i + 1)
+            //     }
+            //     setPgTabs(pagTabs)
+            // } else {
+            //     console.log('getting users !')
+            // }
 
         }
         catch (err) {
@@ -49,13 +54,13 @@ const Welcome = ({ theme, switchTheme }) => {
         }
     }
 
-    useEffect(() => {
-        // setFrom((selectedTab - 1) * 15)
-        setTo((((selectedTab - 1) * 15) + 15) + 15)
-    }, [selectedTab])
-    useEffect(() => {
-        getUsers()
-    }, [to])
+    // useEffect(() => {
+    //     // setFrom((selectedTab - 1) * 15)
+    //     setTo((((selectedTab - 1) * 15) + 15) + 15)
+    // }, [selectedTab])
+    // useEffect(() => {
+    //     getUsers()
+    // }, [to])
     useEffect(() => {
         getUsers()
         return () => {
@@ -64,6 +69,27 @@ const Welcome = ({ theme, switchTheme }) => {
             }
         }
     }, [])
+    // useEffect(() => {
+    //     if (users) {
+    //         let pagTabs = []
+    //         let tabNums = users.length / 4
+    //         for (let i = 0; i < tabNums; i++) {
+    //             pagTabs.push(i + 1)
+    //         }
+    //         setPgTabs(pagTabs)
+    //     }
+
+    // }, [users])
+
+    useEffect(() => {
+        // setFrom((selectedTab - 1) * 4)
+        // setTo(((selectedTab - 1) * 4) + 4)
+        setFrom((selectedTab * 15) - 15)
+        setTo(selectedTab * 15)
+        console.log(selectedTab)
+        console.log((selectedTab * 15) - 15)
+        console.log(selectedTab * 15)
+    }, [selectedTab])
 
     return (
         <Box sx={{
@@ -87,6 +113,9 @@ const Welcome = ({ theme, switchTheme }) => {
                 <Typography sx={{ textTransform: 'capitalize', fontSize: { xs: '12px', sm: '16px', md: '16px' }, color: 'secondary.text' }}>
                     thank you for choosing us
                 </Typography>
+                <Typography sx={{ textTransform: 'capitalize', fontSize: { xs: '10px', sm: '12px', md: '12px' }, fontFamily: 'Inter', color: 'secondary.text' }}>
+                    we're waiting for the first 500 users to be joined then we will unlock our special features for you , and guess what ? our first 500 members will each get 10k in-app tokens for free!
+                </Typography>
                 <Typography sx={{ textTransform: 'capitalize', fontSize: { xs: '12px', sm: '16px', md: '16px' }, color: 'secondary.text', fontWeight: 600 }}>
                     YouWho First Users:
                 </Typography>
@@ -98,18 +127,27 @@ const Welcome = ({ theme, switchTheme }) => {
                     overflowX: 'hidden',
                     '&::-webkit-scrollbar': { display: 'none', },
                     borderRadius: '24px',
-                    width: '100%', boxShadow: theme.palette.primary.boxShadow,
+                    width: '100%',
+                    //  boxShadow: theme.palette.primary.boxShadow,
                     padding: '10px', boxSizing: 'border-box'
                 })}>
                     {users ?
                         <>
-                            {users.map((user) => (<WelcomeUserCard
-                                key={user.screen_cid}
-                                username={user.username}
-                                image={user.avatar}
-                                user={user}
-                                ywID={user.screen_cid}
-                            />))}
+                            {users.slice(from, to).map((user, index) => (
+                                // <Box
+                                // >
+                                <WelcomeUserCard
+                                    length={users.length}
+                                    key={index}
+                                    selectedTab={selectedTab}
+                                    index={index}
+                                    username={user.username}
+                                    image={user.avatar}
+                                    user={user}
+                                    ywID={user.screen_cid}
+                                />
+                                // </Box> 
+                            ))}
                             {users && users.length > 0 ?
                                 <Pagination tabs={pgTabs} selected={selectedTab} setSelectedTab={setSelectedTab} />
                                 : undefined}

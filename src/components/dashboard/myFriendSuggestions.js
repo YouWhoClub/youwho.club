@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { PUBLIC_API } from "../../utils/data/public_api";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { RelationCard } from "../utils";
-import pinkNFT from '../../assets/pink-nft.svg'
 import { useSelector } from "react-redux";
 import { AUTH_API } from "../../utils/data/auth_api";
 import { API_CONFIG } from "../../config";

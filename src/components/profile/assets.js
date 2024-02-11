@@ -4,8 +4,6 @@ import { AscSelect } from "../utils";
 import { useSelector } from "react-redux";
 import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import purpleNFT from '../../assets/purple-nft.svg'
-import creamNFT from '../../assets/cream-nft.svg'
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
 // import NFTAssetCard from "../nft market/nftAssetCard";
 import { Box, CircularProgress, Typography } from "@mui/material";

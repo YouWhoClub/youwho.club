@@ -1,19 +1,6 @@
 import { Box, Skeleton, Typography } from "@mui/material";
 import GiftCard from "../components/nft market/giftCard";
 import styled from "@emotion/styled";
-import heart from '../assets/heart.png'
-import gheart from '../assets/greenHeart.png'
-import bheart from '../assets/blueHeart.png'
-import prheart from '../assets/pinkRedHeart.png'
-import ppheart from '../assets/purpleHeart.png'
-import gryheart from '../assets/grayHeart.png'
-import orngheart from '../assets/orangeheart.png'
-import blueNft from '../assets/blue-nft.svg'
-import pinkNFT from '../assets/pink-nft.svg'
-import purpleNFT from '../assets/purple-nft.svg'
-import creamNFT from '../assets/cream-nft.svg'
-import sorkhabiNFT from '../assets/sokhabi-nft.svg'
-import torqNFT from '../assets/torqua-nft.svg'
 import NFTCard from "../components/nft market/nftCard";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";

@@ -3145,7 +3145,8 @@ export const SearchNFTCard = ({ nft }) => {
 
 
 export const WelcomeUserCard = ({
-    image, username, myFollowings, ywID, search, getMyFollowings, user }) => {
+    // key,
+    image, username, myFollowings, ywID, search, getMyFollowings, user, index, length, selectedTab }) => {
     const navigate = useNavigate()
     const toastId = useRef(null);
     const globalUser = useSelector(state => state.userReducer)
@@ -3264,7 +3265,7 @@ export const WelcomeUserCard = ({
             updateToast(false, response.message)
         }
     }
-
+    // console.log(key)
     return (
         <Box sx={(theme) => ({
             display: 'flex',
@@ -3276,6 +3277,7 @@ export const WelcomeUserCard = ({
             borderRadius: '16px', gap: '12px',
             height: '74px',
             width: '100%',
+            maxWidth: '900px',
             color: theme.palette.primary.text,
             backgroundColor: theme.palette.secondary.bg,
             boxSizing: 'border-box'
@@ -3287,6 +3289,10 @@ export const WelcomeUserCard = ({
                 alignItems: 'center',
                 boxSizing: 'border-box'
             }}>
+                <Typography sx={{ color: 'primary.text', }}>
+                    {/* {length - index} */}
+                    {length - (((index) + (15 * (selectedTab - 1))))}
+                </Typography>
                 <Box sx={{
                     backgroundColor: 'primary.bg',
                     backgroundImage: () => image ? `url('${API_CONFIG.API_URL}/${image}')` : BG_URL(PUBLIC_URL(`${profileFace}`)),

@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import generateSignature from "../../utils/signatureUtils";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { toast } from 'react-toastify';
-import blueNft from '../../assets/blue-nft.svg'
 
 const MyFriendequests = ({
     //  setAllRequests, 

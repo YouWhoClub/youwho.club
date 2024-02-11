@@ -1,8 +1,6 @@
 import styled from "@emotion/styled";
 import { Box, ClickAwayListener, MenuItem, Popper, Typography, Modal } from "@mui/material";
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
-import purpleNFT from '../../assets/purple-nft.svg'
-import creamNFT from '../../assets/cream-nft.svg'
 import { ArrowUp2, ArrowDown2, Heart, HeartRemove, More, Pointer, Coin, Setting, Share } from "iconsax-react";
 import yCoin from '../../assets/Ycoin.svg'
 import ButtonPurple from "../buttons/buttonPurple";

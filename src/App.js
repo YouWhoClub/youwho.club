@@ -266,7 +266,7 @@ function App() {
                       <Route exact path="/privacy-policy" element={<></>} />
                       <Route exact path="/terms-of-service" element={<></>} />
                       <Route exact path="/welcome" element={<Welcome theme={theme} switchTheme={switchTheme} />} />
-                      {/* <Route exact path="/search" element={<SearchPage theme={theme} switchTheme={switchTheme} />} /> */}
+                      <Route exact path="/search" element={<SearchPage theme={theme} switchTheme={switchTheme} />} />
 
 
                       {/* <Route exact path="/main-gallery" element={<ViewMainGalleryPage theme={theme} switchTheme={switchTheme} />} /> */}

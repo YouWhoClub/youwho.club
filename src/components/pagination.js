@@ -31,9 +31,9 @@ const Pagination = ({ tabs, selected, setSelectedTab }) => {
                 })}>
                 Previous
             </PagTabs>
-            {tabs.length > 4 ?
+            {tabs.length > 3 ?
                 <>
-                    {tabs.slice(selected - 1, selected + 3).map((tab) => (
+                    {tabs.slice(selected == 1 ? selected - 1 : selected - 2, selected + 1).map((tab) => (
                         <PagTabs
                             onClick={() => setSelectedTab(tab)}
                             sx={(theme) => ({

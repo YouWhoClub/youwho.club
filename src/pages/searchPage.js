@@ -88,11 +88,15 @@ const SearchPage = ({ theme, switchTheme }) => {
             }
         }
     }
-
+    // let searchQ = window.location.search ? window.location.search.replace('?q=', '') : ''
     useEffect(() => {
         if (searchQ)
             search(searchQ, 0, 60)
     }, [searchQ])
+    useEffect(() => {
+        if (window.location.search)
+            setSearchQ(window.location.search)
+    }, [window.location.search])
     useEffect(() => {
         return () => {
             if (apiCall.current) {
@@ -117,7 +121,7 @@ const SearchPage = ({ theme, switchTheme }) => {
             flexDirection: 'column', width: '100%',
             gap: '32px', alignItems: 'center', boxSizing: 'border-box', padding: '20px 22px'
         }}>
-            <FilterSelectionBox sx={{ padding: '8px 16px', maxWidth: '480px' }}>
+            {/* <FilterSelectionBox sx={{ padding: '8px 16px', maxWidth: '480px' }}>
                 <span style={{ width: 'max-content', fontSize: '14px' }}>
                     Search:
                 </span>
@@ -131,7 +135,7 @@ const SearchPage = ({ theme, switchTheme }) => {
                         search(e.target.value, 0, 50)
                         setSearchQ(e.target.value)
                     }} />
-            </FilterSelectionBox>
+            </FilterSelectionBox> */}
             <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: '680px' }}>
                 <Tabs
                     // mb={'24px'}

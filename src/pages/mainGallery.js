@@ -1,12 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import Bar from "../components/Bar";
 import PanelLayout from "../components/PanelLayout";
-import blueNft from '../assets/blue-nft.svg'
-import pinkNFT from '../assets/pink-nft.svg'
-import purpleNFT from '../assets/purple-nft.svg'
-import creamNFT from '../assets/cream-nft.svg'
-import sorkhabiNFT from '../assets/sokhabi-nft.svg'
-import torqNFT from '../assets/torqua-nft.svg'
 import styled from "@emotion/styled";
 import NFTCard from "../components/nft market/nftCard";
 import GiftCard from "../components/nft market/giftCard";

@@ -7,7 +7,6 @@ import ButtonPurple from "../buttons/buttonPurple";
 import tempPic from '../../assets/bgDots.svg'
 import tempNFT from '../../assets/youwho-hugcoin.svg'
 import ButtonOutline from "../buttons/buttonOutline";
-import purpleNFT from '../../assets/purple-nft.svg'
 import { AddBoxOutlined, AddComment, AddReaction, ArrowBack, ArrowForward, ArrowLeft, ArrowRight, ArrowUpward, Close, CommentOutlined, DescriptionOutlined, LinkOutlined, Percent, Title } from "@mui/icons-material";
 import { NFTCommentCard, MyInput, ButtonInput, BetweenTwoSelection, CommentInput } from "../utils";
 import ButtonPurpleLight from "../buttons/buttonPurpleLight";

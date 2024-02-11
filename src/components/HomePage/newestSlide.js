@@ -2,19 +2,6 @@ import { Box, Skeleton, Typography } from "@mui/material";
 import CustomSlider from "../customSlider";
 import GiftCard from "../nft market/giftCard";
 import { Link, useNavigate } from "react-router-dom";
-import heart from '../../assets/heart.png'
-import gheart from '../../assets/greenHeart.png'
-import bheart from '../../assets/blueHeart.png'
-import prheart from '../../assets/pinkRedHeart.png'
-import ppheart from '../../assets/purpleHeart.png'
-import gryheart from '../../assets/grayHeart.png'
-import orngheart from '../../assets/orangeheart.png'
-import blueNft from '../../assets/blue-nft.svg'
-import pinkNFT from '../../assets/pink-nft.svg'
-import purpleNFT from '../../assets/purple-nft.svg'
-import creamNFT from '../../assets/cream-nft.svg'
-import sorkhabiNFT from '../../assets/sokhabi-nft.svg'
-import torqNFT from '../../assets/torqua-nft.svg'
 
 import NFTCard from "../nft market/nftCard";
 import ButtonOutline from "../buttons/buttonOutline";

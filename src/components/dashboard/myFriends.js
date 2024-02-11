@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router"
 import { RelationCard } from "../utils"
-import purpleNFT from '../../assets/purple-nft.svg'
 import { API_CONFIG } from "../../config"
 
 const MyFriends = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAllie, removeFriend, searchResults, setAllFriends }) => {

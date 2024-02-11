@@ -386,10 +386,12 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
                             color: window.location.pathname == '/blogs' ? '#9747FF' : 'inherit'
                         }}>Weblogs</Link>
                     </Box>
-                    {window.location.pathname == '/search' ?
+                    {/* {window.location.pathname == '/search' ?
                         undefined :
                         <SearchInput />
-                    }
+                    } */}
+                    <SearchInput />
+
                 </Box>
                 {/* </Box> */}
 
