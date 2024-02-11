@@ -5,6 +5,7 @@ import { PUBLIC_API } from "../utils/data/public_api";
 import { SearchUserCard, WelcomeUserCard } from "../components/utils";
 import Pagination from "../components/pagination";
 import { ToastContainer } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const Welcome = ({ theme, switchTheme }) => {
     const [users, setUsers] = useState(undefined)
@@ -90,6 +91,7 @@ const Welcome = ({ theme, switchTheme }) => {
         console.log((selectedTab * 15) - 15)
         console.log(selectedTab * 15)
     }, [selectedTab])
+    const globalUser = useSelector(state => state.userReducer)
 
     return (
         <Box sx={{
@@ -102,7 +104,7 @@ const Welcome = ({ theme, switchTheme }) => {
             <Box sx={(theme) => ({
                 bgcolor: 'secondary.bg', display: "flex",
                 flexDirection: 'column', alignItems: 'center',
-                color: 'primary.text', gap: '16px', height: 'calc(100vh - 87px)',
+                color: 'primary.text', gap: '8px', height: 'calc(100vh - 87px)',
                 borderRadius: '24px',
                 width: '100%', boxShadow: theme.palette.primary.boxShadow,
                 padding: { xs: '10px', sm: '30px' }, boxSizing: 'border-box'
@@ -116,6 +118,16 @@ const Welcome = ({ theme, switchTheme }) => {
                 <Typography sx={{ textTransform: 'capitalize', fontSize: { xs: '10px', sm: '12px', md: '12px' }, fontFamily: 'Inter', color: 'secondary.text' }}>
                     we're waiting for the first 500 users to be joined then we will unlock our special features for you , and guess what ? our first 500 members will each get 10k in-app tokens for free!
                 </Typography>
+                {globalUser.privateKey &&
+                    <>
+                        <Typography sx={{ textTransform: 'capitalize', fontWeight: 600, fontSize: { xs: '10px', sm: '12px', md: '12px' }, fontFamily: 'Inter', color: 'primary.error' }}>
+                            you've created your wallet by creating your username,please save your private key somewhere safe for future uses,or you will lose your wallet
+                        </Typography>
+                        <Typography sx={{ textTransform: 'capitalize', fontWeight: 600, fontSize: { xs: '8px', sm: '12px', md: '12px' }, fontFamily: 'Inter', color: 'primary.error' }}>
+                            {globalUser.privateKey}
+                        </Typography>
+                    </>
+                }
                 <Typography sx={{ textTransform: 'capitalize', fontSize: { xs: '12px', sm: '16px', md: '16px' }, color: 'secondary.text', fontWeight: 600 }}>
                     YouWho First Users:
                 </Typography>
