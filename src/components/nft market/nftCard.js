@@ -599,7 +599,7 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
                         //  display: 'flex',
                         // alignItems: 'end'
                     }}>
-                        {is_listed && <ForSaleLabel sx={{ zIndex: 99, fontSize: '10px' }}>For Sale</ForSaleLabel>
+                        {is_listed && <ForSaleLabel sx={{ zIndex: 99, fontSize: '10px', borderRadius: '2px' }}>For Sale</ForSaleLabel>
                         }
                     </NFTImage>
                     <DetailsSection >

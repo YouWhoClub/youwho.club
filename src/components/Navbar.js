@@ -171,12 +171,55 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
     function refreshPage() {
         window.location.reload(false);
     }
+    useEffect(() => {
+        checkToken()
+    }, [globalUser.refreshToken])
+    const checkToken = async () => {
+        if (globalUser.tokenExpiration)
+            try {
+                apiCall.current = AUTH_API.request({
+                    path: `/login`,
+                    method: "post",
+                    body: { identifier: '', password: '' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${globalUser.refreshToken}`,
+                    },
+                });
+                let response = await apiCall.current.promise;
 
+                if (!response.isSuccess)
+                    throw response
+                let dt = new Date();
+                dt = new Date(dt.getTime() + 30 * 60 * 1000)
+                let accesstoken = response.headers.cookie.match(/\/accesstoken=([^&]+)/)[1]
+                let refreshToken = response.headers.cookie.match(/refrestoken=([^&]+)/)[1]
+                let tokenExpiration = dt.getTime()
+                fetchUser(accesstoken, globalUser.privateKey)
+                refreshUserToken(refreshToken, tokenExpiration)
+                setUnclaimedInitialRender(true);
+                let tempTokensObj = {}
+                tempTokensObj.accesstoken = accesstoken
+                tempTokensObj.refreshToken = refreshToken
+                tempTokensObj.tokenExpiration = tokenExpiration
+                setTokenObj(tempTokensObj)
+                console.log('cheeeekingg and changin yeaah')
+                // tokenInterval.current = null
+                // setLoginInitialRender(true)
+                // refreshPage()
+            }
+            catch (err) {
+                if (err.data.status == 406)
+                    disconnect()
+
+                console.log(err)
+            }
+    }
     const checkTokenExpiration = async () => {
-        console.log('checked!', (new Date().getTime() > globalUser.tokenExpiration));
-        console.log('token exp!', globalUser.tokenExpiration);
-        console.log('token refresh!', globalUser.refreshToken);
-        console.log('alan time!', new Date().getTime());
+        // console.log('checked!', (new Date().getTime() > globalUser.tokenExpiration));
+        // console.log('token exp!', globalUser.tokenExpiration);
+        // console.log('token refresh!', globalUser.refreshToken);
+        // console.log('alan time!', new Date().getTime());
         if (globalUser.isLoggedIn && globalUser.tokenExpiration) {
             if (new Date().getTime() > globalUser.tokenExpiration) {
                 try {
@@ -226,8 +269,6 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
         //Implementing the setInterval method
         // const interval = setInterval(checkTokenExpiration, 30000);
         //Clearing the interval
-        console.log(tokensObj.tokenExpiration)
-        console.log(tokensObj.refreshToken)
         if (tokensObj.tokenExpiration == globalUser.tokenExpiration && tokensObj.refreshToken == globalUser.refreshToken) {
             clearInterval(tokenInterval.current);
             setLoginInitialRender(true)
@@ -243,7 +284,6 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
         else {
             checkTokenExpiration()
             tokenInterval.current = setInterval(checkTokenExpiration, 60000);
-            console.log(tokenInterval)
         }
         return () => {
             clearInterval(tokenInterval.current);
@@ -298,7 +338,7 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
             setOpenPVKeyModal(false)
 
             setErr(err.statusText)
-            console.log(err.statusText)
+            // console.log(err.statusText)
         }
 
     }

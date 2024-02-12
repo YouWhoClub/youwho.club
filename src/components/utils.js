@@ -3142,6 +3142,32 @@ export const SearchNFTCard = ({ nft }) => {
         </Box>
     )
 }
+export const SearchCollectionCard = ({ collection }) => {
+    const navigate = useNavigate()
+    const toastId = useRef(null);
+    const globalUser = useSelector(state => state.userReducer)
+
+    return (
+        <Box sx={{
+            width: '230px', height: '230px',
+            boxSizing: 'border-box',
+            display: 'flex', flexDirection: 'column', position: 'relative', borderRadius: '8px',
+        }}>
+            <Box sx={{
+                backgroundImage: () => `url('${API_CONFIG.API_URL}/${collection.collection_background}')`,
+                width: '100%', height: '100%',
+                backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', borderRadius: '8px',
+            }} />
+
+            <Box sx={{
+                position: 'absolute', bottom: 0, width: '100%',
+                backgroundColor: 'primary.bgOp', display: 'flex', alignItems: 'center'
+            }}>
+                <Typography sx={{ textAlign: 'center', width: '100%', color: 'primary.text' }}>{collection.col_name}</Typography>
+            </Box>
+        </Box>
+    )
+}
 
 
 export const WelcomeUserCard = ({

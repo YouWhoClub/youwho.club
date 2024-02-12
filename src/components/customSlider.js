@@ -52,7 +52,6 @@ function SamplePrevArrow(props) {
     );
 }
 export default function CustomSlider({ children, slidesCount, slidesCountTablet, items, theme }) {
-    console.log(children.length)
     const settings = {
         infinite: false,
         // dots: false,

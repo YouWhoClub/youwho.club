@@ -2,7 +2,7 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import Navbar from "../components/Navbar";
 import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
-import { SearchNFTCard, SearchUserCard, Tab, Tabs } from "../components/utils";
+import { SearchCollectionCard, SearchNFTCard, SearchUserCard, Tab, Tabs } from "../components/utils";
 import { PUBLIC_API } from "../utils/data/public_api";
 import { API_CONFIG } from "../config";
 import { useSelector } from "react-redux";
@@ -54,6 +54,7 @@ const SearchPage = ({ theme, switchTheme }) => {
             setNFTResults(response.data.data.nfts)
             setCollectionResults(response.data.data.collection)
             setUserResults(response.data.data.users)
+            console.log(response.data)
         }
         catch (err) {
             if (err.status == 404) {
@@ -240,6 +241,8 @@ const SearchPage = ({ theme, switchTheme }) => {
                                 sx={{
                                     display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '2px'
                                 }}>
+                                {collectionResults.map((collection) => (<SearchCollectionCard
+                                    collection={collection} />))}
 
 
                             </Box> :
@@ -256,7 +259,7 @@ const SearchPage = ({ theme, switchTheme }) => {
                                 }}>
 
                                 {NFTResults.map((nft) => (<SearchNFTCard
-                                    nft={nft} />))}
+                                    nft={nft.nfts_data} />))}
 
                             </Box> :
                                 <Typography sx={{ color: 'primary.text', fontSize: { xs: '16px', sm: '18px' } }}>
