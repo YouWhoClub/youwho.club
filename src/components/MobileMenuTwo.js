@@ -17,9 +17,9 @@ import profileFace from '../assets/face-pro.svg'
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { API_CONFIG } from '../config';
-import { Modal, Typography } from '@mui/material';
+import { MenuItem, Modal, Typography } from '@mui/material';
 import yCoin from "../assets/Ycoin.svg"
-import { Notification, NotificationBing, Profile2User, TickSquare, Wallet, Wallet1, Wallet2, Wallet3, WalletMoney } from 'iconsax-react';
+import { ArrowRight2, Notification, NotificationBing, Profile2User, TickSquare, Wallet, Wallet1, Wallet2, Wallet3, WalletMoney } from 'iconsax-react';
 import { useNavigate } from 'react-router';
 import { HEALTH_API } from '../utils/data/health_api';
 import { deleteUnclaimedDeposit, getUnclaimedDeposit, getuser, logOutUser, setRefreshToken } from '../redux/actions';
@@ -265,6 +265,78 @@ export default function MobileMenuTwo({ openMenu, setOpenMenu, theme, switchThem
             </Box>
         </Box>
     );
+    const listNotLoggedIn = (anchor) => (
+        <Box
+            sx={{
+                width: 250, height: '100%', padding: '10px 10px 24px 10px', boxSizing: 'border-box',
+                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between'
+            }}
+            role="presentation"
+            onClick={() => setOpenMenu(false)}
+            onKeyDown={() => setOpenMenu(false)}
+        >
+            <Box sx={{
+                width: '100%', height: '100%',
+                display: 'flex', flexDirection: 'column', alignItems: 'center',
+            }}>
+                <Box sx={{
+                    width: '100%',
+                    flexDirection: 'column', display: 'flex', boxSizing: 'border-box',
+                    alignItems: 'center', justifyContent: 'center', padding: '15px',
+                }}>
+                    <MenuItem onClick={() => navigate('/')}>
+                        <Typography sx={{ fontSize: '14px' }}>
+                            Home
+                        </Typography>
+                        <ArrowRight2 size='24px' />
+                    </MenuItem>
+                    {globalUser.isLoggedIn ?
+                        <MenuItem onClick={() => navigate('/profile')}>
+                            <Typography sx={{ fontSize: '14px' }}>
+                                Dashboard
+                            </Typography>
+                            <ArrowRight2 size='24px' />
+                        </MenuItem>
+                        :
+                        <MenuItem onClick={() => navigate('/auth')}>
+                            <Typography sx={{ fontSize: '14px' }}>
+                                Sign In / Sign Up
+                            </Typography>
+                            <ArrowRight2 size='24px' />
+                        </MenuItem>
+                    }
+                    <MenuItem onClick={() => navigate('/blogs')}>
+                        <Typography sx={{ fontSize: '14px' }}>
+                            Blogs
+                        </Typography>
+                        <ArrowRight2 size='24px' />
+                    </MenuItem>
+                    <MenuItem onClick={() => navigate('/about-us')}>
+                        <Typography sx={{ fontSize: '14px' }}>
+                            about us
+                        </Typography>
+                        <ArrowRight2 size='24px' />
+                    </MenuItem>
+                    <MenuItem onClick={() => navigate('/contact-us')}>
+                        <Typography sx={{ fontSize: '14px' }}>
+                            Contat us
+                        </Typography>
+                        <ArrowRight2 size='24px' />
+                    </MenuItem>
+                    <MenuItem onClick={() => navigate('/privacy-policy')}>
+                        <Typography sx={{ fontSize: '14px' }}>
+                            privacy policy
+                        </Typography>
+                        <ArrowRight2 size='24px' />
+                    </MenuItem>
+                </Box>
+
+            </Box>
+            <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'end' }}>
+                <ThemeToggler theme={theme} switchTheme={switchTheme} />
+            </Box>
+        </Box>
+    );
 
     return (
         <>
@@ -283,7 +355,7 @@ export default function MobileMenuTwo({ openMenu, setOpenMenu, theme, switchThem
                 onClose={() => setOpenMenu(false)}
             >
                 {globalUser.isLoggedIn ?
-                    list('right') : undefined}
+                    list('right') : listNotLoggedIn('right')}
             </Drawer>
 
             <Modal
