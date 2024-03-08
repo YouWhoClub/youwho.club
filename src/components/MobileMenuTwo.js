@@ -295,39 +295,39 @@ export default function MobileMenuTwo({ openMenu, setOpenMenu, theme, switchThem
                             <Typography sx={{ fontSize: '14px' }}>
                                 Dashboard
                             </Typography>
-                            <ArrowRight2 size='24px' />
+                            <ArrowRight2 size='16px' />
                         </MenuItem>
                         :
                         <MenuItem onClick={() => navigate('/auth')}>
                             <Typography sx={{ fontSize: '14px' }}>
                                 Sign In / Sign Up
                             </Typography>
-                            <ArrowRight2 size='24px' />
+                            <ArrowRight2 size='16px' />
                         </MenuItem>
                     }
                     <MenuItem onClick={() => navigate('/blogs')}>
                         <Typography sx={{ fontSize: '14px' }}>
                             Blogs
                         </Typography>
-                        <ArrowRight2 size='24px' />
+                        <ArrowRight2 size='16px' />
                     </MenuItem>
                     <MenuItem onClick={() => navigate('/about-us')}>
                         <Typography sx={{ fontSize: '14px' }}>
-                            about us
+                            About us
                         </Typography>
-                        <ArrowRight2 size='24px' />
+                        <ArrowRight2 size='16px' />
                     </MenuItem>
                     <MenuItem onClick={() => navigate('/contact-us')}>
                         <Typography sx={{ fontSize: '14px' }}>
-                            Contat us
+                            Contact us
                         </Typography>
-                        <ArrowRight2 size='24px' />
+                        <ArrowRight2 size='16px' />
                     </MenuItem>
                     <MenuItem onClick={() => navigate('/privacy-policy')}>
                         <Typography sx={{ fontSize: '14px' }}>
-                            privacy policy
+                            Privacy policy
                         </Typography>
-                        <ArrowRight2 size='24px' />
+                        <ArrowRight2 size='16px' />
                     </MenuItem>
                 </Box>
 

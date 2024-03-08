@@ -97,7 +97,7 @@ const Welcome = ({ theme, switchTheme }) => {
         <Box sx={{
             bgcolor: 'primary.bg', display: "flex",
             flexDirection: 'column', alignItems: 'center',
-            color: 'primary.text', gap: '32px', height: '100vh', padding: '0px 30px 30px 30px', boxSizing: 'border-box'
+            color: 'primary.text', gap: '32px', height: '100vh', padding: { xs: '0px 10px 10px 10px', sm: '0px 30px 30px 30px' }, boxSizing: 'border-box'
 
         }}>
             <Navbar navbarType={'dashboard'} theme={theme} switchTheme={switchTheme} />

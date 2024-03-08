@@ -3291,6 +3291,10 @@ export const WelcomeUserCard = ({
             updateToast(false, response.message)
         }
     }
+    var dt = new Date(user.created_at)
+    dt.setMinutes(dt.getMinutes() + dt.getTimezoneOffset())
+    var joined = dt.toLocaleString()
+
     console.log(new Date(user.created_at).toString())
     return (
         <Box sx={(theme) => ({
@@ -3349,10 +3353,12 @@ export const WelcomeUserCard = ({
                             joined: &nbsp;
                         </Typography>
                         <Typography sx={{ display: { xs: 'none', sm: 'block' }, fontWeight: 400, color: 'secondary.text', fontSize: '12px' }}>
-                            {shorten(new Date(user.created_at).toLocaleDateString(), 19)}
+                            {/* {shorten(new Date(user.created_at).toLocaleDateString(), 19)} */}
+                            {joined}
                         </Typography>
                         <Typography sx={{ display: { xs: 'block', sm: 'none' }, fontWeight: 400, color: 'secondary.text', fontSize: '8px' }}>
-                            {shorten(new Date(user.created_at).toLocaleDateString(), 19)}
+                            {joined}
+                            {/* {shorten(new Date(user.created_at).toLocaleDateString(), 19)} */}
                         </Typography>
 
                     </Box>
