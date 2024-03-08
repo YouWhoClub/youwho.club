@@ -200,7 +200,7 @@ const Footer = () => {
                     </AuthBox>
                 }
             </Foot>
-            <Typography sx={{ textAlign: 'center', color: 'primary.text', my: '15px' }}>Copyright © 2023 Youhwo.club. All Rights Reserved.</Typography>
+            <Typography sx={{ textAlign: 'center', color: 'primary.text', my: '15px' }}>Copyright © 2023 YouWho.club. All Rights Reserved.</Typography>
 
 
             <Modal
