@@ -3292,10 +3292,10 @@ export const WelcomeUserCard = ({
         }
     }
     var dt = new Date(user.created_at)
-    dt.setMinutes(dt.getMinutes() + dt.getTimezoneOffset())
+    dt.setMinutes(dt.getMinutes() - dt.getTimezoneOffset())
     var joined = dt.toLocaleString()
 
-    console.log(new Date(user.created_at).toString())
+    // console.log(new Date(user.created_at).toString())
     return (
         <Box sx={(theme) => ({
             display: 'flex',
