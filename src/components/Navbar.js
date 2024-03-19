@@ -446,7 +446,7 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
                                 <SearchNormal1 size='25px' cursor={'pointer'} />
                             </Link> */}
                             <ThemeToggler theme={theme} switchTheme={switchTheme} />
-                            <ButtonPurple onClick={() => navigate('/profile')}
+                            <ButtonPurple onClick={() => navigate('/welcome')}
                                 text={'Go To Panel'} height={'35px'} />
                         </Box>
                     </>
