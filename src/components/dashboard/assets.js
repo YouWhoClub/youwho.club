@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import FilterSelection from "../filterSelection";
-import { AscSelect } from "../utils";
+import { AscSelect, SubTab, SubTabs } from "../utils";
 import { useSelector } from "react-redux";
 import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
@@ -10,6 +10,7 @@ import { API_CONFIG } from '../../config'
 import NFTOnchainCard from "../nft market/nftOnchainCard";
 import Pagination from "../pagination";
 import ButtonPurpleLight from "../buttons/buttonPurpleLight";
+import OffChainAssetGallery from "./offChainAssetGallery";
 
 
 
@@ -129,6 +130,8 @@ const AssetsTab = () => {
     useEffect(() => {
         getUserOncahinNfts()
     }, [to])
+    const [activeTab, setActiveTab] = useState('on-chain-artworks')
+
     return (
         <Box sx={{
             width: '100%',
@@ -140,6 +143,11 @@ const AssetsTab = () => {
                     {
                         loading ? <CircularProgress /> :
                             <>
+                                {/* <SubTabs jc={'center'} mb={'24px'}>
+                                    <SubTab id={"off-chain-artworks"} onClick={(e) => setActiveTab(e.target.id)} text={'off-chain Artworks'} selected={activeTab == 'off-chain-artworks'} />
+                                    <SubTab id={"on-chain-artworks"} onClick={(e) => setActiveTab(e.target.id)} text={'on-chain Artworks'} selected={activeTab == 'on-chain-artworks'} />
+                                </SubTabs> */}
+
                                 {/* <FlexColumn sx={{ gap: '15px' }}>
                             <Box sx={{
                                 display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap',
@@ -159,34 +167,37 @@ const AssetsTab = () => {
                                 <AscSelect asc={asc} id={'asc-others-assets'} width={'280px'} setAsc={setAsc} />
                             </Box>
                         </FlexColumn> */}
-                                <Gallery
-                                    sx={{ justifyContent: { xs: 'center', sm: 'center' } }}
-                                >
-                                    {
-                                        oncahinNfts &&
-                                        oncahinNfts.map((nft, index) => {
-                                            return (
-                                                <Fragment key={`collection_${nft.nfts_data.onchain_id}`}>
-                                                    <NFTAssetCard getAssets={getUserOncahinNfts} nft={nft.nfts_data} col_data={nft.col_data} />
-                                                </Fragment>
-                                            )
-                                        })
-                                    }
-                                    {oncahinNfts && oncahinNfts.length > 0 ?
-                                        undefined :
-                                        <Typography
-                                            sx={{
-                                                color: 'primary.text', width: '100%', textAlign: 'center',
-                                                fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize'
-                                            }}>
-                                            No NFTs Found
-                                        </Typography>
-                                    }
+                                {activeTab == 'off-chain-artworks' ? <OffChainAssetGallery />
+                                    : <>
+                                        <Gallery
+                                            sx={{ justifyContent: { xs: 'center', sm: 'center' } }}
+                                        >
+                                            {
+                                                oncahinNfts &&
+                                                oncahinNfts.map((nft, index) => {
+                                                    return (
+                                                        <Fragment key={`collection_${nft.nfts_data.onchain_id}`}>
+                                                            <NFTAssetCard getAssets={getUserOncahinNfts} nft={nft.nfts_data} col_data={nft.col_data} />
+                                                        </Fragment>
+                                                    )
+                                                })
+                                            }
+                                            {oncahinNfts && oncahinNfts.length > 0 ?
+                                                undefined :
+                                                <Typography
+                                                    sx={{
+                                                        color: 'primary.text', width: '100%', textAlign: 'center',
+                                                        fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize'
+                                                    }}>
+                                                    No NFTs Found
+                                                </Typography>
+                                            }
 
-                                </Gallery>
-                                {oncahinNfts && oncahinNfts.length > 0 ?
-                                    <Pagination tabs={pgTabs} selected={selectedTab} setSelectedTab={setSelectedTab} />
-                                    : undefined}
+                                        </Gallery>
+                                        {oncahinNfts && oncahinNfts.length > 0 ?
+                                            <Pagination tabs={pgTabs} selected={selectedTab} setSelectedTab={setSelectedTab} />
+                                            : undefined}
+                                    </>}
                             </>
                     }
                 </>
@@ -201,7 +212,7 @@ const AssetsTab = () => {
                                 {globalUser.mail}
                                 &nbsp;
                             </b>
-                            to see your assets in youwho platform , you must create a youwho wallet first
+                            to see your on-chain assets in youwho platform , you must create a youwho wallet first
                         </Typography>
                         <ButtonPurpleLight text={'Create Wallet'} onClick={() => navigate('/wallet')} height='35px' />
                     </FlexColumn>

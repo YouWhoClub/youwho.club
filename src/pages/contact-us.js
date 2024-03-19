@@ -4,12 +4,15 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { BG_URL, PUBLIC_URL } from "../utils/utils";
 import bgimg from '../assets/bgBlg.png'
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { MyInput } from "../components/utils";
 import { Description, Email, Instagram, Phone, Subject, Tag, Telegram, WhatsApp } from "@mui/icons-material";
 import ButtonPurple from "../components/buttons/buttonPurple";
 import { Facebook, Location } from "iconsax-react";
 import mapBG from '../assets/map.png'
+import emailjs from '@emailjs/browser';
+import { ToastContainer, toast } from "react-toastify";
+import { API_CONFIG } from "../config";
 
 const Wrapper = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -47,7 +50,7 @@ const ContactFormWrapper = styled(Box)(({ theme }) => ({
 
     },
 }))
-const ContactForm = styled(Box)(({ theme }) => ({
+const ContactForm = styled('form')(({ theme }) => ({
     width: '50%', boxShadow: theme.palette.primary.boxShadow, backgroundColor: theme.palette.primary.bg,
     display: 'flex', alignItems: 'center', flexDirection: 'column', height: 'auto',
     padding: '25px 10px', boxSizing: 'border-box', gap: '25px',
@@ -85,6 +88,62 @@ const ContactUs = ({ switchTheme, theme }) => {
     const [name, setName] = useState(undefined)
     const [email, setEmail] = useState(undefined)
     const [mailDesc, setMailDesc] = useState(undefined)
+    const toastId = useRef(null);
+    const loading = () => {
+        toastId.current = toast.loading("Please wait...")
+    }
+    const updateToast = (success, message) => {
+        success ? toast.update(toastId.current, { render: message, type: "success", isLoading: false, autoClose: 3000 })
+            : toast.update(toastId.current, { render: message, type: "error", isLoading: false, autoClose: 3000 })
+    }
+
+    const form = useRef();
+    const sendEmail = (e) => {
+        e.preventDefault();
+        loading()
+        console.log(form.current)
+        emailjs.sendForm('service_a12j5cg', 'template_z8tg0wd', form.current, 'aGpArAyhAVjAS-nED')
+            .then((result) => {
+                // console.log(result.text);
+                // console.log("message sent!")
+                updateToast(true, "message sent!")
+
+            }, (error) => {
+                console.log(error);
+                // console.log("error sending message, try again!")
+                updateToast(false, "error sending message, try again!")
+
+            });
+    };
+    const sendRequest = async () => {
+        loading()
+        let requestData = {
+            user_id: 0,
+            title: "contact",
+            cname: name,
+            mail: email,
+            cdescription: mailDesc
+        }
+        try {
+            let request = await fetch(`${API_CONFIG.PUBLIC_API_URL}/ticket/send`, {
+                method: 'POST',
+                body: JSON.stringify(requestData),
+            })
+            let response = await request.json()
+            console.log(request);
+            console.log(response);
+
+            if (!response.is_error) {
+                updateToast(true, "message sent!")
+            } else {
+                updateToast(false, "could not send the request , try again later")
+            }
+        } catch (error) {
+            console.log(error)
+            updateToast(false, "could not send the request , try again later")
+        }
+    }
+
     return (
         <Box sx={{
             width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', bgcolor: 'secondary.bg'
@@ -126,36 +185,48 @@ const ContactUs = ({ switchTheme, theme }) => {
                         <ContactFormWrapper sx={{
                             display: { xs: 'none', sm: 'flex' }, flexDirection: { xs: 'column', md: 'row' }
                         }}>
-                            <ContactForm>
+                            <ContactForm
+                                ref={form}
+                                //  onSubmit={sendEmail} 
+                                id="contact-form">
+                                {/* <form style={{ width: '100%' }} ref={form} onSubmit={sendEmail}> */}
+
                                 <Typography sx={{ color: 'primary.text', fontSize: { xs: '16px', md: '22px' } }}>
                                     Contact Form
                                 </Typography>
                                 <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
                                     <MyInput
                                         value={name}
-                                        name={"name"} bgcolor={'secondary.bg'}
+                                        name='from_name' bgcolor={'secondary.bg'}
                                         onChange={(e) => setName(e.target.value)}
                                         label={'Name'} width={'100%'}
                                         icon={<Subject sx={{ color: "#BEA2C5" }} />} type={'string'} id={'contact-name'}
                                     />
+                                    <input name='to_name' type="email" placeholder='Email' required value={'support@youwho.club'} style={{ display: 'none' }} />
                                     <MyInput
                                         bgcolor={'secondary.bg'}
                                         value={email}
-                                        name={"mail"}
+                                        name='from_name'
                                         onChange={(e) => setEmail(e.target.value)}
                                         label={'Email'} width={'100%'}
                                         icon={<Email sx={{ color: "#BEA2C5" }} />} type={'email'} id={'contact-mail'}
                                     />
+                                    {/* <input name='from_name' type="email" placeholder='Email' required value={email} style={{ display: 'none' }} /> */}
                                     <MyInput
+                                        multiline={true}
+                                        height={'auto'}
                                         bgcolor={'secondary.bg'}
                                         value={mailDesc}
-                                        name={"description"}
+                                        name='message'
                                         onChange={(e) => setMailDesc(e.target.value)}
                                         label={'Description'} width={'100%'}
                                         icon={<Description sx={{ color: "#BEA2C5" }} />} type={'string'} id={'contact-desc'}
                                     />
+                                    {/* <textarea name='message' placeholder='Write message...' required value={mailDesc} style={{ display: 'none' }}></textarea> */}
                                 </Box>
-                                <ButtonPurple text={'Send Email'} px={'24px'} w={'max-content'} />
+                                <ButtonPurple disabled={!mailDesc || !email} onClick={sendRequest} text={'Send Email'} px={'24px'} w={'max-content'} />
+                                {/* </form> */}
+
                             </ContactForm>
                             <Box sx={{ color: 'white', width: { xs: '100%', md: '32%' }, boxSizing: 'border-box', padding: '15px', gap: '25px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                 <FlexRow sx={{ gap: '8px' }}>
@@ -236,14 +307,17 @@ const ContactUs = ({ switchTheme, theme }) => {
                                 </FlexRow>
                             </BoxDetailsDetails>
                         </BoxDetails>
-                        <ContactForm>
+                        <ContactForm
+                            ref={form}
+                            //  onSubmit={sendEmail}
+                            id="contact-form-mobile">
                             <Typography sx={{ color: 'primary.text', fontSize: { xs: '16px', md: '22px' } }}>
                                 Contact Form
                             </Typography>
                             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
                                 <MyInput
                                     value={name} bgcolor={'secondary.bg'}
-                                    name={"name"}
+                                    name={"from_name"}
                                     onChange={(e) => setName(e.target.value)}
                                     label={'Name'} width={'100%'}
                                     icon={<Subject sx={{ color: "#BEA2C5" }} />} type={'string'} id={'contact-name'}
@@ -251,25 +325,29 @@ const ContactUs = ({ switchTheme, theme }) => {
                                 <MyInput
                                     bgcolor={'secondary.bg'}
                                     value={email}
-                                    name={"mail"}
+                                    name={"from_name"}
                                     onChange={(e) => setEmail(e.target.value)}
                                     label={'Email'} width={'100%'}
                                     icon={<Email sx={{ color: "#BEA2C5" }} />} type={'email'} id={'contact-mail'}
                                 />
                                 <MyInput
+                                    height={'auto'}
+                                    multiline={true}
                                     value={mailDesc} bgcolor={'secondary.bg'}
-                                    name={"description"}
+                                    name={"message"}
                                     onChange={(e) => setMailDesc(e.target.value)}
                                     label={'Description'} width={'100%'}
                                     icon={<Description sx={{ color: "#BEA2C5" }} />} type={'string'} id={'contact-desc'}
                                 />
                             </Box>
-                            <ButtonPurple text={'Send Email'} px={'24px'} w={'100%'} />
+                            <ButtonPurple onClick={sendRequest} disabled={!mailDesc || !email} text={'Send Email'} px={'24px'} w={'100%'} />
                         </ContactForm>
                     </Box>
                     <Footer />
                 </Box>
             </Wrapper>
+            <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick pauseOnFocusLoss pauseOnHover />
+
         </Box >
     );
 }

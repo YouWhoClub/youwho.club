@@ -23,7 +23,7 @@ const TheirAllies = ({ user, sendAllieRequest, sendFriendRequest, myFollowings, 
                                 <RelationCard
                                     removeAllie={() => removeAllie(fan.screen_cid, globalUser.cid)}
                                     removeFriend={() => removeFriend(fan.screen_cid, globalUser.cid)}
-                                    image={fan.avatar} username={fan.username}
+                                    image={fan.user_avatar} username={fan.username}
                                     amFollowing={myFollowings.includes(fan.screen_cid) || myReqs.includes(fan.screen_cid)}
                                     isAccepted={myReqs.includes(fan.screen_cid) ? false : myFollowings.includes(fan.screen_cid) ? true : false}
                                     ywid={fan.screen_cid}

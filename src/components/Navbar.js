@@ -171,9 +171,9 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
     function refreshPage() {
         window.location.reload(false);
     }
-    useEffect(() => {
-        checkToken()
-    }, [globalUser.refreshToken])
+    // useEffect(() => {
+    //     checkToken()
+    // }, [globalUser.refreshToken])
     const checkToken = async () => {
         if (globalUser.tokenExpiration)
             try {
@@ -446,7 +446,7 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
                                 <SearchNormal1 size='25px' cursor={'pointer'} />
                             </Link> */}
                             <ThemeToggler theme={theme} switchTheme={switchTheme} />
-                            <ButtonPurple onClick={() => navigate('/welcome')}
+                            <ButtonPurple onClick={() => navigate('/profile')}
                                 text={'Go To Panel'} height={'35px'} />
                         </Box>
                     </>
@@ -522,7 +522,7 @@ const Navbar = ({ navbarType, switchTheme, theme, openedBar, setOpenedBar }) => 
                                         <Wallet2 size='25px' />
                                     </Box>
                                     <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
-                                        <Notification size="25px" cursor='pointer' />
+                                        <Notification size="25px" cursor='pointer' onClick={() => navigate('/wallet#claim')} />
                                         {
                                             unclaimedDeposits.length ?
                                                 <Box

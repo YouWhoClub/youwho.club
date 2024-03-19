@@ -5,6 +5,7 @@ import { RelationCard } from "../utils";
 import { useSelector } from "react-redux";
 import { AUTH_API } from "../../utils/data/auth_api";
 import { API_CONFIG } from "../../config";
+import Pagination from "../pagination";
 
 const MyFriendSuggestions = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAllie, removeFriend,
     search, searchResults, setAllSuggestions, activeTab, removeFollowing }) => {
@@ -13,9 +14,14 @@ const MyFriendSuggestions = ({ sendAllieRequest, sendFriendRequest, shareClick, 
     const [suggestions, setSuggestions] = useState([])
     const apiCall = useRef(undefined)
     const [err, setErr] = useState(undefined)
+    const [from, setFrom] = useState(0)
+    const [to, setTo] = useState(30)
+    const [pgTabs, setPgTabs] = useState([1])
+    const [selectedTab, setSelectedTab] = useState(1)
+
     const getUsers = async () => {
         try {
-            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/suggestions/for/?from=0&to=100`, {
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/suggestions/for/?from=${from}&to=${to}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -25,10 +31,30 @@ const MyFriendSuggestions = ({ sendAllieRequest, sendFriendRequest, shareClick, 
             let response = await request.json()
             console.log(response, 'suggs')
             if (!response.is_error) {
-                setSuggestions(response.data)
-                setAllSuggestions(response.data)
+                // setSuggestions(response.data)
+                // setAllSuggestions(response.data)
+                // setLoading(false)
+                // setErr(undefined)
+
+                let frndsArr = response.data.slice((selectedTab - 1) * 15, ((selectedTab - 1) * 15) + 15)
+                setSuggestions(frndsArr)
+                setAllSuggestions(frndsArr)
                 setLoading(false)
                 setErr(undefined)
+
+                if (response.data.length >= 15) {
+                    let pagTabs = []
+                    let tabNums = response.data.length / 15
+                    for (let i = 0; i < tabNums; i++) {
+                        pagTabs.push(i + 1)
+                    }
+                    setPgTabs(pagTabs)
+                    console.log(tabNums)
+                    console.log(pagTabs)
+                } else {
+                    console.log('getting frnds !')
+                }
+
             }
             else throw response
         }
@@ -45,6 +71,13 @@ const MyFriendSuggestions = ({ sendAllieRequest, sendFriendRequest, shareClick, 
             }
         }
     }, [])
+    useEffect(() => {
+        // setFrom((selectedTab - 1) * 15)
+        setTo((((selectedTab - 1) * 15) + 15) + 15)
+    }, [selectedTab])
+    useEffect(() => {
+        getUsers()
+    }, [to])
 
     return (
         <>{loading ? <CircularProgress /> :
@@ -79,7 +112,7 @@ const MyFriendSuggestions = ({ sendAllieRequest, sendFriendRequest, shareClick, 
                 </>
                 :
                 <>{suggestions.length > 0 ?
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: '15px', width: '100%' }}>
                         {suggestions.map((suggestion, index) => (
                             <RelationCard
                                 activeTab={activeTab}
@@ -97,6 +130,9 @@ const MyFriendSuggestions = ({ sendAllieRequest, sendFriendRequest, shareClick, 
                                 isAccepted={suggestion.is_accepted}
                             />
                         ))}
+                        <Box sx={{ mt: '30px' }}>
+                            <Pagination tabs={pgTabs} selected={selectedTab} setSelectedTab={setSelectedTab} />
+                        </Box>
                     </Box>
                     : <Typography
                         sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>

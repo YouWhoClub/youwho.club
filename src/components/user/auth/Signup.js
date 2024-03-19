@@ -16,6 +16,8 @@ import gmailLogo from '../../../assets/gmailLogo.svg'
 import microsoftLogo from '../../../assets/micosoftLogo.svg'
 import { BG_URL, PUBLIC_URL } from "../../../utils/utils";
 import { HEALTH_API } from "../../../utils/data/health_api";
+import { googleLogout, useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 const LoginLogos = styled(Box)(({ theme }) => ({
     width: '49px',
@@ -183,7 +185,7 @@ const Signup = ({ progress, setProgress, alreadyEmail }) => {
             setLoading(false)
 
             if (response.data.data.is_mail_verified)
-                navigate('/welcome')
+                navigate('/profile')
             else setState('mailVerification')
 
         }
@@ -236,6 +238,40 @@ const Signup = ({ progress, setProgress, alreadyEmail }) => {
             submit()
         }
     }
+    const [user, setUser] = useState(undefined);
+    const [profile, setProfile] = useState(undefined);
+    const loginGoogle = useGoogleLogin({
+        onSuccess: (codeResponse) => setUser(codeResponse),
+        onError: (error) => console.log('Login Failed:', error)
+    });
+
+    useEffect(
+        () => {
+            if (user) {
+                console.log(user)
+                axios
+                    .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+                        headers: {
+                            Authorization: `Bearer ${user.access_token}`,
+                            Accept: 'application/json'
+                        }
+                    })
+                    .then((res) => {
+                        setProfile(res.data);
+                        console.log(res.data)
+                    })
+                    .catch((err) => console.log(err));
+            }
+        },
+        [user]
+    );
+
+    // log out function to log the user out of google and set the profile array to null
+    const logOutGoogle = () => {
+        googleLogout();
+        setProfile(null);
+    };
+
 
     return (
         <>
@@ -257,15 +293,14 @@ const Signup = ({ progress, setProgress, alreadyEmail }) => {
                                     color: 'primary.darkGray',
                                     fontSize: '14px',
                                 }}>
-                                Sign Up With
+                                Sign In With
                             </Typography>
-                            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <LoginLogos sx={{ backgroundImage: BG_URL(PUBLIC_URL(`${microsoftLogo}`)), }} />
-                                <LoginLogos sx={{ backgroundImage: BG_URL(PUBLIC_URL(`${gmailLogo}`)), }} />
+                            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}> */}
+                        {/* <LoginLogos sx={{ backgroundImage: BG_URL(PUBLIC_URL(`${microsoftLogo}`)), }} /> */}
+                        {/* <LoginLogos onClick={loginGoogle} sx={{ backgroundImage: BG_URL(PUBLIC_URL(`${gmailLogo}`)), }} />
                             </Box>
-
-                        </LoginWithOthersBox>
-                        <Box sx={{
+                        </LoginWithOthersBox> */}
+                        {/* <Box sx={{
                             color: 'primary.text',
                             display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', mb: { xs: '12px', sm: '24px', md: '32px' }, textTransform: 'lowercase'
                         }}>

@@ -111,7 +111,7 @@ const ProfilePanel = ({ user, isFriend, sendFriendRequest, isFollowing }) => {
                 {activeTab == 'assets-tab' &&
                     <OthersProfieAssetTab
                         sendFriendRequest={sendFriendRequest}
-                        user={user} isFriend={isFriend} />}
+                        user={user} isFriend={isFriend} isFollowing={isFollowing} />}
                 {activeTab == 'private-gallery-tab' &&
                     <PrivateGallery sendFriendRequest={sendFriendRequest}
                         user={user} isFriend={isFriend} isFollowing={isFollowing} />}

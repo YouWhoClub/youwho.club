@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
-import CreateNFT from "./createNFT";
+import CreateNFT from "./create";
+import CreateMedia from "./createArtwork";
 import PrivateGallery from "./privateGallery";
 import PublicGallery from "./publicGallery";
 import { Tab, Tabs } from "../utils";
@@ -79,10 +80,14 @@ const ProfilePanel = () => {
                 mb={'24px'}
                 jc={{ xs: 'start', md: 'center' }}
             >
-                {/* <Tab id={"create-tab"} onClick={(e) => {
+                <Tab id={"create-tab"} onClick={(e) => {
                     setActiveTab(e.target.id)
                     window.location.hash = `#${e.target.id}`
-                }} text={'Create Artwork'} selected={activeTab == 'create-tab'} /> */}
+                }} text={'Create'} selected={activeTab == 'create-tab'} />
+                {/* <Tab id={"create-media-tab"} onClick={(e) => {
+                    setActiveTab(e.target.id)
+                    window.location.hash = `#${e.target.id}`
+                }} text={'Create Off-Chain Artwork'} selected={activeTab == 'create-media-tab'} /> */}
                 <Tab id={"private-gallery-tab"} onClick={(e) => {
                     setActiveTab(e.target.id)
                     window.location.hash = `#${e.target.id}`
@@ -116,6 +121,7 @@ const ProfilePanel = () => {
                     boxSizing: 'border-box', transition: '500ms ease',
                 }}>
                 {activeTab == 'create-tab' && <CreateNFT setMainActiveTab={setActiveTab} />}
+                {activeTab == 'create-media-tab' && <CreateMedia setMainActiveTab={setActiveTab} />}
                 {activeTab == 'private-gallery-tab' && <PrivateGallery />}
                 {activeTab == 'public-gallery-tab' && <PublicGallery />}
                 {activeTab == 'assets-tab' && <AssetsTab />}

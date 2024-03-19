@@ -142,7 +142,7 @@ const AllNFTsTab = () => {
         }}>
             {searchResults ? <>{searchResults.length > 0 ?
                 <>
-                    {searchResults.map((nft) => (<NFTCard nft={nft.nfts_data} col_data={nft.col_data} getNFTs={getMainNFTs} />
+                    {searchResults.map((nft) => (<NFTCard key={nft.nfts_data.id} nft={nft.nfts_data} col_data={nft.col_data} getNFTs={getMainNFTs} />
                     ))}
                 </>
                 :
@@ -158,7 +158,7 @@ const AllNFTsTab = () => {
                         <>
                             {NFTs.length > 0 ?
                                 <>
-                                    {NFTs.map((nft) => (<NFTCard nft={nft.nfts_data} col_data={nft.col_data} getNFTs={getMainNFTs} />
+                                    {NFTs.map((nft) => (<NFTCard key={nft.nfts_data.id} nft={nft.nfts_data} col_data={nft.col_data} getNFTs={getMainNFTs} />
                                     ))}
                                 </>
                                 :

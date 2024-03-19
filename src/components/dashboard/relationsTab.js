@@ -72,6 +72,7 @@ const RelationsTab = () => {
     const [followings, setFollowings] = useState([])
     const [followers, setFollowers] = useState([])
     const [friends, setFriends] = useState([])
+    const [myFriends, setMyFriends] = useState([])
     const [allRequests, setAllRequests] = useState([])
     const [myReqs, setMyReqs] = useState([])
     const [suggestions, setSuggestions] = useState([])
@@ -249,7 +250,7 @@ const RelationsTab = () => {
             }
         })
         let response = await request.json()
-        console.log('followings', response)
+        console.log('followingsss', response)
 
         if (!response.is_error) {
 
@@ -286,110 +287,321 @@ const RelationsTab = () => {
             }
         }
     }
+    const getFriends = async () => {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/friends/?from=0&to=100`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${globalUser.token}`,
+            }
+        })
+        let response = await request.json()
+        console.log('friennnds', response)
+
+        if (!response.is_error) {
+            if (response.data.friends.length > 0) {
+                let tempfrnds = []
+                for (let a = 0; a < response.data.friends.length; a++) {
+                    tempfrnds.push(response.data.friends[a].screen_cid)
+                }
+                setMyFriends(tempfrnds)
+            }
+            else {
+                setMyFriends([])
+
+            }
+        } else {
+            if (response.status == 404) {
+                setMyFriends([])
+
+            } else {
+                console.log(response.message)
+            }
+        }
+    }
+    useEffect(() => {
+        getFriends()
+    }, [globalUser.token, activeTab])
+    // const search = async (q, from, to) => {
+    //     if (q == '') {
+    //         setSearchResults(undefined)
+    //         return
+    //     }
+    //     try {
+    //         apiCall.current = PUBLIC_API.request({
+    //             path: `/search/?q=${q}&from=${from}&to=${to}`,
+    //             method: 'get',
+    //         });
+    //         let response = await apiCall.current.promise;
+    //         if (!response.isSuccess)
+    //             throw response
+    //         if (activeTab == 'explore-users') {
+    //             let tempSuggs = []
+    //             for (var d = 0; d < suggestions.length; d++) {
+    //                 tempSuggs.push(suggestions[d].screen_cid)
+    //             }
+    //             let tempArr = []
+    //             for (var j = 0; j < response.data.data.users.length; j++) {
+    //                 if (tempSuggs.includes(response.data.data.users[j].screen_cid)) {
+    //                     tempArr.push(response.data.data.users[j])
+    //                 }
+    //             }
+    //             setSearchResults(tempArr)
+    //         }
+    //         else if (activeTab == 'my-fans') {
+    //             let tempFans = []
+    //             for (var d = 0; d < followers.length; d++) {
+    //                 tempFans.push(followers[d].screen_cid)
+    //             }
+    //             console.log(tempFans)
+    //             let tempArr = []
+    //             for (var j = 0; j < response.data.data.users.length; j++) {
+    //                 if (tempFans.includes(response.data.data.users[j].screen_cid)) {
+    //                     tempArr.push(response.data.data.users[j])
+    //                 }
+    //             }
+    //             setSearchResults(tempArr)
+    //         }
+    //         else if (activeTab == 'my-friends') {
+    //             let tempFriends = []
+    //             for (var d = 0; d < friends.length; d++) {
+    //                 tempFriends.push(friends[d].screen_cid)
+    //             }
+    //             console.log(tempFriends)
+    //             let tempArr = []
+    //             for (var j = 0; j < response.data.data.users.length; j++) {
+    //                 if (tempFriends.includes(response.data.data.users[j].screen_cid)) {
+    //                     tempArr.push(response.data.data.users[j])
+    //                 }
+    //             }
+    //             setSearchResults(tempArr)
+    //         }
+    //         else if (activeTab == 'my-followings') {
+    //             let tempFollowings = []
+    //             for (var d = 0; d < followings.length; d++) {
+    //                 tempFollowings.push(followings[d].screen_cid)
+    //             }
+    //             console.log(tempFollowings)
+    //             let tempArr = []
+    //             for (var j = 0; j < response.data.data.users.length; j++) {
+    //                 if (tempFollowings.includes(response.data.data.users[j].screen_cid)) {
+    //                     tempArr.push(response.data.data.users[j])
+    //                 }
+    //             }
+    //             setSearchResults(tempArr)
+    //         }
+    //         else if (activeTab == 'follow-requests') {
+    //             let tempRequests = []
+    //             for (var d = 0; d < allRequests.length; d++) {
+    //                 tempRequests.push(allRequests[d].screen_cid)
+    //             }
+    //             console.log(tempRequests)
+    //             let tempArr = []
+    //             for (var j = 0; j < response.data.data.users.length; j++) {
+    //                 if (tempRequests.includes(response.data.data.users[j].screen_cid)) {
+    //                     tempArr.push(response.data.data.users[j])
+    //                 }
+    //             }
+    //             setSearchResults(tempArr)
+    //         }
+    //         else if (activeTab == 'my-requests') {
+    //             let tempFollowings = []
+    //             for (var d = 0; d < myReqs.length; d++) {
+    //                 tempFollowings.push(myReqs[d].screen_cid)
+    //             }
+    //             console.log(tempFollowings)
+    //             let tempArr = []
+    //             for (var j = 0; j < response.data.data.users.length; j++) {
+    //                 if (tempFollowings.includes(response.data.data.users[j].screen_cid)) {
+    //                     tempArr.push(response.data.data.users[j])
+    //                 }
+    //             }
+    //             setSearchResults(tempArr)
+    //         }
+
+    //         else setSearchResults(undefined)
+    //     }
+    //     catch (err) {
+    //         if (err.status == 404) {
+    //             setSearchResults([])
+    //         } else {
+    //             setSearchResults([])
+    //         }
+    //     }
+
+    // }
     const search = async (q, from, to) => {
         if (q == '') {
             setSearchResults(undefined)
             return
         }
-        try {
-            apiCall.current = PUBLIC_API.request({
-                path: `/search/?q=${q}&from=${from}&to=${to}`,
-                method: 'get',
-            });
-            let response = await apiCall.current.promise;
-            if (!response.isSuccess)
-                throw response
-            if (activeTab == 'explore-users') {
-                let tempSuggs = []
-                for (var d = 0; d < suggestions.length; d++) {
-                    tempSuggs.push(suggestions[d].screen_cid)
-                }
-                let tempArr = []
-                for (var j = 0; j < response.data.data.users.length; j++) {
-                    if (tempSuggs.includes(response.data.data.users[j].screen_cid)) {
-                        tempArr.push(response.data.data.users[j])
+        if (activeTab == 'explore-users') {
+            try {
+
+                apiCall.current = AUTH_API.request({
+                    path: `/fan/search/suggestions/for/?q=${q}`,
+                    method: 'get', headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${globalUser.token}`,
                     }
-                }
-                setSearchResults(tempArr)
-            }
-            else if (activeTab == 'my-fans') {
-                let tempFans = []
-                for (var d = 0; d < followers.length; d++) {
-                    tempFans.push(followers[d].screen_cid)
-                }
-                console.log(tempFans)
-                let tempArr = []
-                for (var j = 0; j < response.data.data.users.length; j++) {
-                    if (tempFans.includes(response.data.data.users[j].screen_cid)) {
-                        tempArr.push(response.data.data.users[j])
-                    }
-                }
-                setSearchResults(tempArr)
-            }
-            else if (activeTab == 'my-friends') {
-                let tempFriends = []
-                for (var d = 0; d < friends.length; d++) {
-                    tempFriends.push(friends[d].screen_cid)
-                }
-                console.log(tempFriends)
-                let tempArr = []
-                for (var j = 0; j < response.data.data.users.length; j++) {
-                    if (tempFriends.includes(response.data.data.users[j].screen_cid)) {
-                        tempArr.push(response.data.data.users[j])
-                    }
-                }
-                setSearchResults(tempArr)
-            }
-            else if (activeTab == 'my-followings') {
-                let tempFollowings = []
-                for (var d = 0; d < followings.length; d++) {
-                    tempFollowings.push(followings[d].screen_cid)
-                }
-                console.log(tempFollowings)
-                let tempArr = []
-                for (var j = 0; j < response.data.data.users.length; j++) {
-                    if (tempFollowings.includes(response.data.data.users[j].screen_cid)) {
-                        tempArr.push(response.data.data.users[j])
-                    }
-                }
-                setSearchResults(tempArr)
-            }
-            else if (activeTab == 'follow-requests') {
-                let tempRequests = []
-                for (var d = 0; d < allRequests.length; d++) {
-                    tempRequests.push(allRequests[d].screen_cid)
-                }
-                console.log(tempRequests)
-                let tempArr = []
-                for (var j = 0; j < response.data.data.users.length; j++) {
-                    if (tempRequests.includes(response.data.data.users[j].screen_cid)) {
-                        tempArr.push(response.data.data.users[j])
-                    }
-                }
-                setSearchResults(tempArr)
-            }
-            else if (activeTab == 'my-requests') {
-                let tempFollowings = []
-                for (var d = 0; d < myReqs.length; d++) {
-                    tempFollowings.push(myReqs[d].screen_cid)
-                }
-                console.log(tempFollowings)
-                let tempArr = []
-                for (var j = 0; j < response.data.data.users.length; j++) {
-                    if (tempFollowings.includes(response.data.data.users[j].screen_cid)) {
-                        tempArr.push(response.data.data.users[j])
-                    }
-                }
-                setSearchResults(tempArr)
+                });
+                let response = await apiCall.current.promise;
+                console.log(response)
+                if (!response.isSuccess)
+                    throw response
+                setSearchResults(response.data.data)
             }
 
-            else setSearchResults(undefined)
+            catch (err) {
+                if (err.status == 404) {
+                    setSearchResults([])
+                } else {
+                    setSearchResults([])
+                }
+            }
+
         }
-        catch (err) {
-            if (err.status == 404) {
-                setSearchResults([])
-            } else {
-                setSearchResults([])
+        else if (activeTab == 'my-fans') {
+            try {
+                apiCall.current = AUTH_API.request({
+                    path: `/fan/followers/search/for/${globalUser.YouWhoID}/?q=${q}`,
+                    method: 'get', headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${globalUser.token}`,
+                    }
+                });
+                let response = await apiCall.current.promise;
+
+                if (!response.isSuccess)
+                    throw response
+                setSearchResults(response.data.data.friends)
+
+            } catch (error) {
+                if (error.status == 404) {
+                    setSearchResults([])
+                } else {
+                    setSearchResults([])
+                }
+            }
+        }
+        else if (activeTab == 'my-friends') {
+            try {
+                apiCall.current = AUTH_API.request({
+                    path: `/fan/friends/search/for/${globalUser.YouWhoID}/?q=${q}`,
+                    method: 'get', headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${globalUser.token}`,
+                    }
+                });
+                let response = await apiCall.current.promise;
+                if (!response.isSuccess)
+                    throw response
+                setSearchResults(response.data.data.friends)
+
+            } catch (error) {
+                if (error.status == 404) {
+                    setSearchResults([])
+                } else {
+                    setSearchResults([])
+                }
+            }
+        }
+        else if (activeTab == 'my-followings') {
+            try {
+                apiCall.current = AUTH_API.request({
+                    path: `/fan/followings/search/for/${globalUser.YouWhoID}/?q=${q}`,
+                    method: 'get', headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${globalUser.token}`,
+                    }
+                });
+                let response = await apiCall.current.promise;
+                if (!response.isSuccess)
+                    throw response
+                if (response.data.data.length > 0) {
+                    let tempFolls = []
+                    for (var i = 0; i < response.data.data.length; i++) {
+                        for (var j = 0; j < response.data.data[i].friends.length; j++) {
+                            if (response.data.data[i].friends[j].screen_cid == globalUser.YouWhoID && response.data.data[i].friends[j].is_accepted == true && !myFriends.includes(response.data.data[i].user_wallet_info.screen_cid)) {
+                                tempFolls.push(response.data.data[i].user_wallet_info)
+
+                            }
+                        }
+                    }
+                    setSearchResults(tempFolls)
+                } else {
+                    setSearchResults([])
+                }
+
+
+            } catch (error) {
+                if (error.status == 404) {
+                    setSearchResults([])
+                } else {
+                    setSearchResults([])
+                }
+
+            }
+        }
+        else if (activeTab == 'follow-requests') {
+            try {
+                apiCall.current = AUTH_API.request({
+                    path: `/fan/search/unaccepted/friend-requests/?q=${q}`,
+                    method: 'get', headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${globalUser.token}`,
+                    }
+                });
+                let response = await apiCall.current.promise;
+                console.log(response, 'lllll')
+                if (!response.isSuccess)
+                    throw response
+                setSearchResults(response.data.data)
+
+            } catch (error) {
+                if (error.status == 404) {
+                    setSearchResults([])
+                } else {
+                    setSearchResults([])
+                }
+            }
+        }
+        else if (activeTab == 'my-requests') {
+            try {
+                apiCall.current = AUTH_API.request({
+                    path: `/fan/followings/search/for/${globalUser.YouWhoID}/?q=${q}`,
+                    method: 'get', headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${globalUser.token}`,
+                    }
+                });
+                let response = await apiCall.current.promise;
+                if (!response.isSuccess)
+                    throw response
+                if (response.data.data.length > 0) {
+                    let tempFolls = []
+                    let tempRequests = []
+                    for (var i = 0; i < response.data.data.length; i++) {
+                        for (var j = 0; j < response.data.data[i].friends.length; j++) {
+                            if (response.data.data[i].friends[j].screen_cid == globalUser.YouWhoID && response.data.data[i].friends[j].is_accepted == true && !myFriends.includes(response.data.data[i].user_wallet_info.screen_cid)) {
+                                tempFolls.push(response.data.data[i].user_wallet_info)
+                            } if (response.data.data[i].friends[j].screen_cid == globalUser.YouWhoID && response.data.data[i].friends[j].is_accepted == false) {
+                                tempRequests.push(response.data.data[i].user_wallet_info)
+
+                            }
+                        }
+                    }
+                    setSearchResults(tempRequests)
+                } else {
+                    setSearchResults([])
+                }
+            } catch (error) {
+                if (error.status == 404) {
+                    setSearchResults([])
+                } else {
+                    setSearchResults([])
+                }
+
             }
         }
 

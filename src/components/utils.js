@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
-import { AccountCircle, AddAPhotoOutlined, Close, Description, PriceChange, Search, Subject, Title, Token } from "@mui/icons-material"
-import { Box, CircularProgress, ClickAwayListener, MenuItem, Modal, Popper, TextField, Typography, inputBaseClasses, inputLabelClasses, keyframes } from "@mui/material"
+import { AccountCircle, AddAPhotoOutlined, Close, Description, Facebook, Instagram, PriceChange, Search, Subject, Telegram, Title, Token, WhatsApp } from "@mui/icons-material"
+import { Box, CircularProgress, ClickAwayListener, Fade, MenuItem, Modal, Popper, TextField, Typography, inputBaseClasses, inputLabelClasses, keyframes } from "@mui/material"
 import { BG_URL, PUBLIC_URL } from "../utils/utils"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons"
@@ -38,6 +38,19 @@ import walletImgDark from '../assets/walletImgDark.svg'
 import chatNFTLight from '../assets/chatNFTLight.svg'
 import chatNFTDark from '../assets/chatNFTDark.svg'
 import ButtonDisabledActive from "./buttons/buttonDisabledActive"
+import { AUTH_API } from "../utils/data/auth_api"
+import {
+    FacebookShareButton,
+    WhatsappShareButton,
+    WhatsappIcon,
+    FacebookIcon,
+    TwitterShareButton,
+    TwitterIcon,
+    LinkedinShareButton,
+    LinkedinIcon,
+    TelegramIcon,
+    TelegramShareButton,
+} from 'react-share';
 
 const FilterSelectionBox = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -132,7 +145,7 @@ const SelectInputs = styled(Box)(({ theme }) => ({
 }))
 const Inputt = styled(Box)(({ theme }) => ({
     boxSizing: 'border-box',
-    height: '52px',
+    // height: '52px',
     // padding: '12px 15px',
     borderRadius: '12px',
     color: theme.palette.primary.text, display: 'flex', justifyContent: 'space-between', alignItems: 'center'
@@ -161,13 +174,35 @@ const TabsComp = styled(Box)(({ theme }) => ({
     transition: '500ms ease',
     // flexWrap: 'wrap',
     overflowX: 'scroll',
+    overflowY: 'hidden',
     '&::-webkit-scrollbar': {
-        display: 'none',
+        height: '3px',
+        width: '3px',
+        background: 'transparent',
+        border: 'none',
+        borderRadius: '20px !important'
     },
     '&::-webkit-scrollbar-thumb': {
+        width: '3px',
+        height: '3px',
+        background: '#9747ff',
+        border: '0.5px solid #9747ff',
+        borderRadius: '20px !important'
     },
     '&::-webkit-scrollbar-button': {
+        display: 'none',
+        width: '1px',
+        height: '1px',
+        background: '#9747ff',
+        border: '0.5px solid #C6BAC5',
+        borderRadius: '50% !important'
     },
+    "@media (max-width: 600px)": {
+        '&::-webkit-scrollbar': {
+            display: 'none',
+        },
+    },
+
 
 }))
 const TabComp = styled(Box)(({ theme }) => ({
@@ -222,7 +257,9 @@ const SubTabComp = styled(Box)(({ theme }) => ({
     },
 }))
 const TabsSimplee = styled(Box)(({ theme }) => ({
-    width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'
+    width: '100%', display: 'flex',
+    // justifyContent: 'center', 
+    alignItems: 'center'
 }))
 const TabSimplee = styled(Box)(({ theme }) => ({
     color: theme.palette.primary.text, borderColor: theme.palette.primary.text,
@@ -288,7 +325,10 @@ export const YouwhoCoinIcon = styled(Box)(({ w, h }) => ({
 export const Tabs = ({ children, mb, w, jc }) => {
     return (
         <TabsComp
-            sx={{ mb: mb, width: w ? w : '100%', justifyContent: jc ? jc : 'start', padding: { xs: '12px 0px 24px', md: '12px 24px 24px' } }}
+            sx={{
+                mb: mb, width: w ? w : '100%', justifyContent: jc ? jc : 'start',
+                padding: { xs: '12px 0px 24px', md: '12px 24px 24px' }
+            }}
         >
             {children}
         </TabsComp>
@@ -335,14 +375,14 @@ export const SubTab = ({ text, onClick, id, selected, icon }) => {
         {text}
     </SubTabComp>)
 }
-export const TabsSimple = ({ children, mb }) => {
+export const TabsSimple = ({ children, mb, jc }) => {
     return (<TabsSimplee
-        sx={{ mb: mb ? mb : 'unset' }}
+        sx={{ mb: mb ? mb : 'unset', justifyContent: jc ? jc : 'center' }}
     >{children}</TabsSimplee>)
 }
-export const TabSimple = ({ text, onClick, id, selected }) => {
+export const TabSimple = ({ text, onClick, id, selected, fontSize }) => {
     return (<TabSimplee
-        sx={{ borderBottom: selected ? '1px solid' : 'unset', }}
+        sx={{ borderBottom: selected ? '1px solid' : 'unset', fontSize: fontSize ? fontSize : '16px' }}
         id={id} onClick={onClick}>
         {text}
     </TabSimplee>)
@@ -364,7 +404,7 @@ export const ButtonInput = ({ icon, textColor,
                 }}>
                     {icon ? icon : undefined}
                 </Box>
-                <Typography sx={{ fontSize: '12px', color: 'primary.text' }}>{label}</Typography>
+                <Typography sx={{ fontSize: '12px', color: 'primary.text', mr: '10px' }}>{label}</Typography>
                 {showable ? showable : undefined}
             </Box>
             <Box
@@ -486,13 +526,15 @@ export const SelectInput = ({ icon, textColor,
     return (
         <ClickAwayListener onClickAway={handleClickAway}>
 
-            <SelectInputt sx={{
-                width: width ? width : '200px', border: '1px solid',
-                mb: mb ? mb : undefined,
-                bgcolor: 'secondary.bg',
-                borderRadius: expanded ? '12px 12px 0 0' : '12px',
-                borderColor: borderColor ? borderColor : '#DEDEDE',
-            }}
+            <SelectInputt
+                id={id}
+                sx={{
+                    width: width ? width : '200px', border: '1px solid',
+                    mb: mb ? mb : undefined,
+                    bgcolor: 'secondary.bg',
+                    borderRadius: expanded ? '12px 12px 0 0' : '12px',
+                    borderColor: borderColor ? borderColor : '#DEDEDE',
+                }}
                 onClick={handleClick}
             >
                 <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', }}>
@@ -520,7 +562,7 @@ export const SelectInput = ({ icon, textColor,
                 <Popper
                     PaperProps={{
                         style: {
-                            // width: `${popWidth}px`,
+                            width: `${document.getElementById(id)?.offsetWidth}px`,
                             // backgroundColor: "transparent",
                         }
                     }}
@@ -534,6 +576,7 @@ export const SelectInput = ({ icon, textColor,
                     }}
                     placement='bottom-end'
                     sx={{
+                        width: `${document.getElementById(id)?.offsetWidth}px`,
                         // width:'100%',    
                         // width: `${document.getElementById(id)?.offsetWidth}px`,
                         bgcolor: 'secondary.bg',
@@ -552,6 +595,15 @@ export const SelectInput = ({ icon, textColor,
                         }}
                             onClick={handleClose}>{tab}</MenuItem>
                     ))}
+                    {tabs.length == 0 &&
+                        <MenuItem sx={{
+                            color: 'secondary.text', bgcolor: 'secondary.bg',
+                            '&:hover': {
+                                bgcolor: 'primary.bgOp',
+                            }, textTransform: 'capitalize'
+                        }}
+                            onClick={() => setAnchorEl(null)}>no result found</MenuItem>
+                    }
                 </Popper>
 
             </SelectInputt>
@@ -560,12 +612,12 @@ export const SelectInput = ({ icon, textColor,
 
 }
 export const MyInput = ({ icon, textColor, name,
-    labelColor, id, label, width, onChange, bgcolor,
+    labelColor, id, label, width, onChange, bgcolor, multiline, height,
     borderColor, type, extraIcon, value, placeholder, mb, p }) => {
     return (
         <Inputt sx={{
             width: width ? width : '200px', border: '1px solid',
-            mb: mb ? mb : undefined,
+            mb: mb ? mb : undefined, height: height ? height : '52px',
             borderColor: borderColor ? borderColor : '#DEDEDE',
             bgcolor: bgcolor ? bgcolor : 'transparent', padding: p ? p : '12px 15px'
         }}>
@@ -577,6 +629,7 @@ export const MyInput = ({ icon, textColor, name,
                 </Box> : undefined}
                 <TextField
                     // autoFocus={true}
+                    multiline={multiline ? multiline : false}
                     type={type}
                     autoComplete="off"
                     value={value}
@@ -759,7 +812,7 @@ export const BetweenTwoSelection = ({ selected, width, setOption, id, options, c
 export const RelationCard = ({
     image, username, date, amFollowing, getSuggestions,
     friend, allies, menuItems, ywid, activeTab, isAccepted,
-    shareClick, sendAllieRequest, removeAllie, sendFriendRequest, removeFriend, removeFollowing }) => {
+    sendAllieRequest, removeAllie, sendFriendRequest, removeFriend, removeFollowing }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const globalUser = useSelector(state => state.userReducer)
     const open = Boolean(anchorEl);
@@ -778,110 +831,118 @@ export const RelationCard = ({
     const [alertModal, setAlertModal] = useState(false)
 
     const navigate = useNavigate()
-    console.log(amFollowing, isAccepted, 'hello')
+    // console.log(amFollowing, isAccepted, 'hello')
+    const [ShareModal, setShareModal] = useState(false)
+    const shareClick = () => {
+        setShareModal(true)
+    }
+
     return (
-        <ClickAwayListener onClickAway={handleClickAway}>
-            <RelationCardComp sx={{ gap: '16px' }}>
-                <FlexRow sx={{ gap: '16px' }}>
-                    <Box sx={{
-                        backgroundColor: 'primary.bg',
-                        backgroundImage: () => image ? `url('${API_CONFIG.API_URL}/${image}')` : BG_URL(PUBLIC_URL(`${profileFace}`)),
-                        // backgroundImage: image ? BG_URL(PUBLIC_URL(`${API_CONFIG.API_URL}/${image}`)) : 'primary.bg',
-                        backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
-                        , width: '40px', height: '40px', borderRadius: '50%',
-                    }}
-                    />
-                    <Typography sx={{ display: { xs: 'block', sm: 'none' }, fontWeight: 500, color: 'primary.text' }}>
-                        {shorten(username, 7)}
-                    </Typography>
-                    <Typography sx={{ display: { xs: 'none', sm: 'block' }, fontWeight: 500, color: 'primary.text' }}>
-                        {username}
-                    </Typography>
-                </FlexRow>
-                <FlexRow sx={{ gap: '16px' }}>
-                    {amFollowing || ywid == globalUser.YouWhoID ?
-                        undefined :
-                        <ButtonPurple br='4px'
-                            text={'Follow'}
-                            w={'max-content'}
-                            px={'4px'}
-                            onClick={() => {
-                                sendFriendRequest()
-                                activeTab && getSuggestions()
-                            }}
+        <>
+            <ClickAwayListener onClickAway={handleClickAway}>
+                <RelationCardComp sx={{ gap: '16px' }}>
+                    <FlexRow sx={{ gap: '16px' }}>
+                        <Box sx={{
+                            backgroundColor: 'primary.bg',
+                            backgroundImage: () => image ? `url('${API_CONFIG.API_URL}/${image}')` : BG_URL(PUBLIC_URL(`${profileFace}`)),
+                            // backgroundImage: image ? BG_URL(PUBLIC_URL(`${API_CONFIG.API_URL}/${image}`)) : 'primary.bg',
+                            backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'
+                            , width: '40px', height: '40px', borderRadius: '50%',
+                        }}
+                        />
+                        <Typography sx={{ display: { xs: 'block', sm: 'none' }, fontWeight: 500, color: 'primary.text' }}>
+                            {shorten(username, 7)}
+                        </Typography>
+                        <Typography sx={{ display: { xs: 'none', sm: 'block' }, fontWeight: 500, color: 'primary.text' }}>
+                            {username}
+                        </Typography>
+                    </FlexRow>
+                    <FlexRow sx={{ gap: '16px' }}>
+                        {amFollowing || ywid == globalUser.YouWhoID ?
+                            undefined :
+                            <ButtonPurple br='4px'
+                                text={'Follow'}
+                                w={'max-content'}
+                                px={'4px'}
+                                onClick={() => {
+                                    sendFriendRequest()
+                                    activeTab && getSuggestions()
+                                }}
 
-                            height='30px' />
-                    }
-                    {amFollowing && !isAccepted ?
-                        <ButtonDisabledActive br='4px'
-                            text={'Cancel Request'}
-                            w={'max-content'}
-                            px={'4px'}
-                            onClick={removeFollowing}
-                            height='30px' /> : undefined
-                    }
-                    {amFollowing && isAccepted ?
-                        <ButtonPurpleLight br='4px'
-                            text={'Unfollow'}
-                            w={'max-content'}
-                            px={'4px'}
-                            onClick={removeFriend}
-                            height='30px' /> : undefined
-                    }
-                    <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} color="#787878" />
-                </FlexRow>
-                <Popper
-                    PaperProps={{
-                        style: {
+                                height='30px' />
                         }
-                    }}
-                    disableScrollLock={true}
-                    id="basic-menu"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                        'aria-labelledby': 'basic-button',
-                    }}
-                    placement='left-start'
-                    sx={{
-                        marginTop: '20px !important',
-                        width: '190px',
-                        bgcolor: 'secondary.bg', p: '20px',
-                        zIndex: 1400, borderRadius: '20px 0px 20px 20px',
-                        overflow: "hidden",
-                        // boxShadow: theme == 'light' ? '0px 0px 10px 0px rgba(0, 0, 0, 0.45)' : '0px 0px 12px 1px rgba(227,209,231, 0.25)',
-                        boxShadow: localStorage.getItem('theme') == 'dark' ? '0px 0px 12px 1px rgba(227,209,231, 0.25)' : '0px 0px 10px 0px rgba(0, 0, 0, 0.25)',
-                    }}
-                >
-
-                    <MenuItem id={'share'} sx={{
-                        display: 'flex', alignItems: 'center', p: '16px 8px',
-                        color: 'primary.text',
-                        borderBottom: '1px solid',
-                        borderColor: 'primary.gray',
-                        '&:hover': {
-                            bgcolor: 'secondary.bgOp',
+                        {amFollowing && !isAccepted ?
+                            <ButtonDisabledActive br='4px'
+                                text={'Cancel Request'}
+                                w={'max-content'}
+                                px={'4px'}
+                                onClick={removeFollowing}
+                                height='30px' /> : undefined
                         }
-                    }}
-                        onClick={shareClick}>
-                        Share
-                    </MenuItem>
-                    <MenuItem id={'isfiends'} sx={{
-                        display: 'flex', alignItems: 'center', p: '16px 8px',
-                        color: 'primary.text',
-                        borderBottom: allies ? '1px solid' : 'none',
-                        borderColor: 'primary.gray',
-                        '&:hover': {
-                            bgcolor: 'secondary.bgOp',
+                        {amFollowing && isAccepted ?
+                            <ButtonPurpleLight br='4px'
+                                text={'Unfollow'}
+                                w={'max-content'}
+                                px={'4px'}
+                                onClick={removeFriend}
+                                height='30px' /> : undefined
                         }
-                    }}
-                        onClick={() => navigate(`/profile/${username}`, { replace: true })}
+                        {ywid !== globalUser.YouWhoID &&
+                            <FontAwesomeIcon cursor='pointer' icon={faEllipsisV} onClick={handleClick} color="#787878" />
+                        }
+                    </FlexRow>
+                    <Popper
+                        PaperProps={{
+                            style: {
+                            }
+                        }}
+                        disableScrollLock={true}
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                        }}
+                        placement='left-start'
+                        sx={{
+                            marginTop: '20px !important',
+                            width: '190px',
+                            bgcolor: 'secondary.bg', p: '20px',
+                            zIndex: 1400, borderRadius: '20px 0px 20px 20px',
+                            overflow: "hidden",
+                            // boxShadow: theme == 'light' ? '0px 0px 10px 0px rgba(0, 0, 0, 0.45)' : '0px 0px 12px 1px rgba(227,209,231, 0.25)',
+                            boxShadow: localStorage.getItem('theme') == 'dark' ? '0px 0px 12px 1px rgba(227,209,231, 0.25)' : '0px 0px 10px 0px rgba(0, 0, 0, 0.25)',
+                        }}
                     >
-                        View Profile
-                    </MenuItem>
 
-                    {/* {friend ?
+                        <MenuItem id={'share'} sx={{
+                            display: 'flex', alignItems: 'center', p: '16px 8px',
+                            color: 'primary.text',
+                            borderBottom: '1px solid',
+                            borderColor: 'primary.gray',
+                            '&:hover': {
+                                bgcolor: 'secondary.bgOp',
+                            }
+                        }}
+                            onClick={shareClick}>
+                            Share
+                        </MenuItem>
+                        <MenuItem id={'isfiends'} sx={{
+                            display: 'flex', alignItems: 'center', p: '16px 8px',
+                            color: 'primary.text',
+                            borderBottom: allies ? '1px solid' : 'none',
+                            borderColor: 'primary.gray',
+                            '&:hover': {
+                                bgcolor: 'secondary.bgOp',
+                            }
+                        }}
+                            onClick={() => navigate(`/profile/${username}`, { replace: true })}
+                        >
+                            View Profile
+                        </MenuItem>
+
+                        {/* {friend ?
                         <MenuItem id={'isfiends'} sx={{
                             display: 'flex', alignItems: 'center', p: '16px 8px',
                             color: 'primary.text',
@@ -912,61 +973,62 @@ export const RelationCard = ({
                             Be {username}'s Fan
                         </MenuItem>
                     } */}
-                    {allies ?
-                        <MenuItem id={'isallies'} sx={{
-                            display: 'flex', alignItems: 'center', p: '16px 8px',
-                            color: 'primary.text',
-                            '&:hover': {
-                                bgcolor: 'secondary.bgOp',
-                            }
+                        {allies ?
+                            <MenuItem id={'isallies'} sx={{
+                                display: 'flex', alignItems: 'center', p: '16px 8px',
+                                color: 'primary.text',
+                                '&:hover': {
+                                    bgcolor: 'secondary.bgOp',
+                                }
+                            }}
+                                onClick={removeAllie}
+                            >
+                                Remove From Fans
+                            </MenuItem>
+                            : undefined}
+                    </Popper>
+
+
+
+                    <Modal
+                        open={alertModal}
+                        onClose={() => {
+                            setAlertModal(false)
                         }}
-                            onClick={removeAllie}
-                        >
-                            Remove From Fans
-                        </MenuItem>
-                        : undefined}
-                </Popper>
-
-
-
-                <Modal
-                    open={alertModal}
-                    onClose={() => {
-                        setAlertModal(false)
-                    }}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                    disableScrollLock={true}
-                >
-                    <Box sx={(theme) => ({
-                        width: '100%',
-                        height: '100%',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        backdropFilter: 'blur(10px)'
-                    })}>
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                        disableScrollLock={true}
+                    >
                         <Box sx={(theme) => ({
-                            borderRadius: { xs: '0', sm: '24px' },
-                            width: { xs: '100%', sm: '400px' }, height: { xs: '100%', sm: 'auto' },
-                            backgroundColor: 'secondary.bg', boxShadow: theme.palette.primary.boxShadow, boxSizing: 'border-box',
-                            display: 'flex', flexDirection: 'column',
-                            padding: '30px', alignItems: 'center'
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            backdropFilter: 'blur(10px)'
                         })}>
-                            <FlexRow sx={{ justifyContent: 'end !important', width: '100%' }}>
-                                <Box sx={{ padding: '10px' }}>
-                                    <Close onClick={() => setAlertModal(false)} sx={{ cursor: 'pointer', fontSize: '24px' }} />
-                                </Box>
-                            </FlexRow>
-                            <Typography sx={{
-                                color: 'primary.text', textTransform: 'capitalize', fontSize: '14px', width: '100%', textAlign: 'center'
-                            }}>Removing Friend(unfollowing them) Will Remove him/her from any of your private galleries that they joined , are you sure ?</Typography>
-                            <ButtonPurple px={'12px'} mt={'48px'} text={'go on'} onClick={removeFriend} />
+                            <Box sx={(theme) => ({
+                                borderRadius: { xs: '0', sm: '24px' },
+                                width: { xs: '100%', sm: '400px' }, height: { xs: '100%', sm: 'auto' },
+                                backgroundColor: 'secondary.bg', boxShadow: theme.palette.primary.boxShadow, boxSizing: 'border-box',
+                                display: 'flex', flexDirection: 'column',
+                                padding: '30px', alignItems: 'center'
+                            })}>
+                                <FlexRow sx={{ justifyContent: 'end !important', width: '100%' }}>
+                                    <Box sx={{ padding: '10px' }}>
+                                        <Close onClick={() => setAlertModal(false)} sx={{ cursor: 'pointer', fontSize: '24px' }} />
+                                    </Box>
+                                </FlexRow>
+                                <Typography sx={{
+                                    color: 'primary.text', textTransform: 'capitalize', fontSize: '14px', width: '100%', textAlign: 'center'
+                                }}>Removing Friend(unfollowing them) Will Remove him/her from any of your private galleries that they joined , are you sure ?</Typography>
+                                <ButtonPurple px={'12px'} mt={'48px'} text={'go on'} onClick={removeFriend} />
+                            </Box>
                         </Box>
-                    </Box>
-                </Modal>
+                    </Modal>
 
-            </RelationCardComp>
-
-        </ClickAwayListener >
+                </RelationCardComp>
+            </ClickAwayListener >
+            <ShareSocialsModal open={ShareModal} handleClose={() => setShareModal(false)} title={'Profile On YouWho'} toShare={`https://youwho.club/profile/${username}`} />
+        </>
     )
 }
 export const FriendRequestCard = ({
@@ -1661,48 +1723,95 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
             setSearchResults(undefined)
             return
         }
-        try {
-            apiCall.current = PUBLIC_API.request({
-                path: `/search/?q=${q}&from=${from}&to=${to}`,
-                method: 'get',
-            });
-            let response = await apiCall.current.promise;
-            if (!response.isSuccess)
-                throw response
-            if (searchTab == 'invite-friends') {
-                let tempFriends = []
-                for (var d = 0; d < friends.length; d++) {
-                    tempFriends.push(friends[d].screen_cid)
-                }
-                let tempArr = []
-                for (var j = 0; j < response.data.data.users.length; j++) {
-                    if (tempFriends.includes(response.data.data.users[j].screen_cid)) {
-                        tempArr.push(response.data.data.users[j])
+        // try {
+        //     apiCall.current = PUBLIC_API.request({
+        //         path: `/search/?q=${q}&from=${from}&to=${to}`,
+        //         method: 'get',
+        //     });
+        //     let response = await apiCall.current.promise;
+        //     if (!response.isSuccess)
+        //         throw response
+        if (searchTab == 'invite-friends') {
+            // let tempFriends = []
+            // for (var d = 0; d < friends.length; d++) {
+            //     tempFriends.push(friends[d].screen_cid)
+            // }
+            // let tempArr = []
+            // for (var j = 0; j < response.data.data.users.length; j++) {
+            //     if (tempFriends.includes(response.data.data.users[j].screen_cid)) {
+            //         tempArr.push(response.data.data.users[j])
+            //     }
+            // }
+            // setSearchResults(tempArr)
+            try {
+                apiCall.current = AUTH_API.request({
+                    path: `/fan/friends/search/for/${globalUser.YouWhoID}/?q=${q}`,
+                    method: 'get', headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${globalUser.token}`,
                     }
+                });
+                let response = await apiCall.current.promise;
+                console.log(response)
+                if (!response.isSuccess)
+                    throw response
+                console.log(response)
+                setSearchResults(response.data.data.friends)
+
+            } catch (error) {
+                if (error.status == 404) {
+                    setSearchResults([])
+                } else {
+                    setSearchResults([])
                 }
-                setSearchResults(tempArr)
             }
-            if (searchTab == 'remove-friends') {
-                let tempFriends = []
-                for (var d = 0; d < joinedList.length; d++) {
-                    tempFriends.push(joinedList[d].screen_cid)
-                }
-                let tempArr = []
-                for (var j = 0; j < response.data.data.users.length; j++) {
-                    if (tempFriends.includes(response.data.data.users[j].screen_cid)) {
-                        tempArr.push(response.data.data.users[j])
+
+        }
+        if (searchTab == 'remove-friends') {
+            // let tempFriends = []
+            // for (var d = 0; d < joinedList.length; d++) {
+            //     tempFriends.push(joinedList[d].screen_cid)
+            // }
+            // let tempArr = []
+            // for (var j = 0; j < response.data.data.users.length; j++) {
+            //     if (tempFriends.includes(response.data.data.users[j].screen_cid)) {
+            //         tempArr.push(response.data.data.users[j])
+            //     }
+            // }
+            // setSearchResults(tempArr)
+
+            try {
+                apiCall.current = AUTH_API.request({
+                    path: `/gallery/${gallery.id}/search/invited-friends/?q=${q}`,
+                    method: 'get', headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${globalUser.token}`,
                     }
+                });
+                let response = await apiCall.current.promise;
+                console.log(response)
+                if (!response.isSuccess)
+                    throw response
+                // console.log('joined results', response)
+                setSearchResults(response.data.data)
+
+            } catch (error) {
+                if (error.status == 404) {
+                    setSearchResults([])
+                } else {
+                    setSearchResults([])
                 }
-                setSearchResults(tempArr)
             }
+
         }
-        catch (err) {
-            if (err.status == 404) {
-                setSearchResults([])
-            } else {
-                setSearchResults([])
-            }
-        }
+        // }
+        // catch (err) {
+        //     if (err.status == 404) {
+        //         setSearchResults([])
+        //     } else {
+        //         setSearchResults([])
+        //     }
+        // }
 
     }
     useEffect(() => {
@@ -1952,7 +2061,7 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
                                                                 addToInvitedList={addToInvitedList}
                                                                 removeFromInviteList={removeFromInviteList}
                                                                 inviteList={inviteList}
-                                                                image={friend.avatar}
+                                                                image={friend.user_avatar}
                                                                 name={friend.username} ywid={friend.screen_cid}
                                                                 action={'addPeople'} />
                                                         ))}
@@ -2044,12 +2153,12 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
                                     fontSize: '12px',
                                     width: '100%', textAlign: 'center'
                                 }}>
-                                    {joinedList.length} people of your friends are joined in this gallery
+                                    {joinedList.length} or more of your friends are joined in this gallery
                                 </Typography>
                                 <FlexColumn sx={{ width: '100%', gap: { xs: '12px', md: '16px' } }}>
                                     <MyInput name={'gallery-joined-search'} label={'Search From The List'} width={'100%'}
                                         icon={<Search sx={{ color: 'primary.light' }} />}
-                                        onChange={(e) => search('remove-friends', e.target.value, 0, 5)}
+                                        onChange={(e) => search('remove-friends', e.target.value, 0, 30)}
                                     />
 
                                     <Box sx={{
@@ -2064,7 +2173,20 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
                                             <>
                                                 {searchResults ?
                                                     <>{searchResults.length > 0 ?
-                                                        <FlexColumn sx={{ gap: '8px' }}>
+                                                        <FlexColumn sx={{
+                                                            gap: '8px', height: { xs: '250px', sm: '100px' },
+                                                            overflowX: 'hidden',
+                                                            overflowY: 'scroll',
+                                                            '&::-webkit-scrollbar': {
+                                                                display: 'none',
+                                                            },
+                                                            '&::-webkit-scrollbar-thumb': {
+                                                                display: 'none',
+                                                            },
+                                                            '&::-webkit-scrollbar-button': {
+                                                                display: 'none',
+                                                            },
+                                                        }}>
                                                             {searchResults.map((friend) => (
                                                                 <SmallPeopleCard
                                                                     friend={friend}
@@ -2081,7 +2203,21 @@ export const PVGalleryCard = ({ gallery, requestToJoin,
                                                     }
                                                     </>
                                                     :
-                                                    <FlexColumn sx={{ gap: '8px' }}>
+                                                    <FlexColumn sx={{
+                                                        gap: '8px',
+                                                        height: { xs: '250px', sm: '100px' },
+                                                        overflowX: 'hidden',
+                                                        overflowY: 'scroll',
+                                                        '&::-webkit-scrollbar': {
+                                                            display: 'none',
+                                                        },
+                                                        '&::-webkit-scrollbar-thumb': {
+                                                            display: 'none',
+                                                        },
+                                                        '&::-webkit-scrollbar-button': {
+                                                            display: 'none',
+                                                        },
+                                                    }}>
                                                         {joinedList.length > 0 ?
                                                             <>
                                                                 {joinedList.map((friend) => (
@@ -3291,11 +3427,15 @@ export const WelcomeUserCard = ({
             updateToast(false, response.message)
         }
     }
+    // console.log(new Date(user.created_at).toString(), user.username)
+    // console.log(new Date(user.created_at).getTimezoneOffset(), user.username)
+
     var dt = new Date(user.created_at)
     dt.setMinutes(dt.getMinutes() - dt.getTimezoneOffset())
+    // console.log(dt.toLocaleString())
     var joined = dt.toLocaleString()
+    // var joined = new Date(user.created_at).toLocaleString()
 
-    // console.log(new Date(user.created_at).toString())
     return (
         <Box sx={(theme) => ({
             display: 'flex',
@@ -3357,8 +3497,8 @@ export const WelcomeUserCard = ({
                             {joined}
                         </Typography>
                         <Typography sx={{ display: { xs: 'block', sm: 'none' }, fontWeight: 400, color: 'secondary.text', fontSize: '8px' }}>
-                            {joined}
                             {/* {shorten(new Date(user.created_at).toLocaleDateString(), 19)} */}
+                            {joined}
                         </Typography>
 
                     </Box>
@@ -3377,5 +3517,75 @@ export const WelcomeUserCard = ({
                 <YouwhoCoinIcon w={15} h={15} />
             </Box>
         </Box>
+    )
+}
+
+export const ShareSocialsModal = ({ toShare, open, handleClose, title }) => {
+    const [tokensValue, setTokensValue] = useState(undefined)
+    const [usdValue, setusdValue] = useState(undefined)
+    const [disableButton, setdisableButton] = useState(false)
+    const globalUser = useSelector(state => state.userReducer)
+    const [isCharged, setIsCharged] = useState(false)
+    return (
+        <Modal
+            open={open}
+            onClose={() => {
+                handleClose()
+            }}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            disableScrollLock={true}
+        >
+            <Box sx={(theme) => ({
+                width: '100%',
+                height: '100%',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                backdropFilter: 'blur(10px)'
+            })}>
+                <Box sx={(theme) => ({
+                    borderRadius: { xs: '0', sm: '24px' },
+                    width: { xs: '100%', sm: '400px' }, height: { xs: '100%', sm: 'auto' },
+                    backgroundColor: 'secondary.bg', boxShadow: theme.palette.primary.boxShadow, boxSizing: 'border-box',
+                    display: 'flex', flexDirection: 'column',
+                    padding: '30px', gap: { xs: '100px', sm: '20px' },
+                    //  justifyContent: 'space-between',
+                    alignItems: 'center'
+                })}>
+                    <FlexRow sx={{ width: '100%' }}>
+                        <Typography sx={{
+                            color: 'primary.text', fontSize: { xs: '12px', sm: '14px', md: '16px' }
+                        }}>Share On...</Typography>
+                        <Close sx={{ cursor: 'pointer' }} onClick={handleClose} />
+                    </FlexRow>
+                    <Box sx={{ padding: { xs: '10px', md: '20px' }, gap: '10px', flexWrap: 'wrap', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <FacebookShareButton
+                            url={toShare}
+                            quote={title}
+                            hashtag={'#Youwho.club'}
+                        >
+                            <FacebookIcon size={40} round={true} />
+                        </FacebookShareButton>
+
+                        <WhatsappShareButton
+                            url={toShare}
+                            quote={title}
+                            hashtag={'#Youwho.club'}
+                        >
+                            <WhatsappIcon size={40} round={true} />
+                        </WhatsappShareButton>
+                        <TwitterShareButton url={toShare} title={title} className="share-button">
+                            <TwitterIcon size={40} round />
+                        </TwitterShareButton>
+                        <LinkedinShareButton url={toShare} title={title} className="share-button">
+                            <LinkedinIcon size={40} round />
+                        </LinkedinShareButton>
+                        <TelegramShareButton url={toShare} title={title} className="share-button">
+                            <TelegramIcon size={40} round />
+                        </TelegramShareButton>
+
+                    </Box>
+                </Box>
+            </Box>
+        </Modal>
     )
 }

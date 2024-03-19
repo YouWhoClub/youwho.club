@@ -196,7 +196,7 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
             
             // sending the request
 
-            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/deposit/to/0x35e81902dd457f44bae08112c386d9104f1e1ad4`, {
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/deposit/to/0x316595DFa38aAD80a3f95693B007Bd30D280C751`, {
                 method: 'POST',
                 body: JSON.stringify(requestData),
                 headers: {
@@ -253,7 +253,7 @@ const GiftCard = ({ image, price, sender, dollarValue, irrValue, depositId }) =>
 
             // sending the request
 
-            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/withdraw/from/0x35e81902dd457f44bae08112c386d9104f1e1ad4`, {
+            let request = await fetch(`${API_CONFIG.AUTH_API_URL}/withdraw/from/0x316595DFa38aAD80a3f95693B007Bd30D280C751`, {
                 method: 'POST',
                 body: JSON.stringify(requestData),
                 headers: {

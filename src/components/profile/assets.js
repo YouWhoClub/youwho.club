@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import FilterSelection from "../filterSelection";
-import { AscSelect } from "../utils";
+import { AscSelect, SubTab, SubTabs } from "../utils";
 import { useSelector } from "react-redux";
 import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
@@ -11,6 +11,7 @@ import { API_CONFIG } from '../../config'
 import NFTOnchainCard from "../nft market/nftOnchainCard";
 import NFTAssetCard from "../nft market/nftAssetCard";
 import Pagination from "../pagination";
+import OffChainAssetGallery from "./offChainAssetGallery";
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -51,7 +52,7 @@ const Gallery = styled(Box)(({ theme }) => ({
     flexWrap: 'wrap',
 }))
 
-const OthersProfieAssetTab = ({ user }) => {
+const OthersProfieAssetTab = ({ user, isFriend, sendFriendRequest, isFollowing }) => {
 
     const globalUser = useSelector(state => state.userReducer)
     const [filterValue, setFilterValue] = useState('')
@@ -126,6 +127,7 @@ const OthersProfieAssetTab = ({ user }) => {
         getUserOncahinNfts()
     }, [to])
 
+    const [activeTab, setActiveTab] = useState('on-chain-artworks')
 
     return (
         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: '24px' }}>
@@ -148,30 +150,39 @@ const OthersProfieAssetTab = ({ user }) => {
                     <AscSelect asc={asc} id={'asc-others-assets'} width={'280px'} setAsc={setAsc} />
                 </Box>
             </FlexColumn> */}
-            <Gallery
-                sx={{ justifyContent: { xs: 'center', sm: 'center' } }}
-            >
-                {
-                    oncahinNfts &&
-                    oncahinNfts.map((nft, index) => {
-                        return (
-                            <Fragment key={`collection_${nft.nfts_data.onchain_id}`}>
-                                <NFTAssetCard getAssets={getUserOncahinNfts} nft={nft.nfts_data} col_data={nft.col_data} />
-                            </Fragment>
-                        )
-                    })
-                }
-                {oncahinNfts && oncahinNfts.length > 0 ?
-                    undefined :
-                    <Typography
-                        sx={{ color: 'primary.text', width: '100%', textAlign: 'center', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
-                        No NFTs Found
-                    </Typography>}
+            {/* <SubTabs jc={'center'} mb={'24px'}>
+                <SubTab id={"off-chain-artworks"} onClick={(e) => setActiveTab(e.target.id)} text={'off-chain Artworks'} selected={activeTab == 'off-chain-artworks'} />
+                <SubTab id={"on-chain-artworks"} onClick={(e) => setActiveTab(e.target.id)} text={'on-chain Artworks'} selected={activeTab == 'on-chain-artworks'} />
+            </SubTabs> */}
+            {activeTab == 'off-chain-artworks' ? <OffChainAssetGallery sendFriendRequest={sendFriendRequest}
+                user={user} isFriend={isFriend} isFollowing={isFollowing} />
+                : <>
 
-            </Gallery>
-            {oncahinNfts && oncahinNfts.length > 0 ?
-                <Pagination tabs={pgTabs} selected={selectedTab} setSelectedTab={setSelectedTab} />
-                : undefined}
+                    <Gallery
+                        sx={{ justifyContent: { xs: 'center', sm: 'center' } }}
+                    >
+                        {
+                            oncahinNfts &&
+                            oncahinNfts.map((nft, index) => {
+                                return (
+                                    <Fragment key={`collection_${nft.nfts_data.onchain_id}`}>
+                                        <NFTAssetCard getAssets={getUserOncahinNfts} nft={nft.nfts_data} col_data={nft.col_data} />
+                                    </Fragment>
+                                )
+                            })
+                        }
+                        {oncahinNfts && oncahinNfts.length > 0 ?
+                            undefined :
+                            <Typography
+                                sx={{ color: 'primary.text', width: '100%', textAlign: 'center', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>
+                                No NFTs Found
+                            </Typography>}
+
+                    </Gallery>
+                    {oncahinNfts && oncahinNfts.length > 0 ?
+                        <Pagination tabs={pgTabs} selected={selectedTab} setSelectedTab={setSelectedTab} />
+                        : undefined}
+                </>}
         </Box>
     );
 }

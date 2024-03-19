@@ -28,7 +28,7 @@ const TheirFriends = ({ user, sendAllieRequest, sendFriendRequest, myFollowings,
                                     isAccepted={myReqs.includes(friend.screen_cid) ? false : myFollowings.includes(friend.screen_cid) ? true : false}
                                     removeAllie={() => removeAllie(friend.Screen_cid, globalUser.cid)}
                                     removeFriend={() => removeFriend(friend.Screen_cid, globalUser.cid)}
-                                    image={friend.avatar} username={friend.username}
+                                    image={friend.user_avatar} username={friend.username}
                                     sendAllieRequest={() => sendAllieRequest(friend.Screen_cid, globalUser.cid)}
                                     sendFriendRequest={() => sendFriendRequest(friend.Screen_cid, globalUser.cid)}
                                     ywid={friend.screen_cid}

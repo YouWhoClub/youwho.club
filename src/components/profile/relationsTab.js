@@ -1,4 +1,4 @@
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, Skeleton, TextField, Typography } from "@mui/material";
 import { RelationCard, SubTab, SubTabs } from "../utils";
 import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
@@ -77,7 +77,10 @@ const RelationsTab = ({ user }) => {
             if (response.data.followings.length > 0) {
                 for (var i = 0; i < response.data.followings.length; i++) {
                     if (!tempFriendsWallets.includes(response.data.followings[i].user_wallet_info.screen_cid)) {
-                        tempFolls.push(response.data.followings[i].user_wallet_info)
+                        for (var j = 0; j < response.data.followings[i].friends.length; j++) {
+                            if (response.data.followings[i].friends[j].screen_cid == user.YouWhoID && response.data.followings[i].friends[j].is_accepted == true)
+                                tempFolls.push(response.data.followings[i].user_wallet_info)
+                        }
                     }
                 }
             } else {
@@ -118,48 +121,99 @@ const RelationsTab = ({ user }) => {
         setSearchResults(undefined)
         setActiveTab(e.target.id)
     }
+    // const search = async (q, from, to) => {
+    //     if (q == '') {
+    //         setSearchResults(undefined)
+    //         return
+    //     }
+    //     try {
+    //         apiCall.current = PUBLIC_API.request({
+    //             path: `/search/?q=${q}&from=${from}&to=${to}`,
+    //             method: 'get',
+    //         });
+    //         let response = await apiCall.current.promise;
+    //         if (!response.isSuccess)
+    //             throw response
+    //         else if (activeTab == 'their-fans') {
+    //             let tempFans = []
+    //             for (var d = 0; d < followers.length; d++) {
+    //                 tempFans.push(followers[d].screen_cid)
+    //             }
+    //             console.log(tempFans)
+    //             let tempArr = []
+    //             for (var j = 0; j < response.data.data.users.length; j++) {
+    //                 if (tempFans.includes(response.data.data.users[j].screen_cid)) {
+    //                     tempArr.push(response.data.data.users[j])
+    //                 }
+    //             }
+    //             setSearchResults(tempArr)
+    //         }
+    //         else if (activeTab == 'their-friends') {
+    //             let tempFriends = []
+    //             for (var d = 0; d < friends.length; d++) {
+    //                 tempFriends.push(friends[d].screen_cid)
+    //             }
+    //             console.log(tempFriends)
+    //             let tempArr = []
+    //             for (var j = 0; j < response.data.data.users.length; j++) {
+    //                 if (tempFriends.includes(response.data.data.users[j].screen_cid)) {
+    //                     tempArr.push(response.data.data.users[j])
+    //                 }
+    //             }
+    //             setSearchResults(tempArr)
+    //         }
+    //         else setSearchResults(undefined)
+    //     }
+    //     catch (err) {
+    //         if (err.status == 404) {
+    //             setSearchResults([])
+    //         } else {
+    //             setSearchResults([])
+    //         }
+    //     }
+
+    // }
     const search = async (q, from, to) => {
         if (q == '') {
             setSearchResults(undefined)
             return
         }
         try {
-            apiCall.current = PUBLIC_API.request({
-                path: `/search/?q=${q}&from=${from}&to=${to}`,
-                method: 'get',
+            apiCall.current = AUTH_API.request({
+                path: `/fan/search/relations/for/${user.YouWhoID}/?q=${q}`,
+                method: 'get', headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${globalUser.token}`,
+                }
             });
             let response = await apiCall.current.promise;
+            console.log(response)
             if (!response.isSuccess)
                 throw response
-            else if (activeTab == 'their-fans') {
-                let tempFans = []
-                for (var d = 0; d < followers.length; d++) {
-                    tempFans.push(followers[d].screen_cid)
+            if (activeTab == 'their-friends') {
+                setSearchResults(response.data.data.friends.friends)
+            } else if (activeTab == 'their-fans') {
+                setSearchResults(response.data.data.followers.friends)
+            } else if (activeTab == 'their-followings') {
+                let tempFolls = []
+                let tempFriendsWallets = []
+                for (let a = 0; a < response.data.data.friends.friends.length; a++) {
+                    tempFriendsWallets.push(response.data.data.friends.friends[a].screen_cid)
                 }
-                console.log(tempFans)
-                let tempArr = []
-                for (var j = 0; j < response.data.data.users.length; j++) {
-                    if (tempFans.includes(response.data.data.users[j].screen_cid)) {
-                        tempArr.push(response.data.data.users[j])
+                if (response.data.data.followings.length > 0) {
+                    for (var i = 0; i < response.data.data.followings.length; i++) {
+                        if (!tempFriendsWallets.includes(response.data.data.followings[i].user_wallet_info.screen_cid)) {
+                            for (var j = 0; j < response.data.data.followings[i].friends.length; j++) {
+                                if (response.data.data.followings[i].friends[j].screen_cid == user.YouWhoID && response.data.data.followings[i].friends[j].is_accepted == true)
+                                    tempFolls.push(response.data.data.followings[i].user_wallet_info)
+                            }
+                        }
                     }
+                } else {
+                    tempFolls = []
                 }
-                setSearchResults(tempArr)
+                setSearchResults(tempFolls)
             }
-            else if (activeTab == 'their-friends') {
-                let tempFriends = []
-                for (var d = 0; d < friends.length; d++) {
-                    tempFriends.push(friends[d].screen_cid)
-                }
-                console.log(tempFriends)
-                let tempArr = []
-                for (var j = 0; j < response.data.data.users.length; j++) {
-                    if (tempFriends.includes(response.data.data.users[j].screen_cid)) {
-                        tempArr.push(response.data.data.users[j])
-                    }
-                }
-                setSearchResults(tempArr)
-            }
-            else setSearchResults(undefined)
         }
         catch (err) {
             if (err.status == 404) {
@@ -170,8 +224,11 @@ const RelationsTab = ({ user }) => {
         }
 
     }
+
     const sendFriendRequest = async (receiver, sender) => {
         loading();
+        let current_tab = activeTab
+        setActiveTab('loading')
 
         let data = {
             owner_cid: sender,
@@ -192,6 +249,7 @@ const RelationsTab = ({ user }) => {
         if (response.message == "Updated Successfully") {
             updateToast(true, 'Friend Request Sent')
             getRelations()
+            setActiveTab(current_tab)
         } else {
             updateToast(false, response.message)
         }
@@ -379,6 +437,12 @@ const RelationsTab = ({ user }) => {
                     removeAllie={removeAllie} removeFriend={removeFriend}
                     followings={followings} followingsLoading={relationsLoading}
                     user={user} searchResults={searchResults} />}
+            {activeTab == 'loading' &&
+                <Box sx={{ width: '100%', height: '100%', borderRadius: '24px', bgcolor: 'bgOp' }}>
+                    <Skeleton sx={{ borderRadius: '16px', }} width={'100%'} height={'400px'} />
+                </Box>
+            }
+
         </Box>
     );
 }

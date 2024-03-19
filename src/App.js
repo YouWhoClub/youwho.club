@@ -42,6 +42,9 @@ import BlogSingle from './pages/blog';
 import TermsOfService from './pages/termsOfService';
 import SearchPage from './pages/searchPage';
 import Welcome from './pages/welcome';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import NFTSingle from './pages/nftSingle';
+import CollectionSingle from './pages/collectionSingle';
 // import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
 
 
@@ -218,92 +221,97 @@ function App() {
   }))
   const localTheme = localStorage.getItem('theme')
   return (
-    <ThemeProvider
-      theme={theme == 'dark' ? darkTheme : lightTheme}
-    >
-      {/* <ThirdwebProvider
+    <GoogleOAuthProvider clientId="154787768607-5993btlf0j6nrkksrh2am35a81m3bv60.apps.googleusercontent.com">
+      <ThemeProvider
+        theme={theme == 'dark' ? darkTheme : lightTheme}
+      >
+
+        {/* <ThirdwebProvider
         activeChain="ethereum"
         clientId="06dee3dbe60fb5303a630c6b832fd428" // we can get another client id from thirdweb dashboard settings.
       > */}
 
-      <Provider store={store}>
-        <PersistGate
-          loading={<>...</>}
-          persistor={persistor}>
-          {/* // <Web3ReactProvider getLibrary={getLibrary}>
+        <Provider store={store}>
+          <PersistGate
+            loading={<>...</>}
+            persistor={persistor}>
+            {/* // <Web3ReactProvider getLibrary={getLibrary}>
         //   <MetamaskProvider>
         //     <NFTMarketplaceProvider> */}
 
-          <BrowserRouter forceRefresh={true} >
-            <ScrollToTop>
-              <>
-                <Routes>
-                  <Route exact path="/" element={<Home theme={theme} switchTheme={switchTheme} />} />
-                  <Route exact path="/auth" element={<Auth theme={theme} switchTheme={switchTheme} />} />
-                  <Route exact path="/blogs" element={<Weblog switchTheme={switchTheme} theme={theme} />} />
-                  <Route exact path="/blogs/:id/:title" element={<BlogSingle switchTheme={switchTheme} theme={theme} />} />
-                  <Route exact path="/about-us" element={<AboutUs switchTheme={switchTheme} theme={theme} />} />
-                  <Route exact path="/contact-us" element={<ContactUs switchTheme={switchTheme} theme={theme} />} />
-                  <Route exact path="/guide" element={<GuidePage switchTheme={switchTheme} theme={theme} />} />
-                  <Route exact path="/privacy-policy" element={<PrivacyPolicy theme={theme} />} />
-                  <Route exact path="/terms-of-service" element={<TermsOfService theme={theme} />} />
+            <BrowserRouter forceRefresh={true} >
+              <ScrollToTop>
+                <>
+                  <Routes>
+                    <Route exact path="/" element={<Home theme={theme} switchTheme={switchTheme} />} />
+                    <Route exact path="/auth" element={<Auth theme={theme} switchTheme={switchTheme} />} />
+                    <Route exact path="/blogs" element={<Weblog switchTheme={switchTheme} theme={theme} />} />
+                    <Route exact path="/blogs/:id/:title" element={<BlogSingle switchTheme={switchTheme} theme={theme} />} />
+                    <Route exact path="/about-us" element={<AboutUs switchTheme={switchTheme} theme={theme} />} />
+                    <Route exact path="/contact-us" element={<ContactUs switchTheme={switchTheme} theme={theme} />} />
+                    <Route exact path="/guide" element={<GuidePage switchTheme={switchTheme} theme={theme} />} />
+                    <Route exact path="/privacy-policy" element={<PrivacyPolicy theme={theme} />} />
+                    <Route exact path="/terms-of-service" element={<TermsOfService theme={theme} />} />
 
-                  {/*--- <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} /> */}
-                </Routes>
+                    {/*--- <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} /> */}
+                  </Routes>
 
-                <Box sx={{ bgcolor: 'secondary.bg' }}>
-                  <Wrapper>
-                    <Routes>
-                      {/*--- <Route exact path="/landing" element={<></>} /> */}
-                      {/*--- <Route path='*' element={<></>} /> */}
-                      <Route exact path="/" element={<></>} />
-                      <Route exact path="/auth" element={<></>} />
-                      <Route exact path="/blogs" element={<></>} />
-                      <Route exact path="/blogs/:id/:title" element={<></>} />
-                      <Route exact path="/about-us" element={<></>} />
-                      <Route exact path="/contact-us" element={<></>} />
-                      <Route exact path="/guide" element={<></>} />
-                      <Route exact path="/privacy-policy" element={<></>} />
-                      <Route exact path="/terms-of-service" element={<></>} />
-                      <Route exact path="/welcome" element={<Welcome theme={theme} switchTheme={switchTheme} />} />
-                      <Route exact path="/search" element={<SearchPage theme={theme} switchTheme={switchTheme} />} />
-
-
-                      {/* <Route exact path="/main-gallery" element={<ViewMainGalleryPage theme={theme} switchTheme={switchTheme} />} /> */}
-                      {/*--- <Route exact path="/transfer" element={<TransferPage theme={theme} switchTheme={switchTheme} />} /> */}
-
-                      {/* <Route exact path="/gallery" element={<MainGallery switchTheme={switchTheme} theme={theme} />} />
-                      <Route exact path="/profile" element={<Dashboard switchTheme={switchTheme} theme={theme} />} />
-                      <Route exact path="/wallet" element={<WalletPage theme={theme} switchTheme={switchTheme} />} />
-
-                      <Route exact path="/profile/:name" element={<Profile theme={theme} switchTheme={switchTheme} />} />
- */}
-
-                      {/*--- <Route exact path="/verify-mail" element={<VerifyMail theme={theme} />} /> */}
-                      {/*--- <Route exact path="/verify-phone" element={<VerifyPhone theme={theme} />} /> */}
-                      {/* <Route exact path="/checkout/success" element={<CheckoutSuccess switchTheme={switchTheme} theme={theme} />} />
-                      <Route exact path="/checkout/cancel" element={<CheckoutCancel switchTheme={switchTheme} theme={theme} />} /> */}
+                  <Box sx={{ bgcolor: 'secondary.bg' }}>
+                    <Wrapper>
+                      <Routes>
+                        {/*--- <Route exact path="/landing" element={<></>} /> */}
+                        {/*--- <Route path='*' element={<></>} /> */}
+                        <Route exact path="/" element={<></>} />
+                        <Route exact path="/auth" element={<></>} />
+                        <Route exact path="/blogs" element={<></>} />
+                        <Route exact path="/blogs/:id/:title" element={<></>} />
+                        <Route exact path="/about-us" element={<></>} />
+                        <Route exact path="/contact-us" element={<></>} />
+                        <Route exact path="/guide" element={<></>} />
+                        <Route exact path="/privacy-policy" element={<></>} />
+                        <Route exact path="/terms-of-service" element={<></>} />
+                        <Route exact path="/welcome" element={<Welcome theme={theme} switchTheme={switchTheme} />} />
+                        <Route exact path="/search" element={<SearchPage theme={theme} switchTheme={switchTheme} />} />
 
 
-                      <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} />
-                    </Routes>
-                  </Wrapper>
-                </Box>
-              </>
-            </ScrollToTop>
-          </BrowserRouter>
+                        <Route exact path="/main-gallery" element={<ViewMainGalleryPage theme={theme} switchTheme={switchTheme} />} />
+                        {/*--- <Route exact path="/transfer" element={<TransferPage theme={theme} switchTheme={switchTheme} />} /> */}
+
+                        <Route exact path="/gallery" element={<MainGallery switchTheme={switchTheme} theme={theme} />} />
+                        <Route exact path="/profile" element={<Dashboard switchTheme={switchTheme} theme={theme} />} />
+                        <Route exact path="/wallet" element={<WalletPage theme={theme} switchTheme={switchTheme} />} />
+
+                        <Route exact path="/profile/:name" element={<Profile theme={theme} switchTheme={switchTheme} />} />
+                        <Route exact path="/nft/:id/:name" element={<NFTSingle theme={theme} switchTheme={switchTheme} />} />
+                        <Route exact path="/collection/:id/:name" element={<CollectionSingle theme={theme} switchTheme={switchTheme} />} />
 
 
-          {/* //         </NFTMarketplaceProvider>
+                        {/*--- <Route exact path="/verify-mail" element={<VerifyMail theme={theme} />} /> */}
+                        {/*--- <Route exact path="/verify-phone" element={<VerifyPhone theme={theme} />} /> */}
+                        <Route exact path="/checkout/success" element={<CheckoutSuccess switchTheme={switchTheme} theme={theme} />} />
+                        <Route exact path="/checkout/cancel" element={<CheckoutCancel switchTheme={switchTheme} theme={theme} />} />
+
+
+                        <Route path='*' element={<NotFound theme={theme} switchTheme={switchTheme} />} />
+                      </Routes>
+                    </Wrapper>
+                  </Box>
+                </>
+              </ScrollToTop>
+            </BrowserRouter>
+
+
+            {/* //         </NFTMarketplaceProvider>
     //       </MetamaskProvider>
     //     </Web3ReactProvider> */}
-        </PersistGate>
-      </Provider>
+          </PersistGate>
+        </Provider>
 
 
-      {/* </ThirdwebProvider> */}
+        {/* </ThirdwebProvider> */}
 
-    </ThemeProvider >
+      </ThemeProvider >
+    </GoogleOAuthProvider>
   );
 }
 

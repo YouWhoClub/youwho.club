@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import generateSignature from "../../utils/signatureUtils";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { toast } from 'react-toastify';
+import Pagination from "../pagination";
 
 const MyFriendequests = ({
     //  setAllRequests, 
@@ -15,6 +16,11 @@ const MyFriendequests = ({
     const [requests, setRequests] = useState([])
     const [isAccepted, setIsAccepted] = useState([])
     const toastId = useRef(null);
+    const [from, setFrom] = useState(0)
+    const [to, setTo] = useState(30)
+    const [pgTabs, setPgTabs] = useState([1])
+    const [selectedTab, setSelectedTab] = useState(1)
+
     const loading = () => {
         toastId.current = toast.loading("Please wait...")
         console.log(toastId)
@@ -26,7 +32,7 @@ const MyFriendequests = ({
     }
 
     const getRequests = async () => {
-        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/unaccepted/friend-requests/?from=0&to=50`, {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/unaccepted/friend-requests/?from=${from}&to=${to}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -38,8 +44,26 @@ const MyFriendequests = ({
 
         if (!response.is_error) {
             // setAllRequests(response.data)
-            setRequests(response.data)
+            // setRequests(response.data)
+            // setReqsLoading(false)
+
+            let frndsArr = response.data.slice((selectedTab - 1) * 15, ((selectedTab - 1) * 15) + 15)
+            setRequests(frndsArr)
             setReqsLoading(false)
+
+            if (response.data.length >= 15) {
+                let pagTabs = []
+                let tabNums = response.data.length / 15
+                for (let i = 0; i < tabNums; i++) {
+                    pagTabs.push(i + 1)
+                }
+                setPgTabs(pagTabs)
+                console.log(tabNums)
+                console.log(pagTabs)
+            } else {
+                console.log('getting frnds !')
+            }
+
         } else {
             if (response.status == 404) {
                 // setAllRequests([])
@@ -87,6 +111,13 @@ const MyFriendequests = ({
             getRequests()
         }
     }, [globalUser.token])
+    useEffect(() => {
+        // setFrom((selectedTab - 1) * 15)
+        setTo((((selectedTab - 1) * 15) + 15) + 15)
+    }, [selectedTab])
+    useEffect(() => {
+        getRequests()
+    }, [to])
 
     return (
         <>{reqsLoading ? <CircularProgress /> :
@@ -113,7 +144,7 @@ const MyFriendequests = ({
                 :
 
                 <>{requests.length > 0 ?
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: '15px', width: '100%' }}>
                         {requests.map((req, index) => (
                             <FriendRequestCard
                                 isAccepted={isAccepted}
@@ -122,6 +153,10 @@ const MyFriendequests = ({
                                 acceptRequest={() => acceptFriendRequest(req.screen_cid, globalUser.cid, req.username)}
                             />
                         ))}
+                        <Box sx={{ mt: '30px' }}>
+                            <Pagination tabs={pgTabs} selected={selectedTab} setSelectedTab={setSelectedTab} />
+                        </Box>
+
                     </Box>
                     :
                     <>{err ? <Typography

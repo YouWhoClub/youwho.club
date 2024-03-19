@@ -12,7 +12,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import ThemeToggler from './HomePage/themeToggler';
 import { BG_URL, PUBLIC_URL } from '../utils/utils';
-import { Close, CopyAllRounded, InfoSharp, Logout, LogoutOutlined, LogoutRounded, Mail, PermIdentity, Settings, ShareRounded } from '@mui/icons-material';
+import { CheckRounded, Close, CopyAllRounded, InfoSharp, Logout, LogoutOutlined, LogoutRounded, Mail, PermIdentity, Settings, ShareRounded } from '@mui/icons-material';
 import profileFace from '../assets/face-pro.svg'
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,6 +24,7 @@ import { useNavigate } from 'react-router';
 import { HEALTH_API } from '../utils/data/health_api';
 import { deleteUnclaimedDeposit, getUnclaimedDeposit, getuser, logOutUser, setRefreshToken } from '../redux/actions';
 import ButtonPurple from './buttons/buttonPurple';
+import { ShareSocialsModal } from './utils';
 const AvatarImg = styled(Box)(({ theme }) => ({
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center', backgroundSize: 'cover',
@@ -75,6 +76,7 @@ export default function MobileMenuTwo({ openMenu, setOpenMenu, theme, switchThem
             disconnect()
         }
     }
+
 
     async function disconnect() {
 
@@ -171,8 +173,10 @@ export default function MobileMenuTwo({ openMenu, setOpenMenu, theme, switchThem
                         </Typography>
                     </FlexRow>
                     <FlexRow sx={{ gap: '4px' }}>
-                        <CopyAllRounded sx={{ cursor: 'pointer', fontSize: '18px' }} />
-                        <ShareRounded sx={{ cursor: 'pointer', fontSize: '18px' }} />
+                        {keyCopied ? <CheckRounded sx={{ color: 'primary.success' }} /> :
+                            <CopyAllRounded onClick={() => copyToClipBoard(globalUser.YouWhoID)} sx={{ cursor: 'pointer', fontSize: '18px' }} />
+                        }
+                        <ShareRounded onClick={() => setShareModal(true)} sx={{ cursor: 'pointer', fontSize: '18px' }} />
                     </FlexRow>
 
                 </Box>
@@ -202,10 +206,12 @@ export default function MobileMenuTwo({ openMenu, setOpenMenu, theme, switchThem
                 <Box sx={{
                     display: 'flex', flexDirection: 'column', width: '100%', gap: '4px'
                 }}>
-                    <FlexRow sx={{
-                        width: '100%', gap: '10px', padding: '6px 6px 10px 6px', borderBottom: '1px solid #dedede',
-                        // cursor: 'pointer'
-                    }}>
+                    <FlexRow
+                        onClick={() => navigate('/wallet#claim')}
+                        sx={{
+                            width: '100%', gap: '10px', padding: '6px 6px 10px 6px', borderBottom: '1px solid #dedede',
+                            cursor: 'pointer'
+                        }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
                             <Mail sx={{
                                 fontSize: '16px', color: theme == 'dark' ? 'primary.middle' : 'primary.main'
@@ -337,7 +343,10 @@ export default function MobileMenuTwo({ openMenu, setOpenMenu, theme, switchThem
             </Box>
         </Box>
     );
-
+    const [ShareModal, setShareModal] = React.useState(false)
+    const handleClose = () => {
+        setShareModal(false)
+    }
     return (
         <>
             <Drawer
@@ -357,7 +366,7 @@ export default function MobileMenuTwo({ openMenu, setOpenMenu, theme, switchThem
                 {globalUser.isLoggedIn ?
                     list('right') : listNotLoggedIn('right')}
             </Drawer>
-
+            <ShareSocialsModal open={ShareModal} handleClose={handleClose} title={'Check Me Out On YouWho'} toShare={`https://youwho.club/profile/${globalUser.username}`} />
             <Modal
                 open={openPVKeyModal}
                 onClose={() => {

@@ -4,6 +4,7 @@ import { useSelector } from "react-redux"
 import { useNavigate } from "react-router"
 import { RelationCard } from "../utils"
 import { API_CONFIG } from "../../config"
+import Pagination from "../pagination"
 
 const MyFollowings = ({ sendAllieRequest, sendFriendRequest, shareClick, removeAllie, removeFriend, searchResults, setAllFriends }) => {
     const globalUser = useSelector(state => state.userReducer)
@@ -13,8 +14,13 @@ const MyFollowings = ({ sendAllieRequest, sendFriendRequest, shareClick, removeA
     const [err, setErr] = useState(undefined)
     const navigate = useNavigate()
     const [followingsLoading, setFollowingsLoading] = useState(true)
+    const [from, setFrom] = useState(0)
+    const [to, setTo] = useState(30)
+    const [pgTabs, setPgTabs] = useState([1])
+    const [selectedTab, setSelectedTab] = useState(1)
+
     const getFriends = async () => {
-        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/friends/?from=0&to=100`, {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/friends/?from=0&to=200`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -46,7 +52,7 @@ const MyFollowings = ({ sendAllieRequest, sendFriendRequest, shareClick, removeA
         }
     }
     const getFollowings = async () => {
-        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/followings/?from=0&to=100`, {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/followings/?from=${from}&to=${to}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -68,7 +74,22 @@ const MyFollowings = ({ sendAllieRequest, sendFriendRequest, shareClick, removeA
                         }
                     }
                 }
-                setFollowings(tempFolls)
+                // setFollowings(tempFolls)
+                let fllsArr = tempFolls.slice((selectedTab - 1) * 15, ((selectedTab - 1) * 15) + 15)
+                setFollowings(fllsArr)
+                if (response.data.length >= 15) {
+                    let pagTabs = []
+                    let tabNums = response.data.length / 15
+                    for (let i = 0; i < tabNums; i++) {
+                        pagTabs.push(i + 1)
+                    }
+                    setPgTabs(pagTabs)
+                    console.log(tabNums)
+                    console.log(pagTabs)
+                } else {
+                    console.log('getting fans !')
+                }
+
                 console.log(tempFolls)
                 setFollowingsLoading(false)
             } else {
@@ -97,6 +118,14 @@ const MyFollowings = ({ sendAllieRequest, sendFriendRequest, shareClick, removeA
             getFollowings()
         }
     }, [friends])
+    useEffect(() => {
+        // setFrom((selectedTab - 1) * 15)
+        setTo((((selectedTab - 1) * 15) + 15) + 15)
+    }, [selectedTab])
+    useEffect(() => {
+        if (to && friends)
+            getFollowings()
+    }, [to, friends])
 
     return (<>{followingsLoading ? <CircularProgress /> :
         <>{searchResults ?
@@ -128,7 +157,7 @@ const MyFollowings = ({ sendAllieRequest, sendFriendRequest, shareClick, removeA
             </>
             :
             <>{followings.length > 0 ?
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: '15px', width: '100%' }}>
                     {followings.map((friend, index) => (
                         <RelationCard
                             amFollowing={true}
@@ -145,6 +174,11 @@ const MyFollowings = ({ sendAllieRequest, sendFriendRequest, shareClick, removeA
                             shareClick={shareClick}
                         />
                     ))}
+
+                    <Box sx={{ mt: '30px' }}>
+                        <Pagination tabs={pgTabs} selected={selectedTab} setSelectedTab={setSelectedTab} />
+                    </Box>
+
                 </Box>
                 : <Typography
                     sx={{ color: 'primary.text', fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize' }}>

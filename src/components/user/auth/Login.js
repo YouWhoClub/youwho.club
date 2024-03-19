@@ -8,7 +8,7 @@ import styled from "@emotion/styled";
 import { AUTH_API } from "../../../utils/data/auth_api";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUnclaimedDeposit, getuser, logOutUser, setRefreshToken } from "../../../redux/actions";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { ArrowLeft3, Eye, EyeSlash, Lock } from "iconsax-react";
 import VerifyMail from "./verifyMail";
 import { MyInput, ShadowInput } from "../../utils";
@@ -17,6 +17,9 @@ import gmailLogo from '../../../assets/gmailLogo.svg'
 import microsoftLogo from '../../../assets/micosoftLogo.svg'
 import { HEALTH_API } from "../../../utils/data/health_api";
 import { toast } from "react-toastify";
+import { GoogleLogin, googleLogout, useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
+import { getGoogleUrl } from "../../../utils/getGoogleUrl.ts";
 
 const LoginWithOthersBox = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -64,6 +67,7 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
     const [openPassModal, setOpenPassModal] = useState(false)
     const apiCall = useRef(undefined)
     const fetchUser = (accesstoken) => dispatch(getuser(accesstoken));
+    const location = useLocation();
     const refreshUserToken = (refreshToken, tokenExpiration) => dispatch(setRefreshToken(refreshToken, tokenExpiration));
     const toastId = useRef(null);
     const loading = () => {
@@ -78,6 +82,7 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
 
         return date;
     }
+    const from = ((location.state)?.from.pathname) || "/profile";
 
     const submit = async () => {
         setProgress('100%')
@@ -139,7 +144,7 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
             setErr(undefined)
             setLoadingg(false)
             if (response.data.data.is_mail_verified)
-                navigate('/welcome')
+                navigate('/profile')
             else setState('mailVerification')
 
         }
@@ -272,6 +277,44 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
             submit()
         }
     }
+    const responseMessage = (response) => {
+        console.log(response);
+    };
+    const errorMessage = (error) => {
+        console.log(error);
+    };
+    const [user, setUser] = useState(undefined);
+    const [profile, setProfile] = useState(undefined);
+    const loginGoogle = useGoogleLogin({
+        onSuccess: (codeResponse) => setUser(codeResponse),
+        onError: (error) => console.log('Login Failed:', error)
+    });
+    useEffect(
+        () => {
+            if (user) {
+                console.log(user)
+                axios
+                    .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+                        headers: {
+                            Authorization: `Bearer ${user.access_token}`,
+                            Accept: 'application/json'
+                        }
+                    })
+                    .then((res) => {
+                        setProfile(res.data);
+                        console.log(res.data)
+                    })
+                    .catch((err) => console.log(err));
+            }
+        },
+        [user]
+    );
+
+    // log out function to log the user out of google and set the profile array to null
+    const logOutGoogle = () => {
+        googleLogout();
+        setProfile(null);
+    };
 
     return (
         <>
@@ -294,11 +337,24 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
                                     fontSize: '14px',
                                 }}>
                                 Sign In With
-                            </Typography>
-                            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <LoginLogos sx={{ backgroundImage: BG_URL(PUBLIC_URL(`${microsoftLogo}`)), }} />
+                            </Typography> */}
+                        {/* <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}> */}
+                        {/* <LoginLogos sx={{ backgroundImage: BG_URL(PUBLIC_URL(`${microsoftLogo}`)), }} /> */}
+                        {/* <LoginLogos onClick={loginGoogle} sx={{ backgroundImage: BG_URL(PUBLIC_URL(`${gmailLogo}`)), }} /> */}
+                        {/* </Box> */}
+                        {/* //other way ==> */}
+                        {/* <a
+                                href={getGoogleUrl(from)}
+                                role="button"
+                                data-mdb-ripple="true"
+                                data-mdb-ripple-color="light"
+                            >
                                 <LoginLogos sx={{ backgroundImage: BG_URL(PUBLIC_URL(`${gmailLogo}`)), }} />
-                            </Box>
+                            </a> */}
+                        {/* </LoginWithOthersBox> */}
+                        {/* //other way ==> */}
+                        {/* <LoginWithOthersBox sx={{ mb: { xs: '12px', sm: '24px', md: '32px' }, gap: '8px' }}>
+                            <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
                         </LoginWithOthersBox> */}
                         {/* <Box sx={{
                             color: 'primary.text',
@@ -308,7 +364,7 @@ const Login = ({ progress, setProgress, alreadyEmail }) => {
                             or
                             <Line sx={{ ml: '4px' }} />
                         </Box> */}
-                        <Box sx={{my: { xs: '12px', sm: '24px', md: '32px' },}}/>
+                        <Box sx={{ my: { xs: '12px', sm: '24px', md: '32px' }, }} />
                         <form
                             style={{
                                 width: '100%',

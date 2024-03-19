@@ -1032,7 +1032,7 @@ const DashBar = ({ selectValue, tabs, handleSelect, w, openBar, closeBar }) => {
                                         </FlexRow>
                                         <FlexRow>
                                             <Typography sx={{ fontSize: '12px' }}>Social Links</Typography>
-                                            {globalUser.socials ?
+                                            {socialLinks.length > 0 ?
                                                 <CheckRounded sx={{ color: '#0Cb2B1', fontSize: '14px' }} />
                                                 : <Timer color="pink" size='14px' />
                                             }

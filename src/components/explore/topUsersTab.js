@@ -43,7 +43,7 @@ const TopUsersTab = () => {
         setErr(undefined)
         setUsers(undefined)
         // try {
-        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/get/all/top/?from=0&to=30`, {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/get/all/top/?from=0&to=50`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ const TopUsersTab = () => {
         // }
     }
     const getFriends = async () => {
-        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/friends/?from=0&to=30`, {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/friends/?from=0&to=100`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -165,7 +165,7 @@ const TopUsersTab = () => {
 
     }
     const getMyFollowings = async () => {
-        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/followings/?from=0&to=10`, {
+        let request = await fetch(`${API_CONFIG.AUTH_API_URL}/fan/get/all/followings/?from=0&to=100`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -173,7 +173,7 @@ const TopUsersTab = () => {
             }
         })
         let response = await request.json()
-        console.log('followings', response)
+        // console.log('followings', response)
         if (!response.is_error) {
             setMyFollowings(response.data)
 
@@ -215,6 +215,7 @@ const TopUsersTab = () => {
                     <>
                         {searchResults.map((user) => (
                             <TopUserCard
+                                key={user.owner_wallet_info.username}
                                 ywID={user.owner_wallet_info.screen_cid}
                                 myFollowings={myFollowings}
                                 getMyFollowings={getMyFollowings}
@@ -259,6 +260,7 @@ const TopUsersTab = () => {
                             <>
                                 {users.map((user) => (
                                     <TopUserCard
+                                        key={user.owner_wallet_info.username}
                                         ywID={user.owner_wallet_info.screen_cid}
                                         myFollowings={myFollowings}
                                         getMyFollowings={getMyFollowings}

@@ -3,7 +3,7 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import NFTSellCard from "../nft market/nftSellCard";
 import FilterSelection from '../filterSelection'
 import { useEffect, useState, Fragment } from 'react'
-import { AscSelect, SubTabs, SubTab, MyInput } from '../utils'
+import { AscSelect, SubTabs, SubTab, MyInput, TabsSimple, TabSimple } from '../utils'
 import { useDispatch, useSelector } from 'react-redux'
 import ButtonPurple from '../buttons/buttonPurple'
 import { useNavigate } from 'react-router'
@@ -56,6 +56,7 @@ const PublicGallery = () => {
     const [activeTab, setActiveTab] = useState('minted-NFTs')
     const [publicCollections, setPublicCollections] = useState(null)
     const [listedNFTs, setListedNFTs] = useState(null)
+    const [artworks, setArtworks] = useState(null)
     const [loading, setLoading] = useState(true)
     const [expandedColl, setExpandedColl] = useState(undefined)
     const [expandedNFT, setExpandedNFT] = useState(undefined)
@@ -129,7 +130,7 @@ const PublicGallery = () => {
             setLoading(false)
         }
     }
-
+    const [state, setState] = useState('view')
     return (
         <Box sx={{
             width: '100%',
@@ -141,7 +142,15 @@ const PublicGallery = () => {
                     {loading ? <CircularProgress /> :
                         globalUser.privateKey ?
                             <>
+                                {/* <TabsSimple jc={'start'} mb={{ xs: '14px', md: '16px' }}>
+                                    {state !== 'view' && <TabSimple fontSize={{ xs: '8px', sm: '10px'}} text={'<- Back'} onClick={() => setState('view')} selected={state == 'view'} />}
+                                    <TabSimple fontSize={{ xs: '8px', sm: '10px'}} text={'+ Create Public Collection'} onClick={() => setState('create-pb-col')} selected={state == 'create-pb-col'} />
+                                    <TabSimple fontSize={{ xs: '8px', sm: '10px'}} text={'+ Create Public Artwork'} onClick={() => setState('create-pb-art')} selected={state == 'create-pb-art'} />
+                                    <TabSimple fontSize={{ xs: '8px', sm: '10px'}} text={'+ Import Private Artwork'} onClick={() => setState('import-pv-art')} selected={state == 'import-pv-art'} />
+                                </TabsSimple> */}
+
                                 <SubTabs jc={'center'} mb={'24px'}>
+                                    {/* <SubTab id={"non-minted-NFTs"} onClick={(e) => setActiveTab(e.target.id)} text={'NFTs For Mint'} selected={activeTab == 'non-minted-NFTs'} /> */}
                                     <SubTab id={"minted-NFTs"} onClick={(e) => setActiveTab(e.target.id)} text={'Minted NFTs'} selected={activeTab == 'minted-NFTs'} />
                                     <SubTab id={"sales-list"} onClick={(e) => setActiveTab(e.target.id)} text={'Sales List'} selected={activeTab == 'sales-list'} />
                                 </SubTabs>
@@ -199,35 +208,63 @@ const PublicGallery = () => {
                                                     No Collection Found
                                                 </Typography>}
                                         </Gallery>
-                                        :
-                                        <Gallery sx={{ my: 5, justifyContent: { xs: 'center', lg: 'start' } }}>
-                                            {
-                                                listedNFTs &&
-                                                listedNFTs.map(nft => {
-                                                    return (
-                                                        <Fragment key={`collection_${nft.id}`}>
-                                                            <NFTSellCard
-                                                                getUserGalleries={getUserPublicCollection}
-                                                                setActiveTab={setActiveTab}
-                                                                nft={nft}
-                                                                setExpandedId={setExpandedNFT}
-                                                                expanded={expandedNFT == nft.id}
-                                                            />
-                                                        </Fragment>
-                                                    )
-                                                })
-                                            }
-                                            {listedNFTs && listedNFTs.length > 0 ?
-                                                undefined :
-                                                <Typography
-                                                    sx={{
-                                                        color: 'primary.text', width: '100%', textAlign: 'center',
-                                                        fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize'
-                                                    }}>
-                                                    No NFTs Listed
-                                                </Typography>}
+                                        : activeTab == 'sales-list' ?
+                                            <Gallery sx={{ my: 5, justifyContent: { xs: 'center', lg: 'start' } }}>
+                                                {
+                                                    listedNFTs &&
+                                                    listedNFTs.map(nft => {
+                                                        return (
+                                                            <Fragment key={`collection_${nft.id}`}>
+                                                                <NFTSellCard
+                                                                    getUserGalleries={getUserPublicCollection}
+                                                                    setActiveTab={setActiveTab}
+                                                                    nft={nft}
+                                                                    setExpandedId={setExpandedNFT}
+                                                                    expanded={expandedNFT == nft.id}
+                                                                />
+                                                            </Fragment>
+                                                        )
+                                                    })
+                                                }
+                                                {listedNFTs && listedNFTs.length > 0 ?
+                                                    undefined :
+                                                    <Typography
+                                                        sx={{
+                                                            color: 'primary.text', width: '100%', textAlign: 'center',
+                                                            fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize'
+                                                        }}>
+                                                        No NFTs Listed
+                                                    </Typography>}
 
-                                        </Gallery>
+                                            </Gallery> :
+                                            <Gallery sx={{ my: 5, justifyContent: { xs: 'center', lg: 'start' } }}>
+                                                {
+                                                    artworks &&
+                                                    artworks.map(nft => {
+                                                        return (
+                                                            <Fragment key={`collection_${nft.id}`}>
+                                                                <NFTSellCard
+                                                                    getUserGalleries={getUserPublicCollection}
+                                                                    setActiveTab={setActiveTab}
+                                                                    nft={nft}
+                                                                    setExpandedId={setExpandedNFT}
+                                                                    expanded={expandedNFT == nft.id}
+                                                                />
+                                                            </Fragment>
+                                                        )
+                                                    })
+                                                }
+                                                {artworks && artworks.length > 0 ?
+                                                    undefined :
+                                                    <Typography
+                                                        sx={{
+                                                            color: 'primary.text', width: '100%', textAlign: 'center',
+                                                            fontSize: { xs: '12px', sm: '14px' }, textTransform: 'capitalize'
+                                                        }}>
+                                                        No Mintable Artwork Found
+                                                    </Typography>}
+
+                                            </Gallery>
                                 }
                             </>
                             :

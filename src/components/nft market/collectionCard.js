@@ -146,7 +146,7 @@ const Button = styled('button')(({ theme, color }) => ({
 }))
 
 const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, collection, action, setActiveTab, getUserPVGalleries }) => {
-    const { id, col_name, collection_background, created_at, owner_screen_cid, royalties_address_screen_cid, col_description, extra, freeze_metadata, base_uri, royalties_share } = collection
+    const { id, col_name, collection_background, created_at, owner_screen_cid, royalties_address_screen_cid, col_description, extra, freeze_metadata, base_uri, royalties_share, } = collection
     const [colDetExpanded, setColDetExpanded] = useState(true)
     const [NFTDetExpanded, setNFTDetExpanded] = useState(true)
     const globalUser = useSelector(state => state.userReducer)
@@ -251,7 +251,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                 )
             )
                 .then((nftsWithMetadata) => {
-                    console.log(nftsWithMetadata)
+                    // console.log(nftsWithMetadata)
                     setNFTs(nftsWithMetadata);
                 })
                 .catch((error) => {
@@ -268,10 +268,10 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                 }
                 return true;
             })
-            collection.nfts.forEach(nft => {
+            nfts.forEach(nft => {
                 if (nft.metadata_uri.includes('::')) {
                     nft.serverImg = nft.metadata_uri.split("::")[1]
-                    console.log('-----', nft.serverImg)
+                    // console.log('-----', nft.serverImg)
                 }
             });
         }
@@ -361,7 +361,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
 
             const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, data);
             // sending the request
-            console.log(requestData)
+            // console.log(requestData)
             let request = await fetch(`${API_CONFIG.AUTH_API_URL}/nft/mint`, {
                 method: 'POST',
                 body: JSON.stringify(requestData),
@@ -510,7 +510,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                 }
             })
             let response = await request.json()
-            console.log(response);
+            // console.log(response);
 
             if (!response.is_error) {
                 updateToast(true, response.message)
@@ -532,7 +532,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
             let collForm = collectionForm
             collForm.royalties_share = royaltyShare
             const { signObject, requestData, publicKey } = generateSignature(globalUser.privateKey, collForm);
-            console.log(requestData)
+            // console.log(requestData)
             // sending the request
 
             let request = await fetch(`${API_CONFIG.AUTH_API_URL}/collection/update`, {
@@ -544,7 +544,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                 }
             })
             let response = await request.json()
-            console.log('response,responseeee', response);
+            // console.log('response,responseeee', response);
 
             if (!response.is_error) {
                 updateToast(true, response.message)
@@ -586,7 +586,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                 }
             })
             let response = await request.json()
-            console.log('nft reaction', response);
+            // console.log('nft reaction', response);
             if (!response.is_error) {
                 updateToast(true, `${reactionType} updated`)
                 if (reactionType == 'comment') {
@@ -619,7 +619,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
         let temp = []
         if (selectedNFTData) {
             if (selectedNFTData.likes && selectedNFTData.likes.length > 0 && selectedNFTData.likes[0].upvoter_screen_cids) {
-                console.log(selectedNFTData.likes)
+                // console.log(selectedNFTData.likes)
                 for (let i = 0; i < selectedNFTData.likes[0].upvoter_screen_cids.length; i++) {
                     temp.push(selectedNFTData.likes[0].upvoter_screen_cids[i].screen_cid)
                 }
@@ -646,7 +646,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
         }
 
     }, [nfts[selectedNFT]])
-
+    const tempNFTs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     return (<>
         {expanded ?
             <Modal
@@ -771,7 +771,7 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                                                             }}
                                                             sx={{
                                                                 // background: imageURL ? `url(${imageURL}) no-repeat center` : `url('${API_CONFIG.API_URL}/${ywHugIcon}') no-repeat center`,
-                                                                background: srvrImgURL ? `url('${API_CONFIG.API_URL}/${srvrImgURL}') no-repeat center` : `url(${imageURL}) no-repeat center`,
+                                                                background: srvrImgURL ? `url('${API_CONFIG.API_URL}/${srvrImgURL}') no-repeat center` : imageURL ? `url(${imageURL}) no-repeat center` : `url('${API_CONFIG.API_URL}/${ywHugIcon}') no-repeat center`,
                                                                 cursor: "pointer",
                                                                 border: () => (selected ? 'solid 2px' : 'none'),
                                                                 borderColor: 'primary.main',
@@ -1076,27 +1076,44 @@ const CollectionCard = ({ isMine, pTab, link, gallId, expanded, setExpandedId, c
                                 boxShadow: 'inset 0px 0px 10px 1px rgba(0, 0, 0, 0.30)', transition: '500ms ease'
                             }}>
                                 {
-                                    nfts &&
-                                    nfts.map((nft, index) => {
-                                        const imageURL = (nft.metadata && nft.metadata.image) ? nft.metadata.image : ywHugIcon;
-                                        const srvrImgURL = nft.serverImg ? nft.serverImg : undefined
+                                    nfts && nfts.length > 0 ?
+                                        <>
+                                            {nfts.map((nft, index) => {
+                                                const imageURL = (nft.metadata && nft.metadata.image) ? nft.metadata.image : ywHugIcon;
+                                                const srvrImgURL = nft.serverImg ? nft.serverImg : undefined
+                                                return (
+                                                    <Box
+                                                        key={nft.id}
+                                                        sx={{
+                                                            background: srvrImgURL ? `url('${API_CONFIG.API_URL}/${srvrImgURL}') no-repeat center` : imageURL ? `url(${imageURL}) no-repeat center` : `url('${API_CONFIG.API_URL}/${ywHugIcon}') no-repeat center`,
 
-                                        return (
-                                            <Box
-                                                key={nft.id}
-                                                sx={{
-                                                    background: srvrImgURL ? `url('${API_CONFIG.API_URL}/${srvrImgURL}') no-repeat center` : `url(${imageURL}) no-repeat center`,
-
-                                                    // background: imageURL ? `url(${imageURL}) no-repeat center` : `url('${API_CONFIG.API_URL}/${ywHugIcon}') no-repeat center`,
-                                                    backgroundSize: 'cover',
-                                                    borderColor: 'primary.main',
-                                                    boxSizing: 'border-box',
-                                                    aspectRatio: '1',
-                                                    borderRadius: '8px', transition: '500ms ease'
-                                                }} >
-                                            </Box>
-                                        )
-                                    })
+                                                            // background: imageURL ? `url(${imageURL}) no-repeat center` : `url('${API_CONFIG.API_URL}/${ywHugIcon}') no-repeat center`,
+                                                            backgroundSize: 'cover',
+                                                            borderColor: 'primary.main',
+                                                            boxSizing: 'border-box',
+                                                            aspectRatio: '1',
+                                                            borderRadius: '8px', transition: '500ms ease'
+                                                        }} >
+                                                    </Box>
+                                                )
+                                            })}
+                                        </> :
+                                        <>
+                                            {tempNFTs.map((temp, index) => {
+                                                return (
+                                                    <Box
+                                                        key={index}
+                                                        sx={{
+                                                            background: `url('${API_CONFIG.API_URL}/${ywHugIcon}') no-repeat center`,
+                                                            backgroundSize: 'cover',
+                                                            borderColor: 'primary.main',
+                                                            boxSizing: 'border-box',
+                                                            aspectRatio: '1',
+                                                            borderRadius: '8px', transition: '500ms ease'
+                                                        }} />
+                                                )
+                                            })}
+                                        </>
                                 }
                             </Box>
                             :

@@ -3,7 +3,7 @@ import { Box, ClickAwayListener, MenuItem, Modal, Popper, Typography } from "@mu
 import { BG_URL, PUBLIC_URL } from "../../utils/utils";
 import { ArrowUp2, ArrowDown2, BuyCrypto, Heart, HeartRemove, More, Profile, Coin } from "iconsax-react";
 import { useEffect, useRef, useState } from "react";
-import { CommentInput, MorePopper, MyInput, NFTCommentCard, YouwhoCoinIcon } from "../utils";
+import { CommentInput, MorePopper, MyInput, NFTCommentCard, ShareSocialsModal, YouwhoCoinIcon } from "../utils";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
@@ -511,7 +511,9 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
         else
             setAnchorEl(null)
     };
+    const [ShareModal, setShareModal] = useState(false)
     const handleClose = (e) => {
+        setShareModal(false)
         setAnchorEl(null);
     };
     const handleClickAway = () => {
@@ -581,7 +583,6 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
             icon: <DetailsRounded sx={{ fontSize: '16px' }} />
         },
     ]
-
     const moretabsNotLoggedIn = [
         {
             text: 'Login/SignUp First', id: 'nft-card-auth-go', onClick: () => navigate('/auth'),
@@ -880,7 +881,7 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
                                         <ButtonPurple text={'Remove From Sales List'} onClick={removeFromList} w='calc(100% - 40px)' />
                                         : undefined}
                                     <ButtonBorder
-                                        br={'4px'}
+                                        br={'4px'} onClick={() => setShareModal(true)}
                                         text={<ShareSharp sx={{ color: 'secondary.text' }} />}
                                         w={'40px'} height={'40px'} />
                                 </FlexRow>
@@ -892,6 +893,9 @@ const NFTCard = ({ nft, col_data, getNFTs }) => {
             </Modal >
 
 
+            {nft &&
+                <ShareSocialsModal open={ShareModal} handleClose={handleClose} title={'NFT On YouWho'} toShare={`https://youwho.club/nft/${nft.id}/${nft.nft_name}`} />
+            }
 
 
 

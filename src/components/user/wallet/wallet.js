@@ -22,6 +22,7 @@ import Crop from '../../crop/Crop'
 import { API_CONFIG } from "../../../config";
 import { getuser } from "../../../redux/actions";
 import { TickSquare } from "iconsax-react";
+import MailWithdraw from "./mailForWithdraw";
 const goUp = keyframes`
   0% {
     transform: rotateX(0deg);
@@ -265,6 +266,8 @@ const Wallet = ({ privateKey, switchTheme, theme }) => {
             shouldHideComp1.classList.add("hiddenAfterScroll")
             shouldHideComp2.classList.add("hiddenAfterScroll")
         }
+        // else if (window.document.getElementById("scrollable-wallet-panel").scrollTop >= 0 && window.document.getElementById("scrollable-wallet-panel-inside").scrollTop == 0) {
+
         else
         // if (window.document.getElementById("scrollable-wallet-panel-inside").scrollTop == 0) 
         {
@@ -283,7 +286,7 @@ const Wallet = ({ privateKey, switchTheme, theme }) => {
     }
 
     useEffect(() => {
-        if (window.document.getElementById("scrollable-profile-panel") && window.document.getElementById("scrollable-profile-panel-inside")) {
+        if (window.document.getElementById("scrollable-wallet-panel") && window.document.getElementById("scrollable-wallet-panel-inside")) {
 
             window.document.getElementById("scrollable-wallet-panel").addEventListener('scroll', listenScrollEvent)
             window.document.getElementById("scrollable-wallet-panel-inside").addEventListener('scroll', listenScrollEvent)
@@ -540,7 +543,7 @@ const Wallet = ({ privateKey, switchTheme, theme }) => {
                                 }}
                                 selected={state == 'withdraw'}
                             />
-                            {/* <Tab
+                            <Tab
                                 icon={<Box sx={{ width: '20px', height: '20px', mr: '7px', pointerEvents: 'none', backgroundImage: () => state == 'transfer' ? BG_URL(PUBLIC_URL(`${giftOpenWhite}`)) : BG_URL(PUBLIC_URL(`${giftOpen}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />}
                                 text={`Transfer NFT Gift`}
                                 id={"transfer"}
@@ -549,7 +552,7 @@ const Wallet = ({ privateKey, switchTheme, theme }) => {
                                     window.location.hash = `#${e.target.id}`
                                 }}
                                 selected={state == 'transfer'}
-                            /> */}
+                            />
                             <Tab
                                 icon={<Box sx={{ width: '20px', height: '20px', mr: '7px', pointerEvents: 'none', backgroundImage: () => state == 'claim' ? BG_URL(PUBLIC_URL(`${giftWhite}`)) : BG_URL(PUBLIC_URL(`${gift}`)), backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center' }} />}
                                 text={`Claim NFT Gift`}
@@ -585,11 +588,7 @@ const Wallet = ({ privateKey, switchTheme, theme }) => {
                             }}>
                             {state == 'charge-wallet' && <ChargeWallet />}
                             {/* {state == 'withdraw' && <WithdrawPanel />} */}
-                            {state == 'withdraw' && <Box sx={{
-                                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            }}>
-                                Coming Soon...
-                            </Box>}
+                            {state == 'withdraw' && <MailWithdraw />}
                             {state == 'transfer' && <TransferGift />}
                             {state == 'claim' && <WithdrawPanel />}
                             {state == 'turnover' && <Turnover />}
